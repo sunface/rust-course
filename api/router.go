@@ -42,13 +42,13 @@ func (router *router) route(c echo.Context) error {
 	if err != nil {
 		c.Set("api_id", "error_api_id")
 		c.Set("service", "error_service")
-		c.Set("label", "error_label")
+		c.Set("app", "error_app")
 		c.Set("error_msg", err)
 		return c.JSON(http.StatusBadRequest, g.Result{r.Rid, http.StatusBadRequest, g.ParamInvalidC, err.Error(), nil})
 	}
 	c.Set("api_id", r.Api.APIID)
 	c.Set("service", r.Api.Service)
-	c.Set("label", r.Api.Label)
+	c.Set("app", r.Api.App)
 
 	g.Debug(r.DebugOn, misc.Conf.Common.LogLevel, "request content", zap.Int64("rid", r.Rid), zap.String("req", r.String()))
 
@@ -148,7 +148,7 @@ func (rt *router) sync(r *req.Request) (int, []byte, error) {
 				"code":    strconv.Itoa(resp.StatusCode()),
 				"api_id":  r.Api.APIID,
 				"service": r.Api.Service,
-				"label":   r.Api.Label,
+				"app":     r.Api.App,
 			}).Inc()
 			break
 		}
@@ -156,7 +156,7 @@ func (rt *router) sync(r *req.Request) (int, []byte, error) {
 		stats.Errors.With(prometheus.Labels{
 			"api_id":  r.Api.APIID,
 			"service": r.Api.Service,
-			"label":   r.Api.Label,
+			"app":     r.Api.App,
 		}).Inc()
 		// 发生错误,进行重试
 		if retrys >= r.RetryStrategy.RetryTimes {

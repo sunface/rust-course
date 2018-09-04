@@ -76,11 +76,11 @@ func timing(f echo.HandlerFunc) echo.HandlerFunc {
 			// 统计请求指标
 			apiID := c.Get("api_id").(string)
 			service := c.Get("service").(string)
-			label := c.Get("label").(string)
+			label := c.Get("app").(string)
 			stats.Req.With(prometheus.Labels{
 				"api_id":  apiID,
 				"service": service,
-				"label":   label,
+				"app":     label,
 			}).Observe(float64(time.Now().Sub(ts).Nanoseconds() / 1e6))
 
 			err := c.Get("error_msg")

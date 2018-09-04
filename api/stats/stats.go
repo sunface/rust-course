@@ -10,24 +10,24 @@ import (
 
 var (
 	Req = prometheus.NewSummaryVec(prometheus.SummaryOpts{
-		Name:       "req_distribution",
+		Name:       "juz_req_stats",
 		Help:       "Request stats",
 		Objectives: map[float64]float64{0.5: 0.05, 0.9: 0.01, 0.99: 0.001},
-	}, []string{"api_id", "service", "label"})
+	}, []string{"api_id", "service", "app"})
 	Limits = prometheus.NewCounterVec(prometheus.CounterOpts{
-		Name: "req_limits",
+		Name: "juz_req_limits",
 		Help: "Request blocked",
-	}, []string{"api_id", "service", "label"})
+	}, []string{"api_id", "service", "app"})
 	Errors = prometheus.NewCounterVec(prometheus.CounterOpts{
-		Name: "req_errors",
+		Name: "juz_req_errors",
 		Help: "Request error",
-	}, []string{"api_id", "service", "label"})
+	}, []string{"api_id", "service", "app"})
 	Codes = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
-			Name: "req_codes",
+			Name: "juz_req_codes",
 			Help: "Reqeust http code",
 		},
-		[]string{"code", "api_id", "service", "label"},
+		[]string{"code", "api_id", "service", "app"},
 	)
 )
 

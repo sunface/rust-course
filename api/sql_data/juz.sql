@@ -28,8 +28,7 @@ CREATE TABLE IF NOT EXISTS  `api_release` (
 
   `cached_time` int(11) DEFAULT '0' COMMENT '为0表示不开启,其它值代表缓存的时间',
   
-  `label` varchar(255) DEFAUlT '' COMMENT '标签分组',
-
+  `app` varchar(255) DEFAUlT '' COMMENT '所属应用',
   `status` int(11) DEFAULT '1' COMMENT '发布状态，0代表未发布,1代表已发布',
 
   `create_date` datetime DEFAULT NULL COMMENT '创建时间',
@@ -67,7 +66,7 @@ CREATE TABLE IF NOT EXISTS  `api_define` (
 
   `cached_time` int(11) DEFAULT '0' COMMENT '为0表示不开启,其它值代表缓存的时间',
 
-  `label` varchar(255) DEFAUlT '' COMMENT '标签分组',
+  `app` varchar(255) DEFAUlT '' COMMENT '所属应用',
 
   `revise_version` varchar(255) NOT NULL COMMENT 'api内容最新版本号',
   `release_version` varchar(255) DEFAULT '' COMMENT '当前已发布的版本号',

@@ -20,8 +20,8 @@ func (p *ApiServer) loadData() {
 	now := time.Now()
 	date := talent.Time2StringSecond(time.Now())
 	version := talent.Time2Version(now)
-	g.DB.Exec(fmt.Sprintf("insert into api_release (service,api_id,description,mock_data,route_type,route_addr,create_date) values('admin','admin.test.get.v1','','',1,'http://httpbin.org/get','%s')", date))
-	g.DB.Exec(fmt.Sprintf("insert into api_define (service,api_id,description,mock_data,route_type,route_addr,revise_version,release_version,create_date) values('admin','admin.test.get.v1','','',1,'http://httpbin.org/get','%s','%s','%s')", version, version, date))
+	g.DB.Exec(fmt.Sprintf("insert into api_release (service,api_id,description,mock_data,route_type,route_addr,app,create_date) values('admin','admin.test.get.v1','','',1,'http://httpbin.org/get','admin','%s')", date))
+	g.DB.Exec(fmt.Sprintf("insert into api_define (service,api_id,description,mock_data,route_type,route_addr,revise_version,release_version,app,create_date) values('admin','admin.test.get.v1','','',1,'http://httpbin.org/get','%s','%s','admin','%s')", version, version, date))
 
 	lastLoadTime = time.Now()
 	// 加载所有数据

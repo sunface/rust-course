@@ -53,10 +53,6 @@ func (m *Manage) Start() {
 	e.POST("/manage/auditLog/count", audit.Count, auth)
 	e.POST("/manage/auditLog/load", audit.Load, auth)
 
-	// 标签分组
-	e.POST("/manage/labels/query", m.QueryLabels, auth)
-	e.POST("/manage/labels/create", m.CreateLabel, auth)
-
 	e.Logger.Fatal(e.Start(":" + misc.Conf.Manage.Port))
 }
 

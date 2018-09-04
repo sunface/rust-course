@@ -144,9 +144,9 @@ func (m *Manage) DefineAPI(c echo.Context) error {
 
 	pr := g.B64.EncodeToString(talent.String2Bytes(*api.ParamTable))
 	if action == "create" {
-		query := fmt.Sprintf(`insert into api_define (api_id,path_type,service,description,route_type,route_addr,route_proto,bw_strategy,retry_strategy,traffic_strategy,mock_data,traffic_on,traffic_api,traffic_ratio,traffic_ips,verify_on,param_rules,cached_time,revise_version,create_date,label) 
+		query := fmt.Sprintf(`insert into api_define (api_id,path_type,service,description,route_type,route_addr,route_proto,bw_strategy,retry_strategy,traffic_strategy,mock_data,traffic_on,traffic_api,traffic_ratio,traffic_ips,verify_on,param_rules,cached_time,revise_version,create_date,app) 
 		values ('%s','%d','%s','%s','%d','%s','%d','%d','%d','%d','%s','%d','%s','%d','%s','%d','%s','%d','%s', '%s','%s')`,
-			api.APIID, api.PathType, api.Service, *api.Desc, api.RouteType, api.RouteAddr, api.RouteProto, api.BwStrategy, api.RetryStrategy, api.TrafficStrategy, *api.MockData, api.TrafficOn, api.TrafficAPI, api.TrafficRatio, api.TrafficIPs, api.VerifyOn, pr, api.CachedTime, talent.Time2Version(now), date, api.Label)
+			api.APIID, api.PathType, api.Service, *api.Desc, api.RouteType, api.RouteAddr, api.RouteProto, api.BwStrategy, api.RetryStrategy, api.TrafficStrategy, *api.MockData, api.TrafficOn, api.TrafficAPI, api.TrafficRatio, api.TrafficIPs, api.VerifyOn, pr, api.CachedTime, talent.Time2Version(now), date, api.App)
 		_, err := g.DB.Exec(query)
 		if err != nil {
 			if strings.Contains(err.Error(), g.DUP_KEY_ERR) {
@@ -178,8 +178,8 @@ func (m *Manage) DefineAPI(c echo.Context) error {
 		}
 		audit.Log(c.FormValue("username"), api.Service, audit.TypeApi, api.APIID, audit.OpCreate, c.FormValue("api"), "")
 	} else {
-		query := fmt.Sprintf("update api_define set description='%s',route_type='%d',route_addr='%s',route_proto='%d',bw_strategy='%d',retry_strategy='%d',traffic_strategy='%d',mock_data='%s',traffic_on='%d',traffic_api='%s',traffic_ratio='%d',traffic_ips='%s',verify_on='%d',param_rules='%s',cached_time='%d',label='%s' where api_id='%s'",
-			*api.Desc, api.RouteType, api.RouteAddr, api.RouteProto, api.BwStrategy, api.RetryStrategy, api.TrafficStrategy, *api.MockData, api.TrafficOn, api.TrafficAPI, api.TrafficRatio, api.TrafficIPs, api.VerifyOn, pr, api.CachedTime, api.Label, api.APIID)
+		query := fmt.Sprintf("update api_define set description='%s',route_type='%d',route_addr='%s',route_proto='%d',bw_strategy='%d',retry_strategy='%d',traffic_strategy='%d',mock_data='%s',traffic_on='%d',traffic_api='%s',traffic_ratio='%d',traffic_ips='%s',verify_on='%d',param_rules='%s',cached_time='%d',app='%s' where api_id='%s'",
+			*api.Desc, api.RouteType, api.RouteAddr, api.RouteProto, api.BwStrategy, api.RetryStrategy, api.TrafficStrategy, *api.MockData, api.TrafficOn, api.TrafficAPI, api.TrafficRatio, api.TrafficIPs, api.VerifyOn, pr, api.CachedTime, api.App, api.APIID)
 		res, err := g.DB.Exec(query)
 		if err != nil {
 			g.L.Info("access database error", zap.Error(err), zap.String("query", query))
@@ -449,8 +449,8 @@ func (m *Manage) APIRelease(c echo.Context) error {
 	}
 
 	// 更新release
-	query = fmt.Sprintf("update api_release set description='%s',route_type='%d',route_addr='%s',route_proto='%d',mock_data='%s',retry_strategy='%d',bw_strategy='%d',traffic_strategy='%d',traffic_on='%d',traffic_api='%s',traffic_ratio='%d',traffic_ips='%s',verify_on='%d',param_rules='%s', cached_time='%d',status='%d',label='%s' where api_id='%s'",
-		*api.Desc, api.RouteType, api.RouteAddr, api.RouteProto, *api.MockData, api.RetryStrategy, api.BwStrategy, api.TrafficStrategy, api.TrafficOn, api.TrafficAPI, api.TrafficRatio, api.TrafficIPs, api.VerifyOn, *api.ParamTable, api.CachedTime, misc.API_RELEASED, api.Label, api.APIID)
+	query = fmt.Sprintf("update api_release set description='%s',route_type='%d',route_addr='%s',route_proto='%d',mock_data='%s',retry_strategy='%d',bw_strategy='%d',traffic_strategy='%d',traffic_on='%d',traffic_api='%s',traffic_ratio='%d',traffic_ips='%s',verify_on='%d',param_rules='%s', cached_time='%d',status='%d',app='%s' where api_id='%s'",
+		*api.Desc, api.RouteType, api.RouteAddr, api.RouteProto, *api.MockData, api.RetryStrategy, api.BwStrategy, api.TrafficStrategy, api.TrafficOn, api.TrafficAPI, api.TrafficRatio, api.TrafficIPs, api.VerifyOn, *api.ParamTable, api.CachedTime, misc.API_RELEASED, api.App, api.APIID)
 
 	_, err = g.DB.Exec(query)
 	if err != nil {
@@ -794,8 +794,8 @@ func (m *Manage) APIBatchRelease(c echo.Context) error {
 		}
 
 		// 更新release
-		query = fmt.Sprintf("update api_release set description='%s',route_type='%d',route_addr='%s',route_proto='%d',mock_data='%s',retry_strategy='%d',bw_strategy='%d',traffic_on='%d',traffic_api='%s',traffic_ratio='%d',traffic_ips='%s',verify_on='%d',param_rules='%s', cached_time='%d',status='%d',label='%s' where api_id='%s'",
-			*api.Desc, api.RouteType, api.RouteAddr, api.RouteProto, *api.MockData, api.RetryStrategy, api.BwStrategy, api.TrafficOn, api.TrafficAPI, api.TrafficRatio, api.TrafficIPs, api.VerifyOn, *api.ParamTable, api.CachedTime, misc.API_RELEASED, api.Label, api.APIID)
+		query = fmt.Sprintf("update api_release set description='%s',route_type='%d',route_addr='%s',route_proto='%d',mock_data='%s',retry_strategy='%d',bw_strategy='%d',traffic_on='%d',traffic_api='%s',traffic_ratio='%d',traffic_ips='%s',verify_on='%d',param_rules='%s', cached_time='%d',status='%d',app='%s' where api_id='%s'",
+			*api.Desc, api.RouteType, api.RouteAddr, api.RouteProto, *api.MockData, api.RetryStrategy, api.BwStrategy, api.TrafficOn, api.TrafficAPI, api.TrafficRatio, api.TrafficIPs, api.VerifyOn, *api.ParamTable, api.CachedTime, misc.API_RELEASED, api.App, api.APIID)
 
 		_, err = g.DB.Exec(query)
 		if err != nil {

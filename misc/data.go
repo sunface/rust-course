@@ -41,8 +41,8 @@ type API struct {
 	// 缓存
 	CachedTime int `db:"cached_time" json:"cached_time"`
 
-	// 标签分组
-	Label string `db:"label" json:"label"`
+	// 所属应用
+	App string `db:"app" json:"app"`
 
 	// API修订的版本号
 	ReviseVersion  string `db:"revise_version" json:"revise_version"`

@@ -49,7 +49,7 @@ func (f *Filter) BeforeRoute(r *req.Request) Result {
 		stats.Limits.With(prometheus.Labels{
 			"api_id":  r.Api.APIID,
 			"service": r.Api.Service,
-			"label":   r.Api.Label,
+			"app":     r.Api.App,
 		}).Inc()
 		return Result{http.StatusForbidden, g.ForbiddenC, g.ForbiddenE}
 	}
@@ -76,7 +76,7 @@ func (f *Filter) BeforeCall(r *req.Request) Result {
 		stats.Limits.With(prometheus.Labels{
 			"api_id":  r.Api.APIID,
 			"service": r.Api.Service,
-			"label":   r.Api.Label,
+			"app":     r.Api.App,
 		}).Inc()
 		return Result{code, g.AccessLimitedC, err.Error()}
 	}
