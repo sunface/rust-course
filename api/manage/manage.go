@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/mafanr/juz/api/manage/audit"
 	"github.com/mafanr/juz/api/manage/strategy"
@@ -13,16 +12,13 @@ import (
 
 	"github.com/mafanr/g"
 
-	"go.uber.org/zap"
-
 	"github.com/labstack/echo"
-	"github.com/sunface/talent"
 )
 
 type Manage struct{}
 
 func (m *Manage) Start() {
-	registerToEtcd()
+	g.RegisterInETCD(g.APP_JUZ_MANAGE, misc.Conf.Etcd.Addrs, misc.Conf.Manage.Port)
 
 	e := echo.New()
 	//api管理
@@ -67,26 +63,6 @@ func auth(f echo.HandlerFunc) echo.HandlerFunc {
 		}
 		return f(c)
 	}
-}
-
-func registerToEtcd() {
-	g.EtcdCli = g.InitEtcd(misc.Conf.Etcd.Addrs)
-
-	// 保存服务状态到etcd
-	ip := talent.LocalIP()
-	fmt.Println("local ip:", ip)
-
-	host := ip + ":" + misc.Conf.Manage.Port
-	go func() {
-		for {
-			err := g.StoreServer(g.EtcdCli, &g.ServerInfo{g.TFEManage, host, 0})
-			if err != nil {
-				g.L.Error("Store to etcd error", zap.Error(err))
-			}
-
-			time.Sleep(time.Second * g.ServiceStoreInterval)
-		}
-	}()
 }
 
 func validUserID(s string) bool {

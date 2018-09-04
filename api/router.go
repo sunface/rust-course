@@ -50,7 +50,7 @@ func (router *router) route(c echo.Context) error {
 	c.Set("service", r.Api.Service)
 	c.Set("app", r.Api.App)
 
-	g.Debug(r.DebugOn, misc.Conf.Common.LogLevel, "request content", zap.Int64("rid", r.Rid), zap.String("req", r.String()))
+	g.Debug(r.DebugOn, "request content", zap.Int64("rid", r.Rid), zap.String("req", r.String()))
 
 	// 判断api是否发布
 	if r.Api.Status != misc.API_RELEASED {
@@ -81,7 +81,7 @@ func (router *router) route(c echo.Context) error {
 		return c.JSON(code, g.Result{r.Rid, code, g.ReqFailedC, err.Error(), nil})
 	}
 
-	g.Debug(r.DebugOn, misc.Conf.Common.LogLevel, "response body", zap.Int64("rid", r.Rid), zap.Int("code", code), zap.String("body", talent.Bytes2String(body)))
+	g.Debug(r.DebugOn, "response body", zap.Int64("rid", r.Rid), zap.Int("code", code), zap.String("body", talent.Bytes2String(body)))
 
 	// 成功时，把请求id放在header中返回，避免污染返回结果
 	c.Response().Header().Add("rid", strconv.FormatInt(r.Rid, 10))

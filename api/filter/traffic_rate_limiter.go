@@ -21,7 +21,7 @@ func (f *Filter) DecApiRate(r *req.Request) {
 			err := f.Rpc.Call("RateLimiter.DecApiRate", &misc.TrafficConReq{r.Api.APIID, r.Api.TrafficStrategy, ""}, &res)
 			if err != nil {
 				if !strings.Contains(err.Error(), "shut down") {
-					g.L.Warn("rpc出错了", zap.Error(err))
+					g.Warn("rpc出错了", zap.Error(err))
 				}
 			}
 		}
@@ -48,7 +48,7 @@ func (f *Filter) IncApiRate(r *req.Request) (int, error) {
 			err := f.Rpc.Call("RateLimiter.IncApiRate", &misc.TrafficConReq{r.Api.APIID, r.Api.TrafficStrategy, val}, &res)
 			if err != nil {
 				if !strings.Contains(err.Error(), "shut down") {
-					g.L.Warn("rpc出错了", zap.Error(err))
+					g.Warn("rpc出错了", zap.Error(err))
 				}
 				return 0, nil
 			}

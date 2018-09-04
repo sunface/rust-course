@@ -38,7 +38,7 @@ func (p *ApiServer) loadAll() {
 	apisS := make([]*misc.API, 0)
 	err := g.DB.Select(&apisS, "select * from api_release")
 	if err != nil {
-		g.L.Fatal("load apis error!", zap.Error(err))
+		g.Fatal("load apis error!", zap.Error(err))
 	}
 
 	an := make([]string, 0, len(apisS))
@@ -68,7 +68,7 @@ func (p *ApiServer) loadAll() {
 	strategies := make([]*misc.Strategy, 0)
 	err = g.DB.Select(&strategies, "select * from strategy")
 	if err != nil {
-		g.L.Fatal("load strategies error!", zap.Error(err))
+		g.Fatal("load strategies error!", zap.Error(err))
 	}
 
 	for _, s := range strategies {
@@ -110,7 +110,7 @@ func (p *ApiServer) loadUpdated() {
 
 			err := g.DB.Select(&apisS, fmt.Sprintf("select * from api_release where modify_date >= '%s'", lastT))
 			if err != nil {
-				g.L.Error("load apis error!", zap.Error(err))
+				g.Error("load apis error!", zap.Error(err))
 				return
 			}
 
@@ -149,7 +149,7 @@ func (p *ApiServer) loadUpdated() {
 			query := fmt.Sprintf("select * from strategy where modify_date >= '%s'", lastT)
 			err := g.DB.Select(&strategies, query)
 			if err != nil {
-				g.L.Error("load strategies error!", zap.Error(err), zap.String("query", query))
+				g.Error("load strategies error!", zap.Error(err), zap.String("query", query))
 				return
 			}
 

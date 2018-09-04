@@ -44,7 +44,7 @@ func (f *Filter) BeforeRoute(r *req.Request) Result {
 	// 黑白名单
 	err := f.checkBW(r)
 	if err != nil {
-		g.L.Info("BeforeRoute failed", zap.Error(err))
+		g.Info("BeforeRoute failed", zap.Error(err))
 		// 统计被阻挡数
 		stats.Limits.With(prometheus.Labels{
 			"api_id":  r.Api.APIID,
@@ -57,7 +57,7 @@ func (f *Filter) BeforeRoute(r *req.Request) Result {
 	// 参数校验
 	err = f.verifyParam(r)
 	if err != nil {
-		g.L.Info("BeforeRoute failed", zap.Error(err))
+		g.Info("BeforeRoute failed", zap.Error(err))
 		return Result{http.StatusBadRequest, g.ParamInvalidC, g.ParamInvalidE}
 	}
 

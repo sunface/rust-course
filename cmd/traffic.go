@@ -17,7 +17,6 @@ package cmd
 import (
 	"os"
 	"os/signal"
-	"strings"
 	"syscall"
 
 	"github.com/mafanr/juz/misc"
@@ -36,9 +35,8 @@ var trafficCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		misc.InitConfig("juz.conf")
-		misc.Conf.Common.LogLevel = strings.ToLower(misc.Conf.Common.LogLevel)
-		g.InitLogger()
-		g.L.Info("Application version", zap.String("version", misc.Conf.Common.Version))
+		g.InitLogger(misc.Conf.Common.LogLevel)
+		g.Info("Application version", zap.String("version", misc.Conf.Common.Version))
 
 		p := &traffic.Traffic{}
 		p.Start()
@@ -48,7 +46,7 @@ var trafficCmd = &cobra.Command{
 		signal.Notify(chSig, syscall.SIGINT, syscall.SIGTERM)
 
 		sig := <-chSig
-		g.L.Info("juz received signal", zap.Any("signal", sig))
+		g.Info("juz received signal", zap.Any("signal", sig))
 	},
 }
 

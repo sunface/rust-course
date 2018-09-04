@@ -3,7 +3,6 @@ package api
 import (
 	"net/http"
 	"net/rpc"
-	"tfgo/tfe/api/async"
 	"time"
 
 	"github.com/mafanr/juz/api/filter"
@@ -26,7 +25,7 @@ type ApiServer struct {
 }
 
 func (p *ApiServer) Start() {
-	g.L.Info("start tfe..")
+	g.Info("start tfe..")
 
 	// 初始化mysql连接
 	misc.InitMysql()
@@ -51,7 +50,7 @@ func (p *ApiServer) Start() {
 }
 
 func (o *ApiServer) Shutdown() {
-	g.L.Info("shutdown tfe..")
+	g.Info("shutdown tfe..")
 }
 
 func (p *ApiServer) listen() {
@@ -60,8 +59,6 @@ func (p *ApiServer) listen() {
 	// 回调相关
 	//同步回调接口
 	e.Any("/*", p.router.route, timing)
-	//异步回调接口
-	e.POST("/notify", async.Notify)
 
 	e.Logger.Fatal(e.Start(":" + misc.Conf.Api.Port))
 }
@@ -70,7 +67,7 @@ func timing(f echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ts := time.Now()
 		rid := (ts.UnixNano()/10)*10 + misc.Conf.Api.ServerID
-		g.L.Info("New request accepted", zap.Int64("rid", rid), zap.String("ip", c.RealIP()))
+		g.Info("New request accepted", zap.Int64("rid", rid), zap.String("ip", c.RealIP()))
 		c.Set("rid", rid)
 		defer func() {
 			// 统计请求指标
@@ -85,9 +82,9 @@ func timing(f echo.HandlerFunc) echo.HandlerFunc {
 
 			err := c.Get("error_msg")
 			if err == nil {
-				g.L.Info("Request success", zap.Int64("rid", rid))
+				g.Info("Request success", zap.Int64("rid", rid))
 			} else {
-				g.L.Info("Request failed", zap.Int64("rid", rid), zap.Error(err.(error)))
+				g.Info("Request failed", zap.Int64("rid", rid), zap.Error(err.(error)))
 			}
 		}()
 
@@ -98,7 +95,7 @@ func timing(f echo.HandlerFunc) echo.HandlerFunc {
 func (as *ApiServer) initTraffic() {
 	r, err := rpc.Dial("tcp", misc.Conf.Traffic.Host+":"+misc.Conf.Traffic.Port)
 	if err != nil {
-		g.L.Fatal("connect to raffic error", zap.Error(err))
+		g.Fatal("connect to raffic error", zap.Error(err))
 	}
 	as.router.Filter.Rpc = r
 
@@ -108,15 +105,15 @@ func (as *ApiServer) initTraffic() {
 			var res int
 			err := as.router.Filter.Rpc.Call("RateLimiter.Ping", 1, &res)
 			if err != nil || res != 1 {
-				g.L.Warn("rpc ping failed", zap.Error(err))
+				g.Warn("rpc ping failed", zap.Error(err))
 				r, err := rpc.Dial("tcp", misc.Conf.Traffic.Host+":"+misc.Conf.Traffic.Port)
 				if err != nil {
-					g.L.Warn("re-connect to traffic error", zap.Error(err))
+					g.Warn("re-connect to traffic error", zap.Error(err))
 					time.Sleep(2 * time.Second)
 					continue
 				}
 				as.router.Filter.Rpc = r
-				g.L.Info("re-connect to traffic ok")
+				g.Info("re-connect to traffic ok")
 			}
 
 			time.Sleep(3 * time.Second)

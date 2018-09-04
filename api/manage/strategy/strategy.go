@@ -65,7 +65,7 @@ func Create(c echo.Context) error {
 				Message: "Strategy name already exist",
 			})
 		}
-		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -103,7 +103,7 @@ func Update(c echo.Context) error {
 		st.Name, st.SubType, st.Content, st.ID)
 	_, err := g.DB.Exec(query)
 	if err != nil {
-		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -139,7 +139,7 @@ func Load(c echo.Context) error {
 
 	err := g.DB.Select(&ss, query)
 	if err != nil {
-		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -191,7 +191,7 @@ func Delete(c echo.Context) error {
 	}
 	_, err := g.DB.Exec(query)
 	if err != nil {
-		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -209,7 +209,7 @@ func Delete(c echo.Context) error {
 	}
 	_, err = g.DB.Exec(query)
 	if err != nil {
-		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -220,7 +220,7 @@ func Delete(c echo.Context) error {
 	query = fmt.Sprintf("delete from strategy where id='%s'", id)
 	_, err = g.DB.Exec(query)
 	if err != nil {
-		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -266,7 +266,7 @@ func Change(c echo.Context) error {
 	query := fmt.Sprintf("update strategy set status='%d' where id='%s'", newS, id)
 	_, err := g.DB.Exec(query)
 	if err != nil {
-		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
