@@ -49,6 +49,10 @@ func (m *Manage) Start() {
 	e.POST("/manage/auditLog/count", audit.Count, auth)
 	e.POST("/manage/auditLog/load", audit.Load, auth)
 
+	// API调试
+	e.POST("/manage/api/saveParam", m.APISaveParam, auth)
+	e.GET("/manage/api/queryParam", m.APIQueryParam, auth)
+
 	e.Logger.Fatal(e.Start(":" + misc.Conf.Manage.Port))
 }
 

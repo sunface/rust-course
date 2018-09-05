@@ -125,7 +125,7 @@ func (rt *router) sync(r *req.Request) (int, []byte, error) {
 	} else { // get url from etcd
 		s := g.GetServer(r.Api.BackendAddr)
 		if s == nil {
-			return http.StatusServiceUnavailable, nil, errors.New("no target server available")
+			return http.StatusServiceUnavailable, nil, errors.New("no server available")
 		}
 		url = "http://" + s.IP + r.Api.BackendURI
 	}

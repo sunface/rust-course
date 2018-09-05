@@ -116,3 +116,12 @@ CREATE TABLE IF NOT EXISTS  `audit_log` (
   KEY `Index_audit_log_type` (`target_type`) USING BTREE,
   KEY `Index_audit_log_modifydate` (`modify_date`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '审计日志表';
+
+CREATE TABLE IF NOT EXISTS  `test_api` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `api_id` varchar(255) DEFAULT '' COMMENT 'API ID',
+  `params` TEXT COMMENT '测试参数',
+  `modify_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
+  PRIMARY KEY (`id`),
+  KEY `Index_api_test_apiid` (`api_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT 'API调试表';
