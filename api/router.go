@@ -68,17 +68,23 @@ func (router *router) route(c echo.Context) error {
 	var code int
 	var body []byte
 
-	switch r.Api.RouteType {
-	case SYNC: // 同步请求
-		code, body, err = router.sync(r)
-	case REDIRECT: //重定向
-		return router.redirect(c, r)
-	}
+	switch r.Api.BackendType {
+	case misc.BACKEND_TYPE_HTTP:
+		switch r.Api.RouteType {
+		case SYNC: // 同步请求
+			code, body, err = router.sync(r)
+		case REDIRECT: //重定向
+			return router.redirect(c, r)
+		}
 
-	// 请求失败，通知客户端
-	if err != nil {
-		c.Set("error_msg", err)
-		return c.JSON(code, g.Result{r.Rid, code, g.ReqFailedC, err.Error(), nil})
+		// 请求失败，通知客户端
+		if err != nil {
+			c.Set("error_msg", err)
+			return c.JSON(code, g.Result{r.Rid, code, g.ReqFailedC, err.Error(), nil})
+		}
+	case misc.BACKEND_TYPE_MOCK:
+		code = http.StatusOK
+		body = talent.String2Bytes(*r.Api.MockData)
 	}
 
 	g.Debug(r.DebugOn, "response body", zap.Int64("rid", r.Rid), zap.Int("code", code), zap.String("body", talent.Bytes2String(body)))

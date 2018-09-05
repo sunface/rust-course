@@ -53,6 +53,9 @@ const (
 
 	ADDR_URL  = 1
 	ADDR_ETCD = 2
+
+	BACKEND_TYPE_HTTP = 1
+	BACKEND_TYPE_MOCK = 2
 )
 
 // redis后缀
