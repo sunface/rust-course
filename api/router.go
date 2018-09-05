@@ -92,7 +92,7 @@ func (router *router) route(c echo.Context) error {
 
 func (rt *router) redirect(c echo.Context, r *req.Request) error {
 	// 组装参数
-	url := r.Api.RouteAddr + "?" + c.QueryString()
+	url := r.Api.BackendAddr + "?" + c.QueryString()
 	return c.Redirect(http.StatusMovedPermanently, url)
 }
 
@@ -118,7 +118,17 @@ func (rt *router) sync(r *req.Request) (int, []byte, error) {
 	// 写入客户端真实ip
 	req.Header.Set("X-Forwarded-For", r.ClientIP)
 
-	url := r.Api.RouteAddr
+	var url string
+	// 获取url
+	if r.Api.AddrType == misc.ADDR_URL { // direct url
+		url = r.Api.BackendAddr
+	} else { // get url from etcd
+		s := g.GetServer(r.Api.BackendAddr)
+		if s == nil {
+			return http.StatusServiceUnavailable, nil, errors.New("no target server available")
+		}
+		url = "http://" + s.IP + r.Api.BackendURI
+	}
 	switch r.Method {
 	case "GET":
 		// 拼接url
@@ -126,7 +136,6 @@ func (rt *router) sync(r *req.Request) (int, []byte, error) {
 	default:
 		args.WriteTo(req.BodyWriter())
 	}
-
 	req.SetRequestURI(url)
 
 	// 超时重试

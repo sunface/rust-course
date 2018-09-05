@@ -21,14 +21,14 @@ const (
 	ApiOnlyAlphaNumAndDotC = 10006
 	ApiOnlyAlphaNumAndDotE = "API name can only be consisted of alphabet and numberic"
 
-	RouteAddrWithHTTPPrefixC = 10007
-	RouteAddrWithHTTPPrefixE = "Backend url must prefix with http:// or https://"
+	BackendAddrWithHTTPPrefixC = 10007
+	BackendAddrWithHTTPPrefixE = "Backend url must prefix with http:// or https://"
 
-	RouteAddrEmptyC = 10008
-	RouteAddrEmptyE = "Backend url cant be empty"
+	BackendAddrEmptyC = 10008
+	BackendAddrEmptyE = "Backend url cant be empty"
 
-	RouteProtoInvalidC = 10009
-	RouteProtoInvalidE = "Backend type invalid"
+	BackendTypeInvalidC = 10009
+	BackendTypeInvalidE = "Backend type invalid"
 
 	ReqTimeoutInvalidC = 10010
 	ReqTimeoutInvalidE = "Timeout must be in (0,60]"
@@ -65,4 +65,7 @@ const (
 
 	StrategyNameExistE = "Strategy name already exist"
 	StrategyNameExistc = 1061
+
+	UriAlphaNumAndUriC = 10062
+	UriAlphaNumAndUriE = "uri can only be consisted of alphabet,numberic and /"
 )

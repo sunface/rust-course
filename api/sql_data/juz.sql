@@ -8,9 +8,11 @@ CREATE TABLE IF NOT EXISTS  `api_release` (
   `service` varchar(255) NOT NULL COMMENT 'service名',
   `description` text COMMENT '介绍',
 
-  `route_type` int(11) NOT NULL DEFAULT '1' COMMENT '代理类型',
-  `route_addr` varchar(255) NOT NULL COMMENT '后段服务地址',
-  `route_proto` int(11) DEFAULT '1' COMMENT '后端服务协议',
+  `route_type` int(11) NOT NULL DEFAULT '1' COMMENT '代理类型,1: direct 2: redirect',
+  `addr_type` int(11)  DEFAULT '1' COMMENT '后端地址类型,1:直接寻址 2: ETCD服务发现',
+  `backend_addr` varchar(255) NOT NULL COMMENT '后段服务地址',
+  `backend_uri` varchar(255) DEFAUlT '' COMMENT '后端服务URI路径',
+  `backend_type` int(11) DEFAULT '1' COMMENT '后端服务协议,1: HTTP(S) 2: Mock',
   `mock_data` text COMMENT 'mock类型接口，返回定义的mock数据',
 
   `retry_strategy` int(11) DEFAULT '0' COMMENT '重试策略ID',
@@ -46,9 +48,11 @@ CREATE TABLE IF NOT EXISTS  `api_define` (
   `service` varchar(255) NOT NULL COMMENT 'service名',
   `description` text COMMENT '介绍',
 
-  `route_type` int(11) NOT NULL DEFAULT '1' COMMENT '代理类型',
-  `route_addr` varchar(255) NOT NULL COMMENT '后段服务地址',
-  `route_proto` int(11) DEFAULT '1' COMMENT '后端服务协议',
+  `route_type` int(11) NOT NULL DEFAULT '1' COMMENT '代理类型,1: direct 2: redirect',
+  `addr_type` int(11)  DEFAULT '1' COMMENT '后端地址类型,1:直接寻址 2: ETCD服务发现',
+  `backend_addr` varchar(255) NOT NULL COMMENT '后段服务地址',
+  `backend_uri` varchar(255) DEFAUlT '' COMMENT '后端服务URI路径',
+  `backend_type` int(11) DEFAULT '1' COMMENT '后端服务协议,1: HTTP(S) 2: Mock',
   `mock_data` text COMMENT 'mock类型接口，返回定义的mock数据',
 
   `retry_strategy` int(11) DEFAULT '0' COMMENT '重试策略ID',

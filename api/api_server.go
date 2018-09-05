@@ -27,6 +27,9 @@ type ApiServer struct {
 func (p *ApiServer) Start() {
 	g.Info("start tfe..")
 
+	// 获取所有内部服务节点信息
+	g.ETCD.QueryAll(misc.Conf.Etcd.Addrs)
+
 	// 初始化mysql连接
 	misc.InitMysql()
 

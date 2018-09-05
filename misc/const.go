@@ -50,6 +50,9 @@ const (
 
 	STRATEGY_ON  = 1
 	STRATEGY_OFF = 0
+
+	ADDR_URL  = 1
+	ADDR_ETCD = 2
 )
 
 // redis后缀

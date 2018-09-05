@@ -18,10 +18,12 @@ type API struct {
 	PathType int     `db:"path_type" json:"path_type"`
 	Desc     *string `db:"description" json:"desc"`
 
-	RouteType  int     `db:"route_type" json:"route_type"`
-	RouteAddr  string  `db:"route_addr" json:"route_addr"`
-	RouteProto int     `db:"route_proto" json:"route_proto"`
-	MockData   *string `db:"mock_data" json:"mock_data"`
+	RouteType   int     `db:"route_type" json:"route_type"`
+	AddrType    int     `db:"addr_type" json:"addr_type"`
+	BackendAddr string  `db:"backend_addr" json:"backend_addr"`
+	BackendURI  string  `db:"backend_uri" json:"backend_uri"`
+	BackendType int     `db:"backend_type" json:"backend_type"`
+	MockData    *string `db:"mock_data" json:"mock_data"`
 
 	// 通用策略
 	RetryStrategy   int `db:"retry_strategy" json:"retry_strategy"`
