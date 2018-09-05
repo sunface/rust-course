@@ -113,7 +113,7 @@ func (rt *router) sync(r *req.Request) (int, []byte, error) {
 	// 请求头部加入request id，方便后续业务进行跟踪
 	req.Header.Set("rid", strconv.FormatInt(r.Rid, 10))
 
-	req.Header.SetMethod(r.Method)
+	req.Header.SetMethod(r.Api.Method)
 
 	// 写入客户端真实ip
 	req.Header.Set("X-Forwarded-For", r.ClientIP)
@@ -129,7 +129,7 @@ func (rt *router) sync(r *req.Request) (int, []byte, error) {
 		}
 		url = "http://" + s.IP + r.Api.BackendURI
 	}
-	switch r.Method {
+	switch r.Api.Method {
 	case "GET":
 		// 拼接url
 		url = url + "?" + args.String()

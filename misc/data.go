@@ -24,6 +24,7 @@ type API struct {
 	BackendURI  string  `db:"backend_uri" json:"backend_uri"`
 	BackendType int     `db:"backend_type" json:"backend_type"`
 	MockData    *string `db:"mock_data" json:"mock_data"`
+	Method      string  `db:"method" json:"method"`
 
 	// 通用策略
 	RetryStrategy   int `db:"retry_strategy" json:"retry_strategy"`
