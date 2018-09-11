@@ -14,6 +14,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go.uber.org/zap"
@@ -25,7 +26,7 @@ type ApiServer struct {
 }
 
 func (p *ApiServer) Start() {
-	g.Info("start tfe..")
+	g.L.Info("start tfe..")
 
 	// 获取所有内部服务节点信息
 	g.ETCD.QueryAll(misc.Conf.Etcd.Addrs)
@@ -53,11 +54,15 @@ func (p *ApiServer) Start() {
 }
 
 func (o *ApiServer) Shutdown() {
-	g.Info("shutdown tfe..")
+	g.L.Info("shutdown tfe..")
 }
 
 func (p *ApiServer) listen() {
 	e := echo.New()
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowHeaders:     append([]string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept}, misc.Conf.Api.Cors...),
+		AllowCredentials: true,
+	}))
 
 	// 回调相关
 	//同步回调接口
@@ -70,7 +75,7 @@ func timing(f echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ts := time.Now()
 		rid := (ts.UnixNano()/10)*10 + misc.Conf.Api.ServerID
-		g.Info("New request accepted", zap.Int64("rid", rid), zap.String("ip", c.RealIP()))
+		g.L.Info("New request accepted", zap.Int64("rid", rid), zap.String("ip", c.RealIP()))
 		c.Set("rid", rid)
 		defer func() {
 			// 统计请求指标
@@ -85,9 +90,9 @@ func timing(f echo.HandlerFunc) echo.HandlerFunc {
 
 			err := c.Get("error_msg")
 			if err == nil {
-				g.Info("Request success", zap.Int64("rid", rid))
+				g.L.Info("Request success", zap.Int64("rid", rid))
 			} else {
-				g.Info("Request failed", zap.Int64("rid", rid), zap.Error(err.(error)))
+				g.L.Info("Request failed", zap.Int64("rid", rid), zap.Error(err.(error)))
 			}
 		}()
 
@@ -98,7 +103,7 @@ func timing(f echo.HandlerFunc) echo.HandlerFunc {
 func (as *ApiServer) initTraffic() {
 	r, err := rpc.Dial("tcp", misc.Conf.Traffic.Host+":"+misc.Conf.Traffic.Port)
 	if err != nil {
-		g.Fatal("connect to raffic error", zap.Error(err))
+		g.L.Fatal("connect to raffic error", zap.Error(err))
 	}
 	as.router.Filter.Rpc = r
 
@@ -108,15 +113,15 @@ func (as *ApiServer) initTraffic() {
 			var res int
 			err := as.router.Filter.Rpc.Call("RateLimiter.Ping", 1, &res)
 			if err != nil || res != 1 {
-				g.Warn("rpc ping failed", zap.Error(err))
+				g.L.Warn("rpc ping failed", zap.Error(err))
 				r, err := rpc.Dial("tcp", misc.Conf.Traffic.Host+":"+misc.Conf.Traffic.Port)
 				if err != nil {
-					g.Warn("re-connect to traffic error", zap.Error(err))
+					g.L.Warn("re-connect to traffic error", zap.Error(err))
 					time.Sleep(2 * time.Second)
 					continue
 				}
 				as.router.Filter.Rpc = r
-				g.Info("re-connect to traffic ok")
+				g.L.Info("re-connect to traffic ok")
 			}
 
 			time.Sleep(3 * time.Second)

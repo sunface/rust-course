@@ -20,6 +20,7 @@ type Request struct {
 	Api      *misc.API
 	DebugOn  bool
 	ClientIP string
+	Url      string
 
 	BwStrategy      *misc.BwStrategy
 	RetryStrategy   *misc.RetryStrategy
@@ -30,7 +31,7 @@ func (r *Request) String() string {
 	return fmt.Sprintf("method: %s,params: %v, api: %v, client_ip: %s", r.Method, r.Params, *r.Api, r.ClientIP)
 }
 
-func Parse(c echo.Context) (*Request, error) {
+func Parse(c echo.Context) (*Request, int, error) {
 	r := &Request{
 		Rid:    c.Get("rid").(int64),
 		Params: make(map[string]string),
@@ -67,7 +68,7 @@ func Parse(c echo.Context) (*Request, error) {
 			//新网关使用以下参数'api_name'
 			apiName = r.Params["api_name"]
 			if apiName == "" {
-				return r, errors.New("api_name not founded")
+				return r, http.StatusBadRequest, errors.New("api_name not founded")
 			}
 		}
 	} else {
@@ -84,14 +85,25 @@ func Parse(c echo.Context) (*Request, error) {
 	// 获取api信息
 	apiI, ok := misc.Apis.Load(apiID)
 	if !ok {
-		return r, errors.New("api id not exist")
+		return r, http.StatusBadRequest, errors.New("api id not exist")
 	}
 	r.Api = apiI.(*misc.API)
 
 	// 生成策略
 	strategy(r)
 
-	return r, nil
+	// 获取url
+	if r.Api.AddrType == misc.ADDR_URL { // direct url
+		r.Url = r.Api.BackendAddr
+	} else { // get url from etcd
+		s := g.GetServer(r.Api.BackendAddr)
+		if s == nil {
+			return r, http.StatusServiceUnavailable, errors.New(g.NoServerAvailableE)
+		}
+		r.Url = "http://" + s.IP + r.Api.BackendURI
+	}
+
+	return r, 0, nil
 }
 
 func strategy(r *Request) {

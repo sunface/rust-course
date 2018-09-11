@@ -36,7 +36,7 @@ var trafficCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		misc.InitConfig("juz.conf")
 		g.InitLogger(misc.Conf.Common.LogLevel)
-		g.Info("Application version", zap.String("version", misc.Conf.Common.Version))
+		g.L.Info("Application version", zap.String("version", misc.Conf.Common.Version))
 
 		p := &traffic.Traffic{}
 		p.Start()
@@ -46,7 +46,7 @@ var trafficCmd = &cobra.Command{
 		signal.Notify(chSig, syscall.SIGINT, syscall.SIGTERM)
 
 		sig := <-chSig
-		g.Info("juz received signal", zap.Any("signal", sig))
+		g.L.Info("juz received signal", zap.Any("signal", sig))
 	},
 }
 

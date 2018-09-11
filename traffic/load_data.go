@@ -29,7 +29,7 @@ func (t *Traffic) loadAll() {
 	strategies := make([]*misc.Strategy, 0)
 	err := g.DB.Select(&strategies, "select * from strategy")
 	if err != nil {
-		g.Fatal("load strategies error!", zap.Error(err))
+		g.L.Fatal("load strategies error!", zap.Error(err))
 	}
 
 	for _, s := range strategies {
@@ -53,7 +53,7 @@ func (t *Traffic) loadUpdated() {
 		query := fmt.Sprintf("select * from strategy where modify_date >= '%s'", lastT)
 		err := g.DB.Select(&strategies, query)
 		if err != nil {
-			g.Error("load strategies error!", zap.Error(err), zap.String("query", query))
+			g.L.Error("load strategies error!", zap.Error(err), zap.String("query", query))
 			return
 		}
 

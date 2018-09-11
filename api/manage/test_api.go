@@ -31,7 +31,7 @@ func (m *Manage) APIQueryParam(c echo.Context) error {
 	query := fmt.Sprintf("select params from test_api where api_id='%s'", apiID)
 	rows, err := g.DB.Query(query)
 	if err != nil {
-		g.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -78,7 +78,7 @@ func (m *Manage) APISaveParam(c echo.Context) error {
 
 	_, err = g.DB.Exec(query)
 	if err != nil {
-		g.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,

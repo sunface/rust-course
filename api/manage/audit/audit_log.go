@@ -33,7 +33,7 @@ func Log(userID string, service string, targetType int, targetID string, opType 
 		userID, service, targetType, targetID, opType, newc, desc)
 	_, err := g.DB.Exec(query)
 	if err != nil {
-		g.Info("record audit log error", zap.Error(err), zap.String("query", query))
+		g.L.Info("record audit log error", zap.Error(err), zap.String("query", query))
 	}
 }
 
@@ -56,7 +56,7 @@ func Count(c echo.Context) error {
 	}
 	rows, err := g.DB.Query(query)
 	if err != nil {
-		g.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -116,7 +116,7 @@ func Load(c echo.Context) error {
 	}
 	err := g.DB.Select(&rs, query)
 	if err != nil {
-		g.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,

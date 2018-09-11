@@ -30,6 +30,7 @@ type Config struct {
 	Api struct {
 		Port     string
 		ServerID int64
+		Cors     []string
 	}
 	Manage struct {
 		Port string

@@ -33,7 +33,11 @@ func (f *Filter) trafficRoute(r *req.Request) {
 	api := apiI.(*misc.API)
 	// 是否在路由ip列表中，如果在，直接路由
 	if strings.Contains(r.Api.TrafficIPs, r.ClientIP) {
-		g.Debug(r.DebugOn, "Canary by ip", zap.String("old_api", r.Api.APIID), zap.String("new_api", api.APIID), zap.String("client_ip", r.ClientIP))
+		if r.DebugOn {
+			g.DL.Debug("Canary by ip", zap.String("old_api", r.Api.APIID), zap.String("new_api", api.APIID), zap.String("client_ip", r.ClientIP))
+		} else {
+			g.L.Debug("Canary by ip", zap.String("old_api", r.Api.APIID), zap.String("new_api", api.APIID), zap.String("client_ip", r.ClientIP))
+		}
 		r.Api = api
 		return
 	}
@@ -43,6 +47,11 @@ func (f *Filter) trafficRoute(r *req.Request) {
 	if n > r.Api.TrafficRatio {
 		return
 	}
-	g.Debug(r.DebugOn, "Canary by random", zap.String("old_api", r.Api.APIID), zap.String("new_api", api.APIID))
+	if r.DebugOn {
+		g.DL.Debug("Canary by random", zap.String("old_api", r.Api.APIID), zap.String("new_api", api.APIID))
+	} else {
+		g.L.Debug("Canary by random", zap.String("old_api", r.Api.APIID), zap.String("new_api", api.APIID))
+	}
+
 	r.Api = api
 }

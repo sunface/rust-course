@@ -132,12 +132,12 @@ func InitMysql() {
 		Conf.Mysql.Addr, Conf.Mysql.Port, Conf.Mysql.Database)
 	g.DB, err = sqlx.Open("mysql", sqlConn)
 	if err != nil {
-		g.Fatal("init mysql error", zap.Error(err))
+		g.L.Fatal("init mysql error", zap.Error(err))
 	}
 
 	// 测试db是否正常
 	err = g.DB.Ping()
 	if err != nil {
-		g.Fatal("init mysql, ping error", zap.Error(err))
+		g.L.Fatal("init mysql, ping error", zap.Error(err))
 	}
 }

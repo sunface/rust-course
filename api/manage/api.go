@@ -59,7 +59,7 @@ func (m *Manage) QueryAPI(c echo.Context) error {
 
 	err := g.DB.Select(&apis, query)
 	if err != nil {
-		g.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -101,7 +101,7 @@ func (m *Manage) CountAPI(c echo.Context) error {
 
 	rows, err := g.DB.Query(query)
 	if err != nil {
-		g.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -156,7 +156,7 @@ func (m *Manage) DefineAPI(c echo.Context) error {
 					Message: g.AlreadyExistE,
 				})
 			}
-			g.Info("access database error", zap.Error(err), zap.String("query", query))
+			g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 			return c.JSON(http.StatusInternalServerError, g.Result{
 				Status:  http.StatusInternalServerError,
 				ErrCode: g.DatabaseC,
@@ -169,7 +169,7 @@ func (m *Manage) DefineAPI(c echo.Context) error {
 			api.APIID, api.PathType, api.Service, api.BackendAddr, misc.API_OFFLINE, date)
 		_, err = g.DB.Exec(query)
 		if err != nil {
-			g.Info("access database error", zap.Error(err), zap.String("query", query))
+			g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 			return c.JSON(http.StatusInternalServerError, g.Result{
 				Status:  http.StatusInternalServerError,
 				ErrCode: g.DatabaseC,
@@ -182,7 +182,7 @@ func (m *Manage) DefineAPI(c echo.Context) error {
 			*api.Desc, api.RouteType, api.BackendAddr, api.BackendType, api.BwStrategy, api.RetryStrategy, api.TrafficStrategy, *api.MockData, api.TrafficOn, api.TrafficAPI, api.TrafficRatio, api.TrafficIPs, api.VerifyOn, pr, api.CachedTime, api.App, api.AddrType, api.BackendURI, api.Method, api.APIID)
 		res, err := g.DB.Exec(query)
 		if err != nil {
-			g.Info("access database error", zap.Error(err), zap.String("query", query))
+			g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 			return c.JSON(http.StatusInternalServerError, g.Result{
 				Status:  http.StatusInternalServerError,
 				ErrCode: g.DatabaseC,
@@ -246,7 +246,7 @@ func (m *Manage) DeleteAPI(c echo.Context) error {
 	query := fmt.Sprintf("select status,modify_date from api_release where api_id='%s'", apiID)
 	rows, err := g.DB.Query(query)
 	if err != nil {
-		g.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -287,7 +287,7 @@ func (m *Manage) DeleteAPI(c echo.Context) error {
 	query = fmt.Sprintf("delete from api_release where api_id='%s'", apiID)
 	_, err = g.DB.Exec(query)
 	if err != nil {
-		g.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -300,7 +300,7 @@ func (m *Manage) DeleteAPI(c echo.Context) error {
 	query = fmt.Sprintf("select * from api_define where api_id='%s'", apiID)
 	err = g.DB.Get(&api, query)
 	if err != nil {
-		g.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 	}
 	if api.ParamTable != nil {
 		d, _ := g.B64.DecodeString(*api.ParamTable)
@@ -314,7 +314,7 @@ func (m *Manage) DeleteAPI(c echo.Context) error {
 	query = fmt.Sprintf("delete from api_define where api_id='%s'", apiID)
 	_, err = g.DB.Exec(query)
 	if err != nil {
-		g.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -335,7 +335,7 @@ func (m *Manage) parseAPI(c echo.Context) (*misc.API, int, string) {
 	api := &misc.API{}
 	err := json.Unmarshal([]byte(apiR), &api)
 	if err != nil {
-		g.Info("parse api", zap.Error(err), zap.String("api", string(apiR)))
+		g.L.Info("parse api", zap.Error(err), zap.String("api", string(apiR)))
 		return nil, g.ParamInvalidC, g.ParamInvalidE
 	}
 
@@ -448,7 +448,7 @@ func (m *Manage) APIRelease(c echo.Context) error {
 	query := fmt.Sprintf("select * from api_define where api_id='%s'", apiID)
 	err := g.DB.Get(&api, query)
 	if err != nil {
-		g.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -462,7 +462,7 @@ func (m *Manage) APIRelease(c echo.Context) error {
 
 	_, err = g.DB.Exec(query)
 	if err != nil {
-		g.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -473,7 +473,7 @@ func (m *Manage) APIRelease(c echo.Context) error {
 	query = fmt.Sprintf("update api_define set release_version='%s' where api_id='%s'", api.ReviseVersion, api.APIID)
 	_, err = g.DB.Exec(query)
 	if err != nil {
-		g.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -519,7 +519,7 @@ func (m *Manage) APIOffline(c echo.Context) error {
 		misc.API_OFFLINE, apiID)
 	_, err := g.DB.Exec(query)
 	if err != nil {
-		g.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -531,7 +531,7 @@ func (m *Manage) APIOffline(c echo.Context) error {
 	query = fmt.Sprintf("update api_define set release_version='%s' where api_id='%s'", "", apiID)
 	_, err = g.DB.Exec(query)
 	if err != nil {
-		g.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 		return c.JSON(http.StatusInternalServerError, g.Result{
 			Status:  http.StatusInternalServerError,
 			ErrCode: g.DatabaseC,
@@ -544,7 +544,7 @@ func (m *Manage) APIOffline(c echo.Context) error {
 	query = fmt.Sprintf("select * from api_release where api_id='%s'", apiID)
 	err = g.DB.Get(&api, query)
 	if err != nil {
-		g.Info("access database error", zap.Error(err), zap.String("query", query))
+		g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 	}
 	if api.ParamTable != nil {
 		d, _ := g.B64.DecodeString(*api.ParamTable)
@@ -646,7 +646,7 @@ func (m *Manage) APIBatchStrategy(c echo.Context) error {
 		query = fmt.Sprintf("%s  where api_id = '%s'", query, apiID)
 		res, err := g.DB.Exec(query)
 		if err != nil {
-			g.Info("access database error", zap.Error(err), zap.String("query", query))
+			g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 			return c.JSON(http.StatusInternalServerError, g.Result{
 				Status:  http.StatusInternalServerError,
 				ErrCode: g.DatabaseC,
@@ -724,7 +724,7 @@ func (m *Manage) APIBatchDelStrategy(c echo.Context) error {
 
 		res, err := g.DB.Exec(query)
 		if err != nil {
-			g.Info("access database error", zap.Error(err), zap.String("query", query))
+			g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 			return c.JSON(http.StatusInternalServerError, g.Result{
 				Status:  http.StatusInternalServerError,
 				ErrCode: g.DatabaseC,
@@ -793,7 +793,7 @@ func (m *Manage) APIBatchRelease(c echo.Context) error {
 		query := fmt.Sprintf("select * from api_define where api_id='%s'", apiID)
 		err := g.DB.Get(&api, query)
 		if err != nil {
-			g.Info("access database error", zap.Error(err), zap.String("query", query))
+			g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 			return c.JSON(http.StatusInternalServerError, g.Result{
 				Status:  http.StatusInternalServerError,
 				ErrCode: g.DatabaseC,
@@ -807,7 +807,7 @@ func (m *Manage) APIBatchRelease(c echo.Context) error {
 
 		_, err = g.DB.Exec(query)
 		if err != nil {
-			g.Info("access database error", zap.Error(err), zap.String("query", query))
+			g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 			return c.JSON(http.StatusInternalServerError, g.Result{
 				Status:  http.StatusInternalServerError,
 				ErrCode: g.DatabaseC,
@@ -818,7 +818,7 @@ func (m *Manage) APIBatchRelease(c echo.Context) error {
 		query = fmt.Sprintf("update api_define set release_version='%s' where api_id='%s'", api.ReviseVersion, api.APIID)
 		_, err = g.DB.Exec(query)
 		if err != nil {
-			g.Info("access database error", zap.Error(err), zap.String("query", query))
+			g.L.Info("access database error", zap.Error(err), zap.String("query", query))
 			return c.JSON(http.StatusInternalServerError, g.Result{
 				Status:  http.StatusInternalServerError,
 				ErrCode: g.DatabaseC,

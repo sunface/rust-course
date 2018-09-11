@@ -33,7 +33,7 @@ func (t *Traffic) Start() {
 }
 
 func (t *Traffic) Shutdown() {
-	g.Info("shutdown tfe..")
+	g.L.Info("shutdown tfe..")
 }
 
 type RateLimiter struct{}
@@ -49,20 +49,20 @@ func (t *Traffic) startRpcServer() {
 	server := rpc.NewServer()
 	err := server.Register(rl)
 	if err != nil {
-		g.Fatal("register error", zap.Error(err))
+		g.L.Fatal("register error", zap.Error(err))
 	}
 
-	g.Info("Listen tcp on port", zap.String("port", misc.Conf.Traffic.Port))
+	g.L.Info("Listen tcp on port", zap.String("port", misc.Conf.Traffic.Port))
 	l, err := net.Listen("tcp", ":"+misc.Conf.Traffic.Port)
 	if err != nil {
-		g.Fatal("listen error", zap.Error(err))
+		g.L.Fatal("listen error", zap.Error(err))
 	}
 
 	go func() {
 		for {
 			conn, err := l.Accept()
 			if err != nil {
-				g.Error("accept error", zap.Error(err))
+				g.L.Error("accept error", zap.Error(err))
 				continue
 			}
 			server.ServeConn(conn)
