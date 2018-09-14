@@ -177,6 +177,6 @@ func (p *ApiServer) loadUpdated() {
 		}()
 
 		wg.Wait()
-		time.Sleep(10 * time.Second)
+		time.Sleep(100 * time.Millisecond)
 	}
 }
