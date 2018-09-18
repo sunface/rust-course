@@ -35,7 +35,7 @@ func (p *ApiServer) Start() {
 	misc.InitMysql()
 
 	// 从mysql中加载所有的api信息到内存中
-	p.loadData()
+	p.loadData() 
 
 	p.manage = &manage.Manage{}
 	go p.manage.Start()
