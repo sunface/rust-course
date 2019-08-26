@@ -12,7 +12,7 @@ Welcome to the [im.dev](https://im.dev) codebase. We are so excited to have you.
 
 ## Contributing
 
-We encourage you to contribute to im.dev! Please check out the [Contributing to dev.to guide](CONTRIBUTING.md) for guidelines about how to proceed.
+We encourage you to contribute to im.dev! Please check out the [Contributing Guide](https://github.com/thinkindev/community/blob/master/CONTRIBUTING.md) for guidelines about how to proceed.
 
 ## Codebase
 
