@@ -1,0 +1,12 @@
+version: 0.1.0
+log_level: debug
+
+listen_addr: ":10086"
+
+cql:
+  cluster:
+    - "10.77.64.46:9042"
+    - "10.77.64.47:9042"
+    - "10.77.64.48:9042"
+  connection_num: 10
+  keyspace: "im_dev"
