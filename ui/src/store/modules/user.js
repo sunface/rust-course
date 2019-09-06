@@ -6,6 +6,7 @@ const user = {
   state: {
     id: Cookies.get('imdev-userid') || '',
     name: Cookies.get('imdev-name') || '',
+    nickname: Cookies.get('imdev-nickname') || '',
     avatar: Cookies.get('imdev-avatar') || '',
     token: getToken() || ''
   },
@@ -18,6 +19,10 @@ const user = {
     SET_NAME: (state, name) => {
       Cookies.set('imdev-name', name)
       state.name = name
+    },
+    SET_NICKNAME: (state, name) => {
+      Cookies.set('imdev-nickname', name)
+      state.nickname = name
     },
     SET_AVATAR: (state, avatar) => {
       Cookies.set('imdev-avatar', avatar)
@@ -40,9 +45,18 @@ const user = {
         commit('SET_TOKEN', userInfo.token)
         commit('SET_USERID', userInfo.id)
         commit('SET_NAME', userInfo.name)
+        commit('SET_NICKNAME', userInfo.nickname)
         commit('SET_AVATAR', userInfo.avatar)
         resolve()
       })
+    },
+    ClearUserInfo({ commit,state},userInfo) {
+        removeToken()
+        commit('SET_TOKEN', '')
+        commit('SET_USERID', '')
+        commit('SET_NAME', '')
+        commit('SET_NICKNAME', '')
+        commit('SET_AVATAR', '')
     },
     // 登出
     SignOut({ commit, state }) {
@@ -52,8 +66,12 @@ const user = {
         params:{
         }
       }).then(res => {   
-        commit('SET_TOKEN', '')
         removeToken()
+        commit('SET_TOKEN', '')
+        commit('SET_USERID', '')
+        commit('SET_NAME', '')
+        commit('SET_NICKNAME', '')
+        commit('SET_AVATAR', '')
       })
     }   
   }

@@ -13,6 +13,7 @@
     "axios": "0.17.1",
     "element-ui": "^2.11.1",
     "js-cookie": "2.2.0",
+    "mavon-editor": "^2.7.5",
     "vue": "^2.6.10",
     "vue-i18n": "^8.11.2",
     "vue-router": "^3.0.3",

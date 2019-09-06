@@ -5,6 +5,13 @@ import Vue from 'vue'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+// import 'mavon-editor/dist/markdown/github-markdown.min.css'
+import "./theme/editor.css";
+
+Vue.use(mavonEditor)
+
 import App from './App'
 
 Vue.use(ElementUI);

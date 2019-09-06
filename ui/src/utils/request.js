@@ -3,7 +3,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import { getToken } from '@/utils/auth'
-import Cookies from 'js-cookie'
+import store from '@/store'
 
 
 // create an axios instance
@@ -32,13 +32,8 @@ service.interceptors.response.use(
   error => {
     var response = error.response
     if (response.data.err_code == 1001) {
-      Message(
-        {
-          showClose: true,
-          message: response.data.message+' : '+ response.data.err_code,
-          type: 'error'
-        }
-      )
+      store.dispatch("setNeedSignin", 1)
+      store.dispatch("ClearUserInfo")
       return Promise.reject(response.data.message+' : '+ response.data.err_code)
     }
 

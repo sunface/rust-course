@@ -1,0 +1,30 @@
+.v-note-wrapper {
+    z-index: 10 !important;
+}
+
+/* .v-note-wrapper .v-note-panel .v-note-edit.divarea-wrapper.scroll-style::-webkit-scrollbar {
+    width: 1px !important;
+    background: rgba(0, 0, 0, .1) !important;
+} */ 
+
+/* .v-note-wrapper .v-note-panel .v-note-edit.divarea-wrapper.scroll-style::-webkit-scrollbar{
+width: 2px !important;
+background: rgba(0, 0, 0, .1) !important;
+}
+.v-note-wrapper .v-note-panel .v-note-edit.divarea-wrapper.scroll-style::-webkit-scrollbar-thumb{
+border-radius: 1em;
+background-color: rgba(50,50,50,.5);
+}
+.v-note-wrapper .v-note-panel .v-note-edit.divarea-wrapper.scroll-style::-webkit-scrollbar-track{
+border-radius: 1em;
+background-color: rgba(50,50,50,.1);
+} */
+
+.v-note-wrapper .v-note-panel {
+    box-shadow: none !important;
+}
+
+.v-note-wrapper .v-note-op .v-right-item {
+    display:none;
+}
+

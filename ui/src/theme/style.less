@@ -4,3 +4,60 @@
     outline-width: 0;
     outline-style: none;
 }
+input::-webkit-input-placeholder {
+    color: #aab2bd;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+::-webkit-scrollbar {
+    width: 2px !important;
+    height: 2px;
+    background-color: #e5e5e5 !important;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #b7b7b7 !important;
+    border-radius: 3px !important;
+}
+::-webkit-scrollbar-track {
+    border-radius: 3px;
+    box-shadow: 0 0 0px #808080 inset !important;
+}
+
+.no-border {
+    input { 
+        border: none;
+    }
+    button {
+        border:none;
+    }
+}
+
+.border-ellipse{
+    border-radius: 100px;
+}
+
+.background-grey {
+    background-color: #f5f6f7
+}
+
+.image-modal {
+    .el-dialog {
+        box-shadow: none !important;
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        cursor: zoom-out;
+    }
+    .el-dialog__header {
+        display: none;
+    }
+    .el-dialog__body {
+        padding: 0;
+    }
+}
+
+.background-light-grey {
+    background-color: #fafafa!important
+}

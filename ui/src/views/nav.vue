@@ -8,7 +8,7 @@
         :md="{span: 2,offset:1}"
         :lg="{ span: 2, offset: 2 }"
       >
-        <img src="../assets/logo.png" class="hover-cursor" style="height:45px" />
+        <router-link to="/"><img src="../assets/logo.png" class="hover-cursor" style="height:45px" /></router-link>
       </el-col>
       <el-col
         :xs="{span:10,offset:4}"
@@ -27,12 +27,12 @@
 
       <el-col :span="10">
         <span class="float-right">
-          <el-popover placement="bottom" trigger="hover" class="margin-right-20">
-            <el-form label-width="80px">
+         <el-popover placement="bottom" trigger="hover" class="margin-right-20">
+            <el-form label-width="100px">
               <el-form-item :label="$t('nav.setLang')">
                 <el-radio-group v-model="currentLang" size="medium" @change="changeLang">
-                  <el-radio-button label="zh">中文</el-radio-button>
                   <el-radio-button label="en">English</el-radio-button>
+                  <el-radio-button label="zh">Chinese</el-radio-button>
                 </el-radio-group>
               </el-form-item>
               <el-form-item :label="$t('nav.setTheme')">
@@ -41,15 +41,36 @@
                   placeholder="theme.."
                   size="medium"
                   style="width:150px"
+                   :popper-append-to-body="false"
                   @change="changeTheme"
                 >
                   <el-option label="Light" value="light"></el-option>
                   <el-option label="Dark" value="dark"></el-option>
                 </el-select>
               </el-form-item>
+
+              <el-form-item :label="$t('nav.readingLang')">
+                <el-select
+                  v-model="currentReadingLang"
+                  placeholder="Reading Lang.."
+                  size="medium"
+                  style="width:200px"
+                  multiple
+                  :popper-append-to-body="false"
+                  @change="changeReadingLang"
+                >
+                  <el-option  v-for="o in langOptions" :key="o.label" :label="o.label" :value="o.value"></el-option>
+                </el-select>
+              </el-form-item>
             </el-form>
             <i class="el-icon-more-outline hover-cursor" slot="reference"></i>
           </el-popover>
+          <router-link
+            v-if="this.$store.state.user.token!=''"
+            to="/x/article/new"
+            class="margin-right-20"
+            style="text-decoration:none;color:black;background:#66e2d5;padding:2px 12px;border:2px solid #0a0a0a;border-radius:3px;font-weight:bold;font-size:14px"
+          >WRITE A POST</router-link>
           <el-button
             v-if="this.$store.state.user.token==''"
             type="primary"
@@ -67,7 +88,7 @@
                 <el-divider></el-divider>
                 <div>About im.dev</div>
                 <el-divider></el-divider>
-                <div>Sign Out</div>
+                <div @click.stop="signOut">Sign Out</div>
             </div>
             <el-avatar
               :src="this.$store.state.user.avatar"
@@ -98,6 +119,7 @@
  
 <script>
 import request from "@/utils/request";
+import langOptions from "@/utils/data"
 export default {
   name: "Nav",
   data() {
@@ -108,18 +130,36 @@ export default {
       signInModalVisible: false,
 
       currentLang: this.$store.state.misc.lang,
+      currentReadingLang: this.$store.state.misc.readingLang,
       currentTheme: this.$store.state.misc.theme,
 
       // nav fixed to top
       scrollTop: 0,
       toTop : true,
       topCount : 0,
-      inTop : true
+      inTop : true,
+      langOptions: langOptions
     };
   },
-  watch: {},
+  watch: {
+    "$store.state.misc.needSignin"() {
+        this.signInModalVisible = true    
+    },
+    "$store.state.misc.navFixed"() {
+       if (this.$store.state.misc.navFixed) {
+          window.removeEventListener('scroll', this.handleScroll);
+          this.inTop = true
+          this.toTop = true 
+       } else {
+          window.addEventListener('scroll', this.handleScroll);
+       }
+    },
+  },
   computed: {},
   methods: {
+    signOut() {
+        this.$store.dispatch('SignOut')
+    },
     signIn() {
       request({
         url: "/web/signIn",
@@ -131,9 +171,14 @@ export default {
         });
       });
     },
+    changeReadingLang(val) {
+        this.$store.dispatch("setReadingLang", val);
+         window.location.reload();
+    },
     changeLang(val) {
       this.$store.dispatch("setLang", val);
       this.$i18n.locale = val;
+       window.location.reload();
     },
     changeTheme(val) {
       this.$store.dispatch("setTheme", val);
@@ -184,7 +229,7 @@ export default {
   },
   mounted() {
     this.loadTheme();
-    window.addEventListener('scroll', this.handleScroll);
+    // window.addEventListener('scroll', this.handleScroll);
   }
 };
 </script>
@@ -233,8 +278,7 @@ export default {
    top: 0;
     width: 100%;
     background-color: rgba(255, 255, 255, 0);
-    z-index: 999;
-    position: absolute; 
+    position: fixed; 
    
     // box-shadow: rgba(0, 0, 0, 0.0470588) 0px 4px 12px 0px;
     padding-top:8px;
@@ -244,10 +288,12 @@ export default {
     position: fixed;
    box-shadow: rgba(0, 0, 0, 0.0470588) 0px 4px 12px 0px;
     background-color: white;
+        z-index: 999;
     // transition:transform 300ms ease;
     //     transform: translateY(100px)
   }
 .nav.inTop {
-    box-shadow: none;
+    box-shadow: rgba(0, 0, 0, 0.0470588) 0px 4px 12px 0px;;
+    z-index: 1;
 }
 </style>

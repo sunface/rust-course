@@ -12,19 +12,20 @@ import (
 	"github.com/thinkindev/im.dev/internal/misc"
 )
 
-// UserInfo contains user's info
-type UserInfo struct {
-	ID     string `json:"id"`
-	Name   string `json:"name"`
-	Avatar string `json:"avatar"`
-	Token  string `json:"token"`
+// Session contains user's info
+type Session struct {
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	NickName string `json:"nickname"`
+	Avatar   string `json:"avatar"`
+	Token    string `json:"token"`
 }
 
 var sessions = &sync.Map{}
 
 // SignIn is user's sign-in action
 func SignIn(c echo.Context) error {
-	ui := &UserInfo{"13269", "Sunface", "https://avatars2.githubusercontent.com/u/7036754?s=460&v=4", strconv.FormatInt(time.Now().UnixNano(), 10)}
+	ui := &Session{"13269", "sunface", "Sunface", "https://avatars2.githubusercontent.com/u/7036754?s=460&v=4", "sunface" + strconv.FormatInt(time.Now().Unix(), 10)}
 	sessions.Store(ui.Token, ui)
 	return c.JSON(http.StatusOK, misc.HTTPResp{
 		Data: ui,
@@ -52,4 +53,14 @@ func CheckSignIn(f echo.HandlerFunc) echo.HandlerFunc {
 
 		return f(c)
 	}
+}
+
+// Get return the session for given user
+func Get(c echo.Context) *Session {
+	token := c.Request().Header.Get("token")
+	s, ok := sessions.Load(token)
+	if !ok {
+		return nil
+	}
+	return s.(*Session)
 }

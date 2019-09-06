@@ -9,6 +9,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/thinkindev/im.dev/internal/misc"
+	"github.com/thinkindev/im.dev/internal/session"
 )
 
 // Start web server for im.dev ui
@@ -27,6 +28,8 @@ func Start(confPath string) {
 			misc.Log.Fatal("connect to cql cluster error", zap.String("error", err.Error()))
 		}
 	}
+
+	session.InitUser()
 
 	e := echo.New()
 	e.Pre(middleware.RemoveTrailingSlash())
