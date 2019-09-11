@@ -18,15 +18,15 @@ func Time2ReadableString(t time.Time) string {
 	now := time.Now().Local()
 	intv := now.Unix() - t.Unix()
 	if intv < 60 {
-		return strconv.FormatInt(intv, 10) + "seconds ago"
+		return strconv.FormatInt(intv, 10) + " seconds ago"
 	}
 
 	if intv < 3600 {
-		return strconv.FormatInt(intv/60, 10) + "minutes ago"
+		return strconv.FormatInt(intv/60, 10) + " minutes ago"
 	}
 
 	if intv < 86400 {
-		return strconv.FormatInt(intv/3600, 10) + "hours ago"
+		return strconv.FormatInt(intv/3600, 10) + " hours ago"
 	}
 
 	y1, m1, d1 := now.Date()

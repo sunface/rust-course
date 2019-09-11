@@ -31,6 +31,14 @@ service.interceptors.response.use(
   },
   error => {
     var response = error.response
+    if (response == undefined) {
+      Message.error({
+        message: error.message,
+        duration: 3000,
+        customClass: 'network-error'
+      })
+      return Promise.reject(error)
+    }
     if (response.data.err_code == 1001) {
       store.dispatch("setNeedSignin", 1)
       store.dispatch("ClearUserInfo")
@@ -48,10 +56,7 @@ service.interceptors.response.use(
       return Promise.reject(response.data.message+' : '+ response.data.err_code)
     }
 
-    Message.error({
-      content: error.message,
-      duration: 3
-    })
+    Message.error(error.message)
     return Promise.reject(error)
   })
 

@@ -67,7 +67,7 @@
           </el-popover>
           <router-link
             v-if="this.$store.state.user.token!=''"
-            to="/x/article/new"
+            to="/dev/article/new"
             class="margin-right-20"
             style="text-decoration:none;color:black;background:#66e2d5;padding:2px 12px;border:2px solid #0a0a0a;border-radius:3px;font-weight:bold;font-size:14px"
           >WRITE A POST</router-link>

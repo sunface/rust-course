@@ -12,6 +12,8 @@ import "./theme/editor.css";
 
 Vue.use(mavonEditor)
 
+import './assets/icon/iconfont.css';
+
 import App from './App'
 
 Vue.use(ElementUI);

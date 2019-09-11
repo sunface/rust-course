@@ -1,5 +1,5 @@
 .render .content p {
-    margin: 0 0 25px
+    margin: 0 0 8px
 }
 
 
@@ -79,10 +79,10 @@
 .render .content h4,
 .render .content h5,
 .render .content h6 {
-    margin: 0 0 15px;
+    margin: 0 0 12px;
     font-weight: 700;
     color: #2f2f2f;
-    line-height: 1.7;
+    line-height: 1.6;
     text-rendering: optimizelegibility
 }
 
@@ -129,45 +129,7 @@
 
 
 
-.render .content ol {
-    list-style-type: square;
-}
 
-.render .content ul {
-    list-style-type: none;
-}
-
-.render .content ol,
-.render .content ul {
-    padding: 0;
-    margin-left: 16px;
-    margin-bottom: 20px;
-    display: block;
-}
-
-.render .content ol {
-    margin-left: 36px;
-}
-
-.render .content ol li,
-.render .content ul li {
-    margin-bottom: 10px;
-    /* line-height: 30px */
-}
-
-.render .content ol li ol,
-.render .content ol li ul,
-.render .content ul li ol,
-.render .content ul li ul {
-    margin-top: 15px
-}
-
-.render .content ul li:before {
-    font-size: 19.8px;
-    padding-top: 4px;
-    padding-right: 12px;
-    content: '\2022';
-}
 
 .render .content ol .image-package,
 .render .content ul .image-package {
@@ -416,5 +378,8 @@
 .render .content .hljs-left {
     text-align: left
 }
+
+
+
 
 

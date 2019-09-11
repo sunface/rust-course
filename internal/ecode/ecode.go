@@ -23,3 +23,9 @@ const (
 	PostNotFound    = 1101
 	PostNotFoundMsg = "Target post not found"
 )
+
+// comment
+const (
+	CommentLiked    = 1200
+	CommentLikedMsg = "You have agreed this comment before"
+)

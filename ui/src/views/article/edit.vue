@@ -33,7 +33,7 @@
             <editor :editorHeight="editorHeight" class="margin-top-5" parent="article" :md="tempArticle.md" @articleSetMD="articleSetMD"></editor>
           </el-col>
           <el-col :span="12"  v-if="previewReset" class="margin-top-5" style="border:1px solid #eee;border-bottom:none;border-right:none;">
-              <render  id ="render-content" :content="tempArticle.render" :style="{'height':editorHeight,'overflow-y':'scroll'}" ></render>
+              <render  id ="render-content" :content="tempArticle.render" :style="{'height':editorHeight,'overflow-y':'scroll'}" style="padding:10px"></render>
           </el-col>
       </el-row>
        

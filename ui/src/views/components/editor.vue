@@ -1,26 +1,26 @@
 <template>
   <div  class="editor">   
-       <mavon-editor ref="areditor"  :style="{height:editorHeight}" :language="$store.state.misc.lang" :value="md" :ishljs = "true" :toolbars="toolbars" :tabSize="2" @change="setMD" :subfield="false" @imgAdd="imgAdd" :placeholder="placeholder"></mavon-editor>
+       <mavon-editor ref="areditor"  :style="{height:editorHeight}" :language="$store.state.misc.lang" :value="md" :ishljs = "true" :toolbars="toolbars" :toolbarsFlag="toolbarsShow" :tabSize="2" @change="setMD" :subfield="false" @imgAdd="imgAdd" :placeholder="placeholder"></mavon-editor>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['md','parent','editorHeight',"placeholder"],
+  props: ['md','parent','editorHeight',"placeholder","toolbarsShow"],
   data() {
     return {
         toolbars: {
-            bold: true, // 粗体
+            bold: false, // 粗体
             italic: true, // 斜体
-            header: true, // 标题
+            header: false, // 标题
             underline: true, // 下划线
             strikethrough: true, // 中划线
             mark: true, // 标记
             superscript: true, // 上角标
             subscript: true, // 下角标
-            quote: true, // 引用
-            ol: true, // 有序列表
-            ul: true, // 无序列表
+            quote: false, // 引用
+            ol: false, // 有序列表
+            ul: false, // 无序列表
             link: true, // 链接
             imagelink: true, // 图片链接
             code: true, // code

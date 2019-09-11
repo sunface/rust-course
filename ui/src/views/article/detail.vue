@@ -50,8 +50,8 @@
       <el-col
         :xs="{span:22,offset:2}"
         :sm="{span:17,offset:3}"
-        :md="{span: 12,offset:6}"
-        :lg="{ span: 12, offset: 6 }"
+        :md="{span: 13,offset:6}"
+        :lg="{ span: 13, offset: 6 }"
       >
         <div class="post-huge-title margin-top-30">{{arDetail.title}}</div>
         <render :content="arDetail.render"></render>
@@ -62,10 +62,10 @@
         <el-col
         :xs="{span:22,offset:2}"
         :sm="{span:17,offset:3}"
-        :md="{span: 12,offset:6}"
-        :lg="{ span: 12, offset: 6 }"
+        :md="{span: 13,offset:6}"
+        :lg="{ span: 13, offset: 6 }"
       >
-         <discuss id="discuss" :postID="this.arID" postType="1"></discuss>
+         <discuss id="discuss" :postID="this.arID" postType="1" :postAuthorID="authorInfo.id"></discuss>
 
       </el-col>
     </el-row>
@@ -111,7 +111,6 @@ export default {
         article_id: this.arID
       }
     }).then(res0 => {
-          console.log(222)
       request({
         url: "/web/user/get",
         method: "GET",
@@ -137,7 +136,6 @@ export default {
   .square {
     margin-top: 3px;
     line-height: 36px;
-    border: 1px solid white;
     text-align: center;
     z-index: 100;
     font-size: 25px;

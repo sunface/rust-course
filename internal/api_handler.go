@@ -20,6 +20,12 @@ func apiHandler(e *echo.Echo) {
 	e.POST("/web/article/saveChanges", post.SaveArticleChanges, session.CheckSignIn)
 
 	// comment apis
-	e.POST("/web/post/comment", post.Comment, session.CheckSignIn)
-	e.GET("/web/post/queryComments", post.QueryComments)
+	e.POST("/web/comment/create", post.Comment, session.CheckSignIn)
+	e.POST("/web/comment/reply", post.CommentReply, session.CheckSignIn)
+	e.POST("/web/comment/edit", post.EditComment, session.CheckSignIn)
+	e.POST("/web/comment/delete", post.DeleteComment, session.CheckSignIn)
+	e.POST("/web/comment/revert", post.RevertComment, session.CheckSignIn)
+	e.GET("/web/comment/query", post.QueryComments)
+	e.POST("/web/comment/like", post.CommentLike, session.CheckSignIn)
+	e.POST("/web/comment/dislike", post.CommentDislike, session.CheckSignIn)
 }

@@ -14,7 +14,7 @@ const router = new Router({
       component: Nav,
       children: [
         { path: '/', meta: {'title':'im.dev'}, component: () => import('@/views/home')},
-        { path: '/x/article/new', meta: {'title':'Post - im.dev'},component: () => import('@/views/article/edit')},
+        { path: '/dev/article/new', meta: {'title':'Post - im.dev'},component: () => import('@/views/article/edit')},
         { path: '/:uname/:arID', meta: {'title':'Article - im.dev',},component: () => import('@/views/article/detail')},
         { path: '/:uname/:arID/edit', meta: {'title':'Post - im.dev'},component: () => import('@/views/article/edit')},
       ]
