@@ -110,7 +110,7 @@
         </el-col>
       </el-row>
     </transition>
-    <router-view class="main-view padding-top-60"></router-view>
+    <router-view class="main-view padding-top-55"></router-view>
 
     <el-dialog class="white-bg-modal sign-in-modal" :visible.sync="signInModalVisible">
       <el-row class="sign-in-panel text-align-center padding-top-20 padding-bottom-20">

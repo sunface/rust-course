@@ -17,13 +17,14 @@ import (
 
 // ArContent represent article content
 type ArContent struct {
-	ID     string   `json:"id"`
-	Title  string   `json:"title"`
-	Tags   []string `json:"tags"`
-	MD     string   `json:"md"`
-	Render string   `json:"render"`
-	Lang   string   `json:"lang"`
-	Status int      `json:"status"`
+	ID         string   `json:"id"`
+	Title      string   `json:"title"`
+	Tags       []string `json:"tags"`
+	MD         string   `json:"md"`
+	Render     string   `json:"render"`
+	Lang       string   `json:"lang"`
+	Status     int      `json:"status"`
+	CoverImage string   `json:"cover_image"`
 }
 
 // NewArticle create a new article
@@ -57,11 +58,11 @@ func NewArticle(c echo.Context) error {
 	words := countWords(ar.MD)
 	var q *gocql.Query
 	if opType == PostDraft {
-		q = misc.CQL.Query(`INSERT INTO article (id,uid,title,tags,md,render,words,status,edit_date,lang) 
-		VALUES (?,?,?,?,?,?,?,?,?,?)`, ar.ID, sess.ID, ar.Title, ar.Tags, ar.MD, ar.Render, words, PostDraft, time.Now().Unix(), ar.Lang)
+		q = misc.CQL.Query(`INSERT INTO article (id,uid,title,tags,md,render,words,status,edit_date,lang,cover_image) 
+		VALUES (?,?,?,?,?,?,?,?,?,?,?)`, ar.ID, sess.ID, ar.Title, ar.Tags, ar.MD, ar.Render, words, PostDraft, time.Now().Unix(), ar.Lang, ar.CoverImage)
 	} else { // publish
-		q = misc.CQL.Query(`INSERT INTO article (id,uid,title,tags,md,render,words,status,publish_date,edit_date,lang) 
-		VALUES (?,?,?,?,?,?,?,?,?,?,?)`, ar.ID, sess.ID, ar.Title, ar.Tags, ar.MD, ar.Render, words, PostPublished, time.Now().Unix(), 0, ar.Lang)
+		q = misc.CQL.Query(`INSERT INTO article (id,uid,title,tags,md,render,words,status,publish_date,edit_date,lang,cover_image) 
+		VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`, ar.ID, sess.ID, ar.Title, ar.Tags, ar.MD, ar.Render, words, PostPublished, time.Now().Unix(), 0, ar.Lang, ar.CoverImage)
 	}
 	err = q.Exec()
 	if err != nil {
@@ -92,6 +93,7 @@ type ArticleDetail struct {
 	Words       int      `json:"words"`
 	Likes       int      `json:"likes"` // all likes of this article
 	Liked       bool     `json:"liked"` // current user liked this article
+	CoverImage  string   `json:"cover_image"`
 	pubDate     int64
 	editDate    int64
 }
@@ -107,8 +109,8 @@ func GetArticleDetail(c echo.Context) error {
 	}
 
 	detail := &ArticleDetail{ID: arID}
-	err := misc.CQL.Query(`SELECT uid,title,tags,render,words,status,publish_date,edit_date,lang FROM article WHERE id=?`, arID).Scan(
-		&detail.UID, &detail.Title, &detail.Tags, &detail.Render, &detail.Words, &detail.Status, &detail.pubDate, &detail.editDate, &detail.Lang,
+	err := misc.CQL.Query(`SELECT uid,title,tags,render,words,status,publish_date,edit_date,lang,cover_image FROM article WHERE id=?`, arID).Scan(
+		&detail.UID, &detail.Title, &detail.Tags, &detail.Render, &detail.Words, &detail.Status, &detail.pubDate, &detail.editDate, &detail.Lang, &detail.CoverImage,
 	)
 	if err != nil {
 		if err.Error() == misc.CQLNotFound {

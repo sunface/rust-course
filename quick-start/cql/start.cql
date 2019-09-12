@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS article (
     render           text,          --  rendered html
     status           tinyint,       -- 1. draft 2. published 3. delete
     words            int,           -- word count
+    cover_image      text,          
     publish_date     bigint,
     edit_date        bigint,  
     

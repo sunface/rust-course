@@ -51,18 +51,19 @@
       <el-col
         :xs="{span:22,offset:2}"
         :sm="{span:17,offset:3}"
-        :md="{span: 13,offset:5}"
-        :lg="{ span: 13, offset: 5 }"
+        :md="{span: 13,offset:4}"
+        :lg="{ span: 13, offset: 4 }"
       >
+        <img :src="arDetail.cover_image" class="width-100p"></img>
         <h1 class=" margin-top-30">{{arDetail.title}}</h1> 
         <div class="margin-left-5">
           <span class="vertical-align-middle display-inline-block"><img :src="authorInfo.avatar" alt="" class="height-40 width-40"></span>
           <span class="meta-word font-size-14 font-weight-500">{{arDetail.publish_date}}<span> · {{arDetail.words}} words</span> <span v-if="arDetail.edit_date!=''">· Updated on {{arDetail.edit_date}}</span></span>
         </div>
-        <render :content="arDetail.render" style="min-height:400px" class="min-height-400 margin-top-30 padding-left-8"></render>
+        <render :content="arDetail.render" style="min-height:400px" class="min-height-400 margin-top-20 padding-left-8"></render>
       </el-col>
-      <el-col :span="1" >
-         <UserCard class="user-card z-index-100 position-fixed margin-top-40 max-width-300" :user="authorInfo"></UserCard>
+      <el-col :span="1" :offset="1">
+         <UserCard class="user-card z-index-100 position-fixed margin-top-40 max-width-280 margin-left-20" :user="authorInfo"></UserCard>
       </el-col>
     </el-row>
     
@@ -70,8 +71,8 @@
         <el-col
         :xs="{span:22,offset:2}"
         :sm="{span:17,offset:3}"
-        :md="{span: 13,offset:5}"
-        :lg="{ span: 13, offset: 5 }"
+        :md="{span: 13,offset:4}"
+        :lg="{ span: 13, offset: 4 }"
       >
          <discuss id="discuss" :postID="this.arID" postType="1" :postAuthorID="authorInfo.id"></discuss>
 

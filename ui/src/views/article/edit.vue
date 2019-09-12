@@ -147,6 +147,7 @@ export default {
         }
 
         this.tempArticle.render = this.tempRender
+        this.tempArticle.cover_image = 'https://res.cloudinary.com/practicaldev/image/fetch/s--irWUM2_k--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://res.cloudinary.com/practicaldev/image/fetch/s--5kGvHb_---/c_imagga_scale%2Cf_auto%2Cfl_progressive%2Ch_420%2Cq_auto%2Cw_1000/https://thepracticaldev.s3.amazonaws.com/i/adfopvch5w18u9lqpev9.jpg'
         request({
             url: "/web/article/saveNew",
             method: "POST",
