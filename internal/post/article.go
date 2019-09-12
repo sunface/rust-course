@@ -3,8 +3,10 @@ package post
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 	"time"
 
+	"github.com/gocql/gocql"
 	"github.com/labstack/echo"
 	"github.com/thinkindev/im.dev/internal/ecode"
 	"github.com/thinkindev/im.dev/internal/misc"
@@ -26,8 +28,8 @@ type ArContent struct {
 
 // NewArticle create a new article
 func NewArticle(c echo.Context) error {
-	opType := c.FormValue("type")
-	if opType != "1" && opType != "2" {
+	opType, _ := strconv.Atoi(c.FormValue("type"))
+	if opType != PostDraft && opType != PostPublished {
 		return c.JSON(http.StatusBadRequest, misc.HTTPResp{
 			ErrCode: ecode.ParamInvalid,
 			Message: ecode.ParamInvalidMsg,
@@ -52,8 +54,16 @@ func NewArticle(c echo.Context) error {
 	// modify render
 	ar.Render = modify(ar.Render)
 
-	err = misc.CQL.Query(`INSERT INTO article (id,uid,title,tags,md,render,status,edit_date,lang) 
-	VALUES (?,?,?,?,?,?,?,?,?)`, ar.ID, sess.ID, ar.Title, ar.Tags, ar.MD, ar.Render, opType, time.Now().Unix(), ar.Lang).Exec()
+	words := countWords(ar.MD)
+	var q *gocql.Query
+	if opType == PostDraft {
+		q = misc.CQL.Query(`INSERT INTO article (id,uid,title,tags,md,render,words,status,edit_date,lang) 
+		VALUES (?,?,?,?,?,?,?,?,?,?)`, ar.ID, sess.ID, ar.Title, ar.Tags, ar.MD, ar.Render, words, PostDraft, time.Now().Unix(), ar.Lang)
+	} else { // publish
+		q = misc.CQL.Query(`INSERT INTO article (id,uid,title,tags,md,render,words,status,publish_date,edit_date,lang) 
+		VALUES (?,?,?,?,?,?,?,?,?,?,?)`, ar.ID, sess.ID, ar.Title, ar.Tags, ar.MD, ar.Render, words, PostPublished, time.Now().Unix(), 0, ar.Lang)
+	}
+	err = q.Exec()
 	if err != nil {
 		misc.Log.Warn("access database error", zap.Error(err))
 		return c.JSON(http.StatusInternalServerError, misc.HTTPResp{
@@ -79,6 +89,9 @@ type ArticleDetail struct {
 	PublishDate string   `json:"publish_date"`
 	EditDate    string   `json:"edit_date"`
 	Lang        string   `json:"lang"`
+	Words       int      `json:"words"`
+	Likes       int      `json:"likes"` // all likes of this article
+	Liked       bool     `json:"liked"` // current user liked this article
 	pubDate     int64
 	editDate    int64
 }
@@ -94,8 +107,8 @@ func GetArticleDetail(c echo.Context) error {
 	}
 
 	detail := &ArticleDetail{ID: arID}
-	err := misc.CQL.Query(`SELECT uid,title,tags,render,status,publish_date,edit_date,lang FROM article WHERE id=?`, arID).Scan(
-		&detail.UID, &detail.Title, &detail.Tags, &detail.Render, &detail.Status, &detail.pubDate, &detail.editDate, &detail.Lang,
+	err := misc.CQL.Query(`SELECT uid,title,tags,render,words,status,publish_date,edit_date,lang FROM article WHERE id=?`, arID).Scan(
+		&detail.UID, &detail.Title, &detail.Tags, &detail.Render, &detail.Words, &detail.Status, &detail.pubDate, &detail.editDate, &detail.Lang,
 	)
 	if err != nil {
 		if err.Error() == misc.CQLNotFound {
@@ -112,11 +125,26 @@ func GetArticleDetail(c echo.Context) error {
 	}
 
 	if detail.pubDate != 0 {
-		detail.PublishDate = utils.Time2ReadableString(time.Unix(detail.pubDate, 0))
+		detail.PublishDate = utils.Time2EnglishString(time.Unix(detail.pubDate, 0))
 	}
 	if detail.editDate != 0 {
-		detail.EditDate = utils.Time2ReadableString(time.Unix(detail.editDate, 0))
+		detail.EditDate = utils.Time2EnglishString(time.Unix(detail.editDate, 0))
 	}
+
+	// if user signin, get his liked about this article
+	sess := user.GetSession(c)
+	if sess != nil {
+		var date int64
+		q := misc.CQL.Query("SELECT input_date FROM post_like WHERE post_id=? and uid=?", arID, sess.ID)
+		q.Scan(&date)
+		if date != 0 {
+			detail.Liked = true
+		}
+	}
+
+	// get how many user like this article
+	misc.CQL.Query("SELECT likes FROM post_counter WHERE id=?", arID).Scan(&detail.Likes)
+
 	return c.JSON(http.StatusOK, misc.HTTPResp{
 		Data: detail,
 	})
@@ -215,8 +243,9 @@ func SaveArticleChanges(c echo.Context) error {
 	// modify render
 	ar.Render = modify(ar.Render)
 
-	err = misc.CQL.Query(`UPDATE  article SET title=?,tags=?,md=?,render=?,edit_date=?,lang=? WHERE id=?`,
-		ar.Title, ar.Tags, ar.MD, ar.Render, time.Now().Unix(), ar.Lang, ar.ID).Exec()
+	words := countWords(ar.MD)
+	err = misc.CQL.Query(`UPDATE  article SET title=?,tags=?,md=?,render=?,words=?,edit_date=?,lang=? WHERE id=?`,
+		ar.Title, ar.Tags, ar.MD, ar.Render, words, time.Now().Unix(), ar.Lang, ar.ID).Exec()
 	if err != nil {
 		misc.Log.Warn("access database error", zap.Error(err))
 		return c.JSON(http.StatusInternalServerError, misc.HTTPResp{
@@ -238,4 +267,86 @@ func saveTags(arID string, tags []string) {
 			misc.Log.Warn("access database error", zap.Error(err))
 		}
 	}
+}
+
+// ArticleLike means a user like this article
+func ArticleLike(c echo.Context) error {
+	id := c.FormValue("id")
+	tp := c.FormValue("type")
+	if id == "" || (tp != "1" && tp != "2") {
+		return c.JSON(http.StatusBadRequest, misc.HTTPResp{
+			ErrCode: ecode.ParamInvalid,
+			Message: ecode.ParamInvalidMsg,
+		})
+	}
+
+	sess := user.GetSession(c)
+
+	// check already liked
+	var pid string
+	q := misc.CQL.Query("SELECT post_id FROM post_like WHERE post_id=? and uid=?", id, sess.ID)
+	err := q.Scan(&pid)
+	if err != nil {
+		if err.Error() != misc.CQLNotFound {
+			misc.Log.Warn("access database error", zap.Error(err))
+			return c.JSON(http.StatusInternalServerError, misc.HTTPResp{
+				ErrCode: ecode.DatabaseError,
+				Message: ecode.CommonErrorMsg,
+			})
+		}
+	}
+
+	if tp == "1" { // like
+		if pid == id {
+			misc.Log.Info("someone is try to attack imdev server", zap.String("remote_ip", c.RealIP()))
+			return c.JSON(http.StatusInternalServerError, misc.HTTPResp{
+				ErrCode: ecode.DatabaseError,
+				Message: ecode.CommonErrorMsg,
+			})
+		}
+
+		q = misc.CQL.Query("INSERT INTO post_like (post_id,uid,type,input_date) VALUES (?,?,?,?)",
+			id, sess.ID, OpPostLike, time.Now().Unix())
+		err = q.Exec()
+		if err != nil {
+			misc.Log.Warn("access database error", zap.Error(err))
+			return c.JSON(http.StatusInternalServerError, misc.HTTPResp{
+				ErrCode: ecode.DatabaseError,
+				Message: ecode.CommonErrorMsg,
+			})
+		}
+
+		q = misc.CQL.Query("UPDATE post_counter SET likes=likes + 1 WHERE id=?", id)
+		err = q.Exec()
+		if err != nil {
+			misc.Log.Warn("access database error", zap.Error(err))
+		}
+	} else { // cancel like
+		if pid != id {
+			misc.Log.Info("someone is try to attack imdev server", zap.String("remote_ip", c.RealIP()))
+			return c.JSON(http.StatusInternalServerError, misc.HTTPResp{
+				ErrCode: ecode.DatabaseError,
+				Message: ecode.CommonErrorMsg,
+			})
+		}
+
+		q = misc.CQL.Query("DELETE FROM post_like WHERE post_id=? and uid=?",
+			id, sess.ID)
+		err = q.Exec()
+		if err != nil {
+			misc.Log.Warn("access database error", zap.Error(err))
+			return c.JSON(http.StatusInternalServerError, misc.HTTPResp{
+				ErrCode: ecode.DatabaseError,
+				Message: ecode.CommonErrorMsg,
+			})
+		}
+
+		q = misc.CQL.Query("UPDATE post_counter SET likes=likes - 1 WHERE id=?", id)
+		err = q.Exec()
+		if err != nil {
+			misc.Log.Warn("access database error", zap.Error(err))
+		}
+	}
+
+	return c.JSON(http.StatusOK, misc.HTTPResp{})
 }

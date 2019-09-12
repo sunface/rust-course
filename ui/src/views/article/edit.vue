@@ -73,8 +73,13 @@ export default {
         previewed : false
     }
   },  
-  watch: {
-  }, 
+   watch: {
+    "$store.state.user.id"() {
+       if (this.$store.state.user.id != '') {
+           this.init()
+       } 
+    },
+  },
   computed: {
   },
   methods: {
@@ -186,7 +191,28 @@ export default {
         } else {
           this.tags = [];
         }
-      }
+      },
+    init() {
+        this.arID = this.$route.params.arID;
+        if (this.arID != undefined) {
+            this.mode = 'edit'
+            // check ar already in cache
+            var ar = localStorage.getItem(this.localStoreID)
+            if (ar != null) {
+                this.tempArticle = JSON.parse(ar)
+            } else {
+                request({
+                url: "/web/article/beforeEdit",
+                method: "GET",
+                params: {
+                    article_id: this.arID
+                }
+                }).then(res => {
+                    this.tempArticle = res.data.data
+                });
+            }
+        } 
+    }
   },
   mounted() { 
     if (this.mode == 'new') {
@@ -197,25 +223,7 @@ export default {
     }
   },
   created() {
-    this.arID = this.$route.params.arID;
-    if (this.arID != undefined) {
-        this.mode = 'edit'
-        // check ar already in cache
-        var ar = localStorage.getItem(this.localStoreID)
-        if (ar != null) {
-            this.tempArticle = JSON.parse(ar)
-        } else {
-            request({
-            url: "/web/article/beforeEdit",
-            method: "GET",
-            params: {
-                article_id: this.arID
-            }
-            }).then(res => {
-                this.tempArticle = res.data.data
-            });
-        }
-    } 
+    this.init()
   },
 } 
 </script>

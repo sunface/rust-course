@@ -15,10 +15,15 @@ const (
 )
 
 const (
-	// OpCommentLike means a user like a post
+	// OpCommentLike means a user like a comment
 	OpCommentLike = 1
-	// OpCommentDislike means a user dislike a post
+	// OpCommentDislike means a user dislike a comment
 	OpCommentDislike = 2
+
+	// OpPostLike means a user like a post
+	OpPostLike = 1
+	// OpPostDislike means a user dislike a post
+	OpPostDislike = 2
 )
 
 const (

@@ -9,7 +9,7 @@
       >
         <div class="squares position-fixed z-index-100 margin-top-100">
           <div class="square font-hover-primary">
-            <button id="clap" :class="{clap:true, liked: arliked}" @click="arLike">
+            <button id="clap" :class="{clap:true, liked: arDetail.liked}" @click="arLike">
               <span>
                 <svg
                   id="clap--icon"
@@ -25,6 +25,7 @@
                 </svg>
               </span>
             </button>
+              <span class="position-absolute meta-word font-size-13 likes margin-left-30 margin-top--30 font-weight-bold">{{arDetail.likes}}</span>
           </div>
           <div v-show="arDetail.uid==this.$store.state.user.id" class="square cursor-pointer margin-top-20">
             <a>
@@ -53,8 +54,12 @@
         :md="{span: 13,offset:5}"
         :lg="{ span: 13, offset: 5 }"
       >
-        <h1 class=" margin-top-30">{{arDetail.title}}</h1>
-        <render :content="arDetail.render" style="min-height:400px"></render>
+        <h1 class=" margin-top-30">{{arDetail.title}}</h1> 
+        <div class="margin-left-5">
+          <span class="vertical-align-middle display-inline-block"><img :src="authorInfo.avatar" alt="" class="height-40 width-40"></span>
+          <span class="meta-word font-size-14 font-weight-500">{{arDetail.publish_date}}<span> · {{arDetail.words}} words</span> <span v-if="arDetail.edit_date!=''">· Updated on {{arDetail.edit_date}}</span></span>
+        </div>
+        <render :content="arDetail.render" style="min-height:400px" class="min-height-400 margin-top-30 padding-left-8"></render>
       </el-col>
       <el-col :span="1" >
          <UserCard class="user-card z-index-100 position-fixed margin-top-40 max-width-300" :user="authorInfo"></UserCard>
@@ -88,7 +93,6 @@ export default {
       arID: "", // unique article id
       arDetail: {},
       bookmarked: false,
-      arliked: false,
       authorInfo : {},
     };
   },
@@ -100,7 +104,20 @@ export default {
   computed: {},
   methods: {
       arLike() {
-          this.arliked = !this.arliked
+        var tp = 1 // like
+        if (this.arDetail.liked) {
+          tp = 2 //dislike
+        }
+        request({
+          url: "/article/like",
+          method: "POST",
+          params: {
+            id: this.arID,
+            type: tp
+          }
+        }).then(_ => {
+            this.arDetail.liked = !this.arDetail.liked
+        });
       }
   },
   beforeDestroy() {
@@ -124,6 +141,7 @@ export default {
         }
         }).then(res => {
             this.arDetail = res0.data.data;
+            console.log(this.arDetail)
             this.authorInfo = res.data.data
         });
     });

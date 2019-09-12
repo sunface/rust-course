@@ -18,6 +18,7 @@ func apiHandler(e *echo.Echo) {
 	e.GET("/web/article/detail", post.GetArticleDetail)
 	e.GET("/web/article/beforeEdit", post.BeforeEditAr, user.CheckSignIn)
 	e.POST("/web/article/saveChanges", post.SaveArticleChanges, user.CheckSignIn)
+	e.POST("/article/like", post.ArticleLike, user.CheckSignIn)
 
 	// comment apis
 	e.POST("/web/comment/create", post.Comment, user.CheckSignIn)

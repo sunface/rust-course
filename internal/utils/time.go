@@ -6,14 +6,6 @@ import (
 	"time"
 )
 
-// Time2ReadableString converts time to readable string
-// 1分钟之内，显示xx秒前
-// 1小时之内，显示XX分钟前
-// 24小时之内，显示xx小时前
-// 昨天 x:x
-// 前天 x:x
-// 同一年，显示x月xx
-// 不同年，显示xx.xx.xx
 func Time2ReadableString(t time.Time) string {
 	now := time.Now().Local()
 	intv := now.Unix() - t.Unix()
@@ -36,9 +28,35 @@ func Time2ReadableString(t time.Time) string {
 		return fmt.Sprintf("yestoday %02d:%02d", h, m)
 	}
 
-	if y1 == y2 {
-		return fmt.Sprintf("%02d.%02d", m2, d2)
+	return Time2EnglishString(t)
+}
+
+func Time2String(t time.Time) string {
+	return t.Format("2006-01-02 15:04:05.999")
+}
+
+var months = map[int]string{
+	1:  "Jan",
+	2:  "Feb",
+	3:  "Mar",
+	4:  "Apr",
+	5:  "May",
+	6:  "Jun",
+	7:  "Jul",
+	8:  "Aug",
+	9:  "Sep",
+	10: "Oct",
+	11: "Nov",
+	12: "Dec",
+}
+
+func Time2EnglishString(t time.Time) string {
+	now := time.Now()
+	// 检查是否是同一年
+	y, m, d := t.Date()
+	if now.Year() == y {
+		return fmt.Sprintf("%s %d", months[int(m)], d)
 	}
 
-	return t.Format("06.1.2")
+	return fmt.Sprintf("%s %d,%d", months[int(m)], d, y)
 }

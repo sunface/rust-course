@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS article (
     md               text,          -- markdown
     render           text,          --  rendered html
     status           tinyint,       -- 1. draft 2. published 3. delete
+    words            int,           -- word count
     publish_date     bigint,
     edit_date        bigint,  
     
@@ -80,17 +81,6 @@ CREATE CUSTOM INDEX IF NOT EXISTS ON comment (post_id)
     USING 'org.apache.cassandra.index.sasi.SASIIndex' ;
 
 
-
-CREATE TABLE IF NOT EXISTS post_counter (
-    id         text,          -- post id
-    
-    comments   counter,
-    likes      counter, 
-    recommands counter,
-
-    PRIMARY KEY (id)
-) WITH gc_grace_seconds = 10800;
-
 CREATE TABLE IF NOT EXISTS comment_counter (
     id         text,          -- comment id
     likes   counter,
@@ -106,4 +96,26 @@ CREATE TABLE IF NOT EXISTS comment_like (
     PRIMARY KEY (comment_id,uid)
 ) WITH gc_grace_seconds = 10800;
 CREATE CUSTOM INDEX IF NOT EXISTS ON comment_like (uid) 
+    USING 'org.apache.cassandra.index.sasi.SASIIndex' ;
+
+
+CREATE TABLE IF NOT EXISTS post_counter (
+    id         text,          -- post id
+    
+    comments   counter,
+    likes      counter, 
+    recommands counter,
+
+    PRIMARY KEY (id)
+) WITH gc_grace_seconds = 10800;
+
+-- record whether a user likes a post
+CREATE TABLE IF NOT EXISTS post_like (
+    post_id    text,         -- post id
+    uid        text,         -- user id
+    type       tinyint,      -- 1: like 2: dislike
+    input_date bigint,
+    PRIMARY KEY (post_id,uid)
+) WITH gc_grace_seconds = 10800;
+CREATE CUSTOM INDEX IF NOT EXISTS ON post_like (uid) 
     USING 'org.apache.cassandra.index.sasi.SASIIndex' ;

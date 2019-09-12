@@ -12,7 +12,7 @@
       </div>
       <div class="margin-top-15 margin-left-10" v-html="user.about" v-if="user.about!='' && user.about!=undefined">
       </div>
-       <div class="text-align-center padding-top-10 padding-bottom-10 font-weight-bold border-radius-3 cursor-pointer margin-top-10" :style="{'background-color':user.bg_color,'color':user.text_color}">FOLLOW</div>
+       <div class="text-align-center padding-top-10 padding-bottom-10 font-weight-bold border-radius-3 cursor-pointer margin-top-10" :style="{'background-color':user.bg_color,'color':followColor()}">FOLLOW</div>
        
        <div class="margin-top-10 margin-left-10" v-if="user.website!='' && user.website!=undefined">
           <div class="color-regular font-weight-500">website</div>
@@ -53,6 +53,12 @@ export default {
   watch: {
   },
   methods: {
+    followColor() {
+      if (this.user.bg_color == '#000' && this.user.text_color=='#000') {
+        return '#fff'
+      }
+      return this.user.text_color
+    },
     userHome() {
       this.$router.push('/' + this.user.name)
     }

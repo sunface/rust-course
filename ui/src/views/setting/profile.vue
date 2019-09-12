@@ -26,12 +26,12 @@
               </div>
               <div class="margin-top-30">
                   <h4>Background color</h4>
-                  <el-color-picker class="position-absolute" size="small" v-model="user.bg_color"></el-color-picker>
+                  <el-color-picker @change="changBgColor" color-format="hex" class="position-absolute" size="small" v-model="user.bg_color"></el-color-picker>
                   <span class="meta-word font-size-12 margin-left-40">The background color used in your home page</span>
               </div>
               <div class="margin-top-30 margin-bottom-50">
                   <h4>Text color </h4>
-                   <el-color-picker  class="position-absolute" size="small" v-model="user.text_color"></el-color-picker>
+                   <el-color-picker @change="changTextColor" color-format="hex"  class="position-absolute" size="small" v-model="user.text_color"></el-color-picker>
                    <span class="meta-word font-size-12 margin-left-40">The text color used in your home page</span>
               </div>
 
@@ -106,6 +106,16 @@ export default {
     },
   },
   methods: {
+    changBgColor(val) {
+        if (val==null) {
+            this.user.bg_color='#000'
+        }
+    },
+    changTextColor(val) {
+        if (val==null) {
+            this.user.text_color='#000'
+        }
+    },
     setProfile() {
         request({
             url: "/user/profile/set",
