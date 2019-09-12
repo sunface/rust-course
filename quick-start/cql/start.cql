@@ -4,23 +4,33 @@ CREATE KEYSPACE im_dev WITH replication = {'class': 'SimpleStrategy', 'replicati
 USE im_dev;
 
 CREATE TABLE IF NOT EXISTS user (
+    --account
     id               text,
     name             text,
+    email            text,
+
+    --userprofile
     nickname         text, 
     avatar           text, 
+    website          text,
+    about            text,
+    location         text,
+    bg_color         text,
+    text_color       text,
+    looking_for_work boolean, 
+    education        text,
+    employer         text,
+    skills           text,
+    available_for    text,
+    working_exp      text,
+
     create_date     bigint,
     edit_date        bigint,
     PRIMARY KEY (id)
 ) WITH gc_grace_seconds = 10800;
 CREATE CUSTOM INDEX IF NOT EXISTS ON user (name) 
     USING 'org.apache.cassandra.index.sasi.SASIIndex' ;
-
-
-CREATE TABLE IF NOT EXISTS user_activity (
-    id               text,
-    PRIMARY KEY (id)
-) WITH gc_grace_seconds = 10800;
-
+    
 
 CREATE TABLE IF NOT EXISTS article (
     id               text, 

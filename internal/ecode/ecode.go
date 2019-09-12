@@ -13,6 +13,9 @@ const (
 
 	NoPermission    = 1004
 	NoPermissionMsg = "You don't have permission"
+
+	NotFound    = 1005
+	NotFoundMsg = "404 not found"
 )
 
 // article
@@ -29,3 +32,6 @@ const (
 	CommentLiked    = 1200
 	CommentLikedMsg = "You have agreed this comment before"
 )
+
+// user
+const ()

@@ -9,7 +9,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/thinkindev/im.dev/internal/misc"
-	"github.com/thinkindev/im.dev/internal/session"
+	"github.com/thinkindev/im.dev/internal/user"
 )
 
 // Start web server for im.dev ui
@@ -29,7 +29,7 @@ func Start(confPath string) {
 		}
 	}
 
-	session.InitUser()
+	user.InitUser()
 
 	e := echo.New()
 	e.Pre(middleware.RemoveTrailingSlash())

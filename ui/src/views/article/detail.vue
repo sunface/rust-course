@@ -1,14 +1,14 @@
 <template>
   <div class="article-detail">
-    <el-row>
+    <el-row :gutter="20">
       <el-col
         :xs="{span:1,offset:0}"
         :sm="{span:1,offset:0}"
-        :md="{span: 1,offset:3}"
-        :lg="{ span: 1, offset: 3 }"
+        :md="{span: 1,offset:2}"
+        :lg="{ span: 1, offset: 2 }"
       >
-        <div class="squares">
-          <div class="square font-hover-primary" style="margin-top:2px;">
+        <div class="squares position-fixed z-index-100 margin-top-100">
+          <div class="square font-hover-primary">
             <button id="clap" :class="{clap:true, liked: arliked}" @click="arLike">
               <span>
                 <svg
@@ -26,23 +26,23 @@
               </span>
             </button>
           </div>
-          <div v-show="arDetail.uid==this.$store.state.user.id" class="square hover-cursor margin-top-20">
+          <div v-show="arDetail.uid==this.$store.state.user.id" class="square cursor-pointer margin-top-20">
             <a>
               <el-tooltip content="编辑文章" placement="right">
-                <router-link :to="'/'+this.authorInfo.name + '/' + this.arID + '/edit'"><i class="el-icon-edit hover-cursor"></i></router-link>
+                <router-link :to="'/'+this.authorInfo.name + '/' + this.arID + '/edit'"><i class="el-icon-edit cursor-pointer"></i></router-link>
               </el-tooltip>
             </a>
           </div>
 
-          <div class="square font-hover-primary" style="margin-top:10px;">
+          <div class="square font-hover-primary padding-top-10">
             <el-tooltip content="加入书签" placement="right">
-               <i class="el-icon-star-off hover-cursor"></i>
+               <i class="el-icon-star-off cursor-pointer"></i>
             </el-tooltip>
           </div>
 
-            <div class="square font-hover-primary" style="margin-top:10px;">
+            <div class="square font-hover-primary padding-top-10" >
             <el-tooltip content="Discuss" placement="right">
-               <a href="#discuss"><i class="el-icon-s-comment hover-cursor"></i></a>
+               <a href="#discuss"><i class="el-icon-s-comment cursor-pointer"></i></a>
             </el-tooltip>
           </div>
         </div>
@@ -50,20 +50,23 @@
       <el-col
         :xs="{span:22,offset:2}"
         :sm="{span:17,offset:3}"
-        :md="{span: 13,offset:6}"
-        :lg="{ span: 13, offset: 6 }"
+        :md="{span: 13,offset:5}"
+        :lg="{ span: 13, offset: 5 }"
       >
-        <div class="post-huge-title margin-top-30">{{arDetail.title}}</div>
-        <render :content="arDetail.render"></render>
+        <h1 class=" margin-top-30">{{arDetail.title}}</h1>
+        <render :content="arDetail.render" style="min-height:400px"></render>
+      </el-col>
+      <el-col :span="1" >
+         <UserCard class="user-card z-index-100 position-fixed margin-top-40 max-width-300" :user="authorInfo"></UserCard>
       </el-col>
     </el-row>
     
-    <el-row class="background-light-grey">
+    <el-row class="discuss margin-top-40">
         <el-col
         :xs="{span:22,offset:2}"
         :sm="{span:17,offset:3}"
-        :md="{span: 13,offset:6}"
-        :lg="{ span: 13, offset: 6 }"
+        :md="{span: 13,offset:5}"
+        :lg="{ span: 13, offset: 5 }"
       >
          <discuss id="discuss" :postID="this.arID" postType="1" :postAuthorID="authorInfo.id"></discuss>
 
@@ -76,8 +79,10 @@
 import request from "@/utils/request";
 import render from "../components/render";
 import discuss from "../components/discuss";
+import UserCard from "../components/user-card";
+
 export default {
-  components: { render,discuss},
+  components: { render,discuss,UserCard},
   data() {
     return {
       arID: "", // unique article id
@@ -112,7 +117,7 @@ export default {
       }
     }).then(res0 => {
       request({
-        url: "/web/user/get",
+        url: "/web/user/card",
         method: "GET",
         params: {
             uid: res0.data.data.uid
@@ -123,97 +128,7 @@ export default {
         });
     });
   },
-  mounted() {},
+  mounted() {
+  },
 };
 </script>
-
-
-<style lang="less" scoped>
-.squares {
-  margin-top: 8.8rem;
-  position: fixed;
-  z-index:1;
-  .square {
-    margin-top: 3px;
-    line-height: 36px;
-    text-align: center;
-    z-index: 100;
-    font-size: 25px;
-    a {
-      color: rgba(0,0,0,.8)
-    }
-  }
-
-  .like-out {
-    padding: 14px 14px 10px 14px;
-    border: 1px solid rgb(180, 180, 180);
-    border-radius: 50%;
-  }
-  .like-out:hover,
-  .like-out.active {
-    border: 1px solid #bbb;
-  }
-  .like-count {
-    text-align: center;
-  }
-}
-
-.clap {
-  position: relative;
-  outline: 1px solid transparent;
-  border-radius: 50%;
-  border: 1px solid #bdc3c7;
-  width: 60px;
-  height: 60px;
-  background: none;
-}
-.clap:after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  border-radius: 50%;
-  width: 59px;
-  height: 59px;
-}
-.clap:hover {
-  cursor: pointer;
-  border: 1px solid #333;
-  transition: border-color 0.3s ease-in;
-}
-.clap:hover:after {
-  animation: shockwave 1s ease-in infinite;
-}
-.clap svg {
-  width: 30px;
-  fill: none;
-  stroke: #333;
-  stroke-width: 1px;
-  margin-top: 5px;
-}
-.clap.liked {
-  border: 1px solid  #333;
-}
-.clap.liked svg {
-  stroke: #333;
-  stroke-width: 2px;
-}
-.clap svg.checked {
-  fill: #333;
-  stroke: #fff;
-  stroke-width: 2px;
-}
-@keyframes shockwave {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 2px #333;
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0;
-    box-shadow: 0 0 50px #145b32, inset 0 0 10px #333
-  }
-}
-</style>

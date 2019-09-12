@@ -5,9 +5,8 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
-	"github.com/microcosm-cc/bluemonday"
 	"github.com/thinkindev/im.dev/internal/misc"
-	"github.com/thinkindev/im.dev/internal/session"
+	"github.com/thinkindev/im.dev/internal/user"
 	"github.com/thinkindev/im.dev/internal/utils"
 )
 
@@ -27,19 +26,8 @@ func Preview(c echo.Context) error {
 // @user -> <a href="UserPage">@user</a>
 // remove js,iframe such html tags and attributes
 func modify(s string) string {
-	p := bluemonday.UGCPolicy()
-	p.AllowAttrs("class").Globally()
-	p.AllowAttrs("id").Globally()
-	p.AllowElements("input")
-	p.AllowAttrs("checked").OnElements("input")
-	p.AllowAttrs("disabled").OnElements("input")
-	p.AllowAttrs("type").OnElements("input")
-	p.AllowAttrs("style").OnElements("span")
-	p.AllowAttrs("style").OnElements("td")
-	p.AllowAttrs("style").OnElements("th")
 	// The policy can then be used to sanitize lots of input and it is safe to use the policy in multiple goroutines
-	render := p.Sanitize(s)
-
+	render := misc.Sanitizer.Sanitize(s)
 	afterRender := make([]rune, 0, len(render))
 	idParseFlag := false
 	tempName := make([]rune, 0)
@@ -57,7 +45,7 @@ func modify(s string) string {
 				idParseFlag = false
 
 				// check name exist
-				if session.CheckUserExist(string(tempName)) {
+				if user.CheckUserExist(string(tempName)) {
 					// converse @name -> <a href="UserPage">@user</a>
 					afterRender = append(afterRender, []rune(fmt.Sprintf("<a href='http://localhost:9532/%s'>%s</a>", string(tempName), string(tempName)))...)
 				} else {

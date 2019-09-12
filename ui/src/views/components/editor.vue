@@ -1,5 +1,5 @@
 <template>
-  <div  class="editor">   
+  <div  class="component-editor">   
        <mavon-editor ref="areditor"  :style="{height:editorHeight}" :language="$store.state.misc.lang" :value="md" :ishljs = "true" :toolbars="toolbars" :toolbarsFlag="toolbarsShow" :tabSize="2" @change="setMD" :subfield="false" @imgAdd="imgAdd" :placeholder="placeholder"></mavon-editor>
   </div>
 </template>
@@ -49,14 +49,10 @@ export default {
       }     
     },
    imgAdd: function(fn, _) {
-      this.$refs.areditor.$img2Url(fn, "http://test.ccd");
+      // this.$refs.areditor.$img2Url(fn, "http://test.ccd");
     },
   },
   mounted() {
   }
 };
 </script>
-
-<style lang="less">
-@import "../../theme/md_render.css";
-</style>

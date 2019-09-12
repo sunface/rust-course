@@ -1,10 +1,10 @@
 <template>
-  <div class="home markdown">
+  <div class="home markdown article-edit">
       <el-row>
           <el-col :span="24" :offset="0">
                 <div class="tags no-border">
-                         <el-input size="small" v-model="tempArticle.title"  class="inline-input" placeholder="Title" style="width:200px" @blur="setTitle"></el-input>
-                        <el-select class="margin-left-10" size="small" v-model="tempArticle.tags" multiple filterable remote placeholder="Tags" @change="setTags" :remote-method="queryTags" :loading="tagsLoading" allow-create default-first-option style="width:300px">
+                         <el-input size="small" v-model="tempArticle.title"  class="inline-input width-200" placeholder="Title" @blur="setTitle"></el-input>
+                        <el-select class="margin-left-10 width-300" size="small" v-model="tempArticle.tags" multiple filterable remote placeholder="Tags" @change="setTags" :remote-method="queryTags" :loading="tagsLoading" allow-create default-first-option>
                          <el-option v-for="item in tags" :key="item" :label="item" :value="item"></el-option>
                         </el-select>
 
@@ -12,28 +12,28 @@
                         v-model="tempArticle.lang"
                         placeholder="lang for article"
                         size="small"
-                        style="width:150px"
+                        class="width-150"
                         >
                         <el-option  v-for="o in langOptions" :key="o.label" :label="o.label" :value="o.value"></el-option>
                         </el-select>
                     <span>
-                         <el-button size="medium" class="border-ellipse background-grey" @click="preview">PREVIEW</el-button>
-                        <el-button size="medium" class="border-ellipse background-grey" @click="saveNew(1)" v-show="tempArticle.status == 1 || mode=='new'">SAVE DRAFT</el-button>
-                         <el-button size="medium" class="border-ellipse background-grey" @click="saveChanges" v-show="tempArticle.status == 2">SAVE CHANGES</el-button>
-                        <el-button size="medium" type="primary" class="border-ellipse"  @click="saveNew(2)" v-show="tempArticle.status != 2">PUBLISH</el-button>
+                         <el-button size="medium" type="info" class="border-radius-100" @click="preview">PREVIEW</el-button>
+                        <el-button size="medium" type="info" class="border-radius-100" @click="saveNew(1)" v-show="tempArticle.status == 1 || mode=='new'">SAVE DRAFT</el-button>
+                         <el-button size="medium" type="info" class="border-radius-100" @click="saveChanges" v-show="tempArticle.status == 2">SAVE CHANGES</el-button>
+                        <el-button size="medium" type="primary" class="border-radius-100"  @click="saveNew(2)" v-show="tempArticle.status != 2">PUBLISH</el-button>
                     </span>
 
-                    <span class="float-right margin-top-5 margin-right-10" style="font-size:18px">
-                       <el-tooltip content="Revert to the previous save" class="margin-right-15" v-show="mode=='edit'"><i class="el-icon-back hover-cursor" @click="clearChanges" ></i></el-tooltip>
-                       <el-tooltip content="Delete this post" v-show="mode=='edit'"><i class="el-icon-delete hover-cursor"></i></el-tooltip>
+                    <span class="float-right margin-top-5 margin-right-10 font-size-18">
+                       <el-tooltip content="Revert to the previous save" class="margin-right-15" v-show="mode=='edit'"><i class="el-icon-back cursor-pointer" @click="clearChanges" ></i></el-tooltip>
+                       <el-tooltip content="Delete this post" v-show="mode=='edit'"><i class="el-icon-delete cursor-pointer"></i></el-tooltip>
                     </span>
                 </div>
           </el-col>
           <el-col :span="12">
             <editor :editorHeight="editorHeight" class="margin-top-5" parent="article" :md="tempArticle.md" @articleSetMD="articleSetMD"></editor>
-          </el-col>
-          <el-col :span="12"  v-if="previewReset" class="margin-top-5" style="border:1px solid #eee;border-bottom:none;border-right:none;">
-              <render  id ="render-content" :content="tempArticle.render" :style="{'height':editorHeight,'overflow-y':'scroll'}" style="padding:10px"></render>
+          </el-col> 
+          <el-col :span="12"  v-if="previewReset" class="margin-top-5 render">
+              <render  id ="render-content" :content="tempArticle.render" :style="{'height':editorHeight}" class="padding-10 overflow-y-auto"></render>
           </el-col>
       </el-row>
        
@@ -219,12 +219,3 @@ export default {
   },
 } 
 </script>
-
-<style lang="less">
-.tags {
-    .el-input.el-input--suffix input{
-        background-color: #f5f6f7;
-        border-radius: 100px
-    }
-}
-</style>

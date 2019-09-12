@@ -8,7 +8,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/thinkindev/im.dev/internal/ecode"
 	"github.com/thinkindev/im.dev/internal/misc"
-	"github.com/thinkindev/im.dev/internal/session"
+	"github.com/thinkindev/im.dev/internal/user"
 	"github.com/thinkindev/im.dev/internal/utils"
 	"go.uber.org/zap"
 )
@@ -44,7 +44,7 @@ func NewArticle(c echo.Context) error {
 		})
 	}
 
-	sess := session.Get(c)
+	sess := user.GetSession(c)
 
 	// generate id for article
 	ar.ID = misc.GenID()
@@ -152,7 +152,7 @@ func BeforeEditAr(c echo.Context) error {
 		})
 	}
 
-	sess := session.Get(c)
+	sess := user.GetSession(c)
 
 	// check whether user has permission to do so
 	if uid != sess.ID {
@@ -204,7 +204,7 @@ func SaveArticleChanges(c echo.Context) error {
 			Message: ecode.CommonErrorMsg,
 		})
 	}
-	sess := session.Get(c)
+	sess := user.GetSession(c)
 	if sess.ID != uid {
 		return c.JSON(http.StatusInternalServerError, misc.HTTPResp{
 			ErrCode: ecode.NoPermission,

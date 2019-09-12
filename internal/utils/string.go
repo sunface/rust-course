@@ -1,6 +1,11 @@
 package utils
 
-import "unsafe"
+import (
+	"strings"
+	"unsafe"
+
+	"github.com/labstack/echo"
+)
 
 // Bytes2String see below
 func Bytes2String(b []byte) (s string) {
@@ -32,4 +37,9 @@ func ValidNameRune(c rune) bool {
 		return true
 	}
 	return false
+}
+
+// FormValue get value from http form
+func FormValue(c echo.Context, k string) string {
+	return strings.TrimSpace(c.FormValue(k))
 }

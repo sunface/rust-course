@@ -1,26 +1,26 @@
 <template>
-  <div  class="discuss" style="padding:20px">
+  <div  class="discuss padding-20" >
       <!-- comment editor -->
-      <div class="write-comment" style="border-bottom:1px solid #eee">
+      <div class="write-comment">
         <editor placeholder="Add to the discussion" editorHeight="200px"  parent="discuss" :md="tempComment.md" @discussSetMD="discussSetMD" v-if="!commentPreviewd"></editor>
-        <render paddingTop="46px" paddingLeft="20px" :content="tempComment.render" style="height:200px;overflow-y:auto;background:white;" v-else></render>
-        <span style="position:relative;float:right;margin-top:-190px;z-index:1000;margin-right:20px">
-            <span class="bold-meta-word hover-cursor" @click="previewComment" v-if="!commentPreviewd">PREVIEW</span>
-             <span class="bold-meta-word hover-cursor" @click="commentPreviewd=false" v-else>MARKDOWN</span>
+        <render paddingTop="46px" paddingLeft="20px" :content="tempComment.render"  class="height-200" v-else></render>
+        <span class="position-relative float-right z-index-1000 margin-right-20 header-buttons">
+            <span class="bold-meta-word font-size-12 cursor-pointer" @click="previewComment" v-if="!commentPreviewd">PREVIEW</span>
+             <span class="bold-meta-word font-size-12 cursor-pointer" @click="commentPreviewd=false" v-else>MARKDOWN</span>
 
-            <span  class="bold-meta-word hover-cursor margin-left-10" @click="publishComment">PUBLISH</span>
+            <span  class="bold-meta-word font-size-12 cursor-pointer margin-left-10" @click="publishComment">PUBLISH</span>
         </span>
       </div>    
-     <div class="sorter">SORT BY <span>BEST</span></div>
-      <div class="comments" v-if="comments.length>0" style="padding-bottom:30px;">
+     <div class="sorter font-weight-bold font-size-12 margin-top-30 padding-bottom-5">SORT BY <span>BEST</span></div>
+      <div class="comments" v-if="comments.length>0">
           <div class="comment margin-top-30" v-for="c in comments" :key="c.id" :style="{'margin-left':c.depth * 23 + 'px'}">  
-            <i class="iconfont icon-jiantou_shang hover-cursor upvote" :class="{'vote-highlighted':c.liked==1}" @click="upvoteComment(c)"></i>
-            <i class="iconfont icon-jiantou_xia hover-cursor downvote" :class="{'vote-highlighted':c.liked==2}"  @click="downvoteComment(c)"></i>
+            <i class="iconfont icon-jiantou_shang cursor-pointer upvote" :class="{'vote-highlighted':c.liked==1}" @click="upvoteComment(c)"></i>
+            <i class="iconfont icon-jiantou_xia cursor-pointer downvote" :class="{'vote-highlighted':c.liked==2}"  @click="downvoteComment(c)"></i>
 
-            <div class="header">
-               <router-link class="uname" :to="`/${c.uname}`" v-if="c.status==0">{{c.unickname}}</router-link>
+            <div class="header font-size-12">
+               <router-link class="uname text-decoration-none" :to="`/${c.uname}`" v-if="c.status==0">{{c.unickname}}</router-link>
                <span v-else>[deleted]</span>
-               <span class="margin-left-5 date-agree">{{c.likes}} agreed &nbsp;·&nbsp; {{c.date}} &nbsp; <i v-if="c.edit_date!=undefined">·&nbsp;edited {{c.edit_date}}</i></span>   
+               <span class="margin-left-5">{{c.likes}} agreed &nbsp;·&nbsp; {{c.date}} &nbsp; <i v-if="c.edit_date!=undefined">·&nbsp;edited {{c.edit_date}}</i></span>   
             </div>
             
               <!-- edit reply editor -->
@@ -28,14 +28,14 @@
                 <editor  editorHeight="150px"  parent="discuss"  :toolbarsShow="false" :md="tempEditReply.md" @discussSetMD="editReplySetMD"></editor>
             </div>
             <!-- body and footer, hide when editing -->
-              <render  :content="c.render" class="body" v-else></render>
-              <div class="footer">
+              <render  :content="c.render" class="body font-size-14 margin-top-8" v-else></render>
+              <div class="footer font-weight-bold font-size-12 margin-top-10">
                 <span v-if="currentEditCommentID != c.id">
-                    <span class="hover-cursor" @click="reply(c.id)" v-if="c.status!=1">Reply</span> 
-                    <span class="hover-cursor  margin-left-5 margin-right-10" v-if="$store.state.user.id==c.uid && c.status!=1" @click="editReply(c)">Edit</span> 
+                    <span class="cursor-pointer" @click="reply(c.id)" v-if="c.status!=1">Reply</span> 
+                    <span class="cursor-pointer  margin-left-5 margin-right-10" v-if="$store.state.user.id==c.uid && c.status!=1" @click="editReply(c)">Edit</span> 
                     <el-dropdown placement="bottom-start" v-if="$store.state.user.id==c.uid">
                         <span class="el-dropdown-link">
-                            <i class="el-icon-more hover-cursor"></i>
+                            <i class="el-icon-more cursor-pointer"></i>
                         </span>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item @click.native="deleteComment(c.id)" v-show="c.status!=1"><i class="el-icon-delete" ></i>Delete comment</el-dropdown-item>
@@ -45,28 +45,28 @@
                   
                         
                     <span v-if="currentCommentID == c.id" class="float-right">
-                        <span  class="hover-cursor" @click="previewReply" v-if="!replyPreviewd">Preview</span>
-                        <span class="hover-cursor" @click="replyPreviewd=false" v-else>Markdown</span>
+                        <span  class="cursor-pointer" @click="previewReply" v-if="!replyPreviewd">Preview</span>
+                        <span class="cursor-pointer" @click="replyPreviewd=false" v-else>Markdown</span>
 
-                        <span  class=" hover-cursor margin-left-5" @click="publishReply(c.id)">Publish</span>
+                        <span  class=" cursor-pointer margin-left-5" @click="publishReply(c.id)">Publish</span>
                     </span>
                 </span>    
                  <span v-else class="float-right">
-                    <span  class=" hover-cursor margin-left-5" @click="cancelEditReply">Cancel</span>
-                    <span  class=" hover-cursor margin-left-5" @click="publishEditReply(c.id)">Publish</span>
+                    <span  class=" cursor-pointer margin-left-5" @click="cancelEditReply">Cancel</span>
+                    <span  class=" cursor-pointer margin-left-5" @click="publishEditReply(c.id)">Publish</span>
                 </span>    
               </div>
                <!-- reply editor -->
                <div class="write-comment reply-comment  margin-top-10" v-if="currentCommentID == c.id">
                     <editor placeholder="Add to the discussion" editorHeight="150px"  parent="discuss"  :toolbarsShow="false" :md="tempReply.md" @discussSetMD="replySetMD" v-if="!replyPreviewd"></editor>
-                    <render  :content="tempReply.render" style="height:150px;overflow-y:auto;background:white;" v-else></render>
+                    <render  :content="tempReply.render" class="height-150"  v-else></render>
               </div>
           </div>
       </div>
-      <div v-else style="text-align:center;padding-top:40px;padding-bottom:40px;">
-          <i class="iconfont icon-comments-alt" style="color:rgba(0, 121, 211, 0.4);font-size: 30px" />
-          <div class="meta-word margin-top-20" style="font-size:18px">No Comments Yet</div>
-          <div class="meta-word margin-top-15" style="font-size:15px">Be the first to share what you think!</div>
+      <div v-else  class="text-align-center padding-top-40 padding-bottom-40 no-comments">
+          <i class="iconfont icon-comments-alt"/>
+          <div class="meta-word font-size-18 margin-top-20" >No Comments Yet</div>
+          <div class="meta-word font-size-16 margin-top-15">Be the first to share what you think!</div>
       </div>
   </div>
 </template>
@@ -107,7 +107,7 @@ export default {
   watch: {
     "$store.state.user.id"() {
        if (this.$store.state.user.id != '') {
-           this.initComments()
+           this.init()
        } 
     },
   },
@@ -342,7 +342,7 @@ export default {
           this.tempComment.md = md 
           this.tempCommentRender = render
       },
-      initComments() {
+      init() {
         request({
             url: "/web/comment/query",
             method: "GET",
@@ -355,80 +355,7 @@ export default {
       }
   },
   mounted() {
-      this.initComments()
+      this.init()
   }
 };
 </script>
-
-<style lang="less">
-.discuss {
-    .v-note-wrapper {
-        min-height: 150px !important;
-        .v-note-op.shadow {
-            box-shadow: none;
-            border-bottom: 1px solid #efefef
-        }
-        textarea {
-            font-size:13px !important;
-        }
-    }
-    .reply-comment {
-         .v-note-wrapper {
-        border:1px solid #eee
-         }
-    }
- 
-}
-</style>
-
-<style lang="less" scoped>
-.sorter {
-    color:rgb(124,124,124);
-    font-weight:700;
-    font-size:12px;
-    margin-top:30px;
-    padding-bottom:5px
-}
-.comments {
-    background:white;
-    padding:5px 25px;
-    margin-top:0px;
-    .comment {
-        i.vote-highlighted {
-            color: rgb(255, 69, 0);
-        }
-        .upvote {
-            position:absolute;
-            margin-left:-21px;
-            margin-top:-2px;
-            color: rgb(135, 138, 140);
-            font-size:10px;
-        }
-        .downvote {
-            position:absolute;
-            margin-left:-21px;
-            margin-top:9px;
-            color:rgb(135, 138, 140);
-             font-size:10px;
-        }
-        .header {
-            font-size:12px;
-            color:rgb(124,124,124);
-            .uname {
-                color:rgb(0, 121, 211);
-                text-decoration:none;
-            }
-        }
-        .body {
-            font-size:14px;
-            margin-top:7px
-        }
-        .footer {
-            color:rgb(135, 138, 140);
-            font-weight:700;
-            font-size:12px;
-            margin-top:10px
-        }
-    }
-}
-</style>

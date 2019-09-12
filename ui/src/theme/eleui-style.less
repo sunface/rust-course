@@ -1,0 +1,79 @@
+// overide global focus style
+h1 {
+    font-size: 36px;
+}
+
+h3 {
+    font-size:19px;
+    font-weight:500;
+}
+h4 {
+    font-size:17px;
+    font-weight:500;
+    margin-block-start: .5em;
+    margin-block-end: .5em;
+}
+
+:focus {
+    outline-color: transparent;
+    outline-width: 0;
+    outline-style: none;
+}
+input::-webkit-input-placeholder {
+    color: #aab2bd;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+::-webkit-scrollbar {
+    width: 2px !important;
+    height: 2px;
+    background-color: #e5e5e5 !important;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #b7b7b7 !important;
+    border-radius: 3px !important;
+}
+::-webkit-scrollbar-track {
+    border-radius: 3px;
+    box-shadow: 0 0 0px #808080 inset !important;
+}
+
+.no-border {
+    input { 
+        border: none;
+    }
+    button {
+        border:none;
+    }
+}
+
+.image-modal {
+    .el-dialog {
+        box-shadow: none !important;
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        cursor: zoom-out;
+    }
+    .el-dialog__header {
+        display: none;
+    }
+    .el-dialog__body {
+        padding: 0;
+    }
+}
+
+.el-message.el-message--error.network-error {
+    top: 20px !important;
+}
+
+
+.el-message {
+    min-width: 0px;
+}
+
+.el-divider {
+    margin: 13px 0;
+  }

@@ -8,7 +8,6 @@ import 'element-ui/lib/theme-chalk/index.css';
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 // import 'mavon-editor/dist/markdown/github-markdown.min.css'
-import "./theme/editor.css";
 
 Vue.use(mavonEditor)
 
@@ -20,8 +19,7 @@ Vue.use(ElementUI);
 import router from './router'
 
 // 全局范围加载通用样式，每个vue page里无需重复引入
-import '!style-loader!css-loader!less-loader!./theme/common_layout.less'
-import '!style-loader!css-loader!less-loader!./theme/layout.less'
+import '!style-loader!css-loader!less-loader!./theme/eleui-style.less'
 import '!style-loader!css-loader!less-loader!./theme/style.less'
 
 Vue.config.productionTip = false

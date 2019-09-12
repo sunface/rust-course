@@ -1,4 +1,4 @@
-package session
+package user
 
 import (
 	"net/http"
@@ -55,8 +55,8 @@ func CheckSignIn(f echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
-// Get return the session for given user
-func Get(c echo.Context) *Session {
+// GetSession return the session for given user
+func GetSession(c echo.Context) *Session {
 	token := c.Request().Header.Get("token")
 	s, ok := sessions.Load(token)
 	if !ok {

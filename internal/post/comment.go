@@ -13,7 +13,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/thinkindev/im.dev/internal/ecode"
 	"github.com/thinkindev/im.dev/internal/misc"
-	"github.com/thinkindev/im.dev/internal/session"
+	"github.com/thinkindev/im.dev/internal/user"
 	"github.com/thinkindev/im.dev/internal/utils"
 	"go.uber.org/zap"
 )
@@ -96,7 +96,7 @@ func Comment(c echo.Context) error {
 		})
 	}
 
-	sess := session.Get(c)
+	sess := user.GetSession(c)
 
 	cc.UID = sess.ID
 	// generate id for article
@@ -176,7 +176,7 @@ func CommentReply(c echo.Context) error {
 		})
 	}
 
-	sess := session.Get(c)
+	sess := user.GetSession(c)
 
 	cc.UID = sess.ID
 	// generate id for article
@@ -224,7 +224,7 @@ func EditComment(c echo.Context) error {
 		})
 	}
 
-	sess := session.Get(c)
+	sess := user.GetSession(c)
 
 	// check permission
 	q := misc.CQL.Query(`SELECT uid FROM comment WHERE id=?`, id)
@@ -281,7 +281,7 @@ func DeleteComment(c echo.Context) error {
 		})
 	}
 
-	sess := session.Get(c)
+	sess := user.GetSession(c)
 	// check comment exists and this user has permission
 	var uid string
 	q := misc.CQL.Query(`SELECT uid FROM comment WHERE id=?`, id)
@@ -326,7 +326,7 @@ func RevertComment(c echo.Context) error {
 		})
 	}
 
-	sess := session.Get(c)
+	sess := user.GetSession(c)
 	// check comment exists and this user has permission
 	var uid, md, render string
 
@@ -361,7 +361,7 @@ func RevertComment(c echo.Context) error {
 	comment := &CommentContent{}
 	comment.MD = md
 	comment.Render = render
-	u := session.GetUserByID(uid)
+	u := user.GetUserByID(uid)
 	if u == nil {
 		comment.UName = "[404]"
 		comment.UNickname = "[404]"
@@ -409,7 +409,7 @@ func QueryComments(c echo.Context) error {
 			editDate:    edate,
 			Status:      status,
 		}
-		u := session.GetUserByID(comment.UID)
+		u := user.GetUserByID(comment.UID)
 		if u == nil {
 			continue
 		}
@@ -470,7 +470,7 @@ func QueryComments(c echo.Context) error {
 	b.WriteString(`SELECT id,likes FROM comment_counter WHERE id in (`)
 
 	var b1 strings.Builder
-	sess := session.Get(c)
+	sess := user.GetSession(c)
 	if sess != nil {
 		b1.WriteString(`SELECT comment_id,type  FROM comment_like WHERE uid=? and comment_id in (`)
 	}
@@ -563,7 +563,7 @@ func CommentLike(c echo.Context) error {
 		})
 	}
 
-	sess := session.Get(c)
+	sess := user.GetSession(c)
 
 	// check whether you already liked this comment
 	status, err := commentLikeStatus(postID, sess.ID)
@@ -613,7 +613,7 @@ func CommentDislike(c echo.Context) error {
 		})
 	}
 
-	sess := session.Get(c)
+	sess := user.GetSession(c)
 
 	// check whether you already liked this comment
 	status, err := commentLikeStatus(postID, sess.ID)
