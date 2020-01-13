@@ -10,7 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "axios": "0.17.1",
+    "axios": "0.18.1",
     "element-ui": "^2.11.1",
     "js-cookie": "2.2.0",
     "mavon-editor": "^2.7.5",
