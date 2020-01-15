@@ -1,21 +1,15 @@
-# vue-starter
+## 可用的脚本
 
-> A vuejs starter project integrated with vuex, vue-router, less, iview
+在项目目录下，你可以运行:
 
-## Build Setup
+### `yarn run sm`
 
-``` bash
-# install dependencies
-npm install
+在开发模式下运行app.
 
-# serve with hot reload at localhost:8080
-npm run dev
+打开[http://localhost:3000](http://localhost:3000)在浏览器中查看。
 
-# build for production with minification
-npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
+在开发模式下运行JSON Server服务.
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+打开[http://localhost:3023](http://localhost:3023)在浏览器中查看。
+

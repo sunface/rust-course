@@ -1,0 +1,56 @@
+@import '../../styles/main.less';
+
+.header{
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    &>div{
+        display: flex;
+        align-items: center;
+        &>div{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 64px;
+            width: 50px;
+        }
+    }
+    .menu_icon{
+        display: block;
+        font-size: 18px;
+    }
+    .icon{
+        display: block;
+        font-size: 18px;
+    }
+   
+    .plummer{
+        position: relative;
+    }
+}
+.pointer{
+    cursor: pointer;
+}
+.messagePopover{
+    width: 400px;
+}
+.userPopover{
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    &>div{
+        width: 100%;
+        height: 48px;
+        line-height: 48px;
+        cursor: pointer;
+        & > i{
+            margin-right: 6px;
+        }
+        &:hover{
+            &>span, &>i{
+                color: @dropdown-selected-color;
+            }
+        }
+    }
+}

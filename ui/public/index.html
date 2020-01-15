@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Web site created using create-react-app"/>
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="apple-touch-icon" href="logo192.png" />
+    
+    <title>React App</title>
+    <script>
+      window.less = {
+        async: false,
+        env: 'development'//production  development
+      };
+    </script>
+  </head>
+  <body>
+    <link rel="stylesheet/less" type="text/css" href="/color.less" />
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script type="text/javascript" src="/less.min.js"></script>
+    
+    <!-- <script>
+      var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+      var isOpera = userAgent.indexOf("Opera") > -1;
+      console.log(userAgent)
+      //判断是否Opera浏览器
+      if (isOpera) {
+        console.log("Opera");
+      };
+      //判断是否Firefox浏览器
+      if (userAgent.indexOf("Firefox") > -1) {
+        console.log("FF");
+      } 
+      //判断是否Chrome浏览器
+      if (userAgent.indexOf("Chrome") > -1){
+        console.log("Chrome");
+      }
+      //判断是否Safari浏览器
+      if (userAgent.indexOf("Safari") > -1) {
+        console.log("Safari");
+      }
+      //判断是否IE浏览器
+      if (!!window.ActiveXObject || "ActiveXObject" in window) {
+        console.log("IE");
+      }; 
+    </script> -->
+  </body>
+</html>

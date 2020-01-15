@@ -1,20 +1,7 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import misc from './modules/misc'
-import user from './modules/user'
-import post from './modules/post'
-import getters from './getters'
+import system from './system'
+import user from './user'
 
-Vue.use(Vuex)
-
-const store = new Vuex.Store({
-  modules: {
-    misc,
-    user,
-    post
-  },
-  getters
-})
-
-export default store
- 
+export default {
+    system,
+    user
+}

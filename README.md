@@ -1,31 +1,16 @@
 <div align="center">
-  <h1>DEV Community 👩‍💻👨‍💻</h1>
+  <h1>I'M DEV(我是开发)👩‍💻👨‍💻</h1>
 </div>
 
-Welcome to the [im.dev](https://im.dev) codebase. We are so excited to have you. With your help, we can build out DEV to be more stable and better serve our community.
 
-## What is im.dev?
+IM DEV旨在打造全球最大的开源开发者社区，你可以在这个平台上写文章、在线交流、参与讨论、使用开发学院提升自己的技能、借由平台的个人数据打造自己的个性简历。
 
-[im.dev](https://im.dev) is a platform where software developers write articles, take part in discussions, and build their professional profiles. We value supportive and constructive dialogue in the pursuit of great code and career growth for all members. The ecosystem spans from beginner to advanced developers, and all are welcome to find their place within our community. ❤️
+在招聘板块，你和HR可以互相选择，因为平台的数据不会说谎。HR在选择你时了更多的判断依据；同时你在选择HR时，也有了判断依据，避免被无良公司HR坑害。
 
-## Contributing
+除了分享知识，提升自己，你还能打造自己的个人专业形象，借由这个形象实现金钱上的收入。例如你可以编写收费电子书籍、在开发学院中创作收费课程，还可以出售自己的时间，为他人提供外包、咨询等技术服务。
+在这个过程中，平台对你的用户画像会起到重要的作用，会极大的增强其它用户在选择你时的信心。
 
-We encourage you to contribute to im.dev! Please check out the [Contributing Guide](https://github.com/thinkindev/community/blob/master/CONTRIBUTING.md) for guidelines about how to proceed.
-
-## Codebase
-
-### The stack
-All of our backend is written in go, and frontend is written in vuejs, our stack goal is performance and easy-deployment.
-
-
-## License
-
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. Please see the [LICENSE](./LICENSE.md) file in our repository for the full text.
-
-Like many open source projects, we require that contributors provide us with a Contributor License Agreement (CLA). By submitting code to the DEV project, you are granting us a right to use that code under the terms of the CLA.
-
-Our version of the CLA was adapted from the Microsoft Contributor License Agreement, which they generously made available to the public domain under Creative Commons CC0 1.0 Universal.
-
+总之这个开发者社区应有尽有，但是又不会像CSDN那样杂乱无章，所有的逻辑会通过统一的数据流关联在一起，如果你不满意，你还能参与到开源中来，打造你想要的个性化平台。
 
 <br>
 
