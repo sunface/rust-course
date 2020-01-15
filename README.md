@@ -17,16 +17,8 @@ Web端：Reactjs + Typescript
 服务器端: Go
 移动端：Flutter
 
-## 成为开发者
-1. 加入QQ群894864
-2. @群主
-3. 资格审核
-4. 开发等级评定
-5. 随着贡献增多，贡献者等级会逐步提升
-
-## 核心开发
-1. [Sunface](https://github.com/sunface)
-
+## 加入我们，成为贡献者
+为了打造精品项目，贡献者的社区打造也是至关重要的，为此我们专门设计了一整套社区标准，请大家仔细阅读[Community](https://github.com/go-rust/community)
 
 <br>
 
