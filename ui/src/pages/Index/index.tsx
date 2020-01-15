@@ -21,6 +21,7 @@ let Index = inject('system')(observer((props:any) => {
     // })
     let history = useHistory()
     useEffect(() => {
+        alert(11)
         if(isEmpty(getToken())){
             history.push('/login')
         }

@@ -6,10 +6,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/thinkindev/im.dev/internal/ecode"
+	"github.com/go-rust/im.dev/internal/ecode"
 
+	"github.com/go-rust/im.dev/internal/misc"
 	"github.com/labstack/echo"
-	"github.com/thinkindev/im.dev/internal/misc"
 )
 
 // Session contains user's info

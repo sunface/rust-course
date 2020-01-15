@@ -9,7 +9,7 @@ import stores from './store'
 ReactDOM.render(
     <Router>
         <Provider {...stores}>
-            <App />   
+            <App />    
         </Provider>  
     </Router>
     , document.getElementById('root'))

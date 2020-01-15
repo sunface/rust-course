@@ -5,11 +5,11 @@ import (
 
 	"go.uber.org/zap"
 
+	"github.com/go-rust/im.dev/internal/misc"
+	"github.com/go-rust/im.dev/internal/user"
 	"github.com/gocql/gocql"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"github.com/thinkindev/im.dev/internal/misc"
-	"github.com/thinkindev/im.dev/internal/user"
 )
 
 // Start web server for im.dev ui
@@ -32,8 +32,8 @@ func Start(confPath string) {
 	user.InitUser()
 
 	e := echo.New()
-	e.Pre(middleware.RemoveTrailingSlash())
-	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 5}))
+	// e.Pre(middleware.RemoveTrailingSlash())
+	// e.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 5}))
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowHeaders:     append([]string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, "token"}),
 		AllowCredentials: true,

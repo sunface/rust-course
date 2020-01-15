@@ -2,7 +2,7 @@ import React from 'react'
 import { inject, observer } from 'mobx-react'
 import { IntlProvider } from 'react-intl' /* react-intl imports */
 
-import locale from '@library/locale'
+import locale from '../../library/locale'
 
 const Intl = inject('system')(observer((props) =>{
     let {system} = props

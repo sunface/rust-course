@@ -18,8 +18,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/go-rust/im.dev/internal"
 	"github.com/spf13/cobra"
-	"github.com/thinkindev/im.dev/internal"
 )
 
 var cfgFile string

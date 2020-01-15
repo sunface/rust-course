@@ -6,12 +6,12 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/go-rust/im.dev/internal/ecode"
+	"github.com/go-rust/im.dev/internal/misc"
+	"github.com/go-rust/im.dev/internal/user"
+	"github.com/go-rust/im.dev/internal/utils"
 	"github.com/gocql/gocql"
 	"github.com/labstack/echo"
-	"github.com/thinkindev/im.dev/internal/ecode"
-	"github.com/thinkindev/im.dev/internal/misc"
-	"github.com/thinkindev/im.dev/internal/user"
-	"github.com/thinkindev/im.dev/internal/utils"
 	"go.uber.org/zap"
 )
 

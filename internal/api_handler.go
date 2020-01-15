@@ -1,9 +1,9 @@
 package internal
 
 import (
+	"github.com/go-rust/im.dev/internal/post"
+	"github.com/go-rust/im.dev/internal/user"
 	"github.com/labstack/echo"
-	"github.com/thinkindev/im.dev/internal/post"
-	"github.com/thinkindev/im.dev/internal/user"
 )
 
 func apiHandler(e *echo.Echo) {

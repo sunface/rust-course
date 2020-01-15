@@ -11,10 +11,10 @@ import (
 	"github.com/labstack/echo"
 	"go.uber.org/zap"
 
-	"github.com/thinkindev/im.dev/internal/ecode"
-	"github.com/thinkindev/im.dev/internal/misc"
-	"github.com/thinkindev/im.dev/internal/utils"
-	"github.com/thinkindev/im.dev/internal/utils/validate"
+	"github.com/go-rust/im.dev/internal/ecode"
+	"github.com/go-rust/im.dev/internal/misc"
+	"github.com/go-rust/im.dev/internal/utils"
+	"github.com/go-rust/im.dev/internal/utils/validate"
 )
 
 // InitUser insert preserve users

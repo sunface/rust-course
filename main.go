@@ -14,7 +14,7 @@
 
 package main
 
-import "github.com/thinkindev/im.dev/cmd"
+import "github.com/go-rust/im.dev/cmd"
 
 func main() {
 	cmd.Execute()

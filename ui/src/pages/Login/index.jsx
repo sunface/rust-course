@@ -29,6 +29,7 @@ function FormBox(props) {
                         delete res.data.token
                         storage.set('info', res.data)
                         props.setloading(true)
+                        console.log(res.data)
                         user.setInfo(res.data)
                         setTimeout(() => {
                             props.setloading(false)

@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/go-rust/im.dev/internal/misc"
+	"github.com/go-rust/im.dev/internal/user"
+	"github.com/go-rust/im.dev/internal/utils"
 	"github.com/labstack/echo"
-	"github.com/thinkindev/im.dev/internal/misc"
-	"github.com/thinkindev/im.dev/internal/user"
-	"github.com/thinkindev/im.dev/internal/utils"
 )
 
 // Preview return the new review html of article
