@@ -4,14 +4,11 @@ import { inject, observer } from 'mobx-react'
 import zhCN from 'antd/es/locale/zh_CN'
 import enGB from 'antd/es/locale/en_GB'
 
-const Config = inject('system')(observer((props) =>{
+const Config = inject('system')(observer((props:any) =>{
     let {system} = props
-    let antdLocale = {}
-    antdLocale['zh_CN'] = zhCN
-    antdLocale['en_GB'] = enGB
     return (
         <>
-            <ConfigProvider locale={antdLocale[system.locale]}>
+            <ConfigProvider locale={system.locale=='zh_CN' ? zhCN : enGB}>
                 {props.children}
             </ConfigProvider>
         </>

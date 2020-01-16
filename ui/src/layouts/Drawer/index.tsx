@@ -2,14 +2,14 @@ import React from 'react'
 import { Drawer, Row, Switch } from 'antd'
 import { inject, observer } from 'mobx-react'
 import style from './index.module.less'
-import { CirclePicker } from 'react-color'
-import { modifyVars } from '@library/utils/modifyVars'
-import Languages from '@components/Languages'
+import { CirclePicker,ColorResult } from 'react-color'
+import { modifyVars } from '../../library/utils/modifyVars'
+import Languages from '../../components/Languages'
 import { FormattedMessage as Message } from 'react-intl' 
 
 const DrawerWrapper = inject('system')(observer((props) =>{
     let {system} = props
-    let primary = (color)=>{
+    let primary = (color:ColorResult)=>{
         system.setPrimary(color.hex)
         modifyVars(system.dark, color.hex)
         // modifyVars({'@primary-color': color.hex})

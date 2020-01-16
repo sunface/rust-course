@@ -1,4 +1,5 @@
-const enUS = {
+import {localeData} from './index' 
+const enUS:localeData = {
     home: 'Home',
     dashboard: 'Dashboard',
     chart: 'Chart',

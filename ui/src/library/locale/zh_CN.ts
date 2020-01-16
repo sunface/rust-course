@@ -1,4 +1,5 @@
-const zhCN = {
+import {localeData} from './index' 
+const zhCN:localeData = {
     home: '主页',
     dashboard: '仪表盘',
     chart: '图表',

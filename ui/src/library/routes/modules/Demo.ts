@@ -1,6 +1,6 @@
 import React from 'react'
-const A = React.lazy(() => import('@pages/Index/Demo/A'))
-const B = React.lazy(() => import('@pages/Index/Demo/B'))
+const A = React.lazy(() => import('../../../pages/Index/Demo/A'))
+const B = React.lazy(() => import('../../../pages/Index/Demo/B'))
 
 const Demo = [
     {

@@ -2,14 +2,15 @@ import React from 'react'
 import { Icon } from 'antd'
 import { inject, observer } from 'mobx-react'
 import style from './index.module.less'
+import System from '../../store/system'
 const Languages = inject('system')(observer((props) =>{
-    let {system} = props
+    let {system} = props 
     
     const IconFont = Icon.createFromIconfontCN({
         scriptUrl: '//at.alicdn.com/t/font_1585712_tvew52du1cn.js'
     })
 
-    function setLocale(locale){
+    function setLocale(locale:string){
         system.setLocale(locale)
     }
     return (

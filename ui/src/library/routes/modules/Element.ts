@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Accordion = React.lazy(() => import('@pages/Index/Elements/Accordion'))
-const Paginations = React.lazy(() => import('@pages/Index/Elements/Paginations'))
-const DatePickers = React.lazy(() => import('@pages/Index/Elements/DatePickers'))
-const Icons = React.lazy(() => import('@pages/Index/Elements/Icons'))
+const Accordion = React.lazy(() => import('../../../pages/Index/Elements/Accordion'))
+const Paginations = React.lazy(() => import('../../../pages/Index/Elements/Paginations'))
+const DatePickers = React.lazy(() => import('../../../pages/Index/Elements/DatePickers'))
+const Icons = React.lazy(() => import('../../../pages/Index/Elements/Icons'))
 
 const Demo = [
     {

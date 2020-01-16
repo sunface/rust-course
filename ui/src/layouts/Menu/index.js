@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import {  Menu, Icon } from 'antd'
 import { Link } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
-import { isEmpty } from '@library/utils/validate'
+import { isEmpty } from '../../library/utils/validate'
 import style from './index.module.less'
 import { FormattedMessage as Message } from 'react-intl' 
 const { SubMenu } = Menu

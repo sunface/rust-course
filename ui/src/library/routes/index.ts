@@ -1,10 +1,17 @@
 import React from 'react'
-import Element from '@library/routes/modules/Element'
+import Element from '../routes/modules/Element'
 
-const Dashboard = React.lazy(() => import('@pages/Index/Dashboard'))
-const Charts = React.lazy(() => import('@pages/Index/Charts'))
+const Dashboard = React.lazy(() => import('../../pages/Index/Dashboard'))
+const Charts = React.lazy(() => import('../../pages/Index/Charts'))
 
-const Routers = [
+export type Router = {
+    path: string,
+    title: string,
+    icon: string,
+    component?: any,
+    children?:any
+}
+const Routers:Router[] = [
     {
         path: '/home/dashboard',
         title: 'dashboard',

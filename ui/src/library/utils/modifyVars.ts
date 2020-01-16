@@ -1,6 +1,6 @@
-import {Light, Dark} from '@styles/theme'
+import {Light, Dark} from '../../styles/theme'
 
-export function modifyVars(model, primary){
+export function modifyVars(model:boolean, primary:string){
     //window.less.modifyVars(vars)
     if(model){
         window.less.modifyVars(Dark(primary))

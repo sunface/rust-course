@@ -1,8 +1,8 @@
 import React, { Suspense, useState, useEffect } from 'react'
 import { Layout, BackTop } from 'antd'
-import BreadcrumbWrapper from '@layouts/Breadcrumb'
+import BreadcrumbWrapper from '../Breadcrumb'
 import { Route } from 'react-router-dom'
-import { isEmpty } from '@library/utils/validate'
+import { isEmpty } from '../../library/utils/validate'
 const { Content } = Layout
 // import {
 //     TransitionGroup,

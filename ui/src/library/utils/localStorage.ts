@@ -1,13 +1,13 @@
 let adminKey = 'admin-'
 const storage = {
-    set(key, value){
+    set(key:string, value:any){
         localStorage.setItem(adminKey+key, JSON.stringify(value))
     },
-    get(key){
-        return JSON.parse(localStorage.getItem(adminKey+key))
+    get(key:string){
+        return JSON.parse(localStorage.getItem(adminKey+key)!)
     },
-    remove(key){
+    remove(key:string){
         localStorage.removeItem(adminKey+key)
     }
-}
+} 
 export default storage
