@@ -27,7 +27,6 @@ server.post(`${API}/reg`, ({body:{username='', password=''}}, res) => {
 })
 // 响应/mock/login,进行登录验证操作
 server.post(`${API}/login`, ({body:{username='', password=''}}, res) => {
-    console.log(username),
     (username === 'admin' && password === '123456') ?
         setTimeout(() => {  // 由于本地请求速度较快，不方便loading动效显示利用延时器，模拟真实服务器请求速度
             res.jsonp({

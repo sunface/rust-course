@@ -2,19 +2,22 @@
 import dark from './dark'
 import light from './light'
 
-const darkTheme = {}
-const lightTheme = {}
+export type theme = {
+    [key:string]:string
+}
+const darkTheme:theme = {}
+const lightTheme:theme = {}
 
-let Light = (primary) => {
-    Object.keys(light).forEach((key) => {
+let Light = (primary:string) => {
+    Object.keys(light).forEach((key:string) => {
         lightTheme[`${key}`] = light[key]
     })
     lightTheme['@primary-color'] = primary
     return lightTheme
 }
 
-let Dark = (primary) => {
-    Object.keys(dark).forEach((key) => {
+let Dark = (primary:string) => {
+    Object.keys(dark).forEach((key:string) => {
         darkTheme[`${key}`] = dark[key]
     })
     darkTheme['@primary-color'] = primary

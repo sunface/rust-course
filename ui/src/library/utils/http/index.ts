@@ -125,7 +125,7 @@ axios.interceptors.response.use(
  * @param {Function} errorBack [请求时失败回调方法] 
  * @param {Function} finallyBack [无论有无异常都会执行回调方法] 
  */
-export async function get(url:string, params:AxiosResponse, successBack = function(res:any){}, errorBack = function(err:any){}, finallyBack = function(){}){  
+export async function get(url:string, params:any, successBack = function(res:AxiosResponse){}, errorBack = function(err:any){}, finallyBack = function(){}){  
     try {
         const res = await axios.get(url, params)
         successBack(res.data)
@@ -144,7 +144,7 @@ export async function get(url:string, params:AxiosResponse, successBack = functi
  * @param {Function} errorBack [请求时失败回调方法] 
  * @param {Function} finallyBack [无论有无异常都会执行回调方法] 
  */
-export async function post(url:string, params:AxiosResponse, successBack = function(res:any){}, errorBack = function(err:any){}, finallyBack = function(){}) {    
+export async function post(url:string, params:any, successBack = function(res:AxiosResponse){}, errorBack = function(err:any){}, finallyBack = function(){}) {    
     try {
         const res = await axios.post(url, QS.stringify(params))
         successBack(res.data)

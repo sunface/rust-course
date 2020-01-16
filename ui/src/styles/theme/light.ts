@@ -1,5 +1,6 @@
 /* eslint-disable quotes */
-let lightTheme = {
+import {theme} from './index'
+let lightTheme:theme = {
     '@ant-prefix': "ant",
     '@iconfont-css-prefix': "anticon",
     '@primary-color': "@blue-6",

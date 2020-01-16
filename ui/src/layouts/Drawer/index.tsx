@@ -6,9 +6,10 @@ import { CirclePicker,ColorResult } from 'react-color'
 import { modifyVars } from '../../library/utils/modifyVars'
 import Languages from '../../components/Languages'
 import { FormattedMessage as Message } from 'react-intl' 
-
-const DrawerWrapper = inject('system')(observer((props) =>{
-    let {system} = props
+import {ISystem} from '../../store/system'
+const DrawerWrapper = inject('system')(observer((props:{system:ISystem} & any) =>{
+    let {system}:{system:ISystem} = props
+    
     let primary = (color:ColorResult)=>{
         system.setPrimary(color.hex)
         modifyVars(system.dark, color.hex)

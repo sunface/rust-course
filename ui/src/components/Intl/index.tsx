@@ -3,8 +3,9 @@ import { inject, observer } from 'mobx-react'
 import { IntlProvider } from 'react-intl' /* react-intl imports */
 
 import locale from '../../library/locale'
+import {ISystem} from '../../store/system'
 
-const Intl = inject('system')(observer((props) =>{
+const Intl = inject('system')(observer((props:{system:ISystem} & any) =>{
     let {system} = props
     let messages = locale
     return (

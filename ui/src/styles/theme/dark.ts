@@ -1,7 +1,8 @@
 /* eslint-disable quotes */
+import {theme} from './index'
 let colors = require('@ant-design/colors')
 
-let darkTheme = {
+let darkTheme:theme = {
     '@primary-color': '#0A53B0',
     '@layout-body-background': '#171717',
     '@background-color-base': '#262626',

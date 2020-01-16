@@ -4,8 +4,8 @@ import { Breadcrumb } from 'antd'
 import style from './index.module.less'
 import { inject, observer } from 'mobx-react'
 import { FormattedMessage as Message } from 'react-intl' 
-
-const BreadcrumbWrapper = inject('system')(observer((props) =>{ 
+import {ISystem} from '../../store/system'
+const BreadcrumbWrapper = inject('system')(observer((props:{system:ISystem}) =>{ 
     let location = useLocation()
     let pathname = location.pathname.split('/')
     return (

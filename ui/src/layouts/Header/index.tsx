@@ -2,19 +2,18 @@ import React from 'react'
 import { Layout, Icon, Badge, Avatar, Popover } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
-import { useMediaQuery } from 'react-responsive'
 import { removeToken } from '../../library/utils/auth'
 import style from './index.module.less'
+import {IUser} from '../../store/user'
+import {ISystem} from '../../store/system'
+import {isMobile} from '../../pages/Responsive'
+
 const { Header } = Layout
 
-const HeaderWrapper = inject('system', 'user')(observer((props) =>{
+const HeaderWrapper = inject('system', 'user')(observer((props:{user:IUser,system:ISystem} & any) =>{
     let history = useHistory()
-    let {system, user} = props
-
-    const isMobile = useMediaQuery({
-        query: '(max-device-width: 991px)'
-    })
-
+    let {system, user}:{system:ISystem,user:IUser} = props
+    
     const onClickLogout = ()=>{
         removeToken()
         history.push('/login')
@@ -33,14 +32,14 @@ const HeaderWrapper = inject('system', 'user')(observer((props) =>{
         <>
             <Header>
                 {
-                    isMobile ? 
+                    isMobile() ? 
                         <>dsa</>
                         :
                         <div className={style.header}>
                             <div>
                                 <Icon type={system.collapsed?'menu-unfold':'menu-fold'} className={style.menu_icon} onClick={()=>{system.setCollapsed()}} />
                             </div>
-                            <div>
+                            <div> 
                                 <div>
                                     {/* <AutoComplete
                                         className="certain-category-search"
@@ -62,12 +61,12 @@ const HeaderWrapper = inject('system', 'user')(observer((props) =>{
                                             <Icon type="bell" className={style.icon} />
                                         </Popover>
                                     </Badge>
-                                </div>
+                                </div> 
                                 
                                 <div>
                                     <Popover className={`${style.pointer}`} placement="bottomRight" content={userPopover}>
                                         <Badge dot>
-                                            <Avatar icon="user" src={user.info.avatar}/>
+                                            <Avatar icon="user" src={user.avatar}/>
                                         </Badge>
                                     </Popover>
                                 </div>

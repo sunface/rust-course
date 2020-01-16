@@ -1,5 +1,22 @@
 import { observable, action } from 'mobx'
 
+export interface ISystem {
+    dark: boolean,
+    collapsed: boolean,
+    drawer: boolean,
+    mode: string,
+    theme: string,
+    primary: string,
+    locale: string,
+    lang: string,
+
+    setDark?:any,
+    setCollapsed?:any,
+    setDrawer?:any,
+    setPrimary?:any,
+    setLocale?:any,
+    setLang?:any
+}
 class System{
     // constructor() {
         
@@ -43,5 +60,5 @@ class System{
         this.lang = lang
     }
 }
-  
-export default new System()
+
+export let system = new System()

@@ -1,18 +1,26 @@
 import { action, observable } from 'mobx'
 
-type UserInfo = {
+export interface IUser  {
     address: string,
     email: string,
     tel: string,
-    avatar: string
+    avatar: string,
+    setInfo?: any,
 }
 class User{
-    @observable info:UserInfo = {address:'',email:'',tel:'',avatar:''}
+    @observable address = ''
+    @observable email = ''
+    @observable tel= ''
+    @observable avatar = ''
+
 
     @action 
-    setInfo = (info:UserInfo) => {
-        this.info = info
+    setInfo = (info:IUser) => {
+        this.address = info.address
+        this.email = info.email
+        this.tel = info.tel
+        this.avatar = info.avatar
     }
 }
-  
-export default new User()
+
+export let user = new User()

@@ -2,8 +2,9 @@ import React from 'react'
 import { Icon } from 'antd'
 import style from './index.module.less'
 import { inject, observer } from 'mobx-react'
+import {ISystem} from '../../store/system'
 
-let Logo =  inject('system')(observer((props) => {
+let Logo =  inject('system')(observer((props:{system:ISystem}) => {
     let {system} = props
     return(
         <div className={style.logo}>
