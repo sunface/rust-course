@@ -2,7 +2,6 @@ import React from 'react'
 import { Icon } from 'antd'
 import { inject, observer } from 'mobx-react'
 import style from './index.module.less'
-import System from '../../store/system'
 const Languages = inject('system')(observer((props) =>{
     let {system} = props 
     

@@ -8,7 +8,7 @@ const Config = inject('system')(observer((props:any) =>{
     let {system} = props
     return (
         <>
-            <ConfigProvider locale={system.locale=='zh_CN' ? zhCN : enGB}>
+            <ConfigProvider locale={system.locale==='zh_CN' ? zhCN : enGB}>
                 {props.children}
             </ConfigProvider>
         </>

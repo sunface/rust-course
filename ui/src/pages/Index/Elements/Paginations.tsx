@@ -7,7 +7,7 @@ function Paginations() {
         setLoading(false)
         return () => {}
     }, [])
-    function onShowSizeChange(current, pageSize) {
+    function onShowSizeChange(current:number, pageSize:number) {
         console.log(current, pageSize)
     }
     return (
