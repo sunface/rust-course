@@ -13,10 +13,7 @@
 // limitations under the License.
 
 import React from 'react';
-// import { Link } from 'react-router-dom';
 
-import ErrorMessage from '../Trace/components/common/ErrorMessage';
-// import prefixUrl from '../../utils/prefix-url'; 
 
 type NotFoundProps = {
   error: any;
@@ -26,8 +23,6 @@ export default function NotFound({ error }: NotFoundProps) {
   return (
     <section className="ub-m3">
       <h1>Error</h1>
-      {error && <ErrorMessage error={error} />}
-      {/* <Link to={prefixUrl('/')}>Back home</Link> */}
     </section>
   );
 }

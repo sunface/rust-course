@@ -26,7 +26,7 @@ import { Provider } from 'mobx-react'
 // eslint-disable-next-line import/order, import/no-unresolved
 import UIApp from './pages/App';
 import './styles/main.less'
-import 'react-grid-layout/css/styles.css'
+
 
 // these need to go after the App import
 /* eslint-disable import/first */

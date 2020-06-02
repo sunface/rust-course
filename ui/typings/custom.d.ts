@@ -41,11 +41,6 @@ declare module 'combokeys' {
   }
 }
 
-declare module 'react-helmet';
-declare module 'json-markup';
-declare module 'react-vis-force';
-declare module 'tween-functions';
-
 declare module "viz.js/viz.js" {
   export default function viz(dot: string, options?: {}): string;
 }

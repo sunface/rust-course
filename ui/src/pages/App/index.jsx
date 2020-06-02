@@ -13,50 +13,27 @@
 // limitations under the License.
 
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import { Route, Switch,BrowserRouter as Router  } from 'react-router-dom';
-import { ConnectedRouter } from 'react-router-redux';
+import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 
 import NotFound from './NotFound';
-// eslint-disable-next-line import/order, import/no-unresolved
-import TracePage from '../Trace/components/TracePage';
-// eslint-disable-next-line import/order, import/no-unresolved
 import Login from '../Login'
-
-import { ROUTE_PATH as tracePath } from '../Trace/components/TracePage/url';
-import configureStore from '../Trace/utils/configure-store';
-import processScripts from '../Trace/utils/config/process-scripts';
-
 
 
 import './index.css';
 
 import Layouts from '../../layouts/index.jsx'
 
-const history = require("history").createBrowserHistory()
-
 
 export default class UIApp extends Component {
-  constructor(props) {
-    super(props);
-    this.store = configureStore(history);
-    processScripts();
-  }
-
   render() {
     return (
-      <Provider store={this.store}>
-        <ConnectedRouter history={history}>
-          <Router>
-            <Switch>
-              <Route path={tracePath} component={TracePage} />
-              <Route path="/ui" component={Layouts} />
-              <Route path="/login" exact component={Login} />
-              <Route component={NotFound} />
-            </Switch>
-            </Router>
-        </ConnectedRouter>
-      </Provider>
+      <Router>
+        <Switch>
+          <Route path="/ui" component={Layouts} />
+          <Route path="/login" exact component={Login} />
+          <Route component={NotFound} />
+        </Switch>
+      </Router>
     );
   }
 }

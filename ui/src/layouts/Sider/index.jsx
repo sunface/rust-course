@@ -54,7 +54,7 @@ const SiderWrapper = inject('system')(observer(props => {
                                             <span><Message id={route.title} /></span>
                                         </Link>
                                     </Menu.Item>
-                                )
+                                ) 
                             }
                             const items = []
                             route.children.map(r => {
