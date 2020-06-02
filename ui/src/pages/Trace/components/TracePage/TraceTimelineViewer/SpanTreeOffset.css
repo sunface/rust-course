@@ -1,0 +1,56 @@
+/*
+Copyright (c) 2017 Uber Technologies, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+.SpanTreeOffset {
+  color: #000;
+  position: relative;
+}
+
+.SpanTreeOffset.is-parent:hover {
+  background-color: #e8e8e8;
+  cursor: pointer;
+}
+
+.SpanTreeOffset--indentGuide {
+  /* The size of the indentGuide is based off of the iconWrapper */
+  padding-right: calc(0.5rem + 12px);
+  height: 100%;
+  border-left: 1px solid transparent;
+  display: inline-flex;
+}
+
+.SpanTreeOffset--indentGuide:before {
+  content: '';
+  padding-left: 1px;
+  background-color: lightgrey;
+}
+
+.SpanTreeOffset--indentGuide.is-active {
+  /* The size of the indentGuide is based off of the iconWrapper */
+  padding-right: calc(0.5rem + 11px);
+  border-left: 0px;
+}
+
+.SpanTreeOffset--indentGuide.is-active:before {
+  content: '';
+  padding-left: 3px;
+  background-color: darkgrey;
+}
+
+.SpanTreeOffset--iconWrapper {
+  position: absolute;
+  right: 0.25rem;
+}

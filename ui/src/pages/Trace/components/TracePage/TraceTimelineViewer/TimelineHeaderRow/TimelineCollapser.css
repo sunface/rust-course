@@ -1,0 +1,44 @@
+/*
+Copyright (c) 2017 Uber Technologies, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+.TimelineCollapser {
+  align-items: center;
+  display: flex;
+  flex: none;
+  justify-content: center;
+  margin-right: 0.5rem;
+}
+
+.TimelineCollapser--tooltipTitle {
+  white-space: pre;
+}
+
+.TimelineCollapser--btn,
+.TimelineCollapser--btn-expand {
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  margin-right: 0.3rem;
+  padding: 0.1rem;
+}
+
+.TimelineCollapser--btn:hover,
+.TimelineCollapser--btn-expand:hover {
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.TimelineCollapser--btn-expand {
+  transform: rotate(90deg);
+}

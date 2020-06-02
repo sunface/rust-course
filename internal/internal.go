@@ -56,6 +56,7 @@ const (
 // connect to cassandra/scyllaDB cluster
 func connectDatabase() error {
 	c := gocql.NewCluster(misc.Conf.CQL.Cluster...)
+	c.Consistency = gocql.One
 	c.Timeout = ConnectTimeout * time.Second
 	c.ReconnectInterval = ReconnectInterval * time.Millisecond
 

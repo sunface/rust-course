@@ -1,0 +1,104 @@
+/*
+Copyright (c) 2017 Uber Technologies, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+.SpanBar--wrapper {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.span-row.is-expanded .SpanBar--wrapper,
+.span-row:hover .SpanBar--wrapper {
+  opacity: 1;
+}
+
+.SpanBar--bar {
+  border-radius: 3px;
+  min-width: 2px;
+  position: absolute;
+  height: 36%;
+  top: 32%;
+}
+
+.SpanBar--rpc {
+  position: absolute;
+  top: 35%;
+  bottom: 35%;
+  z-index: 1;
+}
+
+.SpanBar--label {
+  color: #aaa;
+  font-size: 12px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  line-height: 1em;
+  white-space: nowrap;
+  padding: 0 0.5em;
+  position: absolute;
+}
+
+.SpanBar--label.is-right {
+  left: 100%;
+}
+
+.SpanBar--label.is-left {
+  right: 100%;
+}
+
+.span-row.is-expanded .SpanBar--label,
+.span-row:hover .SpanBar--label {
+  color: #000;
+}
+
+.SpanBar--logMarker {
+  background-color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  height: 60%;
+  min-width: 1px;
+  position: absolute;
+  top: 20%;
+}
+
+.SpanBar--logMarker:hover {
+  background-color: #000;
+}
+
+.SpanBar--logMarker::before,
+.SpanBar--logMarker::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  border: 1px solid transparent;
+}
+
+.SpanBar--logMarker::after {
+  left: 0;
+}
+
+.SpanBar--logHint {
+  pointer-events: none;
+}
+
+/* Tweak the popover aesthetics - unfortunate but necessary */
+.SpanBar--logHint .ant-popover-inner-content {
+  padding: 0.25rem;
+}

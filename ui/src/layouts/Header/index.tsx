@@ -1,86 +1,53 @@
 import React from 'react'
-import { Layout, Icon, Badge, Avatar, Popover } from 'antd'
-import { useHistory } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
-import { removeToken } from '../../library/utils/auth'
-import style from './index.module.less'
-import {IUser} from '../../store/user'
-import {ISystem} from '../../store/system'
-import {isMobile} from '../../pages/Responsive'
+import { ISystem } from '../../store/system'
+import { Layout, DatePicker } from 'antd'
+import { MenuFoldOutlined } from '@ant-design/icons';
+import './index.less'
+import moment from 'moment';
+import BreadcrumbWrapper from '../Breadcrumb'
 
 const { Header } = Layout
 
-const HeaderWrapper = inject('system', 'user')(observer((props:{user:IUser,system:ISystem} & any) =>{
-    let history = useHistory()
-    let {system, user}:{system:ISystem,user:IUser} = props
-    
-    const onClickLogout = ()=>{
-        removeToken()
-        history.push('/login')
+function Index(props: { system: ISystem }) {
+    let { system } = props
+    const { RangePicker } = DatePicker;
+    function changeDate(_: any, dateString: any) {
+        system.setStartDate(dateString[0])
+        system.setEndDate(dateString[1])
     }
-    const userPopover = (
-        <div className={style.userPopover}>
-            <div onClick={onClickLogout}><Icon type="logout" /><span>退出</span></div>
-        </div>
-    )
-    const messagePopover = (
-        <div className={style.messagePopover}>
-            <div>ss</div>
-        </div>
-    )
-    return (
-        <>
-            <Header>
-                {
-                    isMobile() ? 
-                        <>dsa</>
-                        :
-                        <div className={style.header}>
-                            <div>
-                                <Icon type={system.collapsed?'menu-unfold':'menu-fold'} className={style.menu_icon} onClick={()=>{system.setCollapsed()}} />
-                            </div>
-                            <div> 
-                                <div>
-                                    {/* <AutoComplete
-                                        className="certain-category-search"
-                                        dropdownClassName="certain-category-search-dropdown"
-                                        dropdownMatchSelectWidth={false}
-                                        dropdownStyle={{ width: 300 }}
-                                        size="large"
-                                        style={{ width: '100%' }}
-                                        placeholder="input here"
-                                        optionLabelProp="value"
-                                    >
-                                        <Input suffix={<Icon type="search" className={`${style.icon}`} />} />
-                                    </AutoComplete> */}
-                                </div>
-                                
-                                <div>
-                                    <Badge dot>
-                                        <Popover placement="bottomRight" content={messagePopover}>
-                                            <Icon type="bell" className={style.icon} />
-                                        </Popover>
-                                    </Badge>
-                                </div> 
-                                
-                                <div>
-                                    <Popover className={`${style.pointer}`} placement="bottomRight" content={userPopover}>
-                                        <Badge dot>
-                                            <Avatar icon="user" src={user.avatar}/>
-                                        </Badge>
-                                    </Popover>
-                                </div>
-                                
-                                <div>
-                                    <Icon type="align-left" className={style.icon} onClick={()=>{system.setDrawer()}} />
-                                </div>
-                                
-                            </div>
-                        </div>
-                }
-            </Header>
-        </>
-    )
-}))
 
-export default HeaderWrapper
+    return (
+        <Header className="site-layout-background" style={{ height: '46px', lineHeight: '46px', padding: '0 20px' ,position: 'fixed', zIndex: 1, width: 'calc(100% - 83px)'}} >
+            <div className='header'>
+                <div>
+                    <BreadcrumbWrapper />
+                </div>
+                <div>
+                    <div>
+                    <RangePicker
+                        className="date-picker"
+                        showTime={{ format: 'HH:mm' }}
+                        format="YYYY-MM-DD HH:mm"
+                        onChange={changeDate}
+                        value={[moment(system.startDate), moment(system.endDate)]}
+                        ranges={{
+                            '5m': [moment().subtract(5, 'm'), moment()],
+                            '30m': [moment().subtract(30, 'm'), moment()],
+                            '1h': [moment().subtract(1, 'h'), moment()],
+                            '6h': [moment().subtract(6, 'h'), moment()],
+                            '1d': [moment().subtract(1, 'd'), moment()],
+                            '3d': [moment().subtract(3, 'd'), moment()],
+                            '7d': [moment().subtract(7, 'd'), moment()],
+                        }}
+                    />
+                    </div>
+                </div>
+            </div>
+        </Header>
+    )
+}
+
+let HeaderWrapper = inject('system')(observer(Index))
+
+export default HeaderWrapper as any

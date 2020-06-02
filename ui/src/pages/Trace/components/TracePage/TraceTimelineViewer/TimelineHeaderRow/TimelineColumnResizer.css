@@ -1,0 +1,104 @@
+/*
+Copyright (c) 2017 Uber Technologies, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+.TimelineColumnResizer {
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.TimelineColumnResizer.is-flipped {
+  transform: scaleX(-1);
+}
+
+.TimelineColumnResizer--wrapper {
+  bottom: 0;
+  position: absolute;
+  top: 0;
+}
+
+.TimelineColumnResizer--dragger {
+  border-left: 2px solid transparent;
+  cursor: col-resize;
+  height: calc(100vh - var(--nav-height));
+  margin-left: -1px;
+  position: absolute;
+  top: 0;
+  width: 1px;
+}
+
+.TimelineColumnResizer--dragger:hover {
+  border-left: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+.TimelineColumnResizer.isDraggingLeft > .TimelineColumnResizer--dragger,
+.TimelineColumnResizer.isDraggingRight > .TimelineColumnResizer--dragger {
+  background: rgba(136, 0, 136, 0.05);
+  width: unset;
+}
+
+.TimelineColumnResizer.isDraggingLeft > .TimelineColumnResizer--dragger {
+  border-left: 2px solid #808;
+  border-right: 1px solid #999;
+}
+
+.TimelineColumnResizer.isDraggingRight > .TimelineColumnResizer--dragger {
+  border-left: 1px solid #999;
+  border-right: 2px solid #808;
+}
+
+.TimelineColumnResizer--dragger::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -8px;
+  right: 0;
+  content: ' ';
+}
+
+.TimelineColumnResizer.isDraggingLeft > .TimelineColumnResizer--dragger::before,
+.TimelineColumnResizer.isDraggingRight > .TimelineColumnResizer--dragger::before {
+  left: -2000px;
+  right: -2000px;
+}
+
+.TimelineColumnResizer--gripIcon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.TimelineColumnResizer--gripIcon::before,
+.TimelineColumnResizer--gripIcon::after {
+  border-right: 1px solid #ccc;
+  content: ' ';
+  height: 9px;
+  position: absolute;
+  right: 9px;
+  top: 25px;
+}
+
+.TimelineColumnResizer--gripIcon::after {
+  right: 5px;
+}
+
+.TimelineColumnResizer.isDraggingLeft > .TimelineColumnResizer--gripIcon::before,
+.TimelineColumnResizer.isDraggingRight > .TimelineColumnResizer--gripIcon::before,
+.TimelineColumnResizer.isDraggingLeft > .TimelineColumnResizer--gripIcon::after,
+.TimelineColumnResizer.isDraggingRight > .TimelineColumnResizer--gripIcon::after {
+  border-right: 1px solid rgba(136, 0, 136, 0.5);
+}

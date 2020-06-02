@@ -1,17 +1,14 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { Breadcrumb } from 'antd'
-import style from './index.module.less'
-import { inject, observer } from 'mobx-react'
 import { FormattedMessage as Message } from 'react-intl' 
-import {ISystem} from '../../store/system'
-const BreadcrumbWrapper = inject('system')(observer((props:{system:ISystem}) =>{ 
+
+const BreadcrumbWrapper = () =>{
     let location = useLocation()
     let pathname = location.pathname.split('/')
     return (
         <>
-            <div className={`${style.breadcrumb}`}>
-                <div>{<Message id={pathname[pathname.length-1]}/>}</div>
+            <div>
                 <Breadcrumb separator=">">
                     {
                         pathname.map((item, key)=>{
@@ -27,6 +24,6 @@ const BreadcrumbWrapper = inject('system')(observer((props:{system:ISystem}) =>{
             </div>
         </>
     )
-}))
+}
 
 export default BreadcrumbWrapper

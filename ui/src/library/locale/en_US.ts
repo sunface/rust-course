@@ -12,6 +12,13 @@ const enUS:localeData = {
     setting: 'Setting',
     themes: 'Themes',
     model: 'Model',
-    languages: 'Languages'
+    languages: 'Change Language',
+    ui: 'Home',
+    trace: 'Distributed Tracing',
+    traceSearch: 'Trace Search',
+    traceDetail: 'Trace Detail',
+    search: 'Search',
+    detail: 'Detail',
+    changeTheme: 'Change Theme'
 }
 export default enUS
