@@ -34,7 +34,7 @@ const { Search } = Input;
 const { Header, Content, Footer, Sider } = Layout;
 
 const AppLayout = props => {
-  const [siderKey, setSiderKey] = useState("");
+  const [siderKey, setSiderKey] = useState(-1);
   const [isSiderCollapsed, setSiderCollapsed] = useState(false);
   const [window, setWindow] = useState({ width: -1, height: -1 });
 

@@ -1,6 +1,6 @@
 
 ## I'm dev
-欢迎来到I'm dev，这里是Sunface的个人博客, I'm dev = 我是开发
+欢迎来到I'm dev，这里是Sunface的个人博客
 
 ## 开发技术栈
 - 前端: React + Typescript + Nextjs + AntDesign + Less
