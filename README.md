@@ -7,9 +7,7 @@
 
 ## 🗞 im.dev
 
-> im.dev = I'm dev = 我是开发 = 我为技术代言
-
-- 官方域名：https://im.dev
+- 官方域名：https://im.dev (im.dev = I'm dev = 我是开发)
 - 国际域名：https://codecc.com (code see see)
 
 im.dev是一个开源社区，为开发者提供最新、最好的技术资讯和文章，同时支持通过chrome浏览器插件的方式来使用，只要打开新的标签页，就能看到最新的技术资讯。
