@@ -35,9 +35,9 @@ im.dev会从世界各大技术网站上收集优秀的文章，进行集中呈�
 ## 🗂 技术剖析
 
 下面是我们在im.dev中用到的技术栈
-* 🎨 **Web端** React + next.js
-* 🌳 **服务器端** Golang
-* 🔍 **站内搜索** 标签、Algolia
+* 🎨 **Web端** Typescript + React + Next.js + Antd
+* 🌳 **服务器端** Go + Mysql
+* 🔍 **站内搜索** Algolia
 * 🚨 **移动APP** Flutter
 
 为了方便扩展和社区贡献，在im.dev中大量使用了插件的形式，例如用户可以打造自己的个性化主页，编辑可以设置个性化的文章展示等。
