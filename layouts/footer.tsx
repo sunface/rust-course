@@ -35,7 +35,7 @@ export const Footer = () => (
         <Text fontSize="sm" display="flex" alignItems="center" justifyContent="center">
             <span>Proudly made in </span>
             <chakra.span fontSize="24px" ml="2">🇨🇳</chakra.span>
-            <chakra.span ml="2">by codecc.com</chakra.span>
+            <chakra.span ml="2">by im.dev</chakra.span>
         </Text>
         <Stack mt={4} direction="row" spacing="12px" justify="center">
             {links.map((link) => (

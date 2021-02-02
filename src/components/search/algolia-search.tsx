@@ -66,7 +66,7 @@ export const SearchButton = React.forwardRef(function SearchButton(
       <SearchIcon />
       <HStack w="full" ml="3" spacing="4px">
         <Text textAlign="left" flex="1">
-          Search the docs
+          Search...
         </Text>
         <HStack spacing="4px">
           <VisuallyHidden>Press </VisuallyHidden>

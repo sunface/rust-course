@@ -47,7 +47,7 @@ function PageContainer(props: PageContainerProps) {
             <Box
               id="content"
               pt={3}
-              px={5}
+              px={{base:0,md:3}}
               mt="4.5rem"
               mx="auto"
             >
@@ -55,7 +55,7 @@ function PageContainer(props: PageContainerProps) {
                 {children}
               </PageTransition>
             </Box>
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </Box>
       </Container>

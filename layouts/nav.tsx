@@ -1,7 +1,7 @@
 import {
   chakra,
   Flex,
-  Box,
+  Button,
   HStack,
   Icon,
   IconButton,
@@ -15,16 +15,23 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  Image
+  Image,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalBody,
+  ModalCloseButton,
+  Text,
 } from "@chakra-ui/react"
 import siteConfig from "configs/site-config"
 import { useViewportScroll } from "framer-motion"
 import NextLink from "next/link"
 import React from "react"
-import { FaMoon, FaSun, FaUserAlt, FaRegSun, FaSignOutAlt, FaRegBookmark, FaChartBar, FaHome } from "react-icons/fa"
+import { FaMoon, FaSun, FaUserAlt, FaRegSun, FaSignOutAlt, FaRegBookmark, FaChartBar, FaHome, FaArrowRight, FaGithub } from "react-icons/fa"
 import Logo, { LogoIcon } from "src/components/logo"
 import { MobileNavButton, MobileNavContent } from "./mobile-nav"
 import AlgoliaSearch from "src/components/search/algolia-search"
+import useLogin from "hooks/use-login"
 
 
 const DiscordIcon = (props) => (
@@ -49,6 +56,9 @@ const GithubIcon = (props) => (
 function HeaderContent() {
   const mobileNav = useDisclosure()
 
+  const [login,_] = useLogin()
+  const { isOpen: isLoginOpen, onOpen: onLoginOpen, onClose: onLoginClose } = useDisclosure()
+
   const { toggleColorMode: toggleMode } = useColorMode()
   const text = useColorModeValue("dark", "light")
   const SwitchIcon = useColorModeValue(FaMoon, FaSun)
@@ -63,23 +73,27 @@ function HeaderContent() {
       <Flex w="100%" h="100%" align="center" justify="space-between" px={{ base: "4", md: "6" }}>
         <Flex align="center">
           <NextLink href="/" passHref>
-            <chakra.a display="block" aria-label="Chakra UI, Back to homepage">
-              <Logo display={{ base: "none", md: "block" }} />
-              <Box minW="3rem" display={{ base: "block", md: "none" }}>
-                <LogoIcon />
-              </Box>
+            <chakra.a display={{ base: "none", md: "block" }}  style={{marginTop: '-5px'}} aria-label="Chakra UI, Back to homepage">
+              <Logo width="114"/>
+            </chakra.a>
+          </NextLink>
+          <NextLink href="/" passHref>
+            <chakra.a display={{ base: "block", md: "none" }}  aria-label="Chakra UI, Back to homepage">
+              <LogoIcon />
             </chakra.a>
           </NextLink>
 
-          <HStack spacing="5" display={{ base: "none", md: "flex" }} ml="16" fontSize="17px">
-            <Link>Home</Link>
-            <Link>Tags</Link>
+          <HStack spacing={{base:1, md:3, lg:5}} display={{ base: "none", md: "flex" }} ml={{ base: 1, md: 4, lg: 12 }} fontSize=".95rem" minWidth="250px">
+            <Link>主页</Link>
+            <Link>标签</Link>
+            <Link>学习资料</Link>
+            <Link>工具</Link>
           </HStack>
         </Flex>
 
         <Flex
           w="100%"
-          maxW="724px"
+          maxW="600px"
           align="center"
           color="gray.400"
         >
@@ -110,33 +124,44 @@ function HeaderContent() {
             onClick={toggleMode}
             icon={<SwitchIcon />}
           />
-          <Menu>
-            <MenuButton
-              as={IconButton}
-              bg="transparent"
-              icon={<FaUserAlt />}
-              aria-label="Options"
-              ml={{ base: "0", md: "2" }}
-            />
-            <MenuList>
-              <MenuItem>
-                <Image
-                  boxSize="2rem"
-                  borderRadius="full"
-                  src="https://placekitten.com/100/100"
-                  alt="Fluffybuns the destroyer"
-                  mr="12px"
-                />
-                <span>Sunface</span>
-              </MenuItem>
-              <MenuDivider />
-              <MenuItem icon={<FaChartBar fontSize="16" />}>Dashboard</MenuItem>
-              <MenuItem icon={<FaRegBookmark fontSize="16" />}>Bookmarks</MenuItem>
-              <MenuDivider />
-              <MenuItem icon={<FaRegSun fontSize="16" />}>Account Settings</MenuItem>
-              <MenuItem icon={<FaSignOutAlt fontSize="16" />}>Log out</MenuItem>
-            </MenuList>
-          </Menu>
+          {login ? 
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                bg="transparent"
+                icon={<FaUserAlt />}
+                aria-label="Options"
+                ml={{ base: "0", md: "2" }}
+              />
+              <MenuList>
+                <MenuItem>
+                  <Image
+                    boxSize="2rem"
+                    borderRadius="full"
+                    src="https://placekitten.com/100/100"
+                    alt="Fluffybuns the destroyer"
+                    mr="12px"
+                  />
+                  <span>Sunface</span>
+                </MenuItem>
+                <MenuDivider />
+                <MenuItem icon={<FaChartBar fontSize="16" />}>Dashboard</MenuItem>
+                <MenuItem icon={<FaRegBookmark fontSize="16" />}>Bookmarks</MenuItem>
+                <MenuDivider />
+                <MenuItem icon={<FaRegSun fontSize="16" />}>Account Settings</MenuItem>
+                <MenuItem icon={<FaSignOutAlt fontSize="16" />}>Log out</MenuItem>
+              </MenuList>
+            </Menu> :
+            <Button
+              as="a"
+              ml="2"
+              colorScheme="teal"
+              fontSize=".8rem"
+              onClick={onLoginOpen}
+            >
+              登录
+            </Button>
+          }
           <MobileNavButton
             ref={mobileNavBtnRef}
             aria-label="Open Menu"
@@ -145,6 +170,19 @@ function HeaderContent() {
         </Flex>
       </Flex>
       <MobileNavContent isOpen={mobileNav.isOpen} onClose={mobileNav.onClose} />
+
+      <Modal isOpen={isLoginOpen} onClose={onLoginClose} autoFocus={false} size="xl"  isCentered >
+        <ModalOverlay />
+        <ModalContent p="9" pb="0">
+          <ModalBody textAlign="center" display="flex" alignItems="center" flexDirection="column">
+              <Logo width="10rem"/>
+              <Text mt="8" fontSize=".9rem">欢迎加入im.dev，共同打造全世界最优秀的开发者社区</Text>
+              <Button colorScheme="teal" mt="8" fontSize=".9rem" leftIcon={<FaGithub fontSize="1.0rem"/>}>使用github登录</Button>
+              <Text mt="6" fontSize=".7rem" opacity={0.7}>如果继续，则表示你同意im.dev的<Link textDecoration="underline">服务条款</Link>和<Link textDecoration="underline">隐私政策</Link></Text>
+              <Image src="/pokeman.svg" height="300px"/>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   )
 }
@@ -184,3 +222,4 @@ function Header(props) {
 }
 
 export default Header
+

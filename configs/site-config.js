@@ -27,7 +27,7 @@ const siteConfig = {
   },
   seo: {
     title: "im.dev",
-    titleTemplate: "%s - im.dev",
+    titleTemplate: "%s - 我是开发，我为技术代言",
     description:
       "千挑万选，只为把高质量的内容呈现给你。我是开发，我为技术代言",
     siteUrl: "https://im.dev",
