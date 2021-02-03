@@ -14,10 +14,22 @@ type Config struct {
 	Common struct {
 		Version  string
 		LogLevel string `yaml:"log_level"`
+		IsProd   bool   `yaml:"is_prod"`
+	}
+
+	User struct {
+		SuperAdminUsername string `yaml:"super_admin_username"`
+		SessionExpire      int64  `yaml:"session_expire"`
 	}
 
 	Server struct {
-		Addr string
+		Addr    string
+		BaseUrl string `yaml:"base_url"`
+	}
+
+	Paths struct {
+		Data string
+		Logs string
 	}
 }
 

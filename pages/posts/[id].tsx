@@ -6,7 +6,7 @@ import Nav from "layouts/nav"
 import PageContainer from "layouts/page-container"
 import React from "react"
 
-const HomePage = () => (
+const PostPage = () => (
   <>
     <SEO
       title={siteConfig.seo.title}
@@ -14,11 +14,10 @@ const HomePage = () => (
     />
     <Nav />
     <PageContainer>
-      <chakra.h1>NOT FOUND</chakra.h1>
-      <p>You just hit a route that doesn&#39;t exist... the sadness.</p>
+      <chakra.h1>Post</chakra.h1>
     </PageContainer>
   </>
 )
 
-export default HomePage
+export default PostPage
 

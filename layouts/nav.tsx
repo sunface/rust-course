@@ -22,6 +22,8 @@ import {
   ModalBody,
   ModalCloseButton,
   Text,
+  Box,
+  VStack,
 } from "@chakra-ui/react"
 import siteConfig from "configs/site-config"
 import { useViewportScroll } from "framer-motion"
@@ -31,7 +33,12 @@ import { FaMoon, FaSun, FaUserAlt, FaRegSun, FaSignOutAlt, FaRegBookmark, FaChar
 import Logo, { LogoIcon } from "src/components/logo"
 import { MobileNavButton, MobileNavContent } from "./mobile-nav"
 import AlgoliaSearch from "src/components/search/algolia-search"
-import useLogin from "hooks/use-login"
+import useSession from "hooks/use-session"
+import { requestApi } from "utils/axios/request"
+import { removeToken, saveToken } from "utils/axios/getToken"
+import { Session } from "src/types/session"
+import navLinks from "./nav-links"
+import { useRouter } from "next/router"
 
 
 const DiscordIcon = (props) => (
@@ -53,10 +60,12 @@ const GithubIcon = (props) => (
   </svg>
 )
 
+
 function HeaderContent() {
+  const { pathname } = useRouter()
   const mobileNav = useDisclosure()
 
-  const [login,_] = useLogin()
+  const [session, storeSession]: [Session, any] = useSession()
   const { isOpen: isLoginOpen, onOpen: onLoginOpen, onClose: onLoginClose } = useDisclosure()
 
   const { toggleColorMode: toggleMode } = useColorMode()
@@ -68,26 +77,37 @@ function HeaderContent() {
     mobileNavBtnRef.current?.focus()
   }, [mobileNav.isOpen])
 
+  const login = async () => {
+    const res = await requestApi.post("/login")
+    saveToken(res.data.token)
+    storeSession(res.data)
+    onLoginClose()
+  }
+
+  const logout = async () => {
+    await requestApi.post("/logout")
+    removeToken()
+    storeSession(null)
+  }
+
+
   return (
     <>
       <Flex w="100%" h="100%" align="center" justify="space-between" px={{ base: "4", md: "6" }}>
         <Flex align="center">
           <NextLink href="/" passHref>
-            <chakra.a display={{ base: "none", md: "block" }}  style={{marginTop: '-5px'}} aria-label="Chakra UI, Back to homepage">
-              <Logo width="114"/>
+            <chakra.a display={{ base: "none", md: "block" }} style={{ marginTop: '-5px' }} aria-label="Chakra UI, Back to homepage">
+              <Logo width="130" />
             </chakra.a>
           </NextLink>
           <NextLink href="/" passHref>
-            <chakra.a display={{ base: "block", md: "none" }}  aria-label="Chakra UI, Back to homepage">
+            <chakra.a display={{ base: "block", md: "none" }} aria-label="Chakra UI, Back to homepage">
               <LogoIcon />
             </chakra.a>
           </NextLink>
 
-          <HStack spacing={{base:1, md:3, lg:5}} display={{ base: "none", md: "flex" }} ml={{ base: 1, md: 4, lg: 12 }} fontSize=".95rem" minWidth="250px">
-            <Link>主页</Link>
-            <Link>标签</Link>
-            <Link>学习资料</Link>
-            <Link>工具</Link>
+          <HStack display={{ base: "none", md: "flex" }} ml={{ base: 1, md: 4, lg: 12 }} fontSize="1rem" minWidth="250px">
+            {navLinks.map(link => <Link px="4" py="0.7rem" rounded="md" href={link.url} key={link.url} color={useColorModeValue("gray.700", "whiteAlpha.900")} aria-current={pathname === link.url ? "page" : undefined} _activeLink={{ bg: useColorModeValue("transparent", "rgba(48, 140, 122, 0.3)"), color: useColorModeValue("teal.500", "teal.200"), fontWeight: "bold", }}  _hover={null} _focus={null}>{link.title}</Link>)}
           </HStack>
         </Flex>
 
@@ -122,26 +142,28 @@ function HeaderContent() {
             color="current"
             ml={{ base: "0", md: "3" }}
             onClick={toggleMode}
+            _focus={null}
             icon={<SwitchIcon />}
           />
-          {login ? 
+          {session ?
             <Menu>
               <MenuButton
                 as={IconButton}
                 bg="transparent"
-                icon={<FaUserAlt />}
+                _focus={null}
+                icon={session.user.avatar !== '' ? <Image
+                  boxSize="2.8em"
+                  borderRadius="full"
+                  src="https://placekitten.com/100/100"
+                  alt="Fluffybuns the destroyer"
+                /> :
+                  <FaUserAlt />
+                }
                 aria-label="Options"
                 ml={{ base: "0", md: "2" }}
               />
               <MenuList>
-                <MenuItem>
-                  <Image
-                    boxSize="2rem"
-                    borderRadius="full"
-                    src="https://placekitten.com/100/100"
-                    alt="Fluffybuns the destroyer"
-                    mr="12px"
-                  />
+                <MenuItem icon={<FaUserAlt fontSize="16" />}>
                   <span>Sunface</span>
                 </MenuItem>
                 <MenuDivider />
@@ -149,7 +171,7 @@ function HeaderContent() {
                 <MenuItem icon={<FaRegBookmark fontSize="16" />}>Bookmarks</MenuItem>
                 <MenuDivider />
                 <MenuItem icon={<FaRegSun fontSize="16" />}>Account Settings</MenuItem>
-                <MenuItem icon={<FaSignOutAlt fontSize="16" />}>Log out</MenuItem>
+                <MenuItem onClick={() => logout()} icon={<FaSignOutAlt fontSize="16" />}>Log out</MenuItem>
               </MenuList>
             </Menu> :
             <Button
@@ -158,8 +180,9 @@ function HeaderContent() {
               colorScheme="teal"
               fontSize=".8rem"
               onClick={onLoginOpen}
+              // leftIcon={<FaUserAlt />}
             >
-              登录
+              SIGN IN
             </Button>
           }
           <MobileNavButton
@@ -171,15 +194,32 @@ function HeaderContent() {
       </Flex>
       <MobileNavContent isOpen={mobileNav.isOpen} onClose={mobileNav.onClose} />
 
-      <Modal isOpen={isLoginOpen} onClose={onLoginClose} autoFocus={false} size="xl"  isCentered >
-        <ModalOverlay />
-        <ModalContent p="9" pb="0">
+      <Modal isOpen={isLoginOpen} onClose={onLoginClose} autoFocus={false} size="xl" isCentered >
+        <ModalOverlay bg="rgba(0, 0, 0, 0.6)">
+          <Image src="/login-bg.svg" height="100%" />
+        </ModalOverlay>
+        <ModalContent p="9" pb="7">
           <ModalBody textAlign="center" display="flex" alignItems="center" flexDirection="column">
-              <Logo width="10rem"/>
-              <Text mt="8" fontSize=".9rem">欢迎加入im.dev，共同打造全世界最优秀的开发者社区</Text>
-              <Button colorScheme="teal" mt="8" fontSize=".9rem" leftIcon={<FaGithub fontSize="1.0rem"/>}>使用github登录</Button>
-              <Text mt="6" fontSize=".7rem" opacity={0.7}>如果继续，则表示你同意im.dev的<Link textDecoration="underline">服务条款</Link>和<Link textDecoration="underline">隐私政策</Link></Text>
-              <Image src="/pokeman.svg" height="300px"/>
+            <Logo width="12rem" />
+            <Text mt="8" fontSize="1.1rem" fontWeight="500">欢迎加入im.dev，一起打造全世界最好的开发者社区</Text>
+            <VStack mt="2" p="5" align="left" spacing="2" fontSize="15px">
+              <Box display="flex" flexDirection="row" alignItems="center">
+                <svg width="48px" height="48px" fill={useColorModeValue("teal","white")} version="1.1" viewBox="0 0 24 24"><path d="M7.036 14.836a1.003 1.003 0 01-1.418 0l-.709-.709a6.518 6.518 0 119.218-9.218l.71.71a1.003 1.003 0 010 1.417l-.71.71a1.003 1.003 0 01-1.418 0L12 7.035A3.51 3.51 0 007.036 12l.71.71a1.003 1.003 0 010 1.417l-.71.71zm2.128 3.546a1.003 1.003 0 010-1.418l.709-.71a1.003 1.003 0 011.418 0l.709.71A3.51 3.51 0 0016.964 12l-.71-.71a1.003 1.003 0 010-1.417l.71-.71a1.003 1.003 0 011.418 0l.709.71a6.518 6.518 0 11-9.218 9.218l-.71-.71zm0-9.218a1.504 1.504 0 012.127 0l3.545 3.545a1.504 1.504 0 01-2.127 2.127l-3.545-3.545a1.504 1.504 0 010-2.127z"  fillRule="evenodd"></path></svg>
+                <Text ml="4" layerStyle="textSecondary">从世界各地精选最优秀的内容</Text>
+              </Box>
+              <Box display="flex" flexDirection="row" alignItems="center">
+                <svg width="48px" height="48px" fill={useColorModeValue("teal","white")} version="1.1" viewBox="0 0 24 24"><path d="M9 2v1a1 1 0 001 1h4a1 1 0 001-1V2h1a2 2 0 012 2v16a2 2 0 01-2 2H8a2 2 0 01-2-2V4a2 2 0 012-2h1zm1 16a1 1 0 000 2h4a1 1 0 000-2h-4z"  fillRule="evenodd"></path></svg>
+                <Text ml="4" layerStyle="textSecondary">丰富的功能特性等待你的探索</Text>
+              </Box>
+              <Box display="flex" flexDirection="row" alignItems="center">
+                <svg width="48px" height="48px" fill={useColorModeValue("teal","white")} version="1.1" viewBox="0 0 24 24"><path d="M19 21l-3-.5.786-4.321A1 1 0 0015.802 15H8.198a1 1 0 00-.984 1.179L8 20.5 5 21a1 1 0 01-1-1v-.5c0-4.142 3.582-7.5 8-7.5s8 3.358 8 7.5v.5a1 1 0 01-1 1zm-7-2a1 1 0 110-2 1 1 0 010 2zm0-8a4 4 0 110-8 4 4 0 010 8z" fillRule="evenodd"></path></svg>
+                <Text ml="4" layerStyle="textSecondary">充分展示自我并获得猎头关注</Text>
+              </Box>
+            </VStack>
+
+            <Button onClick={() => login()} layerStyle="colorButton" mt="6" fontSize=".9rem" leftIcon={<FaGithub fontSize="1.0rem" /> }>使用github登录</Button>
+            <Text mt="6" fontSize=".7rem" layerStyle="textSecondary">如果继续，则表示你同意im.dev的<Link textDecoration="underline">服务条款</Link>和<Link textDecoration="underline">隐私政策</Link></Text>
+            {/* <Image src="/pokeman.svg" height="300px" /> */}
           </ModalBody>
         </ModalContent>
       </Modal>

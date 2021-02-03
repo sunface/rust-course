@@ -41,9 +41,11 @@ var rootCmd = &cobra.Command{
 			return
 		}
 
-		service := server.New()
-		err = service.Start()
+		log.RootLogger.Info("配置初始化成功", "config", config.Data)
+		server := server.New()
+		err = server.Start()
 		if err != nil {
+			log.RootLogger.Crit("init server error", "error", err)
 			return
 		}
 		// 等待服务器停止信号
@@ -51,7 +53,7 @@ var rootCmd = &cobra.Command{
 		signal.Notify(chSig, syscall.SIGINT, syscall.SIGTERM)
 		sig := <-chSig
 		log.RootLogger.Info("server received signal", "signal", sig)
-		service.Close()
+		server.Close()
 	},
 }
 

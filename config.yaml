@@ -2,3 +2,23 @@
 common:
     version: 0.1.0
     log_level: "info"
+    is_prod: false
+
+    #################################### Server ##############################
+server:
+    addr: ":6001"
+    base_url: "/api"
+#################################### User/Session ##############################
+user: 
+    # github username
+    super_admin_username: "sunface"
+    # a session is created when user login to im.dev, this session will be expired after X seconds
+    session_expire: 259200
+
+
+#################################### Paths ##############################
+# Path to where im.dev can store temp files, sessions, and the sqlite3 db (if that is used)
+paths:
+    # sqlite3 db files
+    data: ""
+    logs: ""

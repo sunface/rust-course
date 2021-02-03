@@ -2,6 +2,26 @@ import { extendTheme } from "@chakra-ui/react"
 import { mode } from "@chakra-ui/theme-tools"
 
 const customTheme = extendTheme({
+  config: {
+    initialColorMode: "dark",
+    useSystemColorMode: false,
+  },
+
+  //predefined mixin
+  layerStyles: {
+    textSecondary: {
+      opacity: "0.8"
+    },
+    colorButton: {
+      bg: "linear-gradient(270deg,#0076f5,#0098a3)",
+      color: "white",
+      _hover: {
+        cursor: 'pointer'
+      },
+      _focus: null
+    }
+  },
+
   fonts: {
     heading: "Inter, sans-serif",
     body: "Inter, sans-serif",

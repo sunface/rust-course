@@ -1,0 +1,37 @@
+<svg viewBox="0 0 1920 980" preserveAspectRatio="xMinYMin slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient x1="-187.493%" y1="-3.998%" x2="100%" y2="50%" id="a">
+            <stop stop-color="#FF4746" offset="0%"></stop>
+            <stop stop-color="#4801F5" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="b">
+            <stop stop-color="#F58301" offset="0%"></stop>
+            <stop stop-color="#F5CC03" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0%" y1="50%" x2="203.69%" y2="28.045%" id="c">
+            <stop stop-color="#208BFF" offset="0%"></stop>
+            <stop stop-color="#4801F5" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0%" y1="50%" x2="189.93%" y2="51.588%" id="d">
+            <stop stop-color="#00F576" offset="0%"></stop>
+            <stop stop-color="#20F0FF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0%" y1="50%" x2="195.735%" y2="-36.062%" id="e">
+            <stop stop-color="#FF4746" offset="0%"></stop>
+            <stop stop-color="#4801F5" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <path d="M0 724.552V517.497l427.097 114.44c53.347 14.294 85.005 69.128 70.71 122.475l-25.881 96.592L0 724.552z"
+            fill="url(#a)"></path>
+        <path d="M1161.522 980h-384.87l63.78-91.129c34.705-49.587 103.024-61.633 152.596-26.907L1161.522 980z"
+            fill="url(#b)"></path>
+        <path
+            d="M1920 391.547v207.055l-479.644 128.52c-53.346 14.294-108.18-17.364-122.474-70.71L1292 559.819l628-168.272z"
+            fill="url(#c)"></path>
+        <path d="M1170.367 0H1920v197.255l-766-67.016 8.716-99.62c.948-10.842 3.593-21.128 7.65-30.619z" fill="url(#d)">
+        </path>
+        <path d="M365.107 0h282.842L356.132 291.817c-39.052 39.053-102.369 39.053-141.421 0L144 221.107 365.107 0z"
+            fill="url(#e)"></path>
+    </g>
+</svg>
