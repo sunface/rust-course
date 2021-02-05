@@ -7,6 +7,8 @@ import { ChakraProvider } from "@chakra-ui/react"
 import theme from "theme"
 import FontFace from "src/components/font-face"
 import { getSeo } from "utils/seo"
+import GAScript from "analytics/ga-script"
+import {initUIConfig} from 'src/utils/config'
 
 Router.events.on("routeChangeComplete", (url) => {
   trackPageview(url)
@@ -15,6 +17,7 @@ Router.events.on("routeChangeComplete", (url) => {
 const App = ({ Component, pageProps }) => {
   const seo = getSeo({ omitOpenGraphImage: false })
 
+  initUIConfig()
   return (
     <>
       <Head>
@@ -29,6 +32,7 @@ const App = ({ Component, pageProps }) => {
       <ChakraProvider theme={theme}>
         <Component {...pageProps} />
       </ChakraProvider>
+      <GAScript />
       <FontFace />
     </>
   )

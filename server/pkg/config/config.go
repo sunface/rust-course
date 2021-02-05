@@ -31,6 +31,10 @@ type Config struct {
 		Data string
 		Logs string
 	}
+
+	Posts struct {
+		BriefMaxLen int `yaml:"brief_max_len"`
+	}
 }
 
 // Data ...

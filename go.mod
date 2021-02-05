@@ -3,6 +3,7 @@ module github.com/imdotdev/im.dev
 go 1.14
 
 require (
+	github.com/asaskevich/govalidator v0.0.0-20200907205600-7a23bdc65eef
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-stack/stack v1.8.0
 	github.com/inconshreveable/log15 v0.0.0-20201112154412-8562bdadbbac

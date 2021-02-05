@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react"
 import { Session } from "src/types/session"
+import events from "utils/events"
 import storage from "utils/localStorage"
 
-function useSession(): [Session, any] {
+function useSession(): Session{
   const [session, setSession] = useState(null)
   useEffect(() => {
     const sess = storage.get('session')
     if (sess) {
       setSession(sess)
+    }
+
+    events.on('set-session',storeSession)
+
+    return() =>  {
+      events.off('set-session',storeSession)
     }
   }, [])
 
@@ -17,7 +24,7 @@ function useSession(): [Session, any] {
     setSession(sess)
   }
 
-  return [session, storeSession]
+  return session
 }
 
 export default useSession

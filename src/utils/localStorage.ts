@@ -8,7 +8,7 @@ const storage = {
     },
     remove(key:string){
         localStorage.removeItem(adminKey+key)
-    }
+    } 
 }
- 
+
 export default storage

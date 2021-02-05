@@ -5,10 +5,10 @@ async function redirect() {
         destination: "https://discord.gg/dQHfcWF",
         permanent: true,
       },
-      // GENERAL
+      // GENERAL 
       {
-        source: "/getting-started",
-        destination: "/docs/getting-started",
+        source: "/editor",
+        destination: "/editor/articles",
         permanent: true,
       }
     ]

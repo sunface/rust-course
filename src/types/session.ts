@@ -8,9 +8,9 @@ export interface User {
     id :number 
     username: string 
     nickname: string 
-    role: string 
     avatar: string 
-    email: string 
+    role?: string 
+    email?: string 
     lastSeenAt?: string
-    created: string
+    created?: string
 }

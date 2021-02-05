@@ -91,7 +91,7 @@ func storeSession(s *Session) error {
 	return nil
 }
 
-func Current(c *gin.Context) *models.User {
+func CurrentUser(c *gin.Context) *models.User {
 	token := getToken(c)
 	createTime, _ := strconv.ParseInt(token, 10, 64)
 	if createTime != 0 {

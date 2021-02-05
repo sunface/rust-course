@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/imdotdev/im.dev/server/internal/api"
 	"github.com/imdotdev/im.dev/server/internal/session"
 	"github.com/imdotdev/im.dev/server/internal/storage"
 	"github.com/imdotdev/im.dev/server/pkg/common"
@@ -43,8 +44,19 @@ func (s *Server) Start() error {
 		{
 			r.POST("/login", session.Login)
 			r.POST("/logout", session.Logout)
+			r.GET("/uiconfig", GetUIConfig)
 		}
 
+		// login apis
+		lr := r.Group("", IsLogin())
+		{
+			editorR := lr.Group("/editor")
+			{
+				editorR.GET("/articles", api.GetEditorArticles)
+				editorR.POST("/article", api.PostEditorArticle)
+				editorR.DELETE("/article/:id", api.DeleteEditorArticle)
+			}
+		}
 		err := router.Run(config.Data.Server.Addr)
 		if err != nil {
 			logger.Crit("start backend server error", "error", err)
@@ -83,9 +95,9 @@ func Cors() gin.HandlerFunc {
 // Auth is a gin middleware for user auth
 func IsLogin() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		user := session.Current(c)
+		user := session.CurrentUser(c)
 		if user == nil {
-			c.JSON(http.StatusUnauthorized, common.RespError(nil, errcode.NeedLogin))
+			c.JSON(http.StatusUnauthorized, common.RespError(errcode.NeedLogin))
 			c.Abort()
 			return
 		}

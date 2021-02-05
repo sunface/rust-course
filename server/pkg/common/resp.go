@@ -16,10 +16,9 @@ func RespSuccess(data interface{}) *Resp {
 	return r
 }
 
-func RespError(data interface{}, msg string) *Resp {
+func RespError(msg string) *Resp {
 	r := &Resp{}
 	r.Status = Error
-	r.Data = data
 	r.Message = msg
 
 	return r

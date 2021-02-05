@@ -27,4 +27,22 @@ var sqlTables = map[string]string{
 			user_id          INTEGER
 		);
 	`,
+
+	"articles": `CREATE TABLE IF NOT EXISTS articles (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		creator INTEGER NOT NULL,
+
+		title VARCHAR(255) NOT NULL,
+		url  VARCHAR(255) NOT NULL,
+		cover VARCHAR(255),
+		brief TEXT,
+
+		created DATETIME NOT NULL,
+		updated DATETIME
+	);
+	CREATE INDEX IF NOT EXISTS articles_creator
+		ON articles (creator);
+	CREATE INDEX IF NOT EXISTS articles_created
+		ON articles (created);
+`,
 }
