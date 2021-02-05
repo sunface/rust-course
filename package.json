@@ -22,7 +22,7 @@
     "@emotion/styled": "^11.0.0",
     "@octokit/rest": "^18.0.12",
     "@types/validator": "^13.1.3",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "date-fns": "^2.16.1",
     "docsearch.js": "^2.6.3",
     "eventemitter3": "^4.0.4",
