@@ -57,7 +57,7 @@ func Login(c *gin.Context) {
 		logger.Warn("set last login date error", "error", err)
 	}
 
-	c.JSON(http.StatusOK, session)
+	c.JSON(http.StatusOK, common.RespSuccess(session))
 }
 
 // Logout ...

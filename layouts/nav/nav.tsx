@@ -66,11 +66,11 @@ const GithubIcon = (props) => (
 
 function HeaderContent() {
   const router = useRouter()
-  const {pathname} = router
+  const { pathname } = router
   const mobileNav = useDisclosure()
 
-  const session:Session = useSession()
-  
+  const session: Session = useSession()
+
   const { toggleColorMode: toggleMode } = useColorMode()
   const text = useColorModeValue("dark", "light")
   const SwitchIcon = useColorModeValue(FaMoon, FaSun)
@@ -101,7 +101,7 @@ function HeaderContent() {
           </NextLink>
 
           <HStack display={{ base: "none", md: "flex" }} ml={{ base: 1, md: 4, lg: 12 }} fontSize="1rem" minWidth="250px">
-            {navLinks.map(link => <Link px="4" py="0.7rem" rounded="md" href={link.url} key={link.url} color={useColorModeValue("gray.700", "whiteAlpha.900")} aria-current={pathname === link.url ? "page" : undefined} _activeLink={{ bg: useColorModeValue("transparent", "rgba(48, 140, 122, 0.3)"), color: useColorModeValue("teal.500", "teal.200"), fontWeight: "bold", }}  _hover={null} _focus={null}>{link.title}</Link>)}
+            {navLinks.map(link => <Link px="4" py="0.7rem" rounded="md" href={link.url} key={link.url} color={useColorModeValue("gray.700", "whiteAlpha.900")} aria-current={pathname === link.url ? "page" : undefined} _activeLink={{ bg: useColorModeValue("transparent", "rgba(48, 140, 122, 0.3)"), color: useColorModeValue("teal.500", "teal.200"), fontWeight: "bold", }} _hover={null} _focus={null}>{link.title}</Link>)}
           </HStack>
         </Flex>
 
@@ -118,13 +118,15 @@ function HeaderContent() {
               aria-label="Go to Chakra UI GitHub page"
               href={siteConfig.repo.url}
             >
-              <Icon
-                as={GithubIcon}
-                display="block"
-                transition="color 0.2s"
-                w="5"
-                h="5"
-                _hover={{ color: "gray.600" }}
+              <IconButton
+                size="md"
+                fontSize="lg"
+                aria-label={`Switch to ${text} mode`}
+                variant="ghost"
+                color="current"
+                ml={{ base: "0", md: "3" }}
+                _focus={null}
+                icon={<FaGithub />}
               />
             </Link>
           </HStack>
@@ -134,7 +136,7 @@ function HeaderContent() {
             aria-label={`Switch to ${text} mode`}
             variant="ghost"
             color="current"
-            ml={{ base: "0", md: "3" }}
+            ml={{ base: "0", md: "1" }}
             onClick={toggleMode}
             _focus={null}
             icon={<SwitchIcon />}
@@ -161,7 +163,7 @@ function HeaderContent() {
                   <span>Sunface</span>
                 </MenuItem>
                 <MenuDivider />
-                {<MenuItem as="a" icon={<FaEdit fontSize="16"/>} href="/editor">编辑中心</MenuItem>}
+                {<MenuItem as="a" icon={<FaEdit fontSize="16" />} href="/editor">编辑中心</MenuItem>}
                 <MenuItem icon={<FaBookmark fontSize="16" />}>书签收藏</MenuItem>
                 <MenuDivider />
                 <MenuItem icon={<FaRegSun fontSize="16" />}>偏好设置</MenuItem>
@@ -174,7 +176,7 @@ function HeaderContent() {
               colorScheme="teal"
               fontSize=".8rem"
               onClick={() => login()}
-              // leftIcon={<FaUserAlt />}
+            // leftIcon={<FaUserAlt />}
             >
               SIGN IN
             </Button>

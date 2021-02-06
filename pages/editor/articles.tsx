@@ -14,7 +14,7 @@ import { Article } from "src/types/posts"
 var validator = require('validator');
 const toast = createStandaloneToast()
 
-const newPost:Article = { title: '', url: '', cover: ''}
+const newPost: Article = { title: '', url: '', cover: '' }
 const ArticlesPage = () => {
     const [posts, setPosts] = useState([])
     const [currentPost, setCurrentPost] = useState(newPost)
@@ -63,6 +63,7 @@ const ArticlesPage = () => {
             isClosable: true,
         })
         setCurrentPost(newPost)
+        getPosts()
     }
 
     const editArticle = (ar: Article) => {
@@ -102,17 +103,18 @@ const ArticlesPage = () => {
                                     </Center>
                                 </>
                                 :
-                                <VStack mt="4">
-                                    {posts.map(post =>
-                                        <Box width="100%" key={post.id}>
-                                            <TextArticleCard article={post} showActions={true} mt="4" onEdit={() => editArticle(post)} onDelete={() => onDeleteArticle()} />
-                                            <Divider mt="5" />
-                                        </Box>
-                                    )}
-                                </VStack>
+                                <>
+                                    <VStack mt="4">
+                                        {posts.map(post =>
+                                            <Box width="100%" key={post.id}>
+                                                <TextArticleCard article={post} showActions={true} mt="4" onEdit={() => editArticle(post)} onDelete={() => onDeleteArticle()} />
+                                                <Divider mt="5" />
+                                            </Box>
+                                        )}
+                                    </VStack>
+                                    <Center><Text layerStyle="textSecondary" fontSize="sm" mt="6">没有更多文章了</Text></Center>
+                                </>
                         }
-
-                        <Center><Text layerStyle="textSecondary" fontSize="sm" mt="4">没有更多文章了</Text></Center>
                     </Card>
                 </Box>
             </PageContainer>

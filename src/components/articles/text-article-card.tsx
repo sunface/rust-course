@@ -22,9 +22,9 @@ export const TextArticleCard= (props:Props) =>{
     } 
     return (
         <Flex justifyContent="space-between"  {...rest}>
-            <VStack>
+            <VStack alignItems="left">
                 <Heading size="sm">{props.article.title}</Heading>
-                <Text fontSize=".9rem">{gap}</Text>
+                <Text fontSize=".9rem">发布于{gap}</Text>
             </VStack>
             {props.showActions && <HStack>
                 <Button size="sm" colorScheme="teal" variant="outline" onClick={onEdit}>Edit</Button>
