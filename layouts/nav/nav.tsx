@@ -3,7 +3,6 @@ import {
   Flex,
   Button,
   HStack,
-  Icon,
   IconButton,
   Link,
   useColorMode,
@@ -16,14 +15,6 @@ import {
   MenuItem,
   MenuDivider,
   Image,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalBody,
-  ModalCloseButton,
-  Text,
-  Box,
-  VStack,
 } from "@chakra-ui/react"
 import siteConfig from "configs/site-config"
 import { useViewportScroll } from "framer-motion"
@@ -66,7 +57,7 @@ const GithubIcon = (props) => (
 
 function HeaderContent() {
   const router = useRouter()
-  const { pathname } = router
+  const { asPath } = router
   const mobileNav = useDisclosure()
 
   const session: Session = useSession()
@@ -81,7 +72,8 @@ function HeaderContent() {
   }, [mobileNav.isOpen])
 
   const login = () => {
-    storage.set("current-page", pathname)
+    console.log(router)
+    storage.set("current-page", asPath)
     router.push('/login')
   }
 
@@ -101,7 +93,7 @@ function HeaderContent() {
           </NextLink>
 
           <HStack display={{ base: "none", md: "flex" }} ml={{ base: 1, md: 4, lg: 12 }} fontSize="1rem" minWidth="250px">
-            {navLinks.map(link => <Link px="4" py="0.7rem" rounded="md" href={link.url} key={link.url} color={useColorModeValue("gray.700", "whiteAlpha.900")} aria-current={pathname === link.url ? "page" : undefined} _activeLink={{ bg: useColorModeValue("transparent", "rgba(48, 140, 122, 0.3)"), color: useColorModeValue("teal.500", "teal.200"), fontWeight: "bold", }} _hover={null} _focus={null}>{link.title}</Link>)}
+            {navLinks.map(link => <Link px="4" py="0.7rem" rounded="md" href={link.url} key={link.url} color={useColorModeValue("gray.700", "whiteAlpha.900")} aria-current={asPath === link.url ? "page" : undefined} _activeLink={{ bg: useColorModeValue("transparent", "rgba(48, 140, 122, 0.3)"), color: useColorModeValue("teal.500", "teal.200"), fontWeight: "bold", }} _hover={null} _focus={null}>{link.title}</Link>)}
           </HStack>
         </Flex>
 
@@ -109,7 +101,7 @@ function HeaderContent() {
           w="100%"
           maxW="600px"
           align="center"
-          color="gray.400"
+          color={useColorModeValue("gray.500","gray.400")}
         >
           <AlgoliaSearch />
           <HStack spacing="5" display={{ base: "none", md: "flex" }}>
@@ -151,7 +143,7 @@ function HeaderContent() {
                   boxSize="2.8em"
                   borderRadius="full"
                   src="https://placekitten.com/100/100"
-                  alt="Fluffybuns the destroyer"
+                  alt="user"
                 /> :
                   <FaUserAlt />
                 }
@@ -163,7 +155,7 @@ function HeaderContent() {
                   <span>Sunface</span>
                 </MenuItem>
                 <MenuDivider />
-                {<MenuItem as="a" icon={<FaEdit fontSize="16" />} href="/editor">编辑中心</MenuItem>}
+                {<MenuItem as="a" icon={<FaEdit fontSize="16" />} href="/editor">创作中心</MenuItem>}
                 <MenuItem icon={<FaBookmark fontSize="16" />}>书签收藏</MenuItem>
                 <MenuDivider />
                 <MenuItem icon={<FaRegSun fontSize="16" />}>偏好设置</MenuItem>

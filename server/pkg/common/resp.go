@@ -1,6 +1,6 @@
 package common
 
-import "github.com/imdotdev/im.dev/server/pkg/errcode"
+import "github.com/imdotdev/im.dev/server/pkg/e"
 
 type Resp struct {
 	Status  string      `json:"status"`
@@ -27,7 +27,7 @@ func RespError(msg string) *Resp {
 func RespInternalError() *Resp {
 	r := &Resp{}
 	r.Status = Error
-	r.Message = errcode.Internal
+	r.Message = e.Internal
 
 	return r
 }

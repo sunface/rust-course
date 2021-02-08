@@ -1,44 +1,92 @@
 package api
 
 import (
-	"database/sql"
+	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/imdotdev/im.dev/server/internal/posts"
 	"github.com/imdotdev/im.dev/server/internal/session"
 	"github.com/imdotdev/im.dev/server/pkg/common"
+	"github.com/imdotdev/im.dev/server/pkg/e"
 )
 
-func GetEditorArticles(c *gin.Context) {
+func GetEditorPosts(c *gin.Context) {
 	user := session.CurrentUser(c)
-	ars, err := posts.UserArticles(int64(user.ID))
-	if err != nil && err != sql.ErrNoRows {
-		logger.Warn("get user articles error", "error", err)
-		c.JSON(http.StatusInternalServerError, common.RespInternalError())
+	ars, err := posts.UserPosts(int64(user.ID))
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
 		return
 	}
 
 	c.JSON(http.StatusOK, common.RespSuccess(ars))
 }
 
-func PostEditorArticle(c *gin.Context) {
-	err := posts.PostArticle(c)
+func SubmitPost(c *gin.Context) {
+	err := posts.SubmitPost(c)
 	if err != nil {
-		logger.Warn("post article error", "error", err)
-		c.JSON(400, common.RespError(err.Error()))
+		logger.Warn("submit post error", "error", err)
+		c.JSON(err.Status, common.RespError(err.Message))
 		return
 	}
 
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
 }
 
-func DeleteEditorArticle(c *gin.Context) {
-	err := posts.DeleteArticle(c)
-	if err != nil {
-		logger.Warn("delete article error", "error", err)
-		c.JSON(400, common.RespError(err.Error()))
+func DeletePost(c *gin.Context) {
+	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+	if id == 0 {
+		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
 		return
 	}
+
+	user := session.CurrentUser(c)
+	creator, err := posts.GetPostCreator(id)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	if user.ID != creator {
+		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
+		return
+	}
+
+	err = posts.DeletePost(id)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}
+
+func GetEditorPost(c *gin.Context) {
+	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+	fmt.Println(c.Param("id"))
+	if id == 0 {
+		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
+		return
+	}
+
+	user := session.CurrentUser(c)
+	creator, err := posts.GetPostCreator(id)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	if user.ID != creator {
+		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
+		return
+	}
+
+	ar, err := posts.GetPost(id)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(ar))
 }

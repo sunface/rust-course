@@ -1,5 +1,7 @@
 import { extendTheme } from "@chakra-ui/react"
 import { mode } from "@chakra-ui/theme-tools"
+import reactMarkdownStyls from 'theme/react-markdown-editor'
+import layerStyles from 'theme/layer-styles'
 
 const customTheme = extendTheme({
   config: {
@@ -8,20 +10,7 @@ const customTheme = extendTheme({
   },
 
   //predefined mixin
-  layerStyles: {
-    textSecondary: {
-      opacity: "0.8"
-    },
-    colorButton: {
-      bg: "linear-gradient(270deg,#0076f5,#0098a3)",
-      color: "white",
-      _hover: {
-        cursor: 'pointer'
-      },
-      _focus: null
-    }
-  },
-
+  layerStyles: layerStyles(),
   fonts: {
     heading: "Inter, sans-serif",
     body: "Inter, sans-serif",
@@ -43,6 +32,7 @@ const customTheme = extendTheme({
           fontStyle: "normal !important",
         },
       },
+      ...reactMarkdownStyls(props)
     }),
   },
   textStyles: {

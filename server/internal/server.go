@@ -9,7 +9,7 @@ import (
 	"github.com/imdotdev/im.dev/server/internal/storage"
 	"github.com/imdotdev/im.dev/server/pkg/common"
 	"github.com/imdotdev/im.dev/server/pkg/config"
-	"github.com/imdotdev/im.dev/server/pkg/errcode"
+	"github.com/imdotdev/im.dev/server/pkg/e"
 	"github.com/imdotdev/im.dev/server/pkg/log"
 )
 
@@ -52,10 +52,12 @@ func (s *Server) Start() error {
 		{
 			editorR := lr.Group("/editor")
 			{
-				editorR.GET("/articles", api.GetEditorArticles)
-				editorR.POST("/article", api.PostEditorArticle)
-				editorR.DELETE("/article/:id", api.DeleteEditorArticle)
+				editorR.GET("/posts", api.GetEditorPosts)
+				editorR.POST("/post", api.SubmitPost)
+				editorR.DELETE("/post/:id", api.DeletePost)
+				editorR.GET("/post/:id", api.GetEditorPost)
 			}
+
 		}
 		err := router.Run(config.Data.Server.Addr)
 		if err != nil {
@@ -97,7 +99,7 @@ func IsLogin() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		user := session.CurrentUser(c)
 		if user == nil {
-			c.JSON(http.StatusUnauthorized, common.RespError(errcode.NeedLogin))
+			c.JSON(http.StatusUnauthorized, common.RespError(e.NeedLogin))
 			c.Abort()
 			return
 		}

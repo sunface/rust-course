@@ -38,7 +38,7 @@ type UserSimple struct {
 }
 
 func (user *UserSimple) Query() error {
-	err := db.Conn.QueryRow(`SELECT id,username,nickname,avatar FROM user WHERE id=? or username=? or email=?`, user.ID).Scan(
+	err := db.Conn.QueryRow(`SELECT id,username,nickname,avatar FROM user WHERE id=?`, user.ID).Scan(
 		&user.ID, &user.Username, &user.Nickname, &user.Avatar,
 	)
 

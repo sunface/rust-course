@@ -26,10 +26,11 @@ function useHeadingFocusOnRouteChange() {
 
 interface PageContainerProps {
   children: React.ReactNode
+  nav?: any
 }
 
 function PageContainer(props: PageContainerProps) {
-  const { children } = props
+  const { children ,nav} = props
   useHeadingFocusOnRouteChange()
 
   return (
@@ -39,7 +40,7 @@ function PageContainer(props: PageContainerProps) {
         description={siteConfig.seo.description}
       />
       <SkipNavLink zIndex={20}>Skip to Content</SkipNavLink>
-      <Nav />
+      {nav ? nav : <Nav />}
       <Container as="main" className="main-content">
         <Box display={{ base: "block", md: "flex" }}>
           <div style={{ flex: 1 }}>

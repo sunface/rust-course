@@ -8,7 +8,7 @@ async function redirect() {
       // GENERAL 
       {
         source: "/editor",
-        destination: "/editor/articles",
+        destination: "/editor/posts",
         permanent: true,
       }
     ]

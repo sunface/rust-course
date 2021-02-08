@@ -1,11 +1,14 @@
 import {User} from './session'
 
-export interface Article {
+export interface Post {
     id?: number 
+    slug?: string 
     creator?: User 
-    title: string 
-    url: string 
-    cover: string 
+    creatorId?: number
+    title?: string 
+    md?: string
+    url?: string 
+    cover?: string 
     brief?: string 
     created?: string
 }

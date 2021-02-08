@@ -1,4 +1,4 @@
-import { createStandaloneToast, Text, Box, Heading, Image, HStack, Center, Button, Flex, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, FormControl, FormLabel, FormHelperText, Input, FormErrorMessage, VStack, Textarea, Divider } from "@chakra-ui/react"
+import { Menu,MenuButton,MenuList,MenuItem,createStandaloneToast, Text, Box, Heading, Image, HStack, Center, Button, Flex, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, FormControl, FormLabel, FormHelperText, Input, FormErrorMessage, VStack, Textarea, Divider, useColorModeValue } from "@chakra-ui/react"
 import Card from "components/card"
 import Nav from "layouts/nav/nav"
 import PageContainer from "layouts/page-container"
@@ -9,24 +9,27 @@ import { requestApi } from "utils/axios/request"
 import { useDisclosure } from "@chakra-ui/react"
 import { Field, Form, Formik } from "formik"
 import { config } from "utils/config"
-import TextArticleCard from "components/articles/text-article-card"
-import { Article } from "src/types/posts"
+import TextPostCard from "components/posts/text-post-card"
+import { Post } from "src/types/posts"
+import { FaExternalLinkAlt, FaRegEdit } from "react-icons/fa"
+import { useRouter } from "next/router"
 var validator = require('validator');
 const toast = createStandaloneToast()
 
-const newPost: Article = { title: '', url: '', cover: '' }
-const ArticlesPage = () => {
-    const [posts, setPosts] = useState([])
+const newPost: Post = { title: '', url: '', cover: '' }
+const PostsPage = () => {
     const [currentPost, setCurrentPost] = useState(newPost)
+    const [posts, setPosts] = useState([])
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const router = useRouter()
+    const getPosts = () => {
+        requestApi.get(`/editor/posts`).then((res) => setPosts(res.data)).catch(_ => setPosts([]))
+    }
+
     useEffect(() => {
         getPosts()
     }, [])
 
-    const getPosts = () => {
-        requestApi.get(`/editor/articles`).then((res) => setPosts(res.data)).catch(_ => setPosts([]))
-    }
-
-    const { isOpen, onOpen, onClose } = useDisclosure()
 
     function validateTitle(value) {
         console.log(value)
@@ -53,8 +56,8 @@ const ArticlesPage = () => {
         return error
     }
 
-    const submitArticle = async (values, _) => {
-        await requestApi.post(`/editor/article`, values)
+    const submitPost = async (values, _) => {
+        await requestApi.post(`/editor/post`, values)
         onClose()
         toast({
             description: "提交成功",
@@ -66,12 +69,17 @@ const ArticlesPage = () => {
         getPosts()
     }
 
-    const editArticle = (ar: Article) => {
-        setCurrentPost(ar)
-        onOpen()
+    const editPost = (post: Post) => {
+        if (post.url.trim() === "") {
+            router.push(`/editor/post/${post.id}`)
+        } else {
+            setCurrentPost(post)
+            onOpen()
+        }
     }
 
-    const onDeleteArticle = () => {
+    const onDeletePost= async (id) => {
+        await requestApi.delete(`/editor/post/${id}`)
         getPosts()
         toast({
             description: "删除成功",
@@ -90,7 +98,18 @@ const ArticlesPage = () => {
                     <Card ml="4" p="6" width="100%">
                         <Flex alignItems="center" justify="space-between">
                             <Heading size="md">文章列表({posts.length})</Heading>
-                            <Button colorScheme="teal" size="sm" onClick={onOpen} _focus={null}>添加文章</Button>
+                            {config.posts.writingEnabled ?
+                                <Menu>
+                                <MenuButton as={Button} colorScheme="teal" size="sm"  _focus={null}>
+                                  新建文章
+                                </MenuButton>
+                                <MenuList color={useColorModeValue("gray.500","gray.400")}>
+                                  <MenuItem  icon={<FaExternalLinkAlt fontSize="14" />} onClick={onOpen}>外部链接</MenuItem>
+                                  <MenuItem  icon={<FaRegEdit fontSize="16" />} as="a" href="/editor/post/new">原创博客</MenuItem>
+                                </MenuList>
+                              </Menu>
+                                :
+                                <Button colorScheme="teal" size="sm" onClick={onOpen} _focus={null}>新建文章</Button>}
                         </Flex>
                         {
                             posts.length === 0 ?
@@ -107,12 +126,12 @@ const ArticlesPage = () => {
                                     <VStack mt="4">
                                         {posts.map(post =>
                                             <Box width="100%" key={post.id}>
-                                                <TextArticleCard article={post} showActions={true} mt="4" onEdit={() => editArticle(post)} onDelete={() => onDeleteArticle()} />
+                                                <TextPostCard post={post} showActions={true} mt="4" onEdit={() => editPost(post)} onDelete={() => onDeletePost(post.id)} />
                                                 <Divider mt="5" />
                                             </Box>
                                         )}
                                     </VStack>
-                                    <Center><Text layerStyle="textSecondary" fontSize="sm" mt="6">没有更多文章了</Text></Center>
+                                    <Center><Text layerStyle="textSecondary" fontSize="sm" mt="5">没有更多文章了</Text></Center>
                                 </>
                         }
                     </Card>
@@ -122,11 +141,11 @@ const ArticlesPage = () => {
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>编辑文章</ModalHeader>
+                    <ModalHeader>{currentPost.id ? "编辑文章" : "新建文章"}</ModalHeader>
                     <ModalBody mb="2">
                         <Formik
                             initialValues={currentPost}
-                            onSubmit={submitArticle}
+                            onSubmit={submitPost}
                         >
                             {(props) => (
                                 <Form>
@@ -175,7 +194,7 @@ const ArticlesPage = () => {
                                             type="submit"
                                             _focus={null}
                                         >
-                                            提交文章
+                                            提交
                                     </Button>
                                         <Button variant="ghost" ml="4" _focus={null} onClick={onClose}>取消</Button>
                                     </Box>
@@ -188,5 +207,5 @@ const ArticlesPage = () => {
         </>
     )
 }
-export default ArticlesPage
+export default PostsPage
 

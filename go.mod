@@ -7,6 +7,7 @@ require (
 	github.com/asaskevich/govalidator v0.0.0-20200907205600-7a23bdc65eef
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-stack/stack v1.8.0
+	github.com/golang/snappy v0.0.2
 	github.com/inconshreveable/log15 v0.0.0-20201112154412-8562bdadbbac
 	github.com/karrick/godirwalk v1.16.1 // indirect
 	github.com/keegancsmith/rpc v1.3.0 // indirect

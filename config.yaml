@@ -27,3 +27,5 @@ paths:
 #################################### Posts ##############################
 posts:
   brief_max_len: 100
+  # whether allow writing posts
+  writing_enabled: true

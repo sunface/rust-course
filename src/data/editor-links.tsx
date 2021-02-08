@@ -3,7 +3,7 @@ import { FaFileAlt, FaScroll, FaBookOpen } from 'react-icons/fa'
 import { Route } from 'src/types/route'
 const editorLinks: Route[] = [{
     title: '文章',
-    path: '/editor/article',
+    path: '/editor/posts',
     icon: <FaFileAlt />,
     disabled: false
 },

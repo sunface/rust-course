@@ -33,7 +33,8 @@ type Config struct {
 	}
 
 	Posts struct {
-		BriefMaxLen int `yaml:"brief_max_len"`
+		BriefMaxLen    int  `yaml:"brief_max_len"`
+		WritingEnabled bool `yaml:"writing_enabled"`
 	}
 }
 
