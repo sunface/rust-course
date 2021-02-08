@@ -26,7 +26,7 @@ export const TextPostCard= (props:Props) =>{
             </VStack>
             {props.showActions && <HStack>
                 <Button size="sm" colorScheme="teal" variant="outline" onClick={onEdit}>Edit</Button>
-                <Button size="sm" onClick={props.onDelete}>Delete</Button>
+                <Button size="sm" onClick={props.onDelete} variant="ghost">Delete</Button>
             </HStack>}
         </Flex>  
     )

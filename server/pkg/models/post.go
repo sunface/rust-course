@@ -7,6 +7,7 @@ type Post struct {
 	Creator   *UserSimple `json:"creator"`
 	CreatorID int64       `json:"creatorId"`
 	Title     string      `json:"title"`
+	Slug      string      `json:"slug"`
 	Md        string      `json:"md"`
 	URL       string      `json:"url"`
 	Cover     string      `json:"cover"`

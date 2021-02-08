@@ -33,6 +33,7 @@ type Config struct {
 	}
 
 	Posts struct {
+		TitleMaxLen    int  `yaml:"title_max_len"`
 		BriefMaxLen    int  `yaml:"brief_max_len"`
 		WritingEnabled bool `yaml:"writing_enabled"`
 	}

@@ -31,7 +31,7 @@ var sqlTables = map[string]string{
 	"posts": `CREATE TABLE IF NOT EXISTS posts (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		creator INTEGER NOT NULL,
-
+		slug VARCHAR(64) NOT NULL,
 		title VARCHAR(255) NOT NULL,
 		md   TEXT,
 		url  VARCHAR(255),
@@ -45,5 +45,7 @@ var sqlTables = map[string]string{
 		ON posts (creator);
 	CREATE INDEX IF NOT EXISTS posts_created
 		ON posts (created);
+	CREATE UNIQUE INDEX IF NOT EXISTS posts_creator_slug
+		ON posts (creator, slug);
 `,
 }

@@ -1,4 +1,4 @@
-import { Menu,MenuButton,MenuList,MenuItem,createStandaloneToast, Text, Box, Heading, Image, HStack, Center, Button, Flex, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, FormControl, FormLabel, FormHelperText, Input, FormErrorMessage, VStack, Textarea, Divider, useColorModeValue } from "@chakra-ui/react"
+import { Menu,MenuButton,MenuList,MenuItem, Text, Box, Heading, Image, HStack, Center, Button, Flex, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, FormControl, FormLabel, FormHelperText, Input, FormErrorMessage, VStack, Textarea, Divider, useColorModeValue, useToast } from "@chakra-ui/react"
 import Card from "components/card"
 import Nav from "layouts/nav/nav"
 import PageContainer from "layouts/page-container"
@@ -14,7 +14,6 @@ import { Post } from "src/types/posts"
 import { FaExternalLinkAlt, FaRegEdit } from "react-icons/fa"
 import { useRouter } from "next/router"
 var validator = require('validator');
-const toast = createStandaloneToast()
 
 const newPost: Post = { title: '', url: '', cover: '' }
 const PostsPage = () => {
@@ -22,6 +21,7 @@ const PostsPage = () => {
     const [posts, setPosts] = useState([])
     const { isOpen, onOpen, onClose } = useDisclosure()
     const router = useRouter()
+    const toast = useToast()
     const getPosts = () => {
         requestApi.get(`/editor/posts`).then((res) => setPosts(res.data)).catch(_ => setPosts([]))
     }
@@ -32,11 +32,15 @@ const PostsPage = () => {
 
 
     function validateTitle(value) {
-        console.log(value)
         let error
         if (!value?.trim()) {
             error = "标题不能为空"
         }
+
+        if (value?.length > config.posts.titleMaxLen) {
+            error = "标题长度不能超过128"
+        }
+
         return error
     }
 

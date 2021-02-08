@@ -10,6 +10,6 @@ export default function layerStyles(theme) {
             cursor: 'pointer'
           },
           _focus: null
-        }
+        },
       }
 }

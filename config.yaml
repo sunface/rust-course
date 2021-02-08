@@ -25,7 +25,8 @@ paths:
     logs: ""
 
 #################################### Posts ##############################
-posts:
-  brief_max_len: 100
+posts: 
+  title_max_len: 128
+  brief_max_len: 128
   # whether allow writing posts
   writing_enabled: true

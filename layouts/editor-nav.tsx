@@ -8,7 +8,14 @@ import {
     Box,
     useRadioGroup,
     HStack,
-    Input
+    Input,
+    Drawer,
+    useDisclosure,
+    DrawerOverlay,
+    DrawerContent,
+    Text,
+    Divider,
+    Heading
 } from "@chakra-ui/react"
 import { useViewportScroll } from "framer-motion"
 import NextLink from "next/link"
@@ -17,16 +24,18 @@ import { FaMoon, FaSun } from "react-icons/fa"
 import Logo, { LogoIcon } from "src/components/logo"
 import RadioCard from "components/radio-card"
 import { EditMode } from "src/types/editor"
+import Card from "components/card"
 
 
 
 
-function HeaderContent(props:any) {
+function HeaderContent(props: any) {
     const { toggleColorMode: toggleMode } = useColorMode()
     const text = useColorModeValue("dark", "light")
     const SwitchIcon = useColorModeValue(FaMoon, FaSun)
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const editOptions = [EditMode.Edit,EditMode.Preview]
+    const editOptions = [EditMode.Edit, EditMode.Preview]
     const { getRootProps, getRadioProps } = useRadioGroup({
         name: "framework",
         defaultValue: EditMode.Edit,
@@ -53,7 +62,7 @@ function HeaderContent(props:any) {
                     </NextLink>
                 </Flex>
                 <Box>
-                    <Input value={props.ar.title} placeholder="Title..." onChange={props.changeTitle} focusBorderColor={useColorModeValue('teal.400','teal.100')} variant="flushed"/>
+                    <Input value={props.ar.title} placeholder="Title..." onChange={props.changeTitle} focusBorderColor={useColorModeValue('teal.400', 'teal.100')} variant="flushed" />
                 </Box>
                 <HStack {...group}>
                     {editOptions.map((value) => {
@@ -79,9 +88,33 @@ function HeaderContent(props:any) {
                         _focus={null}
                         icon={<SwitchIcon />}
                     />
-                    <Button layerStyle="colorButton" ml="2" onClick={props.publish}>发布</Button>
+                    <Button layerStyle="colorButton" ml="2" onClick={onOpen}>发布</Button>
                 </Box>
             </Flex>
+            <Drawer
+                isOpen={isOpen}
+                placement="right"
+                onClose={onClose}
+                size="md"
+                motionPreset="none"
+            >
+                <DrawerOverlay>
+                    <DrawerContent p="4">
+                        <Flex justifyContent="space-between" alignItems="center">
+                            <Heading size="sm">文章设置</Heading>
+                            <Button layerStyle="colorButton" ml="2" onClick={props.publish}>发布</Button>
+                        </Flex>
+                        <Divider mt="5" mb="5"/>
+
+                        <Card>
+                            <Heading size="xs">
+                                封面图片
+                            </Heading>
+                            <Input value={props.ar.cover} onChange={(e) => {props.ar.cover = e.target.value; props.onChange()}} mt="4" variant="flushed" size="sm" placeholder="图片链接，你可以用github当图片存储服务" focusBorderColor="teal.400"/>
+                        </Card>
+                    </DrawerContent>
+                </DrawerOverlay>
+            </Drawer>
         </>
     )
 }

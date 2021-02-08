@@ -2,7 +2,8 @@ import { requestApi } from "./axios/request"
 
 export let config = {
     posts: {
-        briefMaxLen: 10,
+        titleMaxLen: 128,
+        briefMaxLen: 128,
         writingEnabled: false
     }
 }

@@ -24,14 +24,13 @@ func GetEditorPosts(c *gin.Context) {
 }
 
 func SubmitPost(c *gin.Context) {
-	err := posts.SubmitPost(c)
+	res, err := posts.SubmitPost(c)
 	if err != nil {
-		logger.Warn("submit post error", "error", err)
 		c.JSON(err.Status, common.RespError(err.Message))
 		return
 	}
 
-	c.JSON(http.StatusOK, common.RespSuccess(nil))
+	c.JSON(http.StatusOK, common.RespSuccess(res))
 }
 
 func DeletePost(c *gin.Context) {

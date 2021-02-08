@@ -13,6 +13,7 @@ type UIConfig struct {
 }
 
 type UIPosts struct {
+	TitleMaxLen    int  `json:"titleMaxLen"`
 	BriefMaxLen    int  `json:"briefMaxLen"`
 	WritingEnabled bool `json:"writingEnabled"`
 }
@@ -20,6 +21,7 @@ type UIPosts struct {
 func GetUIConfig(c *gin.Context) {
 	conf := &UIConfig{
 		Posts: &UIPosts{
+			TitleMaxLen:    config.Data.Posts.TitleMaxLen,
 			BriefMaxLen:    config.Data.Posts.BriefMaxLen,
 			WritingEnabled: config.Data.Posts.WritingEnabled,
 		},
