@@ -2,6 +2,7 @@ import { mode } from "@chakra-ui/theme-tools"
 import userCustomTheme from "./user-custom"
 
 export default function reactMarkdownStyles(props) {
+    console.log(props)
     return  {
         '.rc-md-editor': {
             borderWidth: '0px',
@@ -20,7 +21,7 @@ export default function reactMarkdownStyles(props) {
                 }
             },
             '.drop-wrap' : {
-                background: mode("white", "#1A202C")(props),
+                background: mode("white", "gray.800")(props),
                 borderWidth: '1px',
                 borderColor: mode(userCustomTheme.borderColor.light, userCustomTheme.borderColor.dark + '!important')(props),
             },

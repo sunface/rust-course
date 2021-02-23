@@ -18,6 +18,7 @@ require (
 	github.com/ramya-rao-a/go-outline v0.0.0-20200117021646-2a048b4510eb // indirect
 	github.com/rogpeppe/godef v1.1.2 // indirect
 	github.com/spf13/cobra v1.1.1
+	github.com/spf13/pflag v1.0.5
 	github.com/stamblerre/gocode v1.0.0 // indirect
 	github.com/uudashr/gopkgs v1.3.2 // indirect
 	golang.org/x/mod v0.4.1 // indirect

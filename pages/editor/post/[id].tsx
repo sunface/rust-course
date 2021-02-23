@@ -2,7 +2,7 @@ import { Box, Button, useToast} from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { MarkdownEditor } from 'components/markdown-editor/editor';
 import PageContainer from 'layouts/page-container';
-import EditorNav from 'layouts/editor-nav'
+import EditorNav from 'layouts/nav/editor-nav'
 import { EditMode } from 'src/types/editor';
 import { MarkdownRender } from 'components/markdown-editor/render';
 import { Post } from 'src/types/posts';
@@ -10,6 +10,7 @@ import { requestApi } from 'utils/axios/request';
 import { useRouter } from 'next/router';
 import { config } from 'utils/config';
 import { cloneDeep } from 'lodash';
+import Card from 'components/card';
 
 const content = `
 # test原创
@@ -77,16 +78,9 @@ function PostEditPage() {
         publish={() => publish()}
       />}
     >
-      <Box style={{ height: 'calc(100vh - 145px)' }}>
+      <Card style={{ height: 'calc(100vh - 145px)' }}>
         {editMode === EditMode.Edit ?
           <MarkdownEditor
-            options={{
-              overrides: {
-                Button: {
-                  component: Button,
-                },
-              },
-            }}
             onChange={(md) => onMdChange(md)}
             md={ar.md}
           /> :
@@ -94,7 +88,7 @@ function PostEditPage() {
             <MarkdownRender md={ar.md} />
           </Box>
         }
-      </Box>
+      </Card>
     </PageContainer>
   );
 }

@@ -58,6 +58,14 @@ func (s *Server) Start() error {
 				editorR.GET("/post/:id", api.GetEditorPost)
 			}
 
+			adminR := lr.Group("/admin")
+			{
+				adminR.POST("/tag", api.SubmitTag)
+				adminR.DELETE("/tag/:id", api.DeleteTag)
+			}
+
+			lr.GET("/tags", api.GetTags)
+			lr.GET("/tag/:name", api.GetTag)
 		}
 		err := router.Run(config.Data.Server.Addr)
 		if err != nil {

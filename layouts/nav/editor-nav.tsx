@@ -13,7 +13,6 @@ import {
     useDisclosure,
     DrawerOverlay,
     DrawerContent,
-    Text,
     Divider,
     Heading
 } from "@chakra-ui/react"
@@ -138,7 +137,7 @@ function EditorNav(props) {
             pos="fixed"
             top="0"
             zIndex="3"
-            bg={bg}
+            // bg={bg}
             left="0"
             right="0"
             borderTop="4px solid"

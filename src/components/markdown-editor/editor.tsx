@@ -1,6 +1,6 @@
 import React from 'react';
 import 'highlight.js/styles/atom-one-dark.css';
-import { chakra,PropsOf } from '@chakra-ui/react';
+import { chakra,PropsOf} from '@chakra-ui/react';
 
 import dynamic from 'next/dynamic';
 import 'react-markdown-editor-lite/lib/index.css';

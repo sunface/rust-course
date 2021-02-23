@@ -22,6 +22,7 @@ const customTheme = extendTheme({
   styles: {
     global: (props) => ({
       body: {
+        background: mode("gray.50","gray.800" )(props),
         color: mode("gray.700", "whiteAlpha.900")(props),
         ".deleted": {
           color: "#ff8383 !important",

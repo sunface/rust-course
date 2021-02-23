@@ -47,5 +47,23 @@ var sqlTables = map[string]string{
 		ON posts (created);
 	CREATE UNIQUE INDEX IF NOT EXISTS posts_creator_slug
 		ON posts (creator, slug);
-`,
+	`,
+
+	"tags": `CREATE TABLE IF NOT EXISTS tags (
+		id 		INTEGER PRIMARY KEY AUTOINCREMENT,
+		creator INTEGER NOT NULL,
+		title VARCHAR(255) NOT NULL,
+		name  	VARCHAR(255) NOT NULL,
+		icon  	VARCHAR(255),
+		cover 	VARCHAR(255),
+		md	 	TEXT,
+
+		created DATETIME NOT NULL,
+		updated DATETIME
+	);
+	CREATE UNIQUE INDEX IF NOT EXISTS tags_name
+		ON tags (name);
+	CREATE INDEX IF NOT EXISTS tags_created
+		ON tags (created);
+	`,
 }

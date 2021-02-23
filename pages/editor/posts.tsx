@@ -4,7 +4,7 @@ import Nav from "layouts/nav/nav"
 import PageContainer from "layouts/page-container"
 import Sidebar from "layouts/sidebar/sidebar"
 import React, { useEffect, useState } from "react"
-import editorLinks from "src/data/editor-links"
+import {editorLinks} from "src/data/links"
 import { requestApi } from "utils/axios/request"
 import { useDisclosure } from "@chakra-ui/react"
 import { Field, Form, Formik } from "formik"
@@ -13,6 +13,8 @@ import TextPostCard from "components/posts/text-post-card"
 import { Post } from "src/types/posts"
 import { FaExternalLinkAlt, FaRegEdit } from "react-icons/fa"
 import { useRouter } from "next/router"
+import { ReserveUrls } from "src/data/reserve-urls"
+import Link from "next/link"
 var validator = require('validator');
 
 const newPost: Post = { title: '', url: '', cover: '' }
@@ -109,7 +111,7 @@ const PostsPage = () => {
                                 </MenuButton>
                                 <MenuList color={useColorModeValue("gray.500","gray.400")}>
                                   <MenuItem  icon={<FaExternalLinkAlt fontSize="14" />} onClick={onOpen}>外部链接</MenuItem>
-                                  <MenuItem  icon={<FaRegEdit fontSize="16" />} as="a" href="/editor/post/new">原创博客</MenuItem>
+                                  <Link href={`${ReserveUrls.Editor}/post/new`}><MenuItem  icon={<FaRegEdit fontSize="16" />} >原创博客</MenuItem></Link>
                                 </MenuList>
                               </Menu>
                                 :
