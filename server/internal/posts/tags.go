@@ -84,6 +84,8 @@ func GetTags() (models.Tags, *e.Error) {
 		}
 
 		tags = append(tags, tag)
+
+		db.Conn.QueryRow("SELECT count(*) FROM tag_post WHERE tag_id=?", tag.ID).Scan(&tag.PostCount)
 	}
 
 	sort.Sort(tags)
@@ -117,6 +119,8 @@ func GetTag(name string) (*models.Tag, *e.Error) {
 
 	md, _ := utils.Uncompress(rawmd)
 	tag.Md = string(md)
+
+	db.Conn.QueryRow("SELECT count(*) FROM tag_post WHERE tag_id=?", tag.ID).Scan(&tag.PostCount)
 
 	return tag, nil
 }

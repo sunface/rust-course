@@ -2,8 +2,6 @@ import {
     chakra,
     Flex,
     Button,
-    IconButton,
-    useColorMode,
     useColorModeValue,
     Box,
     useRadioGroup,
@@ -14,25 +12,49 @@ import {
     DrawerOverlay,
     DrawerContent,
     Divider,
-    Heading
+    Heading,
+    Tag as ChakraTag,
+    TagLabel,
+    TagCloseButton
 } from "@chakra-ui/react"
 import { useViewportScroll } from "framer-motion"
 import NextLink from "next/link"
-import React from "react"
-import { FaMoon, FaSun } from "react-icons/fa"
+import React, { useEffect, useState } from "react"
 import Logo, { LogoIcon } from "src/components/logo"
 import RadioCard from "components/radio-card"
 import { EditMode } from "src/types/editor"
 import Card from "components/card"
+import TagInput from "components/tag-input"
+import { Tag } from "src/types/tag"
+import { cloneDeep, remove } from "lodash"
+import { requestApi } from "utils/axios/request"
+import DarkMode from "components/dark-mode"
 
 
 
 
 function HeaderContent(props: any) {
-    const { toggleColorMode: toggleMode } = useColorMode()
-    const text = useColorModeValue("dark", "light")
-    const SwitchIcon = useColorModeValue(FaMoon, FaSun)
+    const [tags,setTags]:[Tag[],any] = useState([])
+    const [allTags,setAllTags] = useState([])
+
     const { isOpen, onOpen, onClose } = useDisclosure()
+
+    useEffect(() => {
+        requestApi.get('/tags').then(res => {
+            setAllTags(res.data)
+            const t = []
+            props.ar.tags?.forEach(id => {
+                res.data.forEach(tag => {
+                    if (tag.id === id) {
+                        t.push(tag)
+                    }
+                })
+            })
+
+            setTags(t)
+        })
+    },[props.ar])
+
 
     const editOptions = [EditMode.Edit, EditMode.Preview]
     const { getRootProps, getRadioProps } = useRadioGroup({
@@ -43,7 +65,24 @@ function HeaderContent(props: any) {
         },
     })
     const group = getRootProps()
+    
+    const addTag = t => {
+       setTags(t)
+       
+       const ids = []
+       t.forEach(tag => ids.push(tag.id))
+       props.ar.tags = ids
+    }
 
+    const removeTag = t => {
+        const newTags = cloneDeep(tags)
+        remove(newTags, tag => tag.id === t.id)
+        setTags(newTags)
+
+        const ids = []
+        newTags.forEach(tag => ids.push(tag.id))
+        props.ar.tags = ids
+    }
 
     return (
         <>
@@ -76,17 +115,7 @@ function HeaderContent(props: any) {
                 <Box
                     color={useColorModeValue("gray.500", "gray.400")}
                 >
-                    <IconButton
-                        size="md"
-                        fontSize="lg"
-                        aria-label={`Switch to ${text} mode`}
-                        variant="ghost"
-                        color="current"
-                        ml={{ base: "0", md: "1" }}
-                        onClick={toggleMode}
-                        _focus={null}
-                        icon={<SwitchIcon />}
-                    />
+                    <DarkMode />
                     <Button layerStyle="colorButton" ml="2" onClick={onOpen}>发布</Button>
                 </Box>
             </Flex>
@@ -109,7 +138,24 @@ function HeaderContent(props: any) {
                             <Heading size="xs">
                                 封面图片
                             </Heading>
-                            <Input value={props.ar.cover} onChange={(e) => {props.ar.cover = e.target.value; props.onChange()}} mt="4" variant="flushed" size="sm" placeholder="图片链接，你可以用github当图片存储服务" focusBorderColor="teal.400"/>
+                            <Input value={props.ar.cover} onChange={(e) => {props.ar.cover = e.target.value; props.onChange()}} mt="4" variant="unstyled" size="sm" placeholder="输入链接，可以用github或postimg.cc当图片存储服务.." focusBorderColor="teal.400"/>
+                        </Card>
+
+                        <Card mt="4">
+                            <Heading size="xs"> 
+                                设置标签
+                            </Heading>
+                            <TagInput options={allTags}  selected={tags} onChange={addTag}/>
+
+                            {tags.length > 0&& <Box mt="2">
+                            {
+                                tags.map(tag => 
+                                <ChakraTag key={tag.id} mr="2" colorScheme="teal" variant="solid" px="2" py="1"> 
+                                    <TagLabel>{tag.title}</TagLabel>
+                                    <TagCloseButton onClick={ _ => removeTag(tag)}/>
+                                </ChakraTag>)
+                            }
+                            </Box>}
                         </Card>
                     </DrawerContent>
                 </DrawerOverlay>
@@ -119,7 +165,6 @@ function HeaderContent(props: any) {
 }
 
 function EditorNav(props) {
-    const bg = useColorModeValue("white", "gray.800")
     const ref = React.useRef<HTMLHeadingElement>()
     const [y, setY] = React.useState(0)
     const { height = 0 } = ref.current?.getBoundingClientRect() ?? {}
@@ -137,7 +182,7 @@ function EditorNav(props) {
             pos="fixed"
             top="0"
             zIndex="3"
-            // bg={bg}
+            bg={useColorModeValue('white','gray.800')}
             left="0"
             right="0"
             borderTop="4px solid"

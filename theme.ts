@@ -1,6 +1,7 @@
 import { extendTheme } from "@chakra-ui/react"
 import { mode } from "@chakra-ui/theme-tools"
-import reactMarkdownStyls from 'theme/react-markdown-editor'
+import markdownEditor from 'theme/markdown-editor'
+import markdownRender from 'theme/markdown-render'
 import layerStyles from 'theme/layer-styles'
 
 const customTheme = extendTheme({
@@ -22,7 +23,7 @@ const customTheme = extendTheme({
   styles: {
     global: (props) => ({
       body: {
-        background: mode("gray.50","gray.800" )(props),
+        background: mode("white","gray.800" )(props),
         color: mode("gray.700", "whiteAlpha.900")(props),
         ".deleted": {
           color: "#ff8383 !important",
@@ -33,7 +34,8 @@ const customTheme = extendTheme({
           fontStyle: "normal !important",
         },
       },
-      ...reactMarkdownStyls(props)
+      ...markdownEditor(props),
+      ...markdownRender(props)
     }),
   },
   textStyles: {

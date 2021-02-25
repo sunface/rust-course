@@ -11,6 +11,7 @@ type Props = PropsOf<typeof chakra.div> & {
   fontSize?: string
 }
 
+const ChakraMarkdown = chakra(Markdown)
 
 export function MarkdownRender({ md,fontSize, ...rest }:Props) {
   const rootRef = useRef<HTMLDivElement>();
@@ -23,10 +24,11 @@ export function MarkdownRender({ md,fontSize, ...rest }:Props) {
 
   return (
     <div ref={rootRef} style={{height:'100%'}}>
-      <Markdown 
+      <ChakraMarkdown 
         children={md} 
         {...rest} 
-        style={{height:'100%',fontSize: fontSize??'14px'}}
+        style={{height:'100%',fontSize: fontSize??'16px'}}
+        className="markdown-render"
         options={{
           overrides: {
             WebsiteLink: {
@@ -34,7 +36,7 @@ export function MarkdownRender({ md,fontSize, ...rest }:Props) {
             },
           },
         }}
-        ></Markdown>
+        ></ChakraMarkdown>
     </div>
   );
 }

@@ -36,7 +36,6 @@ const UserPage = () => {
                 title={siteConfig.seo.title}
                 description={siteConfig.seo.description}
             />
-            <Nav />
             <PageContainer>
                 {tag.name && <HStack alignItems="top" spacing="4">
                     <Box width="70%">
@@ -65,7 +64,7 @@ const UserPage = () => {
                                 </Box>
 
                                 <Box>
-                                    <Heading size="lg">13.4K</Heading>
+                                    <Heading size="lg">{tag.postCount}</Heading>
                                     <Text layerStyle="textSecondary" fontWeight="500" fontSize="1.2rem" mt="1" ml="1">Posts</Text>
                                 </Box>
                             </Flex>

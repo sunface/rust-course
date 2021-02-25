@@ -25,9 +25,10 @@ export function MarkdownEditor(props) {
 
   return (
         <MdEditor
+          height="100%"
           width="100%"
           value={props.md}
-          style={{ height: "102%" }}
+          style={{ height: "102%"}}
           renderHTML={_ => null}
           onChange={handleEditorChange}
           config={{

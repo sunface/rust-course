@@ -37,7 +37,7 @@ var sqlTables = map[string]string{
 		url  VARCHAR(255),
 		cover VARCHAR(255),
 		brief TEXT,
-
+		like_count INTEGER DEFAULT 0,
 		created DATETIME NOT NULL,
 		updated DATETIME
 	);
@@ -49,6 +49,16 @@ var sqlTables = map[string]string{
 		ON posts (creator, slug);
 	`,
 
+	"post_like": `CREATE TABLE IF NOT EXISTS post_like (
+		post_id          INTEGER,
+		user_id          INTEGER
+	);
+	CREATE INDEX IF NOT EXISTS post_like_postid
+		ON post_like (post_id);
+	CREATE INDEX IF NOT EXISTS post_like_userid
+		ON post_like (user_id);
+	`,
+
 	"tags": `CREATE TABLE IF NOT EXISTS tags (
 		id 		INTEGER PRIMARY KEY AUTOINCREMENT,
 		creator INTEGER NOT NULL,
@@ -57,7 +67,7 @@ var sqlTables = map[string]string{
 		icon  	VARCHAR(255),
 		cover 	VARCHAR(255),
 		md	 	TEXT,
-
+		follower_count INTEGER DEFAULT 0,
 		created DATETIME NOT NULL,
 		updated DATETIME
 	);
@@ -65,5 +75,15 @@ var sqlTables = map[string]string{
 		ON tags (name);
 	CREATE INDEX IF NOT EXISTS tags_created
 		ON tags (created);
+	`,
+
+	"tag_post": `CREATE TABLE IF NOT EXISTS tag_post (
+		tag_id           INTEGER, 
+		post_id          INTEGER
+	);
+	CREATE INDEX IF NOT EXISTS tag_post_tagid
+		ON tag_post (tag_id);
+	CREATE INDEX IF NOT EXISTS tag_post_postid
+		ON tag_post (post_id);
 	`,
 }

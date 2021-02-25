@@ -11,4 +11,8 @@ export interface Post {
     cover?: string 
     brief?: string 
     created?: string
+    tags?: number[]
+    likes? : number 
+    liked? : boolean
+    recommands? : number
 }

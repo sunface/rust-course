@@ -4,7 +4,8 @@ export let config = {
     posts: {
         titleMaxLen: 128,
         briefMaxLen: 128,
-        writingEnabled: false
+        writingEnabled: false,
+        maxTags: 0
     }
 }
 

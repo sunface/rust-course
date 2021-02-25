@@ -6,7 +6,7 @@ import Sidebar from "layouts/sidebar/sidebar"
 import React, { useEffect, useState } from "react"
 import {adminLinks} from "src/data/links"
 import { requestApi } from "utils/axios/request"
-import TagCard from "components/posts/tag-card"
+import TagCard from "components/posts/tag-edit-card"
 import { Post } from "src/types/posts"
 import { useRouter } from "next/router"
 import Link from "next/link"
@@ -44,7 +44,6 @@ const PostsPage = () => {
 
     return (
         <>
-            <Nav />
             <PageContainer>
                 <Box display="flex">
                     <Sidebar routes={adminLinks} width="250px" height="fit-content" />

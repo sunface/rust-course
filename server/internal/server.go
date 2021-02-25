@@ -45,6 +45,13 @@ func (s *Server) Start() error {
 			r.POST("/login", session.Login)
 			r.POST("/logout", session.Logout)
 			r.GET("/uiconfig", GetUIConfig)
+
+		}
+
+		postR := r.Group("/post")
+		{
+			postR.GET("/:slug", api.GetPost)
+			postR.POST("/like/:id", api.LikePost, IsLogin())
 		}
 
 		// login apis

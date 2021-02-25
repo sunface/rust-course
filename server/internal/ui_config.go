@@ -9,21 +9,24 @@ import (
 )
 
 type UIConfig struct {
-	Posts *UIPosts `json:"posts"`
+	Posts *PostsConfig `json:"posts"`
 }
 
-type UIPosts struct {
+type PostsConfig struct {
 	TitleMaxLen    int  `json:"titleMaxLen"`
 	BriefMaxLen    int  `json:"briefMaxLen"`
 	WritingEnabled bool `json:"writingEnabled"`
+	MaxTags        int  `json:"maxTags"`
 }
 
+// 在后台页面配置，存储到mysql中
 func GetUIConfig(c *gin.Context) {
 	conf := &UIConfig{
-		Posts: &UIPosts{
+		Posts: &PostsConfig{
 			TitleMaxLen:    config.Data.Posts.TitleMaxLen,
 			BriefMaxLen:    config.Data.Posts.BriefMaxLen,
 			WritingEnabled: config.Data.Posts.WritingEnabled,
+			MaxTags:        2,
 		},
 	}
 

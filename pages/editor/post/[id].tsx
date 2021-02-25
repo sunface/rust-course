@@ -1,4 +1,4 @@
-import { Box, Button, useToast} from '@chakra-ui/react';
+import { Box, Button, useToast } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { MarkdownEditor } from 'components/markdown-editor/editor';
 import PageContainer from 'layouts/page-container';
@@ -18,19 +18,19 @@ const content = `
 
 function PostEditPage() {
   const router = useRouter()
-  const {id} = router.query
+  const { id } = router.query
   const [editMode, setEditMode] = useState(EditMode.Edit)
-  const [ar,setAr] = useState({
+  const [ar, setAr] = useState({
     md: content,
     title: ''
   })
-  
+
   const toast = useToast()
   useEffect(() => {
     if (id && id !== 'new') {
       requestApi.get(`/editor/post/${id}`).then(res => setAr(res.data))
     }
-  },[id])
+  }, [id])
 
   const onMdChange = newMd => {
     setAr({
@@ -38,7 +38,7 @@ function PostEditPage() {
       md: newMd
     })
   }
-  
+
   const onChange = () => {
     setAr(cloneDeep(ar))
   }
@@ -50,20 +50,20 @@ function PostEditPage() {
         status: "error",
         duration: 2000,
         isClosable: true,
-    })
-      return 
+      })
+      return
     }
 
-    setAr({...ar, title: title})
+    setAr({ ...ar, title: title })
   }
 
   const publish = async () => {
     const res = await requestApi.post(`/editor/post`, ar)
     toast({
-        description: "发布成功",
-        status: "success",
-        duration: 2000,
-        isClosable: true,
+      description: "发布成功",
+      status: "success",
+      duration: 2000,
+      isClosable: true,
     })
     router.push(`/${res.data.username}/${res.data.slug}`)
   }
@@ -78,17 +78,18 @@ function PostEditPage() {
         publish={() => publish()}
       />}
     >
-      <Card style={{ height: 'calc(100vh - 145px)' }}>
-        {editMode === EditMode.Edit ?
+      {editMode === EditMode.Edit ?
+        <Card style={{ height: 'calc(100vh - 145px)' }}>
           <MarkdownEditor
             onChange={(md) => onMdChange(md)}
             md={ar.md}
-          /> :
+          /></Card> :
+        <Card>
           <Box height="100%" p="6">
             <MarkdownRender md={ar.md} />
           </Box>
-        }
-      </Card>
+        </Card>
+      }
     </PageContainer>
   );
 }

@@ -97,14 +97,17 @@ func SubmitPost(c *gin.Context) (map[string]string, *e.Error) {
 	md := utils.Compress(post.Md)
 
 	setSlug(user.ID, post)
+
 	if post.ID == 0 {
 		//create
-		_, err = db.Conn.Exec("INSERT INTO posts (creator,slug, title, md, url, cover, brief, created, updated) VALUES(?,?,?,?,?,?,?,?,?)",
+		res, err := db.Conn.Exec("INSERT INTO posts (creator,slug, title, md, url, cover, brief, created, updated) VALUES(?,?,?,?,?,?,?,?,?)",
 			user.ID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, now, now)
 		if err != nil {
 			logger.Warn("submit post error", "error", err)
 			return nil, e.New(http.StatusInternalServerError, e.Internal)
 		}
+
+		post.ID, _ = res.LastInsertId()
 	} else {
 		// 只有创建者自己才能更新内容
 		creator, _ := GetPostCreator(post.ID)
@@ -117,6 +120,23 @@ func SubmitPost(c *gin.Context) (map[string]string, *e.Error) {
 		if err != nil {
 			logger.Warn("upate post error", "error", err)
 			return nil, e.New(http.StatusInternalServerError, e.Internal)
+		}
+	}
+
+	//update tags
+	// "tag_post": `CREATE TABLE IF NOT EXISTS tag_post (
+	// 	tag_id           INTEGER,
+	// 	post_id          INTEGER
+	// );
+	_, err = db.Conn.Exec("DELETE FROM tag_post WHERE post_id=?", post.ID)
+	if err != nil {
+		logger.Warn("delete post tags error", "error", err)
+	}
+
+	for _, tag := range post.Tags {
+		_, err = db.Conn.Exec("INSERT INTO tag_post (tag_id,post_id) VALUES (?,?)", tag, post.ID)
+		if err != nil {
+			logger.Warn("add post tag error", "error", err)
 		}
 	}
 
@@ -136,11 +156,11 @@ func DeletePost(id int64) *e.Error {
 	return nil
 }
 
-func GetPost(id int64) (*models.Post, *e.Error) {
+func GetPost(id int64, slug string) (*models.Post, *e.Error) {
 	ar := &models.Post{}
 	var rawmd []byte
-	err := db.Conn.QueryRow("select id,slug,title,md,url,cover,brief,creator,created,updated from posts where id=?", id).Scan(
-		&ar.ID, &ar.Slug, &ar.Title, &rawmd, &ar.URL, &ar.Cover, &ar.Brief, &ar.CreatorID, &ar.Created, &ar.Updated,
+	err := db.Conn.QueryRow("select id,slug,title,md,url,cover,brief,creator,like_count,created,updated from posts where id=? or slug=?", id, slug).Scan(
+		&ar.ID, &ar.Slug, &ar.Title, &rawmd, &ar.URL, &ar.Cover, &ar.Brief, &ar.CreatorID, &ar.Likes, &ar.Created, &ar.Updated,
 	)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -154,6 +174,19 @@ func GetPost(id int64) (*models.Post, *e.Error) {
 	ar.Md = string(md)
 	ar.Creator = &models.UserSimple{ID: ar.CreatorID}
 	err = ar.Creator.Query()
+
+	// get tags
+	tags := make([]int64, 0)
+	rows, err := db.Conn.Query("SELECT tag_id FROM tag_post WHERE post_id=?", id)
+	if err != nil && err != sql.ErrNoRows {
+		return nil, e.New(http.StatusInternalServerError, e.Internal)
+	}
+	for rows.Next() {
+		var tag int64
+		err = rows.Scan(&tag)
+		tags = append(tags, tag)
+	}
+	ar.Tags = tags
 
 	return ar, nil
 }
@@ -170,6 +203,21 @@ func GetPostCreator(id int64) (int64, *e.Error) {
 	}
 
 	return uid, nil
+}
+
+func postExist(id int64) bool {
+	var nid int64
+	err := db.Conn.QueryRow("SELECT id from posts WHERE id=?", id).Scan(&nid)
+	if err != nil {
+		logger.Warn("query post error", "error", err)
+		return false
+	}
+
+	if nid == 0 {
+		return false
+	}
+
+	return true
 }
 
 //slug有三个规则
@@ -189,7 +237,6 @@ func setSlug(creator int64, post *models.Post) error {
 		return err
 	}
 
-	fmt.Println(count)
 	if count == 0 {
 		post.Slug = slug
 	} else {

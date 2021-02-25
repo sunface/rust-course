@@ -12,7 +12,6 @@ const HomePage = () => (
       title={siteConfig.seo.title}
       description={siteConfig.seo.description}
     />
-    <Nav />
     <PageContainer>
       <Card width="200px">
       <chakra.h1>NOT FOUND</chakra.h1>

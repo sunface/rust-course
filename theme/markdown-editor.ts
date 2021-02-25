@@ -1,8 +1,7 @@
 import { mode } from "@chakra-ui/theme-tools"
 import userCustomTheme from "./user-custom"
 
-export default function reactMarkdownStyles(props) {
-    console.log(props)
+export default function markdownEditor(props) {
     return  {
         '.rc-md-editor': {
             borderWidth: '0px',
@@ -10,6 +9,7 @@ export default function reactMarkdownStyles(props) {
             textarea: {
                 background: 'transparent!important',
                 color: mode("#2D3748!important", "rgba(255, 255, 255, 0.92)!important")(props),
+                fontSize: '16px !important'
             },
             '.rc-md-navigation' :{
                 background: 'transparent',

@@ -15,8 +15,7 @@ const UserPage = () => {
       title={siteConfig.seo.title}
       description={siteConfig.seo.description}
     />
-    <Nav />
-    <PageContainer>
+    <PageContainer mt="6rem">
       <chakra.h1>{router.query.username}'s home</chakra.h1>
     </PageContainer>
   </>

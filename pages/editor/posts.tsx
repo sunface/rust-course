@@ -97,7 +97,6 @@ const PostsPage = () => {
 
     return (
         <>
-            <Nav />
             <PageContainer>
                 <Box display="flex">
                     <Sidebar routes={editorLinks} width="250px" height="fit-content" />

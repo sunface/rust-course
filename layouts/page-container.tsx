@@ -1,4 +1,4 @@
-import { Badge, Box, chakra } from "@chakra-ui/react"
+import { Badge, Box, chakra,PropsOf } from "@chakra-ui/react"
 import { SkipNavContent, SkipNavLink } from "@chakra-ui/skip-nav"
 import Container from "components/container"
 import Footer from "./footer"
@@ -24,13 +24,14 @@ function useHeadingFocusOnRouteChange() {
   }, [])
 }
 
-interface PageContainerProps {
+type PageContainerProps = PropsOf<typeof chakra.div> &  {
   children: React.ReactNode
   nav?: any
 }
 
+
 function PageContainer(props: PageContainerProps) {
-  const { children ,nav} = props
+  const { children ,nav, ...rest} = props
   useHeadingFocusOnRouteChange()
 
   return (
@@ -48,9 +49,10 @@ function PageContainer(props: PageContainerProps) {
             <Box
               id="content"
               pt={3}
-              px={{base:0,md:3}}
-              mt="4.5rem"
+              px={[0,0,2,3]}
+              mt={props.mt ?? "4.5rem"}
               mx="auto"
+              {...rest}
             >
               <PageTransition>
                 {children}

@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -63,7 +62,6 @@ func DeletePost(c *gin.Context) {
 
 func GetEditorPost(c *gin.Context) {
 	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
-	fmt.Println(c.Param("id"))
 	if id == 0 {
 		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
 		return
@@ -81,7 +79,7 @@ func GetEditorPost(c *gin.Context) {
 		return
 	}
 
-	ar, err := posts.GetPost(id)
+	ar, err := posts.GetPost(id, "")
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return
