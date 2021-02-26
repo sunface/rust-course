@@ -9,6 +9,7 @@ import WebsiteLink from 'components/website-link';
 type Props = PropsOf<typeof chakra.div> & {
   md: string
   fontSize?: string
+  scroll?: boolean
 }
 
 const ChakraMarkdown = chakra(Markdown)
@@ -36,6 +37,7 @@ export function MarkdownRender({ md,fontSize, ...rest }:Props) {
             },
           },
         }}
+        maxWidth={["800px","800px","800px","1000px"]}
         ></ChakraMarkdown>
     </div>
   );

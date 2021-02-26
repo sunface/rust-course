@@ -1,4 +1,4 @@
-package posts
+package tags
 
 import (
 	"database/sql"
@@ -10,9 +10,12 @@ import (
 	"github.com/asaskevich/govalidator"
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
+	"github.com/imdotdev/im.dev/server/pkg/log"
 	"github.com/imdotdev/im.dev/server/pkg/models"
 	"github.com/imdotdev/im.dev/server/pkg/utils"
 )
+
+var logger = log.RootLogger.New("logger", "tags")
 
 func SubmitTag(tag *models.Tag) *e.Error {
 	if strings.TrimSpace(tag.Title) == "" {
@@ -103,10 +106,10 @@ func DeleteTag(id int64) *e.Error {
 	return nil
 }
 
-func GetTag(name string) (*models.Tag, *e.Error) {
+func GetTag(id int64, name string) (*models.Tag, *e.Error) {
 	tag := &models.Tag{}
 	var rawmd []byte
-	err := db.Conn.QueryRow("SELECT id,creator,title,name,icon,cover,created,updated,md from tags where name=?", name).Scan(
+	err := db.Conn.QueryRow("SELECT id,creator,title,name,icon,cover,created,updated,md from tags where id=? or name=?", id, name).Scan(
 		&tag.ID, &tag.Creator, &tag.Title, &tag.Name, &tag.Icon, &tag.Cover, &tag.Created, &tag.Updated, &rawmd,
 	)
 	if err != nil {

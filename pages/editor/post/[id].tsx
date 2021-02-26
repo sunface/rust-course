@@ -65,7 +65,7 @@ function PostEditPage() {
       duration: 2000,
       isClosable: true,
     })
-    router.push(`/${res.data.username}/${res.data.slug}`)
+    router.push(`/${res.data.username}/${res.data.id}`)
   }
 
   return (

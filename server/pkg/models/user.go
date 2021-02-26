@@ -17,7 +17,7 @@ type User struct {
 	Created    time.Time `json:"created"`
 }
 
-const DefaultAvatar = "https://placekitten.com/100/100"
+const DefaultAvatar = "https://cdn.hashnode.com/res/hashnode/image/upload/v1600792675173/rY-APy9Fc.png?auto=compress"
 
 func (user *User) Query(id int64, username string, email string) error {
 	err := db.Conn.QueryRow(`SELECT id,username,role,nickname,email,avatar,last_seen_at,created FROM user WHERE id=? or username=? or email=?`,

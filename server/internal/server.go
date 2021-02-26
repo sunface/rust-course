@@ -48,32 +48,24 @@ func (s *Server) Start() error {
 
 		}
 
-		postR := r.Group("/post")
-		{
-			postR.GET("/:slug", api.GetPost)
-			postR.POST("/like/:id", api.LikePost, IsLogin())
-		}
+		r.GET("/post/:id", api.GetPost)
 
-		// login apis
-		lr := r.Group("", IsLogin())
-		{
-			editorR := lr.Group("/editor")
-			{
-				editorR.GET("/posts", api.GetEditorPosts)
-				editorR.POST("/post", api.SubmitPost)
-				editorR.DELETE("/post/:id", api.DeletePost)
-				editorR.GET("/post/:id", api.GetEditorPost)
-			}
+		r.POST("/story/like/:id", api.LikeStory, IsLogin())
+		r.GET("/story/comments/:id", api.GetStoryComments)
+		r.POST("/story/comment", api.SubmitComment, IsLogin())
+		r.DELETE("/comment/:id", api.DeleteComment, IsLogin())
 
-			adminR := lr.Group("/admin")
-			{
-				adminR.POST("/tag", api.SubmitTag)
-				adminR.DELETE("/tag/:id", api.DeleteTag)
-			}
+		r.GET("/editor/posts", api.GetEditorPosts, IsLogin())
+		r.POST("/editor/post", api.SubmitPost, IsLogin())
+		r.DELETE("/editor/post/:id", api.DeletePost, IsLogin())
+		r.GET("/editor/post/:id", api.GetEditorPost, IsLogin())
 
-			lr.GET("/tags", api.GetTags)
-			lr.GET("/tag/:name", api.GetTag)
-		}
+		r.POST("/admin/tag", api.SubmitTag, IsLogin())
+		r.DELETE("/admin/tag/:id", api.DeleteTag, IsLogin())
+
+		r.GET("/tags", api.GetTags)
+		r.GET("/tag/:name", api.GetTag)
+
 		err := router.Run(config.Data.Server.Addr)
 		if err != nil {
 			logger.Crit("start backend server error", "error", err)

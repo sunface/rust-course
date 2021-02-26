@@ -29,6 +29,7 @@ import { Tag } from "src/types/tag"
 import { cloneDeep, remove } from "lodash"
 import { requestApi } from "utils/axios/request"
 import DarkMode from "components/dark-mode"
+import EditModeSelect from "components/edit-mode-select"
 
 
 
@@ -56,15 +57,6 @@ function HeaderContent(props: any) {
     },[props.ar])
 
 
-    const editOptions = [EditMode.Edit, EditMode.Preview]
-    const { getRootProps, getRadioProps } = useRadioGroup({
-        name: "framework",
-        defaultValue: EditMode.Edit,
-        onChange: (v) => {
-            props.changeEditMode(v)
-        },
-    })
-    const group = getRootProps()
     
     const addTag = t => {
        setTags(t)
@@ -102,16 +94,7 @@ function HeaderContent(props: any) {
                 <Box>
                     <Input value={props.ar.title} placeholder="Title..." onChange={props.changeTitle} focusBorderColor={useColorModeValue('teal.400', 'teal.100')} variant="flushed" />
                 </Box>
-                <HStack {...group}>
-                    {editOptions.map((value) => {
-                        const radio = getRadioProps({ value })
-                        return (
-                            <RadioCard key={value} {...radio} bg="teal" color="white">
-                                {value}
-                            </RadioCard>
-                        )
-                    })}
-                </HStack>
+                <EditModeSelect onChange={props.changeEditMode}/>
                 <Box
                     color={useColorModeValue("gray.500", "gray.400")}
                 >
@@ -185,8 +168,6 @@ function EditorNav(props) {
             bg={useColorModeValue('white','gray.800')}
             left="0"
             right="0"
-            borderTop="4px solid"
-            borderTopColor="teal.400"
             width="full"
         >
             <chakra.div height="4.5rem" mx="auto" maxW="1200px">

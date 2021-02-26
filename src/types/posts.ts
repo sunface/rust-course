@@ -1,9 +1,10 @@
-import {User} from './session'
+import { UserSimple} from './session'
+import { Tag } from './tag';
 
 export interface Post {
-    id?: number 
+    id?: string 
     slug?: string 
-    creator?: User 
+    creator?: UserSimple
     creatorId?: number
     title?: string 
     md?: string
@@ -12,6 +13,7 @@ export interface Post {
     brief?: string 
     created?: string
     tags?: number[]
+    rawTags?: Tag[]
     likes? : number 
     liked? : boolean
     recommands? : number

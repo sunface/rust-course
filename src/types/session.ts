@@ -14,3 +14,10 @@ export interface User {
     lastSeenAt?: string
     created?: string
 }
+
+export interface UserSimple {
+    id :number 
+    username: string 
+    nickname: string 
+    avatar: string 
+}

@@ -29,7 +29,7 @@ var sqlTables = map[string]string{
 	`,
 
 	"posts": `CREATE TABLE IF NOT EXISTS posts (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		id VARCHAR(255) PRIMARY KEY,
 		creator INTEGER NOT NULL,
 		slug VARCHAR(64) NOT NULL,
 		title VARCHAR(255) NOT NULL,
@@ -37,7 +37,9 @@ var sqlTables = map[string]string{
 		url  VARCHAR(255),
 		cover VARCHAR(255),
 		brief TEXT,
-		like_count INTEGER DEFAULT 0,
+		likes INTEGER DEFAULT 0,
+		views INTEGER DEFAULT 0,
+		status tinyint NOT NULL,
 		created DATETIME NOT NULL,
 		updated DATETIME
 	);
@@ -49,14 +51,15 @@ var sqlTables = map[string]string{
 		ON posts (creator, slug);
 	`,
 
-	"post_like": `CREATE TABLE IF NOT EXISTS post_like (
-		post_id          INTEGER,
-		user_id          INTEGER
+	"like": `CREATE TABLE IF NOT EXISTS like (
+		id        		 VARCHAR(255),
+		user_id          INTEGER,
+		created          DATETIME NOT NULL
 	);
-	CREATE INDEX IF NOT EXISTS post_like_postid
-		ON post_like (post_id);
-	CREATE INDEX IF NOT EXISTS post_like_userid
-		ON post_like (user_id);
+	CREATE INDEX IF NOT EXISTS like_id
+		ON like (id);
+	CREATE INDEX IF NOT EXISTS like_userid
+		ON like (user_id);
 	`,
 
 	"tags": `CREATE TABLE IF NOT EXISTS tags (
@@ -79,11 +82,26 @@ var sqlTables = map[string]string{
 
 	"tag_post": `CREATE TABLE IF NOT EXISTS tag_post (
 		tag_id           INTEGER, 
-		post_id          INTEGER
+		post_id          VARCHAR(255)
 	);
 	CREATE INDEX IF NOT EXISTS tag_post_tagid
 		ON tag_post (tag_id);
 	CREATE INDEX IF NOT EXISTS tag_post_postid
 		ON tag_post (post_id);
+	`,
+
+	"comments": `CREATE TABLE IF NOT EXISTS comments (
+		id           VARCHAR(255) PRIMARY KEY, 
+		target_id    VARCHAR(255),
+		creator      INTEGER,
+		MD           TEXT,
+		likes        INTEGER DEFAULT 0,
+		created DATETIME NOT NULL,
+		updated DATETIME
+	);
+	CREATE INDEX IF NOT EXISTS comments_targetid
+		ON comments (target_id);
+	CREATE INDEX IF NOT EXISTS comments_creator
+		ON comments (creator);
 	`,
 }

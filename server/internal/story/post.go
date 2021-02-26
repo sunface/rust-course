@@ -1,4 +1,4 @@
-package posts
+package story
 
 import (
 	"database/sql"
@@ -12,6 +12,7 @@ import (
 	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/imdotdev/im.dev/server/internal/session"
+	"github.com/imdotdev/im.dev/server/internal/tags"
 	"github.com/imdotdev/im.dev/server/pkg/config"
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
@@ -21,7 +22,7 @@ import (
 
 func UserPosts(uid int64) (models.Posts, *e.Error) {
 	ars := make(models.Posts, 0)
-	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,created,updated from posts where creator=?", uid)
+	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,likes,views,created,updated from posts where creator=?", uid)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return ars, e.New(http.StatusNotFound, e.NotFound)
@@ -34,7 +35,7 @@ func UserPosts(uid int64) (models.Posts, *e.Error) {
 	creator.Query()
 	for rows.Next() {
 		ar := &models.Post{}
-		err := rows.Scan(&ar.ID, &ar.Slug, &ar.Title, &ar.URL, &ar.Cover, &ar.Brief, &ar.Created, &ar.Updated)
+		err := rows.Scan(&ar.ID, &ar.Slug, &ar.Title, &ar.URL, &ar.Cover, &ar.Brief, &ar.Likes, &ar.Views, &ar.Created, &ar.Updated)
 		if err != nil {
 			logger.Warn("scan post error", "error", err)
 			continue
@@ -98,16 +99,15 @@ func SubmitPost(c *gin.Context) (map[string]string, *e.Error) {
 
 	setSlug(user.ID, post)
 
-	if post.ID == 0 {
+	if post.ID == "" {
+		post.ID = utils.GenStoryID(models.StoryPost)
 		//create
-		res, err := db.Conn.Exec("INSERT INTO posts (creator,slug, title, md, url, cover, brief, created, updated) VALUES(?,?,?,?,?,?,?,?,?)",
-			user.ID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, now, now)
+		_, err := db.Conn.Exec("INSERT INTO posts (id,creator,slug, title, md, url, cover, brief,status, created, updated) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
+			post.ID, user.ID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, models.StatusPublished, now, now)
 		if err != nil {
 			logger.Warn("submit post error", "error", err)
 			return nil, e.New(http.StatusInternalServerError, e.Internal)
 		}
-
-		post.ID, _ = res.LastInsertId()
 	} else {
 		// 只有创建者自己才能更新内容
 		creator, _ := GetPostCreator(post.ID)
@@ -142,11 +142,11 @@ func SubmitPost(c *gin.Context) (map[string]string, *e.Error) {
 
 	return map[string]string{
 		"username": user.Username,
-		"slug":     post.Slug,
+		"id":       post.ID,
 	}, nil
 }
 
-func DeletePost(id int64) *e.Error {
+func DeletePost(id string) *e.Error {
 	_, err := db.Conn.Exec("DELETE FROM posts WHERE id=?", id)
 	if err != nil {
 		logger.Warn("delete post error", "error", err)
@@ -156,11 +156,11 @@ func DeletePost(id int64) *e.Error {
 	return nil
 }
 
-func GetPost(id int64, slug string) (*models.Post, *e.Error) {
+func GetPost(id string, slug string) (*models.Post, *e.Error) {
 	ar := &models.Post{}
 	var rawmd []byte
-	err := db.Conn.QueryRow("select id,slug,title,md,url,cover,brief,creator,like_count,created,updated from posts where id=? or slug=?", id, slug).Scan(
-		&ar.ID, &ar.Slug, &ar.Title, &rawmd, &ar.URL, &ar.Cover, &ar.Brief, &ar.CreatorID, &ar.Likes, &ar.Created, &ar.Updated,
+	err := db.Conn.QueryRow("select id,slug,title,md,url,cover,brief,creator,likes,views,created,updated from posts where id=? or slug=?", id, slug).Scan(
+		&ar.ID, &ar.Slug, &ar.Title, &rawmd, &ar.URL, &ar.Cover, &ar.Brief, &ar.CreatorID, &ar.Likes, &ar.Views, &ar.Created, &ar.Updated,
 	)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -176,22 +176,35 @@ func GetPost(id int64, slug string) (*models.Post, *e.Error) {
 	err = ar.Creator.Query()
 
 	// get tags
-	tags := make([]int64, 0)
-	rows, err := db.Conn.Query("SELECT tag_id FROM tag_post WHERE post_id=?", id)
+	t := make([]int64, 0)
+	rows, err := db.Conn.Query("SELECT tag_id FROM tag_post WHERE post_id=?", ar.ID)
 	if err != nil && err != sql.ErrNoRows {
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
 	}
+
+	ar.RawTags = make([]*models.Tag, 0)
 	for rows.Next() {
 		var tag int64
 		err = rows.Scan(&tag)
-		tags = append(tags, tag)
+		t = append(t, tag)
+
+		rawTag, err := tags.GetTag(tag, "")
+		if err == nil {
+			ar.RawTags = append(ar.RawTags, rawTag)
+		}
 	}
-	ar.Tags = tags
+	ar.Tags = t
+
+	// add views count
+	_, err = db.Conn.Exec("UPDATE posts SET views=? WHERE id=?", ar.Views+1, ar.ID)
+	if err != nil {
+		logger.Warn("update post view count error", "error", err)
+	}
 
 	return ar, nil
 }
 
-func GetPostCreator(id int64) (int64, *e.Error) {
+func GetPostCreator(id string) (int64, *e.Error) {
 	var uid int64
 	err := db.Conn.QueryRow("SELECT creator FROM posts WHERE id=?", id).Scan(&uid)
 	if err != nil {
@@ -205,15 +218,15 @@ func GetPostCreator(id int64) (int64, *e.Error) {
 	return uid, nil
 }
 
-func postExist(id int64) bool {
-	var nid int64
+func postExist(id string) bool {
+	var nid string
 	err := db.Conn.QueryRow("SELECT id from posts WHERE id=?", id).Scan(&nid)
 	if err != nil {
 		logger.Warn("query post error", "error", err)
 		return false
 	}
 
-	if nid == 0 {
+	if nid != id {
 		return false
 	}
 

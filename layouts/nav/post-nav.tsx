@@ -110,8 +110,6 @@ function PostNav(props) {
             zIndex="3"
             left="0"
             right="0"
-            borderTop="4px solid"
-            borderTopColor="teal.400"
             width="full"
             bg={useColorModeValue('white', 'gray.800')}
             {...props}

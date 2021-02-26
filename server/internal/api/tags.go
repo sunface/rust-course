@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/imdotdev/im.dev/server/internal/posts"
 	"github.com/imdotdev/im.dev/server/internal/session"
+	"github.com/imdotdev/im.dev/server/internal/tags"
 	"github.com/imdotdev/im.dev/server/pkg/common"
 	"github.com/imdotdev/im.dev/server/pkg/e"
 	"github.com/imdotdev/im.dev/server/pkg/models"
@@ -14,7 +14,7 @@ import (
 
 func GetTag(c *gin.Context) {
 	name := c.Param("name")
-	res, err := posts.GetTag(name)
+	res, err := tags.GetTag(0, name)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return
@@ -24,7 +24,7 @@ func GetTag(c *gin.Context) {
 }
 
 func GetTags(c *gin.Context) {
-	res, err := posts.GetTags()
+	res, err := tags.GetTags()
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return
@@ -48,7 +48,7 @@ func SubmitTag(c *gin.Context) {
 	}
 
 	tag.Creator = user.ID
-	err1 := posts.SubmitTag(tag)
+	err1 := tags.SubmitTag(tag)
 	if err1 != nil {
 		c.JSON(err1.Status, common.RespError(err1.Message))
 		return
@@ -69,7 +69,7 @@ func DeleteTag(c *gin.Context) {
 		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
 	}
 
-	err := posts.DeleteTag(id)
+	err := tags.DeleteTag(id)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return

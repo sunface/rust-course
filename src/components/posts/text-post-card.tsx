@@ -17,7 +17,7 @@ export const TextPostCard= (props:Props) =>{
     const gap = moment(post.created).fromNow()
     return (
         <Flex justifyContent="space-between"  {...rest}>
-            <VStack alignItems="left" as="a" href={post.url ? post.url : `/${post.creator.username}/${post.slug}`}>
+            <VStack alignItems="left" as="a" href={post.url ? post.url : `/${post.creator.username}/${post.id}`}>
                 <Heading size="sm" display="flex" alignItems="center">
                     {post.url ? <Tag size="sm" mr="2">外部</Tag> : <Tag size="sm" mr="2">原创</Tag>}
                     {post.title}
