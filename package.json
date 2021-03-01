@@ -38,7 +38,6 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.1.0",
-    "react-markdown-editor-lite-sunface": "^1.2.5",
     "validator": "^13.5.2"
   },
   "devDependencies": {

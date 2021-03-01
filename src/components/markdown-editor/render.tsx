@@ -45,10 +45,8 @@ export function MarkdownRender({ md,fontSize, ...rest }:Props) {
       
       if (username !== '') {
         setRenderMd(md.replace('@' + username, `[@${username}](/${username})`))
-        console.log(username)
       }
     }
-    console.log(indexes)
   }, [md]);
 
   return (

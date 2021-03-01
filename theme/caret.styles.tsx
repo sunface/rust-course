@@ -26,8 +26,6 @@ const CaretStyles = () => (
         position: absolute;
         left: calc(var(--x, 0) * 1px);
         top: calc(var(--y, 0) * 1px);
-        background: hsl(0, 0%, 10%);
-        color: hsl(0, 0%, 98%);
         z-index: 9999;
         padding: 6px;
         border-radius: 4px;

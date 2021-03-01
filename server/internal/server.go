@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/imdotdev/im.dev/server/internal/api"
+	"github.com/imdotdev/im.dev/server/internal/cache"
 	"github.com/imdotdev/im.dev/server/internal/session"
 	"github.com/imdotdev/im.dev/server/internal/storage"
 	"github.com/imdotdev/im.dev/server/pkg/common"
@@ -36,6 +37,7 @@ func (s *Server) Start() error {
 		gin.SetMode(gin.DebugMode)
 	}
 
+	go cache.Init()
 	go func() {
 		router := gin.New()
 		router.Use(Cors())
@@ -50,22 +52,23 @@ func (s *Server) Start() error {
 
 		r.GET("/post/:id", api.GetPost)
 
-		r.POST("/story/like/:id", api.LikeStory, IsLogin())
+		r.POST("/story/like/:id", IsLogin(), api.LikeStory)
 		r.GET("/story/comments/:id", api.GetStoryComments)
-		r.POST("/story/comment", api.SubmitComment, IsLogin())
-		r.DELETE("/comment/:id", api.DeleteComment, IsLogin())
+		r.POST("/story/comment", IsLogin(), api.SubmitComment)
+		r.DELETE("/comment/:id", IsLogin(), api.DeleteComment)
 
-		r.GET("/editor/posts", api.GetEditorPosts, IsLogin())
-		r.POST("/editor/post", api.SubmitPost, IsLogin())
-		r.DELETE("/editor/post/:id", api.DeletePost, IsLogin())
-		r.GET("/editor/post/:id", api.GetEditorPost, IsLogin())
+		r.GET("/editor/posts", IsLogin(), api.GetEditorPosts)
+		r.POST("/editor/post", IsLogin(), api.SubmitPost)
+		r.DELETE("/editor/post/:id", IsLogin(), api.DeletePost)
+		r.GET("/editor/post/:id", IsLogin(), api.GetEditorPost)
 
-		r.POST("/admin/tag", api.SubmitTag, IsLogin())
-		r.DELETE("/admin/tag/:id", api.DeleteTag, IsLogin())
+		r.POST("/admin/tag", IsLogin(), api.SubmitTag)
+		r.DELETE("/admin/tag/:id", IsLogin(), api.DeleteTag)
 
 		r.GET("/tags", api.GetTags)
 		r.GET("/tag/:name", api.GetTag)
 
+		r.GET("/users", api.GetUsers)
 		err := router.Run(config.Data.Server.Addr)
 		if err != nil {
 			logger.Crit("start backend server error", "error", err)
