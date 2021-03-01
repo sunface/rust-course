@@ -15,6 +15,7 @@ interface Props {
     md: string
     onSubmit: any
     onCancel: any
+    menu?: boolean
 }
 
 export const CommentEditor = (props: Props) => {
@@ -31,7 +32,7 @@ export const CommentEditor = (props: Props) => {
                     <EditModeSelect onChange={m => setEditMode(m)}/>
                 </Flex>
                 <Box mt="4" h="300px">
-                    {editMode===EditMode.Edit ? <MarkdownEditor md={md} onChange={md => setMd(md)}/> : <MarkdownRender md={md} overflowY="scroll"/>}
+                    {editMode===EditMode.Edit ? <MarkdownEditor menu={props.menu?? true} md={md} onChange={md => setMd(md)}/> : <MarkdownRender md={md} overflowY="scroll"/>}
                 </Box>
 
                 <Flex justifyContent="flex-end">

@@ -3522,10 +3522,10 @@ react-is@16.13.1, react-is@^16.7.0, react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-markdown-editor-lite@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/react-markdown-editor-lite/-/react-markdown-editor-lite-1.2.4.tgz#d47ea00f62e7c82ae8803a990d011d4f44015c20"
-  integrity sha512-zUMDsrRxmjNeZEaVkL2oXlOpSJOmVtI5wwRv71MevyvwA/gZQOE7oJP6dSRe84HMccuoU2v1+FxNWKYJtMdPdw==
+react-markdown-editor-lite-sunface@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/react-markdown-editor-lite-sunface/-/react-markdown-editor-lite-sunface-1.2.5.tgz#22684365e12884990da68aea2903e221de7ffd4c"
+  integrity sha512-fCQ0RCSZgni5ky43DbZqL6pSlDR7dMkSekTHG5GLRqiOk1jiIsRvvpVjdSMw3HBaworCFRrYSR7oN6WYRg3Dkg==
   dependencies:
     classnames "^2.2.6"
 

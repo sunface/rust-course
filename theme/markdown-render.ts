@@ -56,6 +56,9 @@ export default function markdownRender(props) {
             },
             pre: {
                 margin: '1.6rem 0'
+            },
+            a: {
+                textDecoration: 'underline !important'
             }       
         }
     }

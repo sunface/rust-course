@@ -46,7 +46,7 @@ export const CommentCard = (props: Props) => {
 
     return (
         <>{
-            editorVisible ? (user && <CommentEditor user={user} md={comment.md} onSubmit={md => {setEditorVisible(false);changeComment(md)}} onCancel={() => setEditorVisible(false)} />) :
+            editorVisible ? (user && <CommentEditor user={user} md={comment.md} onSubmit={md => {setEditorVisible(false);changeComment(md)}} onCancel={() => setEditorVisible(false)} menu={false}/>) :
                 <Card>
                     <VStack alignItems="left">
                         <Flex justifyContent="space-between" width="100%" alignItems="top">
@@ -95,12 +95,12 @@ export const CommentCard = (props: Props) => {
                             </HStack>
                         </Flex>
 
-                        {replyVisible && <Box pl="16" pr="2"><CommentEditor user={user} md={reply} onSubmit={md => {submitReply(md)}} onCancel={() => setReplyVisible(false)} /></Box>}
+                        {replyVisible && <Box pl="16" pr="2"><CommentEditor menu={false} user={user} md={reply} onSubmit={md => {submitReply(md)}} onCancel={() => setReplyVisible(false)} /></Box>}
 
                         {comment.replies.map(reply => 
                             <Box pl="16" key={reply.id}>
                                 <Divider mb="4"/>
-                                <Reply  user={props.user} onChange={props.onChange} comment={reply}/>
+                                <Reply  user={props.user} onChange={props.onChange} comment={reply} parent={comment}/>
                             </Box>)}
                     </VStack>
                 </Card>}

@@ -14,17 +14,19 @@ import { requestApi } from "utils/axios/request"
 interface Props {
     user: User
     comment: Comment
+    parent: Comment
     onChange: any
 }
 export const Reply = (props: Props) => {
-    const { comment, user,onChange} = props
+    const { comment, user,onChange,parent} = props
     const [editorVisible, setEditorVisible] = useState(false)
 
     const [replyVisible,setReplyVisible] = useState(false)
     const [reply,setReply] = useState('')
     const submitReply = async (md) => {
-        await requestApi.post('/story/comment',{targetID: comment.id, md: md})
+        await requestApi.post('/story/comment',{targetID: parent.id, md: md})
         setReplyVisible(false);
+        onChange()
     }
 
     const changeReply = async (md) => {
@@ -44,9 +46,19 @@ export const Reply = (props: Props) => {
       }
 
 
+    const replyToReply = () => {
+        if (comment.creator.nickname === "") {
+            setReply(`@${comment.creator.username}`)
+        } else {
+            setReply(`[@${comment.creator.nickname}](/${comment.creator.username})`)
+        }
+        
+        setReplyVisible(!replyVisible)
+    }
+
     return (
         <>{
-            editorVisible ? (user && <CommentEditor user={user} md={comment.md} onSubmit={md => {setEditorVisible(false);changeReply(md)}} onCancel={() => setEditorVisible(false)} />) :
+            editorVisible ? (user && <CommentEditor user={user} md={comment.md} onSubmit={md => {setEditorVisible(false);changeReply(md)}} onCancel={() => setEditorVisible(false)} menu={false} />) :
                     <VStack alignItems="left">
                         <Flex width="100%" alignItems="center" justifyContent="space-between">
                             <HStack spacing="4">
@@ -69,7 +81,7 @@ export const Reply = (props: Props) => {
                                     _focus={null}
                                     color="gray.500"
                                     icon={<FaReply />}
-                                    onClick={() => setReplyVisible(!replyVisible)}
+                                    onClick={replyToReply}
                                     fontSize="18px"
                                 />}
 
@@ -95,7 +107,7 @@ export const Reply = (props: Props) => {
 
                         {replyVisible && 
                             <Box pl="16" pr="2">
-                                <CommentEditor user={user} md={reply} onSubmit={md => {submitReply(md)}} onCancel={() => setReplyVisible(false)} />
+                                <CommentEditor user={user} md={reply} onSubmit={md => {submitReply(md)}} onCancel={() => setReplyVisible(false)} menu={false}/>
                             </Box>}
                     </VStack>}
         </>
