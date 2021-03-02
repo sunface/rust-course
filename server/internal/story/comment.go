@@ -89,7 +89,14 @@ func GetComment(id string) (*models.Comment, *e.Error) {
 }
 
 func DeleteComment(id string) *e.Error {
-	_, err := db.Conn.Exec("DELETE FROM comments WHERE id=?", id)
+	// delete children replies
+	_, err := db.Conn.Exec("DELETE FROM comments WHERE target_id=?", id)
+	if err != nil {
+		logger.Warn("delete comment replies error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	_, err = db.Conn.Exec("DELETE FROM comments WHERE id=?", id)
 	if err != nil {
 		logger.Warn("delete comment error", "error", err)
 		return e.New(http.StatusInternalServerError, e.Internal)

@@ -1,4 +1,4 @@
-package session
+package user
 
 import (
 	"database/sql"
@@ -109,6 +109,26 @@ func CurrentUser(c *gin.Context) *models.User {
 	}
 
 	return sess.User
+}
+
+func GetSession(c *gin.Context) *Session {
+	token := getToken(c)
+	createTime, _ := strconv.ParseInt(token, 10, 64)
+	if createTime != 0 {
+		// check whether token is expired
+		if (time.Now().Unix() - createTime/1e9) > config.Data.User.SessionExpire {
+			deleteSession(token)
+			return nil
+		}
+	}
+
+	sess := loadSession(token)
+	if sess == nil {
+		// 用户未登陆或者session失效
+		return nil
+	}
+
+	return sess
 }
 
 func loadSession(sid string) *Session {

@@ -11,8 +11,10 @@ server:
   
 #################################### User/Session ##############################
 user: 
-    # github username
+    # username for superadmin, setted only in first run, can't be changed
     super_admin_username: "sunface"
+    # email for superadmin
+    super_admin_email: "cto@188.com"
     # a session is created when user login to im.dev, this session will be expired after X seconds
     session_expire: 259200
 

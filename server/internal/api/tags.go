@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/imdotdev/im.dev/server/internal/session"
 	"github.com/imdotdev/im.dev/server/internal/tags"
+	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/common"
 	"github.com/imdotdev/im.dev/server/pkg/e"
 	"github.com/imdotdev/im.dev/server/pkg/models"
@@ -34,7 +34,7 @@ func GetTags(c *gin.Context) {
 }
 
 func SubmitTag(c *gin.Context) {
-	user := session.CurrentUser(c)
+	user := user.CurrentUser(c)
 	if !user.Role.IsAdmin() {
 		c.JSON(http.StatusForbidden, common.RespError(e.NoEditorPermission))
 		return
@@ -64,7 +64,7 @@ func DeleteTag(c *gin.Context) {
 		return
 	}
 
-	user := session.CurrentUser(c)
+	user := user.CurrentUser(c)
 	if !user.Role.IsAdmin() {
 		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
 	}

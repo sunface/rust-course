@@ -9,8 +9,9 @@ import (
 )
 
 type UIConfig struct {
-	Posts *PostsConfig `json:"posts"`
-	User  *UserConfig  `json:"user"`
+	CommonMaxLen int          `json:"commonMaxlen"`
+	Posts        *PostsConfig `json:"posts"`
+	User         *UserConfig  `json:"user"`
 }
 
 type PostsConfig struct {
@@ -28,6 +29,7 @@ type UserConfig struct {
 // 在后台页面配置，存储到mysql中
 func GetUIConfig(c *gin.Context) {
 	conf := &UIConfig{
+		CommonMaxLen: 255,
 		Posts: &PostsConfig{
 			TitleMaxLen:    config.Data.Posts.TitleMaxLen,
 			BriefMaxLen:    config.Data.Posts.BriefMaxLen,

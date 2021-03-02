@@ -2,7 +2,7 @@ import React from "react"
 import { IconButton, useColorMode, useColorModeValue } from "@chakra-ui/react"
 import { FaMoon, FaSun } from "react-icons/fa"
 
-export const DarkMode = () => {
+export const DarkMode = (props) => {
     const { toggleColorMode: toggleMode } = useColorMode()
     const text = useColorModeValue("dark", "light")
     const SwitchIcon = useColorModeValue(FaMoon, FaSun)
@@ -10,7 +10,7 @@ export const DarkMode = () => {
     return (
         <IconButton
             size="md"
-            fontSize="lg"
+            fontSize={props.fontSize??'lg'}
             aria-label={`Switch to ${text} mode`}
             variant="ghost"
             color="current"

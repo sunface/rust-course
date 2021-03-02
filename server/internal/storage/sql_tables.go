@@ -6,7 +6,7 @@ var sqlTables = map[string]string{
 		username VARCHAR(255) NOT NULL UNIQUE,
 		nickname VARCHAR(255) DEFAULT '',
 		avatar VARCHAR(255) DEFAULT '',
-		email VARCHAR(255) UNIQUE DEFAULT '',
+		email VARCHAR(255) UNIQUE NOT NULL,
 		role  VARCHAR(20) NOT NULL,
 
 		last_seen_at DATETIME DEFAULT CURRENT_DATETIME,
@@ -21,6 +21,26 @@ var sqlTables = map[string]string{
 		ON user (role);
 	CREATE INDEX IF NOT EXISTS user_email
 		ON user (email);`,
+
+	"user_profile": `CREATE TABLE IF NOT EXISTS user_profile (
+			id INTEGER PRIMARY KEY,
+
+			tagline VARCHAR(255),
+			cover VARCHAR(255),
+			location VARCHAR(255),
+			avail_for TEXT,
+			about  TEXT,
+			
+			website VARCHAR(255),
+			twitter VARCHAR(255),
+			github VARCHAR(255),
+			zhihu VARCHAR(255),
+			weibo VARCHAR(255),
+			facebook VARCHAR(255),
+			stackoverflow VARCHAR(255),
+
+			updated DATETIME
+		);`,
 
 	"sessions": `CREATE TABLE IF NOT EXISTS sessions (
 			sid              VARCHAR(255) primary key,   

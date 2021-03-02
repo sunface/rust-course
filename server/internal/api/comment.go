@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/imdotdev/im.dev/server/internal/session"
 	"github.com/imdotdev/im.dev/server/internal/story"
+	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/common"
 	"github.com/imdotdev/im.dev/server/pkg/e"
 	"github.com/imdotdev/im.dev/server/pkg/models"
@@ -32,7 +32,7 @@ func SubmitComment(c *gin.Context) {
 
 	var err *e.Error
 	if comment.ID == "" { //add comment
-		user := session.CurrentUser(c)
+		user := user.CurrentUser(c)
 		comment.CreatorID = user.ID
 		comment.ID = utils.GenStoryID(models.StoryComment)
 		err = story.AddComment(comment)
@@ -56,7 +56,7 @@ func GetStoryComments(c *gin.Context) {
 		return
 	}
 
-	user := session.CurrentUser(c)
+	user := user.CurrentUser(c)
 	for _, comment := range comments {
 		if user != nil {
 			comment.Liked = story.GetLiked(comment.ID, user.ID)
@@ -87,7 +87,7 @@ func DeleteComment(c *gin.Context) {
 		return
 	}
 
-	user := session.CurrentUser(c)
+	user := user.CurrentUser(c)
 	canDel := false
 	if user.Role.IsAdmin() {
 		canDel = true

@@ -7,12 +7,28 @@ import (
 )
 
 type User struct {
-	ID         int64     `json:"id"`
-	Username   string    `json:"username"`
-	Nickname   string    `json:"nickname"`
-	Avatar     string    `json:"avatar"`
-	Email      string    `json:"email"`
-	Role       RoleType  `json:"role"`
+	ID       int64    `json:"id"`
+	Username string   `json:"username"`
+	Nickname string   `json:"nickname"`
+	Avatar   string   `json:"avatar"`
+	Email    string   `json:"email"`
+	Role     RoleType `json:"role"`
+
+	Tagline  string `json:"tagline"`
+	Cover    string `json:"cover"`
+	Location string `json:"location"`
+	AvailFor string `json:"availFor"`
+	About    string `json:"about"`
+	Skills   string `json:"skills"`
+
+	Website       string `json:"website"`
+	Twitter       string `json:"twitter"`
+	Github        string `json:"github"`
+	Zhihu         string `json:"zhihu"`
+	Weibo         string `json:"weibo"`
+	Facebook      string `json:"facebook"`
+	Stackoverflow string `json:"stackoverflow"`
+
 	LastSeenAt time.Time `json:"lastSeenAt,omitempty"`
 	Created    time.Time `json:"created"`
 }

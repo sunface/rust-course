@@ -11,8 +11,8 @@ import (
 
 	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
-	"github.com/imdotdev/im.dev/server/internal/session"
 	"github.com/imdotdev/im.dev/server/internal/tags"
+	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/config"
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
@@ -50,7 +50,7 @@ func UserPosts(uid int64) (models.Posts, *e.Error) {
 }
 
 func SubmitPost(c *gin.Context) (map[string]string, *e.Error) {
-	user := session.CurrentUser(c)
+	user := user.CurrentUser(c)
 
 	post := &models.Post{}
 	err := c.Bind(&post)

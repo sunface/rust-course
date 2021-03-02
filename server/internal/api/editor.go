@@ -4,14 +4,14 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/imdotdev/im.dev/server/internal/session"
 	"github.com/imdotdev/im.dev/server/internal/story"
+	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/common"
 	"github.com/imdotdev/im.dev/server/pkg/e"
 )
 
 func GetEditorPosts(c *gin.Context) {
-	user := session.CurrentUser(c)
+	user := user.CurrentUser(c)
 	ars, err := story.UserPosts(int64(user.ID))
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
@@ -28,7 +28,7 @@ func GetEditorPost(c *gin.Context) {
 		return
 	}
 
-	user := session.CurrentUser(c)
+	user := user.CurrentUser(c)
 	creator, err := story.GetPostCreator(id)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))

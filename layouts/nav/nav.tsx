@@ -93,11 +93,11 @@ function HeaderContent() {
           </Link>
           <DarkMode />
           <AccountMenu />
-          <MobileNavButton
+          {/* <MobileNavButton
             ref={mobileNavBtnRef}
             aria-label="Open Menu"
             onClick={mobileNav.onOpen}
-          />
+          /> */}
         </HStack>
       </Flex>
       <MobileNavContent isOpen={mobileNav.isOpen} onClose={mobileNav.onClose} />

@@ -19,6 +19,7 @@ type Config struct {
 
 	User struct {
 		SuperAdminUsername string `yaml:"super_admin_username"`
+		SuperAdminEmail    string `yaml:"super_admin_email"`
 		SessionExpire      int64  `yaml:"session_expire"`
 	}
 

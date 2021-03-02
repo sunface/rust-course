@@ -46,7 +46,7 @@ const PostsPage = () => {
         <>
             <PageContainer>
                 <Box display="flex">
-                    <Sidebar routes={adminLinks} width="250px" height="fit-content" />
+                    <Sidebar routes={adminLinks} width="250px" height="fit-content" title="管理员" />
                     <Card ml="4" p="6" width="100%">
                         <Flex alignItems="center" justify="space-between">
                             <Heading size="md">标签列表({tags.length})</Heading>

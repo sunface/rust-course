@@ -49,15 +49,17 @@ export const AccountMenu = () => {
                   ml={{ base: "0", md: "2" }}
                 />
                 <MenuList>
-                  <MenuItem icon={<FaUserAlt fontSize="16" />}>
-                    <span>Sunface</span>
-                  </MenuItem>
+                  <Link href={`/${session.user.username}`}>
+                    <MenuItem icon={<FaUserAlt fontSize="16" />}>
+                      <span>{session.user.nickname}</span>
+                    </MenuItem>
+                  </Link>
                   <MenuDivider />
                   {isEditor(session.user.role) && <Link href={`${ReserveUrls.Editor}/posts`}><MenuItem icon={<FaEdit fontSize="16" />} >创作中心</MenuItem></Link>}
                   {isAdmin(session.user.role) && <Link href={`${ReserveUrls.Admin}/tags`}><MenuItem  icon={<FaStar fontSize="16" />} >管理员</MenuItem></Link>}
                   <MenuItem icon={<FaBookmark fontSize="16" />}>书签收藏</MenuItem>
                   <MenuDivider />
-                  <MenuItem icon={<FaRegSun fontSize="16" />}>偏好设置</MenuItem>
+                  <Link href={`${ReserveUrls.Settings}/profile`}><MenuItem icon={<FaRegSun fontSize="16" />}>偏好设置</MenuItem></Link>
                   <MenuItem onClick={() => logout()} icon={<FaSignOutAlt fontSize="16" />}>账号登出</MenuItem>
                 </MenuList>
               </Menu> :

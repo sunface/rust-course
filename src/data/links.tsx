@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaFileAlt, FaScroll, FaBookOpen, FaTags } from 'react-icons/fa'
+import { FaFileAlt, FaScroll, FaBookOpen, FaTags, FaUserCircle } from 'react-icons/fa'
 import { Route } from 'src/types/route'
 import { ReserveUrls } from './reserve-urls'
 export const editorLinks: Route[] = [{
@@ -27,5 +27,12 @@ export const adminLinks: Route[] = [{
     path: `${ReserveUrls.Admin}/tags`,
     icon: <FaTags />,
     disabled: false
-}
-]
+}]
+
+
+export const settingLinks: Route[] = [{
+    title: '用户设置',
+    path: `${ReserveUrls.Settings}/profile`,
+    icon: <FaUserCircle />,
+    disabled: false
+}]

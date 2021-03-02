@@ -99,7 +99,7 @@ const PostsPage = () => {
         <>
             <PageContainer>
                 <Box display="flex">
-                    <Sidebar routes={editorLinks} width="250px" height="fit-content" />
+                    <Sidebar routes={editorLinks} width="250px" height="fit-content" title="创作中心"/>
                     <Card ml="4" p="6" width="100%">
                         <Flex alignItems="center" justify="space-between">
                             <Heading size="md">文章列表({posts.length})</Heading>
