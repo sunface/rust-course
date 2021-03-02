@@ -50,7 +50,7 @@ export const Reply = (props: Props) => {
         if (comment.creator.nickname === "") {
             setReply(`@${comment.creator.username}`)
         } else {
-            setReply(`[@${comment.creator.nickname}](/${comment.creator.username})`)
+            setReply(`@[${comment.creator.nickname}](/${comment.creator.username})`)
         }
         
         setReplyVisible(!replyVisible)

@@ -97,7 +97,13 @@ export function MarkdownEditor(props: Props) {
       }
     }
 
-    const newMd = md.substr(0,start) + '@'+user.username+ md.substr(end,md.length)
+    let newMd: string 
+    if (user.nickname === '') {
+      newMd = md.substr(0,start) + `@${user.username}`+ md.substr(end,md.length)
+    } else {
+      newMd = md.substr(0,start) + `@[${user.nickname}](${user.username})`+ md.substr(end,md.length)
+    }
+
     props.onChange(newMd)
     setShowTrigger(false)
 

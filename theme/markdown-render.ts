@@ -2,6 +2,7 @@ import { mode } from "@chakra-ui/theme-tools"
 import userCustomTheme from "./user-custom"
 
 export default function markdownRender(props) {
+    console.log(props)
     return  {
         '.markdown-render': {
            '.hljs' : {
@@ -59,6 +60,14 @@ export default function markdownRender(props) {
             },
             a: {
                 textDecoration: 'underline !important'
+            },
+            '.at-user-link': {
+                textDecoration: 'none !important',
+                borderBottom: '2px dashed rgb(158, 158, 158)',
+                margin:'0 3px',
+                color: mode(props.theme.colors.teal[600], props.theme.colors.teal[200])(props),
+                fontWeight: '550',
+                paddingBottom: '2px'
             }       
         }
     }

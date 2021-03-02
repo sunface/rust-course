@@ -6,6 +6,10 @@ export let config = {
         briefMaxLen: 128,
         writingEnabled: false,
         maxTags: 0
+    },
+    user: {
+        nicknameMaxLen: 64,
+        usernameMaxLen: 39
     }
 }
 

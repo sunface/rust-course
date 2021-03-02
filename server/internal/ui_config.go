@@ -10,6 +10,7 @@ import (
 
 type UIConfig struct {
 	Posts *PostsConfig `json:"posts"`
+	User  *UserConfig  `json:"user"`
 }
 
 type PostsConfig struct {
@@ -17,6 +18,11 @@ type PostsConfig struct {
 	BriefMaxLen    int  `json:"briefMaxLen"`
 	WritingEnabled bool `json:"writingEnabled"`
 	MaxTags        int  `json:"maxTags"`
+}
+
+type UserConfig struct {
+	NicknameMaxLen int `json:"nicknameMaxLen"`
+	UsernameMaxLen int `json:"usernameMaxLen"`
 }
 
 // 在后台页面配置，存储到mysql中
@@ -27,6 +33,10 @@ func GetUIConfig(c *gin.Context) {
 			BriefMaxLen:    config.Data.Posts.BriefMaxLen,
 			WritingEnabled: config.Data.Posts.WritingEnabled,
 			MaxTags:        2,
+		},
+		User: &UserConfig{
+			UsernameMaxLen: 39,
+			NicknameMaxLen: 64,
 		},
 	}
 
