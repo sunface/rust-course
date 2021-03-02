@@ -48,6 +48,10 @@ func GetUserDetail(id int64, username string) (*models.User, *e.Error) {
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
 	}
 
+	if user.Cover == "" {
+		user.Cover = models.DefaultCover
+	}
+
 	return user, nil
 }
 

@@ -33,6 +33,7 @@ const customTheme = extendTheme({
           color: "#b5f4a5 !important",
           fontStyle: "normal !important",
         },
+        fontWeight: '450'
       },
       ...markdownEditor(props),
       ...markdownRender(props)
