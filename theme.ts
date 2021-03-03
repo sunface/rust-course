@@ -34,7 +34,7 @@ const customTheme = extendTheme({
           fontStyle: "normal !important",
         },
         fontWeight: '450',
-        fontSize: '17px'
+        fontSize: '16px'
       },
       ...markdownEditor(props),
       ...markdownRender(props)

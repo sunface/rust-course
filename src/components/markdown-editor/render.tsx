@@ -143,7 +143,7 @@ export function MarkdownRender({ md,fontSize, ...rest }:Props) {
       <ChakraMarkdown 
         children={renderMd} 
         {...rest} 
-        style={{height:'100%',fontSize: fontSize??'1.1rem'}}
+        style={{height:'100%',fontSize: fontSize??'1.2rem',lineHeight:'1.7'}}
         className="markdown-render"
         options={{
           overrides: {

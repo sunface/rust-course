@@ -17,7 +17,7 @@ export const PostCard = (props: Props) => {
     const [isLargeScreen] = useMediaQuery("(min-width: 768px)")
     const Layout = isLargeScreen ? HStack : VStack
     return (
-        <VStack alignItems="left" spacing="4" p="1">
+        <VStack alignItems="left" spacing="4" p="2">
             <PostAuthor post={post} showFooter={false} size="md" />
             <Link href={`/${post.creator.username}/${post.id}`}>
                 <Layout alignItems={isLargeScreen ? "top" : "left"} cursor="pointer" pl="2" pt="1">

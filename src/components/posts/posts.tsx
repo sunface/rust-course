@@ -20,7 +20,7 @@ export const Posts = (props: Props) => {
         <>
             <VStack alignItems="left">
                 {posts.map(post =>
-                    <Box py="4" borderBottom={`1px solid ${postBorderColor}`} key={post.id}>
+                    <Box py="2" borderBottom={`1px solid ${postBorderColor}`} key={post.id}>
                         <Card post={post} size={props.size}/>
                     </Box>)}
             </VStack>
