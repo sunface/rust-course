@@ -11,9 +11,9 @@ export function SidebarContent(props) {
     return (
         <>
             <Stack as="ul">
-                {routes.map((route:Route) => {
-                    if (route.disabled) {return null}
-                    return  <SidebarLink as="li" key={route.path} href={route.path} icon={route.icon}>
+                {routes.map((route: Route) => {
+                    if (route.disabled) { return null }
+                    return <SidebarLink as="li" key={route.path} href={route.path} icon={route.icon}>
                         <span>{route.title}</span>
                     </SidebarLink>
                 })}
@@ -22,35 +22,32 @@ export function SidebarContent(props) {
     )
 }
 
-const Sidebar = ({ routes,title, ...props }) => {
+const Sidebar = ({ routes, title, ...props }) => {
     const { pathname } = useRouter()
     const ref = React.useRef<HTMLDivElement>(null)
 
     return (
-        <VStack alignItems="left">
-        <Card p="5"><Heading size="sm">{title}</Heading></Card>
-        <Card p="0" {...props}>
-            <Box
-                ref={ref}
-                as="nav"
-                aria-label="Main Navigation"
-                pos="sticky"
-                sx={{
-                    overscrollBehavior: "contain",
-                }}
-                top="8.5rem"
-                pr="3"
-                pb="6"
-                pl="3"
-                pt="6"
-                overflowY="auto"
-                className="sidebar-content"
-                flexShrink={0}
+        <VStack alignItems="left" width={["180px","180px","250px","250px"]}  height="fit-content" >
+            <Card p="5"><Heading size="md">{title}</Heading></Card>
+            <Card p="0" {...props}>
+                <Box
+                    ref={ref}
+                    as="nav"
+                    aria-label="Main Navigation"
+                    pos="sticky"
+                    sx={{
+                        overscrollBehavior: "contain",
+                    }}
+                    top="8.5rem"
+                    p="3"
+                    overflowY="auto"
+                    className="sidebar-content"
+                    flexShrink={0}
                 // display={{ base: "none", md: "block" }}
-            >
-                <SidebarContent routes={routes} pathname={pathname} contentRef={ref} />
-            </Box>
-        </Card>
+                >
+                    <SidebarContent routes={routes} pathname={pathname} contentRef={ref} />
+                </Box>
+            </Card>
         </VStack>
     )
 }

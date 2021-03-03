@@ -8,7 +8,8 @@ import {
     useUpdateEffect,
     Box,
     VStack,
-    useMediaQuery
+    useMediaQuery,
+    Text
   } from "@chakra-ui/react"
   import siteConfig from "configs/site-config"
   import { useViewportScroll } from "framer-motion"
@@ -23,18 +24,22 @@ import {
   import Link from "next/link"
   import DarkMode from "components/dark-mode"
   import AccountMenu from "components/account-menu"
+import { getSvgIcon } from "components/svg-icon"
   
   const navLinks = [{
     title: '主页',
     url: '/',
+    icon: getSvgIcon("home","1.4rem")
   },
   {
     title: '标签',
     url: ReserveUrls.Tags,
+    icon: getSvgIcon("tags","1.2rem")
   },
   {
     title: '学习资料',
     url: ReserveUrls.Courses,
+    icon: getSvgIcon("explore","1.4rem")
   },
   ]
   
@@ -62,8 +67,14 @@ import {
               </chakra.a>
             </NextLink>
   
-            <VStack pt="6"  ml={{ base: 1, md: 4, lg: 12 }} fontSize="1rem" minWidth="250px">
-              {navLinks.map(link => <Box px="4" py="0.7rem" rounded="md" key={link.url} color={useColorModeValue("gray.700", "whiteAlpha.900")} aria-current={asPath === link.url ? "page" : undefined} _activeLink={{ bg: useColorModeValue("transparent", "rgba(48, 140, 122, 0.3)"), color: useColorModeValue("teal.500", "teal.200"), fontWeight: "bold", }} ><Link href={link.url}>{link.title}</Link></Box>)}
+            <VStack pt="6"  ml={{ base: 1, md: 4, lg: 12 }} fontSize="1rem" alignItems="left">
+              {navLinks.map(link => 
+               <Link href={link.url}>
+                  <HStack cursor="pointer" px="4" py="0.7rem" rounded="md" key={link.url} color={useColorModeValue("gray.700", "whiteAlpha.900")} aria-current={asPath === link.url ? "page" : undefined} _activeLink={{ bg: useColorModeValue("transparent", "rgba(48, 140, 122, 0.3)"), color: useColorModeValue("teal.500", "teal.200"), fontWeight: "bold", }} >
+                    <Box width="25px">{link.icon}</Box><Text>{link.title}</Text>
+                  </HStack>
+                </Link>
+                )}
             </VStack>
           </VStack>
   

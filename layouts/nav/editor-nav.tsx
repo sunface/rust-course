@@ -47,8 +47,8 @@ function HeaderContent(props: Props) {
 
     return (
         <>
-            <Flex w="100%" h="100%" align="center" justify="space-between" px={{ base: "4", md: "6" }}>
-                <Flex align="center">
+            <Flex w="100%" h="100%" align="center" justify="space-between" px={{ base: "2", md: "6" }}>
+                <Flex align="center" display={{ base: "none", md: "flex" }}>
                     <NextLink href="/" passHref>
                         <chakra.a display={{ base: "none", md: "block" }} style={{ marginTop: '-5px' }} aria-label="Chakra UI, Back to homepage">
                             <Logo width="130" />
@@ -61,7 +61,7 @@ function HeaderContent(props: Props) {
                     </NextLink>
                 </Flex>
                 <Box>
-                    <Input value={props.ar.title} placeholder="Title..." onChange={props.changeTitle} focusBorderColor={useColorModeValue('teal.400', 'teal.100')} variant="flushed" />
+                    <Input width={{base: '100px', md: '187px'}} value={props.ar.title} placeholder="Title..." onChange={props.changeTitle} focusBorderColor={useColorModeValue('teal.400', 'teal.100')} variant="flushed" />
                 </Box>
                 <EditModeSelect onChange={props.changeEditMode}/>
                 <Box

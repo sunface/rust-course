@@ -30,7 +30,7 @@ function PostEditPage() {
     const toast = useToast()
     useEffect(() => {
         if (id && id !== 'new') {
-            requestApi.get(`/tag/${id}`).then(res => setTag(res.data))
+            requestApi.get(`/tag/info/${id}`).then(res => setTag(res.data))
         }
     }, [id])
 
@@ -64,7 +64,7 @@ function PostEditPage() {
                 publish={() => publish()}
             />}
         >
-            <Flex style={{ height: 'calc(100vh - 145px)' }}>
+            <HStack style={{ height: 'calc(100vh - 145px)' }} alignItems="top">
                 <Card width="65%">
                     {editMode === EditMode.Edit ?
                         <MarkdownEditor
@@ -83,7 +83,7 @@ function PostEditPage() {
                         </Box>
                     }
                 </Card>
-                <Card ml="6" width="35%">      
+                <Card width="35%">      
                         <Heading size="xs">
                             Title
                             </Heading>
@@ -104,7 +104,7 @@ function PostEditPage() {
                             </Heading>
                         <Input value={tag.icon} onChange={(e) => { tag.icon = e.target.value; onChange()}} mt="4" variant="flushed" size="sm" placeholder="图片链接" focusBorderColor="teal.400" />
                 </Card>
-            </Flex>
+            </HStack>
         </PageContainer>
     );
 }

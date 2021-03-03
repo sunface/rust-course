@@ -15,6 +15,7 @@ import { FaExternalLinkAlt, FaRegEdit } from "react-icons/fa"
 import { useRouter } from "next/router"
 import { ReserveUrls } from "src/data/reserve-urls"
 import Link from "next/link"
+import PageContainer1 from "layouts/page-container1"
 var validator = require('validator');
 
 const newPost: Post = { title: '', url: '', cover: '' }
@@ -97,9 +98,9 @@ const PostsPage = () => {
 
     return (
         <>
-            <PageContainer>
+            <PageContainer1 >
                 <Box display="flex">
-                    <Sidebar routes={editorLinks} width="250px" height="fit-content" title="创作中心"/>
+                    <Sidebar routes={editorLinks}   title="创作中心"/>
                     <Card ml="4" p="6" width="100%">
                         <Flex alignItems="center" justify="space-between">
                             <Heading size="md">文章列表({posts.length})</Heading>
@@ -141,7 +142,7 @@ const PostsPage = () => {
                         }
                     </Card>
                 </Box>
-            </PageContainer>
+            </PageContainer1>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

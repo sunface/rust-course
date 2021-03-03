@@ -16,7 +16,7 @@ import SEO from "components/seo"
 import siteConfig from "configs/site-config"
 import PageContainer1 from "layouts/page-container1"
 import React, { useEffect, useState } from "react"
-import { PostFilter } from "src/types/posts"
+import { PostFilter } from "src/types/posts" 
 import { requestApi } from "utils/axios/request"
 
 const HomePage = () => {
@@ -38,7 +38,7 @@ const HomePage = () => {
         description={siteConfig.seo.description}
       />
       <PageContainer1>
-        <HStack alignItems="top" p="4" spacing="3">
+        <HStack alignItems="top" spacing="3">
           <VStack alignItems="left" width={["100%", "100%", "70%", "70%"]} spacing="3">
             <Card p="2">
               <Flex justifyContent="space-between" alignItems="center">

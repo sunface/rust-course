@@ -23,7 +23,7 @@ export const PostCard = (props: Props) => {
                 <Layout alignItems={isLargeScreen ? "top" : "left"} cursor="pointer" pl="2" pt="1">
                     <VStack alignItems="left" spacing="3" width={isLargeScreen ? "calc(100% - 18rem)" : '100%'}>
                         <Heading size="md">{post.title}</Heading>
-                        <Text layerStyle="textSecondary">{post.brief}</Text>
+                        <Text layerStyle="textSecondary" maxW="400px">{post.brief}</Text>
                     </VStack>
                     {post.cover && <Image src={post.cover} width="18rem" height="120px" pt={isLargeScreen ? 0 : 2} borderRadius="4px" />}
                 </Layout>

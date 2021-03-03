@@ -40,7 +40,7 @@ function HeaderContent() {
 
                 <HStack
                     color={useColorModeValue("gray.500", "gray.400")}
-                    spacing="2"
+                    spacing={[1,1,2,2]}
                 >
                     <IconButton
                         size="md"

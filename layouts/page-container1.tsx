@@ -1,4 +1,4 @@
-import { Badge, Box, chakra,Flex,PropsOf } from "@chakra-ui/react"
+import { Badge, Box, chakra,Flex,PropsOf, useMediaQuery } from "@chakra-ui/react"
 import { SkipNavContent, SkipNavLink } from "@chakra-ui/skip-nav"
 import Container from "components/container"
 import Footer from "./footer"
@@ -34,7 +34,8 @@ type PageContainerProps = PropsOf<typeof chakra.div> &  {
 function PageContainer1(props: PageContainerProps) {
   const { children ,nav, ...rest} = props
   useHeadingFocusOnRouteChange()
-
+  const [isSmallScreen] = useMediaQuery("(max-width: 768px)")
+  const header = isSmallScreen ? <Nav /> : <VerticalNav width={["100px","100px","200px","200px"]} /> 
   return (
     <>
       <SEO
@@ -42,8 +43,8 @@ function PageContainer1(props: PageContainerProps) {
         description={siteConfig.seo.description}
       />
       <Flex px={[0,0,16,16]}>
-      <VerticalNav width={["100px","100px","200px","200px"]}/>
-      <Box width="100%" ml={["100px","100px","150px","150px"]} pb="8">
+      {header}
+      <Box width="100%" ml={["0px","0px","150px","150px"]} pb="8" p={["1","1","4","4"]} mt={["70px","70px","0px","0px"]} {...rest}>
         {children}
       </Box>
     </Flex>

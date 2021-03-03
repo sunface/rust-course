@@ -11,6 +11,7 @@ import { User } from "src/types/session"
 import CommentEditor from "./editor"
 import { requestApi } from "utils/axios/request"
 import Reply from "./reply"
+import Link from "next/link"
 
 interface Props {
     user: User
@@ -50,13 +51,15 @@ export const CommentCard = (props: Props) => {
                 <Card>
                     <VStack alignItems="left">
                         <Flex justifyContent="space-between" width="100%" alignItems="top">
-                            <HStack spacing="4">
-                                <Avatar src={comment.creator.avatar}></Avatar>
-                                <VStack alignItems="left">
-                                    <Heading size="sm" fontSize="1.2rem">{getUserName(comment.creator)}</Heading>
-                                    <Text layerStyle="textSecondary" fontSize=".9rem">about this user</Text>
-                                </VStack>
-                            </HStack>
+                            <Link href={`/${comment.creator.username}`}>
+                                <HStack spacing="4" cursor="pointer">
+                                    <Avatar src={comment.creator.avatar}></Avatar>
+                                    <VStack alignItems="left">
+                                        <Heading size="sm" fontSize="1.2rem">{getUserName(comment.creator)}</Heading>
+                                        <Text layerStyle="textSecondary" fontSize=".9rem">about this user</Text>
+                                    </VStack>
+                                </HStack>
+                            </Link>
                             <Text layerStyle="textSecondary" marginTop="2px">{moment(comment.created).fromNow()}</Text>
                         </Flex>
 

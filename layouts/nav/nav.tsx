@@ -71,12 +71,12 @@ function HeaderContent() {
         </Flex>
 
         <HStack
-          w="100%"
+          // w="100%"
           maxW="600px"
           align="center"
           color={useColorModeValue("gray.500", "gray.400")}
         >
-          <AlgoliaSearch />
+          <AlgoliaSearch /> 
           <Link
             aria-label="Go to Chakra UI GitHub page"
             href={siteConfig.repo.url}
@@ -100,7 +100,7 @@ function HeaderContent() {
           /> */}
         </HStack>
       </Flex>
-      <MobileNavContent isOpen={mobileNav.isOpen} onClose={mobileNav.onClose} />
+      {/* <MobileNavContent isOpen={mobileNav.isOpen} onClose={mobileNav.onClose} /> */}
     </>
   )
 }

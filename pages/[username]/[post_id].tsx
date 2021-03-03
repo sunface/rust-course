@@ -94,6 +94,32 @@ const PostPage = () => {
                 </Box>
                 <HStack ml="4" spacing="3">{post.rawTags.map(tag => <TagTextCard tag={tag}/>)}</HStack>
 
+                <HStack display={{ base: "flex", md: 'none' }} spacing="4" justifyContent="center">
+              <Box>
+                {/* <LikeButton type="like" count={post.likes} onClick={onLike}/> */}
+                <UnicornLike count={post.likes}  onClick={onLike} liked={post.liked}/>
+              </Box>
+              <Box>
+                <IconButton
+                  aria-label="go to github"
+                  variant="ghost"
+                  layerStyle="textSecondary"
+                  _focus={null}
+                  fontSize="1.7rem"
+                  fontWeight="300"
+                  icon={<svg height="1.8rem" fill="currentColor" viewBox="0 0 384 512"><path d="M336 0H48C21.49 0 0 21.49 0 48v464l192-112 192 112V48c0-26.51-21.49-48-48-48zm16 456.287l-160-93.333-160 93.333V48c0-8.822 7.178-16 16-16h288c8.822 0 16 7.178 16 16v408.287z"></path></svg>}
+                />
+                <IconButton
+                  aria-label="go to github"
+                  variant="ghost"
+                  layerStyle="textSecondary"
+                  _focus={null}
+                  fontWeight="300"
+                  icon={<svg height="1.8rem" fill="currentColor" viewBox="0 0 448 512"><path d="M352 320c-28.6 0-54.2 12.5-71.8 32.3l-95.5-59.7c9.6-23.4 9.7-49.8 0-73.2l95.5-59.7c17.6 19.8 43.2 32.3 71.8 32.3 53 0 96-43 96-96S405 0 352 0s-96 43-96 96c0 13 2.6 25.3 7.2 36.6l-95.5 59.7C150.2 172.5 124.6 160 96 160c-53 0-96 43-96 96s43 96 96 96c28.6 0 54.2-12.5 71.8-32.3l95.5 59.7c-4.7 11.3-7.2 23.6-7.2 36.6 0 53 43 96 96 96s96-43 96-96c-.1-53-43.1-96-96.1-96zm0-288c35.3 0 64 28.7 64 64s-28.7 64-64 64-64-28.7-64-64 28.7-64 64-64zM96 320c-35.3 0-64-28.7-64-64s28.7-64 64-64 64 28.7 64 64-28.7 64-64 64zm256 160c-35.3 0-64-28.7-64-64s28.7-64 64-64 64 28.7 64 64-28.7 64-64 64z"></path></svg>}
+                />
+              </Box>
+            </HStack>
+            
                 <Box mt="6" p="2"><Comments storyID={post.id} comments={comments} onChange={() => getComments(post.id)}/></Box>
               </Box>
               <Box>
@@ -147,31 +173,6 @@ const PostPage = () => {
               </Box>
             </HStack>
 
-            <HStack display={{ base: "flex", md: 'none' }} spacing="4" justifyContent="center">
-              <Box>
-                {/* <LikeButton type="like" count={post.likes} onClick={onLike}/> */}
-                <UnicornLike count={post.likes}  onClick={onLike} liked={post.liked}/>
-              </Box>
-              <Box>
-                <IconButton
-                  aria-label="go to github"
-                  variant="ghost"
-                  layerStyle="textSecondary"
-                  _focus={null}
-                  fontSize="1.7rem"
-                  fontWeight="300"
-                  icon={<svg height="1.8rem" fill="currentColor" viewBox="0 0 384 512"><path d="M336 0H48C21.49 0 0 21.49 0 48v464l192-112 192 112V48c0-26.51-21.49-48-48-48zm16 456.287l-160-93.333-160 93.333V48c0-8.822 7.178-16 16-16h288c8.822 0 16 7.178 16 16v408.287z"></path></svg>}
-                />
-                <IconButton
-                  aria-label="go to github"
-                  variant="ghost"
-                  layerStyle="textSecondary"
-                  _focus={null}
-                  fontWeight="300"
-                  icon={<svg height="1.8rem" fill="currentColor" viewBox="0 0 448 512"><path d="M352 320c-28.6 0-54.2 12.5-71.8 32.3l-95.5-59.7c9.6-23.4 9.7-49.8 0-73.2l95.5-59.7c17.6 19.8 43.2 32.3 71.8 32.3 53 0 96-43 96-96S405 0 352 0s-96 43-96 96c0 13 2.6 25.3 7.2 36.6l-95.5 59.7C150.2 172.5 124.6 160 96 160c-53 0-96 43-96 96s43 96 96 96c28.6 0 54.2-12.5 71.8-32.3l95.5 59.7c-4.7 11.3-7.2 23.6-7.2 36.6 0 53 43 96 96 96s96-43 96-96c-.1-53-43.1-96-96.1-96zm0-288c35.3 0 64 28.7 64 64s-28.7 64-64 64-64-28.7-64-64 28.7-64 64-64zM96 320c-35.3 0-64-28.7-64-64s28.7-64 64-64 64 28.7 64 64-28.7 64-64 64zm256 160c-35.3 0-64-28.7-64-64s28.7-64 64-64 64 28.7 64 64-28.7 64-64 64z"></path></svg>}
-                />
-              </Box>
-            </HStack>
           </>
         }
       </PageContainer>

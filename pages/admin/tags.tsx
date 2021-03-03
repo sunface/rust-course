@@ -13,6 +13,7 @@ import Link from "next/link"
 import { ReserveUrls } from "src/data/reserve-urls"
 import { Tag } from "src/types/tag"
 import { route } from "next/dist/next-server/server/router"
+import PageContainer1 from "layouts/page-container1"
 
 
 const PostsPage = () => {
@@ -44,9 +45,9 @@ const PostsPage = () => {
 
     return (
         <>
-            <PageContainer>
+            <PageContainer1>
                 <Box display="flex">
-                    <Sidebar routes={adminLinks} width="250px" height="fit-content" title="管理员" />
+                    <Sidebar routes={adminLinks} title="管理员" />
                     <Card ml="4" p="6" width="100%">
                         <Flex alignItems="center" justify="space-between">
                             <Heading size="md">标签列表({tags.length})</Heading>
@@ -77,7 +78,7 @@ const PostsPage = () => {
                         }
                     </Card>
                 </Box>
-            </PageContainer>
+            </PageContainer1>
         </>
     )
 }

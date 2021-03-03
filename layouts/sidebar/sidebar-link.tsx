@@ -16,19 +16,19 @@ const StyledLink = React.forwardRef(function StyledLink(
       py="2"
       rounded="md"
       ref={ref}
-      fontSize="14px"
-      fontWeight="500"
+      fontSize="1rem"
+      fontWeight="bold"
       color={useColorModeValue("gray.700", "whiteAlpha.900")}
       transition="all 0.2s"
       display="flex"
       alignItems="center"
       _activeLink={{
-        bg: useColorModeValue("teal.50", "rgba(48, 140, 122, 0.3)"),
-        color: useColorModeValue("teal.700", "teal.200"),
+        // bg: useColorModeValue("teal.50", "rgba(48, 140, 122, 0.3)"),
+        color: useColorModeValue("teal", "teal.200"),
         fontWeight: "600",
       }}
       {...rest}
-    ><chakra.span fontSize="1.1rem">{icon}</chakra.span> <chakra.span ml="5">{children}</chakra.span></chakra.a>
+    ><chakra.span mr="5" fontSize="1.1rem" display={{base:"none",md:"block"}}>{icon}</chakra.span> <chakra.span>{children}</chakra.span></chakra.a>
   )
 })
 

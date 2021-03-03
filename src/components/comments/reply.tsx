@@ -10,6 +10,7 @@ import { FaRegEdit, FaRegFlag, FaRegTrashAlt, FaReply, FaTrash } from "react-ico
 import { User } from "src/types/session"
 import CommentEditor from "./editor"
 import { requestApi } from "utils/axios/request"
+import Link from "next/link"
 
 interface Props {
     user: User
@@ -61,12 +62,14 @@ export const Reply = (props: Props) => {
             editorVisible ? (user && <CommentEditor user={user} md={comment.md} onSubmit={md => {setEditorVisible(false);changeReply(md)}} onCancel={() => setEditorVisible(false)} menu={false} />) :
                     <VStack alignItems="left">
                         <Flex width="100%" alignItems="center" justifyContent="space-between">
-                            <HStack spacing="4">
-                                <Avatar src={comment.creator.avatar} width="40px" height="40px"></Avatar>
-                                <VStack alignItems="left">
-                                    <Heading size="sm" fontSize="1.1rem">{getUserName(comment.creator)}</Heading>
-                                </VStack>
-                            </HStack>
+                            <Link href={`/${comment.creator.username}`}>
+                                <HStack spacing="4" cursor="pointer">
+                                    <Avatar src={comment.creator.avatar} width="40px" height="40px"></Avatar>
+                                    <VStack alignItems="left">
+                                        <Heading size="sm" fontSize="1.1rem">{getUserName(comment.creator)}</Heading>
+                                    </VStack>
+                                </HStack>
+                            </Link>
                             <Text layerStyle="textSecondary" ml="2" fontSize=".9rem">{moment(comment.created).fromNow()}</Text>
                         </Flex>
 

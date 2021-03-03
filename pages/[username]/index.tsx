@@ -20,6 +20,7 @@ import PostCard from "components/posts/post-card"
 import userCustomTheme from "theme/user-custom"
 import Posts from "components/posts/posts"
 import Link from "next/link"
+import Empty from "components/empty"
 
 const UserPage = () => {
   const router = useRouter()
@@ -48,7 +49,7 @@ const UserPage = () => {
         title={siteConfig.seo.title}
         description={siteConfig.seo.description}
       />
-      <PageContainer1>
+      <PageContainer1 p="0">
         {
           user &&
           <Box alignItems="left">
@@ -125,19 +126,19 @@ const UserPage = () => {
               </VStack>
 
 
-              {
-                posts.length === 0 ?
+              
+                <Box width={["100%","100%","70%","70%"]}>
+                  { posts.length === 0 ?
                   <Card width="100%" height="fit-content">
-                    <VStack spacing="16" py="16">
-                      <Text fontSize="1.2rem">There doesn't seem to be anything here!</Text>
-                      <Image src="/not-found.png" width="300px" />
-                    </VStack>
+                    <Empty />
                   </Card>
                   :
                   <Card width="100%" height="fit-content" p="0" px="3">
                     <Posts posts={posts} />
                   </Card>
               }
+                </Box>
+               
 
             </HStack>
           </Box>

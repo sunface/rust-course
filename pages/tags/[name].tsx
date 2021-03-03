@@ -1,6 +1,7 @@
 import { Box, Button, chakra, Flex, Heading, HStack, Image, Text, VStack } from "@chakra-ui/react"
 import Card from "components/card"
 import Container from "components/container"
+import Empty from "components/empty"
 import { MarkdownRender } from "components/markdown-editor/render"
 import Posts from "components/posts/posts"
 import SEO from "components/seo"
@@ -66,10 +67,7 @@ const UserPage = () => {
                             {
                                 posts.length === 0 ?
                                     <Card width="100%" height="fit-content">
-                                        <VStack spacing="16" py="16">
-                                            <Text fontSize="1.2rem">There doesn't seem to be anything here!</Text>
-                                            <Image src="/not-found.png" width="300px" />
-                                        </VStack>
+                                        <Empty />
                                     </Card>
                                     :
                                     <Card width="100%" height="fit-content" p="0" px="3">
