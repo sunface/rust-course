@@ -38,8 +38,8 @@ const HomePage = () => {
         description={siteConfig.seo.description}
       />
       <PageContainer1>
-        <HStack alignItems="top" p="4">
-          <VStack alignItems="left" width={["100%", "100%", "70%", "70%"]}>
+        <HStack alignItems="top" p="4" spacing="3">
+          <VStack alignItems="left" width={["100%", "100%", "70%", "70%"]} spacing="3">
             <Card p="2">
               <Flex justifyContent="space-between" alignItems="center">
                 <HStack>

@@ -56,7 +56,8 @@ export default function markdownRender(props) {
                 }
             },
             pre: {
-                margin: '1.6rem 0'
+                margin: '1.6rem 0',
+                fontSize: '.95rem'
             },
             a: {
                 textDecoration: 'underline !important'
