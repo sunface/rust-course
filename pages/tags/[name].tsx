@@ -1,15 +1,18 @@
-import { Box, Button, chakra, Flex, Heading, HStack, Image, Text } from "@chakra-ui/react"
+import { Box, Button, chakra, Flex, Heading, HStack, Image, Text, VStack } from "@chakra-ui/react"
 import Card from "components/card"
 import Container from "components/container"
 import { MarkdownRender } from "components/markdown-editor/render"
+import Posts from "components/posts/posts"
 import SEO from "components/seo"
 import siteConfig from "configs/site-config"
 import useSession from "hooks/use-session"
 import Nav from "layouts/nav/nav"
 import PageContainer from "layouts/page-container"
+import PageContainer1 from "layouts/page-container1"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import { ReserveUrls } from "src/data/reserve-urls"
+import { Post } from "src/types/posts"
 import { Tag } from "src/types/tag"
 import { requestApi } from "utils/axios/request"
 import { isAdmin } from "utils/role"
@@ -17,14 +20,19 @@ import { isAdmin } from "utils/role"
 const UserPage = () => {
     const router = useRouter()
 
+    const [posts, setPosts]: [Post[], any] = useState([])
     const [tag, setTag]: [Tag, any] = useState({})
-    const getTag = async () => {
-        const res = await requestApi.get(`/tag/${router.query.name}`)
+    const initData = async () => {
+        const res = await requestApi.get(`/tag/info/${router.query.name}`)
         setTag(res.data)
+
+        const res1 = await requestApi.get(`/tag/posts/${res.data.id}`)
+        setPosts(res1.data)
     }
+
     useEffect(() => {
         if (router.query.name) {
-            getTag()
+            initData()
         }
     }, [router.query.name])
 
@@ -36,47 +44,61 @@ const UserPage = () => {
                 title={siteConfig.seo.title}
                 description={siteConfig.seo.description}
             />
-            <PageContainer>
-                {tag.name && <HStack alignItems="top" spacing="4">
-                    <Box width="70%">
-                        <Card p="0">
-                            <Image src={tag.cover} />
-                            <Image src={tag.icon} width="80px" position="relative" top="-40px" left="40px"/>
-                            <Flex justifyContent="space-between" alignItems="center" px="8" pb="6" mt="-1rem">
-                                <Box>
-                                    <Heading size="lg">{tag.title}</Heading>
-                                    <Text layerStyle="textSecondary" fontWeight="500" fontSize="1.2rem" mt="1" ml="1">#{tag.name}</Text>
-                                </Box>
-                                <Box>
-                                    <Button colorScheme="teal">Follow</Button>
-                                    {isAdmin(session.user.role) && <Button ml="2" onClick={() => router.push(`${ReserveUrls.Admin}/tag/${tag.name}`)}>Edit</Button>}
-                                </Box>
-                            </Flex>
+            <PageContainer1>
+                {tag.name &&
+                    <HStack alignItems="top" spacing="4" p="2">
+                        <VStack width={["100%","100%","70%","70%"]} alignItems="left" spacing="2">
+                            <Card p="0">
+                                <Image src={tag.cover} />
+                                <Image src={tag.icon} width="80px" position="relative" top="-40px" left="40px" />
+                                <Flex justifyContent="space-between" alignItems="center" px="8" pb="6" mt="-1rem">
+                                    <Box>
+                                        <Heading size="lg">{tag.title}</Heading>
+                                        <Text layerStyle="textSecondary" fontWeight="500" fontSize="1.2rem" mt="1" ml="1">#{tag.name}</Text>
+                                    </Box>
+                                    <Box>
+                                        <Button colorScheme="teal">Follow</Button>
+                                        {isAdmin(session?.user.role) && <Button ml="2" onClick={() => router.push(`${ReserveUrls.Admin}/tag/${tag.name}`)}>Edit</Button>}
+                                    </Box>
+                                </Flex>
 
-                        </Card>
-                    </Box>
-                    <Box width="30%">
-                        <Card>
-                            <Flex justifyContent="space-between" alignItems="center" px={[0,2,4,8]}>
-                                <Box>
-                                    <Heading size="lg">59.8K</Heading>
-                                    <Text layerStyle="textSecondary" fontWeight="500" fontSize="1.2rem" mt="1" ml="1">Followers</Text>
-                                </Box>
+                            </Card>
+                            {
+                                posts.length === 0 ?
+                                    <Card width="100%" height="fit-content">
+                                        <VStack spacing="16" py="16">
+                                            <Text fontSize="1.2rem">There doesn't seem to be anything here!</Text>
+                                            <Image src="/not-found.png" width="300px" />
+                                        </VStack>
+                                    </Card>
+                                    :
+                                    <Card width="100%" height="fit-content" p="0" px="3">
+                                        <Posts posts={posts} />
+                                    </Card>
+                            }
+                        </VStack>
+                        <VStack width="30%" alignItems="left" spacing="2" display={{base: "none",md:"flex"}}> 
+                            <Card>
+                                <Flex justifyContent="space-between" alignItems="center" px={[0, 2, 4, 8]}>
+                                    <Box>
+                                        <Heading size="lg">59.8K</Heading>
+                                        <Text layerStyle="textSecondary" fontWeight="500" fontSize="1.2rem" mt="1" ml="1">Followers</Text>
+                                    </Box>
 
-                                <Box>
-                                    <Heading size="lg">{tag.postCount}</Heading>
-                                    <Text layerStyle="textSecondary" fontWeight="500" fontSize="1.2rem" mt="1" ml="1">Posts</Text>
-                                </Box>
-                            </Flex>
-                        </Card>
+                                    <Box>
+                                        <Heading size="lg">{tag.postCount}</Heading>
+                                        <Text layerStyle="textSecondary" fontWeight="500" fontSize="1.2rem" mt="1" ml="1">Posts</Text>
+                                    </Box>
+                                </Flex>
+                            </Card>
 
-                        <Card mt="4">
-                            <Heading size="sm">About this tag</Heading>
-                            <Box mt="2"><MarkdownRender md={tag.md} fontSize="1rem"></MarkdownRender></Box>
-                        </Card>
-                    </Box>
-                </HStack>}
-            </PageContainer>
+                            <Card mt="4">
+                                <Heading size="sm">About this tag</Heading>
+                                <Box mt="2"><MarkdownRender md={tag.md} fontSize="1rem"></MarkdownRender></Box>
+                            </Card>
+                        </VStack>
+                    </HStack>}
+            </PageContainer1>
         </>
     )
 }

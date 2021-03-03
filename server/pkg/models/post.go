@@ -22,6 +22,7 @@ type Post struct {
 	RawTags   []*Tag      `json:"rawTags"`
 	Likes     int         `json:"likes"`
 	Liked     bool        `json:"liked"`
+	Comments  int         `json:"comments"`
 	Views     int         `json:"views"`
 	Status    int         `json:"status"`
 	Created   time.Time   `json:"created"`

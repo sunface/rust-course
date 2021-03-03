@@ -23,10 +23,7 @@ import (
 func UserPosts(uid int64) (models.Posts, *e.Error) {
 	ars := make(models.Posts, 0)
 	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,likes,views,created,updated from posts where creator=?", uid)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return ars, e.New(http.StatusNotFound, e.NotFound)
-		}
+	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get user posts error", "error", err)
 		return ars, e.New(http.StatusInternalServerError, e.Internal)
 	}
@@ -42,6 +39,55 @@ func UserPosts(uid int64) (models.Posts, *e.Error) {
 		}
 
 		ar.Creator = creator
+
+		ar.Comments = GetCommentCount(ar.ID)
+		ars = append(ars, ar)
+	}
+
+	sort.Sort(ars)
+	return ars, nil
+}
+
+func TagPosts(tagID int64) (models.Posts, *e.Error) {
+	ars := make(models.Posts, 0)
+
+	// get post ids
+	rows, err := db.Conn.Query("select post_id from tag_post where tag_id=?", tagID)
+	if err != nil {
+		logger.Warn("get user posts error", "error", err)
+		return ars, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	postIDs := make([]string, 0)
+	for rows.Next() {
+		var id string
+		rows.Scan(&id)
+		postIDs = append(postIDs, id)
+	}
+
+	ids := strings.Join(postIDs, "','")
+
+	q := fmt.Sprintf("select id,slug,title,url,cover,brief,likes,views,creator,created,updated from posts where id in ('%s')", ids)
+	rows, err = db.Conn.Query(q)
+	if err != nil && err != sql.ErrNoRows {
+		logger.Warn("get user posts error", "error", err)
+		return ars, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	for rows.Next() {
+		ar := &models.Post{}
+		err := rows.Scan(&ar.ID, &ar.Slug, &ar.Title, &ar.URL, &ar.Cover, &ar.Brief, &ar.Likes, &ar.Views, &ar.CreatorID, &ar.Created, &ar.Updated)
+		if err != nil {
+			logger.Warn("scan post error", "error", err)
+			continue
+		}
+
+		creator := &models.UserSimple{ID: ar.CreatorID}
+		creator.Query()
+
+		ar.Creator = creator
+
+		ar.Comments = GetCommentCount(ar.ID)
 		ars = append(ars, ar)
 	}
 
@@ -124,10 +170,6 @@ func SubmitPost(c *gin.Context) (map[string]string, *e.Error) {
 	}
 
 	//update tags
-	// "tag_post": `CREATE TABLE IF NOT EXISTS tag_post (
-	// 	tag_id           INTEGER,
-	// 	post_id          INTEGER
-	// );
 	_, err = db.Conn.Exec("DELETE FROM tag_post WHERE post_id=?", post.ID)
 	if err != nil {
 		logger.Warn("delete post tags error", "error", err)
@@ -151,6 +193,12 @@ func DeletePost(id string) *e.Error {
 	if err != nil {
 		logger.Warn("delete post error", "error", err)
 		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	// delete tags
+	_, err = db.Conn.Exec("DELETE FROM tag_post WHERE post_id=?", id)
+	if err != nil {
+		logger.Warn("delete post tags error", "error", err)
 	}
 
 	return nil
@@ -216,6 +264,35 @@ func GetPostCreator(id string) (int64, *e.Error) {
 	}
 
 	return uid, nil
+}
+
+func HomePosts(filter string) (models.Posts, *e.Error) {
+	ars := make(models.Posts, 0)
+	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,likes,views,creator,created,updated from posts")
+	if err != nil && err != sql.ErrNoRows {
+		logger.Warn("get user posts error", "error", err)
+		return ars, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	for rows.Next() {
+		ar := &models.Post{}
+		err := rows.Scan(&ar.ID, &ar.Slug, &ar.Title, &ar.URL, &ar.Cover, &ar.Brief, &ar.Likes, &ar.Views, &ar.CreatorID, &ar.Created, &ar.Updated)
+		if err != nil {
+			logger.Warn("scan post error", "error", err)
+			continue
+		}
+
+		creator := &models.UserSimple{ID: ar.CreatorID}
+		creator.Query()
+
+		ar.Creator = creator
+
+		ar.Comments = GetCommentCount(ar.ID)
+		ars = append(ars, ar)
+	}
+
+	sort.Sort(ars)
+	return ars, nil
 }
 
 func postExist(id string) bool {

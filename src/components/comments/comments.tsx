@@ -31,7 +31,7 @@ export const Comments = ({storyID, comments,onChange }: Props) => {
     }
 
     return (
-        <VStack spacing="4" alignItems="left">
+        <VStack spacing="4" alignItems="left" id="comments">
             <Card>
                 <Flex justifyContent="space-between">
                     <HStack>

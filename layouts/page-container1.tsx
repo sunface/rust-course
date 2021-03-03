@@ -43,7 +43,7 @@ function PageContainer1(props: PageContainerProps) {
       />
       <Flex px={[0,0,16,16]}>
       <VerticalNav width={["100px","100px","200px","200px"]}/>
-      <Box width="100%" ml={["100px","100px","200px","200px"]}>
+      <Box width="100%" ml={["100px","100px","150px","150px"]} pb="8">
         {children}
       </Box>
     </Flex>

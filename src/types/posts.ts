@@ -1,6 +1,12 @@
 import { UserSimple} from './session'
 import { Tag } from './tag';
 
+export enum PostFilter {
+    Best = "best",
+    Featured = "featured",
+    Recent = "recent"
+}
+
 export interface Post {
     id?: string 
     slug?: string 
@@ -14,7 +20,7 @@ export interface Post {
     created?: string
     tags?: number[]
     rawTags?: Tag[]
-    likes? : number 
+    likes? : number
     liked? : boolean
-    recommands? : number
+    comments? : number
 }

@@ -38,9 +38,19 @@ var sqlTables = map[string]string{
 			weibo VARCHAR(255),
 			facebook VARCHAR(255),
 			stackoverflow VARCHAR(255),
-
+		
 			updated DATETIME
 		);`,
+
+	"user_skills": `CREATE TABLE IF NOT EXISTS user_skills (
+			user_id          INTEGER,
+			skill_id         INTEGER   
+		);
+	CREATE INDEX IF NOT EXISTS user_skills_userid
+		ON user_skills (user_id);
+	CREATE INDEX IF NOT EXISTS user_skills_skillid
+		ON user_skills (skill_id);
+	`,
 
 	"sessions": `CREATE TABLE IF NOT EXISTS sessions (
 			sid              VARCHAR(255) primary key,   
@@ -49,19 +59,20 @@ var sqlTables = map[string]string{
 	`,
 
 	"posts": `CREATE TABLE IF NOT EXISTS posts (
-		id VARCHAR(255) PRIMARY KEY,
-		creator INTEGER NOT NULL,
-		slug VARCHAR(64) NOT NULL,
-		title VARCHAR(255) NOT NULL,
-		md   TEXT,
-		url  VARCHAR(255),
-		cover VARCHAR(255),
-		brief TEXT,
-		likes INTEGER DEFAULT 0,
-		views INTEGER DEFAULT 0,
-		status tinyint NOT NULL,
-		created DATETIME NOT NULL,
-		updated DATETIME
+		id 			VARCHAR(255) PRIMARY KEY,
+		creator 	INTEGER NOT NULL,
+		slug 		VARCHAR(64) NOT NULL,
+		title 		VARCHAR(255) NOT NULL,
+		md   		TEXT,
+		url  		VARCHAR(255),
+		cover 		VARCHAR(255),
+		brief 		TEXT,
+		likes 		INTEGER DEFAULT 0,
+		views 		INTEGER DEFAULT 0,
+		comments 	INTEGER DEFAULT 0,
+		status 		tinyint NOT NULL,
+		created 	DATETIME NOT NULL,
+		updated 	DATETIME
 	);
 	CREATE INDEX IF NOT EXISTS posts_creator
 		ON posts (creator);
@@ -123,5 +134,11 @@ var sqlTables = map[string]string{
 		ON comments (target_id);
 	CREATE INDEX IF NOT EXISTS comments_creator
 		ON comments (creator);
+	`,
+
+	"comments_count": `CREATE TABLE IF NOT EXISTS comments_count (
+		story_id 	VARCHAR(255) PRIMARY KEY, 
+        count       INTEGER DEFAULT 0   
+	);
 	`,
 }

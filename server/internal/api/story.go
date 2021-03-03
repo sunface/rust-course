@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/imdotdev/im.dev/server/internal/story"
@@ -82,4 +83,61 @@ func LikeStory(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}
+
+func GetUserPosts(c *gin.Context) {
+	userID, _ := strconv.ParseInt(c.Param("userID"), 10, 64)
+
+	posts, err := story.UserPosts(userID)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	user := user.CurrentUser(c)
+	if user != nil {
+		for _, post := range posts {
+			post.Liked = story.GetLiked(post.ID, user.ID)
+		}
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(posts))
+}
+
+func GetTagPosts(c *gin.Context) {
+	tagID, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+
+	posts, err := story.TagPosts(tagID)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	user := user.CurrentUser(c)
+	if user != nil {
+		for _, post := range posts {
+			post.Liked = story.GetLiked(post.ID, user.ID)
+		}
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(posts))
+}
+
+func GetHomePosts(c *gin.Context) {
+	filter := c.Param("filter")
+
+	posts, err := story.HomePosts(filter)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	user := user.CurrentUser(c)
+	if user != nil {
+		for _, post := range posts {
+			post.Liked = story.GetLiked(post.ID, user.ID)
+		}
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(posts))
 }

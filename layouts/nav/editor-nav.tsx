@@ -21,59 +21,28 @@ import { useViewportScroll } from "framer-motion"
 import NextLink from "next/link"
 import React, { useEffect, useState } from "react"
 import Logo, { LogoIcon } from "src/components/logo"
-import RadioCard from "components/radio-card"
-import { EditMode } from "src/types/editor"
 import Card from "components/card"
-import TagInput from "components/tag-input"
-import { Tag } from "src/types/tag"
-import { cloneDeep, remove } from "lodash"
-import { requestApi } from "utils/axios/request"
 import DarkMode from "components/dark-mode"
 import EditModeSelect from "components/edit-mode-select"
+import Tags from "components/tags/tags"
+import { Post } from "src/types/posts"
 
 
 
+interface Props {
+    ar : Post
+    changeTitle: any
+    changeEditMode: any
+    publish: any
+    onChange:any
+}
 
-function HeaderContent(props: any) {
-    const [tags,setTags]:[Tag[],any] = useState([])
-    const [allTags,setAllTags] = useState([])
-
+function HeaderContent(props: Props) {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
-    useEffect(() => {
-        requestApi.get('/tags').then(res => {
-            setAllTags(res.data)
-            const t = []
-            props.ar.tags?.forEach(id => {
-                res.data.forEach(tag => {
-                    if (tag.id === id) {
-                        t.push(tag)
-                    }
-                })
-            })
-
-            setTags(t)
-        })
-    },[props.ar])
-
-
     
-    const addTag = t => {
-       setTags(t)
-       
-       const ids = []
-       t.forEach(tag => ids.push(tag.id))
+    const onTagsChange = ids => {
        props.ar.tags = ids
-    }
-
-    const removeTag = t => {
-        const newTags = cloneDeep(tags)
-        remove(newTags, tag => tag.id === t.id)
-        setTags(newTags)
-
-        const ids = []
-        newTags.forEach(tag => ids.push(tag.id))
-        props.ar.tags = ids
     }
 
     return (
@@ -128,17 +97,7 @@ function HeaderContent(props: any) {
                             <Heading size="xs"> 
                                 设置标签
                             </Heading>
-                            <TagInput options={allTags}  selected={tags} onChange={addTag}/>
-
-                            {tags.length > 0&& <Box mt="2">
-                            {
-                                tags.map(tag => 
-                                <ChakraTag key={tag.id} mr="2" colorScheme="teal" variant="solid" px="2" py="1"> 
-                                    <TagLabel>{tag.title}</TagLabel>
-                                    <TagCloseButton onClick={ _ => removeTag(tag)}/>
-                                </ChakraTag>)
-                            }
-                            </Box>}
+                            <Tags tags={props.ar.tags} onChange={onTagsChange}/>
                         </Card>
                     </DrawerContent>
                 </DrawerOverlay>

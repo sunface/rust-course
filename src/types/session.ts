@@ -20,7 +20,8 @@ export interface User {
     location?: string
     availFor?: string
     about?: string
-    skills?: Tag[]
+    rawSkills?: Tag[]
+    skills?: number[]
 
     // social links
     website?: string

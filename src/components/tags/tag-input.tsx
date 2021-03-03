@@ -9,6 +9,7 @@ interface Props {
     options: Tag[]
     selected: Tag[]
     onChange: any
+    size?: 'lg' | 'md'
 }
 
 
@@ -44,7 +45,7 @@ export const TagInput = (props: Props) => {
 
     return (
         <>
-            {props.selected.length <=config.posts.maxTags && <Input onChange={e => filterTags(e.target.value)} onFocus={onOpen} onBlur={onClose} placeholder="start typing to search.." variant="unstyled" _focus={null} mt="3" />}
+            {props.selected.length <=config.posts.maxTags && <Input size={props.size} onChange={e => filterTags(e.target.value)} onFocus={onOpen} onBlur={onClose} placeholder="start typing to search.." variant="unstyled" _focus={null} mt="3" />}
             {tags.length > 0 && <Popover isOpen={isOpen} closeOnBlur={false} placement="bottom-start" onOpen={onOpen} onClose={onClose} autoFocus={false}>
                 <PopoverTrigger><Box width="100%"></Box></PopoverTrigger>
                 <PopoverContent width="100%">

@@ -55,6 +55,7 @@ func (s *Server) Start() error {
 		r.POST("/story/like/:id", IsLogin(), api.LikeStory)
 		r.GET("/story/comments/:id", api.GetStoryComments)
 		r.POST("/story/comment", IsLogin(), api.SubmitComment)
+
 		r.DELETE("/comment/:id", IsLogin(), api.DeleteComment)
 
 		r.GET("/editor/posts", IsLogin(), api.GetEditorPosts)
@@ -66,12 +67,17 @@ func (s *Server) Start() error {
 		r.DELETE("/admin/tag/:id", IsLogin(), api.DeleteTag)
 
 		r.GET("/tags", api.GetTags)
-		r.GET("/tag/:name", api.GetTag)
+		r.GET("/tag/posts/:id", api.GetTagPosts)
+		r.GET("/tag/info/:name", api.GetTag)
 
 		r.GET("/users", api.GetUsers)
 		r.GET("/user/self", IsLogin(), api.GetUserSelf)
 		r.GET("/user/info/:username", api.GetUser)
 		r.POST("/user/update", IsLogin(), api.UpdateUser)
+		r.GET("/user/posts/:userID", api.GetUserPosts)
+
+		r.GET("/home/posts/:filter", api.GetHomePosts)
+
 		r.GET("/session", IsLogin(), api.GetSession)
 		err := router.Run(config.Data.Server.Addr)
 		if err != nil {

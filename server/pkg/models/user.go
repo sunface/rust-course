@@ -14,12 +14,13 @@ type User struct {
 	Email    string   `json:"email"`
 	Role     RoleType `json:"role"`
 
-	Tagline  string `json:"tagline"`
-	Cover    string `json:"cover"`
-	Location string `json:"location"`
-	AvailFor string `json:"availFor"`
-	About    string `json:"about"`
-	Skills   string `json:"skills"`
+	Tagline   string  `json:"tagline"`
+	Cover     string  `json:"cover"`
+	Location  string  `json:"location"`
+	AvailFor  string  `json:"availFor"`
+	About     string  `json:"about"`
+	RawSkills []*Tag  `json:"rawSkills"`
+	Skills    []int64 `json:"skills"`
 
 	Website       string `json:"website"`
 	Twitter       string `json:"twitter"`
@@ -34,7 +35,8 @@ type User struct {
 }
 
 const DefaultAvatar = "https://cdn.hashnode.com/res/hashnode/image/upload/v1600792675173/rY-APy9Fc.png?auto=compress"
-const DefaultCover = "https://cdn.hashnode.com/res/hashnode/image/upload/v1584035951809/rA6njTVVd.jpeg?w=1600&fit=crop&crop=entropy&auto=compress&auto=compress"
+const DefaultCover = "https://cdn.hashnode.com/res/hashnode/image/upload/v1604243390177/JstCbDgbK.jpeg?w=1600&fit=crop&crop=entropy&auto=compress"
+
 func (user *User) Query(id int64, username string, email string) error {
 	err := db.Conn.QueryRow(`SELECT id,username,role,nickname,email,avatar,last_seen_at,created FROM user WHERE id=? or username=? or email=?`,
 		id, username, email).Scan(&user.ID, &user.Username, &user.Role, &user.Nickname, &user.Email, &user.Avatar, &user.LastSeenAt, &user.Created)

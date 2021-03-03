@@ -16,10 +16,12 @@ import { route } from "next/dist/next-server/server/router"
 import { Field, Form, Formik } from "formik"
 import useSession from "hooks/use-session"
 import { config } from "utils/config"
+import Tags from "components/tags/tags"
 var validator = require('validator');
 
 const UserProfilePage = () => {
     const [user, setUser] = useState(null)
+    const [skills, setSkills] = useState([])
     const [isLargerThan1280] = useMediaQuery("(min-width: 768px)")
     useEffect(() => {
         requestApi.get("/user/self").then(res => setUser(res.data))
@@ -28,7 +30,7 @@ const UserProfilePage = () => {
     const toast = useToast()
 
     const submitUser = async (values, _) => {
-        await requestApi.post(`/user/update`,values)
+        await requestApi.post(`/user/update`, values)
         setUser(values)
         toast({
             description: "更新成功",
@@ -70,7 +72,7 @@ const UserProfilePage = () => {
     }
 
 
-    function validateUrl(value, canBeEmpty=true) {
+    function validateUrl(value, canBeEmpty = true) {
         let url = value?.trim()
         let error
         if (!canBeEmpty) {
@@ -115,7 +117,7 @@ const UserProfilePage = () => {
                                     <Card p={[2, 2, 6, 6]}>
                                         <Layout spacing={isLargerThan1280 ? "8" : "6"} alignItems={isLargerThan1280 ? 'top' : 'left'}>
                                             <Box width="100%">
-                                                <VStack  alignItems="left" spacing="6">
+                                                <VStack alignItems="left" spacing="6">
                                                     <Heading fontSize="1.2rem">基本信息</Heading>
                                                     <Field name="nickname" validate={validateNickname}>
                                                         {({ field, form }) => (
@@ -199,6 +201,26 @@ const UserProfilePage = () => {
                                                             </FormControl>
                                                         )}
                                                     </Field>
+                                                    <Field name="about" validate={validateLen}>
+                                                        {({ field, form }) => (
+                                                            <FormControl isInvalid={form.errors.about && form.touched.about} >
+                                                                <FormLabel>自我介绍</FormLabel>
+                                                                <Textarea {...field} placeholder="give us more info about you" size="lg" />
+                                                                <FormErrorMessage>{form.errors.about}</FormErrorMessage>
+                                                            </FormControl>
+                                                        )}
+                                                    </Field>
+                                                    <Field name="skills" validate={validateLen}>
+                                                        {({ field, form }) => (
+                                                            <FormControl >
+                                                                <FormLabel>开发技能</FormLabel>
+                                                                <Tags tags={user.skills} onChange={(v) => form.values.skills = v} size="lg"/>
+                                                            </FormControl>
+                                                        )}
+                                                    </Field>
+                                                    <Box>
+
+                                                    </Box>
                                                 </VStack>
                                             </Box>
                                             <Box width="100%" >
