@@ -6,7 +6,7 @@ import { chakra,PropsOf} from '@chakra-ui/react';
 import WebsiteLink from 'components/website-link';
 import { cloneDeep, find, findIndex } from 'lodash';
 import { isUsernameChar } from 'utils/user';
-import { config } from 'utils/config';
+import { config } from 'configs/config';
 
 
 type Props = PropsOf<typeof chakra.div> & {

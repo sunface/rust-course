@@ -50,8 +50,8 @@ const UserPage = () => {
                     <HStack alignItems="top" spacing="4" p="2">
                         <VStack width={["100%","100%","70%","70%"]} alignItems="left" spacing="2">
                             <Card p="0">
-                                <Image src={tag.cover} />
-                                <Image src={tag.icon} width="80px" position="relative" top="-40px" left="40px" />
+                                <Image src={tag.cover} maxHeight="250px"/>
+                                <Image src={tag.icon} width="80px" position="relative" top="-40px" left="40px" className="shadowed"/>
                                 <Flex justifyContent="space-between" alignItems="center" px="8" pb="6" mt="-1rem">
                                     <Box>
                                         <Heading size="lg">{tag.title}</Heading>

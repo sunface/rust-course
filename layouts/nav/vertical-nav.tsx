@@ -115,7 +115,7 @@ import { getSvgIcon } from "components/svg-icon"
             /> */}
           </VStack>
         </Flex>
-        <MobileNavContent isOpen={mobileNav.isOpen} onClose={mobileNav.onClose} />
+        {/* <MobileNavContent isOpen={mobileNav.isOpen} onClose={mobileNav.onClose} /> */}
       </>
     )
   }

@@ -69,7 +69,7 @@ func SubmitTag(tag *models.Tag) *e.Error {
 func GetTags() (models.Tags, *e.Error) {
 	tags := make(models.Tags, 0)
 
-	rows, err := db.Conn.Query("SELECT id,creator,title,name,icon,cover,created,updated from tags")
+	rows, err := db.Conn.Query("SELECT id,creator,title,md,name,icon,cover,created,updated from tags")
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return tags, nil
@@ -79,13 +79,18 @@ func GetTags() (models.Tags, *e.Error) {
 	}
 
 	for rows.Next() {
+		var rawMd []byte
 		tag := &models.Tag{}
-		err := rows.Scan(&tag.ID, &tag.Creator, &tag.Title, &tag.Name, &tag.Icon, &tag.Cover, &tag.Created, &tag.Updated)
+		err := rows.Scan(&tag.ID, &tag.Creator, &tag.Title, &rawMd, &tag.Name, &tag.Icon, &tag.Cover, &tag.Created, &tag.Updated)
 		if err != nil {
 			logger.Warn("scan tags error", "error", err)
 			continue
 		}
 
+		md, _ := utils.Uncompress(rawMd)
+		tag.Md = string(md)
+
+		tag.SetCover()
 		tags = append(tags, tag)
 
 		db.Conn.QueryRow("SELECT count(*) FROM tag_post WHERE tag_id=?", tag.ID).Scan(&tag.PostCount)
@@ -125,5 +130,6 @@ func GetTag(id int64, name string) (*models.Tag, *e.Error) {
 
 	db.Conn.QueryRow("SELECT count(*) FROM tag_post WHERE tag_id=?", tag.ID).Scan(&tag.PostCount)
 
+	tag.SetCover()
 	return tag, nil
 }

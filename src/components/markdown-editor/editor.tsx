@@ -23,7 +23,6 @@ type Props = PropsOf<typeof chakra.div> & {
 
 
 export function MarkdownEditor(props: Props) {
-  const bg = useColorModeValue(userCustomTheme.hoverBg.light,userCustomTheme.hoverBg.dark)
   const [at,setAt] = useState('')
   const [atUsers,setAtUsers]:[User[],any] = useState([])
 
@@ -142,7 +141,7 @@ export function MarkdownEditor(props: Props) {
             <VStack>
               {
                 atUsers.map(user =>               
-                <HStack key={user.id} py="3" px="5" cursor="pointer" onClick={() => selectAtUser(user)} _hover={{bg: bg}}>
+                <HStack key={user.id} py="3" px="5" cursor="pointer" onClick={() => selectAtUser(user)} className="hover-bg">
                   <Avatar src={user.avatar} size="sm"/>
                   <VStack alignItems="left"> 
                      {user.nickname !== '' && <Heading size="sm">{user.nickname}</Heading>}

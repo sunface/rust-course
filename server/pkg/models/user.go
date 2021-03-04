@@ -34,9 +34,6 @@ type User struct {
 	Created    time.Time `json:"created"`
 }
 
-const DefaultAvatar = "https://cdn.hashnode.com/res/hashnode/image/upload/v1600792675173/rY-APy9Fc.png?auto=compress"
-const DefaultCover = "https://cdn.hashnode.com/res/hashnode/image/upload/v1604243390177/JstCbDgbK.jpeg?w=1600&fit=crop&crop=entropy&auto=compress"
-
 func (user *User) Query(id int64, username string, email string) error {
 	err := db.Conn.QueryRow(`SELECT id,username,role,nickname,email,avatar,last_seen_at,created FROM user WHERE id=? or username=? or email=?`,
 		id, username, email).Scan(&user.ID, &user.Username, &user.Role, &user.Nickname, &user.Email, &user.Avatar, &user.LastSeenAt, &user.Created)

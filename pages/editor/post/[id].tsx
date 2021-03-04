@@ -8,7 +8,7 @@ import { MarkdownRender } from 'components/markdown-editor/render';
 import { Post } from 'src/types/posts';
 import { requestApi } from 'utils/axios/request';
 import { useRouter } from 'next/router';
-import { config } from 'utils/config';
+import { config } from 'configs/config';
 import { cloneDeep } from 'lodash';
 import Card from 'components/card';
 

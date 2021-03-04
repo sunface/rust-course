@@ -26,7 +26,7 @@ export const WebsiteLink = ({type, url,...rest}: Props) => {
           break;
   }
   return (
-    <Flex justifyContent="space-between" alignItems="center" cursor="pointer" as="a" href={url} target="_blank" py="1" px="2" layerStyle="textSecondary" fontSize="1.1rem" {...rest} _hover={{bg: useColorModeValue(userCustomTheme.hoverBg.light,userCustomTheme.hoverBg.dark)}}>
+    <Flex justifyContent="space-between" alignItems="center" cursor="pointer" as="a" href={url} target="_blank" py="1" px="2" layerStyle="textSecondary" fontSize="1.1rem" {...rest} className="hover-bg">
         <HStack>
             {icon0}
             <Text ml="2">{title}</Text>

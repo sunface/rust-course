@@ -34,8 +34,6 @@ type PageContainerProps = PropsOf<typeof chakra.div> &  {
 function PageContainer1(props: PageContainerProps) {
   const { children ,nav, ...rest} = props
   useHeadingFocusOnRouteChange()
-  const [isSmallScreen] = useMediaQuery("(max-width: 768px)")
-  const header = isSmallScreen ? <Nav /> : <VerticalNav width={["100px","100px","200px","200px"]} /> 
   return (
     <>
       <SEO
@@ -43,8 +41,9 @@ function PageContainer1(props: PageContainerProps) {
         description={siteConfig.seo.description}
       />
       <Flex px={[0,0,16,16]}>
-      {header}
-      <Box width="100%" ml={["0px","0px","150px","150px"]} pb="8" p={["1","1","4","4"]} mt={["70px","70px","0px","0px"]} {...rest}>
+      <VerticalNav display={{base:"none",md:"block"}} width={["100px","100px","200px","200px"]} /> 
+      <Nav display={{base:"block",md:"none"}} />
+      <Box width="100%" ml={["0px","0px","150px","150px"]} pb="8" p={["1","1","3","3"]} mt={["70px","70px","0px","0px"]} {...rest}>
         {children}
       </Box>
     </Flex>

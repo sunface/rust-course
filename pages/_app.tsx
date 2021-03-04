@@ -8,7 +8,7 @@ import theme from "theme"
 import FontFace from "src/components/font-face"
 import { getSeo } from "utils/seo"
 import GAScript from "analytics/ga-script"
-import {initUIConfig} from 'src/utils/config'
+import {initUIConfig} from 'configs/config'
 
 Router.events.on("routeChangeComplete", (url) => {
   trackPageview(url)

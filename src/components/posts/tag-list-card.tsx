@@ -9,7 +9,7 @@ interface Props {
 }
 
 
-export const TagCard= (props:Props) =>{
+export const TagListCard= (props:Props) =>{
     const {tag} = props
 
     return (
@@ -25,4 +25,4 @@ export const TagCard= (props:Props) =>{
     )
 } 
 
-export default TagCard
+export default TagListCard

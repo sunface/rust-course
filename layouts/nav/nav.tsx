@@ -65,8 +65,8 @@ function HeaderContent() {
             </chakra.a>
           </NextLink>
 
-          <HStack display={{ base: "none", md: "flex" }} ml={{ base: 1, md: 4, lg: 12 }} fontSize="1rem" minWidth="250px">
-            {navLinks.map(link => <Box px="4" py="0.7rem" rounded="md" key={link.url} color={useColorModeValue("gray.700", "whiteAlpha.900")} aria-current={asPath === link.url ? "page" : undefined} _activeLink={{ bg: useColorModeValue("transparent", "rgba(48, 140, 122, 0.3)"), color: useColorModeValue("teal.500", "teal.200"), fontWeight: "bold", }} ><Link href={link.url}>{link.title}</Link></Box>)}
+          <HStack ml={{ base: 1, md: 4, lg: 12 }} fontSize="1rem">
+            {navLinks.map(link => <Box px={[0,0,4,4]} py="0.7rem" rounded="md" key={link.url} color={useColorModeValue("gray.700", "whiteAlpha.900")} aria-current={asPath === link.url ? "page" : undefined} _activeLink={{ bg: useColorModeValue("transparent", "rgba(48, 140, 122, 0.3)"), color: useColorModeValue("teal.500", "teal.200"), fontWeight: "bold", }} ><Link href={link.url}>{link.title}</Link></Box>)}
           </HStack>
         </Flex>
 
@@ -76,7 +76,7 @@ function HeaderContent() {
           align="center"
           color={useColorModeValue("gray.500", "gray.400")}
         >
-          <AlgoliaSearch /> 
+          {/* <AlgoliaSearch />  */}
           <Link
             aria-label="Go to Chakra UI GitHub page"
             href={siteConfig.repo.url}
@@ -88,6 +88,7 @@ function HeaderContent() {
               variant="ghost"
               color="current"
               _focus={null}
+              display={{ base: "none", md: "block" }}
               icon={<FaGithub />}
             />
           </Link>

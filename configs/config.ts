@@ -1,6 +1,7 @@
-import { requestApi } from "./axios/request"
+import { requestApi } from "../src/utils/axios/request"
 
 export let config = {
+    appName: "im.dev",
     commonMaxlen: 255,
     posts: {
         titleMaxLen: 128,

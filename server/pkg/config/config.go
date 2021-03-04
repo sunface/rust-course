@@ -15,6 +15,7 @@ type Config struct {
 		Version  string
 		LogLevel string `yaml:"log_level"`
 		IsProd   bool   `yaml:"is_prod"`
+		AppName  string `yaml:"app_name"`
 	}
 
 	User struct {

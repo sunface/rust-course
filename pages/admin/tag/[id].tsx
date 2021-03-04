@@ -6,7 +6,7 @@ import { EditMode } from 'src/types/editor';
 import { MarkdownRender } from 'components/markdown-editor/render';
 import { requestApi } from 'utils/axios/request';
 import { useRouter } from 'next/router';
-import { config } from 'utils/config';
+import { config } from 'configs/config';
 import { cloneDeep } from 'lodash';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import Link from 'next/link';

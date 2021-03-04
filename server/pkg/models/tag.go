@@ -15,6 +15,12 @@ type Tag struct {
 	Updated   time.Time `json:"updated"`
 }
 
+func (t *Tag) SetCover() {
+	if t.Cover == "" {
+		t.Cover = DefaultTagCover
+	}
+}
+
 type Tags []*Tag
 
 func (t Tags) Len() int      { return len(t) }

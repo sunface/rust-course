@@ -4,7 +4,7 @@ import { Tag } from "src/types/tag"
 import { requestApi } from "utils/axios/request"
 import { cloneDeep, findIndex } from "lodash"
 import TagCard from 'src/components/posts/tag-list-card'
-import { config } from "utils/config"
+import { config } from "configs/config"
 interface Props {
     options: Tag[]
     selected: Tag[]

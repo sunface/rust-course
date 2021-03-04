@@ -3,6 +3,7 @@ import { mode } from "@chakra-ui/theme-tools"
 import markdownEditor from 'theme/markdown-editor'
 import markdownRender from 'theme/markdown-render'
 import layerStyles from 'theme/layer-styles'
+import userCustomTheme from "theme/user-custom"
 
 const customTheme = extendTheme({
   config: {
@@ -22,6 +23,18 @@ const customTheme = extendTheme({
   },
   styles: {
     global: (props) => ({
+      '.hover-bg:hover': {
+        background: mode(userCustomTheme.hoverBg.light,userCustomTheme.hoverBg.dark )(props),
+        borderRadius: '6px'
+      },
+      '.bordered' : {
+        border: `1px solid ${mode(userCustomTheme.borderColor.light,userCustomTheme.borderColor.dark )(props)}`,
+        borderRadius: '6px'
+      },
+      '.shadowed': {
+        boxShadow: 'rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px',
+        borderRadius: '6px'
+      },
       body: {
         background: mode("white","gray.800" )(props),
         color: mode("gray.700", "whiteAlpha.900")(props),
