@@ -8,7 +8,7 @@ const  userCustomTheme = {
     hoverBg: {
         light: theme.colors.gray['100'], 
         dark: theme.colors.whiteAlpha['200']
-    },
+    }
 }
 
 export default userCustomTheme

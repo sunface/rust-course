@@ -68,7 +68,7 @@ const HomePage = () => {
                 </Menu>
               </Flex>
             </Card>
-            <Card width="100%" height="fit-content" p="0" px="3">
+            <Card width="100%" height="fit-content" p="0">
               <Posts posts={posts} />
             </Card>
           </VStack>

@@ -22,7 +22,7 @@ export const TagCard= (props:Props) =>{
                         <Image src={tag.icon} width="43px" mr="2" borderWidth="1px" className="bordered"/>
                         <Box>
                             <Heading size="sm">{tag.title}</Heading>
-                            <Tooltip openDelay={300} label={tag.md}><Text layerStyle="textSecondary" fontSize=".85rem" mt="1" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap" width={{"sm": "100px","md":"400px","xl":"600px"}}>{tag.md}</Text></Tooltip>
+                            <Tooltip openDelay={300} label={tag.md}><Text layerStyle="textSecondary" fontSize=".85rem" mt="1" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap" width={{"sm": "100px","md":"400px"}}>{tag.md}</Text></Tooltip>
                         </Box>
                     </HStack>
                 </NextLink>

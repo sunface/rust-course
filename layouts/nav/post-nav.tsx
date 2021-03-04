@@ -15,7 +15,7 @@ import { useViewportScroll } from "framer-motion"
 import React from "react"
 import { SearchIcon } from "@chakra-ui/icons"
 import DarkMode from "components/dark-mode"
-import AccountMenu from "components/account-menu"
+import AccountMenu from "components/user-menu"
 import { FaGithub, FaTwitter, FaUserPlus } from "react-icons/fa"
 
 

@@ -20,7 +20,7 @@ import { useRouter } from "next/router"
 import { ReserveUrls } from "src/data/reserve-urls"
 import Link from "next/link"
 import DarkMode from "components/dark-mode"
-import AccountMenu from "components/account-menu"
+import AccountMenu from "components/user-menu"
 
 const navLinks = [{
   title: '主页',

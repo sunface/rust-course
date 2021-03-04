@@ -133,3 +133,41 @@ func GetTag(id int64, name string) (*models.Tag, *e.Error) {
 	tag.SetCover()
 	return tag, nil
 }
+
+func GetSimpleTag(id int64, name string) (*models.Tag, *e.Error) {
+	tag := &models.Tag{}
+	err := db.Conn.QueryRow("SELECT id,title,icon from tags where id=? or name=?", id, name).Scan(
+		&tag.ID, &tag.Title, &tag.Icon,
+	)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, e.New(http.StatusNotFound, e.NotFound)
+		}
+		logger.Warn("get tag error", "error", err)
+		return nil, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	return tag, nil
+}
+
+func GetStoryTags(storyID string) ([]*models.Tag, error) {
+	ids := make([]int64, 0)
+	rows, err := db.Conn.Query("SELECT tag_id FROM tag_post WHERE post_id=?", storyID)
+	if err != nil {
+		return nil, err
+	}
+
+	rawTags := make([]*models.Tag, 0)
+	for rows.Next() {
+		var id int64
+		err = rows.Scan(&id)
+		ids = append(ids, id)
+
+		rawTag, err := GetSimpleTag(id, "")
+		if err == nil {
+			rawTags = append(rawTags, rawTag)
+		}
+	}
+
+	return rawTags, nil
+}

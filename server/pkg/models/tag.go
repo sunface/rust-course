@@ -4,15 +4,15 @@ import "time"
 
 type Tag struct {
 	ID        int64     `json:"id"`
-	Creator   int64     `json:"creator"`
+	Creator   int64     `json:"creator,omitempty"`
 	Title     string    `json:"title"`
-	Name      string    `json:"name"`
-	Md        string    `json:"md"`
-	Cover     string    `json:"cover"`
+	Name      string    `json:"name,omitempty"`
+	Md        string    `json:"md,omitempty"`
+	Cover     string    `json:"cover,omitempty"`
 	Icon      string    `json:"icon"`
-	PostCount int       `json:"postCount"`
-	Created   time.Time `json:"created"`
-	Updated   time.Time `json:"updated"`
+	PostCount int       `json:"postCount,omitempty"`
+	Created   time.Time `json:"created,omitempty"`
+	Updated   time.Time `json:"updated,omitempty"`
 }
 
 func (t *Tag) SetCover() {

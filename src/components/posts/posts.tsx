@@ -16,11 +16,22 @@ export const Posts = (props: Props) => {
     const { posts,card=PostCard,showFooter=true} = props
     const postBorderColor = useColorModeValue(userCustomTheme.borderColor.light, userCustomTheme.borderColor.dark)
     const Card = card
+    const showBorder = i => {
+        if (i < posts.length -1) {
+            return true
+        }
+
+        if (showFooter) {
+            return true 
+        } else {
+            return false
+        }
+    }
     return (
         <>
             <VStack alignItems="left">
                 {posts.map((post,i) =>
-                    <Box py="2" borderBottom={i<posts.length-1 ? `1px solid ${postBorderColor}`:null} key={post.id}>
+                    <Box py="2" borderBottom={showBorder(i)? `1px solid ${postBorderColor}`:null} key={post.id}>
                         <Card post={post} size={props.size}/>
                     </Box>)}
             </VStack>

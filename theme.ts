@@ -22,7 +22,9 @@ const customTheme = extendTheme({
       "0 0 0 1px rgba(16,22,26,.1), 0 4px 8px rgba(16,22,26,.2), 0 18px 46px 6px rgba(16,22,26,.2)",
   },
   styles: {
-    global: (props) => ({
+    global: (props) => {
+      console.log(props)
+      return ({
       '.hover-bg:hover': {
         background: mode(userCustomTheme.hoverBg.light,userCustomTheme.hoverBg.dark )(props),
         borderRadius: '6px'
@@ -33,6 +35,11 @@ const customTheme = extendTheme({
       },
       '.shadowed': {
         boxShadow: 'rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px',
+        borderRadius: '6px'
+      },
+      '.tag-bg': {
+        background: mode(props.theme.colors.cyan['100'],'rgba(157, 236, 249, 0.16)' )(props),
+        color: mode(props.theme.colors.cyan['800'],props.theme.colors.cyan['200'] )(props),
         borderRadius: '6px'
       },
       body: {
@@ -51,7 +58,7 @@ const customTheme = extendTheme({
       },
       ...markdownEditor(props),
       ...markdownRender(props)
-    }),
+    })},
   },
   textStyles: {
     heading: {

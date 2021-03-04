@@ -81,6 +81,7 @@ func (s *Server) Start() error {
 		r.GET("/session", IsLogin(), api.GetSession)
 
 		r.POST("/bookmark/:storyID", IsLogin(), api.Bookmark)
+		r.GET("/bookmark/posts", IsLogin(), api.GetBookmarkPosts)
 
 		err := router.Run(config.Data.Server.Addr)
 		if err != nil {
