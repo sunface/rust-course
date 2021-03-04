@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
-	"sort"
 	"strings"
 	"time"
 	"unicode/utf8"
@@ -19,81 +18,6 @@ import (
 	"github.com/imdotdev/im.dev/server/pkg/models"
 	"github.com/imdotdev/im.dev/server/pkg/utils"
 )
-
-func UserPosts(uid int64) (models.Posts, *e.Error) {
-	ars := make(models.Posts, 0)
-	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,likes,views,created,updated from posts where creator=?", uid)
-	if err != nil && err != sql.ErrNoRows {
-		logger.Warn("get user posts error", "error", err)
-		return ars, e.New(http.StatusInternalServerError, e.Internal)
-	}
-
-	creator := &models.UserSimple{ID: uid}
-	creator.Query()
-	for rows.Next() {
-		ar := &models.Post{}
-		err := rows.Scan(&ar.ID, &ar.Slug, &ar.Title, &ar.URL, &ar.Cover, &ar.Brief, &ar.Likes, &ar.Views, &ar.Created, &ar.Updated)
-		if err != nil {
-			logger.Warn("scan post error", "error", err)
-			continue
-		}
-
-		ar.Creator = creator
-
-		ar.Comments = GetCommentCount(ar.ID)
-		ars = append(ars, ar)
-	}
-
-	sort.Sort(ars)
-	return ars, nil
-}
-
-func TagPosts(tagID int64) (models.Posts, *e.Error) {
-	ars := make(models.Posts, 0)
-
-	// get post ids
-	rows, err := db.Conn.Query("select post_id from tag_post where tag_id=?", tagID)
-	if err != nil {
-		logger.Warn("get user posts error", "error", err)
-		return ars, e.New(http.StatusInternalServerError, e.Internal)
-	}
-
-	postIDs := make([]string, 0)
-	for rows.Next() {
-		var id string
-		rows.Scan(&id)
-		postIDs = append(postIDs, id)
-	}
-
-	ids := strings.Join(postIDs, "','")
-
-	q := fmt.Sprintf("select id,slug,title,url,cover,brief,likes,views,creator,created,updated from posts where id in ('%s')", ids)
-	rows, err = db.Conn.Query(q)
-	if err != nil && err != sql.ErrNoRows {
-		logger.Warn("get user posts error", "error", err)
-		return ars, e.New(http.StatusInternalServerError, e.Internal)
-	}
-
-	for rows.Next() {
-		ar := &models.Post{}
-		err := rows.Scan(&ar.ID, &ar.Slug, &ar.Title, &ar.URL, &ar.Cover, &ar.Brief, &ar.Likes, &ar.Views, &ar.CreatorID, &ar.Created, &ar.Updated)
-		if err != nil {
-			logger.Warn("scan post error", "error", err)
-			continue
-		}
-
-		creator := &models.UserSimple{ID: ar.CreatorID}
-		creator.Query()
-
-		ar.Creator = creator
-
-		ar.Comments = GetCommentCount(ar.ID)
-		ars = append(ars, ar)
-	}
-
-	sort.Sort(ars)
-	return ars, nil
-}
 
 func SubmitPost(c *gin.Context) (map[string]string, *e.Error) {
 	user := user.CurrentUser(c)
@@ -249,6 +173,7 @@ func GetPost(id string, slug string) (*models.Post, *e.Error) {
 		logger.Warn("update post view count error", "error", err)
 	}
 
+	//get bookmared
 	return ar, nil
 }
 
@@ -264,35 +189,6 @@ func GetPostCreator(id string) (int64, *e.Error) {
 	}
 
 	return uid, nil
-}
-
-func HomePosts(filter string) (models.Posts, *e.Error) {
-	ars := make(models.Posts, 0)
-	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,likes,views,creator,created,updated from posts")
-	if err != nil && err != sql.ErrNoRows {
-		logger.Warn("get user posts error", "error", err)
-		return ars, e.New(http.StatusInternalServerError, e.Internal)
-	}
-
-	for rows.Next() {
-		ar := &models.Post{}
-		err := rows.Scan(&ar.ID, &ar.Slug, &ar.Title, &ar.URL, &ar.Cover, &ar.Brief, &ar.Likes, &ar.Views, &ar.CreatorID, &ar.Created, &ar.Updated)
-		if err != nil {
-			logger.Warn("scan post error", "error", err)
-			continue
-		}
-
-		creator := &models.UserSimple{ID: ar.CreatorID}
-		creator.Query()
-
-		ar.Creator = creator
-
-		ar.Comments = GetCommentCount(ar.ID)
-		ars = append(ars, ar)
-	}
-
-	sort.Sort(ars)
-	return ars, nil
 }
 
 func postExist(id string) bool {

@@ -79,6 +79,9 @@ func (s *Server) Start() error {
 		r.GET("/home/posts/:filter", api.GetHomePosts)
 
 		r.GET("/session", IsLogin(), api.GetSession)
+
+		r.POST("/bookmark/:storyID", IsLogin(), api.Bookmark)
+
 		err := router.Run(config.Data.Server.Addr)
 		if err != nil {
 			logger.Crit("start backend server error", "error", err)

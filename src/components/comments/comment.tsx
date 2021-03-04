@@ -5,7 +5,7 @@ import Card from "components/card"
 import { getUserName } from "utils/user"
 import moment from 'moment'
 import { MarkdownRender } from "components/markdown-editor/render"
-import HeartLike from "components/posts/heart-like"
+import Like from "components/posts/like"
 import { FaRegEdit, FaRegFlag, FaRegTrashAlt, FaReply, FaTrash } from "react-icons/fa"
 import { User } from "src/types/session"
 import CommentEditor from "./editor"
@@ -40,11 +40,6 @@ export const CommentCard = (props: Props) => {
         onChange()
     }
 
-    const likeComment = async (id) => {
-        await requestApi.post(`/story/like/${id}`)
-        onChange()
-      }
-
     return (
         <>{
             editorVisible ? (user && <CommentEditor user={user} md={comment.md} onSubmit={md => {setEditorVisible(false);changeComment(md)}} onCancel={() => setEditorVisible(false)} menu={false}/>) :
@@ -66,7 +61,7 @@ export const CommentCard = (props: Props) => {
                         <MarkdownRender md={comment.md} pl="16" pr="2" mt="3" />
 
                         <Flex justifyContent="space-between" pl="16" pr="2">
-                            <HeartLike liked={comment.liked} count={comment.likes} onClick={() => likeComment(comment.id)} />
+                            <Like liked={comment.liked} count={comment.likes} storyID={comment.id} />
                             <HStack>
                                 {user && <IconButton
                                     aria-label="go to github"

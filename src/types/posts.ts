@@ -23,4 +23,5 @@ export interface Post {
     likes? : number
     liked? : boolean
     comments? : number
+    bookmarked?: boolean
 }

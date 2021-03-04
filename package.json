@@ -38,6 +38,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.1.0",
+    "short-number": "^1.0.7",
     "validator": "^13.5.2"
   },
   "devDependencies": {

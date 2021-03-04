@@ -141,4 +141,13 @@ var sqlTables = map[string]string{
         count       INTEGER DEFAULT 0   
 	);
 	`,
+
+	"bookmarks": `CREATE TABLE IF NOT EXISTS bookmarks (
+		user_id          INTEGER, 
+		story_id         VARCHAR(255),
+		created          DATETIME
+	);
+	CREATE INDEX IF NOT EXISTS bookmarks_userid
+		ON bookmarks (user_id);
+	`,
 }

@@ -3,9 +3,11 @@ import { Box, chakra, Flex, Heading, HStack, Image, Text, useMediaQuery, VStack 
 import { Post } from "src/types/posts"
 import PostAuthor from "./post-author"
 import Link from "next/link"
-import UnicornLike from "./heart-like"
-import { FaHeart, FaRegBookmark, FaRegComment, FaRegHeart } from "react-icons/fa"
-import SvgButton from "components/svg-button"
+import Like from "./like"
+import { FaHeart, FaRegHeart } from "react-icons/fa"
+import Bookmark from "./bookmark"
+import { getSvgIcon } from "components/svg-icon"
+import Count from "components/count"
 
 interface Props {
     post: Post
@@ -30,24 +32,17 @@ export const PostCard = (props: Props) => {
             </Link>
 
             <HStack pl="2" spacing="5">
-                <HStack opacity="0.9">
-                    {post.liked ?
-                        <Box color="red.400"><FaHeart fontSize="1.1rem" /></Box>
-                        :
-                        <FaRegHeart fontSize="1.1rem" />}
-                    <Text ml="2">{post.likes}</Text>
-                </HStack>
-                        
+                <Like storyID={post.id} liked={post.liked} count={post.likes} fontSize="18px"/>
                 <Link href={`/${post.creator.username}/${post.id}#comments`}>
-                <HStack opacity="0.9" cursor="pointer">
-                    <FaRegComment fontSize="1.1rem" />
-                    <Text ml="2">{post.comments}</Text>
-                </HStack>
+                    <HStack opacity="0.9" cursor="pointer">
+                        {getSvgIcon("comments", "1.3rem")}
+                        <Text ml="2"><Count count={post.comments}/></Text>
+                    </HStack>
                 </Link>
 
 
 
-                <SvgButton icon="bookmark" height="1rem" onClick={null} style={{marginLeft: '4px'}}/>
+                <Box style={{ marginLeft: '4px' }}><Bookmark height="1.05rem" storyID={post.id} bookmarked={post.bookmarked} /></Box>
             </HStack>
         </VStack>
     )
