@@ -42,16 +42,6 @@ var sqlTables = map[string]string{
 			updated DATETIME
 		);`,
 
-	"user_skills": `CREATE TABLE IF NOT EXISTS user_skills (
-			user_id          VARCHAR(255),
-			skill_id         INTEGER   
-		);
-	CREATE INDEX IF NOT EXISTS user_skills_userid
-		ON user_skills (user_id);
-	CREATE INDEX IF NOT EXISTS user_skills_skillid
-		ON user_skills (skill_id);
-	`,
-
 	"sessions": `CREATE TABLE IF NOT EXISTS sessions (
 			sid              VARCHAR(255) primary key,   
 			user_id          VARCHAR(255)
@@ -78,19 +68,40 @@ var sqlTables = map[string]string{
 		ON posts (creator);
 	CREATE INDEX IF NOT EXISTS posts_created
 		ON posts (created);
-	CREATE UNIQUE INDEX IF NOT EXISTS posts_creator_slug
-		ON posts (creator, slug);
 	`,
 
 	"likes": `CREATE TABLE IF NOT EXISTS likes (
-		user_id          VARCHAR(255),
 		story_id       	 VARCHAR(255),
+		user_id          VARCHAR(255),
 		created          DATETIME NOT NULL
 	);
 	CREATE INDEX IF NOT EXISTS likes_userid
 		ON likes (user_id);
 	CREATE INDEX IF NOT EXISTS likes_storyid
 		ON likes (story_id);
+	`,
+
+	"likes_count": `CREATE TABLE IF NOT EXISTS likes_count (
+		story_id       	 VARCHAR(255) PRIMARY KEY,
+		count            INTEGER
+	);
+	`,
+
+	"follows": `CREATE TABLE IF NOT EXISTS follows (
+		user_id       	 VARCHAR(255),
+		target_id        VARCHAR(255),
+		created          DATETIME NOT NULL
+	);
+	CREATE INDEX IF NOT EXISTS follows_userid
+		ON follows (user_id);
+	CREATE INDEX IF NOT EXISTS follows_targetid
+		ON follows (target_id);
+	`,
+
+	"follows_count": `CREATE TABLE IF NOT EXISTS follows_count (
+		target_id       	VARCHAR(255) PRIMARY KEY,
+		count            	INTEGER
+	);
 	`,
 
 	"tags": `CREATE TABLE IF NOT EXISTS tags (
@@ -111,14 +122,14 @@ var sqlTables = map[string]string{
 		ON tags (created);
 	`,
 
-	"tag_post": `CREATE TABLE IF NOT EXISTS tag_post (
+	"tags_using": `CREATE TABLE IF NOT EXISTS tags_using (
 		tag_id           VARCHAR(255), 
-		post_id          VARCHAR(255)
+		target_id        VARCHAR(255)
 	);
-	CREATE INDEX IF NOT EXISTS tag_post_tagid
-		ON tag_post (tag_id);
-	CREATE INDEX IF NOT EXISTS tag_post_postid
-		ON tag_post (post_id);
+	CREATE INDEX IF NOT EXISTS tags_using_tagid
+		ON tags_using (tag_id);
+	CREATE INDEX IF NOT EXISTS tags_using_targetid
+		ON tags_using (target_id);
 	`,
 
 	"comments": `CREATE TABLE IF NOT EXISTS comments (

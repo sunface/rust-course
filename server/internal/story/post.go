@@ -94,16 +94,10 @@ func SubmitPost(c *gin.Context) (map[string]string, *e.Error) {
 	}
 
 	//update tags
-	_, err = db.Conn.Exec("DELETE FROM tag_post WHERE post_id=?", post.ID)
+	err = tags.UpdateTargetTags(post.ID, post.Tags)
 	if err != nil {
-		logger.Warn("delete post tags error", "error", err)
-	}
-
-	for _, tag := range post.Tags {
-		_, err = db.Conn.Exec("INSERT INTO tag_post (tag_id,post_id) VALUES (?,?)", tag, post.ID)
-		if err != nil {
-			logger.Warn("add post tag error", "error", err)
-		}
+		logger.Warn("upate tags error", "error", err)
+		return nil, e.New(http.StatusInternalServerError, e.Internal)
 	}
 
 	return map[string]string{
@@ -120,7 +114,7 @@ func DeletePost(id string) *e.Error {
 	}
 
 	// delete tags
-	_, err = db.Conn.Exec("DELETE FROM tag_post WHERE post_id=?", id)
+	err = tags.DeleteTargetTags(id)
 	if err != nil {
 		logger.Warn("delete post tags error", "error", err)
 	}
@@ -148,24 +142,12 @@ func GetPost(id string, slug string) (*models.Post, *e.Error) {
 	err = ar.Creator.Query()
 
 	// get tags
-	t := make([]string, 0)
-	rows, err := db.Conn.Query("SELECT tag_id FROM tag_post WHERE post_id=?", ar.ID)
-	if err != nil && err != sql.ErrNoRows {
+	t, rawTags, err := tags.GetTargetTags(ar.ID)
+	if err != nil {
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
 	}
-
-	ar.RawTags = make([]*models.Tag, 0)
-	for rows.Next() {
-		var tag string
-		err = rows.Scan(&tag)
-		t = append(t, tag)
-
-		rawTag, err := tags.GetTag(tag, "")
-		if err == nil {
-			ar.RawTags = append(ar.RawTags, rawTag)
-		}
-	}
 	ar.Tags = t
+	ar.RawTags = rawTags
 
 	// add views count
 	_, err = db.Conn.Exec("UPDATE posts SET views=? WHERE id=?", ar.Views+1, ar.ID)

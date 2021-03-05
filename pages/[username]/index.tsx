@@ -16,9 +16,9 @@ import { User } from "src/types/session"
 import { requestApi } from "utils/axios/request"
 import moment from 'moment'
 import { Post } from "src/types/posts"
-import PostCard from "components/posts/post-card"
+import PostCard from "components/story/post-card"
 import userCustomTheme from "theme/user-custom"
-import Posts from "components/posts/posts"
+import Posts from "components/story/posts"
 import Link from "next/link"
 import Empty from "components/empty"
 import Count from "components/count"
@@ -111,12 +111,12 @@ const UserPage = () => {
                   <Wrap mt="4" p="1">
                     {
                       user.rawSkills.map(skill =>
-                        <Link href={`${ReserveUrls.Tags}/${skill.name}`}>
+                        <Link key={skill.id} href={`${ReserveUrls.Tags}/${skill.name}`}>
                           <HStack spacing="1" mr="4" mb="2" cursor="pointer">
                             <Avatar src={skill.icon} size="sm" />
                             <Text>{skill.title}</Text>
                           </HStack>
-                        </Link>)
+                        </Link>) 
                     }
                   </Wrap>
                 </Card>}

@@ -94,7 +94,7 @@ func GetTags() (models.Tags, *e.Error) {
 		tag.SetCover()
 		tags = append(tags, tag)
 
-		db.Conn.QueryRow("SELECT count(*) FROM tag_post WHERE tag_id=?", tag.ID).Scan(&tag.PostCount)
+		db.Conn.QueryRow("SELECT count(*) FROM tags_using WHERE tag_id=?", tag.ID).Scan(&tag.PostCount)
 	}
 
 	sort.Sort(tags)
@@ -129,16 +129,16 @@ func GetTag(id string, name string) (*models.Tag, *e.Error) {
 	md, _ := utils.Uncompress(rawmd)
 	tag.Md = string(md)
 
-	db.Conn.QueryRow("SELECT count(*) FROM tag_post WHERE tag_id=?", tag.ID).Scan(&tag.PostCount)
+	db.Conn.QueryRow("SELECT count(*) FROM tags_using WHERE tag_id=?", tag.ID).Scan(&tag.PostCount)
 
 	tag.SetCover()
 	return tag, nil
 }
 
-func GetSimpleTag(id int64, name string) (*models.Tag, *e.Error) {
+func GetSimpleTag(id string, name string) (*models.Tag, *e.Error) {
 	tag := &models.Tag{}
-	err := db.Conn.QueryRow("SELECT id,title,icon from tags where id=? or name=?", id, name).Scan(
-		&tag.ID, &tag.Title, &tag.Icon,
+	err := db.Conn.QueryRow("SELECT id,name,title,icon from tags where id=? or name=?", id, name).Scan(
+		&tag.ID, &tag.Name, &tag.Title, &tag.Icon,
 	)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -151,16 +151,16 @@ func GetSimpleTag(id int64, name string) (*models.Tag, *e.Error) {
 	return tag, nil
 }
 
-func GetStoryTags(storyID string) ([]*models.Tag, error) {
-	ids := make([]int64, 0)
-	rows, err := db.Conn.Query("SELECT tag_id FROM tag_post WHERE post_id=?", storyID)
+func GetTargetTags(targetID string) ([]string, []*models.Tag, error) {
+	ids := make([]string, 0)
+	rows, err := db.Conn.Query("SELECT tag_id FROM tags_using WHERE target_id=?", targetID)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	rawTags := make([]*models.Tag, 0)
 	for rows.Next() {
-		var id int64
+		var id string
 		err = rows.Scan(&id)
 		ids = append(ids, id)
 
@@ -170,5 +170,46 @@ func GetStoryTags(storyID string) ([]*models.Tag, error) {
 		}
 	}
 
-	return rawTags, nil
+	return ids, rawTags, nil
+}
+
+func UpdateTargetTags(targetID string, tags []string) error {
+	_, err := db.Conn.Exec("DELETE FROM tags_using WHERE target_id=?", targetID)
+	if err != nil {
+		return err
+	}
+
+	for _, tag := range tags {
+		_, err = db.Conn.Exec("INSERT INTO tags_using (tag_id,target_id) VALUES (?,?)", tag, targetID)
+		if err != nil {
+			logger.Warn("add post tag error", "error", err)
+		}
+	}
+
+	return nil
+}
+
+func DeleteTargetTags(targetID string) error {
+	_, err := db.Conn.Exec("DELETE FROM tags_using WHERE target_id=?", targetID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func GetTargetIDs(tagID string) ([]string, error) {
+	rows, err := db.Conn.Query("select target_id from tags_using where tag_id=?", tagID)
+	if err != nil {
+		return nil, err
+	}
+
+	ids := make([]string, 0)
+	for rows.Next() {
+		var id string
+		rows.Scan(&id)
+		ids = append(ids, id)
+	}
+
+	return ids, nil
 }

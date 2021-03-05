@@ -9,9 +9,9 @@ import {
   Divider
 } from "@chakra-ui/react"
 import Card from "components/card"
-import PostCard from "components/posts/post-card"
-import Posts from "components/posts/posts"
-import SimplePostCard from "components/posts/simple-post-card"
+import PostCard from "components/story/post-card"
+import Posts from "components/story/posts"
+import SimplePostCard from "components/story/simple-post-card"
 import SEO from "components/seo"
 import { getSvgIcon } from "components/svg-icon"
 import siteConfig from "configs/site-config"

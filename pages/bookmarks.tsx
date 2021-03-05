@@ -21,7 +21,7 @@ import {
   import { requestApi } from "utils/axios/request"
   import TagCard from 'src/components/tags/tag-card'
 import { Post } from "src/types/posts"
-import Posts from "components/posts/posts"
+import Posts from "components/story/posts"
 import { find } from "lodash"
 import userCustomTheme from "theme/user-custom"
 import Empty from "components/empty"

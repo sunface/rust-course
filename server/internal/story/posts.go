@@ -40,25 +40,18 @@ func UserPosts(user *models.User, uid string) (models.Posts, *e.Error) {
 	return posts, nil
 }
 
-func TagPosts(user *models.User, tagID int64) (models.Posts, *e.Error) {
+func TagPosts(user *models.User, tagID string) (models.Posts, *e.Error) {
 	// get post ids
-	rows, err := db.Conn.Query("select post_id from tag_post where tag_id=?", tagID)
+	postIDs, err := tags.GetTargetIDs(tagID)
 	if err != nil {
 		logger.Warn("get user posts error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
 	}
 
-	postIDs := make([]string, 0)
-	for rows.Next() {
-		var id string
-		rows.Scan(&id)
-		postIDs = append(postIDs, id)
-	}
-
 	ids := strings.Join(postIDs, "','")
 
 	q := fmt.Sprintf("select id,slug,title,url,cover,brief,likes,views,creator,created,updated from posts where id in ('%s')", ids)
-	rows, err = db.Conn.Query(q)
+	rows, err := db.Conn.Query(q)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get user posts error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -97,13 +90,13 @@ func BookmarkPosts(user *models.User, filter string) (models.Posts, *e.Error) {
 	posts := getPosts(user, rows)
 
 	for _, post := range posts {
-		ts, err := tags.GetStoryTags(post.ID)
+		_, rawTags, err := tags.GetTargetTags(post.ID)
 		if err != nil {
 			logger.Warn("get story tags error", "error", err)
 			continue
 		}
 
-		post.RawTags = ts
+		post.RawTags = rawTags
 	}
 
 	sort.Sort(posts)

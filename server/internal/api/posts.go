@@ -2,7 +2,6 @@ package api
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/imdotdev/im.dev/server/internal/story"
@@ -36,7 +35,7 @@ func GetUserPosts(c *gin.Context) {
 }
 
 func GetTagPosts(c *gin.Context) {
-	tagID, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+	tagID := c.Param("id")
 	user := user.CurrentUser(c)
 	posts, err := story.TagPosts(user, tagID)
 	if err != nil {

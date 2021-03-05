@@ -54,24 +54,13 @@ func GetUserDetail(id string, username string) (*models.User, *e.Error) {
 	}
 
 	// get user skills
-	user.Skills = make([]string, 0)
-	user.RawSkills = make([]*models.Tag, 0)
-	rows, err := db.Conn.Query("SELECT skill_id from user_skills WHERE user_id=?", user.ID)
-	if err != nil && err != sql.ErrNoRows {
-		logger.Warn("query user skills error", "error", err)
+	skills, rawSkills, err := tags.GetTargetTags(user.ID)
+	if err != nil {
+		logger.Warn("get user skills error", "error", err)
+		return nil, e.New(http.StatusInternalServerError, e.Internal)
 	}
-	for rows.Next() {
-		var skill string
-		rows.Scan(&skill)
-		user.Skills = append(user.Skills, skill)
-
-		rawTag, err := tags.GetTag(skill, "")
-		if err != nil {
-			logger.Warn("get tag error", "error", err)
-			continue
-		}
-		user.RawSkills = append(user.RawSkills, rawTag)
-	}
+	user.RawSkills = rawSkills
+	user.Skills = skills
 
 	return user, nil
 }
@@ -108,16 +97,10 @@ func UpdateUser(u *models.User) *e.Error {
 	}
 
 	//update user skills
-	_, err = db.Conn.Exec("DELETE FROM user_skills WHERE user_id=?", u.ID)
+	err = tags.UpdateTargetTags(u.ID, u.Skills)
 	if err != nil {
-		logger.Warn("delete user skills error", "error", err)
-	}
-
-	for _, skill := range u.Skills {
-		_, err = db.Conn.Exec("INSERT INTO user_skills (user_id,skill_id) VALUES (?,?)", u.ID, skill)
-		if err != nil {
-			logger.Warn("add user skill error", "error", err)
-		}
+		logger.Warn("upate tags error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
 	}
 
 	return nil
