@@ -12,7 +12,7 @@ import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import { FaComment, FaCommentAlt, FaDove, FaEdit, FaFacebook, FaFile, FaGithub, FaHeart, FaPlus, FaRegStar, FaStackOverflow, FaStar, FaTwitter, FaWeibo, FaZhihu } from "react-icons/fa"
 import { ReserveUrls } from "src/data/reserve-urls"
-import { User } from "src/types/session"
+import { User } from "src/types/user"
 import { requestApi } from "utils/axios/request"
 import moment from 'moment'
 import { Post } from "src/types/posts"

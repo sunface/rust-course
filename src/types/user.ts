@@ -21,7 +21,7 @@ export interface User {
     availFor?: string
     about?: string
     rawSkills?: Tag[]
-    skills?: number[]
+    skills?: string[]
 
     // social links
     website?: string

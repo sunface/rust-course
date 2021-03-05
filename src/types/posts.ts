@@ -1,4 +1,4 @@
-import { UserSimple} from './session'
+import { UserSimple} from './user'
 import { Tag } from './tag';
 
 export enum PostFilter {
@@ -18,7 +18,7 @@ export interface Post {
     cover?: string 
     brief?: string 
     created?: string
-    tags?: number[]
+    tags?: string[]
     rawTags?: Tag[]
     likes? : number
     liked? : boolean

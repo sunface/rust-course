@@ -18,7 +18,7 @@ const Like = (props: Props) => {
   const [liked,setLiked] = useState(props.liked)
   const [count,setCount] = useState(props.count)
   const like = async () => {
-    await requestApi.post(`/story/like/${props.storyID}`)
+    await requestApi.post(`/interaction/like/${props.storyID}`)
     
 
     if (liked) {

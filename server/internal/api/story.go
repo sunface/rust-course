@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/imdotdev/im.dev/server/internal/interaction"
 	"github.com/imdotdev/im.dev/server/internal/story"
 	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/common"
@@ -58,28 +59,11 @@ func GetStoryPost(c *gin.Context) {
 	}
 
 	if user != nil {
-		ar.Liked = story.GetLiked(ar.ID, user.ID)
+		ar.Liked = interaction.GetLiked(ar.ID, user.ID)
 		ar.Bookmarked, _ = story.Bookmarked(user.ID, ar.ID)
 	}
 
 	c.JSON(http.StatusOK, common.RespSuccess(ar))
-}
-
-func LikeStory(c *gin.Context) {
-	user := user.CurrentUser(c)
-	id := c.Param("id")
-	if id == "" {
-		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
-		return
-	}
-
-	err := story.Like(id, user.ID)
-	if err != nil {
-		c.JSON(err.Status, common.RespError(err.Message))
-		return
-	}
-
-	c.JSON(http.StatusOK, common.RespSuccess(nil))
 }
 
 func Bookmark(c *gin.Context) {

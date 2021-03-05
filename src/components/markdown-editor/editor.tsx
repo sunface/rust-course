@@ -8,7 +8,7 @@ import CaretStyles from 'theme/caret.styles'
 import { isUsernameChar } from 'utils/user';
 import { requestApi } from 'utils/axios/request';
 import Card from 'components/card';
-import { User } from 'src/types/session';
+import { User } from 'src/types/user';
 import userCustomTheme from 'theme/user-custom';
 import { cloneDeep } from 'lodash';
 

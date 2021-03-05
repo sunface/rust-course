@@ -17,12 +17,22 @@ import { Post } from "src/types/posts"
 import { Tag } from "src/types/tag"
 import { requestApi } from "utils/axios/request"
 import { isAdmin } from "utils/role"
+import Follow from "components/interaction/follow"
 
 const UserPage = () => {
     const router = useRouter()
 
     const [posts, setPosts]: [Post[], any] = useState([])
-    const [tag, setTag]: [Tag, any] = useState({})
+    const [tag, setTag]: [Tag, any] = useState(null)
+
+    const [followed, setFollowed] = useState(null)
+    useEffect(() => {
+        if (tag) {
+            requestApi.get(`/interaction/followed/${tag.id}`).then(res => setFollowed(res.data))
+        }
+    }, [tag])
+
+    
     const initData = async () => {
         const res = await requestApi.get(`/tag/info/${router.query.name}`)
         setTag(res.data)
@@ -38,7 +48,6 @@ const UserPage = () => {
     }, [router.query.name])
 
     const session = useSession()
-
     return (
         <>
             <SEO
@@ -46,7 +55,7 @@ const UserPage = () => {
                 description={siteConfig.seo.description}
             />
             <PageContainer1>
-                {tag.name &&
+                {tag && tag.name &&
                     <HStack alignItems="top" spacing="4" p="2">
                         <VStack width={["100%","100%","70%","70%"]} alignItems="left" spacing="2">
                             <Card p="0">
@@ -58,7 +67,7 @@ const UserPage = () => {
                                         <Text layerStyle="textSecondary" fontWeight="500" fontSize="1.2rem" mt="1" ml="1">#{tag.name}</Text>
                                     </Box>
                                     <Box>
-                                        <Button colorScheme="teal">Follow</Button>
+                                        {followed !== null && <Follow followed={followed} targetID={tag.id}/>}
                                         {isAdmin(session?.user.role) && <Button ml="2" onClick={() => router.push(`${ReserveUrls.Admin}/tag/${tag.name}`)}>Edit</Button>}
                                     </Box>
                                 </Flex>

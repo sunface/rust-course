@@ -7,6 +7,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/imdotdev/im.dev/server/internal/interaction"
 	"github.com/imdotdev/im.dev/server/internal/tags"
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
@@ -123,12 +124,11 @@ func getPosts(user *models.User, rows *sql.Rows) models.Posts {
 
 		// 获取当前登录用户的like
 		if user != nil {
-			ar.Liked = GetLiked(ar.ID, user.ID)
+			ar.Liked = interaction.GetLiked(ar.ID, user.ID)
+			// 获取当前登录用户的bookmark
+			ar.Bookmarked, _ = Bookmarked(user.ID, ar.ID)
 		}
-		ar.Likes = GetLikes(ar.ID)
-
-		// 获取当前登录用户的bookmark
-		ar.Bookmarked, _ = Bookmarked(user.ID, ar.ID)
+		ar.Likes = interaction.GetLikes(ar.ID)
 
 		posts = append(posts, ar)
 	}

@@ -57,7 +57,7 @@ func initTables() error {
 
 	now := time.Now()
 	_, err := db.Conn.Exec(`INSERT INTO user (id,username,email,role,nickname,avatar,created,updated) VALUES (?,?,?,?,?,?,?,?)`,
-		1, config.Data.User.SuperAdminUsername, config.Data.User.SuperAdminEmail, models.ROLE_SUPER_ADMIN, "", "", now, now)
+		utils.GenID(models.IDTypeUser), config.Data.User.SuperAdminUsername, config.Data.User.SuperAdminEmail, models.ROLE_SUPER_ADMIN, "", "", now, now)
 	if err != nil {
 		log.RootLogger.Crit("init super admin error", "error:", err)
 		return err

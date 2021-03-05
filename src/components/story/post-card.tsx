@@ -3,7 +3,7 @@ import { Box, chakra, Flex, Heading, HStack, Image, Text, useMediaQuery, VStack 
 import { Post } from "src/types/posts"
 import PostAuthor from "./post-author"
 import Link from "next/link"
-import Like from "./like"
+import Like from "../interaction/like"
 import { FaHeart, FaRegHeart } from "react-icons/fa"
 import Bookmark from "./bookmark"
 import { getSvgIcon } from "components/svg-icon"

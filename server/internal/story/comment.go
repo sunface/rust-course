@@ -7,6 +7,7 @@ import (
 	"sort"
 	"time"
 
+	"github.com/imdotdev/im.dev/server/internal/interaction"
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
 	"github.com/imdotdev/im.dev/server/pkg/models"
@@ -94,7 +95,7 @@ func GetComments(storyID string) (models.Comments, *e.Error) {
 		c.Creator = &models.UserSimple{ID: c.CreatorID}
 		err = c.Creator.Query()
 
-		c.Likes = GetLikes(c.ID)
+		c.Likes = interaction.GetLikes(c.ID)
 
 		comments = append(comments, c)
 	}
@@ -118,7 +119,7 @@ func GetComment(id string) (*models.Comment, *e.Error) {
 	md, _ := utils.Uncompress(rawMd)
 	c.Md = string(md)
 
-	c.Likes = GetLikes(c.ID)
+	c.Likes = interaction.GetLikes(c.ID)
 	return c, nil
 }
 
@@ -173,21 +174,6 @@ func DeleteComment(id string) *e.Error {
 	tx.Commit()
 
 	return nil
-}
-
-func commentExist(id string) bool {
-	var nid string
-	err := db.Conn.QueryRow("SELECT id FROM comments WHERE id=?", id).Scan(&nid)
-	if err != nil && err != sql.ErrNoRows {
-		logger.Warn("query comment error", "error", err)
-		return false
-	}
-
-	if nid == id {
-		return true
-	}
-
-	return false
 }
 
 func GetCommentCount(storyID string) int {

@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/imdotdev/im.dev/server/internal/interaction"
 	"github.com/imdotdev/im.dev/server/internal/story"
 	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/common"
@@ -24,7 +25,7 @@ func SubmitComment(c *gin.Context) {
 	}
 
 	// check story exist
-	exist := story.Exist(comment.TargetID)
+	exist := models.IdExist(comment.TargetID)
 	if !exist {
 		c.JSON(http.StatusNotFound, common.RespError(e.NotFound))
 		return
@@ -59,7 +60,7 @@ func GetStoryComments(c *gin.Context) {
 	user := user.CurrentUser(c)
 	for _, comment := range comments {
 		if user != nil {
-			comment.Liked = story.GetLiked(comment.ID, user.ID)
+			comment.Liked = interaction.GetLiked(comment.ID, user.ID)
 		}
 
 		replies, err := story.GetComments(comment.ID)
@@ -70,7 +71,7 @@ func GetStoryComments(c *gin.Context) {
 		comment.Replies = replies
 		for _, reply := range replies {
 			if user != nil {
-				reply.Liked = story.GetLiked(reply.ID, user.ID)
+				reply.Liked = interaction.GetLiked(reply.ID, user.ID)
 			}
 		}
 	}

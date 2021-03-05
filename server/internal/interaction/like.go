@@ -1,4 +1,4 @@
-package story
+package interaction
 
 import (
 	"database/sql"
@@ -7,10 +7,11 @@ import (
 
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
+	"github.com/imdotdev/im.dev/server/pkg/models"
 )
 
 func Like(storyID string, userId string) *e.Error {
-	exist := Exist(storyID)
+	exist := models.IdExist(storyID)
 	if !exist {
 		return e.New(http.StatusNotFound, e.NotFound)
 	}
@@ -40,7 +41,7 @@ func Like(storyID string, userId string) *e.Error {
 		}
 		count = count - 1
 	} else {
-		_, err := tx.Exec("INSERT INTO likes (story_id,user_id,created) VALUES (?,?,?)", storyID, userId, time.Now())
+		_, err := tx.Exec("INSERT INTO likes (story_id,user_id,story_type,created) VALUES (?,?,?,?)", storyID, userId, models.GetIDType(storyID), time.Now())
 		if err != nil {
 			logger.Warn("add like error", "error", err)
 			return e.New(http.StatusInternalServerError, e.Internal)

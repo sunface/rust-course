@@ -10,6 +10,7 @@ import (
 
 	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
+	"github.com/imdotdev/im.dev/server/internal/interaction"
 	"github.com/imdotdev/im.dev/server/internal/tags"
 	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/config"
@@ -158,7 +159,7 @@ func GetPost(id string, slug string) (*models.Post, *e.Error) {
 	ar.Tags = t
 	ar.RawTags = rawTags
 
-	ar.Likes = GetLikes(ar.ID)
+	ar.Likes = interaction.GetLikes(ar.ID)
 	return ar, nil
 }
 
@@ -174,21 +175,6 @@ func GetPostCreator(id string) (string, *e.Error) {
 	}
 
 	return uid, nil
-}
-
-func postExist(id string) bool {
-	var nid string
-	err := db.Conn.QueryRow("SELECT id from posts WHERE id=?", id).Scan(&nid)
-	if err != nil {
-		logger.Warn("query post error", "error", err)
-		return false
-	}
-
-	if nid != id {
-		return false
-	}
-
-	return true
 }
 
 //slug有三个规则

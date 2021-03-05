@@ -29,7 +29,7 @@ import Empty from "components/empty"
 
   
   const BookmarksPage = () => {
-    const [filter, setFilter]:[Tag,any] = useState({id:-1})
+    const [filter, setFilter]:[Tag,any] = useState({id:"-1"})
     const [tags, setTags]: [Tag[], any] = useState([])
     const [rawPosts,setRawPosts]: [Post[],any] = useState([])
     const [posts,setPosts]: [Post[],any] = useState([])
@@ -59,7 +59,7 @@ import Empty from "components/empty"
       }
     
     const filterPosts = () => {
-        if (filter.id === -1) {
+        if (filter.id === "-1") {
             setPosts(rawPosts)
             return 
         }

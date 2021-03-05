@@ -1,4 +1,4 @@
-import { UserSimple } from "./session";
+import { UserSimple } from "./user";
 
 export interface Comment {
     id: string 

@@ -2,13 +2,15 @@ import { trackPageview } from "analytics/track-event"
 import { DefaultSeo } from "next-seo"
 import Head from "next/head"
 import Router from "next/router"
-import React from "react"
+import React, { useEffect } from "react"
 import { ChakraProvider } from "@chakra-ui/react"
 import theme from "theme"
 import FontFace from "src/components/font-face"
 import { getSeo } from "utils/seo"
 import GAScript from "analytics/ga-script"
 import {initUIConfig} from 'configs/config'
+import { requestApi } from "utils/axios/request"
+import events from "utils/events"
 
 Router.events.on("routeChangeComplete", (url) => {
   trackPageview(url)
@@ -17,7 +19,16 @@ Router.events.on("routeChangeComplete", (url) => {
 const App = ({ Component, pageProps }) => {
   const seo = getSeo({ omitOpenGraphImage: false })
 
-  initUIConfig()
+  useEffect(() => {
+      requestApi.get(`/user/session`).then(res => {
+        events.emit('set-session', res.data)
+      })
+
+      initUIConfig()
+  }, [])
+
+
+
   return (
     <>
       <Head>

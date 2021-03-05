@@ -8,7 +8,7 @@ import EditModeSelect from "components/edit-mode-select"
 import { EditMode } from "src/types/editor"
 import { MarkdownRender } from "components/markdown-editor/render"
 import { Comment } from "src/types/comments"
-import { User } from "src/types/session"
+import { User } from "src/types/user"
 
 interface Props {
     user: User

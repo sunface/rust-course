@@ -69,6 +69,7 @@ var sqlTables = map[string]string{
 
 	"likes": `CREATE TABLE IF NOT EXISTS likes (
 		story_id       	 VARCHAR(255),
+		story_type       VARCHAR(1),
 		user_id          VARCHAR(255),
 		created          DATETIME NOT NULL
 	);
@@ -87,6 +88,7 @@ var sqlTables = map[string]string{
 	"follows": `CREATE TABLE IF NOT EXISTS follows (
 		user_id       	 VARCHAR(255),
 		target_id        VARCHAR(255),
+		target_type       VARCHAR(1),
 		created          DATETIME NOT NULL
 	);
 	CREATE INDEX IF NOT EXISTS follows_userid

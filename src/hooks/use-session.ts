@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Session } from "src/types/session"
+import { Session } from "src/types/user"
 import { requestApi } from "utils/axios/request"
 import events from "utils/events"
 import storage from "utils/localStorage"
@@ -10,10 +10,6 @@ function useSession(): Session{
     const sess = storage.get('session')
     if (sess) {
       setSession(sess)
-      // 页面重新进入时，跟服务器端进行信息同步
-      requestApi.get(`/user/session`).then(res => {
-        setSession(res.data)
-      })
     }
 
     events.on('set-session',storeSession)

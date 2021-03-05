@@ -10,7 +10,7 @@ import {
     Button
 } from "@chakra-ui/react"
 import useSession from "hooks/use-session"
-import { Session } from "src/types/session"
+import { Session } from "src/types/user"
 import { useRouter } from "next/router"
 import storage from "utils/localStorage"
 import { ReserveUrls } from "src/data/reserve-urls"

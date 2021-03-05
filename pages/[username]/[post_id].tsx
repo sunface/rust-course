@@ -64,33 +64,32 @@ const PostPage = () => {
         title={siteConfig.seo.title}
         description={siteConfig.seo.description}
       />
-      <PageContainer nav={<PostNav />} mt="2rem">
-        {post &&
-          <>
-            <HStack alignItems="top" spacing={[0, 0, 14, 14]}>
-              <Box width={["100%", "100%", "75%", "75%"]} height="fit-content" pl={[0, 0, "0%", "10%"]}>
-                <Image src={post.cover} />
-                <Box px="2">
-                  <Heading size="xl" my="6" lineHeight="1.5">{post.title}</Heading>
+      {post && <PageContainer nav={<PostNav post={post} />} mt="2rem">
+        <>
+          <HStack alignItems="top" spacing={[0, 0, 14, 14]}>
+            <Box width={["100%", "100%", "75%", "75%"]} height="fit-content" pl={[0, 0, "0%", "10%"]}>
+              <Image src={post.cover} />
+              <Box px="2">
+                <Heading size="xl" my="6" lineHeight="1.5">{post.title}</Heading>
 
-                  <Divider my="4" />
-                  <PostAuthor post={post} />
-                  <Divider my="4" />
+                <Divider my="4" />
+                <PostAuthor post={post} />
+                <Divider my="4" />
 
-                  <MarkdownRender md={post.md} py="2" mt="6" />
-                </Box>
-                <HStack ml="2" spacing="3" mt="4">{post.rawTags.map(tag => <TagTextCard key={tag.id} tag={tag} />)}</HStack>
-
-                <Box mt="6" p="2"><Comments storyID={post.id} comments={comments} onChange={() => getComments(post.id)} /></Box>
+                <MarkdownRender md={post.md} py="2" mt="6" />
               </Box>
-              <Box pt="16">
-                  <PostSidebar post={post}/>
-              </Box>
-            </HStack>
+              <HStack ml="2" spacing="3" mt="4">{post.rawTags.map(tag => <TagTextCard key={tag.id} tag={tag} />)}</HStack>
 
-          </>
-        }
+              <Box mt="6" p="2"><Comments storyID={post.id} comments={comments} onChange={() => getComments(post.id)} /></Box>
+            </Box>
+            <Box pt="16">
+              <PostSidebar post={post} />
+            </Box>
+          </HStack>
+
+        </>
       </PageContainer>
+      }
     </>
   )
 }

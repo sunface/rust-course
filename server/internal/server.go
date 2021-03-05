@@ -46,7 +46,6 @@ func (s *Server) Start() error {
 
 		//story apis
 		r.GET("/story/post/:id", api.GetStoryPost)
-		r.POST("/story/like/:id", IsLogin(), api.LikeStory)
 		r.GET("/story/comments/:id", api.GetStoryComments)
 		r.POST("/story/comment", IsLogin(), api.SubmitComment)
 		r.DELETE("/story/comment/:id", IsLogin(), api.DeleteStoryComment)
@@ -70,10 +69,14 @@ func (s *Server) Start() error {
 		r.GET("/user/info/:username", api.GetUser)
 		r.POST("/user/update", IsLogin(), api.UpdateUser)
 		r.GET("/user/posts/:userID", api.GetUserPosts)
-		r.GET("/user/session", IsLogin(), api.GetSession)
+		r.GET("/user/session", api.GetSession)
 		r.POST("/user/login", user.Login)
 		r.POST("/user/logout", user.Logout)
 
+		// interaction apis
+		r.POST("/interaction/like/:id", IsLogin(), api.Like)
+		r.POST("/interaction/follow/:id", IsLogin(), api.Follow)
+		r.GET("/interaction/followed/:id", api.Followed)
 		// other apis
 		r.GET("/config", GetConfig)
 

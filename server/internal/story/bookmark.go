@@ -6,10 +6,11 @@ import (
 
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
+	"github.com/imdotdev/im.dev/server/pkg/models"
 )
 
 func Bookmark(userID string, storyID string) *e.Error {
-	storyExist := Exist(storyID)
+	storyExist := models.IdExist(storyID)
 	if !storyExist {
 		return e.New(http.StatusNotFound, e.NotFound)
 	}

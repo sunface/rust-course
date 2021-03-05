@@ -1,4 +1,4 @@
-import {User} from 'src/types/session'
+import {User} from 'src/types/user'
 export function getUserName(user:User) {
     return user.nickname === "" ? user.username : user.nickname
 }
