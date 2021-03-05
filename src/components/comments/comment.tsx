@@ -5,7 +5,7 @@ import Card from "components/card"
 import { getUserName } from "utils/user"
 import moment from 'moment'
 import { MarkdownRender } from "components/markdown-editor/render"
-import Like from "components/story/like"
+import Like from "components/story/like" 
 import { FaRegEdit, FaRegFlag, FaRegTrashAlt, FaReply, FaTrash } from "react-icons/fa"
 import { User } from "src/types/session"
 import CommentEditor from "./editor"

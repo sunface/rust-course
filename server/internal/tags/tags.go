@@ -180,7 +180,7 @@ func UpdateTargetTags(targetID string, tags []string) error {
 	}
 
 	for _, tag := range tags {
-		_, err = db.Conn.Exec("INSERT INTO tags_using (tag_id,target_id) VALUES (?,?)", tag, targetID)
+		_, err = db.Conn.Exec("INSERT INTO tags_using (tag_id,target_type,target_id) VALUES (?,?,?)", tag, models.GetIDType(targetID), targetID)
 		if err != nil {
 			logger.Warn("add post tag error", "error", err)
 		}
@@ -189,8 +189,14 @@ func UpdateTargetTags(targetID string, tags []string) error {
 	return nil
 }
 
-func DeleteTargetTags(targetID string) error {
-	_, err := db.Conn.Exec("DELETE FROM tags_using WHERE target_id=?", targetID)
+func DeleteTargetTags(tx *sql.Tx, targetID string) error {
+	var err error
+	if tx != nil {
+		_, err = tx.Exec("DELETE FROM tags_using WHERE target_id=?", targetID)
+	} else {
+		_, err = db.Conn.Exec("DELETE FROM tags_using WHERE target_id=?", targetID)
+	}
+
 	if err != nil {
 		return err
 	}

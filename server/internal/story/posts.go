@@ -15,7 +15,7 @@ import (
 
 func HomePosts(user *models.User, filter string) (models.Posts, *e.Error) {
 
-	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,likes,views,creator,created,updated from posts")
+	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,creator,created,updated from posts")
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get user posts error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -28,7 +28,7 @@ func HomePosts(user *models.User, filter string) (models.Posts, *e.Error) {
 }
 
 func UserPosts(user *models.User, uid string) (models.Posts, *e.Error) {
-	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,likes,views,creator,created,updated from posts where creator=?", uid)
+	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,creator,created,updated from posts where creator=?", uid)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get user posts error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -50,7 +50,7 @@ func TagPosts(user *models.User, tagID string) (models.Posts, *e.Error) {
 
 	ids := strings.Join(postIDs, "','")
 
-	q := fmt.Sprintf("select id,slug,title,url,cover,brief,likes,views,creator,created,updated from posts where id in ('%s')", ids)
+	q := fmt.Sprintf("select id,slug,title,url,cover,brief,creator,created,updated from posts where id in ('%s')", ids)
 	rows, err := db.Conn.Query(q)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get user posts error", "error", err)
@@ -80,7 +80,7 @@ func BookmarkPosts(user *models.User, filter string) (models.Posts, *e.Error) {
 
 	ids := strings.Join(postIDs, "','")
 
-	q := fmt.Sprintf("select id,slug,title,url,cover,brief,likes,views,creator,created,updated from posts where id in ('%s')", ids)
+	q := fmt.Sprintf("select id,slug,title,url,cover,brief,creator,created,updated from posts where id in ('%s')", ids)
 	rows, err = db.Conn.Query(q)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get user posts error", "error", err)
@@ -107,7 +107,7 @@ func getPosts(user *models.User, rows *sql.Rows) models.Posts {
 	posts := make(models.Posts, 0)
 	for rows.Next() {
 		ar := &models.Post{}
-		err := rows.Scan(&ar.ID, &ar.Slug, &ar.Title, &ar.URL, &ar.Cover, &ar.Brief, &ar.Likes, &ar.Views, &ar.CreatorID, &ar.Created, &ar.Updated)
+		err := rows.Scan(&ar.ID, &ar.Slug, &ar.Title, &ar.URL, &ar.Cover, &ar.Brief, &ar.CreatorID, &ar.Created, &ar.Updated)
 		if err != nil {
 			logger.Warn("scan post error", "error", err)
 			continue
@@ -125,9 +125,11 @@ func getPosts(user *models.User, rows *sql.Rows) models.Posts {
 		if user != nil {
 			ar.Liked = GetLiked(ar.ID, user.ID)
 		}
+		ar.Likes = GetLikes(ar.ID)
 
 		// 获取当前登录用户的bookmark
 		ar.Bookmarked, _ = Bookmarked(user.ID, ar.ID)
+
 		posts = append(posts, ar)
 	}
 

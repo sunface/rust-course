@@ -107,17 +107,26 @@ func SubmitPost(c *gin.Context) (map[string]string, *e.Error) {
 }
 
 func DeletePost(id string) *e.Error {
-	_, err := db.Conn.Exec("DELETE FROM posts WHERE id=?", id)
+	tx, err := db.Conn.Begin()
+	if err != nil {
+		logger.Warn("start sql transaction error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	_, err = tx.Exec("DELETE FROM posts WHERE id=?", id)
 	if err != nil {
 		logger.Warn("delete post error", "error", err)
 		return e.New(http.StatusInternalServerError, e.Internal)
 	}
 
 	// delete tags
-	err = tags.DeleteTargetTags(id)
+	err = tags.DeleteTargetTags(tx, id)
 	if err != nil {
 		logger.Warn("delete post tags error", "error", err)
+		tx.Rollback()
 	}
+
+	tx.Commit()
 
 	return nil
 }
@@ -125,8 +134,8 @@ func DeletePost(id string) *e.Error {
 func GetPost(id string, slug string) (*models.Post, *e.Error) {
 	ar := &models.Post{}
 	var rawmd []byte
-	err := db.Conn.QueryRow("select id,slug,title,md,url,cover,brief,creator,likes,views,created,updated from posts where id=? or slug=?", id, slug).Scan(
-		&ar.ID, &ar.Slug, &ar.Title, &rawmd, &ar.URL, &ar.Cover, &ar.Brief, &ar.CreatorID, &ar.Likes, &ar.Views, &ar.Created, &ar.Updated,
+	err := db.Conn.QueryRow("select id,slug,title,md,url,cover,brief,creator,created,updated from posts where id=? or slug=?", id, slug).Scan(
+		&ar.ID, &ar.Slug, &ar.Title, &rawmd, &ar.URL, &ar.Cover, &ar.Brief, &ar.CreatorID, &ar.Created, &ar.Updated,
 	)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -149,13 +158,7 @@ func GetPost(id string, slug string) (*models.Post, *e.Error) {
 	ar.Tags = t
 	ar.RawTags = rawTags
 
-	// add views count
-	_, err = db.Conn.Exec("UPDATE posts SET views=? WHERE id=?", ar.Views+1, ar.ID)
-	if err != nil {
-		logger.Warn("update post view count error", "error", err)
-	}
-
-	//get bookmared
+	ar.Likes = GetLikes(ar.ID)
 	return ar, nil
 }
 

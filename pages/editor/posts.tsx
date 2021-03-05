@@ -78,7 +78,7 @@ const PostsPage = () => {
 
     const editPost = (post: Post) => {
         if (post.url.trim() === "") {
-            router.push(`/story/post/${post.id}`)
+            router.push(`/editor/post/${post.id}`)
         } else {
             setCurrentPost(post)
             onOpen()
@@ -86,7 +86,7 @@ const PostsPage = () => {
     }
 
     const onDeletePost= async (id) => {
-        await requestApi.delete(`/storyt/post/${id}`)
+        await requestApi.delete(`/story/post/${id}`)
         getPosts()
         toast({
             description: "删除成功",

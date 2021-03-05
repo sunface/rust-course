@@ -17,14 +17,3 @@ func Exist(id string) bool {
 		return false
 	}
 }
-
-func getStorySqlTable(id string) string {
-	switch id[:1] {
-	case models.IDTypePost:
-		return "posts"
-	case models.IDTypeComment:
-		return "comments"
-	default:
-		return "unknown"
-	}
-}

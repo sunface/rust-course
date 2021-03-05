@@ -73,7 +73,7 @@ func EditComment(c *models.Comment) *e.Error {
 
 func GetComments(storyID string) (models.Comments, *e.Error) {
 	comments := make(models.Comments, 0)
-	rows, err := db.Conn.Query("SELECT id,target_id,creator,md,likes,created,updated FROM comments WHERE target_id=?", storyID)
+	rows, err := db.Conn.Query("SELECT id,target_id,creator,md,created,updated FROM comments WHERE target_id=?", storyID)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get comments error", "error", err)
 		return comments, e.New(http.StatusInternalServerError, e.Internal)
@@ -82,7 +82,7 @@ func GetComments(storyID string) (models.Comments, *e.Error) {
 	for rows.Next() {
 		c := &models.Comment{}
 		var rawMd []byte
-		err := rows.Scan(&c.ID, &c.TargetID, &c.CreatorID, &rawMd, &c.Likes, &c.Created, &c.Updated)
+		err := rows.Scan(&c.ID, &c.TargetID, &c.CreatorID, &rawMd, &c.Created, &c.Updated)
 		if err != nil {
 			logger.Warn("scan comment error", "error", err)
 			continue
@@ -93,6 +93,8 @@ func GetComments(storyID string) (models.Comments, *e.Error) {
 
 		c.Creator = &models.UserSimple{ID: c.CreatorID}
 		err = c.Creator.Query()
+
+		c.Likes = GetLikes(c.ID)
 
 		comments = append(comments, c)
 	}
@@ -105,8 +107,8 @@ func GetComments(storyID string) (models.Comments, *e.Error) {
 func GetComment(id string) (*models.Comment, *e.Error) {
 	c := &models.Comment{}
 	var rawMd []byte
-	err := db.Conn.QueryRow("SELECT id,target_id,creator,md,likes,created,updated FROM comments WHERE id=?", id).Scan(
-		&c.ID, &c.TargetID, &c.CreatorID, &rawMd, &c.Likes, &c.Created, &c.Updated,
+	err := db.Conn.QueryRow("SELECT id,target_id,creator,md,created,updated FROM comments WHERE id=?", id).Scan(
+		&c.ID, &c.TargetID, &c.CreatorID, &rawMd, &c.Created, &c.Updated,
 	)
 	if err != nil {
 		logger.Warn("get comment error", "error", err)
@@ -116,6 +118,7 @@ func GetComment(id string) (*models.Comment, *e.Error) {
 	md, _ := utils.Uncompress(rawMd)
 	c.Md = string(md)
 
+	c.Likes = GetLikes(c.ID)
 	return c, nil
 }
 
@@ -140,24 +143,34 @@ func DeleteComment(id string) *e.Error {
 	}
 	count += 1
 
-	_, err = db.Conn.Exec("UPDATE comments_count SET count=count-? WHERE story_id=?", count, storyID)
+	tx, err := db.Conn.Begin()
+	if err != nil {
+		logger.Warn("start sql transaction error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	_, err = tx.Exec("UPDATE comments_count SET count=count-? WHERE story_id=?", count, storyID)
 	if err != nil {
 		logger.Warn("update  comments_count  error", "error", err)
 		return e.New(http.StatusInternalServerError, e.Internal)
 	}
 
 	// delete children replies
-	_, err = db.Conn.Exec("DELETE FROM comments WHERE target_id=?", id)
+	_, err = tx.Exec("DELETE FROM comments WHERE target_id=?", id)
 	if err != nil {
 		logger.Warn("delete comment replies error", "error", err)
+		tx.Rollback()
 		return e.New(http.StatusInternalServerError, e.Internal)
 	}
 
-	_, err = db.Conn.Exec("DELETE FROM comments WHERE id=?", id)
+	_, err = tx.Exec("DELETE FROM comments WHERE id=?", id)
 	if err != nil {
 		logger.Warn("delete comment error", "error", err)
+		tx.Rollback()
 		return e.New(http.StatusInternalServerError, e.Internal)
 	}
+
+	tx.Commit()
 
 	return nil
 }

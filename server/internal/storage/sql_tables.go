@@ -57,9 +57,6 @@ var sqlTables = map[string]string{
 		url  		VARCHAR(255),
 		cover 		VARCHAR(255),
 		brief 		TEXT,
-		likes 		INTEGER DEFAULT 0,
-		views 		INTEGER DEFAULT 0,
-		comments 	INTEGER DEFAULT 0,
 		status 		tinyint NOT NULL,
 		created 	DATETIME NOT NULL,
 		updated 	DATETIME
@@ -112,7 +109,6 @@ var sqlTables = map[string]string{
 		icon  	VARCHAR(255),
 		cover 	VARCHAR(255),
 		md	 	TEXT,
-		follower_count INTEGER DEFAULT 0,
 		created DATETIME NOT NULL,
 		updated DATETIME
 	);
@@ -124,12 +120,15 @@ var sqlTables = map[string]string{
 
 	"tags_using": `CREATE TABLE IF NOT EXISTS tags_using (
 		tag_id           VARCHAR(255), 
+		target_type      VARCHAR(1),
 		target_id        VARCHAR(255)
 	);
 	CREATE INDEX IF NOT EXISTS tags_using_tagid
 		ON tags_using (tag_id);
 	CREATE INDEX IF NOT EXISTS tags_using_targetid
 		ON tags_using (target_id);
+	CREATE INDEX IF NOT EXISTS tags_using_idtype
+		ON tags_using (tag_id,target_type);
 	`,
 
 	"comments": `CREATE TABLE IF NOT EXISTS comments (
@@ -137,7 +136,6 @@ var sqlTables = map[string]string{
 		target_id    VARCHAR(255),
 		creator      VARCHAR(255),
 		MD           TEXT,
-		likes        INTEGER DEFAULT 0,
 		created DATETIME NOT NULL,
 		updated DATETIME
 	);
