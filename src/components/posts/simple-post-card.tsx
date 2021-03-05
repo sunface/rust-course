@@ -6,6 +6,7 @@ import Link from "next/link"
 import UnicornLike from "./like"
 import { FaHeart, FaRegBookmark, FaRegComment, FaRegHeart } from "react-icons/fa"
 import SvgButton from "components/svg-button"
+import Bookmark from "./bookmark"
 
 interface Props {
     post: Post
@@ -40,7 +41,7 @@ export const SimplePostCard = (props: Props) => {
 
 
 
-                <SvgButton icon="bookmark" height="1rem" onClick={null} style={{marginLeft: '4px'}}/>
+                <Box style={{marginLeft: '4px'}}><Bookmark storyID={post.id} bookmarked={post.bookmarked} height=".95rem"/></Box>
             </HStack>
         </VStack>
     )

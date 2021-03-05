@@ -3,8 +3,8 @@ package models
 import "time"
 
 type Tag struct {
-	ID        int64     `json:"id"`
-	Creator   int64     `json:"creator,omitempty"`
+	ID        string    `json:"id"`
+	Creator   string    `json:"creator,omitempty"`
 	Title     string    `json:"title"`
 	Name      string    `json:"name,omitempty"`
 	Md        string    `json:"md,omitempty"`

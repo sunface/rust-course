@@ -36,7 +36,7 @@ export const CommentCard = (props: Props) => {
     }
 
     const deleteComment = async id => {
-        await requestApi.delete(`/comment/${id}`)
+        await requestApi.delete(`/story/comment/${id}`)
         onChange()
     }
 

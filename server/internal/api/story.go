@@ -47,7 +47,7 @@ func DeletePost(c *gin.Context) {
 
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
 }
-func GetPost(c *gin.Context) {
+func GetStoryPost(c *gin.Context) {
 	id := c.Param("id")
 
 	user := user.CurrentUser(c)
@@ -94,32 +94,4 @@ func Bookmark(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
-}
-
-func GetEditorPost(c *gin.Context) {
-	id := c.Param("id")
-	if id == "" {
-		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
-		return
-	}
-
-	user := user.CurrentUser(c)
-	creator, err := story.GetPostCreator(id)
-	if err != nil {
-		c.JSON(err.Status, common.RespError(err.Message))
-		return
-	}
-
-	if user.ID != creator {
-		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
-		return
-	}
-
-	ar, err := story.GetPost(id, "")
-	if err != nil {
-		c.JSON(err.Status, common.RespError(err.Message))
-		return
-	}
-
-	c.JSON(http.StatusOK, common.RespSuccess(ar))
 }

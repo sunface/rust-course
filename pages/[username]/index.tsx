@@ -71,8 +71,11 @@ const UserPage = () => {
             <HStack spacing={[0, 0, 4, 4]} mt="4" alignItems="top">
               <VStack alignItems="left" spacing="4" width="350px" display={{ base: "none", md: "flex" }}>
                 <Card>
+                  {user.about && 
+                  <>
                   <Text layerStyle="textSecondary">{user.about}</Text>
                   <Divider my="4" />
+                  </>}
                   {user.location && <HStack>
                     <chakra.span layerStyle="textSecondary" width="90px">Location: </chakra.span>
                     <chakra.span fontWeight="500" ml="2">{user.location}</chakra.span>
@@ -96,9 +99,9 @@ const UserPage = () => {
                     {user.zhihu && <chakra.a href={user.zhihu} target="_blank"><FaZhihu /></chakra.a>}
                     {user.weibo && <chakra.a href={user.weibo} target="_blank"><FaWeibo /></chakra.a>}
                   </HStack>
-                  <Divider my="4" />
-
+                  
                   {user.availFor && <Box>
+                    <Divider my="4" />
                     <Text fontWeight="600" layerStyle="textSecondary">I am available for</Text>
                     <Text mt="2">{user.availFor}</Text>
                   </Box>}

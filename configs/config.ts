@@ -16,7 +16,7 @@ export let config = {
 }
 
 export function initUIConfig() {
-    requestApi.get("/uiconfig").then((res) => {
+    requestApi.get("/config").then((res) => {
         console.log("初始化UI config:", res.data)
         config = res.data
     })}

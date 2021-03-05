@@ -44,6 +44,7 @@ const customTheme = extendTheme({
       },
       body: {
         background: mode("white","gray.800" )(props),
+        minHeight: '100vh',
         color: mode("gray.700", "whiteAlpha.900")(props),
         ".deleted": {
           color: "#ff8383 !important",

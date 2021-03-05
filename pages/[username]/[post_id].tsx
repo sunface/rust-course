@@ -47,7 +47,7 @@ const PostPage = () => {
   }, [router])
 
   const getData = async () => {
-    const res = await requestApi.get(`/post/${id}`)
+    const res = await requestApi.get(`/story/post/${id}`)
     setPost(res.data)
 
     getComments(res.data.id)

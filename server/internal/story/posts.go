@@ -27,7 +27,7 @@ func HomePosts(user *models.User, filter string) (models.Posts, *e.Error) {
 	return posts, nil
 }
 
-func UserPosts(user *models.User, uid int64) (models.Posts, *e.Error) {
+func UserPosts(user *models.User, uid string) (models.Posts, *e.Error) {
 	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,likes,views,creator,created,updated from posts where creator=?", uid)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get user posts error", "error", err)

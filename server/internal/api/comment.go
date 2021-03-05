@@ -34,7 +34,7 @@ func SubmitComment(c *gin.Context) {
 	if comment.ID == "" { //add comment
 		user := user.CurrentUser(c)
 		comment.CreatorID = user.ID
-		comment.ID = utils.GenStoryID(models.StoryComment)
+		comment.ID = utils.GenID(models.IDTypeComment)
 		err = story.AddComment(comment)
 	} else { // update comment
 		err = story.EditComment(comment)
@@ -78,7 +78,7 @@ func GetStoryComments(c *gin.Context) {
 	c.JSON(http.StatusOK, common.RespSuccess(comments))
 }
 
-func DeleteComment(c *gin.Context) {
+func DeleteStoryComment(c *gin.Context) {
 	id := c.Param("id")
 	//only admin and owner can delete comment
 	comment, err := story.GetComment(id)

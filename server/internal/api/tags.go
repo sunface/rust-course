@@ -14,7 +14,7 @@ import (
 
 func GetTag(c *gin.Context) {
 	name := c.Param("name")
-	res, err := tags.GetTag(0, name)
+	res, err := tags.GetTag("", name)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return

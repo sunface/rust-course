@@ -24,7 +24,7 @@ type Session struct {
 
 func Login(c *gin.Context) {
 	user := &models.User{}
-	err := user.Query(0, config.Data.User.SuperAdminUsername, "")
+	err := user.Query("", config.Data.User.SuperAdminUsername, "")
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.String(http.StatusNotFound, "")
@@ -132,7 +132,7 @@ func GetSession(c *gin.Context) *Session {
 }
 
 func loadSession(sid string) *Session {
-	var userid int64
+	var userid string
 	q := `SELECT user_id FROM sessions WHERE sid=?`
 	err := db.Conn.QueryRow(q, sid).Scan(&userid)
 	if err != nil {

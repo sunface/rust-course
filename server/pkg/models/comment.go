@@ -5,7 +5,7 @@ import "time"
 type Comment struct {
 	ID        string      `json:"id"`
 	TargetID  string      `json:"targetID"` // 被评论的文章、书籍等ID
-	CreatorID int64       `json:"creatorID"`
+	CreatorID string      `json:"creatorID"`
 	Creator   *UserSimple `json:"creator"`
 	Md        string      `json:"md"`
 	Likes     int         `json:"likes"`

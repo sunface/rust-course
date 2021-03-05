@@ -2,7 +2,7 @@ package storage
 
 var sqlTables = map[string]string{
 	"user": `CREATE TABLE IF NOT EXISTS user (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		id VARCHAR(255) PRIMARY KEY,
 		username VARCHAR(255) NOT NULL UNIQUE,
 		nickname VARCHAR(255) DEFAULT '',
 		avatar VARCHAR(255) DEFAULT '',
@@ -23,7 +23,7 @@ var sqlTables = map[string]string{
 		ON user (email);`,
 
 	"user_profile": `CREATE TABLE IF NOT EXISTS user_profile (
-			id INTEGER PRIMARY KEY,
+			id VARCHAR(255) PRIMARY KEY,
 
 			tagline VARCHAR(255),
 			cover VARCHAR(255),
@@ -43,7 +43,7 @@ var sqlTables = map[string]string{
 		);`,
 
 	"user_skills": `CREATE TABLE IF NOT EXISTS user_skills (
-			user_id          INTEGER,
+			user_id          VARCHAR(255),
 			skill_id         INTEGER   
 		);
 	CREATE INDEX IF NOT EXISTS user_skills_userid
@@ -54,13 +54,13 @@ var sqlTables = map[string]string{
 
 	"sessions": `CREATE TABLE IF NOT EXISTS sessions (
 			sid              VARCHAR(255) primary key,   
-			user_id          INTEGER
+			user_id          VARCHAR(255)
 		);
 	`,
 
 	"posts": `CREATE TABLE IF NOT EXISTS posts (
 		id 			VARCHAR(255) PRIMARY KEY,
-		creator 	INTEGER NOT NULL,
+		creator 	VARCHAR(255) NOT NULL,
 		slug 		VARCHAR(64) NOT NULL,
 		title 		VARCHAR(255) NOT NULL,
 		md   		TEXT,
@@ -82,21 +82,21 @@ var sqlTables = map[string]string{
 		ON posts (creator, slug);
 	`,
 
-	"like": `CREATE TABLE IF NOT EXISTS like (
-		id        		 VARCHAR(255),
-		user_id          INTEGER,
+	"likes": `CREATE TABLE IF NOT EXISTS likes (
+		user_id          VARCHAR(255),
+		story_id       	 VARCHAR(255),
 		created          DATETIME NOT NULL
 	);
-	CREATE INDEX IF NOT EXISTS like_id
-		ON like (id);
-	CREATE INDEX IF NOT EXISTS like_userid
-		ON like (user_id);
+	CREATE INDEX IF NOT EXISTS likes_userid
+		ON likes (user_id);
+	CREATE INDEX IF NOT EXISTS likes_storyid
+		ON likes (story_id);
 	`,
 
 	"tags": `CREATE TABLE IF NOT EXISTS tags (
-		id 		INTEGER PRIMARY KEY AUTOINCREMENT,
-		creator INTEGER NOT NULL,
-		title VARCHAR(255) NOT NULL,
+		id 		VARCHAR(255) PRIMARY KEY,
+		creator VARCHAR(255) NOT NULL,
+		title 	VARCHAR(255) NOT NULL,
 		name  	VARCHAR(255) NOT NULL,
 		icon  	VARCHAR(255),
 		cover 	VARCHAR(255),
@@ -112,7 +112,7 @@ var sqlTables = map[string]string{
 	`,
 
 	"tag_post": `CREATE TABLE IF NOT EXISTS tag_post (
-		tag_id           INTEGER, 
+		tag_id           VARCHAR(255), 
 		post_id          VARCHAR(255)
 	);
 	CREATE INDEX IF NOT EXISTS tag_post_tagid
@@ -124,7 +124,7 @@ var sqlTables = map[string]string{
 	"comments": `CREATE TABLE IF NOT EXISTS comments (
 		id           VARCHAR(255) PRIMARY KEY, 
 		target_id    VARCHAR(255),
-		creator      INTEGER,
+		creator      VARCHAR(255),
 		MD           TEXT,
 		likes        INTEGER DEFAULT 0,
 		created DATETIME NOT NULL,
@@ -143,7 +143,7 @@ var sqlTables = map[string]string{
 	`,
 
 	"bookmarks": `CREATE TABLE IF NOT EXISTS bookmarks (
-		user_id          INTEGER, 
+		user_id          VARCHAR(255), 
 		story_id         VARCHAR(255),
 		created          DATETIME
 	);

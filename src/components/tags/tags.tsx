@@ -18,7 +18,7 @@ export const Tags = (props: Props) => {
     const [tags, setTags]: [Tag[], any] = useState([])
 
     useEffect(() => {
-        requestApi.get('/tags').then(res => {
+        requestApi.get('/tag/all').then(res => {
             setOptions(res.data)
             const t = []
             props.tags?.forEach(id => {
@@ -60,7 +60,7 @@ export const Tags = (props: Props) => {
             {tags.length > 0 && <Box mt={props.size === 'lg' ? 4 : 2}>
                 {
                     tags.map(tag =>
-                        <ChakraTag key={tag.id} mr="2" colorScheme="teal" variant="solid" px="2" py={props.size === 'lg' ? 2 : 1}>
+                        <ChakraTag key={tag.id} mr="2" colorScheme="cyan" variant="solid" px="2" py={props.size === 'lg' ? 2 : 1}>
                             <TagLabel>{tag.title}</TagLabel>
                             <TagCloseButton onClick={_ => removeTag(tag)} />
                         </ChakraTag>)

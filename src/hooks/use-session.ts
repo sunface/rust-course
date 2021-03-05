@@ -11,7 +11,7 @@ function useSession(): Session{
     if (sess) {
       setSession(sess)
       // 页面重新进入时，跟服务器端进行信息同步
-      requestApi.get(`/session`).then(res => {
+      requestApi.get(`/user/session`).then(res => {
         setSession(res.data)
       })
     }

@@ -9,9 +9,9 @@ var logger = log.RootLogger.New("logger", "story")
 
 func Exist(id string) bool {
 	switch id[:1] {
-	case models.StoryPost:
+	case models.IDTypePost:
 		return postExist(id)
-	case models.StoryComment:
+	case models.IDTypeComment:
 		return commentExist(id)
 	default:
 		return false
@@ -20,9 +20,9 @@ func Exist(id string) bool {
 
 func getStorySqlTable(id string) string {
 	switch id[:1] {
-	case models.StoryPost:
+	case models.IDTypePost:
 		return "posts"
-	case models.StoryComment:
+	case models.IDTypeComment:
 		return "comments"
 	default:
 		return "unknown"

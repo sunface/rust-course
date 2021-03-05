@@ -32,7 +32,7 @@ func GetUsers(q string) ([]*models.User, *e.Error) {
 	return users, nil
 }
 
-func GetUserDetail(id int64, username string) (*models.User, *e.Error) {
+func GetUserDetail(id string, username string) (*models.User, *e.Error) {
 	user := &models.User{}
 	err := user.Query(id, username, "")
 	if err != nil {
@@ -54,14 +54,14 @@ func GetUserDetail(id int64, username string) (*models.User, *e.Error) {
 	}
 
 	// get user skills
-	user.Skills = make([]int64, 0)
+	user.Skills = make([]string, 0)
 	user.RawSkills = make([]*models.Tag, 0)
 	rows, err := db.Conn.Query("SELECT skill_id from user_skills WHERE user_id=?", user.ID)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("query user skills error", "error", err)
 	}
 	for rows.Next() {
-		var skill int64
+		var skill string
 		rows.Scan(&skill)
 		user.Skills = append(user.Skills, skill)
 

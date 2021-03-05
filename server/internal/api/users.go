@@ -36,7 +36,7 @@ func GetUserSelf(c *gin.Context) {
 func GetUser(c *gin.Context) {
 	username := c.Param("username")
 
-	userDetail, err := user.GetUserDetail(0, username)
+	userDetail, err := user.GetUserDetail("", username)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return

@@ -20,7 +20,7 @@ import { useRouter } from "next/router"
 const LoginPage = () => {
     const router = useRouter()
     const login = async () => {
-        const res = await requestApi.post("/login")
+        const res = await requestApi.post("/user/login")
         saveToken(res.data.token)
         storage.set('session', res.data)
         const oldPage = storage.get('current-page')

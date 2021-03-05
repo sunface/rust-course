@@ -40,7 +40,7 @@ const TagsPage = () => {
   const [filter, setFilter] = useState(tagsFilter[0])
   const [tags, setTags]: [Tag[], any] = useState([])
   const getTags = () => {
-    requestApi.get(`/tags`).then((res) => setTags(res.data)).catch(_ => setTags([]))
+    requestApi.get(`/tag/all`).then((res) => setTags(res.data)).catch(_ => setTags([]))
   }
 
   useEffect(() => {
@@ -81,7 +81,7 @@ const TagsPage = () => {
                   />
                   <MenuList>
                     {
-                      tagsFilter.map(f => <MenuItem onClick={() => setFilter(f)}>
+                      tagsFilter.map(f => <MenuItem key={f.name} onClick={() => setFilter(f)}>
                         {f.name}
                       </MenuItem>)
                     }
@@ -91,7 +91,7 @@ const TagsPage = () => {
 
               <Divider mt="3" mb="5" />
               <VStack alignItems="left" spacing="3">
-                  {tags.map(t => <TagCard tag={t}/>)}
+                  {tags.map(t => <TagCard key={t.id} tag={t}/>)}
               </VStack>
             </Card>
           </VStack>

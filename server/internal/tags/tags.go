@@ -42,10 +42,11 @@ func SubmitTag(tag *models.Tag) *e.Error {
 
 	md := utils.Compress(tag.Md)
 
-	if tag.ID == 0 {
+	if tag.ID == "" {
+		tag.ID = utils.GenID(models.IDTypeTag)
 		//create
-		_, err := db.Conn.Exec("INSERT INTO tags (creator,name, title, md, icon, cover, created, updated) VALUES(?,?,?,?,?,?,?,?)",
-			tag.Creator, tag.Name, tag.Title, md, tag.Icon, tag.Cover, now, now)
+		_, err := db.Conn.Exec("INSERT INTO tags (id,creator,name, title, md, icon, cover, created, updated) VALUES(?,?,?,?,?,?,?,?,?)",
+			tag.ID, tag.Creator, tag.Name, tag.Title, md, tag.Icon, tag.Cover, now, now)
 		if err != nil {
 			if e.IsErrUniqueConstraint(err) {
 				return e.New(http.StatusConflict, "同样的Tag name已存在")
@@ -111,7 +112,7 @@ func DeleteTag(id int64) *e.Error {
 	return nil
 }
 
-func GetTag(id int64, name string) (*models.Tag, *e.Error) {
+func GetTag(id string, name string) (*models.Tag, *e.Error) {
 	tag := &models.Tag{}
 	var rawmd []byte
 	err := db.Conn.QueryRow("SELECT id,creator,title,name,icon,cover,created,updated,md from tags where id=? or name=?", id, name).Scan(

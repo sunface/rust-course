@@ -69,7 +69,7 @@ import { getSvgIcon } from "components/svg-icon"
   
             <VStack pt="6"  ml={{ base: 1, md: 4, lg: 12 }} fontSize="1rem" alignItems="left">
               {navLinks.map(link => 
-               <Link href={link.url}>
+               <Link href={link.url} key={link.title}>
                   <HStack cursor="pointer" px="4" py="0.7rem" rounded="md" key={link.url} color={useColorModeValue("gray.700", "whiteAlpha.900")} aria-current={asPath === link.url ? "page" : undefined} _activeLink={{ bg: useColorModeValue("transparent", "rgba(48, 140, 122, 0.3)"), color: useColorModeValue("teal.500", "teal.200"), fontWeight: "bold", }} >
                     <Box width="25px">{link.icon}</Box><Text>{link.title}</Text>
                   </HStack>

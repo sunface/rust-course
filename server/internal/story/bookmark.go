@@ -8,7 +8,7 @@ import (
 	"github.com/imdotdev/im.dev/server/pkg/e"
 )
 
-func Bookmark(userID int64, storyID string) *e.Error {
+func Bookmark(userID string, storyID string) *e.Error {
 	storyExist := Exist(storyID)
 	if !storyExist {
 		return e.New(http.StatusNotFound, e.NotFound)
@@ -36,7 +36,7 @@ func Bookmark(userID int64, storyID string) *e.Error {
 	return nil
 }
 
-func Bookmarked(userID int64, storyID string) (bool, error) {
+func Bookmarked(userID string, storyID string) (bool, error) {
 	var nid string
 	err := db.Conn.QueryRow("select story_id from bookmarks where user_id=? and story_id=?", userID, storyID).Scan(&nid)
 	if err != nil && err != sql.ErrNoRows {

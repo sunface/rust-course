@@ -43,45 +43,39 @@ func (s *Server) Start() error {
 		router.Use(Cors())
 
 		r := router.Group("/api")
-		{
-			r.POST("/login", user.Login)
-			r.POST("/logout", user.Logout)
-			r.GET("/uiconfig", GetUIConfig)
 
-		}
-
-		r.GET("/post/:id", api.GetPost)
-
+		//story apis
+		r.GET("/story/post/:id", api.GetStoryPost)
 		r.POST("/story/like/:id", IsLogin(), api.LikeStory)
 		r.GET("/story/comments/:id", api.GetStoryComments)
 		r.POST("/story/comment", IsLogin(), api.SubmitComment)
+		r.DELETE("/story/comment/:id", IsLogin(), api.DeleteStoryComment)
+		r.GET("/story/posts/editor", IsLogin(), api.GetEditorPosts)
+		r.GET("/story/posts/home/:filter", api.GetHomePosts)
+		r.POST("/story/post", IsLogin(), api.SubmitPost)
+		r.DELETE("/story/post/:id", IsLogin(), api.DeletePost)
+		r.POST("/story/bookmark/:storyID", IsLogin(), api.Bookmark)
+		r.GET("/story/bookmark/posts", IsLogin(), api.GetBookmarkPosts)
 
-		r.DELETE("/comment/:id", IsLogin(), api.DeleteComment)
-
-		r.GET("/editor/posts", IsLogin(), api.GetEditorPosts)
-		r.POST("/editor/post", IsLogin(), api.SubmitPost)
-		r.DELETE("/editor/post/:id", IsLogin(), api.DeletePost)
-		r.GET("/editor/post/:id", IsLogin(), api.GetEditorPost)
-
-		r.POST("/admin/tag", IsLogin(), api.SubmitTag)
-		r.DELETE("/admin/tag/:id", IsLogin(), api.DeleteTag)
-
-		r.GET("/tags", api.GetTags)
+		// tag apis
+		r.POST("/tag", IsLogin(), api.SubmitTag)
+		r.DELETE("/tag/:id", IsLogin(), api.DeleteTag)
+		r.GET("/tag/all", api.GetTags)
 		r.GET("/tag/posts/:id", api.GetTagPosts)
 		r.GET("/tag/info/:name", api.GetTag)
 
-		r.GET("/users", api.GetUsers)
+		// user apis
+		r.GET("/user/all", api.GetUsers)
 		r.GET("/user/self", IsLogin(), api.GetUserSelf)
 		r.GET("/user/info/:username", api.GetUser)
 		r.POST("/user/update", IsLogin(), api.UpdateUser)
 		r.GET("/user/posts/:userID", api.GetUserPosts)
+		r.GET("/user/session", IsLogin(), api.GetSession)
+		r.POST("/user/login", user.Login)
+		r.POST("/user/logout", user.Logout)
 
-		r.GET("/home/posts/:filter", api.GetHomePosts)
-
-		r.GET("/session", IsLogin(), api.GetSession)
-
-		r.POST("/bookmark/:storyID", IsLogin(), api.Bookmark)
-		r.GET("/bookmark/posts", IsLogin(), api.GetBookmarkPosts)
+		// other apis
+		r.GET("/config", GetConfig)
 
 		err := router.Run(config.Data.Server.Addr)
 		if err != nil {

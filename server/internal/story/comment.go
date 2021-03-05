@@ -195,9 +195,9 @@ func GetStoryIDByCommentID(cid string) (string, bool, error) {
 	}
 
 	switch targetID[:1] {
-	case models.StoryPost:
+	case models.IDTypePost:
 		return targetID, true, nil
-	case models.StoryComment:
+	case models.IDTypeComment:
 		var nid string
 		err := db.Conn.QueryRow("select target_id from comments where id=?", targetID).Scan(&nid)
 		if err != nil {

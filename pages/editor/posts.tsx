@@ -26,7 +26,7 @@ const PostsPage = () => {
     const router = useRouter()
     const toast = useToast()
     const getPosts = () => {
-        requestApi.get(`/editor/posts`).then((res) => setPosts(res.data)).catch(_ => setPosts([]))
+        requestApi.get(`/story/posts/editor`).then((res) => setPosts(res.data)).catch(_ => setPosts([]))
     }
 
     useEffect(() => {
@@ -64,7 +64,7 @@ const PostsPage = () => {
     }
 
     const submitPost = async (values, _) => {
-        await requestApi.post(`/editor/post`, values)
+        await requestApi.post(`/story/post`, values)
         onClose()
         toast({
             description: "提交成功",
@@ -78,7 +78,7 @@ const PostsPage = () => {
 
     const editPost = (post: Post) => {
         if (post.url.trim() === "") {
-            router.push(`/editor/post/${post.id}`)
+            router.push(`/story/post/${post.id}`)
         } else {
             setCurrentPost(post)
             onOpen()
@@ -86,7 +86,7 @@ const PostsPage = () => {
     }
 
     const onDeletePost= async (id) => {
-        await requestApi.delete(`/editor/post/${id}`)
+        await requestApi.delete(`/storyt/post/${id}`)
         getPosts()
         toast({
             description: "删除成功",

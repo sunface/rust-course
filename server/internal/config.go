@@ -8,7 +8,7 @@ import (
 	"github.com/imdotdev/im.dev/server/pkg/config"
 )
 
-type UIConfig struct {
+type Config struct {
 	AppName      string       `json:"appName"`
 	CommonMaxLen int          `json:"commonMaxlen"`
 	Posts        *PostsConfig `json:"posts"`
@@ -28,8 +28,8 @@ type UserConfig struct {
 }
 
 // 在后台页面配置，存储到mysql中
-func GetUIConfig(c *gin.Context) {
-	conf := &UIConfig{
+func GetConfig(c *gin.Context) {
+	conf := &Config{
 		AppName:      config.Data.Common.AppName,
 		CommonMaxLen: 255,
 		Posts: &PostsConfig{

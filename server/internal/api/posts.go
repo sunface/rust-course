@@ -12,7 +12,7 @@ import (
 
 func GetEditorPosts(c *gin.Context) {
 	user := user.CurrentUser(c)
-	ars, err := story.UserPosts(user, int64(user.ID))
+	ars, err := story.UserPosts(user, user.ID)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return
@@ -22,7 +22,7 @@ func GetEditorPosts(c *gin.Context) {
 }
 
 func GetUserPosts(c *gin.Context) {
-	userID, _ := strconv.ParseInt(c.Param("userID"), 10, 64)
+	userID := c.Param("userID")
 
 	user := user.CurrentUser(c)
 

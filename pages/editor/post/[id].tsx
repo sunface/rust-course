@@ -28,7 +28,7 @@ function PostEditPage() {
   const toast = useToast()
   useEffect(() => {
     if (id && id !== 'new') {
-      requestApi.get(`/editor/post/${id}`).then(res => setAr(res.data))
+      requestApi.get(`/story/post/${id}`).then(res => setAr(res.data))
     }
   }, [id])
 
@@ -58,7 +58,7 @@ function PostEditPage() {
   }
 
   const publish = async () => {
-    const res = await requestApi.post(`/editor/post`, ar)
+    const res = await requestApi.post(`/story/post`, ar)
     toast({
       description: "发布成功",
       status: "success",

@@ -21,7 +21,7 @@ const PostsPage = () => {
     const router = useRouter()
     const toast = useToast()
     const getTags = () => {
-        requestApi.get(`/tags`).then((res) => setTags(res.data)).catch(_ => setTags([]))
+        requestApi.get(`/tag/all`).then((res) => setTags(res.data)).catch(_ => setTags([]))
     }
 
     useEffect(() => {
@@ -33,7 +33,7 @@ const PostsPage = () => {
     }
 
     const deleteTag= async (id) => {
-        await requestApi.delete(`/admin/tag/${id}`)
+        await requestApi.delete(`/tag/${id}`)
         getTags()
         toast({
             description: "删除成功",

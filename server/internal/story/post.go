@@ -70,7 +70,7 @@ func SubmitPost(c *gin.Context) (map[string]string, *e.Error) {
 	setSlug(user.ID, post)
 
 	if post.ID == "" {
-		post.ID = utils.GenStoryID(models.StoryPost)
+		post.ID = utils.GenID(models.IDTypePost)
 		//create
 		_, err := db.Conn.Exec("INSERT INTO posts (id,creator,slug, title, md, url, cover, brief,status, created, updated) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
 			post.ID, user.ID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, models.StatusPublished, now, now)
@@ -148,7 +148,7 @@ func GetPost(id string, slug string) (*models.Post, *e.Error) {
 	err = ar.Creator.Query()
 
 	// get tags
-	t := make([]int64, 0)
+	t := make([]string, 0)
 	rows, err := db.Conn.Query("SELECT tag_id FROM tag_post WHERE post_id=?", ar.ID)
 	if err != nil && err != sql.ErrNoRows {
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -156,7 +156,7 @@ func GetPost(id string, slug string) (*models.Post, *e.Error) {
 
 	ar.RawTags = make([]*models.Tag, 0)
 	for rows.Next() {
-		var tag int64
+		var tag string
 		err = rows.Scan(&tag)
 		t = append(t, tag)
 
@@ -177,15 +177,15 @@ func GetPost(id string, slug string) (*models.Post, *e.Error) {
 	return ar, nil
 }
 
-func GetPostCreator(id string) (int64, *e.Error) {
-	var uid int64
+func GetPostCreator(id string) (string, *e.Error) {
+	var uid string
 	err := db.Conn.QueryRow("SELECT creator FROM posts WHERE id=?", id).Scan(&uid)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return 0, e.New(http.StatusNotFound, e.NotFound)
+			return "", e.New(http.StatusNotFound, e.NotFound)
 		}
 		logger.Warn("get post creator error", "error", err)
-		return 0, e.New(http.StatusInternalServerError, e.Internal)
+		return "", e.New(http.StatusInternalServerError, e.Internal)
 	}
 
 	return uid, nil
@@ -210,7 +210,7 @@ func postExist(id string) bool {
 // 1. 长度不能超过127
 // 2. 每次title更新，都要重新生成slug
 // 3. 单个用户下的slug不能重复，如果已经存在，需要加上-1这种字符
-func setSlug(creator int64, post *models.Post) error {
+func setSlug(creator string, post *models.Post) error {
 	slug := utils.Slugify(post.Title)
 	if len(slug) > 100 {
 		slug = slug[:100]

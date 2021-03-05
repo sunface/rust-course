@@ -7,20 +7,20 @@ import (
 )
 
 type User struct {
-	ID       int64    `json:"id"`
+	ID       string   `json:"id"`
 	Username string   `json:"username"`
 	Nickname string   `json:"nickname"`
 	Avatar   string   `json:"avatar"`
 	Email    string   `json:"email"`
 	Role     RoleType `json:"role"`
 
-	Tagline   string  `json:"tagline"`
-	Cover     string  `json:"cover"`
-	Location  string  `json:"location"`
-	AvailFor  string  `json:"availFor"`
-	About     string  `json:"about"`
-	RawSkills []*Tag  `json:"rawSkills"`
-	Skills    []int64 `json:"skills"`
+	Tagline   string   `json:"tagline"`
+	Cover     string   `json:"cover"`
+	Location  string   `json:"location"`
+	AvailFor  string   `json:"availFor"`
+	About     string   `json:"about"`
+	RawSkills []*Tag   `json:"rawSkills"`
+	Skills    []string `json:"skills"`
 
 	Website       string `json:"website"`
 	Twitter       string `json:"twitter"`
@@ -34,7 +34,7 @@ type User struct {
 	Created    time.Time `json:"created"`
 }
 
-func (user *User) Query(id int64, username string, email string) error {
+func (user *User) Query(id string, username string, email string) error {
 	err := db.Conn.QueryRow(`SELECT id,username,role,nickname,email,avatar,last_seen_at,created FROM user WHERE id=? or username=? or email=?`,
 		id, username, email).Scan(&user.ID, &user.Username, &user.Role, &user.Nickname, &user.Email, &user.Avatar, &user.LastSeenAt, &user.Created)
 
@@ -46,7 +46,7 @@ func (user *User) Query(id int64, username string, email string) error {
 }
 
 type UserSimple struct {
-	ID       int64  `json:"id"`
+	ID       string `json:"id"`
 	Username string `json:"username"`
 	Nickname string `json:"nickname"`
 	Avatar   string `json:"avatar"`

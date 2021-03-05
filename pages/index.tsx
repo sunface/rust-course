@@ -24,7 +24,7 @@ const HomePage = () => {
   const [posts, setPosts] = useState([])
   const [filter, setFilter] = useState(PostFilter.Best)
   const initData = async () => {
-    const res = await requestApi.get(`/home/posts/${filter}`)
+    const res = await requestApi.get(`/story/posts/home/${filter}`)
     setPosts(res.data)
   }
 
@@ -86,7 +86,7 @@ export const HomeSidebar = () => {
   const [posts, setPosts] = useState([])
   const [filter, setFilter] = useState(PostFilter.Best)
   const initData = async () => {
-    const res = await requestApi.get(`/home/posts/${filter}`)
+    const res = await requestApi.get(`/story/posts/home/${filter}`)
     setPosts(res.data)
   }
 

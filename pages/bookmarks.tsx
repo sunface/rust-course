@@ -43,7 +43,7 @@ import Empty from "components/empty"
     }, [filter])
     
     const getBookmarkPosts = async() => {
-        const res = await requestApi.get(`/bookmark/posts`)
+        const res = await requestApi.get(`/story/bookmark/posts`)
         setRawPosts(res.data)
         setPosts(res.data)
         const ts = [{id:-1,title:'All Tags',icon: 'https://cdn.hashnode.com/res/hashnode/image/upload/v1605105898259/3vuMFM8qM.png?w=200&h=200&fit=crop&crop=entropy&auto=compress&auto=compress'}]

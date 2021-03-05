@@ -298,11 +298,11 @@ const UserProfilePage = () => {
                                     </Card>
                                     <Box mt={6}>
                                         <Button
-                                            // colorScheme="teal"
-                                            // variant="outline"
+                                            colorScheme="cyan"
+                                            variant="outline"
                                             type="submit"
                                             _focus={null}
-                                            layerStyle="colorButton"
+                                            
                                         >
                                             更新信息
                                     </Button>

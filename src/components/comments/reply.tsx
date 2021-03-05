@@ -37,7 +37,7 @@ export const Reply = (props: Props) => {
     }
 
     const deleteReply = async id => {
-        await requestApi.delete(`/comment/${id}`)
+        await requestApi.delete(`/story/comment/${id}`)
         onChange()
     }
 

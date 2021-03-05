@@ -3,6 +3,7 @@ common:
     version: 0.1.0
     log_level: "info"
     is_prod: false
+    app_name: "im.dev"
 
 #################################### Server ##############################
 server:

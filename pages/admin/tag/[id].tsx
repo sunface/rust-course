@@ -47,7 +47,7 @@ function PostEditPage() {
 
 
     const publish = async () => {
-        const res = await requestApi.post(`/admin/tag`, tag)
+        const res = await requestApi.post(`/tag`, tag)
         toast({
             description: "发布成功",
             status: "success",

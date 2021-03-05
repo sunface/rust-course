@@ -15,7 +15,7 @@ const Bookmark = (props: Props) => {
 
     const [bookmarked,setBookmarked] = useState(props.bookmarked)
     const bookmark = async () => {
-        await requestApi.post(`/bookmark/${storyID}`)
+        await requestApi.post(`/story/bookmark/${storyID}`)
         setBookmarked(!bookmarked)
     }
     

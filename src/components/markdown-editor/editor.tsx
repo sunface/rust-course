@@ -42,7 +42,7 @@ export function MarkdownEditor(props: Props) {
 
   useEffect(() => {
     if (at !== '') {
-      requestApi.get(`/users?query=${at.trim()}`).then(res => setAtUsers(res.data))
+      requestApi.get(`/user/all?query=${at.trim()}`).then(res => setAtUsers(res.data))
     }
   },[at])
   

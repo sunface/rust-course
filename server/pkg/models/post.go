@@ -11,14 +11,14 @@ const (
 type Post struct {
 	ID         string      `json:"id"`
 	Creator    *UserSimple `json:"creator"`
-	CreatorID  int64       `json:"creatorId"`
+	CreatorID  string      `json:"creatorId"`
 	Title      string      `json:"title"`
 	Slug       string      `json:"slug"`
 	Md         string      `json:"md"`
 	URL        string      `json:"url"`
 	Cover      string      `json:"cover"`
 	Brief      string      `json:"brief"`
-	Tags       []int64     `json:"tags"`
+	Tags       []string    `json:"tags"`
 	RawTags    []*Tag      `json:"rawTags"`
 	Likes      int         `json:"likes"`
 	Liked      bool        `json:"liked"`
