@@ -70,7 +70,7 @@ const PostPage = () => {
             <Box width={["100%", "100%", "75%", "75%"]} height="fit-content" pl={[0, 0, "0%", "10%"]}>
               <Image src={post.cover} />
               <Box px="2">
-                <Heading size="xl" my="6" lineHeight="1.5">{post.title}</Heading>
+                <Heading size="lg" my="6" lineHeight="1.5">{post.title}</Heading>
 
                 <Divider my="4" />
                 <PostAuthor post={post} />

@@ -118,7 +118,7 @@ const UserProfilePage = () => {
                                         <Layout spacing={isLargerThan1280 ? "8" : "6"} alignItems={isLargerThan1280 ? 'top' : 'left'}>
                                             <Box width="100%">
                                                 <VStack alignItems="left" spacing="6">
-                                                    <Heading fontSize="1.2rem">基本信息</Heading>
+                                                    <Heading size="sm">基本信息</Heading>
                                                     <Field name="nickname" validate={validateNickname}>
                                                         {({ field, form }) => (
                                                             <FormControl isInvalid={form.errors.nickname && form.touched.nickname} >
@@ -164,7 +164,7 @@ const UserProfilePage = () => {
                                                 </VStack>
 
                                                 <VStack alignItems="left" spacing="6" mt="6">
-                                                    <Heading fontSize="1.2rem">About You</Heading>
+                                                    <Heading size="sm">About You</Heading>
                                                     <Field name="tagline" validate={validateLen}>
                                                         {({ field, form }) => (
                                                             <FormControl isInvalid={form.errors.tagline && form.touched.tagline} >
@@ -213,7 +213,7 @@ const UserProfilePage = () => {
                                             </Box>
                                             <Box width="100%" >
                                                 <VStack alignItems="left" spacing="6">
-                                                    <Heading fontSize="1.2rem">社交媒体</Heading>
+                                                    <Heading size="sm">社交媒体</Heading>
                                                     <Field name="website" validate={validateUrl}>
                                                         {({ field, form }) => (
                                                             <FormControl isInvalid={form.errors.website && form.touched.website} >

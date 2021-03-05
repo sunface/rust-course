@@ -9,7 +9,8 @@ import {
     Heading,
     Button,
     Divider,
-    Text
+    Text,
+    Tooltip
 } from "@chakra-ui/react"
 import { useViewportScroll } from "framer-motion"
 import React, { useEffect, useState } from "react"
@@ -20,14 +21,18 @@ import { FaGithub, FaTwitter, FaUserPlus } from "react-icons/fa"
 import Follow from "components/interaction/follow"
 import { requestApi } from "utils/axios/request"
 import { Post } from "src/types/posts"
+import { getSvgIcon } from "components/svg-icon"
+import Link from "next/link"
+import Logo from "components/logo"
+import { ReserveUrls } from "src/data/reserve-urls"
 
 
 interface Props {
     post: Post
 }
 
-function PostNav(props:Props) {
-    const {post} = props
+function PostNav(props: Props) {
+    const { post } = props
     const [followed, setFollowed] = useState(null)
 
     useEffect(() => {
@@ -48,59 +53,33 @@ function PostNav(props:Props) {
         >
             <chakra.div height="4.5rem" mx="auto" maxW="1200px">
                 <Flex w="100%" h="100%" align="center" justify="space-between" px={{ base: "4", md: "6" }}>
-                    <HStack spacing="2">
-                        <Heading size="md">Sunface的博客</Heading>
-                        {followed !== null && <Follow targetID={post?.creator.id} followed={followed} />}
-                    </HStack>
 
+                    <Logo width="130" />
 
                     <HStack
                         color={useColorModeValue("gray.500", "gray.400")}
                         spacing={[1, 1, 2, 2]}
                     >
-                        <IconButton
-                            size="md"
-                            fontSize="lg"
-                            variant="ghost"
-                            color="current"
-                            _focus={null}
-                            onClick={() => alert('search in this blog')}
-                            icon={<SearchIcon />}
-                            aria-label="search in this blog"
-                        />
+                        <Tooltip label="back to home" openDelay={300}>
+                            <Link href={`${ReserveUrls.Search}/posts`}>
+                                <IconButton
+                                    size="md"
+                                    fontSize="lg"
+                                    variant="ghost"
+                                    color="current"
+                                    _focus={null}
+                                    icon={getSvgIcon("search")}
+                                    aria-label="search in this blog"
+                                />
+                            </Link>
+                        </Tooltip>
                         <DarkMode />
                         <AccountMenu />
                     </HStack>
                 </Flex>
                 <Flex w="100%" align="center" justify="space-between" px={{ base: "6", md: "10" }} mt="2">
-                    <HStack spacing="4">
-                        <Text fontSize="1.1rem" fontWeight="600">Home</Text>
-                        <Text fontSize="1.1rem">Badges</Text>
-                    </HStack>
-
-                    <HStack
-                        color={useColorModeValue("gray.500", "gray.400")}
-                        spacing="2"
-                    >
-                        <IconButton
-                            size="md"
-                            fontSize="1.2rem"
-                            aria-label="go to github"
-                            variant="ghost"
-                            color="current"
-                            _focus={null}
-                            icon={<FaGithub />}
-                        />
-                        <IconButton
-                            size="md"
-                            fontSize="1.2rem"
-                            aria-label="go to twitter"
-                            variant="ghost"
-                            color="current"
-                            _focus={null}
-                            icon={<FaTwitter />}
-                        />
-                    </HStack>
+                    <Link href={`/${post.creator.username}`}><Heading size="md" cursor="pointer" mr="1" zIndex="1">{post.creator.nickname}的博客</Heading></Link>
+                    {followed !== null && <Follow targetID={post?.creator.id} followed={followed} />}
                 </Flex>
                 <Divider mt="2" />
             </chakra.div>

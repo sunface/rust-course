@@ -12,4 +12,5 @@ export enum ReserveUrls {
     Sponsors = "/sponsors",
     Explore = "/explore",
     Login = "/login",
+    Search= "/search",
 }

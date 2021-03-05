@@ -21,20 +21,8 @@ import { ReserveUrls } from "src/data/reserve-urls"
 import Link from "next/link"
 import DarkMode from "components/dark-mode"
 import AccountMenu from "components/user-menu"
-
-const navLinks = [{
-  title: '主页',
-  url: '/',
-},
-{
-  title: '标签',
-  url: ReserveUrls.Tags,
-},
-{
-  title: '学习资料',
-  url: ReserveUrls.Courses,
-},
-]
+import { navLinks } from "src/data/links"
+import { getSvgIcon } from "components/svg-icon"
 
 
 function HeaderContent() {
@@ -75,6 +63,7 @@ function HeaderContent() {
           maxW="600px"
           align="center"
           color={useColorModeValue("gray.500", "gray.400")}
+          spacing="1"
         >
           {/* <AlgoliaSearch />  */}
           <Link
@@ -90,6 +79,18 @@ function HeaderContent() {
               _focus={null}
               display={{ base: "none", md: "block" }}
               icon={<FaGithub />}
+            />
+          </Link>
+          <Link
+            aria-label="Go to Chakra UI GitHub page"
+            href={`${ReserveUrls.Search}/posts`}
+          >
+            <IconButton
+              aria-label="go to github"
+              variant="ghost"
+              color="current"
+              _focus={null}
+              icon={getSvgIcon("search")}
             />
           </Link>
           <DarkMode />

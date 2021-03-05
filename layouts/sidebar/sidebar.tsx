@@ -28,7 +28,7 @@ const Sidebar = ({ routes, title, ...props }) => {
 
     return (
         <VStack alignItems="left" width={["180px","180px","250px","250px"]}  height="fit-content" >
-            <Card p="5"><Heading size="md">{title}</Heading></Card>
+            <Card p="5"><Heading size="md" fontSize="1.3rem">{title}</Heading></Card>
             <Card p="0" {...props}>
                 <Box
                     ref={ref}

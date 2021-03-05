@@ -58,7 +58,7 @@ const TagsPage = () => {
           <VStack alignItems="left" width={["100%", "100%", "70%", "70%"]} spacing="3">
             <Card>
               <VStack py="3" spacing="3">
-                <Heading size="md" fontSize="1.6rem">Tags On {config.appName}</Heading>
+                <Heading size="md">Tags On {config.appName}</Heading>
                 <Text layerStyle="textSecondary">Join communities on {config.appName}. Follow tags that interest you.</Text>
               </VStack>
             </Card>

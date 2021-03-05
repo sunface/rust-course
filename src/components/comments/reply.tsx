@@ -66,7 +66,7 @@ export const Reply = (props: Props) => {
                                 <HStack spacing="4" cursor="pointer">
                                     <Avatar src={comment.creator.avatar} width="40px" height="40px"></Avatar>
                                     <VStack alignItems="left">
-                                        <Heading size="sm" fontSize="1.1rem">{getUserName(comment.creator)}</Heading>
+                                        <Heading size="sm">{getUserName(comment.creator)}</Heading>
                                     </VStack>
                                 </HStack>
                             </Link>

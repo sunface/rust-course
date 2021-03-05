@@ -25,24 +25,9 @@ import {
   import DarkMode from "components/dark-mode"
   import AccountMenu from "components/user-menu"
 import { getSvgIcon } from "components/svg-icon"
+import { navLinks } from "src/data/links"
   
-  const navLinks = [{
-    title: '主页',
-    url: '/',
-    icon: getSvgIcon("home","1.4rem")
-  },
-  {
-    title: '标签',
-    url: ReserveUrls.Tags,
-    icon: getSvgIcon("tags","1.2rem")
-  },
-  {
-    title: '学习资料',
-    url: ReserveUrls.Courses,
-    icon: getSvgIcon("explore","1.4rem")
-  },
-  ]
-  
+
   
   function HeaderContent() {
     const router = useRouter()
@@ -55,7 +40,15 @@ import { getSvgIcon } from "components/svg-icon"
     useUpdateEffect(() => {
       mobileNavBtnRef.current?.focus()
     }, [mobileNav.isOpen])
-  
+    
+    const isActive = url => {
+      if (url === '/') {
+        return asPath === url
+      }
+
+      console.log(asPath,url)
+      return asPath.startsWith(url)
+    }
   
     return (
       <>
@@ -70,8 +63,8 @@ import { getSvgIcon } from "components/svg-icon"
             <VStack pt="6"  ml={{ base: 1, md: 4, lg: 12 }} fontSize="1rem" alignItems="left">
               {navLinks.map(link => 
                <Link href={link.url} key={link.title}>
-                  <HStack cursor="pointer" px="4" py="0.7rem" rounded="md" key={link.url} color={useColorModeValue("gray.700", "whiteAlpha.900")} aria-current={asPath === link.url ? "page" : undefined} _activeLink={{ bg: useColorModeValue("transparent", "rgba(48, 140, 122, 0.3)"), color: useColorModeValue("teal.500", "teal.200"), fontWeight: "bold", }} >
-                    <Box width="25px">{link.icon}</Box><Text>{link.title}</Text>
+                  <HStack cursor="pointer" px="4" py="0.7rem" rounded="md" key={link.url} color={useColorModeValue("gray.700", "whiteAlpha.900")} aria-current={isActive(link.baseUrl) ? "page" : undefined} _activeLink={{ bg: useColorModeValue("transparent", "rgba(48, 140, 122, 0.3)"), color: useColorModeValue("teal.500", "teal.200"), fontWeight: "bold", }} >
+                    <Box width="25px">{link.icon}</Box><Text fontWeight="600">{link.title}</Text>
                   </HStack>
                 </Link>
                 )}
@@ -83,15 +76,6 @@ import { getSvgIcon } from "components/svg-icon"
             align="center"
             color={useColorModeValue("gray.500", "gray.400")}
           >
-            <IconButton
-                fontSize="1.4rem"
-                aria-label="go to github"
-                variant="ghost"
-                color="current"
-                _focus={null}
-                icon={<FaSearch />}
-              />
-
             <Link
               aria-label="Go to Chakra UI GitHub page"
               href={siteConfig.repo.url}

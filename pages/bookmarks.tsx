@@ -89,7 +89,7 @@ import Empty from "components/empty"
             <VStack alignItems="left" width={["100%", "100%", "70%", "70%"]} spacing="3">
               <Card>
                 <VStack py="3" spacing="3">
-                  <Heading size="md" fontSize="1.6rem">Bookmarks</Heading>
+                  <Heading size="md">Bookmarks</Heading>
                   <Text layerStyle="textSecondary">All the discussions, stories and comments you have bookmarked on {config.appName}.</Text>
                 </VStack>
               </Card>

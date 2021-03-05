@@ -92,7 +92,7 @@ const UserPage = () => {
               <Box backgroundImage={`url(${user.cover})`} height="300px" width="100%" backgroundSize="cover" backgroundPosition="center" />
               <VStack maxHeight="200px" position="relative" top="-70px" spacing="3">
                 <Image src={user.avatar} height="130px" borderRadius="50%" border={`4px solid ${borderColor}`} />
-                <Heading fontSize="1.8rem">{user.nickname}</Heading>
+                <Heading size="lg">{user.nickname}</Heading>
                 {user.tagline && <Text layerStyle="textSecondary" fontWeight="450" fontSize="1.2rem" ml="1" mt="2">{user.tagline}</Text>}
                 <Flex layerStyle="textSecondary" spacing="2" pt="1" alignItems="center">
                   <chakra.span><FaHeart /></chakra.span><chakra.span ml="1">Followers <chakra.a fontWeight="600"><Count count={user.follows}/></chakra.a></chakra.span>
@@ -141,7 +141,7 @@ const UserPage = () => {
                   </Box>}
                 </Card>
                 {user.rawSkills.length > 0 && <Card>
-                  <Heading size="md" fontSize="1.2rem" layerStyle="textSecondary" fontWeight="500">擅长技能</Heading>
+                  <Heading size="sm" layerStyle="textSecondary" fontWeight="500">擅长技能</Heading>
                   <Wrap mt="4" p="1">
                     {
                       user.rawSkills.map(skill =>
@@ -156,7 +156,7 @@ const UserPage = () => {
                 </Card>}
 
                 {tags.length > 0 && <Card>
-                  <Heading size="md" fontSize="1.2rem"  layerStyle="textSecondary" fontWeight="500">博客标签</Heading>
+                  <Heading size="sm" layerStyle="textSecondary" fontWeight="500">博客标签</Heading>
                   <Wrap mt="4" p="1">
                     {
                       tags.map(tag =>

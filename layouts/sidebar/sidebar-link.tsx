@@ -28,7 +28,7 @@ const StyledLink = React.forwardRef(function StyledLink(
         fontWeight: "600",
       }}
       {...rest}
-    ><chakra.span mr="5" fontSize="1.1rem" display={{base:"none",md:"block"}}>{icon}</chakra.span> <chakra.span>{children}</chakra.span></chakra.a>
+    ><chakra.span mr="5" fontSize="1.1rem" display={{base:"none",md:"block"}} width="20px">{icon}</chakra.span> <chakra.span>{children}</chakra.span></chakra.a>
   )
 })
 
@@ -40,8 +40,8 @@ type SidebarLinkProps = PropsOf<typeof chakra.div> & {
 const SidebarLink = (props: SidebarLinkProps) => {
   const { href, icon, children, ...rest } = props
 
-  const { pathname } = useRouter()
-  const isActive = pathname === href
+  const { asPath } = useRouter()
+  const isActive = asPath.indexOf(href) > -1
 
   return (
     <chakra.div

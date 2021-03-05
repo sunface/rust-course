@@ -163,6 +163,21 @@ const customTheme = extendTheme({
       lineHeight: "normal",
     },
   },
+  components : {
+    Heading: {
+      sizes: {
+        lg: {
+          fontSize: '1.8rem',
+        },
+        md: {
+          fontSize: '1.5rem'
+        },
+        sm: {
+          fontSize: '1.1rem'
+        }
+      }
+    }
+  }
 })
 
 export default customTheme

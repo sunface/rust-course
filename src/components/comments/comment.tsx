@@ -50,7 +50,7 @@ export const CommentCard = (props: Props) => {
                                 <HStack spacing="4" cursor="pointer">
                                     <Avatar src={comment.creator.avatar}></Avatar>
                                     <VStack alignItems="left">
-                                        <Heading size="sm" fontSize="1.2rem">{getUserName(comment.creator)}</Heading>
+                                        <Heading size="sm">{getUserName(comment.creator)}</Heading>
                                         <Text layerStyle="textSecondary" fontSize=".9rem">about this user</Text>
                                     </VStack>
                                 </HStack>
