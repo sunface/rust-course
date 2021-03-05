@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/asaskevich/govalidator"
+	"github.com/imdotdev/im.dev/server/internal/interaction"
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
 	"github.com/imdotdev/im.dev/server/pkg/log"
@@ -70,7 +71,7 @@ func SubmitTag(tag *models.Tag) *e.Error {
 func GetTags() (models.Tags, *e.Error) {
 	tags := make(models.Tags, 0)
 
-	rows, err := db.Conn.Query("SELECT id,creator,title,md,name,icon,cover,created,updated from tags")
+	rows, err := db.Conn.Query("SELECT id,creator,title,md,name,icon,cover from tags")
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return tags, nil
@@ -82,7 +83,7 @@ func GetTags() (models.Tags, *e.Error) {
 	for rows.Next() {
 		var rawMd []byte
 		tag := &models.Tag{}
-		err := rows.Scan(&tag.ID, &tag.Creator, &tag.Title, &rawMd, &tag.Name, &tag.Icon, &tag.Cover, &tag.Created, &tag.Updated)
+		err := rows.Scan(&tag.ID, &tag.Creator, &tag.Title, &rawMd, &tag.Name, &tag.Icon, &tag.Cover)
 		if err != nil {
 			logger.Warn("scan tags error", "error", err)
 			continue
@@ -94,7 +95,7 @@ func GetTags() (models.Tags, *e.Error) {
 		tag.SetCover()
 		tags = append(tags, tag)
 
-		db.Conn.QueryRow("SELECT count(*) FROM tags_using WHERE tag_id=?", tag.ID).Scan(&tag.PostCount)
+		db.Conn.QueryRow("SELECT count(*) FROM tags_using WHERE tag_id=? and target_type != ?", tag.ID, models.IDTypeUser).Scan(&tag.Posts)
 	}
 
 	sort.Sort(tags)
@@ -115,8 +116,8 @@ func DeleteTag(id int64) *e.Error {
 func GetTag(id string, name string) (*models.Tag, *e.Error) {
 	tag := &models.Tag{}
 	var rawmd []byte
-	err := db.Conn.QueryRow("SELECT id,creator,title,name,icon,cover,created,updated,md from tags where id=? or name=?", id, name).Scan(
-		&tag.ID, &tag.Creator, &tag.Title, &tag.Name, &tag.Icon, &tag.Cover, &tag.Created, &tag.Updated, &rawmd,
+	err := db.Conn.QueryRow("SELECT id,creator,title,name,icon,cover,md from tags where id=? or name=?", id, name).Scan(
+		&tag.ID, &tag.Creator, &tag.Title, &tag.Name, &tag.Icon, &tag.Cover, &rawmd,
 	)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -129,9 +130,11 @@ func GetTag(id string, name string) (*models.Tag, *e.Error) {
 	md, _ := utils.Uncompress(rawmd)
 	tag.Md = string(md)
 
-	db.Conn.QueryRow("SELECT count(*) FROM tags_using WHERE tag_id=?", tag.ID).Scan(&tag.PostCount)
+	db.Conn.QueryRow("SELECT count(*) FROM tags_using WHERE tag_id=? and target_type !=?", tag.ID, models.IDTypeUser).Scan(&tag.Posts)
 
 	tag.SetCover()
+	tag.Follows = interaction.GetFollows(tag.ID)
+
 	return tag, nil
 }
 
@@ -173,14 +176,14 @@ func GetTargetTags(targetID string) ([]string, []*models.Tag, error) {
 	return ids, rawTags, nil
 }
 
-func UpdateTargetTags(targetID string, tags []string) error {
+func UpdateTargetTags(targetCreator string, targetID string, tags []string) error {
 	_, err := db.Conn.Exec("DELETE FROM tags_using WHERE target_id=?", targetID)
 	if err != nil {
 		return err
 	}
 
 	for _, tag := range tags {
-		_, err = db.Conn.Exec("INSERT INTO tags_using (tag_id,target_type,target_id) VALUES (?,?,?)", tag, models.GetIDType(targetID), targetID)
+		_, err = db.Conn.Exec("INSERT INTO tags_using (tag_id,target_type,target_id,target_creator) VALUES (?,?,?,?)", tag, models.GetIDType(targetID), targetID, targetCreator)
 		if err != nil {
 			logger.Warn("add post tag error", "error", err)
 		}
@@ -218,4 +221,40 @@ func GetTargetIDs(tagID string) ([]string, error) {
 	}
 
 	return ids, nil
+}
+
+func GetUserTags(userID string) ([]*models.Tag, *e.Error) {
+	tagsMap := make(map[string]*models.Tag)
+
+	rows, err := db.Conn.Query("SELECT tag_id from tags_using where target_creator=?", userID)
+	if err != nil {
+		logger.Warn("get tag error", "error", err)
+		return nil, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	var tagID string
+	for rows.Next() {
+		rows.Scan(&tagID)
+		tag, ok := tagsMap[tagID]
+		if !ok {
+			tagsMap[tagID] = &models.Tag{ID: tagID, Posts: 1}
+		} else {
+			tag.Posts = tag.Posts + 1
+		}
+	}
+
+	tags := make(models.Tags, 0)
+	for _, t := range tagsMap {
+		tag, err := GetSimpleTag(t.ID, "")
+		if err != nil {
+			logger.Warn("get simple tag error", "error", err)
+			continue
+		}
+		tag.Posts = t.Posts
+		tags = append(tags, tag)
+	}
+
+	sort.Sort(tags)
+
+	return tags, nil
 }

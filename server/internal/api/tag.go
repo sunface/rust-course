@@ -77,3 +77,14 @@ func DeleteTag(c *gin.Context) {
 
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
 }
+
+func GetUserTags(c *gin.Context) {
+	userID := c.Param("userID")
+	res, err := tags.GetUserTags(userID)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(res))
+}

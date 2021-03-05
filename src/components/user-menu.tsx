@@ -40,7 +40,7 @@ export const UserMenu = () => {
                   icon={session.user.avatar !== '' ? <Image
                     boxSize="2.8em"
                     borderRadius="full"
-                    src="https://placekitten.com/100/100"
+                    src={session.user.avatar}
                     alt="user"
                   /> :
                     <FaUserAlt />

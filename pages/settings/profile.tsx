@@ -201,15 +201,6 @@ const UserProfilePage = () => {
                                                             </FormControl>
                                                         )}
                                                     </Field>
-                                                    <Field name="about" validate={validateLen}>
-                                                        {({ field, form }) => (
-                                                            <FormControl isInvalid={form.errors.about && form.touched.about} >
-                                                                <FormLabel>自我介绍</FormLabel>
-                                                                <Textarea {...field} placeholder="give us more info about you" size="lg" />
-                                                                <FormErrorMessage>{form.errors.about}</FormErrorMessage>
-                                                            </FormControl>
-                                                        )}
-                                                    </Field>
                                                     <Field name="skills" validate={validateLen}>
                                                         {({ field, form }) => (
                                                             <FormControl >
@@ -218,9 +209,6 @@ const UserProfilePage = () => {
                                                             </FormControl>
                                                         )}
                                                     </Field>
-                                                    <Box>
-
-                                                    </Box>
                                                 </VStack>
                                             </Box>
                                             <Box width="100%" >

@@ -130,6 +130,12 @@ func getPosts(user *models.User, rows *sql.Rows) models.Posts {
 		}
 		ar.Likes = interaction.GetLikes(ar.ID)
 
+		_, rawTags, err := tags.GetTargetTags(ar.ID)
+		if err != nil {
+			logger.Warn("get tags error", "error", err)
+		}
+		ar.RawTags = rawTags
+
 		posts = append(posts, ar)
 	}
 

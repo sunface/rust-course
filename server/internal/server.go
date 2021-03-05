@@ -62,7 +62,7 @@ func (s *Server) Start() error {
 		r.GET("/tag/all", api.GetTags)
 		r.GET("/tag/posts/:id", api.GetTagPosts)
 		r.GET("/tag/info/:name", api.GetTag)
-
+		r.GET("/tag/user/:userID", api.GetUserTags)
 		// user apis
 		r.GET("/user/all", api.GetUsers)
 		r.GET("/user/self", IsLogin(), api.GetUserSelf)

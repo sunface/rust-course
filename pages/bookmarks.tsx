@@ -29,7 +29,7 @@ import Empty from "components/empty"
 
   
   const BookmarksPage = () => {
-    const [filter, setFilter]:[Tag,any] = useState({id:"-1"})
+    const [filter, setFilter]:[Tag,any] = useState(null)
     const [tags, setTags]: [Tag[], any] = useState([])
     const [rawPosts,setRawPosts]: [Post[],any] = useState([])
     const [posts,setPosts]: [Post[],any] = useState([])
@@ -37,42 +37,45 @@ import Empty from "components/empty"
     useEffect(() => {
         getBookmarkPosts()
     }, [])
-
-    useEffect(() => {
-        filterPosts()
-    }, [filter])
     
     const getBookmarkPosts = async() => {
         const res = await requestApi.get(`/story/bookmark/posts`)
         setRawPosts(res.data)
         setPosts(res.data)
-        const ts = [{id:-1,title:'All Tags',icon: 'https://cdn.hashnode.com/res/hashnode/image/upload/v1605105898259/3vuMFM8qM.png?w=200&h=200&fit=crop&crop=entropy&auto=compress&auto=compress'}]
+        const ts = []
         res.data.forEach(post => {
-            post.rawTags?.forEach(tag => {
-                if (!find(ts, t => t.id === tag.id)) {
-                    ts.push(tag)
-                }
-            })
+          for (let i=0;i<post.rawTags.length;i++) {
+            const tag = post.rawTags[i]
+            if (!find(ts, t => t.id === tag.id)) {
+              ts.push(tag)
+              break
+          }
+          }
         })
   
         setTags(ts)
       }
     
-    const filterPosts = () => {
-        if (filter.id === "-1") {
-            setPosts(rawPosts)
-            return 
+    const filterPostsByTag = (t:Tag) => {
+        if (t.id === filter?.id) {
+          setPosts(rawPosts)
+          setFilter(null)
+          return 
         }
+
         const newPosts = []
         rawPosts.forEach(post => {
-            post.rawTags?.forEach(tag => {
-                if (tag.id === filter.id) {
-                    newPosts.push(post)
-                }
-            })
+          for (let i=0;i<post.rawTags.length;i++) {
+            if (t.id === post.rawTags[i].id) {
+              newPosts.push(post)
+              break
+            }
+          }
+             
         })
 
         setPosts(newPosts)
+        setFilter(t)
     }
 
     return (
@@ -95,7 +98,7 @@ import Empty from "components/empty"
                 <Wrap pt="4" pb="1" pl="4" alignItems="center">
                     {
                         tags.map(t => 
-                        <HStack px="2" py="1" spacing="1" mr="3" cursor="pointer" key={t.id} className={t.id===filter.id ?"tag-bg": null} onClick={() => setFilter(t)}>
+                        <HStack px="2" py="1" spacing="1" mr="3" cursor="pointer" key={t.id} className={t.id===filter?.id ?"tag-bg": null} onClick={() => filterPostsByTag(t)}>
                             <Image src={t.icon} width="30px" height="30px" className="bordered"/>
                             <Text fontSize=".9rem">{t.title}</Text>
                         </HStack>)

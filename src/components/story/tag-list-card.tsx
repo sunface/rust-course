@@ -18,7 +18,7 @@ export const TagListCard= (props:Props) =>{
                 <Heading size="sm" display="flex" alignItems="center" cursor="pointer">
                     {tag.title}
                 </Heading>
-                <Text layerStyle="textSecondary" fontSize=".9rem" mt="1" fontWeight="450">{tag.postCount} posts</Text>
+                <Text layerStyle="textSecondary" fontSize=".9rem" mt="1" fontWeight="450">{tag.posts} posts</Text>
             </Box>
             <Image src={tag.icon} width="35px" />
         </Flex>  

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/imdotdev/im.dev/server/internal/cache"
+	"github.com/imdotdev/im.dev/server/internal/interaction"
 	"github.com/imdotdev/im.dev/server/internal/tags"
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
@@ -62,6 +63,8 @@ func GetUserDetail(id string, username string) (*models.User, *e.Error) {
 	user.RawSkills = rawSkills
 	user.Skills = skills
 
+	user.Follows = interaction.GetFollows(user.ID)
+
 	return user, nil
 }
 
@@ -75,7 +78,7 @@ func UpdateUser(u *models.User) *e.Error {
 		return e.New(http.StatusInternalServerError, e.Internal)
 	}
 
-	var nid int64
+	var nid string
 	err = db.Conn.QueryRow("SELECT id FROM user_profile WHERE id=?", u.ID).Scan(&nid)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("update user profile error", "error", err)
@@ -97,7 +100,7 @@ func UpdateUser(u *models.User) *e.Error {
 	}
 
 	//update user skills
-	err = tags.UpdateTargetTags(u.ID, u.Skills)
+	err = tags.UpdateTargetTags("", u.ID, u.Skills)
 	if err != nil {
 		logger.Warn("upate tags error", "error", err)
 		return e.New(http.StatusInternalServerError, e.Internal)

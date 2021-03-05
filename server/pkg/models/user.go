@@ -30,6 +30,8 @@ type User struct {
 	Facebook      string `json:"facebook"`
 	Stackoverflow string `json:"stackoverflow"`
 
+	Follows int `json:"follows"`
+
 	LastSeenAt time.Time `json:"lastSeenAt,omitempty"`
 	Created    time.Time `json:"created"`
 }

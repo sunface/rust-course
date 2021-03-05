@@ -22,13 +22,13 @@ func Init() error {
 	}
 
 	// check whether tables have been created
-	var id int64
-	err = db.Conn.QueryRow("select id from user where id=?", 1).Scan(&id)
+	var id string
+	err = db.Conn.QueryRow("select id from user where username=?", config.Data.User.SuperAdminUsername).Scan(&id)
 	if err != nil && !strings.Contains(err.Error(), "no such table") && err != sql.ErrNoRows {
 		return err
 	}
 
-	if id != 1 {
+	if err == sql.ErrNoRows {
 		log.RootLogger.Info("Database tables have not been created, start creating")
 		err = initTables()
 		if err != nil {

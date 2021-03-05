@@ -23,7 +23,6 @@ const customTheme = extendTheme({
   },
   styles: {
     global: (props) => {
-      console.log(props)
       return ({
       '.hover-bg:hover': {
         background: mode(userCustomTheme.hoverBg.light,userCustomTheme.hoverBg.dark )(props),

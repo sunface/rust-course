@@ -32,7 +32,7 @@ function PostNav(props:Props) {
 
     useEffect(() => {
         if (post) {
-            requestApi.get(`/interaction/followed/${post.id}`).then(res => setFollowed(res.data))
+            requestApi.get(`/interaction/followed/${post.creator.id}`).then(res => setFollowed(res.data))
         }
     }, [])
 
@@ -50,7 +50,7 @@ function PostNav(props:Props) {
                 <Flex w="100%" h="100%" align="center" justify="space-between" px={{ base: "4", md: "6" }}>
                     <HStack spacing="2">
                         <Heading size="md">Sunface的博客</Heading>
-                        {followed !== null && <Follow targetID={post?.id} followed={followed} />}
+                        {followed !== null && <Follow targetID={post?.creator.id} followed={followed} />}
                     </HStack>
 
 

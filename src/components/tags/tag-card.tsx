@@ -4,6 +4,7 @@ import { Tag } from "src/types/tag"
 import { ReserveUrls } from "src/data/reserve-urls"
 import NextLink from "next/link"
 import userCustomTheme from "theme/user-custom"
+import Count from "components/count"
 
 type Props = PropsOf<typeof chakra.div> & {
     tag: Tag
@@ -31,7 +32,7 @@ export const TagCard= (props:Props) =>{
                 <Button size="sm" colorScheme="teal" variant="outline" onClick={onEdit}>Edit</Button>
                 <Button size="sm" onClick={onDelete} variant="ghost">Delete</Button>
             </HStack> : 
-            <ChakraTag py="1" px="3"  colorScheme="cyan">{tag.postCount} posts</ChakraTag>
+            <ChakraTag py="1" px="3"  colorScheme="cyan"><Count count={tag.posts} />&nbsp;posts</ChakraTag>
             }
         </Flex>  
     )

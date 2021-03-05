@@ -7,7 +7,7 @@ export interface Session {
 
 export interface User {
     // basic info
-    id: number
+    id: string
     username: string
     nickname: string
     avatar: string
@@ -32,12 +32,14 @@ export interface User {
     facebook?: string
     stackoverflow?: string
 
+    follows?: number 
+
     lastSeenAt?: string
     created?: string
 }
 
 export interface UserSimple {
-    id: number
+    id: string
     username: string
     nickname: string
     avatar: string

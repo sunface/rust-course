@@ -95,7 +95,7 @@ func SubmitPost(c *gin.Context) (map[string]string, *e.Error) {
 	}
 
 	//update tags
-	err = tags.UpdateTargetTags(post.ID, post.Tags)
+	err = tags.UpdateTargetTags(user.ID, post.ID, post.Tags)
 	if err != nil {
 		logger.Warn("upate tags error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)

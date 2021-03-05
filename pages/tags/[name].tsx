@@ -18,6 +18,7 @@ import { Tag } from "src/types/tag"
 import { requestApi } from "utils/axios/request"
 import { isAdmin } from "utils/role"
 import Follow from "components/interaction/follow"
+import Count from "components/count"
 
 const UserPage = () => {
     const router = useRouter()
@@ -88,12 +89,12 @@ const UserPage = () => {
                             <Card>
                                 <Flex justifyContent="space-between" alignItems="center" px={[0, 2, 4, 8]}>
                                     <Box>
-                                        <Heading size="lg">59.8K</Heading>
+                                        <Heading size="lg"><Count count={tag.follows}/></Heading>
                                         <Text layerStyle="textSecondary" fontWeight="500" fontSize="1.2rem" mt="1" ml="1">Followers</Text>
                                     </Box>
 
                                     <Box>
-                                        <Heading size="lg">{tag.postCount}</Heading>
+                                        <Heading size="lg"><Count count={tag.posts} /></Heading>
                                         <Text layerStyle="textSecondary" fontWeight="500" fontSize="1.2rem" mt="1" ml="1">Posts</Text>
                                     </Box>
                                 </Flex>

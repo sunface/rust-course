@@ -6,5 +6,6 @@ export interface Tag {
     icon?: string 
     cover?: string 
     created?: string
-    postCount?: number
+    posts?: number
+    follows?: number
 }

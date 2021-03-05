@@ -123,7 +123,8 @@ var sqlTables = map[string]string{
 	"tags_using": `CREATE TABLE IF NOT EXISTS tags_using (
 		tag_id           VARCHAR(255), 
 		target_type      VARCHAR(1),
-		target_id        VARCHAR(255)
+		target_id        VARCHAR(255),
+		target_creator  VARCHAR(255)
 	);
 	CREATE INDEX IF NOT EXISTS tags_using_tagid
 		ON tags_using (tag_id);
