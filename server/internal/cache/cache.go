@@ -3,6 +3,7 @@ package cache
 import (
 	"time"
 
+	"github.com/imdotdev/im.dev/server/internal/interaction"
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/log"
 	"github.com/imdotdev/im.dev/server/pkg/models"
@@ -38,6 +39,8 @@ func Init() {
 			if user.Cover == "" {
 				user.Cover = models.DefaultCover
 			}
+
+			user.Follows = interaction.GetFollows(user.ID)
 			users = append(users, user)
 		}
 

@@ -44,7 +44,11 @@ export const UserCard= ({user,highlight}:Props) =>{
                     </Text>}
                 </VStack>
             </HStack>
-            <Follow followed={user.followed} targetID={user.id} size="sm"/>
+            <HStack>
+                <Text fontWeight="600" fontSize=".9rem">{user.follows} followers</Text>
+                <Follow followed={user.followed} targetID={user.id} size="sm"/>
+            </HStack>
+
         </Flex>
     )
 } 

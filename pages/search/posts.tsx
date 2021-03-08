@@ -16,7 +16,7 @@ import { requestApi } from "utils/axios/request"
 import { addParamToUrl, removeParamFromUrl } from "utils/url"
 
 const PostsSearchPage = () => {
-    let filter = SearchFilter.Best
+    let filter = SearchFilter.Favorites
     const router = useRouter()
     const q = router.query.q
 
@@ -81,10 +81,10 @@ const PostsSearchPage = () => {
                     <Sidebar query={query ?{q:query} : null} routes={searchLinks} title="全站搜索" />
                     <Box ml="3" width={['100%', '100%', '100%', '70%']}>
                         <Card p="5">
-                            <Input value={tempQuery} onChange={(e) => setTempQuery(e.currentTarget.value)} onKeyUp={(e) => startSearch(e)} size="lg" placeholder="type to search..." variant="unstyled" />
+                            <Input value={tempQuery} onChange={(e) => setTempQuery(e.currentTarget.value)} onKeyUp={(e) => startSearch(e)} size="lg" placeholder="type and enter to search..." variant="unstyled" />
                         </Card>
                         <Card mt="2" p="0" pt="4" px="4">
-                            <SearchFilters filters={getFilters()} onChange={onFilterChange}/>
+                            <SearchFilters filters={getFilters()} onChange={onFilterChange} initFilter={filter}/>
                             <Divider mt="3"/>
                             {results.length === 0 && <Empty /> }
                             {results.length > 0 &&

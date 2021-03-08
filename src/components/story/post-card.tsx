@@ -26,14 +26,14 @@ export const PostCard = (props: Props) => {
             <PostAuthor post={post} showFooter={false} size="md" />
             <Link href={`/${post.creator.username}/${post.id}`}>
                 <Layout alignItems={isLargeScreen ? "top" : "left"} cursor="pointer" pl="2" pt="1">
-                    <VStack alignItems="left" spacing="3" width={isLargeScreen && type === "classic" ? "calc(100% - 18rem)" : '100%'}>
-                        <Heading size="md"><Highlighter
+                    <VStack alignItems="left" spacing={type==="classic"? 3 : 2} width={isLargeScreen && type === "classic" ? "calc(100% - 18rem)" : '100%'}>
+                        <Heading size="md" fontSize={type==="classic" ? '1.4rem' : '1.2rem'}><Highlighter
                             highlightClassName="highlight-search-match"
                             textToHighlight={post.title}
                             searchWords={[props.highlight]}
                         />
                         </Heading>
-                        {type !== "classic" && <HStack>{post.rawTags.map(t => <Text layerStyle="textSecondary" fontSize="sm">#{t.name}</Text>)}</HStack>}
+                        {type !== "classic" && <HStack>{post.rawTags.map(t => <Text layerStyle="textSecondary" fontSize="md">#{t.name}</Text>)}</HStack>}
                         <Text layerStyle={type === "classic" ? "textSecondary" : null}>
                             <Highlighter
                             highlightClassName="highlight-search-match"

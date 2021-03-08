@@ -23,14 +23,14 @@ export const searchLinks: any[] = [{
     path: `${ReserveUrls.Search}/posts`,
     icon: getSvgIcon("post"),
     disabled: false,
-    filters: [SearchFilter.Best,SearchFilter.Recent]
+    filters: [SearchFilter.Favorites,SearchFilter.Recent]
 },
 {
     title: '用户',
     path: `${ReserveUrls.Search}/users`,
     icon: getSvgIcon('user','1.5rem'),
     disabled: false,
-    filters: [SearchFilter.Best]
+    filters: [SearchFilter.Favorites]
 }
 ]
 

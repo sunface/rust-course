@@ -37,6 +37,14 @@ type User struct {
 	Created    time.Time `json:"created"`
 }
 
+type Users []*User
+
+func (ar Users) Len() int      { return len(ar) }
+func (ar Users) Swap(i, j int) { ar[i], ar[j] = ar[j], ar[i] }
+func (ar Users) Less(i, j int) bool {
+	return ar[i].Follows > ar[j].Follows
+}
+
 func (user *User) Query(id string, username string, email string) error {
 	err := db.Conn.QueryRow(`SELECT id,username,role,nickname,email,avatar,last_seen_at,created FROM user WHERE id=? or username=? or email=?`,
 		id, username, email).Scan(&user.ID, &user.Username, &user.Role, &user.Nickname, &user.Email, &user.Avatar, &user.LastSeenAt, &user.Created)

@@ -14,20 +14,26 @@ import (
 
 var logger = log.RootLogger.New("logger", "search")
 
-func Posts(user *models.User, filter, query string) models.Posts {
-	posts := make(models.Posts, 0)
+func Posts(user *models.User, filter, query string) []*models.Post {
+	posts := make([]*models.Post, 0)
 
 	// postsMap := make(map[string]*models.Post)
 
 	// search by title
-	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,creator,created,updated from posts where title LIKE ?", "%"+query+"%")
+	sqlq := "%" + query + "%"
+	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,creator,created,updated from posts where title LIKE ? or brief LIKE ?", sqlq, sqlq)
 	if err != nil {
 		logger.Warn("get user posts error", "error", err)
 		return posts
 	}
 
 	posts = story.GetPosts(user, rows)
-	sort.Sort(posts)
+
+	if filter == models.FilterFavorites {
+		sort.Sort(models.FavorPosts(posts))
+	} else {
+		sort.Sort(models.Posts(posts))
+	}
 
 	return posts
 }
@@ -35,7 +41,7 @@ func Posts(user *models.User, filter, query string) models.Posts {
 func Users(user *models.User, filter, query string) []*models.User {
 	allUsers := cache.Users
 
-	users := make([]*models.User, 0)
+	users := make(models.Users, 0)
 	for _, u := range allUsers {
 		if strings.Contains(strings.ToLower(u.Nickname), strings.ToLower(query)) {
 			users = append(users, u)
@@ -52,5 +58,6 @@ func Users(user *models.User, filter, query string) []*models.User {
 		u.Followed = interaction.GetFollowed(u.ID, user.ID)
 	}
 
+	sort.Sort(users)
 	return users
 }

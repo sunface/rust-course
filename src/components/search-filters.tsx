@@ -5,13 +5,14 @@ import { getSvgIcon } from "components/svg-icon"
 import { SearchFilter } from "src/types/search"
 
 interface Props {
+  initFilter?: string
   filters?: SearchFilter[]
   onChange: any
 }
 
 export const SearchFilters = (props:Props) => {
-  const {filters=[SearchFilter.Best,SearchFilter.Featured,SearchFilter.Recent],onChange} = props
-  const [filter, setFilter] = useState(SearchFilter.Best)
+  const {initFilter=SearchFilter.Best,filters=[SearchFilter.Best,SearchFilter.Featured,SearchFilter.Recent],onChange} = props
+  const [filter, setFilter] = useState(initFilter)
   
   const changeFilter = f => {
       onChange(f)

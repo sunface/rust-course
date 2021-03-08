@@ -37,3 +37,11 @@ func (ar Posts) Swap(i, j int) { ar[i], ar[j] = ar[j], ar[i] }
 func (ar Posts) Less(i, j int) bool {
 	return ar[i].Created.Unix() > ar[j].Created.Unix()
 }
+
+type FavorPosts []*Post
+
+func (ar FavorPosts) Len() int      { return len(ar) }
+func (ar FavorPosts) Swap(i, j int) { ar[i], ar[j] = ar[j], ar[i] }
+func (ar FavorPosts) Less(i, j int) bool {
+	return ar[i].Likes > ar[j].Likes
+}

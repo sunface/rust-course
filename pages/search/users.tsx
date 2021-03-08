@@ -19,7 +19,7 @@ import UserCard from "components/users/user-card"
 import Users from "components/users/users"
 
 const PostsSearchPage = () => {
-    let filter = SearchFilter.Best
+    let filter = SearchFilter.Favorites
     const router = useRouter()
     const q = router.query.q
 
@@ -87,7 +87,7 @@ const PostsSearchPage = () => {
                             <Input value={tempQuery} onChange={(e) => setTempQuery(e.currentTarget.value)} onKeyUp={(e) => startSearch(e)} size="lg" placeholder="type to search..." variant="unstyled" />
                         </Card>
                         <Card mt="2" p="0" pt="4" px="4">
-                            <SearchFilters filters={getFilters()} onChange={onFilterChange}/>
+                            <SearchFilters filters={getFilters()} onChange={onFilterChange} initFilter={filter}/>
                             <Divider mt="3"/>
                             {results.length === 0 ? <Empty /> : <Users users={results} p="2" highlight={query}/>}
                         </Card>
