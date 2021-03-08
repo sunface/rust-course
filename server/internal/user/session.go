@@ -14,7 +14,7 @@ import (
 	"github.com/imdotdev/im.dev/server/pkg/models"
 )
 
-var logger = log.RootLogger.New("logger", "session")
+var logger = log.RootLogger.New("logger", "user")
 
 type Session struct {
 	Token      string       `json:"token"`

@@ -174,7 +174,7 @@ function HeaderContent(props: any) {
 }
 
 function Nav(props) {
-    const bg = useColorModeValue("white", "gray.800")
+    const bg = useColorModeValue("gray.50", "gray.800")
     const ref = React.useRef<HTMLHeadingElement>()
     const [y, setY] = React.useState(0)
     const { height = 0 } = ref.current?.getBoundingClientRect() ?? {}

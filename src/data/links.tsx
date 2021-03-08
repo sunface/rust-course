@@ -2,6 +2,7 @@ import { getSvgIcon } from 'components/svg-icon'
 import React from 'react'
 import { FaFileAlt, FaScroll, FaBookOpen, FaTags, FaUserCircle, FaRegFile, FaUser, FaRegUser } from 'react-icons/fa'
 import { Route } from 'src/types/route'
+import { SearchFilter } from 'src/types/search'
 import { ReserveUrls } from './reserve-urls'
 export const editorLinks: Route[] = [{
     title: '文章',
@@ -17,23 +18,19 @@ export const editorLinks: Route[] = [{
 }
 ]
 
-export const searchLinks: Route[] = [{
+export const searchLinks: any[] = [{
     title: '文章',
     path: `${ReserveUrls.Search}/posts`,
     icon: getSvgIcon("post"),
-    disabled: false
-},
-{
-    title: '标签',
-    path: `${ReserveUrls.Search}/tags`,
-    icon: getSvgIcon("tags","1.2rem"),
-    disabled: false
+    disabled: false,
+    filters: [SearchFilter.Best,SearchFilter.Recent]
 },
 {
     title: '用户',
     path: `${ReserveUrls.Search}/users`,
     icon: getSvgIcon('user','1.5rem'),
-    disabled: false
+    disabled: false,
+    filters: [SearchFilter.Best]
 }
 ]
 

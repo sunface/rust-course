@@ -29,6 +29,15 @@ func Init() {
 				logger.Warn("scan user error", "error", err)
 				continue
 			}
+
+			err = db.Conn.QueryRow("SELECT tagline from user_profile WHERE id=?", user.ID).Scan(&user.Tagline)
+			if err != nil {
+				logger.Warn("query user profile error", "error", err)
+			}
+
+			if user.Cover == "" {
+				user.Cover = models.DefaultCover
+			}
 			users = append(users, user)
 		}
 

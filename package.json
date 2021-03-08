@@ -35,8 +35,10 @@
     "moment": "^2.27.0",
     "next": "^10.0.4",
     "next-seo": "^4.17.0",
+    "query-string": "^6.3.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-highlight-words": "^0.17.0",
     "react-icons": "^4.1.0",
     "short-number": "^1.0.7",
     "validator": "^13.5.2"

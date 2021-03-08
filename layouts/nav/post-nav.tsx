@@ -34,12 +34,21 @@ interface Props {
 function PostNav(props: Props) {
     const { post } = props
     const [followed, setFollowed] = useState(null)
-
+    const enterBodyBg = useColorModeValue('white',"#1A202C")
+    const leaveBodyBg = useColorModeValue('#F7FAFC',"#1A202C")
     useEffect(() => {
         if (post) {
             requestApi.get(`/interaction/followed/${post.creator.id}`).then(res => setFollowed(res.data))
         }
     }, [])
+
+    useEffect(() => {
+        console.log(enterBodyBg)
+        document.body.style.backgroundColor = enterBodyBg
+        return () => {
+            document.body.style.backgroundColor = leaveBodyBg
+        }
+    }, [enterBodyBg])
 
     return (
         <chakra.header

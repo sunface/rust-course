@@ -6,7 +6,7 @@ import { Tag } from "src/types/tag"
 import { cloneDeep, remove } from "lodash"
 
 interface Props {
-    tags: number[]
+    tags: string[]
     onChange: any
     size?: 'lg' | 'md'
 }

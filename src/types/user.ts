@@ -33,7 +33,8 @@ export interface User {
     stackoverflow?: string
 
     follows?: number 
-
+    followed?: boolean
+    
     lastSeenAt?: string
     created?: string
 }

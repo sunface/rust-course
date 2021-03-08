@@ -9,20 +9,20 @@ import {
   Divider
 } from "@chakra-ui/react"
 import Card from "components/card"
-import PostCard from "components/story/post-card"
 import Posts from "components/story/posts"
 import SimplePostCard from "components/story/simple-post-card"
 import SEO from "components/seo"
-import { getSvgIcon } from "components/svg-icon"
 import siteConfig from "configs/site-config"
 import PageContainer1 from "layouts/page-container1"
 import React, { useEffect, useState } from "react"
-import { PostFilter } from "src/types/posts"
 import { requestApi } from "utils/axios/request"
 
+import { SearchFilter } from "src/types/search"
+import SearchFilters from "components/search-filters"
+
 const HomePage = () => {
+  let filter:string
   const [posts, setPosts] = useState([])
-  const [filter, setFilter] = useState(PostFilter.Best)
   const initData = async () => {
     const res = await requestApi.get(`/story/posts/home/${filter}`)
     setPosts(res.data)
@@ -30,7 +30,11 @@ const HomePage = () => {
 
   useEffect(() => {
     initData()
-  }, [filter])
+  }, [])
+
+  const onFilterChange = filter => {
+
+  }
 
   return (
     <>
@@ -43,11 +47,7 @@ const HomePage = () => {
           <VStack alignItems="left" width={["100%", "100%", "70%", "70%"]} spacing="3">
             <Card p="2">
               <Flex justifyContent="space-between" alignItems="center">
-                <HStack>
-                  <Button _focus={null} onClick={() => setFilter(PostFilter.Best)} size="sm" colorScheme={filter === PostFilter.Best ? 'teal' : null} leftIcon={getSvgIcon("hot")} variant="ghost" >Best</Button>
-                  <Button _focus={null} onClick={() => setFilter(PostFilter.Featured)} size="sm" colorScheme={filter === PostFilter.Featured ? 'teal' : null} leftIcon={getSvgIcon("feature")} variant="ghost">Fetured</Button>
-                  <Button _focus={null} onClick={() => setFilter(PostFilter.Recent)} size="sm" colorScheme={filter === PostFilter.Recent ? 'teal' : null} leftIcon={getSvgIcon("recent")} variant="ghost">Recent</Button>
-                </HStack>
+                <SearchFilters onChange={onFilterChange}/>
                 <Menu>
                   <MenuButton
                     as={IconButton}
@@ -84,15 +84,14 @@ export default HomePage
 
 export const HomeSidebar = () => {
   const [posts, setPosts] = useState([])
-  const [filter, setFilter] = useState(PostFilter.Best)
   const initData = async () => {
-    const res = await requestApi.get(`/story/posts/home/${filter}`)
+    const res = await requestApi.get(`/story/posts/home/aa`)
     setPosts(res.data)
   }
 
   useEffect(() => {
     initData()
-  }, [filter])
+  }, [])
 
   return (
     <VStack alignItems="left" width="30%" display={{ base: "none", md: "flex" }}>

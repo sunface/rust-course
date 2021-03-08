@@ -22,7 +22,7 @@ func HomePosts(user *models.User, filter string) (models.Posts, *e.Error) {
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
 	}
 
-	posts := getPosts(user, rows)
+	posts := GetPosts(user, rows)
 	sort.Sort(posts)
 
 	return posts, nil
@@ -35,7 +35,7 @@ func UserPosts(user *models.User, uid string) (models.Posts, *e.Error) {
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
 	}
 
-	posts := getPosts(user, rows)
+	posts := GetPosts(user, rows)
 
 	sort.Sort(posts)
 	return posts, nil
@@ -58,7 +58,7 @@ func TagPosts(user *models.User, tagID string) (models.Posts, *e.Error) {
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
 	}
 
-	posts := getPosts(user, rows)
+	posts := GetPosts(user, rows)
 
 	sort.Sort(posts)
 	return posts, nil
@@ -88,7 +88,7 @@ func BookmarkPosts(user *models.User, filter string) (models.Posts, *e.Error) {
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
 	}
 
-	posts := getPosts(user, rows)
+	posts := GetPosts(user, rows)
 
 	for _, post := range posts {
 		_, rawTags, err := tags.GetTargetTags(post.ID)
@@ -104,7 +104,7 @@ func BookmarkPosts(user *models.User, filter string) (models.Posts, *e.Error) {
 	return posts, nil
 }
 
-func getPosts(user *models.User, rows *sql.Rows) models.Posts {
+func GetPosts(user *models.User, rows *sql.Rows) models.Posts {
 	posts := make(models.Posts, 0)
 	for rows.Next() {
 		ar := &models.Post{}

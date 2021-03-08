@@ -35,10 +35,11 @@ const StyledLink = React.forwardRef(function StyledLink(
 type SidebarLinkProps = PropsOf<typeof chakra.div> & {
   href?: string
   icon?: React.ReactElement
+  query?: any
 }
 
 const SidebarLink = (props: SidebarLinkProps) => {
-  const { href, icon, children, ...rest } = props
+  const { href, icon, children,query, ...rest } = props
 
   const { asPath } = useRouter()
   const isActive = asPath.indexOf(href) > -1
@@ -51,7 +52,7 @@ const SidebarLink = (props: SidebarLinkProps) => {
       lineHeight="1.5rem"
       {...rest}
     >
-      <NextLink href={href} passHref>
+      <NextLink href={{pathname: href,query: query}}  passHref>
         <StyledLink isActive={isActive} icon={icon}>{children}</StyledLink>
       </NextLink>
     </chakra.div>

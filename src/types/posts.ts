@@ -1,17 +1,13 @@
 import { UserSimple} from './user'
 import { Tag } from './tag';
 
-export enum PostFilter {
-    Best = "best",
-    Featured = "featured",
-    Recent = "recent"
-}
+
 
 export interface Post {
     id?: string 
     slug?: string 
     creator?: UserSimple
-    creatorId?: number
+    creatorId?: string
     title?: string 
     md?: string
     url?: string 

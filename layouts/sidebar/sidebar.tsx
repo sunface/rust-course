@@ -7,13 +7,13 @@ import SidebarLink from "./sidebar-link"
 
 
 export function SidebarContent(props) {
-    const { routes, pathname, contentRef } = props
+    const { routes, pathname, contentRef, query } = props
     return (
         <>
             <Stack as="ul">
                 {routes.map((route: Route) => {
                     if (route.disabled) { return null }
-                    return <SidebarLink as="li" key={route.path} href={route.path} icon={route.icon}>
+                    return <SidebarLink query={query} as="li" key={route.path} href={route.path} icon={route.icon}>
                         <span>{route.title}</span>
                     </SidebarLink>
                 })}
@@ -22,7 +22,7 @@ export function SidebarContent(props) {
     )
 }
 
-const Sidebar = ({ routes, title, ...props }) => {
+const Sidebar = ({ routes, title,query=null, ...props }) => {
     const { pathname } = useRouter()
     const ref = React.useRef<HTMLDivElement>(null)
 
@@ -45,7 +45,7 @@ const Sidebar = ({ routes, title, ...props }) => {
                     flexShrink={0}
                 // display={{ base: "none", md: "block" }}
                 >
-                    <SidebarContent routes={routes} pathname={pathname} contentRef={ref} />
+                    <SidebarContent query={query} routes={routes} pathname={pathname} contentRef={ref} />
                 </Box>
             </Card>
         </VStack>

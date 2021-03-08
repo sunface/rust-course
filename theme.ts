@@ -42,7 +42,7 @@ const customTheme = extendTheme({
         borderRadius: '6px'
       },
       body: {
-        background: mode("white","gray.800" )(props),
+        background: mode("gray.50","gray.800" )(props),
         minHeight: '100vh',
         color: mode("gray.700", "whiteAlpha.900")(props),
         ".deleted": {
@@ -164,6 +164,13 @@ const customTheme = extendTheme({
     },
   },
   components : {
+    Avatar: {
+      sizes: {
+        md: {
+          
+        }
+      }
+    },
     Heading: {
       sizes: {
         lg: {

@@ -31,11 +31,11 @@ func (s *Server) Start() error {
 		return err
 	}
 
-	if config.Data.Common.IsProd {
-		gin.SetMode((gin.ReleaseMode))
-	} else {
-		gin.SetMode(gin.DebugMode)
-	}
+	// if config.Data.Common.IsProd {
+	gin.SetMode((gin.ReleaseMode))
+	// } else {
+	// 	gin.SetMode(gin.DebugMode)
+	// }
 
 	go cache.Init()
 	go func() {
@@ -77,6 +77,11 @@ func (s *Server) Start() error {
 		r.POST("/interaction/like/:id", IsLogin(), api.Like)
 		r.POST("/interaction/follow/:id", IsLogin(), api.Follow)
 		r.GET("/interaction/followed/:id", api.Followed)
+
+		// search apis
+		r.GET("/search/posts/:filter", api.SearchPosts)
+		r.GET("/search/users/:filter", api.SearchUsers)
+
 		// other apis
 		r.GET("/config", GetConfig)
 

@@ -46,7 +46,6 @@ import { navLinks } from "src/data/links"
         return asPath === url
       }
 
-      console.log(asPath,url)
       return asPath.startsWith(url)
     }
   
@@ -116,7 +115,7 @@ import { navLinks } from "src/data/links"
         zIndex="3"
         left="0"
         bottom="0"
-        bg={useColorModeValue('white', 'gray.800')}
+        bg={useColorModeValue('gray.50', 'gray.800')}
         {...props}
       >
         <chakra.div height="100%">
