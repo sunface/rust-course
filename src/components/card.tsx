@@ -9,7 +9,7 @@ export const Card = (props: BoxProps) => {
       borderRadius=".5rem"
       borderWidth="1px"
       p={[2,2,4,4]}
-      boxShadow="0 1px 1px 0 rgb(0 0 0 / 5%)"
+      // boxShadow="0 1px 1px 0 rgb(0 0 0 / 5%)"
       {...props}
     />
   )

@@ -42,13 +42,13 @@ function PostNav(props: Props) {
         }
     }, [])
 
-    useEffect(() => {
-        console.log(enterBodyBg)
-        document.body.style.backgroundColor = enterBodyBg
-        return () => {
-            document.body.style.backgroundColor = leaveBodyBg
-        }
-    }, [enterBodyBg])
+    // useEffect(() => {
+    //     console.log(enterBodyBg)
+    //     document.body.style.backgroundColor = enterBodyBg
+    //     return () => {
+    //         document.body.style.backgroundColor = leaveBodyBg
+    //     }
+    // }, [enterBodyBg])
 
     return (
         <chakra.header
@@ -58,7 +58,7 @@ function PostNav(props: Props) {
             left="0"
             right="0"
             width="full"
-            bg={useColorModeValue('white', 'gray.800')}
+            bg={useColorModeValue('gray.50', 'gray.800')}
         >
             <chakra.div height="4.5rem" mx="auto" maxW="1200px">
                 <Flex w="100%" h="100%" align="center" justify="space-between" px={{ base: "4", md: "6" }}>
