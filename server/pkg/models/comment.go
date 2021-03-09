@@ -22,3 +22,11 @@ func (ar Comments) Swap(i, j int) { ar[i], ar[j] = ar[j], ar[i] }
 func (ar Comments) Less(i, j int) bool {
 	return ar[i].Created.Unix() > ar[j].Created.Unix()
 }
+
+type FavorComments []*Comment
+
+func (ar FavorComments) Len() int      { return len(ar) }
+func (ar FavorComments) Swap(i, j int) { ar[i], ar[j] = ar[j], ar[i] }
+func (ar FavorComments) Less(i, j int) bool {
+	return ar[i].Likes > ar[j].Likes
+}

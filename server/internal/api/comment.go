@@ -51,7 +51,13 @@ func SubmitComment(c *gin.Context) {
 
 func GetStoryComments(c *gin.Context) {
 	storyID := c.Param("id")
-	comments, err := story.GetComments(storyID)
+	sorter := c.Query("sorter")
+
+	if !models.ValidSearchFilter(sorter) {
+		c.JSON(http.StatusBadRequest, e.ParamInvalid)
+		return
+	}
+	comments, err := story.GetComments(storyID, sorter)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return
@@ -63,7 +69,7 @@ func GetStoryComments(c *gin.Context) {
 			comment.Liked = interaction.GetLiked(comment.ID, user.ID)
 		}
 
-		replies, err := story.GetComments(comment.ID)
+		replies, err := story.GetComments(comment.ID, sorter)
 		if err != nil {
 			continue
 		}

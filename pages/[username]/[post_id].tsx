@@ -30,7 +30,6 @@ const PostPage = () => {
   const router = useRouter()
   const id = router.query.post_id
   const [post, setPost]: [Post, any] = useState(null)
-  const [comments, setComments]: [Comment[], any] = useState([])
   useEffect(() => {
     if (id) {
       getData()
@@ -49,14 +48,8 @@ const PostPage = () => {
   const getData = async () => {
     const res = await requestApi.get(`/story/post/${id}`)
     setPost(res.data)
-
-    getComments(res.data.id)
   }
 
-  const getComments = async (id) => {
-    const res = await requestApi.get(`/story/comments/${id}`)
-    setComments(res.data)
-  }
 
   return (
     <>
@@ -80,7 +73,7 @@ const PostPage = () => {
               </Box>
               <HStack ml="2" spacing="3" mt="4">{post.rawTags.map(tag => <TagTextCard key={tag.id} tag={tag} />)}</HStack>
 
-              <Box mt="6" p="2"><Comments storyID={post.id} comments={comments} onChange={() => getComments(post.id)} /></Box>
+              <Box mt="6" p="2"><Comments storyID={post.id} /></Box>
             </Box>
             <Box pt="16">
               <PostSidebar post={post} />

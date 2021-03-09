@@ -72,8 +72,8 @@ func EditComment(c *models.Comment) *e.Error {
 	return nil
 }
 
-func GetComments(storyID string) (models.Comments, *e.Error) {
-	comments := make(models.Comments, 0)
+func GetComments(storyID string, sorter string) ([]*models.Comment, *e.Error) {
+	comments := make([]*models.Comment, 0)
 	rows, err := db.Conn.Query("SELECT id,target_id,creator,md,created,updated FROM comments WHERE target_id=?", storyID)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get comments error", "error", err)
@@ -100,7 +100,11 @@ func GetComments(storyID string) (models.Comments, *e.Error) {
 		comments = append(comments, c)
 	}
 
-	sort.Sort(comments)
+	if sorter == models.FilterFavorites {
+		sort.Sort(models.FavorComments(comments))
+	} else {
+		sort.Sort(models.Comments(comments))
+	}
 
 	return comments, nil
 }
