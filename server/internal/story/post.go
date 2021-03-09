@@ -60,10 +60,13 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 		if !user.Role.IsCreator() {
 			return nil, e.New(http.StatusForbidden, e.NoEditorPermission)
 		}
-		if len(post.Md) <= config.Data.Posts.BriefMaxLen {
-			post.Brief = post.Md
-		} else {
-			post.Brief = string([]rune(post.Md)[:config.Data.Posts.BriefMaxLen])
+
+		if post.Type == models.IDTypePost {
+			if len(post.Md) <= config.Data.Posts.BriefMaxLen {
+				post.Brief = post.Md
+			} else {
+				post.Brief = string([]rune(post.Md)[:config.Data.Posts.BriefMaxLen])
+			}
 		}
 	}
 

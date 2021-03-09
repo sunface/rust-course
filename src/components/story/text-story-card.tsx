@@ -24,7 +24,7 @@ export const TextStoryCard= (props:Props) =>{
     return (
         //@ts-ignore
         <Lay justifyContent="space-between" alignItems={isSmallScreen? "left" : "center"}  {...rest}>
-            <VStack alignItems="left" as="a" href={story.url ?? getStoryUrl(story)} spacing={{base: 4, md: 2}}>
+            <VStack alignItems="left" as="a" href={getStoryUrl(story)} spacing={{base: 4, md: 2}}>
                 <Heading size="sm" display="flex" alignItems="center">
                     {showSource && <> {story.url ? <Tag size="sm" mr="2">外部</Tag> : <Tag size="sm" mr="2">原创</Tag>}</>}
                     {story.title ?story.title : 'No Title'}

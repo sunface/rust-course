@@ -18,7 +18,7 @@ import Empty from "components/empty"
 import { IDType } from "src/types/id"
 var validator = require('validator');
 
-const newSeries: Story = { title: '', brief: '', cover: '',type: IDType.Series }
+const newSeries: Story = { title: '', brief: '', cover: '', type: IDType.Series }
 const PostsPage = () => {
     const [currentSeries, setCurrentSeries] = useState(null)
     const [posts, setPosts] = useState([])
@@ -75,11 +75,8 @@ const PostsPage = () => {
     }
 
     const editPost = (post: Story) => {
-        if (post.url.trim() === "") {
-            router.push(`/editor/post/${post.id}`)
-        } else {
-            setCurrentSeries(post)
-        }
+        console.log(post)
+        setCurrentSeries(post)
     }
 
     const onDeletePost = async (id) => {
@@ -100,55 +97,71 @@ const PostsPage = () => {
                     <Sidebar routes={editorLinks} title="创作中心" />
                     <Card ml="4" p="6" width="100%">
                         {currentSeries ?
-                            <Formik
-                                initialValues={currentSeries}
-                                onSubmit={submitPost}
-                            >
-                                {(props) => (
-                                    <Form>
-                                        <VStack spacing="6">
-                                            <Field name="title" validate={validateTitle}>
-                                                {({ field, form }) => (
-                                                    <FormControl isInvalid={form.errors.title && form.touched.title} >
-                                                        <FormLabel>标题</FormLabel>
-                                                        <Input {...field} placeholder="name" />
-                                                        <FormErrorMessage>{form.errors.title}</FormErrorMessage>
-                                                    </FormControl>
-                                                )}
-                                            </Field>
-                                            <Field name="cover" validate={validateUrl}>
-                                                {({ field, form }) => (
-                                                    <FormControl isInvalid={form.errors.cover && form.touched.cover}>
-                                                        <FormLabel>封面图片</FormLabel>
-                                                        <Input  {...field} placeholder="https://..." />
-                                                        <FormErrorMessage>{form.errors.cover}</FormErrorMessage>
-                                                    </FormControl>
-                                                )}
-                                            </Field>
-                                            <Field name="brief" validate={validateBrief}>
-                                                {({ field, form }) => (
-                                                    <FormControl isInvalid={form.errors.brief && form.touched.brief}>
-                                                        <FormLabel>简介</FormLabel>
-                                                        <Textarea {...field} placeholder="在本系列文章中，我们将..."></Textarea>
-                                                        <FormErrorMessage>{form.errors.brief}</FormErrorMessage>
-                                                    </FormControl>
-                                                )}
-                                            </Field>
-                                        </VStack>
-                                        <Box mt={6}>
-                                            <Button
-                                                colorScheme="teal"
-                                                variant="outline"
-                                                type="submit"
-                                                _focus={null}
-                                            >
-                                                提交
+                            <>
+                                <Formik
+                                    initialValues={currentSeries}
+                                    onSubmit={submitPost}
+                                >
+                                    {(props) => (
+                                        <Form>
+                                            <VStack spacing="6">
+                                                <Field name="title" validate={validateTitle}>
+                                                    {({ field, form }) => (
+                                                        <FormControl isInvalid={form.errors.title && form.touched.title} >
+                                                            <FormLabel>标题</FormLabel>
+                                                            <Input {...field} placeholder="name" />
+                                                            <FormErrorMessage>{form.errors.title}</FormErrorMessage>
+                                                        </FormControl>
+                                                    )}
+                                                </Field>
+                                                <Field name="cover" validate={validateUrl}>
+                                                    {({ field, form }) => (
+                                                        <FormControl isInvalid={form.errors.cover && form.touched.cover}>
+                                                            <FormLabel>封面图片</FormLabel>
+                                                            <Input  {...field} placeholder="https://..." />
+                                                            <FormErrorMessage>{form.errors.cover}</FormErrorMessage>
+                                                        </FormControl>
+                                                    )}
+                                                </Field>
+                                                <Field name="brief" validate={validateBrief}>
+                                                    {({ field, form }) => (
+                                                        <FormControl isInvalid={form.errors.brief && form.touched.brief}>
+                                                            <FormLabel>简介</FormLabel>
+                                                            <Textarea {...field} placeholder="在本系列文章中，我们将..."></Textarea>
+                                                            <FormErrorMessage>{form.errors.brief}</FormErrorMessage>
+                                                        </FormControl>
+                                                    )}
+                                                </Field>
+                                                <Field>
+                                                    {({ field, form }) => (
+                                                        <FormControl isInvalid={form.errors.brief && form.touched.brief}>
+                                                            <Divider mt="0" mb="6" />
+                                                            <FormLabel>关联文章</FormLabel>
+                                                            <Button variant="ghost">选择文章</Button>
+                                                            <Divider mt="6" mb="6" />
+
+                                                        </FormControl>
+                                                    )}
+                                                </Field>
+
+
+                                            </VStack>
+                                            <Box mt={6}>
+                                                <Button
+                                                    colorScheme="teal"
+                                                    variant="outline"
+                                                    type="submit"
+                                                    _focus={null}
+                                                >
+                                                    提交
                                             </Button>
-                                            <Button variant="ghost" ml="4" _focus={null} onClick={() => setCurrentSeries(null)}>取消</Button>
-                                        </Box>
-                                    </Form>
-                                )}
-                            </Formik> :
+                                                <Button variant="ghost" ml="4" _focus={null} onClick={() => setCurrentSeries(null)}>取消</Button>
+                                            </Box>
+                                        </Form>
+                                    )}
+                                </Formik>
+                            </>
+                            :
                             <>
                                 <Flex alignItems="center" justify="space-between">
                                     <Heading size="md">系列({posts.length})</Heading>
@@ -161,7 +174,7 @@ const PostsPage = () => {
                                             <VStack mt="4">
                                                 {posts.map(post =>
                                                     <Box width="100%" key={post.id}>
-                                                        <TextStoryCard story={post} showActions={true} mt="4" onEdit={() => editPost(post)} onDelete={() => onDeletePost(post.id)} showSource={false}/>
+                                                        <TextStoryCard story={post} showActions={true} mt="4" onEdit={() => editPost(post)} onDelete={() => onDeletePost(post.id)} showSource={false} />
                                                         <Divider mt="5" />
                                                     </Box>
                                                 )}
