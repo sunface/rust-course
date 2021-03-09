@@ -11,8 +11,18 @@ import (
 	"github.com/imdotdev/im.dev/server/pkg/e"
 )
 
-func SubmitPost(c *gin.Context) {
-	res, err := story.SubmitPost(c)
+func SubmitStory(c *gin.Context) {
+	res, err := story.SubmitStory(c)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(res))
+}
+
+func SubmitPostDraft(c *gin.Context) {
+	res, err := story.SubmitPostDraft(c)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return
@@ -48,11 +58,11 @@ func DeletePost(c *gin.Context) {
 
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
 }
-func GetStoryPost(c *gin.Context) {
+func GetStory(c *gin.Context) {
 	id := c.Param("id")
 
 	user := user.CurrentUser(c)
-	ar, err := story.GetPost(id, "")
+	ar, err := story.GetStory(id, "")
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return

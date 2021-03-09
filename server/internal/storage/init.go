@@ -28,7 +28,7 @@ func Init() error {
 		return err
 	}
 
-	if err == sql.ErrNoRows {
+	if err != nil {
 		log.RootLogger.Info("Database tables have not been created, start creating")
 		err = initTables()
 		if err != nil {

@@ -20,7 +20,7 @@ import AccountMenu from "components/user-menu"
 import { FaGithub, FaTwitter, FaUserPlus } from "react-icons/fa"
 import Follow from "components/interaction/follow"
 import { requestApi } from "utils/axios/request"
-import { Post } from "src/types/posts"
+import { Story } from "src/types/story"
 import { getSvgIcon } from "components/svg-icon"
 import Link from "next/link"
 import Logo from "components/logo"
@@ -28,7 +28,7 @@ import { ReserveUrls } from "src/data/reserve-urls"
 
 
 interface Props {
-    post: Post
+    post: Story
 }
 
 function PostNav(props: Props) {

@@ -1,28 +1,33 @@
-import { Box, Button, useToast } from '@chakra-ui/react';
+import { Box, Button, Text, useToast } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { MarkdownEditor } from 'components/markdown-editor/editor';
 import PageContainer from 'layouts/page-container';
 import EditorNav from 'layouts/nav/editor-nav'
 import { EditMode } from 'src/types/editor';
 import { MarkdownRender } from 'components/markdown-editor/render';
-import { Post } from 'src/types/posts';
+import { Story, StoryStatus } from 'src/types/story';
 import { requestApi } from 'utils/axios/request';
 import { useRouter } from 'next/router';
 import { config } from 'configs/config';
 import { cloneDeep } from 'lodash';
 import Card from 'components/card';
+import { updateUrl } from 'utils/url';
+import { IDType } from 'src/types/id';
 
-const content = `
-# test原创
-`
+
+
+let saveDraftHandler = undefined;
 
 function PostEditPage() {
   const router = useRouter()
   const { id } = router.query
   const [editMode, setEditMode] = useState(EditMode.Edit)
-  const [ar, setAr] = useState({
-    md: content,
-    title: ''
+  const [saved,setSaved] = useState(null)
+  const [ar, setAr]:[Story,any] = useState({
+    type: IDType.Post, 
+    md: '',
+    title: '',
+    status: StoryStatus.Draft
   })
 
   const toast = useToast()
@@ -33,14 +38,50 @@ function PostEditPage() {
   }, [id])
 
   const onMdChange = newMd => {
-    setAr({
+    const newAr = {
       ...ar,
       md: newMd
-    })
+    }
+    setAr(newAr)
+
+    if (ar.status === StoryStatus.Draft) {
+      onSaveDraft(newAr)
+    }
+  }
+
+  const onSaveDraft = (post?) => {
+    if (saveDraftHandler === undefined) {
+      // 没有任何保存动作，开始保存
+      saveDraftHandler = setTimeout(() => saveDraft(post),2000)
+      return 
+    } else if (saveDraftHandler !== null) {
+      // 不在保存过程中，连续输入, 取消之前的定时器，重新设置handler
+      clearTimeout(saveDraftHandler)
+      saveDraftHandler = setTimeout(() => saveDraft(post),2000)
+      return 
+    } 
+  }
+
+  const saveDraft = async (post?) => {
+    saveDraftHandler = null
+    setSaved(false)
+    const res = await requestApi.post(`/story/post/draft`, post??ar)
+    setSaved(true)
+    saveDraftHandler = undefined
+    if (!ar.id) {
+      ar.id = res.data.id
+      let url = window.location.origin + `/editor/post/${ar.id}`
+      window.history.pushState({},null,url);
+    }
   }
 
   const onChange = () => {
-    setAr(cloneDeep(ar))
+    const newAr = cloneDeep(ar)
+    if (ar.status === StoryStatus.Draft) {
+      onSaveDraft(newAr)
+    }
+
+    setAr(newAr)
   }
 
   const onChangeTitle = title => {
@@ -54,11 +95,25 @@ function PostEditPage() {
       return
     }
 
-    setAr({ ...ar, title: title })
+    const newAr = { ...ar, title: title }
+    if (ar.status === StoryStatus.Draft) {
+      onSaveDraft(newAr)
+    }
+
+    setAr(newAr)
   }
 
   const publish = async () => {
-    const res = await requestApi.post(`/story/post`, ar)
+    if (ar.tags?.length === 0) {
+      toast({
+        description: "请设置文章标签",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      })
+      return 
+    }
+    const res = await requestApi.post(`/story`, ar)
     toast({
       description: "发布成功",
       status: "success",
@@ -76,6 +131,7 @@ function PostEditPage() {
         changeEditMode={(v) => setEditMode(v)}
         changeTitle={(e) => onChangeTitle(e.target.value)}
         publish={() => publish()}
+        saved={saved}
       />}
     >
       {editMode === EditMode.Edit ?

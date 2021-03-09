@@ -1,11 +1,11 @@
 import React from "react"
 import { Box, Center, Text, useColorModeValue, VStack } from "@chakra-ui/react"
-import { Post } from "src/types/posts"
-import PostCard from "./post-card"
+import { Story } from "src/types/story"
+import StoryCard from "./story-card"
 import userCustomTheme from "theme/user-custom"
 
 interface Props {
-    posts: Post[]
+    stories: Story[]
     card?: any
     size?: 'sm' | 'md'
     showFooter?: boolean
@@ -14,12 +14,12 @@ interface Props {
 }
 
 
-export const Posts = (props: Props) => {
-    const { posts,card=PostCard,showFooter=true,type="classic"} = props
-    const postBorderColor = useColorModeValue(userCustomTheme.borderColor.light, userCustomTheme.borderColor.dark)
+export const Stroies = (props: Props) => {
+    const { stories,card=StoryCard,showFooter=true,type="classic"} = props
+    const borderColor = useColorModeValue(userCustomTheme.borderColor.light, userCustomTheme.borderColor.dark)
     const Card = card
     const showBorder = i => {
-        if (i < posts.length -1) {
+        if (i < stories.length -1) {
             return true
         }
 
@@ -32,9 +32,9 @@ export const Posts = (props: Props) => {
     return (
         <>
             <VStack alignItems="left">
-                {posts.map((post,i) =>
-                    <Box py="2" borderBottom={showBorder(i)? `1px solid ${postBorderColor}`:null} key={post.id}>
-                        <Card post={post} size={props.size} type={type} highlight={props.highlight}/>
+                {stories.map((story,i) =>
+                    <Box py="2" borderBottom={showBorder(i)? `1px solid ${borderColor}`:null} key={story.id} px="1">
+                        <Card story={story} size={props.size} type={type} highlight={props.highlight}/>
                     </Box>)}
             </VStack>
             {showFooter && <Center><Text layerStyle="textSecondary" fontSize="sm" py="4">没有更多文章了</Text></Center>}
@@ -42,4 +42,4 @@ export const Posts = (props: Props) => {
     )
 }
 
-export default Posts
+export default Stroies

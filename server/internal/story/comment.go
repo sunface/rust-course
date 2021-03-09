@@ -18,7 +18,7 @@ func AddComment(c *models.Comment) *e.Error {
 	md := utils.Compress(c.Md)
 
 	now := time.Now()
-	_, err := db.Conn.Exec("INSERT INTO comments (id,target_id,creator,md,created,updated) VALUES(?,?,?,?,?,?)",
+	_, err := db.Conn.Exec("INSERT INTO comments (id,story_id,creator,md,created,updated) VALUES(?,?,?,?,?,?)",
 		c.ID, c.TargetID, c.CreatorID, md, now, now)
 	if err != nil {
 		logger.Warn("add comment error", "error", err)
@@ -28,7 +28,7 @@ func AddComment(c *models.Comment) *e.Error {
 	// 更新story的comment数量
 	// 查询到该comment所属的story id
 	var storyID string
-	err = db.Conn.QueryRow("select target_id from comments where id=?", c.TargetID).Scan(&storyID)
+	err = db.Conn.QueryRow("select story_id from comments where id=?", c.TargetID).Scan(&storyID)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("select comment error", "error", err)
 	} else {
@@ -74,7 +74,7 @@ func EditComment(c *models.Comment) *e.Error {
 
 func GetComments(storyID string, sorter string) ([]*models.Comment, *e.Error) {
 	comments := make([]*models.Comment, 0)
-	rows, err := db.Conn.Query("SELECT id,target_id,creator,md,created,updated FROM comments WHERE target_id=?", storyID)
+	rows, err := db.Conn.Query("SELECT id,story_id,creator,md,created,updated FROM comments WHERE story_id=?", storyID)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get comments error", "error", err)
 		return comments, e.New(http.StatusInternalServerError, e.Internal)
@@ -112,7 +112,7 @@ func GetComments(storyID string, sorter string) ([]*models.Comment, *e.Error) {
 func GetComment(id string) (*models.Comment, *e.Error) {
 	c := &models.Comment{}
 	var rawMd []byte
-	err := db.Conn.QueryRow("SELECT id,target_id,creator,md,created,updated FROM comments WHERE id=?", id).Scan(
+	err := db.Conn.QueryRow("SELECT id,story_id,creator,md,created,updated FROM comments WHERE id=?", id).Scan(
 		&c.ID, &c.TargetID, &c.CreatorID, &rawMd, &c.Created, &c.Updated,
 	)
 	if err != nil {
@@ -139,7 +139,7 @@ func DeleteComment(id string) *e.Error {
 	count := 0
 	if isComment {
 		// 如果是评论，我们要计算replies的数量，因为会一起删除
-		err := db.Conn.QueryRow("select count(*) from comments where target_id=?", id).Scan(&count)
+		err := db.Conn.QueryRow("select count(*) from comments where story_id=?", id).Scan(&count)
 		if err != nil && err != sql.ErrNoRows {
 			logger.Warn("select  comment  error", "error", err)
 			return e.New(http.StatusInternalServerError, e.Internal)
@@ -161,7 +161,7 @@ func DeleteComment(id string) *e.Error {
 	}
 
 	// delete children replies
-	_, err = tx.Exec("DELETE FROM comments WHERE target_id=?", id)
+	_, err = tx.Exec("DELETE FROM comments WHERE story_id=?", id)
 	if err != nil {
 		logger.Warn("delete comment replies error", "error", err)
 		tx.Rollback()
@@ -192,7 +192,7 @@ func GetCommentCount(storyID string) int {
 
 func GetStoryIDByCommentID(cid string) (string, bool, error) {
 	var targetID string
-	err := db.Conn.QueryRow("select target_id from comments where id=?", cid).Scan(&targetID)
+	err := db.Conn.QueryRow("select story_id from comments where id=?", cid).Scan(&targetID)
 	if err != nil {
 		return "", false, err
 	}
@@ -202,7 +202,7 @@ func GetStoryIDByCommentID(cid string) (string, bool, error) {
 		return targetID, true, nil
 	case models.IDTypeComment:
 		var nid string
-		err := db.Conn.QueryRow("select target_id from comments where id=?", targetID).Scan(&nid)
+		err := db.Conn.QueryRow("select story_id from comments where id=?", targetID).Scan(&nid)
 		if err != nil {
 			return "", false, err
 		}

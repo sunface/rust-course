@@ -7,11 +7,29 @@ import (
 	"github.com/imdotdev/im.dev/server/internal/story"
 	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/common"
+	"github.com/imdotdev/im.dev/server/pkg/e"
+	"github.com/imdotdev/im.dev/server/pkg/models"
 )
 
 func GetEditorPosts(c *gin.Context) {
 	user := user.CurrentUser(c)
-	ars, err := story.UserPosts(user, user.ID)
+	tp := c.Query("type")
+	if !models.ValidStoryIDType(tp) {
+		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
+		return
+	}
+	ars, err := story.UserPosts(tp, user, user.ID)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(ars))
+}
+
+func GetEditorDrafts(c *gin.Context) {
+	user := user.CurrentUser(c)
+	ars, err := story.UserDrafts(nil, user.ID)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return
@@ -25,7 +43,7 @@ func GetUserPosts(c *gin.Context) {
 
 	user := user.CurrentUser(c)
 
-	posts, err := story.UserPosts(user, userID)
+	posts, err := story.UserPosts(models.IDTypeUndefined, user, userID)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return

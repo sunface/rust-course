@@ -4,21 +4,16 @@ import Container from "components/container"
 import SEO from "components/seo"
 import siteConfig from "configs/site-config"
 import useSession from "hooks/use-session"
-import Nav from "layouts/nav/nav"
-import VerticalNav from "layouts/nav/vertical-nav"
-import PageContainer from "layouts/page-container"
 import PageContainer1 from "layouts/page-container1"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
-import { FaComment, FaCommentAlt, FaDove, FaEdit, FaFacebook, FaFile, FaGithub, FaHeart, FaPlus, FaRegStar, FaStackOverflow, FaStar, FaTwitter, FaWeibo, FaZhihu } from "react-icons/fa"
+import {FaFacebook, FaFile, FaGithub, FaHeart, FaPlus, FaRegStar, FaStackOverflow, FaStar, FaTwitter, FaWeibo, FaZhihu } from "react-icons/fa"
 import { ReserveUrls } from "src/data/reserve-urls"
 import { User } from "src/types/user"
 import { requestApi } from "utils/axios/request"
 import moment from 'moment'
-import { Post } from "src/types/posts"
-import PostCard from "components/story/post-card"
-import userCustomTheme from "theme/user-custom"
-import Posts from "components/story/posts"
+import { Story } from "src/types/story"
+import Stories from "components/story/stories"
 import Link from "next/link"
 import Empty from "components/empty"
 import Count from "components/count"
@@ -29,8 +24,8 @@ const UserPage = () => {
   const username = router.query.username
   const session = useSession()
   const [user, setUser]: [User, any] = useState(null)
-  const [rawPosts, setRawPosts]: [Post[], any] = useState([])
-  const [posts, setPosts]: [Post[], any] = useState([])
+  const [rawPosts, setRawPosts]: [Story[], any] = useState([])
+  const [posts, setPosts]: [Story[], any] = useState([])
   const [tags,setTags]:[Tag[],any] = useState([])
   const [tagFilter,setTagFilter]:[Tag,any] = useState(null)
 
@@ -178,7 +173,7 @@ const UserPage = () => {
                   </Card>
                   :
                   <Card width="100%" height="fit-content" p="0" px="3">
-                    <Posts posts={posts} showFooter={tagFilter === null}/>
+                    <Stories stories={posts} showFooter={tagFilter === null}/>
                   </Card>
               }
                 </Box>

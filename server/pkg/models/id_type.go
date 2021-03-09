@@ -8,11 +8,13 @@ import (
 )
 
 const (
-	IDUndefined   = "0"
-	IDTypePost    = "1"
-	IDTypeComment = "2"
-	IDTypeUser    = "3"
-	IDTypeTag     = "4"
+	IDTypeUndefined = "0"
+	IDTypeTag       = "1"
+	IDTypeComment   = "2"
+	IDTypeUser      = "3"
+	IDTypePost      = "4"
+	IDTypeSeries    = "5"
+	IDTypeBook      = "6"
 )
 
 func GetIDType(id string) string {
@@ -26,7 +28,11 @@ func GetIDType(id string) string {
 func GetIdTypeTable(id string) string {
 	switch id[:1] {
 	case IDTypePost:
-		return "posts"
+		return "story"
+	case IDTypeSeries:
+		return "story"
+	case IDTypeBook:
+		return "story"
 	case IDTypeComment:
 		return "comments"
 	case IDTypeUser:
@@ -34,7 +40,7 @@ func GetIdTypeTable(id string) string {
 	case IDTypeTag:
 		return "tags"
 	default:
-		return IDUndefined
+		return IDTypeUndefined
 	}
 }
 
@@ -44,7 +50,7 @@ func IdExist(id string) bool {
 	}
 
 	tbl := GetIdTypeTable(id)
-	if tbl == IDUndefined {
+	if tbl == IDTypeUndefined {
 		return false
 	}
 
@@ -60,4 +66,12 @@ func IdExist(id string) bool {
 	}
 
 	return true
+}
+
+func ValidStoryIDType(tp string) bool {
+	if tp == IDTypePost || tp == IDTypeSeries || tp == IDTypeBook {
+		return true
+	}
+
+	return false
 }

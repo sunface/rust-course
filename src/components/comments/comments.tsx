@@ -48,7 +48,7 @@ export const Comments = ({storyID}: Props) => {
                 <Flex justifyContent="space-between">
                     <HStack spacing="4">
                         <Text fontWeight="600" fontSize="1.1rem">Comments ({countComments()})</Text>
-                        <Select fontWeight="550" cursor="pointer" width="100px" value={sorter} onChange={e => {setSorter(e.currentTarget.value as SearchFilter);getComments(e.currentTarget.value)}} variant="unstyled">
+                        <Select fontWeight="550" cursor="pointer" width="120px" value={sorter} onChange={e => {setSorter(e.currentTarget.value as SearchFilter);getComments(e.currentTarget.value)}} variant="unstyled">
                             <option value={SearchFilter.Favorites}>{upperFirst(SearchFilter.Favorites)}</option>
                             <option value={SearchFilter.Recent}>{upperFirst(SearchFilter.Recent)}</option>
                         </Select>

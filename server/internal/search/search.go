@@ -14,14 +14,14 @@ import (
 
 var logger = log.RootLogger.New("logger", "search")
 
-func Posts(user *models.User, filter, query string) []*models.Post {
-	posts := make([]*models.Post, 0)
+func Posts(user *models.User, filter, query string) []*models.Story {
+	posts := make([]*models.Story, 0)
 
 	// postsMap := make(map[string]*models.Post)
 
 	// search by title
 	sqlq := "%" + query + "%"
-	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,creator,created,updated from posts where title LIKE ? or brief LIKE ?", sqlq, sqlq)
+	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,creator,created,updated from story where status=? and  (title LIKE ? or brief LIKE ?)", models.StatusPublished, sqlq, sqlq)
 	if err != nil {
 		logger.Warn("get user posts error", "error", err)
 		return posts
@@ -30,9 +30,9 @@ func Posts(user *models.User, filter, query string) []*models.Post {
 	posts = story.GetPosts(user, rows)
 
 	if filter == models.FilterFavorites {
-		sort.Sort(models.FavorPosts(posts))
+		sort.Sort(models.FavorStories(posts))
 	} else {
-		sort.Sort(models.Posts(posts))
+		sort.Sort(models.Stories(posts))
 	}
 
 	return posts

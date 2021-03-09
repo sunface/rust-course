@@ -15,7 +15,9 @@ import {
     Heading,
     Tag as ChakraTag,
     TagLabel,
-    TagCloseButton
+    TagCloseButton,
+    Spinner,
+    Text
 } from "@chakra-ui/react"
 import { useViewportScroll } from "framer-motion"
 import NextLink from "next/link"
@@ -25,16 +27,18 @@ import Card from "components/card"
 import DarkMode from "components/dark-mode"
 import EditModeSelect from "components/edit-mode-select"
 import Tags from "components/tags/tags"
-import { Post } from "src/types/posts"
+import { Story } from "src/types/story"
+import { FaCloud } from "react-icons/fa"
 
 
 
 interface Props {
-    ar : Post
+    ar : Story
     changeTitle: any
     changeEditMode: any
     publish: any
     onChange:any
+    saved?: boolean
 }
 
 function HeaderContent(props: Props) {
@@ -64,12 +68,16 @@ function HeaderContent(props: Props) {
                     <Input width={{base: '100px', md: '187px'}} value={props.ar.title} placeholder="Title..." onChange={props.changeTitle} focusBorderColor={useColorModeValue('teal.400', 'teal.100')} variant="flushed" />
                 </Box>
                 <EditModeSelect onChange={props.changeEditMode}/>
-                <Box
+                <HStack
                     color={useColorModeValue("gray.500", "gray.400")}
+                    spacing={[0,0,2,2]}
                 >
+                    {(props.saved !== null )&& <Box>
+                        {!props.saved ? <HStack><Spinner /><Text>Saving</Text></HStack> : <HStack><FaCloud /><Text>Saved</Text></HStack>}
+                    </Box>}
                     <DarkMode />
                     <Button layerStyle="colorButton" ml="2" onClick={onOpen}>发布</Button>
-                </Box>
+                </HStack>
             </Flex>
             <Drawer
                 isOpen={isOpen}

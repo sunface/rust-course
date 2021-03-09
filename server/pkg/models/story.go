@@ -8,8 +8,9 @@ const (
 	StatusHidden    = 3
 )
 
-type Post struct {
+type Story struct {
 	ID         string      `json:"id"`
+	Type       string      `json:"type"`
 	Creator    *UserSimple `json:"creator"`
 	CreatorID  string      `json:"creatorId"`
 	Title      string      `json:"title"`
@@ -30,18 +31,18 @@ type Post struct {
 	Updated    time.Time   `json:"updated"`
 }
 
-type Posts []*Post
+type Stories []*Story
 
-func (ar Posts) Len() int      { return len(ar) }
-func (ar Posts) Swap(i, j int) { ar[i], ar[j] = ar[j], ar[i] }
-func (ar Posts) Less(i, j int) bool {
-	return ar[i].Created.Unix() > ar[j].Created.Unix()
+func (s Stories) Len() int      { return len(s) }
+func (s Stories) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
+func (s Stories) Less(i, j int) bool {
+	return s[i].Created.Unix() > s[j].Created.Unix()
 }
 
-type FavorPosts []*Post
+type FavorStories []*Story
 
-func (ar FavorPosts) Len() int      { return len(ar) }
-func (ar FavorPosts) Swap(i, j int) { ar[i], ar[j] = ar[j], ar[i] }
-func (ar FavorPosts) Less(i, j int) bool {
-	return ar[i].Likes > ar[j].Likes
+func (s FavorStories) Len() int      { return len(s) }
+func (s FavorStories) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
+func (s FavorStories) Less(i, j int) bool {
+	return s[i].Likes > s[j].Likes
 }

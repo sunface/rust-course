@@ -41,6 +41,10 @@ const customTheme = extendTheme({
         color: mode(props.theme.colors.cyan['800'],props.theme.colors.cyan['200'] )(props),
         borderRadius: '6px'
       },
+      '.chakra-form__label': {
+        fontSize: '.85rem !important',
+        fontWeight: '550 !important'
+      },
       body: {
         background: mode("gray.50","gray.800" )(props),
         minHeight: '100vh',

@@ -10,6 +10,7 @@ var ReserverURLs = []string{
 	"/settings",
 	"/jobs",
 	"/books",
+	"/series",
 	"/notifications",
 	"/sponsors",
 	"/explore",

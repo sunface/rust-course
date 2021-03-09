@@ -20,12 +20,16 @@ import (
 	"github.com/imdotdev/im.dev/server/pkg/utils"
 )
 
-func SubmitPost(c *gin.Context) (map[string]string, *e.Error) {
+func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 	user := user.CurrentUser(c)
 
-	post := &models.Post{}
+	post := &models.Story{}
 	err := c.Bind(&post)
 	if err != nil {
+		return nil, e.New(http.StatusBadRequest, e.ParamInvalid)
+	}
+
+	if !models.ValidStoryIDType(post.Type) {
 		return nil, e.New(http.StatusBadRequest, e.ParamInvalid)
 	}
 
@@ -47,16 +51,15 @@ func SubmitPost(c *gin.Context) (map[string]string, *e.Error) {
 	}
 
 	if isExternal {
-		// internal post, need creator role
-		if !user.Role.IsCreator() {
-			return nil, e.New(http.StatusForbidden, e.NoEditorPermission)
-		}
-	} else {
 		// external post, need editor role
 		if !user.Role.IsEditor() {
 			return nil, e.New(http.StatusForbidden, e.NoEditorPermission)
 		}
-
+	} else {
+		// internal post, need creator role
+		if !user.Role.IsCreator() {
+			return nil, e.New(http.StatusForbidden, e.NoEditorPermission)
+		}
 		if len(post.Md) <= config.Data.Posts.BriefMaxLen {
 			post.Brief = post.Md
 		} else {
@@ -71,10 +74,10 @@ func SubmitPost(c *gin.Context) (map[string]string, *e.Error) {
 	setSlug(user.ID, post)
 
 	if post.ID == "" {
-		post.ID = utils.GenID(models.IDTypePost)
+		post.ID = utils.GenID(post.Type)
 		//create
-		_, err := db.Conn.Exec("INSERT INTO posts (id,creator,slug, title, md, url, cover, brief,status, created, updated) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
-			post.ID, user.ID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, models.StatusPublished, now, now)
+		_, err := db.Conn.Exec("INSERT INTO story (id,type,creator,slug, title, md, url, cover, brief,status, created, updated) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+			post.ID, post.Type, user.ID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, models.StatusPublished, now, now)
 		if err != nil {
 			logger.Warn("submit post error", "error", err)
 			return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -86,7 +89,7 @@ func SubmitPost(c *gin.Context) (map[string]string, *e.Error) {
 			return nil, e.New(http.StatusForbidden, e.NoEditorPermission)
 		}
 
-		_, err = db.Conn.Exec("UPDATE posts SET slug=?, title=?, md=?, url=?, cover=?, brief=?, updated=? WHERE id=?",
+		_, err = db.Conn.Exec("UPDATE story SET slug=?, title=?, md=?, url=?, cover=?, brief=?, updated=? WHERE id=?",
 			post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, now, post.ID)
 		if err != nil {
 			logger.Warn("upate post error", "error", err)
@@ -107,6 +110,66 @@ func SubmitPost(c *gin.Context) (map[string]string, *e.Error) {
 	}, nil
 }
 
+func SubmitPostDraft(c *gin.Context) (map[string]string, *e.Error) {
+	user := user.CurrentUser(c)
+
+	post := &models.Story{}
+	err := c.Bind(&post)
+	if err != nil {
+		return nil, e.New(http.StatusBadRequest, e.ParamInvalid)
+	}
+
+	if !user.Role.IsCreator() {
+		return nil, e.New(http.StatusForbidden, e.NoEditorPermission)
+	}
+
+	md := utils.Compress(post.Md)
+
+	now := time.Now()
+
+	if len(post.Md) <= config.Data.Posts.BriefMaxLen {
+		post.Brief = post.Md
+	} else {
+		post.Brief = string([]rune(post.Md)[:config.Data.Posts.BriefMaxLen])
+	}
+
+	if post.ID == "" {
+		post.ID = utils.GenID(models.IDTypePost)
+		//create
+		_, err := db.Conn.Exec("INSERT INTO story (id,type,creator,slug, title, md, url, cover, brief,status, created, updated) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+			post.ID, models.IDTypePost, user.ID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, models.StatusDraft, now, now)
+		fmt.Println(post.Brief)
+		if err != nil {
+			logger.Warn("submit post draft error", "error", err)
+			return nil, e.New(http.StatusInternalServerError, e.Internal)
+		}
+	} else {
+		// 只有创建者自己才能更新内容
+		creator, _ := GetPostCreator(post.ID)
+		if creator != user.ID {
+			return nil, e.New(http.StatusForbidden, e.NoEditorPermission)
+		}
+
+		_, err = db.Conn.Exec("UPDATE story SET slug=?, title=?, md=?, url=?, cover=?, brief=?, updated=? WHERE id=?",
+			post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, now, post.ID)
+		if err != nil {
+			logger.Warn("upate post draft error", "error", err)
+			return nil, e.New(http.StatusInternalServerError, e.Internal)
+		}
+	}
+
+	//update tags
+	err = tags.UpdateTargetTags(user.ID, post.ID, post.Tags)
+	if err != nil {
+		logger.Warn("upate tags error", "error", err)
+		return nil, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	return map[string]string{
+		"id": post.ID,
+	}, nil
+}
+
 func DeletePost(id string) *e.Error {
 	tx, err := db.Conn.Begin()
 	if err != nil {
@@ -114,7 +177,7 @@ func DeletePost(id string) *e.Error {
 		return e.New(http.StatusInternalServerError, e.Internal)
 	}
 
-	_, err = tx.Exec("DELETE FROM posts WHERE id=?", id)
+	_, err = tx.Exec("DELETE FROM story WHERE id=?", id)
 	if err != nil {
 		logger.Warn("delete post error", "error", err)
 		return e.New(http.StatusInternalServerError, e.Internal)
@@ -132,11 +195,11 @@ func DeletePost(id string) *e.Error {
 	return nil
 }
 
-func GetPost(id string, slug string) (*models.Post, *e.Error) {
-	ar := &models.Post{}
+func GetStory(id string, slug string) (*models.Story, *e.Error) {
+	ar := &models.Story{}
 	var rawmd []byte
-	err := db.Conn.QueryRow("select id,slug,title,md,url,cover,brief,creator,created,updated from posts where id=? or slug=?", id, slug).Scan(
-		&ar.ID, &ar.Slug, &ar.Title, &rawmd, &ar.URL, &ar.Cover, &ar.Brief, &ar.CreatorID, &ar.Created, &ar.Updated,
+	err := db.Conn.QueryRow("select id,type,slug,title,md,url,cover,brief,creator,status,created,updated from story where id=?", id).Scan(
+		&ar.ID, &ar.Type, &ar.Slug, &ar.Title, &rawmd, &ar.URL, &ar.Cover, &ar.Brief, &ar.CreatorID, &ar.Status, &ar.Created, &ar.Updated,
 	)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -165,7 +228,7 @@ func GetPost(id string, slug string) (*models.Post, *e.Error) {
 
 func GetPostCreator(id string) (string, *e.Error) {
 	var uid string
-	err := db.Conn.QueryRow("SELECT creator FROM posts WHERE id=?", id).Scan(&uid)
+	err := db.Conn.QueryRow("SELECT creator FROM story WHERE id=?", id).Scan(&uid)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return "", e.New(http.StatusNotFound, e.NotFound)
@@ -181,24 +244,13 @@ func GetPostCreator(id string) (string, *e.Error) {
 // 1. 长度不能超过127
 // 2. 每次title更新，都要重新生成slug
 // 3. 单个用户下的slug不能重复，如果已经存在，需要加上-1这种字符
-func setSlug(creator string, post *models.Post) error {
+func setSlug(creator string, post *models.Story) error {
 	slug := utils.Slugify(post.Title)
 	if len(slug) > 100 {
 		slug = slug[:100]
 	}
 
-	count := 0
-	err := db.Conn.QueryRow("SELECT count(*) FROM posts WHERE creator=? and title=?", creator, post.Title).Scan(&count)
-	if err != nil {
-		logger.Warn("count slug error", "error", err)
-		return err
-	}
-
-	if count == 0 {
-		post.Slug = slug
-	} else {
-		post.Slug = fmt.Sprintf("%s-%d", slug, count)
-	}
+	post.Slug = slug
 
 	return nil
 }

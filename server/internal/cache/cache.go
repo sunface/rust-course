@@ -13,6 +13,7 @@ var logger = log.RootLogger.New("logger", "cache")
 var Users []*models.User
 
 func Init() {
+	time.Sleep(10 * time.Second)
 	for {
 		// load users
 		rows, err := db.Conn.Query(`SELECT id,username,role,nickname,email,avatar,last_seen_at,created FROM user`)

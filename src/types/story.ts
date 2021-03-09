@@ -2,9 +2,15 @@ import { UserSimple} from './user'
 import { Tag } from './tag';
 
 
+export enum StoryStatus {
+    Draft = 1,
+    Published = 2,
+    Hiddent = 3 
+}
 
-export interface Post {
+export interface Story {
     id?: string 
+    type?: string
     slug?: string 
     creator?: UserSimple
     creatorId?: string
@@ -20,4 +26,5 @@ export interface Post {
     liked? : boolean
     comments? : number
     bookmarked?: boolean
+    status?: number
 }

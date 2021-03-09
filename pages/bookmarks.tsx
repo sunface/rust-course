@@ -20,8 +20,8 @@ import {
   import { Tag } from "src/types/tag"
   import { requestApi } from "utils/axios/request"
   import TagCard from 'src/components/tags/tag-card'
-import { Post } from "src/types/posts"
-import Posts from "components/story/posts"
+import { Story } from "src/types/story"
+import Stories from "components/story/stories"
 import { find } from "lodash"
 import userCustomTheme from "theme/user-custom"
 import Empty from "components/empty"
@@ -31,8 +31,8 @@ import Empty from "components/empty"
   const BookmarksPage = () => {
     const [filter, setFilter]:[Tag,any] = useState(null)
     const [tags, setTags]: [Tag[], any] = useState([])
-    const [rawPosts,setRawPosts]: [Post[],any] = useState([])
-    const [posts,setPosts]: [Post[],any] = useState([])
+    const [rawPosts,setRawPosts]: [Story[],any] = useState([])
+    const [posts,setPosts]: [Story[],any] = useState([])
 
     useEffect(() => {
         getBookmarkPosts()
@@ -107,7 +107,7 @@ import Empty from "components/empty"
                 <Divider mt="3" mb="5" />
                 {posts.length !== 0 
                     ? 
-                    <Posts posts={posts} showFooter={false}/> 
+                    <Stories stories={posts} showFooter={false}/> 
                     :
                     <Empty />
                 }

@@ -9,8 +9,8 @@ import {
   Divider
 } from "@chakra-ui/react"
 import Card from "components/card"
-import Posts from "components/story/posts"
-import SimplePostCard from "components/story/simple-post-card"
+import Stories from "components/story/stories"
+import SimplePostCard from "components/story/simple-story-card"
 import SEO from "components/seo"
 import siteConfig from "configs/site-config"
 import PageContainer1 from "layouts/page-container1"
@@ -69,7 +69,7 @@ const HomePage = () => {
               </Flex>
             </Card>
             <Card width="100%" height="fit-content" p="0">
-              <Posts posts={posts} />
+              <Stories stories={posts} />
             </Card>
           </VStack>
           <HomeSidebar />
@@ -106,7 +106,7 @@ export const HomeSidebar = () => {
         </Flex>
         <Divider />
         <VStack px="4" pt="3" alignItems="left">
-          <Posts posts={posts} card={SimplePostCard} size="sm" showFooter={false}></Posts>
+          <Stories stories={posts} card={SimplePostCard} size="sm" showFooter={false}/>
         </VStack>
       </Card>
     </VStack>

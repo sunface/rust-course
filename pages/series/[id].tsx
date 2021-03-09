@@ -15,7 +15,7 @@ import StorySidebar from "components/story/story-sidebar"
 
 const PostPage = () => {
   const router = useRouter()
-  const id = router.query.post_id
+  const id = router.query.id
   const [post, setPost]: [Story, any] = useState(null)
   useEffect(() => {
     if (id) {

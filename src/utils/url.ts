@@ -38,7 +38,7 @@ export const getUrlParams = ():any => {
     return  queryString.parseUrl(window?.location.href).query
 }
 
-export const updateUrl = (params: string) => {
+export const updateUrl = (params?: string) => {
     let url = window.location.origin + window.location.pathname
     if (params != '') {
         url = url + '?' + params 

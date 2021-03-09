@@ -14,9 +14,9 @@ import (
 	"github.com/imdotdev/im.dev/server/pkg/models"
 )
 
-func HomePosts(user *models.User, filter string) (models.Posts, *e.Error) {
+func HomePosts(user *models.User, filter string) (models.Stories, *e.Error) {
 
-	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,creator,created,updated from posts")
+	rows, err := db.Conn.Query("select id,type,slug,title,url,cover,brief,creator,created,updated from story where status=?", models.StatusPublished)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get user posts error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -28,8 +28,15 @@ func HomePosts(user *models.User, filter string) (models.Posts, *e.Error) {
 	return posts, nil
 }
 
-func UserPosts(user *models.User, uid string) (models.Posts, *e.Error) {
-	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,creator,created,updated from posts where creator=?", uid)
+func UserPosts(tp string, user *models.User, uid string) (models.Stories, *e.Error) {
+	var rows *sql.Rows
+	var err error
+	if tp == models.IDTypeUndefined {
+		rows, err = db.Conn.Query("select id,type,slug,title,url,cover,brief,creator,created,updated from story where creator=? and status=?", uid, models.StatusPublished)
+	} else {
+		rows, err = db.Conn.Query("select id,type,slug,title,url,cover,brief,creator,created,updated from story where creator=? and type=? and status=?", uid, tp, models.StatusPublished)
+	}
+
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get user posts error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -41,7 +48,20 @@ func UserPosts(user *models.User, uid string) (models.Posts, *e.Error) {
 	return posts, nil
 }
 
-func TagPosts(user *models.User, tagID string) (models.Posts, *e.Error) {
+func UserDrafts(user *models.User, uid string) (models.Stories, *e.Error) {
+	rows, err := db.Conn.Query("select id,type,slug,title,url,cover,brief,creator,created,updated from story where creator=? and status=?", uid, models.StatusDraft)
+	if err != nil && err != sql.ErrNoRows {
+		logger.Warn("get user drafts error", "error", err)
+		return nil, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	posts := GetPosts(user, rows)
+
+	sort.Sort(posts)
+	return posts, nil
+}
+
+func TagPosts(user *models.User, tagID string) (models.Stories, *e.Error) {
 	// get post ids
 	postIDs, err := tags.GetTargetIDs(tagID)
 	if err != nil {
@@ -51,7 +71,7 @@ func TagPosts(user *models.User, tagID string) (models.Posts, *e.Error) {
 
 	ids := strings.Join(postIDs, "','")
 
-	q := fmt.Sprintf("select id,slug,title,url,cover,brief,creator,created,updated from posts where id in ('%s')", ids)
+	q := fmt.Sprintf("select id,type,slug,title,url,cover,brief,creator,created,updated from story where id in ('%s') and status='%d'", ids, models.StatusPublished)
 	rows, err := db.Conn.Query(q)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get user posts error", "error", err)
@@ -64,7 +84,7 @@ func TagPosts(user *models.User, tagID string) (models.Posts, *e.Error) {
 	return posts, nil
 }
 
-func BookmarkPosts(user *models.User, filter string) (models.Posts, *e.Error) {
+func BookmarkPosts(user *models.User, filter string) (models.Stories, *e.Error) {
 	// get post ids
 	rows, err := db.Conn.Query("select story_id from bookmarks where user_id=?", user.ID)
 	if err != nil {
@@ -81,7 +101,7 @@ func BookmarkPosts(user *models.User, filter string) (models.Posts, *e.Error) {
 
 	ids := strings.Join(postIDs, "','")
 
-	q := fmt.Sprintf("select id,slug,title,url,cover,brief,creator,created,updated from posts where id in ('%s')", ids)
+	q := fmt.Sprintf("select id,type,slug,title,url,cover,brief,creator,created,updated from story where id in ('%s')", ids)
 	rows, err = db.Conn.Query(q)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get user posts error", "error", err)
@@ -104,11 +124,11 @@ func BookmarkPosts(user *models.User, filter string) (models.Posts, *e.Error) {
 	return posts, nil
 }
 
-func GetPosts(user *models.User, rows *sql.Rows) models.Posts {
-	posts := make(models.Posts, 0)
+func GetPosts(user *models.User, rows *sql.Rows) models.Stories {
+	posts := make(models.Stories, 0)
 	for rows.Next() {
-		ar := &models.Post{}
-		err := rows.Scan(&ar.ID, &ar.Slug, &ar.Title, &ar.URL, &ar.Cover, &ar.Brief, &ar.CreatorID, &ar.Created, &ar.Updated)
+		ar := &models.Story{}
+		err := rows.Scan(&ar.ID, &ar.Type, &ar.Slug, &ar.Title, &ar.URL, &ar.Cover, &ar.Brief, &ar.CreatorID, &ar.Created, &ar.Updated)
 		if err != nil {
 			logger.Warn("scan post error", "error", err)
 			continue

@@ -1,7 +1,5 @@
 import { Menu,MenuButton,MenuList,MenuItem, Text, Box, Heading, Image, HStack, Center, Button, Flex, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, FormControl, FormLabel, FormHelperText, Input, FormErrorMessage, VStack, Textarea, Divider, useColorModeValue, useToast } from "@chakra-ui/react"
 import Card from "components/card"
-import Nav from "layouts/nav/nav"
-import PageContainer from "layouts/page-container"
 import Sidebar from "layouts/sidebar/sidebar"
 import React, { useEffect, useState } from "react"
 import {editorLinks} from "src/data/links"
@@ -9,16 +7,18 @@ import { requestApi } from "utils/axios/request"
 import { useDisclosure } from "@chakra-ui/react"
 import { Field, Form, Formik } from "formik"
 import { config } from "configs/config"
-import TextPostCard from "components/story/text-post-card"
-import { Post } from "src/types/posts"
+import TextStoryCard from "components/story/text-story-card"
+import { Story } from "src/types/story"
 import { FaExternalLinkAlt, FaRegEdit } from "react-icons/fa"
 import { useRouter } from "next/router"
 import { ReserveUrls } from "src/data/reserve-urls"
 import Link from "next/link"
 import PageContainer1 from "layouts/page-container1"
+import Empty from "components/empty"
+import { IDType } from "src/types/id"
 var validator = require('validator');
 
-const newPost: Post = { title: '', url: '', cover: '' }
+const newPost: Story = {type: IDType.Post,title: '', url: '', cover: '' }
 const PostsPage = () => {
     const [currentPost, setCurrentPost] = useState(newPost)
     const [posts, setPosts] = useState([])
@@ -26,7 +26,7 @@ const PostsPage = () => {
     const router = useRouter()
     const toast = useToast()
     const getPosts = () => {
-        requestApi.get(`/story/posts/editor`).then((res) => setPosts(res.data)).catch(_ => setPosts([]))
+        requestApi.get(`/story/posts/editor?type=${IDType.Post}`).then((res) => setPosts(res.data)).catch(_ => setPosts([]))
     }
 
     useEffect(() => {
@@ -64,7 +64,7 @@ const PostsPage = () => {
     }
 
     const submitPost = async (values, _) => {
-        await requestApi.post(`/story/post`, values)
+        await requestApi.post(`/story`, values)
         onClose()
         toast({
             description: "提交成功",
@@ -76,7 +76,7 @@ const PostsPage = () => {
         getPosts()
     }
 
-    const editPost = (post: Post) => {
+    const editPost = (post: Story) => {
         if (post.url.trim() === "") {
             router.push(`/editor/post/${post.id}`)
         } else {
@@ -119,20 +119,13 @@ const PostsPage = () => {
                         </Flex>
                         {
                             posts.length === 0 ?
-                                <>
-                                    <Center mt="4">
-                                        <Image height="25rem" src="/empty-posts.png" />
-                                    </Center>
-                                    <Center mt="8">
-                                        <Heading size="sm">你还没创建任何文章</Heading>
-                                    </Center>
-                                </>
+                                <Empty />
                                 :
                                 <>
                                     <VStack mt="4">
                                         {posts.map(post =>
                                             <Box width="100%" key={post.id}>
-                                                <TextPostCard post={post} showActions={true} mt="4" onEdit={() => editPost(post)} onDelete={() => onDeletePost(post.id)} />
+                                                <TextStoryCard story={post} showActions={true} mt="4" onEdit={() => editPost(post)} onDelete={() => onDeletePost(post.id)} />
                                                 <Divider mt="5" />
                                             </Box>
                                         )}

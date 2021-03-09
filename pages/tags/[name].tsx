@@ -1,19 +1,16 @@
-import { Box, Button, chakra, Flex, Heading, HStack, Image, Text, VStack } from "@chakra-ui/react"
+import { Box, Button, Flex, Heading, HStack, Image, Text, VStack } from "@chakra-ui/react"
 import Card from "components/card"
-import Container from "components/container"
 import Empty from "components/empty"
 import { MarkdownRender } from "components/markdown-editor/render"
-import Posts from "components/story/posts"
+import Stories from "components/story/stories"
 import SEO from "components/seo"
 import siteConfig from "configs/site-config"
 import useSession from "hooks/use-session"
-import Nav from "layouts/nav/nav"
-import PageContainer from "layouts/page-container"
 import PageContainer1 from "layouts/page-container1"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import { ReserveUrls } from "src/data/reserve-urls"
-import { Post } from "src/types/posts"
+import { Story } from "src/types/story"
 import { Tag } from "src/types/tag"
 import { requestApi } from "utils/axios/request"
 import { isAdmin } from "utils/role"
@@ -23,7 +20,7 @@ import Count from "components/count"
 const UserPage = () => {
     const router = useRouter()
 
-    const [posts, setPosts]: [Post[], any] = useState([])
+    const [posts, setPosts]: [Story[], any] = useState([])
     const [tag, setTag]: [Tag, any] = useState(null)
 
     const [followed, setFollowed] = useState(null)
@@ -81,7 +78,7 @@ const UserPage = () => {
                                     </Card>
                                     :
                                     <Card width="100%" height="fit-content" p="0" px="3">
-                                        <Posts posts={posts} />
+                                        <Stories stories={posts} />
                                     </Card>
                             }
                         </VStack>

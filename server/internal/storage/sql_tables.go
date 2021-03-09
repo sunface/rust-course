@@ -48,12 +48,13 @@ var sqlTables = map[string]string{
 		);
 	`,
 
-	"posts": `CREATE TABLE IF NOT EXISTS posts (
+	"story": `CREATE TABLE IF NOT EXISTS story (
 		id 			VARCHAR(255) PRIMARY KEY,
+		type        VARCHAR(1) NOT NULL,
 		creator 	VARCHAR(255) NOT NULL,
-		slug 		VARCHAR(64) NOT NULL,
-		title 		VARCHAR(255) NOT NULL,
-		md   		TEXT,
+		slug 		VARCHAR(64) DEFAULT '',
+		title 		VARCHAR(255) DEFAULT '',
+		md   		TEXT DEFAULT '',
 		url  		VARCHAR(255),
 		cover 		VARCHAR(255),
 		brief 		TEXT,
@@ -61,10 +62,12 @@ var sqlTables = map[string]string{
 		created 	DATETIME NOT NULL,
 		updated 	DATETIME
 	);
-	CREATE INDEX IF NOT EXISTS posts_creator
-		ON posts (creator);
-	CREATE INDEX IF NOT EXISTS posts_created
-		ON posts (created);
+	CREATE INDEX IF NOT EXISTS story_type
+		ON story (type);
+	CREATE INDEX IF NOT EXISTS story_creator
+		ON story (creator);
+	CREATE INDEX IF NOT EXISTS story_created
+		ON story (created);
 	`,
 
 	"likes": `CREATE TABLE IF NOT EXISTS likes (
@@ -136,14 +139,14 @@ var sqlTables = map[string]string{
 
 	"comments": `CREATE TABLE IF NOT EXISTS comments (
 		id           VARCHAR(255) PRIMARY KEY, 
-		target_id    VARCHAR(255),
+		story_id    VARCHAR(255),
 		creator      VARCHAR(255),
 		MD           TEXT,
 		created DATETIME NOT NULL,
 		updated DATETIME
 	);
-	CREATE INDEX IF NOT EXISTS comments_targetid
-		ON comments (target_id);
+	CREATE INDEX IF NOT EXISTS comments_storyid
+		ON comments (story_id);
 	CREATE INDEX IF NOT EXISTS comments_creator
 		ON comments (creator);
 	`,

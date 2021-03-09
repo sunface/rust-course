@@ -45,13 +45,15 @@ func (s *Server) Start() error {
 		r := router.Group("/api")
 
 		//story apis
-		r.GET("/story/post/:id", api.GetStoryPost)
+		r.GET("/story/post/:id", api.GetStory)
 		r.GET("/story/comments/:id", api.GetStoryComments)
 		r.POST("/story/comment", IsLogin(), api.SubmitComment)
 		r.DELETE("/story/comment/:id", IsLogin(), api.DeleteStoryComment)
 		r.GET("/story/posts/editor", IsLogin(), api.GetEditorPosts)
+		r.GET("/story/posts/drafts", IsLogin(), api.GetEditorDrafts)
 		r.GET("/story/posts/home/:filter", api.GetHomePosts)
-		r.POST("/story/post", IsLogin(), api.SubmitPost)
+		r.POST("/story", IsLogin(), api.SubmitStory)
+		r.POST("/story/post/draft", IsLogin(), api.SubmitPostDraft)
 		r.DELETE("/story/post/:id", IsLogin(), api.DeletePost)
 		r.POST("/story/bookmark/:storyID", IsLogin(), api.Bookmark)
 		r.GET("/story/bookmark/posts", IsLogin(), api.GetBookmarkPosts)

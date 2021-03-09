@@ -2,7 +2,7 @@ import { Box, Divider, Flex, HStack, Input } from "@chakra-ui/react"
 import Card from "components/card"
 import Empty from "components/empty"
 import SEO from "components/seo"
-import Posts from "components/story/posts"
+import Stories from "components/story/stories"
 import  SearchFilters  from "components/search-filters"
 import siteConfig from "configs/site-config"
 import PageContainer1 from "layouts/page-container1"
@@ -88,7 +88,7 @@ const PostsSearchPage = () => {
                             <Divider mt="3"/>
                             {results.length === 0 && <Empty /> }
                             {results.length > 0 &&
-                                <Posts posts={results} showFooter={false} type="compact" highlight={query}/>}
+                                <Stories stories={results} showFooter={false} type="compact" highlight={query}/>}
                         </Card>
                     </Box>
                 </Flex>

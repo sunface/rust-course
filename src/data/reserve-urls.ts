@@ -8,6 +8,7 @@ export enum ReserveUrls {
     Settings = "/settings",
     Jobs = "/jobs",
     Books = "/books",
+    Series = "/series",
     Notifications = "/notifications",
     Sponsors = "/sponsors",
     Explore = "/explore",

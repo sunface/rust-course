@@ -11,6 +11,12 @@ export const editorLinks: Route[] = [{
     disabled: false
 },
 {
+    title: '草稿',
+    path: `${ReserveUrls.Editor}/drafts`,
+    icon: getSvgIcon("drafts"),
+    disabled: false
+},
+{
     title: '系列',
     path: `${ReserveUrls.Editor}/series`,
     icon: getSvgIcon("series"),

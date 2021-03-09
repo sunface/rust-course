@@ -1,29 +1,33 @@
 import React from "react"
 import {chakra, Heading, VStack, Text, HStack,Button, Flex,PropsOf, Tag, useMediaQuery } from "@chakra-ui/react"
-import { Post } from "src/types/posts"
+import { Story } from "src/types/story"
 import moment from 'moment'
+import { IDType } from "src/types/id"
+import { getStoryUrl } from "utils/story"
 
 type Props = PropsOf<typeof chakra.div> & {
-    post: Post
+    story: Story
     showActions: boolean
     onEdit?: any
     onDelete?: any
+    showSource?: boolean
 }
 
 
-export const TextPostCard= (props:Props) =>{
-    const {post,showActions,onEdit,onDelete, ...rest} = props
+export const TextStoryCard= (props:Props) =>{
+    const {story,showActions,onEdit,onDelete,showSource=true ,...rest} = props
 
     const [isSmallScreen] = useMediaQuery("(max-width: 768px)")
     const Lay = isSmallScreen ? VStack : Flex
-    const gap = moment(post.created).fromNow()
+    const gap = moment(story.created).fromNow()
+
     return (
         //@ts-ignore
         <Lay justifyContent="space-between" alignItems={isSmallScreen? "left" : "center"}  {...rest}>
-            <VStack alignItems="left" as="a" href={post.url ? post.url : `/${post.creator.username}/${post.id}`} spacing={{base: 4, md: 2}}>
+            <VStack alignItems="left" as="a" href={story.url ?? getStoryUrl(story)} spacing={{base: 4, md: 2}}>
                 <Heading size="sm" display="flex" alignItems="center">
-                    {post.url ? <Tag size="sm" mr="2">外部</Tag> : <Tag size="sm" mr="2">原创</Tag>}
-                    {post.title}
+                    {showSource && <> {story.url ? <Tag size="sm" mr="2">外部</Tag> : <Tag size="sm" mr="2">原创</Tag>}</>}
+                    {story.title ?story.title : 'No Title'}
                 </Heading>
                 <Text fontSize=".9rem">发布于{gap}</Text>
             </VStack>
@@ -35,4 +39,4 @@ export const TextPostCard= (props:Props) =>{
     )
 } 
 
-export default TextPostCard
+export default TextStoryCard
