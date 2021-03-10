@@ -1,9 +1,9 @@
 package models
 
 import (
+	"database/sql"
 	"fmt"
 
-	"github.com/grafana/grafana/pkg/cmd/grafana-cli/logger"
 	"github.com/imdotdev/im.dev/server/pkg/db"
 )
 
@@ -56,8 +56,8 @@ func IdExist(id string) bool {
 
 	var nid string
 	err := db.Conn.QueryRow(fmt.Sprintf("SELECT id from %s WHERE id=?", tbl), id).Scan(&nid)
-	if err != nil {
-		logger.Warn("query post error", "error", err)
+	if err != nil && err != sql.ErrNoRows {
+		logger.Warn("check id exist error", "error", err, "table", tbl, "id", id)
 		return false
 	}
 

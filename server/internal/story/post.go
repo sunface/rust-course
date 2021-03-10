@@ -76,8 +76,12 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 
 	setSlug(user.ID, post)
 
-	if post.ID == "" {
-		post.ID = utils.GenID(post.Type)
+	exist := models.IdExist(post.ID)
+	if !exist {
+		if post.ID == "" {
+			post.ID = utils.GenID(post.Type)
+		}
+
 		//create
 		_, err := db.Conn.Exec("INSERT INTO story (id,type,creator,slug, title, md, url, cover, brief,status, created, updated) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
 			post.ID, post.Type, user.ID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, models.StatusPublished, now, now)

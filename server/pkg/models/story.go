@@ -1,6 +1,11 @@
 package models
 
-import "time"
+import (
+	"fmt"
+	"time"
+
+	"github.com/imdotdev/im.dev/server/pkg/db"
+)
 
 const (
 	StatusDraft     = 1
@@ -45,4 +50,24 @@ func (s FavorStories) Len() int      { return len(s) }
 func (s FavorStories) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
 func (s FavorStories) Less(i, j int) bool {
 	return s[i].Likes > s[j].Likes
+}
+
+type SeriesPost struct {
+	PostID   string `json:"id"`
+	Priority int    `json:"priority"`
+}
+
+func IsStoryCreator(userID string, storyID string) bool {
+	var nid string
+	err := db.Conn.QueryRow("SELECT creator FROM story WHERE id=?", storyID).Scan(&nid)
+	fmt.Println(userID, storyID, err)
+	if err != nil {
+		return false
+	}
+
+	if nid == userID {
+		return true
+	}
+
+	return false
 }

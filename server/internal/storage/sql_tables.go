@@ -165,4 +165,15 @@ var sqlTables = map[string]string{
 	CREATE INDEX IF NOT EXISTS bookmarks_userid
 		ON bookmarks (user_id);
 	`,
+
+	"series_post": `CREATE TABLE IF NOT EXISTS series_post (
+		series_id       VARCHAR(255), 
+		post_id         VARCHAR(255),
+		priority        TINYINT
+	);
+	CREATE INDEX IF NOT EXISTS series_post_seriesid
+		ON series_post (series_id);
+	CREATE INDEX IF NOT EXISTS series_post_postid
+		ON series_post (post_id);
+	`,
 }

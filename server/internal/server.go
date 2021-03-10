@@ -46,6 +46,7 @@ func (s *Server) Start() error {
 
 		//story apis
 		r.GET("/story/post/:id", api.GetStory)
+		r.GET("/story/id/:type", IsLogin(), InvasionCheck(), api.GenStoryID)
 		r.GET("/story/comments/:id", api.GetStoryComments)
 		r.POST("/story/comment", IsLogin(), api.SubmitComment)
 		r.DELETE("/story/comment/:id", IsLogin(), api.DeleteStoryComment)
@@ -53,6 +54,9 @@ func (s *Server) Start() error {
 		r.GET("/story/posts/drafts", IsLogin(), api.GetEditorDrafts)
 		r.GET("/story/posts/home/:filter", api.GetHomePosts)
 		r.POST("/story", IsLogin(), api.SubmitStory)
+		r.POST("/story/series/post/:id", IsLogin(), api.SubmitSeriesPost)
+		r.GET("/story/series/post/:id", api.GetSeriesPost)
+		r.DELETE("/story/series/post/:id", api.DeleteSeriesPost)
 		r.POST("/story/post/draft", IsLogin(), api.SubmitPostDraft)
 		r.DELETE("/story/post/:id", IsLogin(), api.DeletePost)
 		r.POST("/story/bookmark/:storyID", IsLogin(), api.Bookmark)
@@ -131,6 +135,13 @@ func IsLogin() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
+		c.Next()
+	}
+}
+
+func InvasionCheck() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		//@todo
 		c.Next()
 	}
 }
