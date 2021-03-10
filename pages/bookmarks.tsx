@@ -95,7 +95,7 @@ import Empty from "components/empty"
               </Card>
   
               <Card p="0">
-                <Wrap pt="4" pb="1" pl="4" alignItems="center">
+                {<Wrap pt="4" pb="1" pl="4" alignItems="center">
                     {
                         tags.map(t => 
                         <HStack px="2" py="1" spacing="1" mr="3" cursor="pointer" key={t.id} className={t.id===filter?.id ?"tag-bg": null} onClick={() => filterPostsByTag(t)}>
@@ -103,8 +103,8 @@ import Empty from "components/empty"
                             <Text fontSize=".9rem">{t.title}</Text>
                         </HStack>)
                     }
-                </Wrap>
-                <Divider mt="3" mb="5" />
+                </Wrap>}
+                {tags.length > 0&& <Divider mt="3" mb="5" />}
                 {posts.length !== 0 
                     ? 
                     <Stories stories={posts} showFooter={false}/> 

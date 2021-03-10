@@ -34,6 +34,8 @@ type Story struct {
 	Status     int         `json:"status"`
 	Created    time.Time   `json:"created"`
 	Updated    time.Time   `json:"updated"`
+
+	Priority int `json:"-"`
 }
 
 type Stories []*Story
@@ -52,9 +54,25 @@ func (s FavorStories) Less(i, j int) bool {
 	return s[i].Likes > s[j].Likes
 }
 
+type PriorityStories []*Story
+
+func (s PriorityStories) Len() int      { return len(s) }
+func (s PriorityStories) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
+func (s PriorityStories) Less(i, j int) bool {
+	return s[i].Priority < s[j].Priority
+}
+
 type SeriesPost struct {
 	PostID   string `json:"id"`
 	Priority int    `json:"priority"`
+}
+
+type SeriesPosts []*SeriesPost
+
+func (s SeriesPosts) Len() int      { return len(s) }
+func (s SeriesPosts) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
+func (s SeriesPosts) Less(i, j int) bool {
+	return s[i].Priority < s[j].Priority
 }
 
 func IsStoryCreator(userID string, storyID string) bool {

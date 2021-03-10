@@ -1,7 +1,7 @@
 import React from "react"
-import { Box, Heading, HStack, Image, Text, useMediaQuery, VStack } from "@chakra-ui/react"
+import { Box, Heading, HStack, Image, Tag, Text, useMediaQuery, VStack } from "@chakra-ui/react"
 import { Story } from "src/types/story"
-import StoryAuthor  from "./story-author"
+import StoryAuthor from "./story-author"
 import Link from "next/link"
 import Like from "../interaction/like"
 import Bookmark from "./bookmark"
@@ -23,27 +23,29 @@ export const StoryCard = (props: Props) => {
     const { story, type = "classic" } = props
     const [isLargeScreen] = useMediaQuery("(min-width: 768px)")
     const Layout = isLargeScreen ? HStack : VStack
-  
+
 
     return (
         <VStack alignItems="left" spacing={type === "classic" ? 4 : 2} p="2">
             <StoryAuthor story={story} showFooter={false} size="md" />
             <a href={getStoryUrl(story)} target="_blank">
                 <Layout alignItems={isLargeScreen ? "top" : "left"} cursor="pointer" pl="2" pt="1">
-                    <VStack alignItems="left" spacing={type==="classic"? 3 : 2} width={isLargeScreen && type === "classic" ? "calc(100% - 18rem)" : '100%'}>
-                        <Heading size="md" fontSize={type==="classic" ? '1.4rem' : '1.2rem'}><Highlighter
-                            highlightClassName="highlight-search-match"
-                            textToHighlight={story.title}
-                            searchWords={[props.highlight]}
-                        />
+                    <VStack alignItems="left" spacing={type === "classic" ? 3 : 2} width={isLargeScreen && type === "classic" ? "calc(100% - 18rem)" : '100%'}>
+                        <Heading size="md" fontSize={type === "classic" ? '1.4rem' : '1.2rem'}>
+                            <Highlighter
+                                highlightClassName="highlight-search-match"
+                                textToHighlight={story.title}
+                                searchWords={[props.highlight]}
+                            />
+                            {story.type === IDType.Series && <Tag size="sm" mt="1" ml="2">SERIES</Tag>}
                         </Heading>
                         {type !== "classic" && <HStack>{story.rawTags.map(t => <Text layerStyle="textSecondary" fontSize="md">#{t.name}</Text>)}</HStack>}
                         <Text layerStyle={type === "classic" ? "textSecondary" : null}>
                             <Highlighter
-                            highlightClassName="highlight-search-match"
-                            textToHighlight={story.brief}
-                            searchWords={[props.highlight]}
-                        /></Text>
+                                highlightClassName="highlight-search-match"
+                                textToHighlight={story.brief}
+                                searchWords={[props.highlight]}
+                            /></Text>
                     </VStack>
                     {story.cover && type === "classic" && <Image src={story.cover} width="18rem" height="120px" pt={isLargeScreen ? 0 : 2} borderRadius="4px" />}
                 </Layout>

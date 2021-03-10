@@ -43,7 +43,7 @@ function PageContainer1(props: PageContainerProps) {
       <Flex px={[0,0,16,16]}>
       <VerticalNav display={{base:"none",md:"block"}} width={["100px","100px","200px","200px"]} /> 
       <Nav display={{base:"block",md:"none"}} />
-      <Box width="100%" ml={["0px","0px","150px","150px"]} pb="8" p={["1","1","3","3"]} mt={["70px","70px","0px","0px"]} {...rest}>
+      <Box overflow="auto" width="100%" ml={["0px","0px","150px","150px"]} pb="8" p={["1","1","3","3"]} mt={["70px","70px","0px","0px"]} {...rest}>
         {children}
       </Box>
     </Flex>

@@ -12,14 +12,18 @@ import React, { useEffect, useState } from "react"
 import { Story } from "src/types/story"
 import { requestApi } from "utils/axios/request"
 import StorySidebar from "components/story/story-sidebar"
+import Series from "components/story/series"
+import Card from "components/card"
 
 const PostPage = () => {
   const router = useRouter()
   const id = router.query.post_id
   const [post, setPost]: [Story, any] = useState(null)
+  const [series,setSeries] = useState([])
   useEffect(() => {
     if (id) {
       getData()
+      getSeries()
     }
   }, [id])
 
@@ -37,6 +41,10 @@ const PostPage = () => {
     setPost(res.data)
   }
 
+  const getSeries = async () => {
+    const res = await requestApi.get(`/story/series/byPostID/${id}`)
+    setSeries(res.data)
+  }
 
   return (
     <>
@@ -60,6 +68,7 @@ const PostPage = () => {
               </Box>
               <HStack ml="2" spacing="3" mt="4">{post.rawTags.map(tag => <TagTextCard key={tag.id} tag={tag} />)}</HStack>
 
+              {series.length > 0 && <Card p="0" mt="4"><Series postID={post.id} series={series}/></Card>}
               <Box mt="6" p="2"><Comments storyID={post.id} /></Box>
             </Box>
             <Box pt="16">

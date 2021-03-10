@@ -5,6 +5,7 @@ export default function markdownRender(props) {
     console.log(props)
     return  {
         '.markdown-render': {
+           wordBreak: 'break-word',
            '.hljs' : {
                padding: '1rem',
                borderRadius: '8px'

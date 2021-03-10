@@ -40,8 +40,8 @@ func DeletePost(c *gin.Context) {
 		return
 	}
 
-	user := user.CurrentUser(c)
-	if !models.IsStoryCreator(user.ID, id) {
+	u := user.CurrentUser(c)
+	if !models.IsStoryCreator(u.ID, id) {
 		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
 		return
 	}
@@ -57,16 +57,16 @@ func DeletePost(c *gin.Context) {
 func GetStory(c *gin.Context) {
 	id := c.Param("id")
 
-	user := user.CurrentUser(c)
+	u := user.CurrentUser(c)
 	ar, err := story.GetStory(id, "")
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return
 	}
 
-	if user != nil {
-		ar.Liked = interaction.GetLiked(ar.ID, user.ID)
-		ar.Bookmarked, _ = story.Bookmarked(user.ID, ar.ID)
+	if u != nil {
+		ar.Liked = interaction.GetLiked(ar.ID, u.ID)
+		ar.Bookmarked, _ = story.Bookmarked(u.ID, ar.ID)
 	}
 
 	c.JSON(http.StatusOK, common.RespSuccess(ar))
@@ -85,9 +85,9 @@ func GenStoryID(c *gin.Context) {
 func Bookmark(c *gin.Context) {
 	storyID := c.Param("storyID")
 
-	user := user.CurrentUser(c)
+	u := user.CurrentUser(c)
 
-	err := story.Bookmark(user.ID, storyID)
+	err := story.Bookmark(u.ID, storyID)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return
@@ -137,6 +137,18 @@ func GetSeriesPost(c *gin.Context) {
 	c.JSON(http.StatusOK, common.RespSuccess(posts))
 }
 
+func GetSeriesPosts(c *gin.Context) {
+	id := c.Param("id")
+	u := user.CurrentUser(c)
+	posts, err := story.GetSeriesPosts(u, id)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(posts))
+}
+
 func DeleteSeriesPost(c *gin.Context) {
 	id := c.Param("id")
 	if id == "" {
@@ -144,8 +156,8 @@ func DeleteSeriesPost(c *gin.Context) {
 		return
 	}
 
-	user := user.CurrentUser(c)
-	if !models.IsStoryCreator(user.ID, id) {
+	u := user.CurrentUser(c)
+	if !models.IsStoryCreator(u.ID, id) {
 		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
 		return
 	}
@@ -158,4 +170,30 @@ func DeleteSeriesPost(c *gin.Context) {
 
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
 
+}
+
+func GetPostSeries(c *gin.Context) {
+	postID := c.Param("id")
+	series, err := story.GetPostSeries(postID)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(series))
+}
+
+func GetSeries(c *gin.Context) {
+	ids := make([]string, 0)
+	c.Bind(&ids)
+
+	u := user.CurrentUser(c)
+
+	series, err := story.GetSeries(u, ids)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(series))
 }

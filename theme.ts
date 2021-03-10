@@ -24,6 +24,9 @@ const customTheme = extendTheme({
   styles: {
     global: (props) => {
       return ({
+      p: {
+        wordBreak: 'break-word'
+      },
       '.hover-bg:hover': {
         background: mode(userCustomTheme.hoverBg.light,userCustomTheme.hoverBg.dark )(props),
         borderRadius: '6px'

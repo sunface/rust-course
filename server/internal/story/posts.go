@@ -14,9 +14,11 @@ import (
 	"github.com/imdotdev/im.dev/server/pkg/models"
 )
 
+const PostQueryPrefix = "select id,type,slug,title,url,cover,brief,creator,created,updated from story "
+
 func HomePosts(user *models.User, filter string) (models.Stories, *e.Error) {
 
-	rows, err := db.Conn.Query("select id,type,slug,title,url,cover,brief,creator,created,updated from story where status=?", models.StatusPublished)
+	rows, err := db.Conn.Query(PostQueryPrefix+"where status=?", models.StatusPublished)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get user posts error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -32,9 +34,9 @@ func UserPosts(tp string, user *models.User, uid string) (models.Stories, *e.Err
 	var rows *sql.Rows
 	var err error
 	if tp == models.IDTypeUndefined {
-		rows, err = db.Conn.Query("select id,type,slug,title,url,cover,brief,creator,created,updated from story where creator=? and status=?", uid, models.StatusPublished)
+		rows, err = db.Conn.Query(PostQueryPrefix+"where creator=? and status=?", uid, models.StatusPublished)
 	} else {
-		rows, err = db.Conn.Query("select id,type,slug,title,url,cover,brief,creator,created,updated from story where creator=? and type=? and status=?", uid, tp, models.StatusPublished)
+		rows, err = db.Conn.Query(PostQueryPrefix+"where creator=? and type=? and status=?", uid, tp, models.StatusPublished)
 	}
 
 	if err != nil && err != sql.ErrNoRows {
@@ -49,7 +51,7 @@ func UserPosts(tp string, user *models.User, uid string) (models.Stories, *e.Err
 }
 
 func UserDrafts(user *models.User, uid string) (models.Stories, *e.Error) {
-	rows, err := db.Conn.Query("select id,type,slug,title,url,cover,brief,creator,created,updated from story where creator=? and status=?", uid, models.StatusDraft)
+	rows, err := db.Conn.Query(PostQueryPrefix+"where creator=? and status=?", uid, models.StatusDraft)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get user drafts error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -71,7 +73,7 @@ func TagPosts(user *models.User, tagID string) (models.Stories, *e.Error) {
 
 	ids := strings.Join(postIDs, "','")
 
-	q := fmt.Sprintf("select id,type,slug,title,url,cover,brief,creator,created,updated from story where id in ('%s') and status='%d'", ids, models.StatusPublished)
+	q := fmt.Sprintf(PostQueryPrefix+"where id in ('%s') and status='%d'", ids, models.StatusPublished)
 	rows, err := db.Conn.Query(q)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get user posts error", "error", err)
@@ -101,7 +103,7 @@ func BookmarkPosts(user *models.User, filter string) (models.Stories, *e.Error) 
 
 	ids := strings.Join(postIDs, "','")
 
-	q := fmt.Sprintf("select id,type,slug,title,url,cover,brief,creator,created,updated from story where id in ('%s')", ids)
+	q := fmt.Sprintf(PostQueryPrefix+"where id in ('%s')", ids)
 	rows, err = db.Conn.Query(q)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get user posts error", "error", err)
@@ -150,10 +152,11 @@ func GetPosts(user *models.User, rows *sql.Rows) models.Stories {
 		}
 		ar.Likes = interaction.GetLikes(ar.ID)
 
-		_, rawTags, err := tags.GetTargetTags(ar.ID)
+		tags, rawTags, err := tags.GetTargetTags(ar.ID)
 		if err != nil {
 			logger.Warn("get tags error", "error", err)
 		}
+		ar.Tags = tags
 		ar.RawTags = rawTags
 
 		posts = append(posts, ar)

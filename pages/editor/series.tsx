@@ -19,11 +19,12 @@ import { IDType } from "src/types/id"
 import PostSelect from "components/story/post-select"
 import { cloneDeep, find, remove } from "lodash"
 import userCustomTheme from "theme/user-custom"
+import Tags from "components/tags/tags"
 var validator = require('validator');
 
 const newSeries: Story = { title: '', brief: '', cover: '', type: IDType.Series }
 const PostsPage = () => {
-    const [currentSeries, setCurrentSeries] = useState(null)
+    const [currentSeries, setCurrentSeries]:[Story,any] = useState(null)
     const [series, setSeries] = useState([])
     const [posts, setPosts] = useState([])
     const [seriesPosts, setSeriesPosts] = useState([])
@@ -186,6 +187,15 @@ const PostsPage = () => {
                                                         </FormControl>
                                                     )}
                                                 </Field>
+                                                <Field>
+                                                    {({ field, form }) => (
+                                                        <FormControl>
+                                                            <FormLabel>标签</FormLabel>
+                                                            <Tags tags={currentSeries.tags} onChange={(ids) => currentSeries.tags = ids}/>
+                                                        </FormControl>
+                                                    )}
+                                                </Field>
+
                                                 <Field>
                                                     {({ field, form }) => (
                                                         <FormControl isInvalid={form.errors.brief && form.touched.brief}>
