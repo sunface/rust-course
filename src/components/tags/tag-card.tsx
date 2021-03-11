@@ -30,7 +30,7 @@ export const TagCard= (props:Props) =>{
             {showActions ? 
             <HStack>
                 <Button size="sm" colorScheme="teal" variant="outline" onClick={onEdit}>Edit</Button>
-                <Button size="sm" onClick={onDelete} variant="ghost">Delete</Button>
+                {/* <Button size="sm" onClick={onDelete} variant="ghost">Delete</Button> */}
             </HStack> : 
             <ChakraTag py="1" px="3"  colorScheme="cyan"><Count count={tag.posts} />&nbsp;posts</ChakraTag>
             }

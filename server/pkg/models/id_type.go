@@ -75,3 +75,11 @@ func ValidStoryIDType(tp string) bool {
 
 	return false
 }
+
+func ValidFollowIDType(tp string) bool {
+	if tp == IDTypeUser || tp == IDTypeTag {
+		return true
+	}
+
+	return false
+}

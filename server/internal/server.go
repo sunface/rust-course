@@ -69,6 +69,7 @@ func (s *Server) Start() error {
 		r.POST("/tag", IsLogin(), api.SubmitTag)
 		r.DELETE("/tag/:id", IsLogin(), api.DeleteTag)
 		r.GET("/tag/all", api.GetTags)
+		r.POST("tag/ids", api.GetTagsByIDs)
 		r.GET("/tag/posts/:id", api.GetTagPosts)
 		r.GET("/tag/info/:name", api.GetTag)
 		r.GET("/tag/user/:userID", api.GetUserTags)
@@ -85,7 +86,9 @@ func (s *Server) Start() error {
 		// interaction apis
 		r.POST("/interaction/like/:id", IsLogin(), api.Like)
 		r.POST("/interaction/follow/:id", IsLogin(), api.Follow)
+		r.POST("/interaction/following/weight", IsLogin(), api.SetFollowingWeight)
 		r.GET("/interaction/followed/:id", api.Followed)
+		r.GET("/interaction/following/:userID", api.GetFollowing)
 
 		// search apis
 		r.GET("/search/posts/:filter", api.SearchPosts)

@@ -24,6 +24,24 @@ export const editorLinks: Route[] = [{
 }
 ]
 
+export const followLinks: any[] = [
+    {
+        title: 'Following tags',
+        path: `${ReserveUrls.Follow}/tags`,
+        disabled: false
+    },
+    {
+        title: 'Following users',
+        path: `${ReserveUrls.Follow}/users`,
+        disabled: false
+    },
+    {
+        title: 'Followers',
+        path: `${ReserveUrls.Follow}/followers`,
+        disabled: false
+    },
+]
+
 export const searchLinks: any[] = [{
     title: '文章',
     path: `${ReserveUrls.Search}/posts`,

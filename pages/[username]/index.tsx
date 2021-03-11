@@ -82,7 +82,7 @@ const UserPage = () => {
       <PageContainer1 p="0">
         {
           user &&
-          <Box alignItems="left">
+          <Box alignItems="left" pb="6">
             <Card p="0" borderTop="none">
               <Box backgroundImage={`url(${user.cover})`} height="300px" width="100%" backgroundSize="cover" backgroundPosition="center" />
               <VStack maxHeight="200px" position="relative" top="-70px" spacing="3">

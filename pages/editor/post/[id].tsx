@@ -104,7 +104,7 @@ function PostEditPage() {
   }
 
   const publish = async () => {
-    if (ar.tags?.length === 0) {
+    if (!ar.tags || ar.tags?.length === 0) {
       toast({
         description: "请设置文章标签",
         status: "error",

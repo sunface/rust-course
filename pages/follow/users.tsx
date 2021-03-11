@@ -4,7 +4,7 @@ import Nav from "layouts/nav/nav"
 import PageContainer from "layouts/page-container"
 import Sidebar from "layouts/sidebar/sidebar"
 import React, { useEffect, useState } from "react"
-import {adminLinks} from "src/data/links"
+import {adminLinks, followLinks} from "src/data/links"
 import { requestApi } from "utils/axios/request"
 import TagCard from "components/tags/tag-card"
 import { useRouter } from "next/router"
@@ -16,7 +16,7 @@ import PageContainer1 from "layouts/page-container1"
 import Empty from "components/empty"
 
 
-const PostsPage = () => {
+const UsersPage = () => {
     const [tags, setTags] = useState([])
     const router = useRouter()
     const toast = useToast()
@@ -47,7 +47,7 @@ const PostsPage = () => {
         <>
             <PageContainer1>
                 <Box display="flex">
-                    <Sidebar routes={adminLinks} title="管理员" />
+                    <Sidebar routes={followLinks} title="我的关注" />
                     <Card ml="4" p="6" width="100%">
                         <Flex alignItems="center" justify="space-between">
                             <Heading size="md">标签列表({tags.length})</Heading>
@@ -55,7 +55,7 @@ const PostsPage = () => {
                         </Flex>
                         {
                             tags.length === 0 ?
-                               <Empty />
+                                <Empty />
                                 :
                                 <>
                                     <VStack mt="4">
@@ -75,5 +75,5 @@ const PostsPage = () => {
         </>
     )
 }
-export default PostsPage
+export default UsersPage
 

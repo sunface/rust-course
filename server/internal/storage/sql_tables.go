@@ -92,6 +92,7 @@ var sqlTables = map[string]string{
 		user_id       	 VARCHAR(255),
 		target_id        VARCHAR(255),
 		target_type       VARCHAR(1),
+		weight			 TINYINT DEFAULT 1,
 		created          DATETIME NOT NULL
 	);
 	CREATE INDEX IF NOT EXISTS follows_userid

@@ -2,6 +2,7 @@
 export enum ReserveUrls {
     Tags = "/tags",
     Courses = "/courses",
+    Follow = "/follow",
     Editor =  "/editor",
     Admin = "/admin",
     Bookmarks = "/bookmarks",

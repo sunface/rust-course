@@ -33,6 +33,23 @@ func GetTags(c *gin.Context) {
 	c.JSON(http.StatusOK, common.RespSuccess(res))
 }
 
+func GetTagsByIDs(c *gin.Context) {
+	ids := make([]string, 0)
+	err := c.Bind(&ids)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
+		return
+	}
+
+	ts, err0 := tags.GetTagsByIDs(ids)
+	if err != nil {
+		c.JSON(err0.Status, common.RespError(err0.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(ts))
+}
+
 func SubmitTag(c *gin.Context) {
 	user := user.CurrentUser(c)
 	if !user.Role.IsAdmin() {

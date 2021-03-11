@@ -3,6 +3,7 @@ package interaction
 import (
 	"database/sql"
 	"net/http"
+	"sort"
 	"time"
 
 	"github.com/imdotdev/im.dev/server/pkg/db"
@@ -90,4 +91,32 @@ func GetFollows(targetID string) int {
 	}
 
 	return follows
+}
+
+func GetFollowing(userID, targetType string) ([]*models.Following, *e.Error) {
+	rows, err := db.Conn.Query("SELECT target_id,weight from follows where user_id=? and target_type=?", userID, targetType)
+	if err != nil {
+		logger.Warn("get following error", "error", err)
+		return nil, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	following := make(models.Followings, 0)
+	for rows.Next() {
+		f := &models.Following{}
+		rows.Scan(&f.ID, &f.Weight)
+		following = append(following, f)
+	}
+
+	sort.Sort(following)
+	return following, nil
+}
+
+func SetFolloingWeight(userID string, f *models.Following) *e.Error {
+	_, err := db.Conn.Exec("UPDATE follows SET weight=? WHERE user_id=? and target_id=?", f.Weight, userID, f.ID)
+	if err != nil {
+		logger.Warn("set following weight error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	return nil
 }

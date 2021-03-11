@@ -103,6 +103,20 @@ func GetTags() (models.Tags, *e.Error) {
 	return tags, nil
 }
 
+func GetTagsByIDs(ids []string) ([]*models.Tag, *e.Error) {
+	tags := make([]*models.Tag, 0, len(ids))
+	for _, id := range ids {
+		tag, err := GetSimpleTag(id, "")
+		if err != nil {
+			logger.Warn("get tag error", "error", err)
+			continue
+		}
+		tags = append(tags, tag)
+	}
+
+	return tags, nil
+}
+
 func DeleteTag(id int64) *e.Error {
 	_, err := db.Conn.Exec("DELETE FROM tags WHERE id=?", id)
 	if err != nil {
