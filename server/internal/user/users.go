@@ -6,7 +6,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/imdotdev/im.dev/server/internal/cache"
 	"github.com/imdotdev/im.dev/server/internal/interaction"
 	"github.com/imdotdev/im.dev/server/internal/tags"
 	"github.com/imdotdev/im.dev/server/pkg/db"
@@ -15,10 +14,8 @@ import (
 )
 
 func GetUsers(q string) ([]*models.User, *e.Error) {
-	allUsers := cache.Users
-
 	users := make([]*models.User, 0)
-	for _, u := range allUsers {
+	for _, u := range models.UsersCache {
 		if strings.HasPrefix(strings.ToLower(u.Nickname), strings.ToLower(q)) {
 			users = append(users, u)
 			continue
@@ -31,6 +28,19 @@ func GetUsers(q string) ([]*models.User, *e.Error) {
 	}
 
 	return users, nil
+}
+
+func GetUsersByIDs(ids []string) []*models.User {
+	users := make([]*models.User, 0)
+	for _, id := range ids {
+		u, ok := models.UsersMapCache[id]
+		if ok {
+			users = append(users, u)
+		}
+		u.Followed = true
+	}
+
+	return users
 }
 
 func GetUserDetail(id string, username string) (*models.User, *e.Error) {
@@ -64,6 +74,8 @@ func GetUserDetail(id string, username string) (*models.User, *e.Error) {
 	user.Skills = skills
 
 	user.Follows = interaction.GetFollows(user.ID)
+
+	user.Followings = interaction.GetFollowings(user.ID, models.IDTypeUser)
 
 	return user, nil
 }

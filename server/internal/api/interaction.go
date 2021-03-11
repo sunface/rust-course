@@ -74,13 +74,35 @@ func GetFollowing(c *gin.Context) {
 		userID = u.ID
 	}
 
-	tags, err := interaction.GetFollowing(userID, targetType)
+	following, err := interaction.GetFollowing(userID, targetType)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return
 	}
 
-	c.JSON(http.StatusOK, common.RespSuccess(tags))
+	c.JSON(http.StatusOK, common.RespSuccess(following))
+}
+
+func GetFollowers(c *gin.Context) {
+	userID := c.Param("userID")
+	targetType := c.Query("type")
+	if userID == "" || !models.ValidFollowIDType(targetType) {
+		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
+		return
+	}
+
+	if userID == "0" {
+		u := user.CurrentUser(c)
+		userID = u.ID
+	}
+
+	followers, err := interaction.GetFollowers(userID, targetType)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(followers))
 }
 
 func SetFollowingWeight(c *gin.Context) {

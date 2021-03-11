@@ -32,7 +32,8 @@ export interface User {
     facebook?: string
     stackoverflow?: string
 
-    follows?: number 
+    follows?: number
+    followings?: number 
     followed?: boolean
     
     lastSeenAt?: string

@@ -11,27 +11,28 @@ type User struct {
 	Username string   `json:"username"`
 	Nickname string   `json:"nickname"`
 	Avatar   string   `json:"avatar"`
-	Email    string   `json:"email"`
-	Role     RoleType `json:"role"`
+	Email    string   `json:"email,omitempty"`
+	Role     RoleType `json:"role,omitempty"`
 
-	Tagline   string   `json:"tagline"`
-	Cover     string   `json:"cover"`
-	Location  string   `json:"location"`
-	AvailFor  string   `json:"availFor"`
-	About     string   `json:"about"`
-	RawSkills []*Tag   `json:"rawSkills"`
-	Skills    []string `json:"skills"`
+	Tagline   string   `json:"tagline,omitempty"`
+	Cover     string   `json:"cover,omitempty"`
+	Location  string   `json:"location,omitempty"`
+	AvailFor  string   `json:"availFor,omitempty"`
+	About     string   `json:"about,omitempty"`
+	RawSkills []*Tag   `json:"rawSkills,omitempty"`
+	Skills    []string `json:"skills,omitempty"`
 
-	Website       string `json:"website"`
-	Twitter       string `json:"twitter"`
-	Github        string `json:"github"`
-	Zhihu         string `json:"zhihu"`
-	Weibo         string `json:"weibo"`
-	Facebook      string `json:"facebook"`
-	Stackoverflow string `json:"stackoverflow"`
+	Website       string `json:"website,omitempty"`
+	Twitter       string `json:"twitter,omitempty"`
+	Github        string `json:"github,omitempty"`
+	Zhihu         string `json:"zhihu,omitempty"`
+	Weibo         string `json:"weibo,omitempty"`
+	Facebook      string `json:"facebook,omitempty"`
+	Stackoverflow string `json:"stackoverflow,omitempty"`
 
-	Follows  int  `json:"follows"`
-	Followed bool `json:"followed"`
+	Follows    int  `json:"follows,omitempty"`
+	Followings int  `json:"followings,omitempty"`
+	Followed   bool `json:"followed,omitempty"`
 
 	LastSeenAt time.Time `json:"lastSeenAt,omitempty"`
 	Created    time.Time `json:"created"`

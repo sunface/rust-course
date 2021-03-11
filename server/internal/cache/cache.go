@@ -10,13 +10,12 @@ import (
 )
 
 var logger = log.RootLogger.New("logger", "cache")
-var Users []*models.User
 
 func Init() {
-	time.Sleep(10 * time.Second)
+	time.Sleep(2 * time.Second)
 	for {
 		// load users
-		rows, err := db.Conn.Query(`SELECT id,username,role,nickname,email,avatar,last_seen_at,created FROM user`)
+		rows, err := db.Conn.Query(`SELECT id,username,role,nickname,avatar,last_seen_at,created FROM user`)
 		if err != nil {
 			logger.Error("load users error", "error", err)
 			time.Sleep(60 * time.Second)
@@ -24,9 +23,10 @@ func Init() {
 		}
 
 		var users []*models.User
+		usersMap := make(map[string]*models.User)
 		for rows.Next() {
 			user := &models.User{}
-			err := rows.Scan(&user.ID, &user.Username, &user.Role, &user.Nickname, &user.Email, &user.Avatar, &user.LastSeenAt, &user.Created)
+			err := rows.Scan(&user.ID, &user.Username, &user.Role, &user.Nickname, &user.Avatar, &user.LastSeenAt, &user.Created)
 			if err != nil {
 				logger.Warn("scan user error", "error", err)
 				continue
@@ -43,9 +43,11 @@ func Init() {
 
 			user.Follows = interaction.GetFollows(user.ID)
 			users = append(users, user)
+			usersMap[user.ID] = user
 		}
 
-		Users = users
+		models.UsersCache = users
+		models.UsersMapCache = usersMap
 
 		time.Sleep(60 * time.Second)
 	}

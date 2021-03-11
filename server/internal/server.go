@@ -75,6 +75,7 @@ func (s *Server) Start() error {
 		r.GET("/tag/user/:userID", api.GetUserTags)
 		// user apis
 		r.GET("/user/all", api.GetUsers)
+		r.POST("/user/ids", api.GetUsersByIDs)
 		r.GET("/user/self", IsLogin(), api.GetUserSelf)
 		r.GET("/user/info/:username", api.GetUser)
 		r.POST("/user/update", IsLogin(), api.UpdateUser)
@@ -89,6 +90,7 @@ func (s *Server) Start() error {
 		r.POST("/interaction/following/weight", IsLogin(), api.SetFollowingWeight)
 		r.GET("/interaction/followed/:id", api.Followed)
 		r.GET("/interaction/following/:userID", api.GetFollowing)
+		r.GET("/interaction/followers/:userID", api.GetFollowers)
 
 		// search apis
 		r.GET("/search/posts/:filter", api.SearchPosts)

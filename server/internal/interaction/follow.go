@@ -93,6 +93,16 @@ func GetFollows(targetID string) int {
 	return follows
 }
 
+func GetFollowings(userID string, targetType string) int {
+	var followings int
+	err := db.Conn.QueryRow("SELECT count(*) FROM follows WHERE user_id=? and target_type=?", userID, targetType).Scan(&followings)
+	if err != nil && err != sql.ErrNoRows {
+		logger.Warn("get following count error", "error", err)
+	}
+
+	return followings
+}
+
 func GetFollowing(userID, targetType string) ([]*models.Following, *e.Error) {
 	rows, err := db.Conn.Query("SELECT target_id,weight from follows where user_id=? and target_type=?", userID, targetType)
 	if err != nil {
@@ -109,6 +119,28 @@ func GetFollowing(userID, targetType string) ([]*models.Following, *e.Error) {
 
 	sort.Sort(following)
 	return following, nil
+}
+
+func GetFollowers(targetID, targetType string) ([]*models.User, *e.Error) {
+	rows, err := db.Conn.Query("SELECT user_id from follows where target_id=? and target_type=? ORDER BY created DESC", targetID, targetType)
+	if err != nil {
+		logger.Warn("get followers error", "error", err)
+		return nil, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	users := make([]*models.User, 0)
+	for rows.Next() {
+		var id string
+		rows.Scan(&id)
+
+		u, ok := models.UsersMapCache[id]
+		if ok {
+			users = append(users, u)
+			u.Followed = GetFollowed(u.ID, targetID)
+		}
+	}
+
+	return users, nil
 }
 
 func SetFolloingWeight(userID string, f *models.Following) *e.Error {

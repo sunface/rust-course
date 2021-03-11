@@ -24,20 +24,20 @@ export const editorLinks: Route[] = [{
 }
 ]
 
-export const followLinks: any[] = [
+export const interactionLinks: any[] = [
     {
         title: 'Following tags',
-        path: `${ReserveUrls.Follow}/tags`,
+        path: `${ReserveUrls.Interaction}/following-tags`,
         disabled: false
     },
     {
         title: 'Following users',
-        path: `${ReserveUrls.Follow}/users`,
+        path: `${ReserveUrls.Interaction}/following-users`,
         disabled: false
     },
     {
         title: 'Followers',
-        path: `${ReserveUrls.Follow}/followers`,
+        path: `${ReserveUrls.Interaction}/followers`,
         disabled: false
     },
 ]

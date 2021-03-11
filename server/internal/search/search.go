@@ -4,7 +4,6 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/imdotdev/im.dev/server/internal/cache"
 	"github.com/imdotdev/im.dev/server/internal/interaction"
 	"github.com/imdotdev/im.dev/server/internal/story"
 	"github.com/imdotdev/im.dev/server/pkg/db"
@@ -39,10 +38,8 @@ func Posts(user *models.User, filter, query string) []*models.Story {
 }
 
 func Users(user *models.User, filter, query string) []*models.User {
-	allUsers := cache.Users
-
 	users := make(models.Users, 0)
-	for _, u := range allUsers {
+	for _, u := range models.UsersCache {
 		if strings.Contains(strings.ToLower(u.Nickname), strings.ToLower(query)) {
 			users = append(users, u)
 			continue

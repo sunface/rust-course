@@ -21,6 +21,19 @@ func GetUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, common.RespSuccess(users))
 }
 
+func GetUsersByIDs(c *gin.Context) {
+	ids := make([]string, 0)
+	err := c.Bind(&ids)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
+		return
+	}
+
+	us := user.GetUsersByIDs(ids)
+
+	c.JSON(http.StatusOK, common.RespSuccess(us))
+}
+
 func GetUserSelf(c *gin.Context) {
 	u := user.CurrentUser(c)
 

@@ -7,6 +7,7 @@ import { User } from "src/types/user"
 import { getUserName } from "utils/user"
 import Follow from "components/interaction/follow"
 import Highlighter from 'react-highlight-words';
+import Count from "components/count"
 
 type Props = PropsOf<typeof chakra.div> & {
     user : User
@@ -45,7 +46,7 @@ export const UserCard= ({user,highlight}:Props) =>{
                 </VStack>
             </HStack>
             <HStack>
-                <Text fontWeight="600" fontSize=".9rem">{user.follows} followers</Text>
+                <Text fontWeight="600" fontSize=".9rem"><Count count={user.follows??0}/> followers</Text>
                 <Follow followed={user.followed} targetID={user.id} size="sm"/>
             </HStack>
 
