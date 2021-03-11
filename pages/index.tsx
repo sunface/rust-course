@@ -8,7 +8,7 @@ import {
   Heading,
   Divider
 } from "@chakra-ui/react"
-import Card from "components/card"
+import Card, { CardBody, CardHeader } from "components/card"
 import Stories from "components/story/stories"
 import SimplePostCard from "components/story/simple-story-card"
 import SEO from "components/seo"
@@ -96,18 +96,20 @@ export const HomeSidebar = () => {
   return (
     <VStack alignItems="left" width="30%" display={{ base: "none", md: "flex" }}>
       <Card p="0">
-        <Flex px="4" py="3" justifyContent="space-between" alignItems="center">
+        <CardHeader>
           <Heading size="sm">热榜</Heading>
           <HStack>
-            <Button variant="ghost" size="sm">1d</Button>
-            <Button variant="ghost" size="sm">1w</Button>
-            <Button variant="ghost" size="sm">1m</Button>
+            <Button variant="ghost" size="sm" height="auto">1d</Button>
+            <Button variant="ghost" size="sm" height="auto">1w</Button>
+            <Button variant="ghost" size="sm" height="auto">1m</Button>
           </HStack>
-        </Flex>
+        </CardHeader>
         <Divider />
-        <VStack px="4" pt="3" alignItems="left">
-          <Stories stories={posts} card={SimplePostCard} size="sm" showFooter={false}/>
-        </VStack>
+        <CardBody>
+          <VStack alignItems="left">
+            <Stories stories={posts} card={SimplePostCard} size="sm" showFooter={false}/>
+          </VStack>
+        </CardBody>
       </Card>
     </VStack>
   )

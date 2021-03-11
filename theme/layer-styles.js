@@ -11,5 +11,11 @@ export default function layerStyles(theme) {
           },
           _focus: null
         },
+        cardHeader: {
+          px: "4",
+          py: "3",
+          justifyContent:"space-between",
+          alignItems:"center"
+        }
       }
 }

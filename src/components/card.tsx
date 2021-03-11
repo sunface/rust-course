@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, BoxProps, useColorModeValue } from "@chakra-ui/react"
+import { Box, BoxProps, Flex, useColorModeValue } from "@chakra-ui/react"
 
 interface Props {
   shadowed?: boolean
@@ -21,3 +21,12 @@ export const Card = ({shadowed, ...rest}: BoxProps&Props)  => {
 } 
 
 export default Card
+
+
+export const CardHeader = (props) => {
+ return (<Flex px="4" py="4" justifyContent="space-between" alignItems="center" {...props}/>)
+}
+
+export const CardBody = (props) => {
+  return <Box  px="4" py="3" {...props} />
+}

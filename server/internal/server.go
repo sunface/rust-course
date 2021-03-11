@@ -69,10 +69,10 @@ func (s *Server) Start() error {
 		r.POST("/tag", IsLogin(), api.SubmitTag)
 		r.DELETE("/tag/:id", IsLogin(), api.DeleteTag)
 		r.GET("/tag/all", api.GetTags)
-		r.POST("tag/ids", api.GetTagsByIDs)
+		r.POST("tag/ids", api.GetTagsByIDs) // 根据对象ID列表获取关联的标签
 		r.GET("/tag/posts/:id", api.GetTagPosts)
 		r.GET("/tag/info/:name", api.GetTag)
-		r.GET("/tag/user/:userID", api.GetUserTags)
+		r.GET("/tag/user/:userID", api.GetUserTags) // 获取用户博客用到的标签列表
 		// user apis
 		r.GET("/user/all", api.GetUsers)
 		r.POST("/user/ids", api.GetUsersByIDs)
