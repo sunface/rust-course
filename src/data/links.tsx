@@ -40,6 +40,11 @@ export const interactionLinks: any[] = [
         path: `${ReserveUrls.Interaction}/followers`,
         disabled: false
     },
+    {
+        title: 'Followers',
+        path: `${ReserveUrls.Interaction}/followers`,
+        disabled: false
+    },
 ]
 
 export const searchLinks: any[] = [{

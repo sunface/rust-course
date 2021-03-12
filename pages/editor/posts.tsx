@@ -96,6 +96,10 @@ const PostsPage = () => {
         })
     }
 
+    const onPinPost = async id => {
+        await requestApi.post(`/story/pin/${id}`)
+        getPosts()
+    }
     return (
         <>
             <PageContainer1 >
@@ -125,7 +129,7 @@ const PostsPage = () => {
                                     <VStack mt="4">
                                         {posts.map(post =>
                                             <Box width="100%" key={post.id}>
-                                                <TextStoryCard story={post} showActions={true} mt="4" onEdit={() => editPost(post)} onDelete={() => onDeletePost(post.id)} />
+                                                <TextStoryCard story={post} showActions={true} mt="4" onEdit={() => editPost(post)} onDelete={() => onDeletePost(post.id)} onPin={() => onPinPost(post.id)} />
                                                 <Divider mt="5" />
                                             </Box>
                                         )}

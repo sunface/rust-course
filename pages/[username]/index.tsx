@@ -202,7 +202,7 @@ const UserPage = () => {
                   </Card>
                   :
                   <Card width="100%" height="fit-content" p="0" px="3">
-                    <Stories stories={posts} showFooter={tagFilter === null} />
+                    <Stories stories={posts} showFooter={tagFilter === null} showPinned={true}/>
                   </Card>
                 }
               </Box>

@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/imdotdev/im.dev/server/pkg/db"
@@ -28,6 +27,7 @@ type Story struct {
 	RawTags    []*Tag      `json:"rawTags"`
 	Likes      int         `json:"likes"`
 	Liked      bool        `json:"liked"`
+	Pinned     bool        `json:"pinned,omitempty"`
 	Comments   int         `json:"comments"`
 	Views      int         `json:"views"`
 	Bookmarked bool        `json:"bookmarked"`
@@ -78,7 +78,6 @@ func (s SeriesPosts) Less(i, j int) bool {
 func IsStoryCreator(userID string, storyID string) bool {
 	var nid string
 	err := db.Conn.QueryRow("SELECT creator FROM story WHERE id=?", storyID).Scan(&nid)
-	fmt.Println(userID, storyID, err)
 	if err != nil {
 		return false
 	}

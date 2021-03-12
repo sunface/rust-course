@@ -177,4 +177,13 @@ var sqlTables = map[string]string{
 	CREATE INDEX IF NOT EXISTS series_post_postid
 		ON series_post (post_id);
 	`,
+
+	"pin": `CREATE TABLE IF NOT EXISTS pin (
+		target_id		VARCHAR(255),
+		story_id        VARCHAR(255),
+		created         DATETIME
+	);
+	CREATE INDEX IF NOT EXISTS pin_targetid
+		ON pin (target_id);
+	`,
 }

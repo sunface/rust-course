@@ -53,7 +53,7 @@ const Like = (props: Props) => {
         />}
         
       </Tooltip>
-      <chakra.span layerStyle="textSecondary" fontWeight="600"><Count count={count}/></chakra.span>
+      <chakra.span opacity="0.8" fontSize={props.fontSize}><Count count={count} /></chakra.span>
     </HStack>
   )
 }

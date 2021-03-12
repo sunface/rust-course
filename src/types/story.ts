@@ -24,6 +24,7 @@ export interface Story {
     rawTags?: Tag[]
     likes? : number
     liked? : boolean
+    pinned?: boolean
     comments? : number
     bookmarked?: boolean
     status?: number

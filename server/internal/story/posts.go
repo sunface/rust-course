@@ -47,7 +47,21 @@ func UserPosts(tp string, user *models.User, uid string) (models.Stories, *e.Err
 	posts := GetPosts(user, rows)
 
 	sort.Sort(posts)
-	return posts, nil
+
+	pinned := make([]*models.Story, 0)
+	unpinned := make([]*models.Story, 0)
+
+	for _, post := range posts {
+		post.Pinned = GetPinned(post.ID, user.ID)
+		if post.Pinned {
+			pinned = append(pinned, post)
+		} else {
+			unpinned = append(unpinned, post)
+		}
+	}
+
+	newPosts := append(pinned, unpinned...)
+	return newPosts, nil
 }
 
 func UserDrafts(user *models.User, uid string) (models.Stories, *e.Error) {

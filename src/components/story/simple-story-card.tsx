@@ -21,21 +21,19 @@ export const SimpleStoryCard = (props: Props) => {
     return (
         <VStack alignItems="left" spacing="0">
             <Link href={getStoryUrl(story)}><Heading pb="2" fontSize=".9rem" cursor="pointer">{story.title}</Heading></Link>
-            <HStack pl="1" spacing="5" fontSize={size==='md'? '1rem' : ".9rem"}>
-                <Link href={`/${story.creator.username}`}><Text cursor="pointer">{story.creator.nickname}</Text></Link>
+            <HStack pl="1" spacing="2" fontSize={size==='md'? '1rem' : ".9rem"}>
+                <Link href={`/${story.creator.username}`}><Text cursor="pointer" fontSize="0.8rem">{story.creator.nickname}</Text></Link>
                 
                 <HStack opacity="0.9">
-                    <Like liked={story.liked} count={story.likes} storyID={story.id} fontSize="1rem"/>
+                    <Like liked={story.liked} count={story.likes} storyID={story.id} fontSize="0.8rem"/>
                 </HStack>
                         
                 <a href={`${getCommentsUrl(story)}#comments`}>
-                    <HStack opacity="0.9" cursor="pointer">
-                        {getSvgIcon("comments", "1rem")}
-                        <Text ml="2">{story.comments}</Text>
+                    <HStack opacity="0.9" cursor="pointer" spacing="3">
+                        {getSvgIcon("comments1", "0.9rem")}
+                        <Text fontSize="0.8rem" opacity="0.8">{story.comments}</Text>
                     </HStack>
                 </a>
-
-                <Box style={{marginLeft: '4px'}}><Bookmark storyID={story.id} bookmarked={story.bookmarked} height=".9rem"/></Box>
             </HStack>
         </VStack>
     )

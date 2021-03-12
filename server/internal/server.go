@@ -54,6 +54,7 @@ func (s *Server) Start() error {
 		r.GET("/story/posts/drafts", IsLogin(), api.GetEditorDrafts)
 		r.GET("/story/posts/home/:filter", api.GetHomePosts)
 		r.POST("/story", IsLogin(), api.SubmitStory)
+		r.POST("/story/pin/:storyID", IsLogin(), api.PinStory)
 		r.POST("/story/series", api.GetSeries)
 		r.POST("/story/series/post/:id", IsLogin(), api.SubmitSeriesPost)
 		r.GET("/story/series/post/:id", api.GetSeriesPost)

@@ -30,14 +30,15 @@ export const StoryCard = (props: Props) => {
             <StoryAuthor story={story} showFooter={false} size="md" />
             <a href={getStoryUrl(story)} target="_blank">
                 <Layout alignItems={isLargeScreen ? "top" : "left"} cursor="pointer" pl="2" pt="1">
-                    <VStack alignItems="left" spacing={type === "classic" ? 3 : 2} width={isLargeScreen && type === "classic" ? "calc(100% - 18rem)" : '100%'}>
-                        <Heading size="md" fontSize={type === "classic" ? '1.4rem' : '1.2rem'}>
+                    <VStack alignItems="left" spacing={type === "classic" ? 3 : 2} width={isLargeScreen && type === "classic" ? "calc(100% - 15rem)" : '100%'}>
+                        <Heading size="md" fontSize={type === "classic" ? '1.3rem' : '1.2rem'}>
                             <Highlighter
                                 highlightClassName="highlight-search-match"
                                 textToHighlight={story.title}
                                 searchWords={[props.highlight]}
                             />
-                            {story.type === IDType.Series && <Tag size="sm" mt="1" ml="2">SERIES</Tag>}
+                            {story.type === IDType.Series && <Tag size="sm"  ml="2" mt="2px">SERIES</Tag>}
+                            {story.pinned && <Tag size="sm" ml="2" mt="2px">置顶</Tag>}
                         </Heading>
                         {type !== "classic" && <HStack>{story.rawTags.map(t => <Text layerStyle="textSecondary" fontSize="md">#{t.name}</Text>)}</HStack>}
                         <Text layerStyle={type === "classic" ? "textSecondary" : null}>
@@ -47,7 +48,7 @@ export const StoryCard = (props: Props) => {
                                 searchWords={[props.highlight]}
                             /></Text>
                     </VStack>
-                    {story.cover && type === "classic" && <Image src={story.cover} width="18rem" height="120px" pt={isLargeScreen ? 0 : 2} borderRadius="4px" />}
+                    {story.cover && type === "classic" && <Image src={story.cover} width="15rem" height="120px" pt={isLargeScreen ? 0 : 2} borderRadius="4px" />}
                 </Layout>
             </a>
 

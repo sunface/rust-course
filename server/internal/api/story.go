@@ -197,3 +197,25 @@ func GetSeries(c *gin.Context) {
 
 	c.JSON(http.StatusOK, common.RespSuccess(series))
 }
+
+type PinData struct {
+	TargetID string `json:"targetID"`
+	StoryID  string `json:"storyID"`
+}
+
+func PinStory(c *gin.Context) {
+	storyID := c.Param("storyID")
+	u := user.CurrentUser(c)
+
+	if !models.IsStoryCreator(u.ID, storyID) {
+		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
+	}
+
+	err := story.PinStory(storyID, u.ID)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}
