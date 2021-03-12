@@ -186,4 +186,15 @@ var sqlTables = map[string]string{
 	CREATE INDEX IF NOT EXISTS pin_targetid
 		ON pin (target_id);
 	`,
+
+	"user_navbar": `CREATE TABLE IF NOT EXISTS user_navbar (
+		user_id			VARCHAR(255),
+		label        	VARCHAR(20),
+		type 			TINYINT,
+		value			VARCHAR(255),
+		weight			TINYINT
+	);
+	CREATE INDEX IF NOT EXISTS user_navbar_userid
+		ON user_navbar (user_id);
+	`,
 }

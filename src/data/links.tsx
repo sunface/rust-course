@@ -40,11 +40,6 @@ export const interactionLinks: any[] = [
         path: `${ReserveUrls.Interaction}/followers`,
         disabled: false
     },
-    {
-        title: 'Followers',
-        path: `${ReserveUrls.Interaction}/followers`,
-        disabled: false
-    },
 ]
 
 export const searchLinks: any[] = [{
@@ -72,11 +67,18 @@ export const adminLinks: Route[] = [{
 
 
 export const settingLinks: Route[] = [{
-    title: '用户设置',
+    title: '用户信息',
     path: `${ReserveUrls.Settings}/profile`,
     icon: <FaUserCircle />,
     disabled: false
-}]
+},
+{
+    title: '博客菜单',
+    path: `${ReserveUrls.Settings}/navbar`,
+    icon: getSvgIcon("navbar"),
+    disabled: false
+},
+]
 
 
 export const navLinks = [{

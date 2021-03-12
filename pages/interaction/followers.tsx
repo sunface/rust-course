@@ -37,7 +37,7 @@ const FollowersPage = () => {
                             <VStack  alignItems="left"  divider={<StackDivider borderColor={borderColor} />} >
                             
                             {users.map(user =>
-                                <UserCard user={user} />
+                                <UserCard key={user.id} user={user} />
                             )}
                         </VStack>
                         }

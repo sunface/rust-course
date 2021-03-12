@@ -81,3 +81,28 @@ func GetSession(c *gin.Context) {
 	sess := user.GetSession(c)
 	c.JSON(http.StatusOK, common.RespSuccess(sess))
 }
+
+func SubmitNavbar(c *gin.Context) {
+	nav := &models.Navbar{}
+	err := c.Bind(&nav)
+	if err != nil || !models.ValidNavbarType(nav.Type) {
+		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
+		return
+	}
+
+	u := user.CurrentUser(c)
+	if nav.Type == models.NavbarTypeSeries {
+		if !models.IsStoryCreator(u.ID, nav.Value) {
+			c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
+		}
+	}
+
+	nav.UserID = u.ID
+	err1 := user.AddNavbar(nav)
+	if err != nil {
+		c.JSON(err1.Status, common.RespError(err1.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}

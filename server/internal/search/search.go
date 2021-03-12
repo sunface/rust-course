@@ -20,7 +20,7 @@ func Posts(user *models.User, filter, query string) []*models.Story {
 
 	// search by title
 	sqlq := "%" + query + "%"
-	rows, err := db.Conn.Query("select id,slug,title,url,cover,brief,creator,created,updated from story where status=? and  (title LIKE ? or brief LIKE ?)", models.StatusPublished, sqlq, sqlq)
+	rows, err := db.Conn.Query("select id,type,slug,title,url,cover,brief,creator,created,updated from story where status=? and  (title LIKE ? or brief LIKE ?)", models.StatusPublished, sqlq, sqlq)
 	if err != nil {
 		logger.Warn("get user posts error", "error", err)
 		return posts

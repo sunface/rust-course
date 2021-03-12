@@ -22,7 +22,7 @@ export const SearchFilters = (props:Props) => {
     <HStack>
       {
         filters.map(f => 
-          <Button _focus={null} onClick={() => changeFilter(f)} size="sm" colorScheme={filter === f ? 'teal' : null} leftIcon={getSvgIcon(f)} variant="ghost" >
+          <Button key={f} _focus={null} onClick={() => changeFilter(f)} size="sm" colorScheme={filter === f ? 'teal' : null} leftIcon={getSvgIcon(f)} variant="ghost" >
             {f}
           </Button>)
       }

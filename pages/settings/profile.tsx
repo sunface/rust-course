@@ -99,7 +99,7 @@ const UserProfilePage = () => {
         <>
             <PageContainer>
                 <Box display="flex">
-                    <Sidebar routes={settingLinks} width={["120px", "120px", "250px", "250px"]} height="fit-content" title="偏好设置" />
+                    <Sidebar routes={settingLinks} width={["120px", "120px", "250px", "250px"]} height="fit-content" title="博客设置" />
                     {user && <VStack alignItems="left" ml="4" width="100%">
                         <Formik
                             initialValues={user}

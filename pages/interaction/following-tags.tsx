@@ -53,7 +53,7 @@ const TagsPage = () => {
                                 <Wrap spacing="10px">
                                     
                                     {tags.map(tag =>
-                                        <WrapItem width={["100%","100%","100%","31%"]}><FollowingTag key={tag.id} tag={tag} weight={getTagWeight(tag)} />  </WrapItem>
+                                        <WrapItem key={tag.id} width={["100%","100%","100%","31%"]}><FollowingTag tag={tag} weight={getTagWeight(tag)} />  </WrapItem>
                                     )}
                                   
  

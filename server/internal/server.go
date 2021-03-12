@@ -84,7 +84,7 @@ func (s *Server) Start() error {
 		r.GET("/user/session", api.GetSession)
 		r.POST("/user/login", user.Login)
 		r.POST("/user/logout", user.Logout)
-
+		r.POST("/user/navbar", IsLogin(), api.SubmitNavbar)
 		// interaction apis
 		r.POST("/interaction/like/:id", IsLogin(), api.Like)
 		r.POST("/interaction/follow/:id", IsLogin(), api.Follow)
