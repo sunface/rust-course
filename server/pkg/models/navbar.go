@@ -6,6 +6,7 @@ const (
 )
 
 type Navbar struct {
+	ID     int    `json:"id"`
 	UserID string `json:"userID"`
 	Label  string `json:"label"`
 	Type   int    `json:"type"`

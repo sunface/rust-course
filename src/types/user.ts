@@ -46,3 +46,16 @@ export interface UserSimple {
     nickname: string
     avatar: string
 }
+
+export enum NavbarType {
+    Link = 1,
+    Series = 2
+}
+
+export interface Navbar {
+    id?: number,
+    label: string 
+    type: number 
+    value: string 
+    weight: number
+}

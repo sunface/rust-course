@@ -9,7 +9,7 @@ import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import { FaFacebook, FaFile, FaGithub, FaHeart, FaPlus, FaRegStar, FaStackOverflow, FaStar, FaTwitter, FaWeibo, FaZhihu } from "react-icons/fa"
 import { ReserveUrls } from "src/data/reserve-urls"
-import { User } from "src/types/user"
+import { Navbar, NavbarType, User } from "src/types/user"
 import { requestApi } from "utils/axios/request"
 import moment from 'moment'
 import { Story } from "src/types/story"
@@ -35,6 +35,7 @@ const UserPage = () => {
   const [tags, setTags]: [Tag[], any] = useState([])
   const [tagFilter, setTagFilter]: [Tag, any] = useState(null)
   const [followers, setFollowers]: [User[], any] = useState([])
+  const [navbars,setNavbars]:[Navbar[],any] = useState([])
   const borderColor = useColorModeValue('white', 'transparent')
   const stackBorderColor = useColorModeValue(userCustomTheme.borderColor.light, userCustomTheme.borderColor.dark)
   useEffect(() => {
@@ -48,10 +49,15 @@ const UserPage = () => {
     setUser(res.data)
 
     getTags(res.data.id)
-
+    getNavbars(res.data.id)
     const res1 = await requestApi.get(`/user/posts/${res.data.id}`)
     setPosts(res1.data)
     setRawPosts(res1.data)
+  }
+
+  const getNavbars = async userID => {
+    const res = await requestApi.get(`/user/navbars/${userID}`)
+    setNavbars(res.data)
   }
 
   const getTags = async (userID) => {
@@ -128,12 +134,16 @@ const UserPage = () => {
                       HOME
                     </Box>
                   </Link>
-
-                  <Link href={`/${username}?nav=react`}>
-                    <Box cursor="pointer" fontWeight={isSubNavActive('react') ? "bold" : "550"} layerStyle={isSubNavActive('react') ? null : "textSecondary"}>
-                      REACT
-                    </Box>
-                  </Link>
+                   
+                  {
+                    navbars.map(nv => 
+                    <Link href={nv.type === NavbarType.Link ? nv.value : `${ReserveUrls.Series}/${nv.value}`}>
+                      <Box cursor="pointer" fontWeight={isSubNavActive('react') ? "bold" : "550"} layerStyle={isSubNavActive('react') ? null : "textSecondary"}>
+                        {nv.label}
+                      </Box>
+                    </Link>)
+                  }
+             
 
                 </HStack>
 

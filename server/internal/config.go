@@ -25,6 +25,7 @@ type PostsConfig struct {
 type UserConfig struct {
 	NicknameMaxLen int `json:"nicknameMaxLen"`
 	UsernameMaxLen int `json:"usernameMaxLen"`
+	NavabarMaxLen  int `json:"navbarMaxLen"`
 }
 
 // 在后台页面配置，存储到mysql中
@@ -41,6 +42,7 @@ func GetConfig(c *gin.Context) {
 		User: &UserConfig{
 			UsernameMaxLen: 39,
 			NicknameMaxLen: 64,
+			NavabarMaxLen:  20,
 		},
 	}
 

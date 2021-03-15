@@ -11,7 +11,8 @@ export let config = {
     },
     user: {
         nicknameMaxLen: 64,
-        usernameMaxLen: 39
+        usernameMaxLen: 39,
+        navbarMaxLen: 20
     }
 }
 

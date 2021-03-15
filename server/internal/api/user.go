@@ -98,9 +98,39 @@ func SubmitNavbar(c *gin.Context) {
 	}
 
 	nav.UserID = u.ID
-	err1 := user.AddNavbar(nav)
+	err1 := user.SubmitNavbar(nav)
 	if err != nil {
 		c.JSON(err1.Status, common.RespError(err1.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}
+
+func GetNavbars(c *gin.Context) {
+	userID := c.Param("userID")
+
+	if userID == "0" {
+		u := user.CurrentUser(c)
+		userID = u.ID
+	}
+
+	navbars, err := user.GetNavbars(userID)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(navbars))
+}
+
+func DeleteNavbar(c *gin.Context) {
+	id := c.Param("id")
+
+	u := user.CurrentUser(c)
+	err := user.DeleteNavbar(u.ID, id)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
 		return
 	}
 

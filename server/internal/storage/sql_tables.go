@@ -188,6 +188,7 @@ var sqlTables = map[string]string{
 	`,
 
 	"user_navbar": `CREATE TABLE IF NOT EXISTS user_navbar (
+		id 			    INTEGER PRIMARY KEY AUTOINCREMENT,
 		user_id			VARCHAR(255),
 		label        	VARCHAR(20),
 		type 			TINYINT,

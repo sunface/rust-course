@@ -1,110 +1,188 @@
-import { Text, Box, Heading, Image, Center, Button, Flex, VStack, Divider, useToast, FormControl, FormLabel, FormHelperText, Input, FormErrorMessage, HStack, Wrap, useMediaQuery, Avatar, Textarea, } from "@chakra-ui/react"
+import { Text, Box, Heading, Image, Center, Button, Flex, VStack, Divider, useToast, FormControl, FormLabel, FormHelperText, Input, FormErrorMessage, HStack, Wrap, useMediaQuery, Avatar, Textarea, Table, Thead, Tr, Th, Tbody, Td, IconButton, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, Select, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from "@chakra-ui/react"
 import Card from "components/card"
-import Nav from "layouts/nav/nav"
 import PageContainer from "layouts/page-container"
 import Sidebar from "layouts/sidebar/sidebar"
 import React, { useEffect, useState } from "react"
-import { adminLinks, settingLinks } from "src/data/links"
+import { settingLinks } from "src/data/links"
 import { requestApi } from "utils/axios/request"
-import { useRouter } from "next/router"
-import { Field, Form, Formik } from "formik"
 import { config } from "configs/config"
-import Tags from "components/tags/tags"
-var validator = require('validator');
+import { getSvgIcon } from "components/svg-icon"
+import { Navbar, NavbarType } from "src/types/user"
+import { cloneDeep } from "lodash"
+import { IDType } from "src/types/id"
+import { Story } from "src/types/story"
 
 const UserNavbarPage = () => {
-    const [user, setUser] = useState(null)
-    const [skills, setSkills] = useState([])
-    const [isLargerThan1280] = useMediaQuery("(min-width: 768px)")
-    useEffect(() => {
-        requestApi.get("/user/self").then(res => setUser(res.data))
-    }, [])
-    const router = useRouter()
+    const [navbars, setNavbars]:[Navbar[],any] = useState([])
+    const [series, setSeries]: [Story[], any] = useState([])
+    const [currentNavbar, setCurrentNavbar]: [Navbar, any] = useState(null)
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const toast = useToast()
+    useEffect(() => {
+        getNavbars()
+        getSeries()
+    }, [])
 
-    const submitUser = async (values, _) => {
-        await requestApi.post(`/user/update`, values)
-        setUser(values)
-        toast({
-            description: "更新成功",
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-        })
+    const getNavbars = async () => {
+        const res = await requestApi.get("/user/navbars/0")
+        setNavbars(res.data)
     }
 
-    function validateNickname(value) {
-        let error
-        if (!value?.trim()) {
-            error = "昵称不能为空"
-        }
-
-        if (value?.length > config.user.nicknameMaxLen) {
-            error = `长度不能超过${config.user.nicknameMaxLen}`
-        }
-
-        return error
+    const getSeries = async () => {
+        const res = await requestApi.get(`/story/posts/editor?type=${IDType.Series}`)
+        setSeries(res.data)
     }
 
-    function validateEmail(value) {
-        let email = value?.trim()
-        let error
-
-        if (email?.length > config.user.usernameMaxLen) {
-            error = `长度不能超过${config.user.usernameMaxLen}`
-            return error
+    const submitNavbar = async () => {
+        if (!currentNavbar.label || !currentNavbar.value) {
+            toast({
+                description: "值不能为空",
+                status: "error",
+                duration: 2000,
+                isClosable: true,
+            })
+            return 
         }
 
-        if (email) {
-            if (!validator.isEmail(email)) {
-                error = "Email格式不合法"
-                return error
+        if (currentNavbar.label.length > config.user.navbarMaxLen) {
+            toast({
+                description: `Label长度不能超过${config.user.navbarMaxLen}`,
+                status: "error",
+                duration: 2000,
+                isClosable: true,
+            })
+            return 
+        }
+
+
+        await requestApi.post(`/user/navbar`, currentNavbar)
+        setCurrentNavbar(null)
+        onClose()
+        getNavbars()
+    }
+
+    const onAddNavbar = () => {
+        setCurrentNavbar({ weight: 0, type: NavbarType.Link, label: "", value: "https://" })
+        onOpen()
+    }
+
+    const onEditNavbar = nav => {
+        setCurrentNavbar(nav)
+        onOpen()
+    }
+
+    const onNavbarChange = () => {
+        const nv = cloneDeep(currentNavbar)
+        setCurrentNavbar(nv)
+    }
+
+    const onNvTypeChange = v => {
+        const tp = parseInt(v); 
+        currentNavbar.type = tp
+        if (tp === NavbarType.Link) {
+            currentNavbar.value = ""
+        } else {
+            currentNavbar.value = series[0].id
+        }
+        onNavbarChange()
+    }
+    const getSeriesTitle = id => {
+        for (const s of series) {
+            if (s.id === id) {
+                return s.title
             }
         }
-        return error
+
+        return ""
     }
 
-
-    function validateUrl(value, canBeEmpty = true) {
-        let url = value?.trim()
-        let error
-        if (!canBeEmpty) {
-            if (!url) {
-                error = "url不能为空"
-                return error
-            }
-        }
-
-        if (url) {
-            if (!validator.isURL(value)) {
-                error = "URL格式不合法"
-                return error
-            }
-        }
-
-        return error
+    const onDeleteNavbar = async id => {
+        requestApi.delete(`/user/navbar/${id}`)
+        getNavbars()
     }
 
-    function validateLen(value) {
-        let error
-        if (value?.length > config.commonMaxlen) {
-            error = `长度不能超过${config.commonMaxlen}`
-        }
-
-        return error
-    }
-
-    const Layout = isLargerThan1280 ? HStack : VStack
     return (
         <>
             <PageContainer>
                 <Box display="flex">
                     <Sidebar routes={settingLinks} width={["120px", "120px", "250px", "250px"]} height="fit-content" title="博客设置" />
-                    {user && <Card ml="4" width="100%">
-                       <Heading></Heading>
-                    </Card>}
+                    <Card ml="4" width="100%">
+                        <Flex justifyContent="space-between" alignItems="center">
+                            <Heading size="sm">菜单设置</Heading>
+                            <Button colorScheme="teal" size="sm" onClick={onAddNavbar} _focus={null}>新建菜单项</Button>
+                        </Flex>
+                        <Table variant="simple" mt="4">
+                            <Thead>
+                                <Tr>
+                                    <Th>Label</Th>
+                                    <Th>Type</Th>
+                                    <Th>Value</Th>
+                                    <Th>Weight</Th>
+                                    <Th></Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                {
+                                    navbars.map((nv,i) =>   <Tr key={i}>
+                                        <Td>{nv.label}</Td>
+                                        <Td>{nv.type === NavbarType.Link ? "link" : "series"}</Td>
+                                        <Td>{nv.type === NavbarType.Link ? nv.value : getSeriesTitle(nv.value)}</Td>
+                                        <Td>{nv.weight}</Td>
+                                        <Td>
+                                            <IconButton aria-label="edit navbar" variant="ghost" icon={getSvgIcon('edit', ".95rem")} onClick={() => onEditNavbar(nv)}/>
+                                            <IconButton aria-label="delete navbar" variant="ghost" icon={getSvgIcon('close', "1rem")} onClick={() => onDeleteNavbar(nv.id)} />
+                                        </Td>
+                                    </Tr>)
+                                }
+                              
+                            </Tbody>
+                        </Table>
+                    </Card>
                 </Box>
             </PageContainer>
+
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                {currentNavbar && <ModalContent>
+                    <ModalHeader>{currentNavbar.label ? "编辑菜单项" : "新建菜单项"}</ModalHeader>
+                    <ModalBody mb="2">
+                        <VStack spacing="4" alignItems="left">
+                            <HStack spacing="4">
+                                <Heading size="xs">Label</Heading>
+                                <Input value={currentNavbar.label} _focus={null} variant="flushed" onChange={e => { currentNavbar.label = e.currentTarget.value; onNavbarChange() }}></Input>
+                            </HStack>
+
+                            <HStack spacing="4">
+                                <Heading size="xs">Type</Heading>
+                                <Select value={currentNavbar.type} onChange={e => onNvTypeChange(e.currentTarget.value)} variant="flushed" _focus={null}>
+                                    <option value={NavbarType.Link}>Link</option>
+                                    <option value={NavbarType.Series}>Series</option>
+                                </Select>
+                            </HStack>
+
+                            <HStack spacing="4">
+                                <Heading size="xs">Value</Heading>
+                                {currentNavbar.type === NavbarType.Link ? <Input value={currentNavbar.value} _focus={null} variant="flushed" onChange={e => { currentNavbar.value = e.currentTarget.value; onNavbarChange() }} /> :
+                                    <Select value={currentNavbar.value} variant="flushed" _focus={null} onChange={e => { currentNavbar.value = e.currentTarget.value; onNavbarChange() }}>
+                                        {series.map(s => <option key={s.id} value={s.id}>{s.title}</option>)}
+                                    </Select>}
+                            </HStack>
+
+                            <HStack spacing="4">
+                                <Heading size="xs">Weight</Heading>
+                                <NumberInput min={0} max={10} value={currentNavbar.weight} variant="flushed" onChange={e => { currentNavbar.weight = parseInt(e); onNavbarChange() }}>
+                                    <NumberInputField _focus={null} />
+                                    <NumberInputStepper>
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
+                                    </NumberInputStepper>
+                                </NumberInput>
+                            </HStack>
+                        </VStack>
+                        <Button colorScheme="teal" variant="outline" mt="6" onClick={submitNavbar}>提交</Button>
+                    </ModalBody>
+                </ModalContent>}
+            </Modal>
         </>
     )
 }
