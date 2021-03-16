@@ -1,6 +1,6 @@
 import { getSvgIcon } from 'components/svg-icon'
 import React from 'react'
-import { FaFileAlt, FaScroll, FaBookOpen, FaTags, FaUserCircle, FaRegFile, FaUser, FaRegUser } from 'react-icons/fa'
+import { FaFileAlt, FaScroll, FaBookOpen, FaTags, FaUserCircle, FaRegFile, FaUser, FaRegUser, FaUserFriends } from 'react-icons/fa'
 import { Route } from 'src/types/route'
 import { SearchFilter } from 'src/types/search'
 import { ReserveUrls } from './reserve-urls'
@@ -63,7 +63,14 @@ export const adminLinks: Route[] = [{
     path: `${ReserveUrls.Admin}/tags`,
     icon: getSvgIcon("tags"),
     disabled: false
-}]
+},
+{
+    title: '菜单管理',
+    path: `${ReserveUrls.Admin}/navbar`,
+    icon: getSvgIcon("navbar"),
+    disabled: false
+},
+]
 
 
 export const settingLinks: Route[] = [{
@@ -76,6 +83,12 @@ export const settingLinks: Route[] = [{
     title: '博客菜单',
     path: `${ReserveUrls.Settings}/navbar`,
     icon: getSvgIcon("navbar"),
+    disabled: false
+},
+{
+    title: '组织管理',
+    path: `${ReserveUrls.Settings}/orgs`,
+    icon: <FaUserFriends />,
     disabled: false
 },
 ]

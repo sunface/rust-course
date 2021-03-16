@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"database/sql"
 	"time"
 
 	"github.com/imdotdev/im.dev/server/internal/interaction"
@@ -33,7 +34,7 @@ func Init() {
 			}
 
 			err = db.Conn.QueryRow("SELECT tagline from user_profile WHERE id=?", user.ID).Scan(&user.Tagline)
-			if err != nil {
+			if err != nil && err != sql.ErrNoRows {
 				logger.Warn("query user profile error", "error", err)
 			}
 

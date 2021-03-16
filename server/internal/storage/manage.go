@@ -58,3 +58,12 @@ func DropTables(names []string) {
 		log.RootLogger.Info("sql table dropped ok", "table_name", tbl)
 	}
 }
+
+func ResetNavbars() error {
+	err := connectDatabase()
+	if err != nil {
+		panic(err)
+	}
+
+	return initNavbars()
+}

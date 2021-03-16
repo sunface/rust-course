@@ -1,10 +1,10 @@
 async function redirect() {
     return [
-      // {
-      //   source: "/search",
-      //   destination: "/search/posts",
-      //   permanent: true,
-      // }
+      {
+        source: "/search",
+        destination: "/search/posts",
+        permanent: true,
+      }
     ]
   }
   

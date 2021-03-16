@@ -14,7 +14,7 @@ import {
   import siteConfig from "configs/site-config"
   import { useViewportScroll } from "framer-motion"
   import NextLink from "next/link"
-  import React from "react"
+  import React, { useEffect, useState } from "react"
   import { FaGithub, FaSearch } from "react-icons/fa"
   import Logo, { LogoIcon } from "src/components/logo"
   import { MobileNavButton, MobileNavContent } from "./mobile-nav"
@@ -26,6 +26,7 @@ import {
   import AccountMenu from "components/user-menu"
 import { getSvgIcon } from "components/svg-icon"
 import { navLinks } from "src/data/links"
+import { requestApi } from "utils/axios/request"
   
 
   
@@ -34,7 +35,18 @@ import { navLinks } from "src/data/links"
     const { asPath } = router
     const mobileNav = useDisclosure()
   
-  
+    const [navs,setNavs] = useState(navLinks)
+    useEffect(() => {
+      requestApi.get("/navbars").then(res => {
+         const nvs = []
+         res.data.forEach(nv => nvs.push({
+           title: nv.label,
+           url: nv.value
+         }))
+
+         setNavs(nvs)
+      })
+    },[])
     const mobileNavBtnRef = React.useRef<HTMLButtonElement>()
     const [isLargerThan768] = useMediaQuery("(min-width: 768px)")
     useUpdateEffect(() => {
@@ -60,10 +72,11 @@ import { navLinks } from "src/data/links"
             </NextLink>
   
             <VStack pt="6"  ml={{ base: 1, md: 4, lg: 12 }} fontSize="1rem" alignItems="left">
-              {navLinks.map(link => 
+              {navs.map(link => 
                <Link href={link.url} key={link.title}>
-                  <HStack cursor="pointer" px="4" py="0.7rem" rounded="md" key={link.url} color={useColorModeValue("gray.700", "whiteAlpha.900")} aria-current={isActive(link.baseUrl) ? "page" : undefined} _activeLink={{ bg: useColorModeValue("transparent", "rgba(48, 140, 122, 0.3)"), color: useColorModeValue("teal.500", "teal.200"), fontWeight: "bold", }} >
-                    <Box width="25px">{link.icon}</Box><Text fontWeight="600">{link.title}</Text>
+                  <HStack cursor="pointer" px="4" py="0.7rem" rounded="md" key={link.url} color={useColorModeValue("gray.700", "whiteAlpha.900")} aria-current={isActive(link.baseUrl??link.url) ? "page" : undefined} _activeLink={{ bg: useColorModeValue("transparent", "rgba(48, 140, 122, 0.3)"), color: useColorModeValue("teal.500", "teal.200"), fontWeight: "bold", }} >
+                    {/* <Box width="25px">{link.icon}</Box> */}
+                    <Text fontWeight="600">{link.title}</Text>
                   </HStack>
                 </Link>
                 )}

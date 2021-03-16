@@ -15,6 +15,7 @@ const (
 	IDTypePost      = "4"
 	IDTypeSeries    = "5"
 	IDTypeBook      = "6"
+	IDTypeOrg       = "7"
 )
 
 func GetIDType(id string) string {
@@ -39,6 +40,8 @@ func GetIdTypeTable(id string) string {
 		return "user"
 	case IDTypeTag:
 		return "tags"
+	case IDTypeOrg:
+		return "user"
 	default:
 		return IDTypeUndefined
 	}
@@ -77,7 +80,7 @@ func ValidStoryIDType(tp string) bool {
 }
 
 func ValidFollowIDType(tp string) bool {
-	if tp == IDTypeUser || tp == IDTypeTag {
+	if tp == IDTypeUser || tp == IDTypeTag || tp == IDTypeOrg {
 		return true
 	}
 

@@ -34,7 +34,6 @@ func Follow(targetID string, userId string) *e.Error {
 	}
 
 	if followed {
-		// 已经喜欢过该篇文章，更改为不喜欢
 		_, err := tx.Exec("DELETE FROM follows WHERE user_id=? and target_id=?", userId, targetID)
 		if err != nil {
 			return e.New(http.StatusInternalServerError, e.Internal)
@@ -137,6 +136,7 @@ func GetFollowers(targetID, targetType string) ([]*models.User, *e.Error) {
 		if ok {
 			users = append(users, u)
 			u.Followed = GetFollowed(u.ID, targetID)
+			u.Follows = GetFollows(u.ID)
 		}
 	}
 

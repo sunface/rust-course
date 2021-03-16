@@ -40,6 +40,12 @@ func Init() error {
 	return nil
 }
 
+var navbars = []*models.Navbar{
+	&models.Navbar{Label: "主页", Value: "/", Weight: 0},
+	&models.Navbar{Label: "标签", Value: "/tags", Weight: 1},
+	&models.Navbar{Label: "Search", Value: "/search/posts", Weight: 2},
+}
+
 func initTables() error {
 	// create tables
 	for _, q := range sqlTables {
@@ -56,11 +62,30 @@ func initTables() error {
 	}
 
 	now := time.Now()
-	_, err := db.Conn.Exec(`INSERT INTO user (id,username,email,role,nickname,avatar,created,updated) VALUES (?,?,?,?,?,?,?,?)`,
-		utils.GenID(models.IDTypeUser), config.Data.User.SuperAdminUsername, config.Data.User.SuperAdminEmail, models.ROLE_SUPER_ADMIN, "", "", now, now)
+	_, err := db.Conn.Exec(`INSERT INTO user (id,type,username,nickname,email,role,nickname,avatar,created,updated) VALUES (?,?,?,?,?,?,?,?,?,?)`,
+		utils.GenID(models.IDTypeUser), models.IDTypeUser, config.Data.User.SuperAdminUsername, "Admin", config.Data.User.SuperAdminEmail, models.ROLE_SUPER_ADMIN, "", "", now, now)
 	if err != nil {
 		log.RootLogger.Crit("init super admin error", "error:", err)
 		return err
+	}
+
+	// insert init navbars
+	err = initNavbars()
+	if err != nil {
+		log.RootLogger.Crit("init navbar error", "error:", err)
+		return err
+	}
+
+	return nil
+}
+
+func initNavbars() error {
+	for _, nv := range navbars {
+		_, err := db.Conn.Exec(`INSERT INTO navbar (label,value,weight) VALUES (?,?,?)`,
+			nv.Label, nv.Value, nv.Weight)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

@@ -2,8 +2,10 @@ package api
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/imdotdev/im.dev/server/internal/interaction"
 	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/common"
 	"github.com/imdotdev/im.dev/server/pkg/e"
@@ -55,6 +57,10 @@ func GetUser(c *gin.Context) {
 		return
 	}
 
+	u := user.CurrentUser(c)
+	if u != nil {
+		userDetail.Followed = interaction.GetFollowed(userDetail.ID, u.ID)
+	}
 	c.JSON(http.StatusOK, common.RespSuccess(userDetail))
 }
 
@@ -82,7 +88,7 @@ func GetSession(c *gin.Context) {
 	c.JSON(http.StatusOK, common.RespSuccess(sess))
 }
 
-func SubmitNavbar(c *gin.Context) {
+func SubmitUserNavbar(c *gin.Context) {
 	nav := &models.Navbar{}
 	err := c.Bind(&nav)
 	if err != nil || !models.ValidNavbarType(nav.Type) {
@@ -107,7 +113,7 @@ func SubmitNavbar(c *gin.Context) {
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
 }
 
-func GetNavbars(c *gin.Context) {
+func GetUserNavbars(c *gin.Context) {
 	userID := c.Param("userID")
 
 	if userID == "0" {
@@ -124,7 +130,7 @@ func GetNavbars(c *gin.Context) {
 	c.JSON(http.StatusOK, common.RespSuccess(navbars))
 }
 
-func DeleteNavbar(c *gin.Context) {
+func DeleteUserNavbar(c *gin.Context) {
 	id := c.Param("id")
 
 	u := user.CurrentUser(c)
@@ -135,4 +141,20 @@ func DeleteNavbar(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}
+
+func NameExist(c *gin.Context) {
+	name := c.Param("name")
+	if strings.TrimSpace(name) == "" {
+		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
+		return
+	}
+
+	exist, err := user.NameExist(name)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(exist))
 }

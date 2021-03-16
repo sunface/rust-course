@@ -11,7 +11,7 @@ import {
 import siteConfig from "configs/site-config"
 import { useViewportScroll } from "framer-motion"
 import NextLink from "next/link"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { FaGithub } from "react-icons/fa"
 import Logo, { LogoIcon } from "src/components/logo"
 import { MobileNavButton, MobileNavContent } from "./mobile-nav"
@@ -23,15 +23,30 @@ import DarkMode from "components/dark-mode"
 import AccountMenu from "components/user-menu"
 import { navLinks } from "src/data/links"
 import { getSvgIcon } from "components/svg-icon"
+import { requestApi } from "utils/axios/request"
 
 
 function HeaderContent() {
   const router = useRouter()
   const { asPath } = router
+
   const mobileNav = useDisclosure()
 
 
   const mobileNavBtnRef = React.useRef<HTMLButtonElement>()
+
+  const [navs,setNavs] = useState(navLinks)
+  useEffect(() => {
+    requestApi.get("/navbars").then(res => {
+       const nvs = []
+       res.data.forEach(nv => nvs.push({
+         title: nv.label,
+         url: nv.value
+       }))
+
+       setNavs(nvs)
+    })
+  },[])
 
   useUpdateEffect(() => {
     mobileNavBtnRef.current?.focus()
@@ -54,7 +69,7 @@ function HeaderContent() {
           </NextLink>
 
           <HStack ml={{ base: 1, md: 4, lg: 12 }} fontSize="1rem">
-            {navLinks.map(link => <Box px={[0,0,4,4]} py="0.7rem" rounded="md" key={link.url} color={useColorModeValue("gray.700", "whiteAlpha.900")} aria-current={asPath === link.url ? "page" : undefined} _activeLink={{ bg: useColorModeValue("transparent", "rgba(48, 140, 122, 0.3)"), color: useColorModeValue("teal.500", "teal.200"), fontWeight: "bold", }} ><Link href={link.url}>{link.title}</Link></Box>)}
+            {navs.map(link => <Box px={[0,0,4,4]} py="0.7rem" rounded="md" key={link.url} color={useColorModeValue("gray.700", "whiteAlpha.900")} aria-current={asPath === link.url ? "page" : undefined} _activeLink={{ bg: useColorModeValue("transparent", "rgba(48, 140, 122, 0.3)"), color: useColorModeValue("teal.500", "teal.200"), fontWeight: "bold", }} ><Link href={link.url}>{link.title}</Link></Box>)}
           </HStack>
         </Flex>
 

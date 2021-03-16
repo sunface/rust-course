@@ -8,6 +8,7 @@ export interface Session {
 export interface User {
     // basic info
     id: string
+    type?: string 
     username: string
     nickname: string
     avatar: string

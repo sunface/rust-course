@@ -2,15 +2,16 @@ package storage
 
 var sqlTables = map[string]string{
 	"user": `CREATE TABLE IF NOT EXISTS user (
-		id VARCHAR(255) PRIMARY KEY,
-		username VARCHAR(255) NOT NULL UNIQUE,
-		nickname VARCHAR(255) DEFAULT '',
-		avatar VARCHAR(255) DEFAULT '',
-		email VARCHAR(255) UNIQUE NOT NULL,
-		role  VARCHAR(20) NOT NULL,
+		id 			VARCHAR(255) PRIMARY KEY,
+		type 		VARCHAR(1) 	NOT NULL,
+		username 	VARCHAR(255) NOT NULL UNIQUE,
+		nickname 	VARCHAR(255) NOT NULL,
+		avatar 		VARCHAR(255) DEFAULT '',
+		email 		VARCHAR(255) DEFAULT '',
+		role  		VARCHAR(20) DEFAULT '',
 
 		last_seen_at DATETIME DEFAULT CURRENT_DATETIME,
-		is_diabled BOOL NOT NULL DEFAULT 'false',
+		is_diabled  BOOL NOT NULL DEFAULT 'false',
 
 		created DATETIME NOT NULL,
 		updated DATETIME NOT NULL
@@ -40,12 +41,25 @@ var sqlTables = map[string]string{
 			stackoverflow VARCHAR(255),
 		
 			updated DATETIME
-		);`,
+	);`,
 
 	"sessions": `CREATE TABLE IF NOT EXISTS sessions (
 			sid              VARCHAR(255) primary key,   
 			user_id          VARCHAR(255)
 		);
+	`,
+
+	"org_member": `CREATE TABLE IF NOT EXISTS org_member (
+			org_id           VARCHAR(255),   
+			user_id          VARCHAR(255),
+
+			role  VARCHAR(20) NOT NULL,
+			created DATETIME NOT NULL
+		);
+	CREATE INDEX IF NOT EXISTS orgm_orgid
+		ON org_member (org_id);
+	CREATE INDEX IF NOT EXISTS orgm_userid
+		ON org_member (user_id);
 	`,
 
 	"story": `CREATE TABLE IF NOT EXISTS story (
@@ -193,9 +207,18 @@ var sqlTables = map[string]string{
 		label        	VARCHAR(20),
 		type 			TINYINT,
 		value			VARCHAR(255),
-		weight			TINYINT
+		weight			TINYINT DEFAULT 0
 	);
 	CREATE INDEX IF NOT EXISTS user_navbar_userid
 		ON user_navbar (user_id);
+	`,
+
+	"navbar": `CREATE TABLE IF NOT EXISTS navbar (
+		id 			    INTEGER PRIMARY KEY AUTOINCREMENT,
+		label        	VARCHAR(20),
+		icon        	VARCHAR(40),
+		value			VARCHAR(255),
+		weight			TINYINT DEFAULT 0
+	);
 	`,
 }

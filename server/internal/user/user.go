@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/imdotdev/im.dev/server/internal/interaction"
+	"github.com/imdotdev/im.dev/server/internal/org"
 	"github.com/imdotdev/im.dev/server/internal/tags"
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
@@ -47,6 +48,9 @@ func GetUserDetail(id string, username string) (*models.User, *e.Error) {
 	user := &models.User{}
 	err := user.Query(id, username, "")
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, e.New(http.StatusNotFound, e.NotFound)
+		}
 		logger.Warn("query user error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
 	}
@@ -74,8 +78,11 @@ func GetUserDetail(id string, username string) (*models.User, *e.Error) {
 	user.Skills = skills
 
 	user.Follows = interaction.GetFollows(user.ID)
-
-	user.Followings = interaction.GetFollowings(user.ID, models.IDTypeUser)
+	if user.Type == models.IDTypeUser {
+		user.Followings = interaction.GetFollowings(user.ID, models.IDTypeUser)
+	} else {
+		user.Followings = org.GetMemberCount(user.ID)
+	}
 
 	return user, nil
 }
@@ -119,4 +126,19 @@ func UpdateUser(u *models.User) *e.Error {
 	}
 
 	return nil
+}
+
+func NameExist(name string) (bool, *e.Error) {
+	var username string
+	err := db.Conn.QueryRow("SELECT username FROM user  WHERE username=?", name).Scan(&username)
+	if err != nil && err != sql.ErrNoRows {
+		logger.Warn("check name exist  error", "error", err)
+		return false, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	if err == sql.ErrNoRows {
+		return false, nil
+	}
+
+	return true, nil
 }

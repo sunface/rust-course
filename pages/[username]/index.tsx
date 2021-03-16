@@ -22,6 +22,7 @@ import { IDType } from "src/types/id"
 import UserCard from "components/users/user-card"
 import userCustomTheme from "theme/user-custom"
 import SearchFilters from "components/search-filters"
+import Follow from "components/interaction/follow"
 
 const UserPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -90,7 +91,7 @@ const UserPage = () => {
     let res
     if (tp === 1) {
       // followings
-      const res0 = await requestApi.get(`/interaction/following/${user.id}?type=${IDType.User}`)
+      const res0 = await requestApi.get(`/interaction/following/${user.id}?type=${user.id.substring(0,1)}`)
       const ids = []
       for (const f of res0.data) {
         ids.push(f.id)
@@ -98,9 +99,12 @@ const UserPage = () => {
 
 
       res = await requestApi.post(`/user/ids`, ids)
-    } else {
+    } else if (tp === 0) {
       // followers
-      res = await requestApi.get(`/interaction/followers/${user.id}?type=${IDType.User}`)
+      res = await requestApi.get(`/interaction/followers/${user.id}?type=${user.id.substring(0,1)}`)
+    } else if (tp === 2) {
+      // org members
+      res = await requestApi.get(`/org/members/${user.id}`)
     }
     setFollowers(res.data)
     if (res.data.length > 0) {
@@ -123,7 +127,7 @@ const UserPage = () => {
           <Box alignItems="left" pb="6">
             <Card p="0" borderTop="none">
               <Box backgroundImage={`url(${user.cover})`} height="300px" width="100%" backgroundSize="cover" backgroundPosition="center" />
-              <VStack maxHeight="205px" position="relative" top="-70px" spacing="3">
+              <VStack maxHeight={user.tagline? "205px" : "165px"} position="relative" top="-70px" spacing="3">
                 <Image src={user.avatar} height="130px" borderRadius="50%" border={`4px solid ${borderColor}`} />
                 <Heading size="lg">{user.nickname}</Heading>
                 {user.tagline && <Text layerStyle="textSecondary" fontWeight="450" fontSize="1.2rem" ml="1" mt="2">{user.tagline}</Text>}
@@ -136,8 +140,8 @@ const UserPage = () => {
                   </Link>
                    
                   {
-                    navbars.map(nv => 
-                    <Link href={nv.type === NavbarType.Link ? nv.value : `${ReserveUrls.Series}/${nv.value}`}>
+                    navbars.map((nv,i) => 
+                    <Link key={i} href={nv.type === NavbarType.Link ? nv.value : `${ReserveUrls.Series}/${nv.value}`}>
                       <Box cursor="pointer" fontWeight={isSubNavActive('react') ? "bold" : "550"} layerStyle={isSubNavActive('react') ? null : "textSecondary"}>
                         {nv.label}
                       </Box>
@@ -148,7 +152,7 @@ const UserPage = () => {
                 </HStack>
 
                 <Box pt="3" position="absolute" right="15px" top="60px">{session?.user.id === user.id ? <Button onClick={() => router.push(`${ReserveUrls.Settings}/profile`)} variant="outline" leftIcon={<svg height="1.3rem" fill="currentColor" viewBox="0 0 512 512"><path d="M493.255 56.236l-37.49-37.49c-24.993-24.993-65.515-24.994-90.51 0L12.838 371.162.151 485.346c-1.698 15.286 11.22 28.203 26.504 26.504l114.184-12.687 352.417-352.417c24.992-24.994 24.992-65.517-.001-90.51zm-95.196 140.45L174 420.745V386h-48v-48H91.255l224.059-224.059 82.745 82.745zM126.147 468.598l-58.995 6.555-30.305-30.305 6.555-58.995L63.255 366H98v48h48v34.745l-19.853 19.853zm344.48-344.48l-49.941 49.941-82.745-82.745 49.941-49.941c12.505-12.505 32.748-12.507 45.255 0l37.49 37.49c12.506 12.506 12.507 32.747 0 45.255z"></path></svg>}><chakra.span display={{ base: "none", md: "block" }}>Edit Profile</chakra.span></Button>
-                  : <Button colorScheme="teal">Follow</Button>}</Box>
+                  : <Follow followed={user.followed} targetID={user.id}/>}</Box>
 
 
               </VStack>
@@ -163,8 +167,8 @@ const UserPage = () => {
                   </Box>
 
                   <Box  width="50%">
-                    <Heading size="sm">Following</Heading>
-                    <Text mt="1" cursor="pointer" onClick={() => viewFollowers(1)}><Count count={user.followings ?? 0} /></Text>
+                    <Heading size="sm">{user.type === IDType.User ? "Following" : "Members"}</Heading>
+                    <Text mt="1" cursor="pointer" onClick={user.type === IDType.User ? () => viewFollowers(1) : () => viewFollowers(2)}><Count count={user.followings ?? 0} /></Text>
                   </Box>
                 </Flex>
                 </Card>

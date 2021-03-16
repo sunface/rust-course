@@ -28,7 +28,10 @@ const StyledLink = React.forwardRef(function StyledLink(
         fontWeight: "600",
       }}
       {...rest}
-    >{icon && <chakra.span mr="5" fontSize="1.1rem" display={{base:"none",md:"block"}} width="20px">{icon}</chakra.span> }<chakra.span>{children}</chakra.span></chakra.a>
+    >
+      {icon && <chakra.span mr="5" fontSize="1.1rem" display={{base:"none",md:"block"}} width="20px">{icon}</chakra.span> }
+      <chakra.span>{children}</chakra.span>
+    </chakra.a>
   )
 })
 

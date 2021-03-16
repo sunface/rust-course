@@ -10,3 +10,5 @@ export function isUsernameChar(c) {
     
     return false
 }
+
+export const usernameInvalidTips = "May only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen."

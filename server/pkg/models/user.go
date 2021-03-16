@@ -8,6 +8,7 @@ import (
 
 type User struct {
 	ID       string   `json:"id"`
+	Type     string   `json:"type"`
 	Username string   `json:"username"`
 	Nickname string   `json:"nickname"`
 	Avatar   string   `json:"avatar"`
@@ -30,9 +31,9 @@ type User struct {
 	Facebook      string `json:"facebook,omitempty"`
 	Stackoverflow string `json:"stackoverflow,omitempty"`
 
-	Follows    int  `json:"follows,omitempty"`
-	Followings int  `json:"followings,omitempty"`
-	Followed   bool `json:"followed,omitempty"`
+	Follows    int  `json:"follows"`
+	Followings int  `json:"followings"`
+	Followed   bool `json:"followed"`
 
 	LastSeenAt time.Time `json:"lastSeenAt,omitempty"`
 	Created    time.Time `json:"created"`
@@ -47,8 +48,8 @@ func (ar Users) Less(i, j int) bool {
 }
 
 func (user *User) Query(id string, username string, email string) error {
-	err := db.Conn.QueryRow(`SELECT id,username,role,nickname,email,avatar,last_seen_at,created FROM user WHERE id=? or username=? or email=?`,
-		id, username, email).Scan(&user.ID, &user.Username, &user.Role, &user.Nickname, &user.Email, &user.Avatar, &user.LastSeenAt, &user.Created)
+	err := db.Conn.QueryRow(`SELECT id,type,username,role,nickname,email,avatar,last_seen_at,created FROM user WHERE id=? or username=? or email=?`,
+		id, username, email).Scan(&user.ID, &user.Type, &user.Username, &user.Role, &user.Nickname, &user.Email, &user.Avatar, &user.LastSeenAt, &user.Created)
 
 	if user.Avatar == "" {
 		user.Avatar = DefaultAvatar

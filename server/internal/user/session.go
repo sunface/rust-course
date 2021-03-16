@@ -77,7 +77,7 @@ func deleteSession(sid string) {
 	q := `DELETE FROM sessions  WHERE sid=?`
 	_, err := db.Conn.Exec(q, sid)
 	if err != nil {
-		logger.Info("delete session error", "error", err)
+		logger.Warn("delete session error", "error", err)
 	}
 }
 
@@ -97,7 +97,6 @@ func CurrentUser(c *gin.Context) *models.User {
 	if createTime != 0 {
 		// check whether token is expired
 		if (time.Now().Unix() - createTime/1e9) > config.Data.User.SessionExpire {
-			deleteSession(token)
 			return nil
 		}
 	}
@@ -117,7 +116,6 @@ func GetSession(c *gin.Context) *Session {
 	if createTime != 0 {
 		// check whether token is expired
 		if (time.Now().Unix() - createTime/1e9) > config.Data.User.SessionExpire {
-			deleteSession(token)
 			return nil
 		}
 	}

@@ -5,5 +5,6 @@ export enum IDType {
     User = "3",
     Post = "4",
     Series = "5",
-    Book = "6"
+    Book = "6",
+    Org = "7"
 }
