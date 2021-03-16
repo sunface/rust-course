@@ -100,3 +100,14 @@ func GetMemberCount(orgID string) int {
 
 	return count
 }
+
+func IsOrgAdmin(userID string, orgID string) bool {
+	var role models.RoleType
+	err := db.Conn.QueryRow("SELECT role FROM org_member WHERE org_id=? and user_id=?", orgID, userID).Scan(&role)
+	if err != nil {
+		logger.Warn("check is org admin error", "error", err)
+		return false
+	}
+
+	return role.IsAdmin()
+}

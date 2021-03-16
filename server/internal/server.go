@@ -101,6 +101,7 @@ func (s *Server) Start() error {
 
 		// org apis
 		r.POST("/org/create", IsLogin(), api.CreateOrg)
+		r.POST("/org/update", IsLogin(), api.UpdateOrg)
 		r.GET("/org/byUserID/:userID", api.GetOrgByUserID)
 		r.GET("/org/members/:id", api.GetOrgMembers)
 		// other apis

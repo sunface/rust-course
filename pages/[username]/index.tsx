@@ -188,6 +188,11 @@ const UserPage = () => {
                     <chakra.a fontWeight="500" ml="2" href={user.website} target="_blank">{user.website}</chakra.a>
                   </HStack>}
 
+                  {user.email && <HStack mt="1">
+                    <chakra.span layerStyle="textSecondary" width="90px">联系邮箱: </chakra.span>
+                    <chakra.a fontWeight="500" ml="2" href={user.email} target="_blank">{user.email}</chakra.a>
+                  </HStack>}
+
                   <HStack mt="1">
                     <chakra.span layerStyle="textSecondary" width="90px">Joined: </chakra.span>
                     <chakra.span fontWeight="500" ml="2">{moment(user.created).fromNow()}</chakra.span>
@@ -209,7 +214,7 @@ const UserPage = () => {
                   </Box>}
                 </Card>
                 {user.rawSkills?.length > 0 && <Card>
-                  <Heading size="sm" layerStyle="textSecondary" fontWeight="500">擅长技能</Heading>
+                  <Heading size="sm" layerStyle="textSecondary" fontWeight="500">{user.type === IDType.User ? "擅长技术" : "组织技术栈"}</Heading>
                   <Wrap mt="4" p="1">
                     {
                       user.rawSkills.map(skill =>

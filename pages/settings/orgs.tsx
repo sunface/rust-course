@@ -13,6 +13,7 @@ import { isAdmin } from "utils/role"
 import userCustomTheme from "theme/user-custom"
 import { useRouter } from "next/router"
 import Link from "next/link"
+import { ReserveUrls } from "src/data/reserve-urls"
 
 const UserOrgsPage = () => {
     const [orgs, setOrgs]:[Org[],any] = useState([])
@@ -99,7 +100,7 @@ const UserOrgsPage = () => {
                                     </HStack>
                                 </Link>
 
-                                <Button variant="ghost">View</Button>
+                                <Button variant="outline" size="md" onClick={() => router.push(`${ReserveUrls.Settings}/org/profile?id=${o.id}`)}>Manage</Button>
                             </Flex>)
                         }
                         </VStack>

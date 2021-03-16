@@ -37,7 +37,22 @@ func CreateOrg(c *gin.Context) {
 }
 
 func UpdateOrg(c *gin.Context) {
+	u := &models.User{}
+	c.Bind(&u)
 
+	currentUser := user.CurrentUser(c)
+	if !org.IsOrgAdmin(currentUser.ID, u.ID) {
+		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
+		return
+	}
+
+	err := user.UpdateUser(u)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
 }
 
 func GetOrgByUserID(c *gin.Context) {
