@@ -111,3 +111,18 @@ func IsOrgAdmin(userID string, orgID string) bool {
 
 	return role.IsAdmin()
 }
+
+func UserInOrg(userID string, orgID string) bool {
+	var role models.RoleType
+	err := db.Conn.QueryRow("SELECT role FROM org_member WHERE org_id=? and user_id=?", orgID, userID).Scan(&role)
+	if err != nil && err != sql.ErrNoRows {
+		logger.Warn("check is org admin error", "error", err)
+		return false
+	}
+
+	if err == sql.ErrNoRows {
+		return false
+	}
+
+	return true
+}

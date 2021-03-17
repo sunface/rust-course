@@ -21,8 +21,14 @@ export const StoryAuthor= ({story,showFooter=true,size='lg'}:Props) =>{
             <HStack spacing="4">
                 <Avatar src={story.creator.avatar} size={size} onClick={() => router.push(`/${story.creator.username}`)} cursor="pointer"/>
                 <VStack alignItems="left" spacing="1">
-                    <Heading size="sm" onClick={() => router.push(`/${story.creator.username}`)} cursor="pointer">{story.creator.nickname === "" ? story.creator.username : story.creator.nickname}</Heading>
-                    <Text layerStyle="textSecondary" fontSize={size==='lg' ? ".9rem" : ".8rem"}>发布于<chakra.span fontWeight="600" ml="1">{moment(story.created).fromNow()}</chakra.span></Text>
+                    {story.ownerId ? 
+                        <HStack spacing={size==='lg'?2:1}>
+                            <Link href={`/${story.creator.username}`}><Text cursor="pointer">{story.creator.nickname}</Text></Link>
+                            <Text layerStyle="textSecondary">for</Text>
+                            <Link href={`/${story.owner.username}`}><Text cursor="pointer">{story.owner.nickname}</Text></Link>
+                        </HStack> : 
+                        <Heading size="sm" onClick={() => router.push(`/${story.creator.username}`)} cursor="pointer">{story.creator.nickname === "" ? story.creator.username : story.creator.nickname}</Heading>}
+                    <Text layerStyle="textSecondary" fontSize={size==='lg' ? ".9rem" : ".8rem"}><chakra.span fontWeight="600">{moment(story.created).fromNow()}</chakra.span></Text>
                     {showFooter && <HStack layerStyle="textSecondary" fontSize=".9rem" spacing="3">
                         <FaGithub />  <chakra.span>4 min read</chakra.span>
                     </HStack>}

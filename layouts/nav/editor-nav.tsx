@@ -17,7 +17,8 @@ import {
     TagLabel,
     TagCloseButton,
     Spinner,
-    Text
+    Text,
+    Select
 } from "@chakra-ui/react"
 import { useViewportScroll } from "framer-motion"
 import NextLink from "next/link"
@@ -29,6 +30,7 @@ import EditModeSelect from "components/edit-mode-select"
 import Tags from "components/tags/tags"
 import { Story } from "src/types/story"
 import { FaCloud } from "react-icons/fa"
+import { requestApi } from "utils/axios/request"
 
 
 
@@ -44,9 +46,20 @@ interface Props {
 function HeaderContent(props: Props) {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
-    
+    const [orgs,setOrgs] = useState([{id:"", nickname:"Personal"}])
+
     const onTagsChange = ids => {
        props.ar.tags = ids
+    }
+    
+    useEffect(() => {
+        getOrgs()
+    },[])
+
+    const getOrgs = async() => {
+        const res = await requestApi.get(`/org/byUserID/0`)
+        res.data.unshift({id:"", nickname:"Personal"})
+        setOrgs(res.data)
     }
 
     return (
@@ -95,6 +108,17 @@ function HeaderContent(props: Props) {
                         <Divider mt="5" mb="5"/>
 
                         <Card>
+                            <Heading size="xs">
+                                发布到
+                            </Heading>
+                            <Select value={props.ar.ownerId??""} onChange={(e) => {props.ar.ownerId = e.target.value; props.onChange()}} variant="unstyled" mt="3">
+                                {
+                                    orgs.map(o => <option value={o.id}>{o.nickname}</option>)
+                                }
+                            </Select>
+                        </Card>
+
+                        <Card mt="4">
                             <Heading size="xs">
                                 封面图片
                             </Heading>

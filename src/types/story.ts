@@ -14,6 +14,8 @@ export interface Story {
     slug?: string 
     creator?: UserSimple
     creatorId?: string
+    owner?: UserSimple
+    ownerId?:string
     title?: string 
     md?: string
     url?: string 

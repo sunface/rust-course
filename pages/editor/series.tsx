@@ -1,4 +1,4 @@
-import { Text, Box, Heading, Image, HStack, Center, Button, Flex, FormControl, FormLabel, Input, FormErrorMessage, VStack, Textarea, Divider, useToast, Stack, StackDivider, useColorModeValue, Table, Thead, Tr, Th, Tbody, Td, CloseButton, Editable, EditablePreview, EditableInput } from "@chakra-ui/react"
+import { Text, Box, Heading, Image, HStack, Center, Button, Flex, FormControl, FormLabel, Input, FormErrorMessage, VStack, Textarea, Divider, useToast, Stack, StackDivider, useColorModeValue, Table, Thead, Tr, Th, Tbody, Td, CloseButton, Editable, EditablePreview, EditableInput, Select } from "@chakra-ui/react"
 import Card from "components/card"
 import Sidebar from "layouts/sidebar/sidebar"
 import React, { useEffect, useState } from "react"
@@ -24,7 +24,7 @@ var validator = require('validator');
 
 const newSeries: Story = { title: '', brief: '', cover: '', type: IDType.Series }
 const PostsPage = () => {
-    const [currentSeries, setCurrentSeries]:[Story,any] = useState(null)
+    const [currentSeries, setCurrentSeries]: [Story, any] = useState(null)
     const [series, setSeries] = useState([])
     const [posts, setPosts] = useState([])
     const [seriesPosts, setSeriesPosts] = useState([])
@@ -80,7 +80,7 @@ const PostsPage = () => {
         // 这里必须按照顺序同步提交
         await requestApi.post(`/story`, values)
         await requestApi.post(`/story/series/post/${values.id}`, seriesPosts)
-        
+
 
         toast({
             description: "提交成功",
@@ -124,17 +124,17 @@ const PostsPage = () => {
         setSeriesPosts(sposts)
     }
 
-    const onPriorityChange = (e,s) => {
+    const onPriorityChange = (e, s) => {
         if (e.currentTarget.value) {
-            const i =  parseInt(e.currentTarget.value)
+            const i = parseInt(e.currentTarget.value)
             if (i) {
                 s.priority = i
             }
         } else {
             s.priority = 0
         }
-      
-        const sposts =  cloneDeep(seriesPosts)
+
+        const sposts = cloneDeep(seriesPosts)
         setSeriesPosts(sposts)
     }
 
@@ -174,6 +174,19 @@ const PostsPage = () => {
                                                         </FormControl>
                                                     )}
                                                 </Field>
+                                                {/* <Field name="ownerId">
+                                                    {({ field, form }) => (
+                                                        <FormControl isInvalid={form.errors.ownerId && form.touched.ownerId} >
+                                                            <FormLabel>发布于</FormLabel>
+                                                            <Select {...field} variant="unstyled" mt="3">
+                                                                {
+                                                                    orgs.map(o => <option value={o.id}>{o.nickname}</option>)
+                                                                }
+                                                            </Select>
+                                                            <FormErrorMessage>{form.errors.ownerId}</FormErrorMessage>
+                                                        </FormControl>
+                                                    )}
+                                                </Field> */}
                                                 <Field name="cover" validate={validateUrl}>
                                                     {({ field, form }) => (
                                                         <FormControl isInvalid={form.errors.cover && form.touched.cover}>
@@ -196,7 +209,7 @@ const PostsPage = () => {
                                                     {({ field, form }) => (
                                                         <FormControl>
                                                             <FormLabel>标签</FormLabel>
-                                                            <Tags tags={currentSeries.tags} onChange={(ids) => currentSeries.tags = ids}/>
+                                                            <Tags tags={currentSeries.tags} onChange={(ids) => currentSeries.tags = ids} />
                                                         </FormControl>
                                                     )}
                                                 </Field>
@@ -229,8 +242,8 @@ const PostsPage = () => {
                                                                                         <Td>{post.title}</Td>
                                                                                         <Td>
                                                                                             <Editable value={s.priority}>
-                                                                                                <EditablePreview minWidth="100px"/>
-                                                                                                <EditableInput  onChange={(e) => onPriorityChange(e,s)}/>
+                                                                                                <EditablePreview minWidth="100px" />
+                                                                                                <EditableInput onChange={(e) => onPriorityChange(e, s)} />
                                                                                             </Editable>
                                                                                         </Td>
                                                                                         <Td width="50px"><CloseButton size="sm" onClick={() => onPostDelete(s.id)} _focus={null} /></Td>
@@ -277,7 +290,7 @@ const PostsPage = () => {
                                             <VStack mt="4">
                                                 {series.map(post =>
                                                     <Box width="100%" key={post.id}>
-                                                        <TextStoryCard story={post} showActions={true} mt="4" onEdit={() => editSeries(post)} onDelete={() => onDeleteSeries(post.id)} showSource={false} onPin={() => onPinPost(post.id)}/>
+                                                        <TextStoryCard story={post} showActions={true} mt="4" onEdit={() => editSeries(post)} onDelete={() => onDeleteSeries(post.id)} showSource={false} onPin={() => onPinPost(post.id)} />
                                                         <Divider mt="5" />
                                                     </Box>
                                                 )}

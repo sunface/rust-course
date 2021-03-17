@@ -14,7 +14,7 @@ import (
 	"github.com/imdotdev/im.dev/server/pkg/models"
 )
 
-const PostQueryPrefix = "select id,type,slug,title,url,cover,brief,creator,created,updated from story "
+const PostQueryPrefix = "select id,type,slug,title,url,cover,brief,creator,owner,created,updated from story "
 
 func HomePosts(user *models.User, filter string) (models.Stories, *e.Error) {
 
@@ -144,7 +144,7 @@ func GetPosts(user *models.User, rows *sql.Rows) models.Stories {
 	posts := make(models.Stories, 0)
 	for rows.Next() {
 		ar := &models.Story{}
-		err := rows.Scan(&ar.ID, &ar.Type, &ar.Slug, &ar.Title, &ar.URL, &ar.Cover, &ar.Brief, &ar.CreatorID, &ar.Created, &ar.Updated)
+		err := rows.Scan(&ar.ID, &ar.Type, &ar.Slug, &ar.Title, &ar.URL, &ar.Cover, &ar.Brief, &ar.CreatorID, &ar.OwnerID, &ar.Created, &ar.Updated)
 		if err != nil {
 			logger.Warn("scan post error", "error", err)
 			continue
@@ -154,6 +154,12 @@ func GetPosts(user *models.User, rows *sql.Rows) models.Stories {
 		creator := &models.UserSimple{ID: ar.CreatorID}
 		creator.Query()
 		ar.Creator = creator
+
+		if ar.OwnerID != "" {
+			owner := &models.UserSimple{ID: ar.OwnerID}
+			owner.Query()
+			ar.Owner = owner
+		}
 
 		// 获取评论信息
 		ar.Comments = GetCommentCount(ar.ID)

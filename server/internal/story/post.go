@@ -11,6 +11,7 @@ import (
 	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/imdotdev/im.dev/server/internal/interaction"
+	"github.com/imdotdev/im.dev/server/internal/org"
 	"github.com/imdotdev/im.dev/server/internal/tags"
 	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/config"
@@ -70,6 +71,13 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 		}
 	}
 
+	// check user is in org exist
+	if post.OwnerID != "" {
+		if !org.UserInOrg(user.ID, post.OwnerID) {
+			return nil, e.New(http.StatusForbidden, e.NoEditorPermission)
+		}
+	}
+
 	now := time.Now()
 
 	md := utils.Compress(post.Md)
@@ -83,8 +91,8 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 		}
 
 		//create
-		_, err := db.Conn.Exec("INSERT INTO story (id,type,creator,slug, title, md, url, cover, brief,status, created, updated) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
-			post.ID, post.Type, user.ID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, models.StatusPublished, now, now)
+		_, err := db.Conn.Exec("INSERT INTO story (id,type,creator,owner,slug, title, md, url, cover, brief,status, created, updated) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",
+			post.ID, post.Type, user.ID, post.OwnerID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, models.StatusPublished, now, now)
 		if err != nil {
 			logger.Warn("submit post error", "error", err)
 			return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -96,8 +104,8 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 			return nil, e.New(http.StatusForbidden, e.NoEditorPermission)
 		}
 
-		_, err = db.Conn.Exec("UPDATE story SET slug=?, title=?, md=?, url=?, cover=?, brief=?, updated=? WHERE id=?",
-			post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, now, post.ID)
+		_, err = db.Conn.Exec("UPDATE story SET owner=?, slug=?, title=?, md=?, url=?, cover=?, brief=?, updated=? WHERE id=?",
+			post.OwnerID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, now, post.ID)
 		if err != nil {
 			logger.Warn("upate post error", "error", err)
 			return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -205,8 +213,8 @@ func DeletePost(id string) *e.Error {
 func GetStory(id string, slug string) (*models.Story, *e.Error) {
 	ar := &models.Story{}
 	var rawmd []byte
-	err := db.Conn.QueryRow("select id,type,slug,title,md,url,cover,brief,creator,status,created,updated from story where id=?", id).Scan(
-		&ar.ID, &ar.Type, &ar.Slug, &ar.Title, &rawmd, &ar.URL, &ar.Cover, &ar.Brief, &ar.CreatorID, &ar.Status, &ar.Created, &ar.Updated,
+	err := db.Conn.QueryRow("select id,type,slug,title,md,url,cover,brief,creator,owner,status,created,updated from story where id=?", id).Scan(
+		&ar.ID, &ar.Type, &ar.Slug, &ar.Title, &rawmd, &ar.URL, &ar.Cover, &ar.Brief, &ar.CreatorID, &ar.OwnerID, &ar.Status, &ar.Created, &ar.Updated,
 	)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -218,8 +226,13 @@ func GetStory(id string, slug string) (*models.Story, *e.Error) {
 
 	md, _ := utils.Uncompress(rawmd)
 	ar.Md = string(md)
+
 	ar.Creator = &models.UserSimple{ID: ar.CreatorID}
 	err = ar.Creator.Query()
+	if ar.OwnerID != "" {
+		ar.Owner = &models.UserSimple{ID: ar.OwnerID}
+		err = ar.Owner.Query()
+	}
 
 	// get tags
 	t, rawTags, err := tags.GetTargetTags(ar.ID)

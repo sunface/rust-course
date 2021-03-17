@@ -17,6 +17,8 @@ type Story struct {
 	Type       string      `json:"type"`
 	Creator    *UserSimple `json:"creator"`
 	CreatorID  string      `json:"creatorId"`
+	Owner      *UserSimple `json:"owner"`
+	OwnerID    string      `json:"ownerId"`
 	Title      string      `json:"title"`
 	Slug       string      `json:"slug"`
 	Md         string      `json:"md"`

@@ -66,6 +66,7 @@ var sqlTables = map[string]string{
 		id 			VARCHAR(255) PRIMARY KEY,
 		type        VARCHAR(1) NOT NULL,
 		creator 	VARCHAR(255) NOT NULL,
+		owner       VARCHAR(255) DEFAULT '',
 		slug 		VARCHAR(64) DEFAULT '',
 		title 		VARCHAR(255) DEFAULT '',
 		md   		TEXT DEFAULT '',
@@ -80,6 +81,8 @@ var sqlTables = map[string]string{
 		ON story (type);
 	CREATE INDEX IF NOT EXISTS story_creator
 		ON story (creator);
+	CREATE INDEX IF NOT EXISTS story_owner
+		ON story (owner);
 	CREATE INDEX IF NOT EXISTS story_created
 		ON story (created);
 	`,
