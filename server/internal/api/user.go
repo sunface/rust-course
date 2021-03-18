@@ -143,7 +143,7 @@ func DeleteUserNavbar(c *gin.Context) {
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
 }
 
-func NameExist(c *gin.Context) {
+func UserNameExist(c *gin.Context) {
 	name := c.Param("name")
 	if strings.TrimSpace(name) == "" {
 		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
@@ -151,6 +151,22 @@ func NameExist(c *gin.Context) {
 	}
 
 	exist, err := user.NameExist(name)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(exist))
+}
+
+func UserEmailExist(c *gin.Context) {
+	email := c.Param("email")
+	if strings.TrimSpace(email) == "" {
+		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
+		return
+	}
+
+	exist, err := user.EmailExist(email)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return

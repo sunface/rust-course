@@ -1,4 +1,4 @@
-import { Text, Box, Heading, Image, Center, Button, Flex, VStack, Divider, useToast, FormControl, FormLabel, FormHelperText, Input, FormErrorMessage, HStack, Wrap, useMediaQuery, Avatar, Textarea, Table, Thead, Tr, Th, Tbody, Td, IconButton, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, Select, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, useColorModeValue, StackDivider } from "@chakra-ui/react"
+import { Text, Box, Heading, Image, Center, Button, Flex, VStack, Divider, useToast, FormControl, FormLabel, FormHelperText, Input, FormErrorMessage, HStack, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, useColorModeValue, StackDivider } from "@chakra-ui/react"
 import Card from "components/card"
 import PageContainer from "layouts/page-container"
 import Sidebar from "layouts/sidebar/sidebar"
@@ -8,7 +8,7 @@ import { requestApi } from "utils/axios/request"
 import { Org } from "src/types/org"
 import { Field, Form, Formik } from "formik"
 import { config } from "configs/config"
-import { isUsernameChar, usernameInvalidTips } from "utils/user"
+import { isUsernameChar, usernameInvalidTips, validateNickname, validateUsername } from "utils/user"
 import { isAdmin } from "utils/role"
 import userCustomTheme from "theme/user-custom"
 import { useRouter } from "next/router"
@@ -41,41 +41,7 @@ const UserOrgsPage = () => {
         onOpen()
     }
 
-    const  validateUsername = async value => {
-        let error
-        if (!value?.trim()) {
-            return "不能为空"
-        }
-
-        if (value?.length > config.user.usernameMaxLen) {
-           return `长度不能超过${config.user.usernameMaxLen}`
-        }
-
-        for (const c of value) {
-            if (!isUsernameChar(c)) {
-                return usernameInvalidTips
-            }
-        }
-
-        const res = await requestApi.get(`/username/exist/${value}`)
-        if (res.data) {
-            return `The name '${value}' is already taken.`
-        }
-        return error
-    }
-
-    function validateNickname(value) {
-        let error
-        if (!value?.trim()) {
-            error = "不能为空"
-        }
-
-        if (value?.length > config.user.usernameMaxLen) {
-            error = `长度不能超过${config.user.usernameMaxLen}`
-        }
-
-        return error
-    }
+   
 
 
     return (

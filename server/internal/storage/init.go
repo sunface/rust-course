@@ -41,9 +41,9 @@ func Init() error {
 }
 
 var navbars = []*models.Navbar{
-	&models.Navbar{Label: "主页", Value: "/", Weight: 0},
+	&models.Navbar{Label: "主页", Value: "/", Weight: 2},
 	&models.Navbar{Label: "标签", Value: "/tags", Weight: 1},
-	&models.Navbar{Label: "Search", Value: "/search/posts", Weight: 2},
+	&models.Navbar{Label: "Search", Value: "/search/posts", Weight: 0},
 }
 
 func initTables() error {

@@ -135,7 +135,7 @@ func GetFollowers(targetID, targetType string) ([]*models.User, *e.Error) {
 		u, ok := models.UsersMapCache[id]
 		if ok {
 			users = append(users, u)
-			u.Followed = GetFollowed(u.ID, targetID)
+			u.Followed = GetFollowed(targetID, u.ID)
 			u.Follows = GetFollows(u.ID)
 		}
 	}

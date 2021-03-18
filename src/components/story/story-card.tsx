@@ -16,6 +16,7 @@ interface Props {
     story: Story
     type?: string
     highlight?: string
+    showOrg?: boolean
 }
 
 
@@ -24,10 +25,9 @@ export const StoryCard = (props: Props) => {
     const [isLargeScreen] = useMediaQuery("(min-width: 768px)")
     const Layout = isLargeScreen ? HStack : VStack
 
-
     return (
         <VStack alignItems="left" spacing={type === "classic" ? 4 : 2} p="2">
-            <StoryAuthor story={story} showFooter={false} size="md" />
+            <StoryAuthor story={story} showFooter={false} size="md" showOrg={props.showOrg}/>
             <a href={getStoryUrl(story)} target="_blank">
                 <Layout alignItems={isLargeScreen ? "top" : "left"} cursor="pointer" pl="2" pt="1">
                     <VStack alignItems="left" spacing={type === "classic" ? 3 : 2} width={isLargeScreen && type === "classic" ? "calc(100% - 15rem)" : '100%'}>

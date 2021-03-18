@@ -10,7 +10,8 @@ import { useRouter } from "next/router"
 import { Field, Form, Formik } from "formik"
 import { config } from "configs/config"
 import Tags from "components/tags/tags"
-var validator = require('validator');
+import { validateNickname ,validateEmail,validateUrl} from "utils/user"
+
 
 const UserProfilePage = () => {
     const [user, setUser] = useState(null)
@@ -33,57 +34,8 @@ const UserProfilePage = () => {
         })
     }
 
-    function validateNickname(value) {
-        let error
-        if (!value?.trim()) {
-            error = "昵称不能为空"
-        }
-
-        if (value?.length > config.user.nicknameMaxLen) {
-            error = `长度不能超过${config.user.nicknameMaxLen}`
-        }
-
-        return error
-    }
-
-    function validateEmail(value) {
-        let email = value?.trim()
-        let error
-
-        if (email?.length > config.user.usernameMaxLen) {
-            error = `长度不能超过${config.user.usernameMaxLen}`
-            return error
-        }
-
-        if (email) {
-            if (!validator.isEmail(email)) {
-                error = "Email格式不合法"
-                return error
-            }
-        }
-        return error
-    }
 
 
-    function validateUrl(value, canBeEmpty = true) {
-        let url = value?.trim()
-        let error
-        if (!canBeEmpty) {
-            if (!url) {
-                error = "url不能为空"
-                return error
-            }
-        }
-
-        if (url) {
-            if (!validator.isURL(value)) {
-                error = "URL格式不合法"
-                return error
-            }
-        }
-
-        return error
-    }
 
     function validateLen(value) {
         let error

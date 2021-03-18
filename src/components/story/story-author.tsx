@@ -13,15 +13,16 @@ type Props = PropsOf<typeof chakra.div> & {
     size?: 'lg' | 'md'
     story : Story
     showFooter?: boolean
+    showOrg?: boolean
 }
 
-export const StoryAuthor= ({story,showFooter=true,size='lg'}:Props) =>{
+export const StoryAuthor= ({story,showFooter=true,size='lg',showOrg=true}:Props) =>{
     const router = useRouter()
     return (
             <HStack spacing="4">
                 <Avatar src={story.creator.avatar} size={size} onClick={() => router.push(`/${story.creator.username}`)} cursor="pointer"/>
                 <VStack alignItems="left" spacing="1">
-                    {story.ownerId ? 
+                    {(showOrg && story.ownerId!=='') ? 
                         <HStack spacing={size==='lg'?2:1}>
                             <Link href={`/${story.creator.username}`}><Text cursor="pointer">{story.creator.nickname}</Text></Link>
                             <Text layerStyle="textSecondary">for</Text>

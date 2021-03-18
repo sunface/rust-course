@@ -70,6 +70,12 @@ export const adminLinks: Route[] = [{
     icon: getSvgIcon("navbar"),
     disabled: false
 },
+{
+    title: '用户管理',
+    path: `${ReserveUrls.Admin}/users`,
+    icon: getSvgIcon("user"),
+    disabled: false
+},
 ]
 
 

@@ -16,7 +16,7 @@ func Init() {
 	time.Sleep(2 * time.Second)
 	for {
 		// load users
-		rows, err := db.Conn.Query(`SELECT id,username,role,nickname,avatar,last_seen_at,created FROM user`)
+		rows, err := db.Conn.Query(`SELECT id,type,username,role,nickname,avatar,last_seen_at,created FROM user`)
 		if err != nil {
 			logger.Error("load users error", "error", err)
 			time.Sleep(60 * time.Second)
@@ -27,7 +27,7 @@ func Init() {
 		usersMap := make(map[string]*models.User)
 		for rows.Next() {
 			user := &models.User{}
-			err := rows.Scan(&user.ID, &user.Username, &user.Role, &user.Nickname, &user.Avatar, &user.LastSeenAt, &user.Created)
+			err := rows.Scan(&user.ID, &user.Type, &user.Username, &user.Role, &user.Nickname, &user.Avatar, &user.LastSeenAt, &user.Created)
 			if err != nil {
 				logger.Warn("scan user error", "error", err)
 				continue

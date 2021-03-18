@@ -51,6 +51,7 @@ func (s *Server) Start() error {
 		r.POST("/story/comment", IsLogin(), api.SubmitComment)
 		r.DELETE("/story/comment/:id", IsLogin(), api.DeleteStoryComment)
 		r.GET("/story/posts/editor", IsLogin(), api.GetEditorPosts)
+		r.GET("/story/posts/org/:id", IsLogin(), api.GetOrgPosts)
 		r.GET("/story/posts/drafts", IsLogin(), api.GetEditorDrafts)
 		r.GET("/story/posts/home/:filter", api.GetHomePosts)
 		r.POST("/story", IsLogin(), api.SubmitStory)
@@ -87,6 +88,9 @@ func (s *Server) Start() error {
 		r.POST("/user/navbar", IsLogin(), api.SubmitUserNavbar)
 		r.GET("/user/navbars/:userID", api.GetUserNavbars)
 		r.DELETE("/user/navbar/:id", IsLogin(), api.DeleteUserNavbar)
+		r.GET("/user/name/exist/:name", api.UserNameExist)
+		r.GET("/user/email/exist/:email", api.UserEmailExist)
+
 		// interaction apis
 		r.POST("/interaction/like/:id", IsLogin(), api.Like)
 		r.POST("/interaction/follow/:id", IsLogin(), api.Follow)
@@ -104,12 +108,17 @@ func (s *Server) Start() error {
 		r.POST("/org/update", IsLogin(), api.UpdateOrg)
 		r.GET("/org/byUserID/:userID", api.GetOrgByUserID)
 		r.GET("/org/members/:id", api.GetOrgMembers)
+
+		// admin apis
+		r.POST("/admin/user", IsLogin(), api.AdminSubmitUser)
+		r.GET("/admin/user/all", IsLogin(), api.AdminGetUsers)
+
 		// other apis
 		r.GET("/config", GetConfig)
 		r.GET("/navbars", GetNavbars)
 		r.POST("/navbar", IsLogin(), SubmitNavbar)
 		r.DELETE("/navbar/:id", IsLogin(), DeleteNavbar)
-		r.GET("/username/exist/:name", api.NameExist)
+
 		err := router.Run(config.Data.Server.Addr)
 		if err != nil {
 			logger.Crit("start backend server error", "error", err)

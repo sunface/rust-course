@@ -51,7 +51,7 @@ const UserPage = () => {
 
     getTags(res.data.id)
     getNavbars(res.data.id)
-    const res1 = await requestApi.get(`/user/posts/${res.data.id}`)
+    const res1 = res.data.type === IDType.User ? await requestApi.get(`/user/posts/${res.data.id}`) : await requestApi.get(`/story/posts/org/${res.data.id}?type=0`)
     setPosts(res1.data)
     setRawPosts(res1.data)
   }
@@ -251,7 +251,7 @@ const UserPage = () => {
                   </Card>
                   :
                   <Card width="100%" height="fit-content" p="0">
-                    <Stories stories={posts} showFooter={tagFilter === null} showPinned={true} />
+                    <Stories stories={posts} showFooter={tagFilter === null} showPinned={true} showOrg={user.type === IDType.User}/>
                   </Card>
                 }
               </Box>

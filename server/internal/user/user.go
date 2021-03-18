@@ -12,11 +12,16 @@ import (
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
 	"github.com/imdotdev/im.dev/server/pkg/models"
+	"github.com/imdotdev/im.dev/server/pkg/utils"
 )
 
 func GetUsers(q string) ([]*models.User, *e.Error) {
 	users := make([]*models.User, 0)
 	for _, u := range models.UsersCache {
+		if u.Type != models.IDTypeUser {
+			continue
+		}
+
 		if strings.HasPrefix(strings.ToLower(u.Nickname), strings.ToLower(q)) {
 			users = append(users, u)
 			continue
@@ -141,4 +146,53 @@ func NameExist(name string) (bool, *e.Error) {
 	}
 
 	return true, nil
+}
+
+func EmailExist(email string) (bool, *e.Error) {
+	var ne string
+	err := db.Conn.QueryRow("SELECT email FROM user  WHERE email=?", email).Scan(&ne)
+	if err != nil && err != sql.ErrNoRows {
+		logger.Warn("check email exist  error", "error", err)
+		return false, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	if err == sql.ErrNoRows {
+		return false, nil
+	}
+
+	return true, nil
+}
+
+func SubmitUser(user *models.User) *e.Error {
+	if user.Nickname == "" {
+		user.Nickname = "New user"
+	}
+
+	var err error
+	now := time.Now()
+	if user.ID == "" {
+		// create user
+		emailExist, err0 := EmailExist(user.Email)
+		if err0 != nil {
+			return e.New(err0.Status, err0.Message)
+		}
+
+		if emailExist {
+			return e.New(http.StatusConflict, "邮箱地址已存在")
+		}
+
+		user.ID = utils.GenID(models.IDTypeUser)
+		_, err = db.Conn.Exec("INSERT INTO user (id,type,email,username,nickname,role,created,updated) VALUES (?,?,?,?,?,?,?,?)",
+			user.ID, models.IDTypeUser, user.Email, user.Username, user.Nickname, user.Role, now, now)
+	} else {
+		// update user
+		_, err = db.Conn.Exec("UPDATE user SET role=?,updated=? WHERE id=?", user.Role, now, user.ID)
+	}
+
+	if err != nil {
+		logger.Warn("submit user  error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	return nil
 }

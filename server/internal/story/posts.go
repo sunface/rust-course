@@ -64,6 +64,40 @@ func UserPosts(tp string, user *models.User, uid string) (models.Stories, *e.Err
 	return newPosts, nil
 }
 
+func OrgPosts(tp string, user *models.User, orgID string) (models.Stories, *e.Error) {
+	var rows *sql.Rows
+	var err error
+	if tp == models.IDTypeUndefined {
+		rows, err = db.Conn.Query(PostQueryPrefix+"where owner=? and status=?", orgID, models.StatusPublished)
+	} else {
+		rows, err = db.Conn.Query(PostQueryPrefix+"where owner=? and type=? and status=?", orgID, tp, models.StatusPublished)
+	}
+
+	if err != nil && err != sql.ErrNoRows {
+		logger.Warn("get user posts error", "error", err)
+		return nil, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	posts := GetPosts(user, rows)
+
+	sort.Sort(posts)
+
+	pinned := make([]*models.Story, 0)
+	unpinned := make([]*models.Story, 0)
+
+	for _, post := range posts {
+		post.Pinned = GetPinned(post.ID, user.ID)
+		if post.Pinned {
+			pinned = append(pinned, post)
+		} else {
+			unpinned = append(unpinned, post)
+		}
+	}
+
+	newPosts := append(pinned, unpinned...)
+	return newPosts, nil
+}
+
 func UserDrafts(user *models.User, uid string) (models.Stories, *e.Error) {
 	rows, err := db.Conn.Query(PostQueryPrefix+"where creator=? and status=?", uid, models.StatusDraft)
 	if err != nil && err != sql.ErrNoRows {

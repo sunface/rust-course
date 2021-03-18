@@ -27,6 +27,24 @@ func GetEditorPosts(c *gin.Context) {
 	c.JSON(http.StatusOK, common.RespSuccess(ars))
 }
 
+func GetOrgPosts(c *gin.Context) {
+	orgID := c.Param("id")
+	tp := c.Query("type")
+	if tp != models.IDTypeUndefined && !models.ValidStoryIDType(tp) {
+		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
+		return
+	}
+
+	user := user.CurrentUser(c)
+	ars, err := story.OrgPosts(tp, user, orgID)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(ars))
+}
+
 func GetEditorDrafts(c *gin.Context) {
 	user := user.CurrentUser(c)
 	ars, err := story.UserDrafts(nil, user.ID)
