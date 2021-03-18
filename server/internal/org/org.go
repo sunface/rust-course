@@ -171,3 +171,28 @@ func GetMemberRole(orgID string, memberID string) (models.RoleType, error) {
 
 	return role, nil
 }
+
+func Transfer(orgID, currentOwner, newOwner string) *e.Error {
+	tx, err := db.Conn.Begin()
+	if err != nil {
+		logger.Warn("start sql transaction error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	_, err = tx.Exec("UPDATE org_member SET role=? WHERE org_id=? and user_id=?", models.ROLE_SUPER_ADMIN, orgID, newOwner)
+	if err != nil {
+		logger.Warn("transfer org error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	_, err = tx.Exec("UPDATE org_member SET role=? WHERE org_id=? and user_id=?", models.ROLE_NORMAL, orgID, currentOwner)
+	if err != nil {
+		logger.Warn("transfer org error", "error", err)
+		tx.Rollback()
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	tx.Commit()
+
+	return nil
+}

@@ -1,4 +1,4 @@
-import { Text, Box, Heading, Image, Center, Button, Flex, VStack, Divider, useToast, FormControl, FormLabel, FormHelperText, Input, FormErrorMessage, HStack, Wrap, useMediaQuery, Avatar, Textarea, } from "@chakra-ui/react"
+import { Text, Box, Heading, Image, Center, Button, Flex, VStack, Divider, useToast, FormControl, FormLabel, FormHelperText, Input, FormErrorMessage, HStack, Wrap, useMediaQuery, Avatar, Textarea, Modal, ModalOverlay, ModalContent, ModalBody, useDisclosure, Alert, AlertIcon, } from "@chakra-ui/react"
 import Card from "components/card"
 import Nav from "layouts/nav/nav"
 import PageContainer from "layouts/page-container"
@@ -13,12 +13,15 @@ import Tags from "components/tags/tags"
 var validator = require('validator');
 
 const UserProfilePage = () => {
-    const [user, setUser] = useState(null)
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [org, setOrg] = useState(null)
+    const [newOnwer, setNewOnwer] = useState('')
+
     const [isLargerThan1280] = useMediaQuery("(min-width: 768px)")
     const router = useRouter()
     useEffect(() => {
         if (router.query.org_id) {
-            requestApi.get(`/user/info/${router.query.org_id}`).then(res => setUser(res.data))
+            requestApi.get(`/user/info/${router.query.org_id}`).then(res => setOrg(res.data))
         }
 
     }, [router.query.org_id])
@@ -27,7 +30,7 @@ const UserProfilePage = () => {
 
     const submitUser = async (values, _) => {
         await requestApi.post(`/org/update`, values)
-        setUser(values)
+        setOrg(values)
         toast({
             description: "更新成功",
             status: "success",
@@ -97,15 +100,26 @@ const UserProfilePage = () => {
         return error
     }
 
+    const transferOrg = async () => {
+        await requestApi.post(`/org/transfer`,{orgID: router.query.org_id, ownerID: newOnwer})
+        toast({
+            description: "转移成功",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+        })
+        router.push('/settings/orgs')
+    }
+
     const Layout = isLargerThan1280 ? HStack : VStack
     return (
         <>
             <PageContainer>
                 <Box display="flex">
-                    <Sidebar routes={orgSettingLinks(router.query.org_id)} width={["120px", "120px", "250px", "250px"]}   height="fit-content" title={`管理${user?.nickname}`} />
-                    {user && <VStack alignItems="left" ml="4" width="100%">
+                    <Sidebar routes={orgSettingLinks(router.query.org_id)} width={["120px", "120px", "250px", "250px"]} height="fit-content" title={`管理${org?.nickname}`} />
+                    {org && <VStack alignItems="left" ml="4" width="100%">
                         <Formik
-                            initialValues={user}
+                            initialValues={org}
                             onSubmit={submitUser}
                         >
                             {(props) => (
@@ -115,10 +129,15 @@ const UserProfilePage = () => {
                                             <Box width="100%">
                                                 <VStack alignItems="left" spacing="6">
                                                     <Heading size="sm">基本信息</Heading>
+                                                    <Box>
+                                                        <FormLabel>Username</FormLabel>
+                                                        <Input placeholder="enter your nick name" size="lg" value={org.username} disabled />
+                                                    </Box>
+
                                                     <Field name="nickname" validate={validateNickname}>
                                                         {({ field, form }) => (
                                                             <FormControl isInvalid={form.errors.nickname && form.touched.nickname} >
-                                                                <FormLabel>用户昵称</FormLabel>
+                                                                <FormLabel>组织名称</FormLabel>
                                                                 <Input {...field} placeholder="enter your nick name" size="lg" />
                                                                 <FormErrorMessage>{form.errors.nickname}</FormErrorMessage>
                                                             </FormControl>
@@ -141,7 +160,7 @@ const UserProfilePage = () => {
                                                                 <FormLabel>头像设置</FormLabel>
                                                                 <Input {...field} placeholder="输入图片链接，可以用github或postimg.cc当图片存储服务" size="lg" />
                                                                 <FormErrorMessage>{form.errors.avatar}</FormErrorMessage>
-                                                                {user.avatar && <Image width="120px" mt="4" src={user.avatar} />}
+                                                                {org.avatar && <Image width="120px" mt="4" src={org.avatar} />}
                                                             </FormControl>
 
                                                         )}
@@ -152,7 +171,7 @@ const UserProfilePage = () => {
                                                                 <FormLabel>封面图片</FormLabel>
                                                                 <Input {...field} placeholder="输入图片链接" size="lg" />
                                                                 <FormErrorMessage>{form.errors.cover}</FormErrorMessage>
-                                                                {user.cover && <Image width="100%" mt="4" src={user.cover} />}
+                                                                {org.cover && <Image width="100%" mt="4" src={org.cover} />}
                                                             </FormControl>
 
                                                         )}
@@ -192,7 +211,7 @@ const UserProfilePage = () => {
                                                         {({ field, form }) => (
                                                             <FormControl >
                                                                 <FormLabel>组织技术栈</FormLabel>
-                                                                <Tags tags={user.skills} onChange={(v) => form.values.skills = v} size="lg"/>
+                                                                <Tags tags={org.skills} onChange={(v) => form.values.skills = v} size="lg" />
                                                             </FormControl>
                                                         )}
                                                     </Field>
@@ -277,10 +296,18 @@ const UserProfilePage = () => {
                                             variant="outline"
                                             type="submit"
                                             _focus={null}
-                                            
+
                                         >
                                             更新信息
-                                    </Button>
+                                        </Button>
+                                        <Button
+                                            colorScheme="red"
+                                            _focus={null}
+                                            ml="4"
+                                            onClick={onOpen}
+                                        >
+                                            转移组织
+                                        </Button>
                                     </Box>
                                 </Form>
                             )}
@@ -288,6 +315,23 @@ const UserProfilePage = () => {
                     </VStack>}
                 </Box>
             </PageContainer>
+
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                {<ModalContent p="3">
+                    <ModalBody mb="2">
+                        <Text>转移组织</Text>
+                        <Text mt="2" fontSize=".9rem" layerStyle="textSecondary">你必须是超级管理员才能完成此操作</Text>
+                        <Input _focus={null} mt="4" placeholder="输入转移用户的ID，请找该用户询问" value={newOnwer} onChange={e => setNewOnwer(e.currentTarget.value)} />
+                        <Alert status="error" mt="4">
+                            <AlertIcon />
+                            注意：该操作无法逆转，一旦转移，你将变为普通成员
+                        </Alert>
+
+                        <Button mt="4" colorScheme="teal" onClick={transferOrg}>开始转移</Button>
+                    </ModalBody>
+                </ModalContent>}
+            </Modal>
         </>
     )
 }

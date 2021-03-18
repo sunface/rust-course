@@ -64,6 +64,16 @@ const UserProfilePage = () => {
                                             <Box width="100%">
                                                 <VStack alignItems="left" spacing="6">
                                                     <Heading size="sm">基本信息</Heading>
+                                                    <Box>
+                                                        <FormLabel>ID</FormLabel>
+                                                        <Input  size="lg" value={user.id} disabled />
+                                                    </Box>
+
+                                                    <Box>
+                                                        <FormLabel>Username</FormLabel>
+                                                        <Input size="lg" value={user.username} disabled />
+                                                    </Box>
+
                                                     <Field name="nickname" validate={validateNickname}>
                                                         {({ field, form }) => (
                                                             <FormControl isInvalid={form.errors.nickname && form.touched.nickname} >

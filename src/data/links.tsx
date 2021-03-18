@@ -102,7 +102,7 @@ export const settingLinks: Route[] = [{
 
 export function orgSettingLinks(orgID) {
     return [{
-        title: '组织信息',
+        title: '组织设置',
         path: `${ReserveUrls.Settings}/org/profile/${orgID}`,
         icon: <FaUserCircle />,
         disabled: false

@@ -110,7 +110,7 @@ func GenOrgSecret(c *gin.Context) {
 func GetOrgSecret(c *gin.Context) {
 	orgID := c.Param("id")
 	currentUser := user.CurrentUser(c)
-	if !org.IsOrgAdmin(currentUser.ID, orgID) {
+	if !org.UserInOrg(currentUser.ID, orgID) {
 		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
 		return
 	}
@@ -202,6 +202,43 @@ func UpdateOrgMember(c *gin.Context) {
 	}
 
 	err0 := org.UpdateMember(req.OrgID, req.MemberID, req.Role)
+	if err0 != nil {
+		c.JSON(err0.Status, common.RespError(err0.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}
+
+type TransferReq struct {
+	OrgID   string `json:"orgID"`
+	OwnerID string `json:"ownerID"`
+}
+
+func TransferOrg(c *gin.Context) {
+	req := &TransferReq{}
+	c.Bind(&req)
+
+	// 检查当前用户是否是组织的超级管理员
+	currentUser := user.CurrentUser(c)
+	currentRole, err := org.GetMemberRole(req.OrgID, currentUser.ID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, common.RespError(e.BadRequest))
+		return
+	}
+
+	if currentRole != models.ROLE_SUPER_ADMIN {
+		c.JSON(http.StatusForbidden, common.RespError("只有超级管理员才能转移组织"))
+		return
+	}
+
+	// 检查目标用户是否是组织成员
+	if !org.UserInOrg(req.OwnerID, req.OrgID) {
+		c.JSON(http.StatusForbidden, common.RespError("目标用户不是组织成员"))
+		return
+	}
+
+	err0 := org.Transfer(req.OrgID, currentUser.ID, req.OwnerID)
 	if err0 != nil {
 		c.JSON(err0.Status, common.RespError(err0.Message))
 		return
