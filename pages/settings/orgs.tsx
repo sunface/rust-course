@@ -15,11 +15,14 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import { ReserveUrls } from "src/data/reserve-urls"
 
+
 const UserOrgsPage = () => {
     const [orgs, setOrgs]:[Org[],any] = useState([])
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen:isOpen1, onOpen:onOpen1, onClose:onClose1 } = useDisclosure()
     const router = useRouter()
     const stackBorderColor = useColorModeValue(userCustomTheme.borderColor.light, userCustomTheme.borderColor.dark)
+    const [secret,setSecret] = useState('')
 
     useEffect(() => {
         getOrgs()
@@ -41,9 +44,15 @@ const UserOrgsPage = () => {
         onOpen()
     }
 
-   
+   const onJoinOrg = () => {
+       onOpen1()
+   }
 
-
+   const joinOrg = async () => {
+       await requestApi.post(`/org/join`,{secret: secret})
+       onClose1()
+       getOrgs()
+   }
     return (
         <>
             <PageContainer>
@@ -51,8 +60,11 @@ const UserOrgsPage = () => {
                     <Sidebar routes={settingLinks} width={["120px", "120px", "250px", "250px"]} height="fit-content" title="博客设置" />
                     <Card ml="4" width="100%">
                         <Flex justifyContent="space-between" alignItems="center">
-                            <Heading size="sm">组织管理</Heading>
-                            <Button colorScheme="teal" size="sm" onClick={onCreateOrg} _focus={null}>新建组织</Button>
+                            <Heading size="sm">组织列表</Heading>
+                            <HStack>
+                                <Button  size="sm" onClick={onJoinOrg} _focus={null}>加入组织</Button>
+                                <Button colorScheme="teal" size="sm" onClick={onCreateOrg} _focus={null}>新建组织</Button>
+                            </HStack>
                         </Flex>
 
                         <VStack mt="3" divider={<StackDivider borderColor={stackBorderColor} />} alignItems="left">
@@ -66,7 +78,7 @@ const UserOrgsPage = () => {
                                     </HStack>
                                 </Link>
 
-                                <Button variant="outline" size="md" onClick={() => router.push(`${ReserveUrls.Settings}/org/profile?id=${o.id}`)}>Manage</Button>
+                                {isAdmin(o.role) && <Button variant="outline" size="md" onClick={() => router.push(`${ReserveUrls.Settings}/org/profile/${o.id}`)}>Manage</Button>}
                             </Flex>)
                         }
                         </VStack>
@@ -120,6 +132,18 @@ const UserOrgsPage = () => {
                                 </Form>
                             )}
                         </Formik>
+                    </ModalBody>
+                </ModalContent>}
+            </Modal>
+
+            <Modal isOpen={isOpen1} onClose={onClose1}>
+                <ModalOverlay />
+                {<ModalContent p="3">
+                    <ModalBody mb="2">
+                            <Text>Secret code</Text>
+                            <Text fontSize=".9rem" layerStyle="textSecondary">Provided to you by an org admin</Text>
+                            <Input _focus={null} mt="3" placeholder="..." value={secret} onChange={e => setSecret(e.currentTarget.value)}/>
+                            <Button mt="6" colorScheme="teal" onClick={joinOrg}>Join Organization</Button>
                     </ModalBody>
                 </ModalContent>}
             </Modal>

@@ -54,7 +54,7 @@ func Create(o *models.User, userID string) *e.Error {
 		return e.New(http.StatusInternalServerError, e.Internal)
 	}
 
-	_, err = tx.Exec("INSERT INTO org_member (org_id,user_id,role,created) VALUES (?,?,?,?)", o.ID, userID, models.ROLE_ADMIN, now)
+	_, err = tx.Exec("INSERT INTO org_member (org_id,user_id,role,created) VALUES (?,?,?,?)", o.ID, userID, models.ROLE_SUPER_ADMIN, now)
 	if err != nil {
 		logger.Warn("add org member error", "error", err)
 		tx.Rollback()
@@ -67,7 +67,7 @@ func Create(o *models.User, userID string) *e.Error {
 }
 
 func GetMembers(user *models.User, orgID string) ([]*models.User, *e.Error) {
-	rows, err := db.Conn.Query("SELECT user_id from org_member where org_id=?", orgID)
+	rows, err := db.Conn.Query("SELECT user_id,role from org_member where org_id=?", orgID)
 	if err != nil {
 		logger.Warn("get org members error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -75,16 +75,17 @@ func GetMembers(user *models.User, orgID string) ([]*models.User, *e.Error) {
 
 	users := make([]*models.User, 0)
 	for rows.Next() {
-		var id string
-		rows.Scan(&id)
+		var id, role string
+		rows.Scan(&id, &role)
 
 		u, ok := models.UsersMapCache[id]
 		if ok {
-			users = append(users, u)
 			if user != nil {
 				u.Followed = interaction.GetFollowed(u.ID, user.ID)
 				u.Follows = interaction.GetFollows(u.ID)
 			}
+			u.Role = models.RoleType(role)
+			users = append(users, u)
 		}
 	}
 
@@ -125,4 +126,48 @@ func UserInOrg(userID string, orgID string) bool {
 	}
 
 	return true
+}
+
+func Join(secret string, userID string) *e.Error {
+	var orgID string
+	err := db.Conn.QueryRow("SELECT user_id FROM user_secret WHERE secret=?", secret).Scan(&orgID)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return e.New(http.StatusNotFound, "无效的secret")
+		}
+		logger.Warn("join org error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	if !models.IdExist(orgID) {
+		return e.New(http.StatusNotFound, "组织不存在")
+	}
+
+	_, err = db.Conn.Exec("INSERT INTO org_member (org_id,user_id,role,created) VALUES (?,?,?,?)", orgID, userID, models.ROLE_NORMAL, time.Now())
+	if err != nil {
+		logger.Warn("join org error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	return nil
+}
+
+func UpdateMember(orgID, memberID string, role models.RoleType) *e.Error {
+	_, err := db.Conn.Exec("UPDATE org_member SET role=? WHERE org_id=? and user_id=?", role, orgID, memberID)
+	if err != nil {
+		logger.Warn("update org member error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	return nil
+}
+
+func GetMemberRole(orgID string, memberID string) (models.RoleType, error) {
+	var role models.RoleType
+	err := db.Conn.QueryRow("SELECT role FROM org_member WHERE org_id=? and user_id=?", orgID, memberID).Scan(&role)
+	if err != nil {
+		return role, err
+	}
+
+	return role, nil
 }

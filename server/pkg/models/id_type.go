@@ -16,6 +16,7 @@ const (
 	IDTypeSeries    = "5"
 	IDTypeBook      = "6"
 	IDTypeOrg       = "7"
+	IDTypeSecret    = "s"
 )
 
 func GetIDType(id string) string {

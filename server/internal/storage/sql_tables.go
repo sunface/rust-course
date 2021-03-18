@@ -43,6 +43,15 @@ var sqlTables = map[string]string{
 			updated DATETIME
 	);`,
 
+	"user_secret": `CREATE TABLE IF NOT EXISTS user_secret (
+		user_id          VARCHAR(255) primary key,   
+		secret           VARCHAR(255),
+		created 		 DATETIME
+	);
+	CREATE UNIQUE INDEX IF NOT EXISTS us_secret
+		ON user_secret (secret);
+	`,
+
 	"sessions": `CREATE TABLE IF NOT EXISTS sessions (
 			sid              VARCHAR(255) primary key,   
 			user_id          VARCHAR(255)

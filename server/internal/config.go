@@ -10,6 +10,7 @@ import (
 
 type Config struct {
 	AppName      string       `json:"appName"`
+	UIDomain     string       `json:"uiDomain"`
 	CommonMaxLen int          `json:"commonMaxlen"`
 	Posts        *PostsConfig `json:"posts"`
 	User         *UserConfig  `json:"user"`
@@ -32,6 +33,7 @@ type UserConfig struct {
 func GetConfig(c *gin.Context) {
 	conf := &Config{
 		AppName:      config.Data.Common.AppName,
+		UIDomain:     config.Data.UI.Domain,
 		CommonMaxLen: 255,
 		Posts: &PostsConfig{
 			TitleMaxLen:    config.Data.Posts.TitleMaxLen,

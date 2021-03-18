@@ -2,6 +2,7 @@ import { requestApi } from "../src/utils/axios/request"
 
 export let config = {
     appName: "im.dev",
+    uiDomain: "http://localhost:4004",
     commonMaxlen: 255,
     posts: {
         titleMaxLen: 128,

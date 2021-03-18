@@ -29,6 +29,10 @@ type Config struct {
 		BaseUrl string `yaml:"base_url"`
 	}
 
+	UI struct {
+		Domain string
+	}
+
 	Paths struct {
 		Data string
 		Logs string

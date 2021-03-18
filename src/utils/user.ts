@@ -54,7 +54,7 @@ export function validateNickname(value) {
     return error
 }
 
-export async function validateEmail(value) {
+export async function validateEmail(value,checkExist=true) {
     let email = value?.trim()
     if (!email) {
         return "邮箱不能为空"
@@ -70,9 +70,11 @@ export async function validateEmail(value) {
         }
     }
 
-    const res = await requestApi.get(`/user/email/exist/${value}`)
-    if (res.data) {
-        return `The email '${value}' is already taken.`
+    if (checkExist) {
+        const res = await requestApi.get(`/user/email/exist/${value}`)
+        if (res.data) {
+            return `The email '${value}' is already taken.`
+        }
     }
 }
 

@@ -74,7 +74,7 @@ const UserProfilePage = () => {
 
                                                         )}
                                                     </Field>
-                                                    <Field name="email" validate={validateEmail}>
+                                                    <Field name="email" validate={v => validateEmail(v,false)}>
                                                         {({ field, form }) => (
                                                             <FormControl isInvalid={form.errors.email && form.touched.email} >
                                                                 <FormLabel>邮箱地址</FormLabel>

@@ -92,7 +92,7 @@ function HeaderContent() {
               variant="ghost"
               color="current"
               _focus={null}
-              display={{ base: "none", md: "block" }}
+              display={{ base: "none", md: "flex" }}
               icon={<FaGithub />}
             />
           </Link>

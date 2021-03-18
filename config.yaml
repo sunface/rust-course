@@ -19,6 +19,9 @@ user:
     # a session is created when user login to im.dev, this session will be expired after X seconds
     session_expire: 259200
 
+ui:
+    # base ui domain
+    domain: "http://localhost:4004"
 
 #################################### Paths ##############################
 # Path to where im.dev can store temp files, sessions, and the sqlite3 db (if that is used)

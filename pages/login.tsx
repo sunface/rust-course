@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
     Text,
     Box,
@@ -7,20 +7,34 @@ import {
     Image,
     useColorModeValue,
     Link,
-    Center
+    Center,
+    Flex,
+    IconButton,
+    HStack,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalBody,
+    useDisclosure,
+    Input,
+    useToast
 } from "@chakra-ui/react"
 import Logo from "components/logo"
-import { FaGithub } from "react-icons/fa"
+import { FaEnvelope, FaGithub } from "react-icons/fa"
 import { requestApi } from "utils/axios/request"
 import { saveToken } from "utils/axios/getToken"
 import storage from "utils/localStorage"
 import { useRouter } from "next/router"
+import { validateEmail } from "utils/user"
 
 
 const LoginPage = () => {
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const toast = useToast()
     const router = useRouter()
-    const login = async () => {
-        const res = await requestApi.post("/user/login")
+    const [email,setEmail] = useState('')
+    const login = async (email:string) => {
+        const res = await requestApi.post("/user/login",{email: email})
         saveToken(res.data.token)
         storage.set('session', res.data)
         const oldPage = storage.get('current-page')
@@ -32,10 +46,25 @@ const LoginPage = () => {
         }
     }
 
+    const onEmailLogin = async () => {
+        const err = await validateEmail(email,false)
+        if (err) {
+            toast({
+                description: err,
+                status: "error",
+                duration: 2000,
+                isClosable: true,
+            })
+            return 
+        }
+
+        login(email)
+    }
+
     return (
         <Box height="100vh" width="100%" display="flex" alignItems="center" justifyContent="center">
             <Image src="/login-bg.svg" height="100%" position="absolute" />
-            <Box textAlign="center" display="flex" alignItems="center" flexDirection="column"> 
+            <Box textAlign="center" display="flex" alignItems="center" flexDirection="column">
                 <Logo width="12rem" />
                 <Text mt="8" fontSize="1.1rem" fontWeight="500">欢迎加入im.dev，一起打造全世界最好的开发者社区</Text>
                 <VStack mt="2" p="5" align="left" spacing="2" fontSize="15px">
@@ -53,11 +82,26 @@ const LoginPage = () => {
                     </Box>
                 </VStack>
 
-                <Button onClick={() => login()} layerStyle="colorButton" mt="6" fontSize=".9rem" leftIcon={<FaGithub fontSize="1.0rem" />}>使用github登录</Button>
+                <HStack mt="6" spacing="3">
+                    <Button onClick={() => login('cto@188.com')} layerStyle="colorButton" fontSize=".9rem" leftIcon={<FaGithub fontSize="1.0rem" />}>使用github登录</Button>
+                    <Text layerStyle="textSecondary">OR</Text>
+                    <IconButton layerStyle="textSecondary" variant="outline" aria-label="login with email" icon={<FaEnvelope />} onClick={onOpen}/>
+                </HStack>
                 <Text mt="6" fontSize=".7rem" layerStyle="textSecondary">如果继续，则表示你同意im.dev的<Link textDecoration="underline">服务条款</Link>和<Link textDecoration="underline">隐私政策</Link></Text>
                 {/* <Image src="/pokeman.svg" height="300px" /> */}
             </Box>
-
+            <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                <ModalOverlay />
+                <ModalContent mt="0" px="10" py="6"> 
+                    <ModalBody>
+                        <VStack alignItems="left" spacing="5">
+                            <Text layerStyle="textSecondary" fontWeight="550">Sign in using a secure link</Text>
+                            <Input value={email} onChange={e => setEmail(e.currentTarget.value)} placeholder="enter your email address" _focus={null}></Input>
+                            <Button colorScheme="teal" onClick={onEmailLogin}>Submit</Button>
+                        </VStack>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
         </Box>
     )
 }

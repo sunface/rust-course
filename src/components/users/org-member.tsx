@@ -12,11 +12,10 @@ import Count from "components/count"
 type Props = PropsOf<typeof chakra.div> & {
     user : User
     highlight?: string
-    displayFollow?: boolean
-    displayRole?:boolean
+    onEdit: any
 }
 
-export const UserCard= ({user,highlight,displayFollow=true,displayRole=false}:Props) =>{
+export const OrgMember= ({user,highlight,onEdit}:Props) =>{
     const router = useRouter()
     return (
         <Flex alignItems="center" justifyContent="space-between">
@@ -30,31 +29,25 @@ export const UserCard= ({user,highlight,displayFollow=true,displayRole=false}:Pr
                             textToHighlight={getUserName(user)}
                             searchWords={[highlight]}
                         /> 
+                         <Tag colorScheme="cyan" ml="2">{user.role}</Tag>
                         </Heading>
-                        <Text layerStyle="textSecondary">@
+             
+                    </HStack>
+                    <Text layerStyle="textSecondary">@
                         <Highlighter
                             highlightClassName="highlight-search-match"
                             textToHighlight={user.username}
                             searchWords={[highlight]}
                         /> </Text>
-                    </HStack>
-                    {user.tagline && <Text fontSize=".95rem">
-                        <Highlighter
-                            highlightClassName="highlight-search-match"
-                            textToHighlight={user.tagline}
-                            searchWords={[highlight]}
-                        /> 
-                    </Text>}
                 </VStack>
             </HStack>
             <HStack>
-                {displayRole && <Tag colorScheme="cyan">{user.role}</Tag>}
-                <Text fontWeight="600" fontSize=".9rem"><Count count={user.follows??0}/> followers</Text>
-                {displayFollow && <Follow followed={user.followed} targetID={user.id} size="sm"/>}
+                <Text fontWeight="600" fontSize=".95rem"><Count count={user.follows??0}/> followers</Text>
+                <Button variant="outline" size="sm" onClick={() => onEdit(user)} _focus={null}>Edit</Button>
             </HStack>
 
         </Flex>
     )
 } 
 
-export default UserCard
+export default OrgMember

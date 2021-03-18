@@ -24,10 +24,11 @@ type Session struct {
 
 func Login(c *gin.Context) {
 	user := &models.User{}
-	err := user.Query("", config.Data.User.SuperAdminUsername, "")
+	c.Bind(&user)
+	err := user.Query("", "", user.Email)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			c.String(http.StatusNotFound, "")
+			c.JSON(http.StatusNotFound, common.RespError("邮箱不存在"))
 			return
 		}
 		logger.Error("login error", "error", err)

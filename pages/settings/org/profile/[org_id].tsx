@@ -14,15 +14,14 @@ var validator = require('validator');
 
 const UserProfilePage = () => {
     const [user, setUser] = useState(null)
-    const [skills, setSkills] = useState([])
     const [isLargerThan1280] = useMediaQuery("(min-width: 768px)")
     const router = useRouter()
     useEffect(() => {
-        if (router.query.id) {
-            requestApi.get(`/user/info/${router.query.id}`).then(res => setUser(res.data))
+        if (router.query.org_id) {
+            requestApi.get(`/user/info/${router.query.org_id}`).then(res => setUser(res.data))
         }
 
-    }, [router.query.id])
+    }, [router.query.org_id])
 
     const toast = useToast()
 
@@ -103,7 +102,7 @@ const UserProfilePage = () => {
         <>
             <PageContainer>
                 <Box display="flex">
-                    <Sidebar routes={orgSettingLinks} width={["120px", "120px", "250px", "250px"]} height="fit-content" title="组织管理" />
+                    <Sidebar routes={orgSettingLinks(router.query.org_id)} width={["120px", "120px", "250px", "250px"]}   height="fit-content" title={`管理${user?.nickname}`} />
                     {user && <VStack alignItems="left" ml="4" width="100%">
                         <Formik
                             initialValues={user}

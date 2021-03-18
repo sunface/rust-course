@@ -92,26 +92,30 @@ export const settingLinks: Route[] = [{
     disabled: false
 },
 {
-    title: '组织管理',
+    title: '组织列表',
     path: `${ReserveUrls.Settings}/orgs`,
     icon: <FaUserFriends />,
     disabled: false
 },
 ]
 
-export const orgSettingLinks: Route[] = [{
-    title: '组织信息',
-    path: `${ReserveUrls.Settings}/org/profile`,
-    icon: <FaUserCircle />,
-    disabled: false
-},
-{
-    title: '成员管理',
-    path: `${ReserveUrls.Settings}/org/members`,
-    icon: <FaUserFriends />,
-    disabled: false
-},
-]
+
+export function orgSettingLinks(orgID) {
+    return [{
+        title: '组织信息',
+        path: `${ReserveUrls.Settings}/org/profile/${orgID}`,
+        icon: <FaUserCircle />,
+        disabled: false
+    },
+    {
+        title: '成员管理',
+        path: `${ReserveUrls.Settings}/org/members/${orgID}`,
+        icon: <FaUserFriends />,
+        disabled: false
+    },
+    ]
+}
+
 
 
 
