@@ -112,7 +112,9 @@ func (s *Server) Start() error {
 		r.GET("/org/secret/:id", IsLogin(), api.GetOrgSecret)
 		r.POST("/org/join", IsLogin(), api.JoinOrg)
 		r.POST("/org/member/role", IsLogin(), api.UpdateOrgMember)
-		r.POST("/org/transfer", api.TransferOrg)
+		r.POST("/org/transfer", IsLogin(), api.TransferOrg)
+		r.DELETE("/org/member/:orgID/:memberID", IsLogin(), api.DeleteOrgMember)
+		r.POST("/org/leave/:orgID", IsLogin(), api.LeaveOrg)
 		// admin apis
 		r.POST("/admin/user", IsLogin(), api.AdminSubmitUser)
 		r.GET("/admin/user/all", IsLogin(), api.AdminGetUsers)

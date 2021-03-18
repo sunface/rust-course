@@ -13,7 +13,7 @@ import (
 var logger = log.RootLogger.New("logger", "cache")
 
 func Init() {
-	time.Sleep(2 * time.Second)
+	time.Sleep(1 * time.Second)
 	for {
 		// load users
 		rows, err := db.Conn.Query(`SELECT id,type,username,role,nickname,avatar,last_seen_at,created FROM user`)

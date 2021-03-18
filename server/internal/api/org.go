@@ -246,3 +246,80 @@ func TransferOrg(c *gin.Context) {
 
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
 }
+
+func DeleteOrgMember(c *gin.Context) {
+	orgID := c.Param("orgID")
+	memberID := c.Param("memberID")
+
+	// 获取待删除用户的组织角色
+	targetRole, err := org.GetMemberRole(orgID, memberID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, common.RespError(e.BadRequest))
+		return
+	}
+
+	// 获取当前用户的组织角色
+	u := user.CurrentUser(c)
+	currentRole, err := org.GetMemberRole(orgID, u.ID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, common.RespError(e.BadRequest))
+		return
+	}
+
+	// 超级管理员不能被删除
+	if targetRole == models.ROLE_SUPER_ADMIN {
+		c.JSON(http.StatusForbidden, common.RespError("无法删除超级管理员"))
+		return
+	}
+	// 不能删除自己
+	if u.ID == memberID {
+		c.JSON(http.StatusForbidden, common.RespError("无法删除自己"))
+		return
+	}
+
+	// 若目标用户角色是管理员，则当前用户角色需要是超级管理员
+	if targetRole == models.ROLE_ADMIN {
+		if currentRole != models.ROLE_SUPER_ADMIN {
+			c.JSON(http.StatusForbidden, common.RespError("只有超级管理员才能删除管理员"))
+			return
+		}
+	} else {
+		if !currentRole.IsAdmin() {
+			c.JSON(http.StatusForbidden, common.RespError("只有管理员才能删除组织成员"))
+			return
+		}
+	}
+
+	err0 := org.Delete(orgID, memberID)
+	if err0 != nil {
+		c.JSON(err0.Status, common.RespError(err0.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}
+
+func LeaveOrg(c *gin.Context) {
+	orgID := c.Param("orgID")
+
+	// 获取当前用户的组织角色
+	u := user.CurrentUser(c)
+	currentRole, err := org.GetMemberRole(orgID, u.ID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, common.RespError(e.BadRequest))
+		return
+	}
+
+	if currentRole == models.ROLE_SUPER_ADMIN {
+		c.JSON(http.StatusForbidden, common.RespError("超级管理员必须先转移组织，才能离开"))
+		return
+	}
+
+	err0 := org.Delete(orgID, u.ID)
+	if err0 != nil {
+		c.JSON(err0.Status, common.RespError(err0.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}

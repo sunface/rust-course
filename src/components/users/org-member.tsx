@@ -13,9 +13,10 @@ type Props = PropsOf<typeof chakra.div> & {
     user : User
     highlight?: string
     onEdit: any
+    onDelete: any
 }
 
-export const OrgMember= ({user,highlight,onEdit}:Props) =>{
+export const OrgMember= ({user,highlight,onEdit,onDelete}:Props) =>{
     const router = useRouter()
     return (
         <Flex alignItems="center" justifyContent="space-between">
@@ -43,7 +44,8 @@ export const OrgMember= ({user,highlight,onEdit}:Props) =>{
             </HStack>
             <HStack>
                 <Text fontWeight="600" fontSize=".95rem"><Count count={user.follows??0}/> followers</Text>
-                <Button variant="outline" size="sm" onClick={() => onEdit(user)} _focus={null}>Edit</Button>
+                <Button variant="ghost" size="sm" onClick={() => onEdit(user)} _focus={null}>Edit</Button>
+                <Button variant="outline" colorScheme="red" size="sm" onClick={() => onDelete(user)} _focus={null}>Delete</Button>
             </HStack>
 
         </Flex>

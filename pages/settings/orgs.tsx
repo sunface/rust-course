@@ -14,15 +14,16 @@ import userCustomTheme from "theme/user-custom"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import { ReserveUrls } from "src/data/reserve-urls"
+import { Role } from "src/types/role"
 
 
 const UserOrgsPage = () => {
-    const [orgs, setOrgs]:[Org[],any] = useState([])
+    const [orgs, setOrgs]: [Org[], any] = useState([])
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const { isOpen:isOpen1, onOpen:onOpen1, onClose:onClose1 } = useDisclosure()
+    const { isOpen: isOpen1, onOpen: onOpen1, onClose: onClose1 } = useDisclosure()
     const router = useRouter()
     const stackBorderColor = useColorModeValue(userCustomTheme.borderColor.light, userCustomTheme.borderColor.dark)
-    const [secret,setSecret] = useState('')
+    const [secret, setSecret] = useState('')
 
     useEffect(() => {
         getOrgs()
@@ -34,7 +35,7 @@ const UserOrgsPage = () => {
     }
 
 
-    const createOrg = async (values:Org) => {
+    const createOrg = async (values: Org) => {
         await requestApi.post(`/org/create`, values)
         onClose()
         router.push(`/${values.username}`)
@@ -44,15 +45,21 @@ const UserOrgsPage = () => {
         onOpen()
     }
 
-   const onJoinOrg = () => {
-       onOpen1()
-   }
+    const onJoinOrg = () => {
+        onOpen1()
+    }
 
-   const joinOrg = async () => {
-       await requestApi.post(`/org/join`,{secret: secret})
-       onClose1()
-       getOrgs()
-   }
+    const joinOrg = async () => {
+        await requestApi.post(`/org/join`, { secret: secret })
+        onClose1()
+        getOrgs()
+    }
+
+    const leaveOrg = async orgID => {
+        await requestApi.post(`/org/leave/${orgID}`)
+        getOrgs()
+    }
+
     return (
         <>
             <PageContainer>
@@ -62,25 +69,28 @@ const UserOrgsPage = () => {
                         <Flex justifyContent="space-between" alignItems="center">
                             <Heading size="sm">组织列表</Heading>
                             <HStack>
-                                <Button  size="sm" onClick={onJoinOrg} _focus={null}>加入组织</Button>
+                                <Button size="sm" onClick={onJoinOrg} _focus={null}>加入组织</Button>
                                 <Button colorScheme="teal" size="sm" onClick={onCreateOrg} _focus={null}>新建组织</Button>
                             </HStack>
                         </Flex>
 
                         <VStack mt="3" divider={<StackDivider borderColor={stackBorderColor} />} alignItems="left">
-                        {
-                            orgs.map(o => <Flex key={o.id} justifyContent="space-between" alignItems="center" p="2">
-                                <Link href={`/${o.username}`}>
-                                    <HStack cursor="pointer">
-                                        <Image src={o.avatar} height="30px"/>
-                                        <Heading size="sm" fontSize="1rem">{o.nickname}</Heading>
-                                        <Text layerStyle="textSecondary">{isAdmin(o.role) ? 'admin' : 'member'}</Text>
+                            {
+                                orgs.map(o => <Flex key={o.id} justifyContent="space-between" alignItems="center" p="2">
+                                    <Link href={`/${o.username}`}>
+                                        <HStack cursor="pointer">
+                                            <Image src={o.avatar} height="30px" />
+                                            <Heading size="sm" fontSize="1rem">{o.nickname}</Heading>
+                                            <Text layerStyle="textSecondary">{isAdmin(o.role) ? 'admin' : 'member'}</Text>
+                                        </HStack>
+                                    </Link>
+                                    
+                                    <HStack>
+                                        {isAdmin(o.role) && <Button variant="outline" size="md" onClick={() => router.push(`${ReserveUrls.Settings}/org/profile/${o.id}`)}>Manage</Button>}
+                                        {o.role !== Role.SUPER_ADMIN && <Button colorScheme="red" variant="outline" size="md" onClick={() => leaveOrg(o.id)}>Leave</Button>}
                                     </HStack>
-                                </Link>
-
-                                {isAdmin(o.role) && <Button variant="outline" size="md" onClick={() => router.push(`${ReserveUrls.Settings}/org/profile/${o.id}`)}>Manage</Button>}
-                            </Flex>)
-                        }
+                                </Flex>)
+                            }
                         </VStack>
 
                     </Card>
@@ -92,8 +102,8 @@ const UserOrgsPage = () => {
                 {<ModalContent>
                     <ModalHeader>新建组织</ModalHeader>
                     <ModalBody mb="2">
-                    <Formik
-                            initialValues={{username: '',nickname:''} as Org}
+                        <Formik
+                            initialValues={{ username: '', nickname: '' } as Org}
                             onSubmit={createOrg}
                         >
                             {(props) => (
@@ -140,10 +150,10 @@ const UserOrgsPage = () => {
                 <ModalOverlay />
                 {<ModalContent p="3">
                     <ModalBody mb="2">
-                            <Text>Secret code</Text>
-                            <Text fontSize=".9rem" layerStyle="textSecondary">Provided to you by an org admin</Text>
-                            <Input _focus={null} mt="3" placeholder="..." value={secret} onChange={e => setSecret(e.currentTarget.value)}/>
-                            <Button mt="6" colorScheme="teal" onClick={joinOrg}>Join Organization</Button>
+                        <Text>Secret code</Text>
+                        <Text fontSize=".9rem" layerStyle="textSecondary">Provided to you by an org admin</Text>
+                        <Input _focus={null} mt="3" placeholder="..." value={secret} onChange={e => setSecret(e.currentTarget.value)} />
+                        <Button mt="6" colorScheme="teal" onClick={joinOrg}>Join Organization</Button>
                     </ModalBody>
                 </ModalContent>}
             </Modal>

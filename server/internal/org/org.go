@@ -196,3 +196,13 @@ func Transfer(orgID, currentOwner, newOwner string) *e.Error {
 
 	return nil
 }
+
+func Delete(orgID, memberID string) *e.Error {
+	_, err := db.Conn.Exec("DELETE FROM org_member WHERE org_id=? and user_id=?", orgID, memberID)
+	if err != nil {
+		logger.Warn("delete org member error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	return nil
+}

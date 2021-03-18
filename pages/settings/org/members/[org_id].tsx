@@ -48,10 +48,22 @@ const UserProfilePage = () => {
         setSecret(res.data)
     }
 
+    const onDelete = async (member) => {
+        await requestApi.delete(`/org/member/${org.id}/${member.id}`)
+        toast({
+            description: "删除用户成功",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+        })
+        getMembers()
+    }
+
     const onEdit = (member) => {
         setCurrentMember(member)
         onOpen()
     }
+
 
     const onChangeRole = e => {
         const member = cloneDeep(currentMember)
@@ -91,7 +103,7 @@ const UserProfilePage = () => {
                             {users &&
                                 <VStack alignItems="left" width="100%">
                                     {
-                                        users.map(u => <OrgMember user={u} key={u.id} onEdit={onEdit}/>)
+                                        users.map(u => <OrgMember user={u} key={u.id} onEdit={onEdit} onDelete={onDelete}/>)
                                     }
                                 </VStack>}
                         </Card>
