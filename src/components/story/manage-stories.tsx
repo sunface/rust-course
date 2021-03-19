@@ -38,7 +38,7 @@ export const ManageStories = (props: Props) => {
                         <ManageStoryCard showSource={showSource} story={story} highlight={props.highlight} {...rest}/>
                     </Box>)}
             </VStack>
-            {showFooter && <Center><Text layerStyle="textSecondary" fontSize="sm" pt="4">没有更多文章了</Text></Center>}
+            {showFooter && <Center><Text layerStyle="textSecondary" fontSize="sm" pt="5">没有更多文章了</Text></Center>}
         </>
     )
 }

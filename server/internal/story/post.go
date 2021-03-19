@@ -71,10 +71,19 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 		}
 	}
 
+	post.CreatorID = user.ID
 	// check user is in org exist
 	if post.OwnerID != "" {
-		if !org.UserInOrg(user.ID, post.OwnerID) {
-			return nil, e.New(http.StatusForbidden, e.NoEditorPermission)
+		if models.GetIDType(post.ID) == models.IDTypeSeries {
+			// 组织的series所有权和创作权都归组织所有
+			post.CreatorID = post.OwnerID
+			if !org.IsOrgAdmin(user.ID, post.OwnerID) {
+				return nil, e.New(http.StatusForbidden, e.NoAdminPermission)
+			}
+		} else {
+			if !org.UserInOrg(user.ID, post.OwnerID) {
+				return nil, e.New(http.StatusForbidden, e.NoEditorPermission)
+			}
 		}
 	}
 
@@ -92,7 +101,7 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 
 		//create
 		_, err := db.Conn.Exec("INSERT INTO story (id,type,creator,owner,slug, title, md, url, cover, brief,status, created, updated) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",
-			post.ID, post.Type, user.ID, post.OwnerID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, models.StatusPublished, now, now)
+			post.ID, post.Type, post.CreatorID, post.OwnerID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, models.StatusPublished, now, now)
 		if err != nil {
 			logger.Warn("submit post error", "error", err)
 			return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -100,7 +109,7 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 	} else {
 		// 只有创建者自己才能更新内容
 		creator, _ := GetPostCreator(post.ID)
-		if creator != user.ID {
+		if creator != post.CreatorID {
 			return nil, e.New(http.StatusForbidden, e.NoEditorPermission)
 		}
 

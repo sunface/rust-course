@@ -13,7 +13,22 @@ import { IDType } from "src/types/id"
 import { Story } from "src/types/story"
 
 const UserNavbarPage = () => {
-    const [navbars, setNavbars]:[Navbar[],any] = useState([])
+    return (
+        <>
+            <PageContainer>
+                <Box display="flex">
+                    <Sidebar routes={settingLinks} width={["120px", "120px", "250px", "250px"]} height="fit-content" title="博客设置" />
+                    <NavbarEditor />
+                </Box>
+            </PageContainer>
+        </>
+    )
+}
+export default UserNavbarPage
+
+
+export const NavbarEditor = ({ orgID = "" }) => {
+    const [navbars, setNavbars]: [Navbar[], any] = useState([])
     const [series, setSeries]: [Story[], any] = useState([])
     const [currentNavbar, setCurrentNavbar]: [Navbar, any] = useState(null)
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -24,12 +39,18 @@ const UserNavbarPage = () => {
     }, [])
 
     const getNavbars = async () => {
-        const res = await requestApi.get("/user/navbars/0")
+        const res = await requestApi.get(`/user/navbars/${orgID ? orgID :  0}`)
         setNavbars(res.data)
     }
 
     const getSeries = async () => {
-        const res = await requestApi.get(`/story/posts/editor?type=${IDType.Series}`)
+        let res
+        if (orgID) {
+            res = await requestApi.get(`/story/posts/org/${orgID}?type=${IDType.Series}`)
+        } else {
+            res = await requestApi.get(`/story/posts/editor?type=${IDType.Series}`)
+        }
+
         setSeries(res.data)
     }
 
@@ -41,7 +62,7 @@ const UserNavbarPage = () => {
                 duration: 2000,
                 isClosable: true,
             })
-            return 
+            return
         }
 
         if (currentNavbar.label.length > config.user.navbarMaxLen) {
@@ -51,11 +72,15 @@ const UserNavbarPage = () => {
                 duration: 2000,
                 isClosable: true,
             })
-            return 
+            return
         }
 
+        if (orgID) {
+            await requestApi.post(`/org/navbar/${orgID}`,currentNavbar)
+        } else {
+            await requestApi.post(`/user/navbar`, currentNavbar)
+        }
 
-        await requestApi.post(`/user/navbar`, currentNavbar)
         setCurrentNavbar(null)
         onClose()
         getNavbars()
@@ -77,7 +102,7 @@ const UserNavbarPage = () => {
     }
 
     const onNvTypeChange = v => {
-        const tp = parseInt(v); 
+        const tp = parseInt(v);
         currentNavbar.type = tp
         if (tp === NavbarType.Link) {
             currentNavbar.value = ""
@@ -97,50 +122,44 @@ const UserNavbarPage = () => {
     }
 
     const onDeleteNavbar = async id => {
-        requestApi.delete(`/user/navbar/${id}`)
+        await requestApi.delete(`/${orgID?'org':'user'}/navbar/${id}`)
         getNavbars()
     }
 
     return (
         <>
-            <PageContainer>
-                <Box display="flex">
-                    <Sidebar routes={settingLinks} width={["120px", "120px", "250px", "250px"]} height="fit-content" title="博客设置" />
-                    <Card ml="4" width="100%">
-                        <Flex justifyContent="space-between" alignItems="center">
-                            <Heading size="sm">菜单设置</Heading>
-                            <Button colorScheme="teal" size="sm" onClick={onAddNavbar} _focus={null}>新建菜单项</Button>
-                        </Flex>
-                        <Table variant="simple" mt="4">
-                            <Thead>
-                                <Tr>
-                                    <Th>Label</Th>
-                                    <Th>Type</Th>
-                                    <Th>Value</Th>
-                                    <Th>Weight</Th>
-                                    <Th></Th>
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                {
-                                    navbars.map((nv,i) =>   <Tr key={i}>
-                                        <Td>{nv.label}</Td>
-                                        <Td>{nv.type === NavbarType.Link ? "link" : "series"}</Td>
-                                        <Td>{nv.type === NavbarType.Link ? nv.value : getSeriesTitle(nv.value)}</Td>
-                                        <Td>{nv.weight}</Td>
-                                        <Td>
-                                            <IconButton aria-label="edit navbar" variant="ghost" icon={getSvgIcon('edit', ".95rem")} onClick={() => onEditNavbar(nv)}/>
-                                            <IconButton aria-label="delete navbar" variant="ghost" icon={getSvgIcon('close', "1rem")} onClick={() => onDeleteNavbar(nv.id)} />
-                                        </Td>
-                                    </Tr>)
-                                }
-                              
-                            </Tbody>
-                        </Table>
-                    </Card>
-                </Box>
-            </PageContainer>
+            <Card ml="4" width="100%">
+                <Flex justifyContent="space-between" alignItems="center">
+                    <Heading size="sm">菜单设置</Heading>
+                    <Button colorScheme="teal" size="sm" onClick={onAddNavbar} _focus={null}>新建菜单项</Button>
+                </Flex>
+                <Table variant="simple" mt="4">
+                    <Thead>
+                        <Tr>
+                            <Th>Label</Th>
+                            <Th>Type</Th>
+                            <Th>Value</Th>
+                            <Th>Weight</Th>
+                            <Th></Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {
+                            navbars.map((nv, i) => <Tr key={i}>
+                                <Td>{nv.label}</Td>
+                                <Td>{nv.type === NavbarType.Link ? "link" : "series"}</Td>
+                                <Td>{nv.type === NavbarType.Link ? nv.value : getSeriesTitle(nv.value)}</Td>
+                                <Td>{nv.weight}</Td>
+                                <Td>
+                                    <IconButton aria-label="edit navbar" variant="ghost" icon={getSvgIcon('edit', ".95rem")} onClick={() => onEditNavbar(nv)} />
+                                    <IconButton aria-label="delete navbar" variant="ghost" icon={getSvgIcon('close', "1rem")} onClick={() => onDeleteNavbar(nv.id)} />
+                                </Td>
+                            </Tr>)
+                        }
 
+                    </Tbody>
+                </Table>
+            </Card>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 {currentNavbar && <ModalContent>
@@ -186,5 +205,3 @@ const UserNavbarPage = () => {
         </>
     )
 }
-export default UserNavbarPage
-

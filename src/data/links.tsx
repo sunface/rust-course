@@ -119,6 +119,18 @@ export function orgSettingLinks(orgID) {
         icon: getSvgIcon("post"),
         disabled: false
     },
+    {
+        title: '系列管理',
+        path: `${ReserveUrls.Settings}/org/series/${orgID}`,
+        icon: getSvgIcon("series"),
+        disabled: false
+    },
+    {
+        title: '菜单管理',
+        path: `${ReserveUrls.Settings}/org/navbar/${orgID}`,
+        icon: getSvgIcon("navbar"),
+        disabled: false
+    },
     ]
 }
 

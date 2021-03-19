@@ -372,3 +372,53 @@ func PinOrgStory(c *gin.Context) {
 
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
 }
+
+func SubmitOrgNavbar(c *gin.Context) {
+	orgID := c.Param("orgID")
+	u := user.CurrentUser(c)
+	if !org.IsOrgAdmin(u.ID, orgID) {
+		c.JSON(http.StatusForbidden, common.RespError(e.NoAdminPermission))
+		return
+	}
+
+	nav := &models.Navbar{}
+	err := c.Bind(&nav)
+	if err != nil || !models.ValidNavbarType(nav.Type) {
+		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
+		return
+	}
+
+	nav.UserID = orgID
+	err1 := user.SubmitNavbar(nav)
+	if err != nil {
+		c.JSON(err1.Status, common.RespError(err1.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}
+
+func DeleteOrgNavbar(c *gin.Context) {
+	id := c.Param("id")
+
+	u := user.CurrentUser(c)
+
+	nav, err := user.GetNavbar(id)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	if !org.IsOrgAdmin(u.ID, nav.UserID) {
+		c.JSON(http.StatusForbidden, common.RespError(e.NoAdminPermission))
+		return
+	}
+
+	err = user.DeleteNavbar(nav.UserID, id)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}

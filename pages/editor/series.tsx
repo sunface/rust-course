@@ -25,6 +25,21 @@ var validator = require('validator');
 
 const newSeries: Story = { title: '', brief: '', cover: '', type: IDType.Series }
 const SeriesPage = () => {
+    return (
+        <>
+            <PageContainer1 >
+                <Box display="flex">
+                    <Sidebar routes={editorLinks} title="创作中心" />
+                    <SeriesEditor />
+                </Box>
+            </PageContainer1>
+        </>
+    )
+}
+export default SeriesPage
+
+
+export const SeriesEditor = ({orgID=""}) => {
     const [currentSeries, setCurrentSeries]: [Story, any] = useState(null)
     const [series, setSeries] = useState([])
     const [posts, setPosts] = useState([])
@@ -34,12 +49,26 @@ const SeriesPage = () => {
 
     const borderColor = useColorModeValue(userCustomTheme.borderColor.light, userCustomTheme.borderColor.dark)
 
-    const getSeries = () => {
-        requestApi.get(`/story/posts/editor?type=${IDType.Series}`).then((res) => setSeries(res.data)).catch(_ => setPosts([]))
+    const getSeries = async () => {
+        let res
+        if (orgID) {
+            res = await requestApi.get(`/story/posts/org/${orgID}?type=${IDType.Series}`)
+        } else {
+            res = await requestApi.get(`/story/posts/editor?type=${IDType.Series}`)
+        }
+
+        setSeries(res.data)
     }
 
-    const getPosts = () => {
-        requestApi.get(`/story/posts/editor?type=${IDType.Post}`).then((res) => setPosts(res.data)).catch(_ => setPosts([]))
+    const getPosts = async () => {
+        let res
+        if (orgID) {
+            res = await requestApi.get(`/story/posts/org/${orgID}?type=${IDType.Post}`)
+        } else {
+            res = await requestApi.get(`/story/posts/editor?type=${IDType.Post}`)
+        }
+
+        setPosts(res.data)
     }
 
     useEffect(() => {
@@ -79,9 +108,13 @@ const SeriesPage = () => {
 
     const submitSeries = async (values, _) => {
         // 这里必须按照顺序同步提交
-        await requestApi.post(`/story`, values)
-        await requestApi.post(`/story/series/post/${values.id}`, seriesPosts)
+        if (orgID) {
+            await requestApi.post(`/story`, {...values,ownerID: orgID})
+        } else {
+            await requestApi.post(`/story`, values)
+        }
 
+        await requestApi.post(`/story/series/post/${values.id}`, seriesPosts)
 
         toast({
             description: "提交成功",
@@ -147,15 +180,16 @@ const SeriesPage = () => {
     }
 
     const onPinPost = async id => {
-        await requestApi.post(`/story/pin/${id}`)
+        if (orgID) {
+            await requestApi.post(`/org/pin/story/${id}`)
+        } else {
+            await requestApi.post(`/story/pin/${id}`)
+        }
+
         getSeries()
     }
 
     return (
-        <>
-            <PageContainer1 >
-                <Box display="flex">
-                    <Sidebar routes={editorLinks} title="创作中心" />
                     <Card ml="4" p="6" width="100%">
                         {currentSeries ?
                             <>
@@ -293,10 +327,5 @@ const SeriesPage = () => {
                                 }
                             </>}
                     </Card>
-                </Box>
-            </PageContainer1>
-        </>
     )
 }
-export default SeriesPage
-

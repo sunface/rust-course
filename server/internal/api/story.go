@@ -41,7 +41,7 @@ func DeletePost(c *gin.Context) {
 	}
 
 	u := user.CurrentUser(c)
-	if !models.IsStoryCreator(u.ID, id) {
+	if !isStoryCreator(u.ID, id) {
 		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
 		return
 	}
@@ -105,10 +105,11 @@ func SubmitSeriesPost(c *gin.Context) {
 	}
 
 	u := user.CurrentUser(c)
-	if !models.IsStoryCreator(u.ID, seriesID) {
+	if !isStoryCreator(u.ID, seriesID) {
 		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
 		return
 	}
+
 	posts := make([]*models.SeriesPost, 0)
 	err0 := c.Bind(&posts)
 	if err0 != nil {
@@ -157,11 +158,10 @@ func DeleteSeriesPost(c *gin.Context) {
 	}
 
 	u := user.CurrentUser(c)
-	if !models.IsStoryCreator(u.ID, id) {
+	if !isStoryCreator(u.ID, id) {
 		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
 		return
 	}
-
 	err := story.DeleteSeriesPost(id)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
@@ -207,8 +207,9 @@ func PinStory(c *gin.Context) {
 	storyID := c.Param("storyID")
 	u := user.CurrentUser(c)
 
-	if !models.IsStoryCreator(u.ID, storyID) {
+	if !isStoryCreator(u.ID, storyID) {
 		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
+		return
 	}
 
 	err := story.PinStory(storyID, u.ID)

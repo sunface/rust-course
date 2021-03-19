@@ -1,6 +1,7 @@
 package user
 
 import (
+	"database/sql"
 	"net/http"
 	"sort"
 
@@ -53,4 +54,20 @@ func DeleteNavbar(userID string, id string) *e.Error {
 	}
 
 	return nil
+}
+
+func GetNavbar(id string) (*models.Navbar, *e.Error) {
+	nav := &models.Navbar{}
+	err := db.Conn.QueryRow("SELECT user_id,label,type,value,weight FROM user_navbar WHERE id=?", id).Scan(
+		&nav.UserID, &nav.Label, &nav.Type, &nav.Value, &nav.Weight,
+	)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, e.New(http.StatusNotFound, e.NotFound)
+		}
+		logger.Warn("select navbar error", "error", err)
+		return nil, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	return nav, nil
 }
