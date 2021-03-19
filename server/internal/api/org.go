@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/imdotdev/im.dev/server/internal/org"
+	"github.com/imdotdev/im.dev/server/internal/story"
 	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/common"
 	"github.com/imdotdev/im.dev/server/pkg/db"
@@ -318,6 +319,54 @@ func LeaveOrg(c *gin.Context) {
 	err0 := org.Delete(orgID, u.ID)
 	if err0 != nil {
 		c.JSON(err0.Status, common.RespError(err0.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}
+
+func DeleteOrgPost(c *gin.Context) {
+	orgID := c.Param("orgID")
+	postID := c.Param("postID")
+
+	u := user.CurrentUser(c)
+	if !org.IsOrgAdmin(u.ID, orgID) {
+		c.JSON(http.StatusForbidden, common.RespError(e.NoAdminPermission))
+		return
+	}
+
+	err0 := org.DeletePost(postID)
+	if err0 != nil {
+		c.JSON(err0.Status, common.RespError(err0.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}
+
+func PinOrgStory(c *gin.Context) {
+	storyID := c.Param("id")
+	u := user.CurrentUser(c)
+
+	s, err := story.GetStory(storyID, "")
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	if s.OwnerID == "" {
+		c.JSON(http.StatusBadRequest, common.RespError("找不到文章关联的组织"))
+		return
+	}
+
+	if !org.IsOrgAdmin(u.ID, s.OwnerID) {
+		c.JSON(http.StatusForbidden, common.RespError(e.NoAdminPermission))
+		return
+	}
+
+	err = story.PinStory(storyID, s.OwnerID)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
 		return
 	}
 

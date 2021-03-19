@@ -86,7 +86,7 @@ func OrgPosts(tp string, user *models.User, orgID string) (models.Stories, *e.Er
 	unpinned := make([]*models.Story, 0)
 
 	for _, post := range posts {
-		post.Pinned = GetPinned(post.ID, user.ID)
+		post.Pinned = GetPinned(post.ID, post.OwnerID)
 		if post.Pinned {
 			pinned = append(pinned, post)
 		} else {

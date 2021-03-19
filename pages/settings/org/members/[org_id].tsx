@@ -82,7 +82,7 @@ const UserProfilePage = () => {
         <>
             <PageContainer>
                 <Box display="flex">
-                    <Sidebar routes={orgSettingLinks(router.query.org_id)} width={["120px", "120px", "250px", "250px"]} height="fit-content" title={`管理${org?.nickname}`} />
+                    <Sidebar routes={orgSettingLinks(router.query.org_id)} width={["120px", "120px", "250px", "250px"]} height="fit-content" title={`组织${org?.nickname}`} />
                     <Box ml={[1,1,4,4]} width="100%">
                         <Card>
                             <Heading size="sm">Grow the org</Heading>
@@ -91,7 +91,7 @@ const UserProfilePage = () => {
                                 <Text>1. Sign in</Text>
                                 <Text>2. Navigate to {config.uiDomain}/settings/orgs</Text>
                                 <Text>3. Paste the secret code below and click Join Organization</Text>
-                                <Tag wordBreak="break-word">{secret}</Tag>
+                                <Tag wordBreak="break-word" maxW="fit-content">{secret}</Tag>
                             </VStack>
                             <HStack mt="4">
                                 <Button variant="outline" onClick={generateSecret} _focus={null}>Generate new secret</Button>

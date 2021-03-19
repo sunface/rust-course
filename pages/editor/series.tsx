@@ -7,7 +7,7 @@ import { requestApi } from "utils/axios/request"
 import { useDisclosure } from "@chakra-ui/react"
 import { Field, Form, Formik } from "formik"
 import { config } from "configs/config"
-import TextStoryCard from "components/story/text-story-card"
+import TextStoryCard from "components/story/manage-story-card"
 import { Story } from "src/types/story"
 import { FaExternalLinkAlt, FaPlus, FaRegEdit } from "react-icons/fa"
 import { useRouter } from "next/router"
@@ -20,10 +20,11 @@ import PostSelect from "components/story/post-select"
 import { cloneDeep, find, remove } from "lodash"
 import userCustomTheme from "theme/user-custom"
 import Tags from "components/tags/tags"
+import ManageStories from "components/story/manage-stories"
 var validator = require('validator');
 
 const newSeries: Story = { title: '', brief: '', cover: '', type: IDType.Series }
-const PostsPage = () => {
+const SeriesPage = () => {
     const [currentSeries, setCurrentSeries]: [Story, any] = useState(null)
     const [series, setSeries] = useState([])
     const [posts, setPosts] = useState([])
@@ -286,17 +287,9 @@ const PostsPage = () => {
                                 {
                                     series.length === 0 ? <Empty />
                                         :
-                                        <>
-                                            <VStack mt="4">
-                                                {series.map(post =>
-                                                    <Box width="100%" key={post.id}>
-                                                        <TextStoryCard story={post} showActions={true} mt="4" onEdit={() => editSeries(post)} onDelete={() => onDeleteSeries(post.id)} showSource={false} onPin={() => onPinPost(post.id)} />
-                                                        <Divider mt="5" />
-                                                    </Box>
-                                                )}
-                                            </VStack>
-                                            <Center><Text layerStyle="textSecondary" fontSize="sm" mt="5">没有更多文章了</Text></Center>
-                                        </>
+                                        <Box pt="4">
+                                            <ManageStories stories={series} onEdit={(story) => editSeries(story)} onDelete={(id) => onDeleteSeries(id)} showSource={false} onPin={(id) => onPinPost(id)}/>
+                                        </Box>
                                 }
                             </>}
                     </Card>
@@ -305,5 +298,5 @@ const PostsPage = () => {
         </>
     )
 }
-export default PostsPage
+export default SeriesPage
 

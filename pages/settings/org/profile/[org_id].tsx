@@ -116,7 +116,7 @@ const UserProfilePage = () => {
         <>
             <PageContainer>
                 <Box display="flex">
-                    <Sidebar routes={orgSettingLinks(router.query.org_id)} width={["120px", "120px", "250px", "250px"]} height="fit-content" title={`管理${org?.nickname}`} />
+                    <Sidebar routes={orgSettingLinks(router.query.org_id)} width={["120px", "120px", "250px", "250px"]} height="fit-content" title={`组织${org?.nickname}`} />
                     {org && <VStack alignItems="left" ml="4" width="100%">
                         <Formik
                             initialValues={org}

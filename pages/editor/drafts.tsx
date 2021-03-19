@@ -8,7 +8,8 @@ import { Story } from "src/types/story"
 import { useRouter } from "next/router"
 import PageContainer1 from "layouts/page-container1"
 import Empty from "components/empty"
-import TextStoryCard from "components/story/text-story-card"
+import TextStoryCard from "components/story/manage-story-card"
+import ManageStories from "components/story/manage-stories"
 
 const PostsPage = () => {
     const [posts, setPosts] = useState([])
@@ -50,17 +51,10 @@ const PostsPage = () => {
                             posts.length === 0 ?
                                <Empty />
                                 :
-                                <>
-                                    <VStack mt="4">
-                                        {posts.map(post =>
-                                            <Box width="100%" key={post.id}>
-                                                <TextStoryCard story={post} showActions={true} mt="4" onEdit={() => editPost(post)} onDelete={() => onDeletePost(post.id)} showSource={false}/>
-                                                <Divider mt="5" />
-                                            </Box>
-                                        )}
-                                    </VStack>
-                                    <Center><Text layerStyle="textSecondary" fontSize="sm" mt="5">没有更多文章了</Text></Center>
-                                </>
+                                <Box mt="4">
+                                <ManageStories showSource stories={posts} onEdit={(story) => editPost(story)} onDelete={(id) => onDeletePost(id)}  />
+                            </Box>
+                        
                         }
                     </Card>
                 </Box>

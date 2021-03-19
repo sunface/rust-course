@@ -115,6 +115,8 @@ func (s *Server) Start() error {
 		r.POST("/org/transfer", IsLogin(), api.TransferOrg)
 		r.DELETE("/org/member/:orgID/:memberID", IsLogin(), api.DeleteOrgMember)
 		r.POST("/org/leave/:orgID", IsLogin(), api.LeaveOrg)
+		r.DELETE("/org/post/:orgID/:postID", api.DeleteOrgPost)
+		r.POST("/org/pin/story/:id", IsLogin(), api.PinOrgStory)
 		// admin apis
 		r.POST("/admin/user", IsLogin(), api.AdminSubmitUser)
 		r.GET("/admin/user/all", IsLogin(), api.AdminGetUsers)

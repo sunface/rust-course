@@ -20,6 +20,7 @@ const (
 	ParamInvalid       = "请求参数不正确"
 	NotFound           = "目标不存在"
 	NoPermission       = "你没有权限执行此操作"
+	NoAdminPermission  = "你需要管理员权限"
 	BadRequest         = "非法操作"
 	AlreadyExist       = "目标已经存在"
 )

@@ -113,6 +113,12 @@ export function orgSettingLinks(orgID) {
         icon: <FaUserFriends />,
         disabled: false
     },
+    {
+        title: '文章管理',
+        path: `${ReserveUrls.Settings}/org/posts/${orgID}`,
+        icon: getSvgIcon("post"),
+        disabled: false
+    },
     ]
 }
 

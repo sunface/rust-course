@@ -1,13 +1,13 @@
-import { Menu,MenuButton,MenuList,MenuItem, Text, Box, Heading, Image, HStack, Center, Button, Flex, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, FormControl, FormLabel, FormHelperText, Input, FormErrorMessage, VStack, Textarea, Divider, useColorModeValue, useToast } from "@chakra-ui/react"
+import { Menu, MenuButton, MenuList, MenuItem, Text, Box, Heading, Image, HStack, Center, Button, Flex, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, FormControl, FormLabel, FormHelperText, Input, FormErrorMessage, VStack, Textarea, Divider, useColorModeValue, useToast } from "@chakra-ui/react"
 import Card from "components/card"
 import Sidebar from "layouts/sidebar/sidebar"
 import React, { useEffect, useState } from "react"
-import {editorLinks} from "src/data/links"
+import { editorLinks } from "src/data/links"
 import { requestApi } from "utils/axios/request"
 import { useDisclosure } from "@chakra-ui/react"
 import { Field, Form, Formik } from "formik"
 import { config } from "configs/config"
-import TextStoryCard from "components/story/text-story-card"
+import TextStoryCard from "components/story/manage-story-card"
 import { Story } from "src/types/story"
 import { FaExternalLinkAlt, FaRegEdit } from "react-icons/fa"
 import { useRouter } from "next/router"
@@ -16,9 +16,10 @@ import Link from "next/link"
 import PageContainer1 from "layouts/page-container1"
 import Empty from "components/empty"
 import { IDType } from "src/types/id"
+import ManageStories from "components/story/manage-stories"
 var validator = require('validator');
 
-const newPost: Story = {type: IDType.Post,title: '', url: '', cover: '' }
+const newPost: Story = { type: IDType.Post, title: '', url: '', cover: '' }
 const PostsPage = () => {
     const [currentPost, setCurrentPost] = useState(newPost)
     const [posts, setPosts] = useState([])
@@ -85,7 +86,7 @@ const PostsPage = () => {
         }
     }
 
-    const onDeletePost= async (id) => {
+    const onDeletePost = async (id) => {
         await requestApi.delete(`/story/post/${id}`)
         getPosts()
         toast({
@@ -104,20 +105,20 @@ const PostsPage = () => {
         <>
             <PageContainer1 >
                 <Box display="flex">
-                    <Sidebar routes={editorLinks}   title="创作中心"/>
+                    <Sidebar routes={editorLinks} title="创作中心" />
                     <Card ml="4" p="6" width="100%">
                         <Flex alignItems="center" justify="space-between">
                             <Heading size="md">文章列表({posts.length})</Heading>
                             {config.posts.writingEnabled ?
                                 <Menu>
-                                <MenuButton as={Button} colorScheme="teal" size="sm"  _focus={null}>
-                                  新建文章
+                                    <MenuButton as={Button} colorScheme="teal" size="sm" _focus={null}>
+                                        新建文章
                                 </MenuButton>
-                                <MenuList color={useColorModeValue("gray.500","gray.400")}>
-                                  <MenuItem  icon={<FaExternalLinkAlt fontSize="14" />} onClick={onOpen}>外部链接</MenuItem>
-                                  <Link href={`${ReserveUrls.Editor}/post/new`}><MenuItem  icon={<FaRegEdit fontSize="16" />} >原创博客</MenuItem></Link>
-                                </MenuList>
-                              </Menu>
+                                    <MenuList color={useColorModeValue("gray.500", "gray.400")}>
+                                        <MenuItem icon={<FaExternalLinkAlt fontSize="14" />} onClick={onOpen}>外部链接</MenuItem>
+                                        <Link href={`${ReserveUrls.Editor}/post/new`}><MenuItem icon={<FaRegEdit fontSize="16" />} >原创博客</MenuItem></Link>
+                                    </MenuList>
+                                </Menu>
                                 :
                                 <Button colorScheme="teal" size="sm" onClick={onOpen} _focus={null}>新建文章</Button>}
                         </Flex>
@@ -125,17 +126,9 @@ const PostsPage = () => {
                             posts.length === 0 ?
                                 <Empty />
                                 :
-                                <>
-                                    <VStack mt="4">
-                                        {posts.map(post =>
-                                            <Box width="100%" key={post.id}>
-                                                <TextStoryCard story={post} showActions={true} mt="4" onEdit={() => editPost(post)} onDelete={() => onDeletePost(post.id)} onPin={() => onPinPost(post.id)} />
-                                                <Divider mt="5" />
-                                            </Box>
-                                        )}
-                                    </VStack>
-                                    <Center><Text layerStyle="textSecondary" fontSize="sm" mt="5">没有更多文章了</Text></Center>
-                                </>
+                                <Box mt="4">
+                                    <ManageStories showSource stories={posts} onEdit={(story) => editPost(story)} onDelete={(id) => onDeletePost(id)} onPin={(id) => onPinPost(id)} />
+                                </Box>
                         }
                     </Card>
                 </Box>

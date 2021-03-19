@@ -9,21 +9,20 @@ import { getSvgIcon } from "components/svg-icon"
 
 type Props = PropsOf<typeof chakra.div> & {
     story: Story
-    showActions: boolean
     onEdit?: any
     onDelete?: any
     onPin?: any
     showSource?: boolean
 }
 
-
-export const TextStoryCard = (props: Props) => {
-    const { story, showActions, onEdit, onDelete, showSource = true,onPin, ...rest } = props
+// 文章卡片，展示需要被管理的文章
+export const ManageStoryCard = (props: Props) => {
+    const { story, onEdit, onDelete, showSource = true,onPin, ...rest } = props
     const [isSmallScreen] = useMediaQuery("(max-width: 768px)")
     const Lay = isSmallScreen ? VStack : Flex
     const gap = moment(story.created).fromNow()
 
-    
+    const showActions = onEdit || onDelete || onPin
     return (
         //@ts-ignore
         <Lay justifyContent="space-between" alignItems={isSmallScreen ? "left" : "center"}  {...rest}>
@@ -34,40 +33,40 @@ export const TextStoryCard = (props: Props) => {
                 </Heading>
                 <Text fontSize=".9rem">发布于{gap}</Text>
             </VStack>
-            {props.showActions && <HStack pt={{ base: 3, md: 0 }} layerStyle="textSecondary">
-                <Tooltip label={story.pinned? "取消置顶" : "置顶"}>
+            {showActions && <HStack pt={{ base: 3, md: 0 }} layerStyle="textSecondary">
+                {onPin && <Tooltip label={story.pinned? "取消置顶" : "置顶"}>
                     <IconButton
                         aria-label="a icon button"
                         variant="ghost"
                         _focus={null}
                         icon={<FaPaperclip />}
-                        onClick={onPin}
+                        onClick={() => onPin(story.id)}
                         color={story.pinned? "teal" : null}
                     />
-                </Tooltip>
+                </Tooltip>}
 
-                <Tooltip label="编辑">
+                {onEdit&&<Tooltip label="编辑">
                     <IconButton
                         aria-label="a icon button"
                         variant="ghost"
                         _focus={null}
                         icon={getSvgIcon("edit", "1rem")}
-                        onClick={onEdit}
+                        onClick={() => onEdit(story)}
                     />
-                </Tooltip>
+                </Tooltip>}
 
-                <Tooltip label="删除">
+                {onDelete&&<Tooltip label="删除">
                     <IconButton
                         aria-label="a icon button"
                         variant="ghost"
                         _focus={null}
                         icon={<FaRegTrashAlt />}
-                        onClick={props.onDelete}
+                        onClick={() => props.onDelete(story.id)}
                     />
-                </Tooltip>
+                </Tooltip>}
             </HStack>}
         </Lay>
     )
 }
 
-export default TextStoryCard
+export default ManageStoryCard

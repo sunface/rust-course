@@ -206,3 +206,13 @@ func Delete(orgID, memberID string) *e.Error {
 
 	return nil
 }
+
+func DeletePost(postID string) *e.Error {
+	_, err := db.Conn.Exec("UPDATE story SET owner=? WHERE id=?", "", postID)
+	if err != nil {
+		logger.Warn("delete org post error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	return nil
+}
