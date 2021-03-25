@@ -1,10 +1,14 @@
 package models
 
 const (
-	FilterBest      = "best"
-	FilterFeature   = "feature"
-	FilterRecent    = "recent"
-	FilterFavorites = "favorites"
+	FilterBest      = "Best"
+	FilterFeature   = "Feature"
+	FilterRecent    = "Recent"
+	FilterFavorites = "Favorites"
+	FilterWeek      = "Week"
+	FilterMonth     = "Month"
+	FilterYear      = "Year"
+	FilterLatest    = "Latest"
 )
 
 func ValidSearchFilter(f string) bool {

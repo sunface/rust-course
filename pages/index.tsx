@@ -16,24 +16,17 @@ import siteConfig from "configs/site-config"
 import PageContainer1 from "layouts/page-container1"
 import React, { useEffect, useState } from "react"
 import { requestApi } from "utils/axios/request"
-
-import { SearchFilter } from "src/types/search"
-import SearchFilters from "components/search-filters"
-
+import StoryFilters from "components/story/story-filter"
+import { concat } from "lodash"
+import useInfiniteScroll from 'src/hooks/use-infinite-scroll'
 const HomePage = () => {
-  let filter:string
-  const [posts, setPosts] = useState([])
-  const initData = async () => {
-    const res = await requestApi.get(`/story/posts/home/${filter}`)
-    setPosts(res.data)
+  const [filter,setFilter] = useState('Best')
+  const initData = (p) => {
+    return requestApi.get(`/story/posts/home?filter=${filter}&page=${p}&per_page=5`)
   }
 
-  useEffect(() => {
-    initData()
-  }, [])
-
-  const onFilterChange = filter => {
-
+  const onFilterChange = f => {
+    setFilter(f)
   }
 
   return (
@@ -47,7 +40,7 @@ const HomePage = () => {
           <VStack alignItems="left" width={["100%", "100%", "70%", "70%"]} spacing="3">
             <Card p="2">
               <Flex justifyContent="space-between" alignItems="center">
-                <SearchFilters onChange={onFilterChange}/>
+                <StoryFilters onChange={onFilterChange}/>
                 <Menu>
                   <MenuButton
                     as={IconButton}
@@ -69,7 +62,7 @@ const HomePage = () => {
               </Flex>
             </Card>
             <Card width="100%" height="fit-content" p="0">
-              <Stories stories={posts} />
+              <Stories onLoad={initData} filter={filter}/>
             </Card>
           </VStack>
           <HomeSidebar />
@@ -84,14 +77,14 @@ export default HomePage
 
 export const HomeSidebar = () => {
   const [posts, setPosts] = useState([])
-  const initData = async () => {
-    const res = await requestApi.get(`/story/posts/home/aa`)
-    setPosts(res.data)
-  }
+  // const initData = async () => {
+  //   const res = await requestApi.get(`/story/posts/home/aa`)
+  //   setPosts(res.data)
+  // }
 
-  useEffect(() => {
-    initData()
-  }, [])
+  // useEffect(() => {
+  //   initData()
+  // }, [])
 
   return (
     <VStack alignItems="left" width="30%" display={{ base: "none", md: "flex" }}>
@@ -106,9 +99,9 @@ export const HomeSidebar = () => {
         </CardHeader>
         <Divider />
         <CardBody>
-          <VStack alignItems="left">
+          {/* <VStack alignItems="left">
             <Stories stories={posts} card={SimplePostCard} size="sm" showFooter={false}/>
-          </VStack>
+          </VStack> */}
         </CardBody>
       </Card>
     </VStack>

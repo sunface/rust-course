@@ -41,7 +41,7 @@ const PostsSearchPage = () => {
     
     const initData = async () => {
         if (query) {
-            const res = await requestApi.get(`/search/users/${filter}?query=${query}`)
+            const res = await requestApi.get(`/search/users?query=${query}&filter=${filter}`)
             setResults(res.data)
         }
     }

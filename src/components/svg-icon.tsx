@@ -1,4 +1,7 @@
+import { toLower } from "lodash"
+
 export function getSvgIcon(name, height = "1.4rem") {
+    name = toLower(name)
     let svg
     switch (name) {
         case "comments1":

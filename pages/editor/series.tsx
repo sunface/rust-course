@@ -109,7 +109,7 @@ export const SeriesEditor = ({orgID=""}) => {
     const submitSeries = async (values, _) => {
         // 这里必须按照顺序同步提交
         if (orgID) {
-            await requestApi.post(`/story`, {...values,ownerID: orgID})
+            await requestApi.post(`/story`, {...values,ownerId: orgID})
         } else {
             await requestApi.post(`/story`, values)
         }

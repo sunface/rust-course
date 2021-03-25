@@ -106,7 +106,7 @@ func GetTags() (models.Tags, *e.Error) {
 func GetTagsByIDs(ids []string) ([]*models.Tag, *e.Error) {
 	tags := make([]*models.Tag, 0, len(ids))
 	for _, id := range ids {
-		tag, err := GetSimpleTag(id, "")
+		tag, err := models.GetSimpleTag(id, "")
 		if err != nil {
 			logger.Warn("get tag error", "error", err)
 			continue
@@ -152,52 +152,14 @@ func GetTag(id string, name string) (*models.Tag, *e.Error) {
 	return tag, nil
 }
 
-func GetSimpleTag(id string, name string) (*models.Tag, *e.Error) {
-	tag := &models.Tag{}
-	err := db.Conn.QueryRow("SELECT id,name,title,icon from tags where id=? or name=?", id, name).Scan(
-		&tag.ID, &tag.Name, &tag.Title, &tag.Icon,
-	)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return nil, e.New(http.StatusNotFound, e.NotFound)
-		}
-		logger.Warn("get tag error", "error", err)
-		return nil, e.New(http.StatusInternalServerError, e.Internal)
-	}
-
-	return tag, nil
-}
-
-func GetTargetTags(targetID string) ([]string, []*models.Tag, error) {
-	ids := make([]string, 0)
-	rows, err := db.Conn.Query("SELECT tag_id FROM tags_using WHERE target_id=?", targetID)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	rawTags := make([]*models.Tag, 0)
-	for rows.Next() {
-		var id string
-		err = rows.Scan(&id)
-		ids = append(ids, id)
-
-		rawTag, err := GetSimpleTag(id, "")
-		if err == nil {
-			rawTags = append(rawTags, rawTag)
-		}
-	}
-
-	return ids, rawTags, nil
-}
-
-func UpdateTargetTags(targetCreator string, targetID string, tags []string) error {
+func UpdateTargetTags(targetCreator string, targetID string, tags []string, targetCreated time.Time) error {
 	_, err := db.Conn.Exec("DELETE FROM tags_using WHERE target_id=?", targetID)
 	if err != nil {
 		return err
 	}
 
 	for _, tag := range tags {
-		_, err = db.Conn.Exec("INSERT INTO tags_using (tag_id,target_type,target_id,target_creator) VALUES (?,?,?,?)", tag, models.GetIDType(targetID), targetID, targetCreator)
+		_, err = db.Conn.Exec("INSERT INTO tags_using (tag_id,target_type,target_id,target_creator,target_created) VALUES (?,?,?,?,?)", tag, models.GetIDType(targetID), targetID, targetCreator, targetCreated)
 		if err != nil {
 			logger.Warn("add post tag error", "error", err)
 		}
@@ -259,7 +221,7 @@ func GetUserTags(userID string) ([]*models.Tag, *e.Error) {
 
 	tags := make(models.Tags, 0)
 	for _, t := range tagsMap {
-		tag, err := GetSimpleTag(t.ID, "")
+		tag, err := models.GetSimpleTag(t.ID, "")
 		if err != nil {
 			logger.Warn("get simple tag error", "error", err)
 			continue

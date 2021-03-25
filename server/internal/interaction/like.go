@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/imdotdev/im.dev/server/internal/top"
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
 	"github.com/imdotdev/im.dev/server/pkg/models"
@@ -62,7 +63,12 @@ func Like(storyID string, userId string) *e.Error {
 		return e.New(http.StatusInternalServerError, e.Internal)
 	}
 
+	tx.Exec("UPDATE story SET likes=? WHERE id=?", count, storyID)
+
 	tx.Commit()
+
+	top.Update(storyID, count)
+
 	return nil
 }
 

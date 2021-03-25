@@ -1,9 +1,8 @@
-import { Box, Divider, Flex, HStack, Input } from "@chakra-ui/react"
+import { Box, Divider, Flex, Input } from "@chakra-ui/react"
 import Card from "components/card"
-import Empty from "components/empty"
 import SEO from "components/seo"
 import Stories from "components/story/stories"
-import  SearchFilters  from "components/search-filters"
+import SearchFilters from "components/search-filters"
 import siteConfig from "configs/site-config"
 import PageContainer1 from "layouts/page-container1"
 import Sidebar from "layouts/sidebar/sidebar"
@@ -16,51 +15,41 @@ import { requestApi } from "utils/axios/request"
 import { addParamToUrl, removeParamFromUrl } from "utils/url"
 
 const PostsSearchPage = () => {
-    let filter = SearchFilter.Favorites
     const router = useRouter()
     const q = router.query.q
 
-    const [results,setResults] = useState([])
-    const [query,setQuery] = useState("")
-    const [tempQuery,setTempQuery] = useState("")
-    
+    const [query, setQuery] = useState("")
+    const [tempQuery, setTempQuery] = useState("")
+
     useEffect(() => {
         if (q) {
             setQuery(q as string)
             setTempQuery(q as string)
-            initData()
         }
-    },[q])
+    }, [q])
 
-    useEffect(() => {
-      initData()
-    },[query])
-    
-    const initData = async () => {
-        if (query) {
-            const res = await requestApi.get(`/search/posts/${filter}?query=${query}`)
-            setResults(res.data)
-        }
+    const [filter, setFilter] = useState(SearchFilter.Favorites)
+    const initPosts = (p) => {
+        return requestApi.get(`/search/posts?query=${query}&filter=${filter}&page=${p}&per_page=5`)
     }
 
     const onFilterChange = f => {
-        filter = f
-        initData()
+        setFilter(f)
     }
 
     const startSearch = e => {
         if (e.keyCode == 13) {
             if (tempQuery === '') {
                 removeParamFromUrl(["q"])
-                setResults([])
             } else {
-                addParamToUrl({q: tempQuery})
+                addParamToUrl({ q: tempQuery })
             }
-            setQuery(tempQuery)
+            setQuery("")
+            setTimeout(() => setQuery(tempQuery), 100)
         }
     }
 
-    function getFilters():[] {
+    function getFilters(): [] {
         for (const link of searchLinks) {
             if (link.path.indexOf("posts") > -1) {
                 return link.filters
@@ -78,17 +67,15 @@ const PostsSearchPage = () => {
             />
             <PageContainer1>
                 <Flex width="100%">
-                    <Sidebar query={query ?{q:query} : null} routes={searchLinks} title="全站搜索" />
+                    <Sidebar query={query ? { q: query } : null} routes={searchLinks} title="全站搜索" />
                     <Box ml="3" width={['100%', '100%', '100%', '70%']}>
                         <Card p="5">
                             <Input value={tempQuery} onChange={(e) => setTempQuery(e.currentTarget.value)} onKeyUp={(e) => startSearch(e)} size="lg" placeholder="type and enter to search..." variant="unstyled" />
                         </Card>
                         <Card mt="2" p="0" pt="4" px="4">
-                            <SearchFilters filters={getFilters()} onChange={onFilterChange} initFilter={filter}/>
-                            <Divider mt="3"/>
-                            {results.length === 0 && <Empty /> }
-                            {results.length > 0 &&
-                                <Stories stories={results} showFooter={false} type="compact" highlight={query}/>}
+                            <SearchFilters filters={getFilters()} onChange={onFilterChange} initFilter={filter} />
+                            <Divider mt="3" />
+                            {query && <Stories onLoad={initPosts} filter={filter} />}
                         </Card>
                     </Box>
                 </Flex>

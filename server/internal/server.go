@@ -1,15 +1,19 @@
 package internal
 
 import (
+	"context"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v8"
 	"github.com/imdotdev/im.dev/server/internal/api"
 	"github.com/imdotdev/im.dev/server/internal/cache"
 	"github.com/imdotdev/im.dev/server/internal/storage"
 	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/common"
 	"github.com/imdotdev/im.dev/server/pkg/config"
+	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
 	"github.com/imdotdev/im.dev/server/pkg/log"
 )
@@ -31,6 +35,10 @@ func (s *Server) Start() error {
 		return err
 	}
 
+	err = initRedis()
+	if err != nil {
+		return err
+	}
 	// if config.Data.Common.IsProd {
 	gin.SetMode((gin.ReleaseMode))
 	// } else {
@@ -50,10 +58,11 @@ func (s *Server) Start() error {
 		r.GET("/story/comments/:id", api.GetStoryComments)
 		r.POST("/story/comment", IsLogin(), api.SubmitComment)
 		r.DELETE("/story/comment/:id", IsLogin(), api.DeleteStoryComment)
+
 		r.GET("/story/posts/editor", IsLogin(), api.GetEditorPosts)
 		r.GET("/story/posts/org/:id", IsLogin(), api.GetOrgPosts)
 		r.GET("/story/posts/drafts", IsLogin(), api.GetEditorDrafts)
-		r.GET("/story/posts/home/:filter", api.GetHomePosts)
+		r.GET("/story/posts/home", api.GetHomePosts)
 		r.POST("/story", IsLogin(), api.SubmitStory)
 		r.POST("/story/pin/:storyID", IsLogin(), api.PinStory)
 		r.POST("/story/series", api.GetSeries)
@@ -100,8 +109,8 @@ func (s *Server) Start() error {
 		r.GET("/interaction/followers/:userID", api.GetFollowers)
 
 		// search apis
-		r.GET("/search/posts/:filter", api.SearchPosts)
-		r.GET("/search/users/:filter", api.SearchUsers)
+		r.GET("/search/posts", api.SearchPosts)
+		r.GET("/search/users", api.SearchUsers)
 
 		// org apis
 		r.POST("/org/create", IsLogin(), api.CreateOrg)
@@ -183,4 +192,20 @@ func InvasionCheck() gin.HandlerFunc {
 		//@todo
 		c.Next()
 	}
+}
+
+func initRedis() error {
+	// init redis client
+	db.Redis = redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password set
+		DB:       0,  // use default DB
+	})
+	ctx := context.Background()
+	err := db.Redis.Set(ctx, "test_redis", "alive", 10*time.Second).Err()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

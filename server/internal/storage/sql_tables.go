@@ -82,6 +82,7 @@ var sqlTables = map[string]string{
 		url  		VARCHAR(255),
 		cover 		VARCHAR(255),
 		brief 		TEXT,
+		likes       INTEGER DEFAULT 0,
 		status 		tinyint NOT NULL,
 		created 	DATETIME NOT NULL,
 		updated 	DATETIME
@@ -154,7 +155,8 @@ var sqlTables = map[string]string{
 		tag_id           VARCHAR(255), 
 		target_type      VARCHAR(1),
 		target_id        VARCHAR(255),
-		target_creator  VARCHAR(255)
+		target_creator  VARCHAR(255),
+		target_created   DATETIME
 	);
 	CREATE INDEX IF NOT EXISTS tags_using_tagid
 		ON tags_using (tag_id);

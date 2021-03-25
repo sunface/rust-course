@@ -1,6 +1,7 @@
 export enum SearchFilter {
-    Best = "best",
-    Featured = "feature",
-    Recent = "recent",
-    Favorites = "favorites"
+    Best = "Best",
+    Featured = "Feature",
+    Recent = "Recent",
+    Favorites = "Favorites",
+    Latest = "Latest"
 }

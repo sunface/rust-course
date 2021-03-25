@@ -2,7 +2,6 @@ package story
 
 import (
 	"database/sql"
-	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -13,6 +12,7 @@ import (
 	"github.com/imdotdev/im.dev/server/internal/interaction"
 	"github.com/imdotdev/im.dev/server/internal/org"
 	"github.com/imdotdev/im.dev/server/internal/tags"
+	"github.com/imdotdev/im.dev/server/internal/top"
 	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/config"
 	"github.com/imdotdev/im.dev/server/pkg/db"
@@ -99,9 +99,10 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 			post.ID = utils.GenID(post.Type)
 		}
 
+		post.Created = now
 		//create
 		_, err := db.Conn.Exec("INSERT INTO story (id,type,creator,owner,slug, title, md, url, cover, brief,status, created, updated) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",
-			post.ID, post.Type, post.CreatorID, post.OwnerID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, models.StatusPublished, now, now)
+			post.ID, post.Type, post.CreatorID, post.OwnerID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, models.StatusPublished, post.Created, post.Created)
 		if err != nil {
 			logger.Warn("submit post error", "error", err)
 			return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -113,8 +114,15 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 			return nil, e.New(http.StatusForbidden, e.NoEditorPermission)
 		}
 
-		_, err = db.Conn.Exec("UPDATE story SET owner=?, slug=?, title=?, md=?, url=?, cover=?, brief=?, updated=? WHERE id=?",
-			post.OwnerID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, now, post.ID)
+		if post.Status == models.StatusDraft {
+			// 首次发布，需要更新创建时间
+			_, err = db.Conn.Exec("UPDATE story SET owner=?, slug=?, title=?, md=?, url=?, cover=?, brief=?,created=?,updated=?,status=? WHERE id=?",
+				post.OwnerID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, now, now, models.StatusPublished, post.ID)
+		} else {
+			_, err = db.Conn.Exec("UPDATE story SET owner=?, slug=?, title=?, md=?, url=?, cover=?, brief=?, updated=? WHERE id=?",
+				post.OwnerID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, now, post.ID)
+		}
+
 		if err != nil {
 			logger.Warn("upate post error", "error", err)
 			return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -122,7 +130,7 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 	}
 
 	//update tags
-	err = tags.UpdateTargetTags(user.ID, post.ID, post.Tags)
+	err = tags.UpdateTargetTags(user.ID, post.ID, post.Tags, post.Created)
 	if err != nil {
 		logger.Warn("upate tags error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -162,7 +170,6 @@ func SubmitPostDraft(c *gin.Context) (map[string]string, *e.Error) {
 		//create
 		_, err := db.Conn.Exec("INSERT INTO story (id,type,creator,slug, title, md, url, cover, brief,status, created, updated) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
 			post.ID, models.IDTypePost, user.ID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, models.StatusDraft, now, now)
-		fmt.Println(post.Brief)
 		if err != nil {
 			logger.Warn("submit post draft error", "error", err)
 			return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -180,13 +187,6 @@ func SubmitPostDraft(c *gin.Context) (map[string]string, *e.Error) {
 			logger.Warn("upate post draft error", "error", err)
 			return nil, e.New(http.StatusInternalServerError, e.Internal)
 		}
-	}
-
-	//update tags
-	err = tags.UpdateTargetTags(user.ID, post.ID, post.Tags)
-	if err != nil {
-		logger.Warn("upate tags error", "error", err)
-		return nil, e.New(http.StatusInternalServerError, e.Internal)
 	}
 
 	return map[string]string{
@@ -216,6 +216,7 @@ func DeletePost(id string) *e.Error {
 
 	tx.Commit()
 
+	top.Update(id, 0)
 	return nil
 }
 
@@ -244,7 +245,7 @@ func GetStory(id string, slug string) (*models.Story, *e.Error) {
 	}
 
 	// get tags
-	t, rawTags, err := tags.GetTargetTags(ar.ID)
+	t, rawTags, err := models.GetTargetTags(ar.ID)
 	if err != nil {
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
 	}

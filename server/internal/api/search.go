@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/imdotdev/im.dev/server/internal/search"
@@ -12,21 +13,24 @@ import (
 )
 
 func SearchPosts(c *gin.Context) {
-	filter := c.Param("filter")
+	filter := c.Query("filter")
 	query := c.Query("query")
 	if !models.ValidSearchFilter(filter) || query == "" {
 		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
 		return
 	}
 
+	page, _ := strconv.ParseInt(c.Query("page"), 10, 64)
+	perPage, _ := strconv.ParseInt(c.Query("per_page"), 10, 64)
+
 	user := user.CurrentUser(c)
-	posts := search.Posts(user, filter, query)
+	posts := search.Posts(user, filter, query, page, perPage)
 
 	c.JSON(http.StatusOK, common.RespSuccess(posts))
 }
 
 func SearchUsers(c *gin.Context) {
-	filter := c.Param("filter")
+	filter := c.Query("filter")
 	query := c.Query("query")
 	if !models.ValidSearchFilter(filter) || query == "" {
 		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))

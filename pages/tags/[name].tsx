@@ -16,11 +16,11 @@ import { requestApi } from "utils/axios/request"
 import { isAdmin } from "utils/role"
 import Follow from "components/interaction/follow"
 import Count from "components/count"
+import StoryFilters from "components/story/story-filter"
 
 const UserPage = () => {
     const router = useRouter()
 
-    const [posts, setPosts]: [Story[], any] = useState([])
     const [tag, setTag]: [Tag, any] = useState(null)
 
     const [followed, setFollowed] = useState(null)
@@ -30,13 +30,18 @@ const UserPage = () => {
         }
     }, [tag])
 
-    
+    const [filter, setFilter] = useState('Recent')
+    const initPosts = (p) => {
+        return requestApi.get(`/tag/posts/${tag.id}?filter=${filter}&page=${p}&per_page=5`)
+    }
+
+    const onFilterChange = f => {
+        setFilter(f)
+    }
+
     const initData = async () => {
         const res = await requestApi.get(`/tag/info/${router.query.name}`)
         setTag(res.data)
-
-        const res1 = await requestApi.get(`/tag/posts/${res.data.id}`)
-        setPosts(res1.data)
     }
 
     useEffect(() => {
@@ -55,38 +60,36 @@ const UserPage = () => {
             <PageContainer1>
                 {tag && tag.name &&
                     <HStack alignItems="top" spacing="4" p="2">
-                        <VStack width={["100%","100%","70%","70%"]} alignItems="left" spacing="2">
+                        <VStack width={["100%", "100%", "70%", "70%"]} alignItems="left" spacing="2">
                             <Card p="0">
-                                <Image src={tag.cover} maxHeight="250px"/>
-                                <Image src={tag.icon} width="80px" position="relative" top="-40px" left="40px" className="shadowed"/>
+                                <Image src={tag.cover} maxHeight="250px" />
+                                <Image src={tag.icon} width="80px" position="relative" top="-40px" left="40px" className="shadowed" />
                                 <Flex justifyContent="space-between" alignItems="center" px="8" pb="6" mt="-1rem">
                                     <Box>
                                         <Heading size="lg">{tag.title}</Heading>
                                         <Text layerStyle="textSecondary" fontWeight="500" fontSize="1.2rem" mt="1" ml="1">#{tag.name}</Text>
                                     </Box>
                                     <Box>
-                                        {followed !== null && <Follow followed={followed} targetID={tag.id}/>}
+                                        {followed !== null && <Follow followed={followed} targetID={tag.id} />}
                                         {isAdmin(session?.user.role) && <Button ml="2" onClick={() => router.push(`${ReserveUrls.Admin}/tag/${tag.name}`)}>Edit</Button>}
                                     </Box>
                                 </Flex>
 
                             </Card>
-                            {
-                                posts.length === 0 ?
-                                    <Card width="100%" height="fit-content">
-                                        <Empty />
-                                    </Card>
-                                    :
-                                    <Card width="100%" height="fit-content" p="0" px="3">
-                                        <Stories stories={posts} />
-                                    </Card>
-                            }
+                            <Card p="2">
+                                <StoryFilters showBest={false} onChange={onFilterChange} />
+                            </Card>
+                            <Card width="100%" height="fit-content" p="0" px="3">
+                                {tag.id && 
+                                    <Stories onLoad={initPosts} filter={filter} />
+                                }
+                            </Card>
                         </VStack>
-                        <VStack width="30%" alignItems="left" spacing="2" display={{base: "none",md:"flex"}}> 
+                        <VStack width="30%" alignItems="left" spacing="2" display={{ base: "none", md: "flex" }}>
                             <Card>
                                 <Flex justifyContent="space-between" alignItems="center" px={[0, 2, 4, 8]}>
                                     <Box>
-                                        <Heading size="lg"><Count count={tag.follows}/></Heading>
+                                        <Heading size="lg"><Count count={tag.follows} /></Heading>
                                         <Text layerStyle="textSecondary" fontWeight="500" fontSize="1.2rem" mt="1" ml="1">Followers</Text>
                                     </Box>
 

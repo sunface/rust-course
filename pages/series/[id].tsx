@@ -14,6 +14,7 @@ import { requestApi } from "utils/axios/request"
 import StorySidebar from "components/story/story-sidebar"
 import Stroies from "components/story/stories"
 import Card from "components/card"
+import StoryCard from "components/story/story-card"
 
 const PostPage = () => {
     const router = useRouter()
@@ -73,7 +74,13 @@ const PostPage = () => {
                                 <Text position="relative" top="-41px" layerStyle="textSecondary">Articles in this series</Text>
                             </VStack>
 
-                            <Card><Stroies stories={posts} showFooter={false} /></Card>
+                            {posts.length > 0 && <Card>
+                                <VStack alignItems="left">
+                                    {
+                                        posts.map(p => <StoryCard story={p}/>)
+                                    }
+                                </VStack>
+                            </Card>}
                             <Box mt="6"><Comments storyID={series.id} /></Box>
                         </Box>
 

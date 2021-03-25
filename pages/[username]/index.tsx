@@ -23,6 +23,7 @@ import UserCard from "components/users/user-card"
 import userCustomTheme from "theme/user-custom"
 import SearchFilters from "components/search-filters"
 import Follow from "components/interaction/follow"
+import { SearchFilter } from "src/types/search"
 
 const UserPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -31,10 +32,8 @@ const UserPage = () => {
   const nav = router.query.nav
   const session = useSession()
   const [user, setUser]: [User, any] = useState(null)
-  const [rawPosts, setRawPosts]: [Story[], any] = useState([])
-  const [posts, setPosts]: [Story[], any] = useState([])
   const [tags, setTags]: [Tag[], any] = useState([])
-  const [tagFilter, setTagFilter]: [Tag, any] = useState(null)
+  const [tagFilter, setTagFilter]: [string, any] = useState("")
   const [followers, setFollowers]: [User[], any] = useState([])
   const [navbars,setNavbars]:[Navbar[],any] = useState([])
   const borderColor = useColorModeValue('white', 'transparent')
@@ -45,15 +44,17 @@ const UserPage = () => {
 
     }
   }, [username])
+
+  const loadStories  = (p) => {
+    return user.type === IDType.User ?  requestApi.get(`/user/posts/${user.id}?filter=${tagFilter}&page=${p}&per_page=5`) : requestApi.get(`/story/posts/org/${user.id}?type=0&filter=${tagFilter}&page=${p}&per_page=5`)
+  }
+
   const initData = async (username) => {
     const res = await requestApi.get(`/user/info/${username}`)
     setUser(res.data)
 
     getTags(res.data.id)
     getNavbars(res.data.id)
-    const res1 = res.data.type === IDType.User ? await requestApi.get(`/user/posts/${res.data.id}`) : await requestApi.get(`/story/posts/org/${res.data.id}?type=0`)
-    setPosts(res1.data)
-    setRawPosts(res1.data)
   }
 
   const getNavbars = async userID => {
@@ -66,26 +67,7 @@ const UserPage = () => {
     setTags(res.data)
   }
 
-  const filterPostsByTag = tag => {
-    if (tag.id === tagFilter?.id) {
-      setTagFilter(null)
-      setPosts(rawPosts)
-      return
-    }
 
-    setTagFilter(tag)
-    const p = []
-    rawPosts.forEach(post => {
-      for (let i = 0; i < post.rawTags.length; i++) {
-        if (post.rawTags[i].id === tag.id) {
-          p.push(post)
-          break
-        }
-      }
-    })
-
-    setPosts(p)
-  }
 
   const viewFollowers = async tp => {
     let res
@@ -115,6 +97,15 @@ const UserPage = () => {
   const isSubNavActive = (id) => {
     return id === nav
   }
+
+  const onChangeTagFilter = id => {
+    if (id === tagFilter) {
+      setTagFilter("")
+    } else {
+      setTagFilter(id)
+    }
+  }
+
   return (
     <>
       <SEO
@@ -233,8 +224,8 @@ const UserPage = () => {
                   <Wrap mt="4" p="1">
                     {
                       tags.map(tag =>
-                        <Button key={tag.id} size="sm" variant="text" p="0" onClick={() => filterPostsByTag(tag)} _focus={null}>
-                          <Box className={tagFilter?.id === tag.id ? "tag-bg" : null} py="2" px="1">{tag.name} &nbsp; {tag.posts}</Box>
+                        <Button key={tag.id} size="sm" variant="text" p="0" onClick={() => onChangeTagFilter(tag.id)} _focus={null}>
+                          <Box className={tagFilter === tag.id ? "tag-bg" : null} py="2" px="1">{tag.name} &nbsp; {tag.posts}</Box>
                         </Button>
                       )
                     }
@@ -245,15 +236,9 @@ const UserPage = () => {
 
 
               <Box width={["100%", "100%", "70%", "70%"]}>
-                {posts.length === 0 ?
-                  <Card width="100%" height="fit-content">
-                    <Empty />
-                  </Card>
-                  :
                   <Card width="100%" height="fit-content" p="0">
-                    <Stories stories={posts} showFooter={tagFilter === null} showPinned={true} showOrg={user.type === IDType.User}/>
+                    {user.id && <Stories onLoad={p => loadStories(p)} showPinned={true} showOrg={user.type === IDType.User} filter={tagFilter}/>}
                   </Card>
-                }
               </Box>
 
 

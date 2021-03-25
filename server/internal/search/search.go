@@ -1,6 +1,7 @@
 package search
 
 import (
+	"database/sql"
 	"sort"
 	"strings"
 
@@ -13,26 +14,27 @@ import (
 
 var logger = log.RootLogger.New("logger", "search")
 
-func Posts(user *models.User, filter, query string) []*models.Story {
+func Posts(user *models.User, filter, query string, page, perPage int64) []*models.Story {
 	posts := make([]*models.Story, 0)
 
 	// postsMap := make(map[string]*models.Post)
 
 	// search by title
 	sqlq := "%" + query + "%"
-	rows, err := db.Conn.Query("select id,type,slug,title,url,cover,brief,creator,created,updated from story where status=? and  (title LIKE ? or brief LIKE ?)", models.StatusPublished, sqlq, sqlq)
+	var rows *sql.Rows
+	var err error
+	if filter == models.FilterFavorites {
+		rows, err = db.Conn.Query(story.PostQueryPrefix+"where status=? and  (title LIKE ? or brief LIKE ?) ORDER BY likes DESC LIMIT ?,?", models.StatusPublished, sqlq, sqlq, (page-1)*perPage, perPage)
+	} else {
+		rows, err = db.Conn.Query(story.PostQueryPrefix+"where status=? and  (title LIKE ? or brief LIKE ?) ORDER BY created DESC LIMIT ?,?", models.StatusPublished, sqlq, sqlq, (page-1)*perPage, perPage)
+	}
+
 	if err != nil {
 		logger.Warn("get user posts error", "error", err)
 		return posts
 	}
 
 	posts = story.GetPosts(user, rows)
-
-	if filter == models.FilterFavorites {
-		sort.Sort(models.FavorStories(posts))
-	} else {
-		sort.Sort(models.Stories(posts))
-	}
 
 	return posts
 }

@@ -1,4 +1,4 @@
-import { Box, Button, Text, useToast } from '@chakra-ui/react';
+import { Box, useToast } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { MarkdownEditor } from 'components/markdown-editor/editor';
 import PageContainer from 'layouts/page-container';
@@ -11,7 +11,6 @@ import { useRouter } from 'next/router';
 import { config } from 'configs/config';
 import { cloneDeep } from 'lodash';
 import Card from 'components/card';
-import { updateUrl } from 'utils/url';
 import { IDType } from 'src/types/id';
 
 
@@ -34,6 +33,10 @@ function PostEditPage() {
   useEffect(() => {
     if (id && id !== 'new') {
       requestApi.get(`/story/post/${id}`).then(res => setAr(res.data))
+    }
+
+    if (id === 'new') {
+
     }
   }, [id])
 
@@ -72,6 +75,7 @@ function PostEditPage() {
       ar.id = res.data.id
       let url = window.location.origin + `/editor/post/${ar.id}`
       window.history.pushState({},null,url);
+      setAr(cloneDeep(ar))
     }
   }
 
@@ -84,7 +88,7 @@ function PostEditPage() {
     setAr(newAr)
   }
 
-  const onChangeTitle = title => {
+  const onChangeTitle = async title => {
     if (title.length > config.posts.titleMaxLen) {
       toast({
         description: `Title长度不能超过${config.posts.titleMaxLen}`,

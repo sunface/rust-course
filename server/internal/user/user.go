@@ -74,7 +74,7 @@ func GetUserDetail(id string, username string) (*models.User, *e.Error) {
 	}
 
 	// get user skills
-	skills, rawSkills, err := tags.GetTargetTags(user.ID)
+	skills, rawSkills, err := models.GetTargetTags(user.ID)
 	if err != nil {
 		logger.Warn("get user skills error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -124,7 +124,7 @@ func UpdateUser(u *models.User) *e.Error {
 	}
 
 	//update user skills
-	err = tags.UpdateTargetTags("", u.ID, u.Skills)
+	err = tags.UpdateTargetTags("", u.ID, u.Skills, u.Created)
 	if err != nil {
 		logger.Warn("upate tags error", "error", err)
 		return e.New(http.StatusInternalServerError, e.Internal)
