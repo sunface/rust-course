@@ -75,7 +75,7 @@ const PostsSearchPage = () => {
                         <Card mt="2" p="0" pt="4" px="4">
                             <SearchFilters filters={getFilters()} onChange={onFilterChange} initFilter={filter} />
                             <Divider mt="3" />
-                            {query && <Stories onLoad={initPosts} filter={filter} />}
+                            {query && <Stories onLoad={initPosts} filter={filter} highlight={query} />}
                         </Card>
                     </Box>
                 </Flex>

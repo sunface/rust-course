@@ -1,9 +1,5 @@
 import {
-    chakra, Flex, Heading, HStack, Text, VStack, Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    IconButton,
+    Heading, HStack, Text, VStack, 
     Divider,
     Wrap,
     Image,
@@ -16,15 +12,12 @@ import {
   import { HomeSidebar } from 'pages/index'
   import Card from "components/card"
   import { config } from "configs/config"
-  import { getSvgIcon } from "components/svg-icon"
   import { Tag } from "src/types/tag"
   import { requestApi } from "utils/axios/request"
-  import TagCard from 'src/components/tags/tag-card'
 import { Story } from "src/types/story"
-import Stories from "components/story/stories"
 import { find } from "lodash"
-import userCustomTheme from "theme/user-custom"
 import Empty from "components/empty"
+import StoryCard from "components/story/story-card"
   
 
   
@@ -107,7 +100,9 @@ import Empty from "components/empty"
                 {tags.length > 0&& <Divider mt="3" mb="5" />}
                 {posts.length !== 0 
                     ? 
-                    <Stories stories={posts} showFooter={false}/> 
+                    <VStack alignItems="left">
+                       {posts.map(p => <StoryCard story={p}/>)}
+                    </VStack>
                     :
                     <Empty />
                 }

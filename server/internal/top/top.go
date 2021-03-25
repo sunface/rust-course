@@ -81,7 +81,7 @@ func Update(storyID string, count int) {
 
 	ctx := context.Background()
 	for _, hot := range hots {
-		if count > 0 {
+		if count > 1 {
 			err = db.Redis.ZAdd(ctx, hot.Key, hot.Data).Err()
 		} else {
 			err = db.Redis.ZRem(ctx, hot.Key, hot.Data.Member).Err()
@@ -97,14 +97,12 @@ func Update(storyID string, count int) {
 func GetTopList(key string, start, end int64) []string {
 	ids := make([]string, 0)
 	ctx := context.Background()
-	fmt.Println(start, end)
 	keys, err := db.Redis.ZRevRange(ctx, key, start, end-1).Result()
 	if err != nil {
 		logger.Warn("scan top list error", "error", err, "key", key)
 		return ids
 	}
 
-	fmt.Println(keys)
 	for _, key := range keys {
 		ids = append(ids, key)
 	}
