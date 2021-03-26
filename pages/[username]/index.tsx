@@ -185,7 +185,7 @@ const UserPage = () => {
                   </HStack>}
 
                   <HStack mt="1">
-                    <chakra.span layerStyle="textSecondary" width="90px">Joined: </chakra.span>
+                    <chakra.span layerStyle="textSecondary" width="90px">{user.type === IDType.User ? "Joined" : "Created"}: </chakra.span>
                     <chakra.span fontWeight="500" ml="2">{moment(user.created).fromNow()}</chakra.span>
                   </HStack>
 

@@ -44,6 +44,18 @@ export const Stroies = (props: Props) => {
     }, [filter])
 
     function fetchMoreListItems() {
+        if (page === 1 && posts.length === 0) {
+            // 走到这里面说明视图逻辑出问题了，你可以这样触发
+            // 进入tag或者个人页面，然后把文章拉到第二页
+            // 此时点击tag，会瞬间同时加载第一页和第二页的文章
+            // 因为第一页的文章还没加载完毕，没有更新posts，第二页的文章就会覆盖掉第一页的数据
+            // 这样第一页的数据就丢失了
+
+            // 走到该函数意味着已经是第二页的加载逻辑了，在此时posts不应该为空
+            //@ts-ignore
+            setIsFetching(false)
+            return 
+        }
         if (noMore) {
             //@ts-ignore
             setIsFetching(false)

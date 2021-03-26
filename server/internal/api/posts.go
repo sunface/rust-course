@@ -31,21 +31,35 @@ func GetEditorPosts(c *gin.Context) {
 }
 
 func GetOrgPosts(c *gin.Context) {
-	orgID := c.Param("id")
 	tp := c.Query("type")
 	if tp != models.IDTypeUndefined && !models.ValidStoryIDType(tp) {
 		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
 		return
 	}
 
+	filter := c.Query("filter")
+	page, _ := strconv.ParseInt(c.Query("page"), 10, 64)
+	perPage, _ := strconv.ParseInt(c.Query("per_page"), 10, 64)
+
+	orgID := c.Param("id")
+
 	user := user.CurrentUser(c)
-	ars, err := story.OrgPosts(tp, user, orgID)
+
+	var posts []*models.Story
+	var err *e.Error
+
+	if filter == "" {
+		posts, err = story.OrgPosts(tp, user, orgID, page, perPage)
+	} else {
+		posts, err = story.OrgTagPosts(user, filter, orgID, page, perPage)
+	}
+
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return
 	}
 
-	c.JSON(http.StatusOK, common.RespSuccess(ars))
+	c.JSON(http.StatusOK, common.RespSuccess(posts))
 }
 
 func GetEditorDrafts(c *gin.Context) {

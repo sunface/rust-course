@@ -133,7 +133,7 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 
 	//update tags
 	top.RemoveTagTop(post.ID)
-	err = tags.UpdateTargetTags(user.ID, post.ID, post.Tags, post.Created)
+	err = tags.UpdateTargetTags(user.ID, post.ID, post.Tags, post.Created, post.OwnerID)
 	if err != nil {
 		logger.Warn("upate tags error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)

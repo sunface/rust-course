@@ -124,7 +124,7 @@ func UpdateUser(u *models.User) *e.Error {
 	}
 
 	//update user skills
-	err = tags.UpdateTargetTags("", u.ID, u.Skills, u.Created)
+	err = tags.UpdateTargetTags("", u.ID, u.Skills, u.Created, "")
 	if err != nil {
 		logger.Warn("upate tags error", "error", err)
 		return e.New(http.StatusInternalServerError, e.Internal)

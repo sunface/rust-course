@@ -93,13 +93,22 @@ func UserTagPosts(user *models.User, tid string, uid string, page int64, perPage
 	return posts, nil
 }
 
-func OrgPosts(tp string, user *models.User, orgID string) (models.Stories, *e.Error) {
+func OrgPosts(tp string, user *models.User, orgID string, page int64, perPage int64) (models.Stories, *e.Error) {
 	var rows *sql.Rows
 	var err error
+
 	if tp == models.IDTypeUndefined {
-		rows, err = db.Conn.Query(PostQueryPrefix+"where owner=? and status=?", orgID, models.StatusPublished)
+		if perPage == 0 {
+			rows, err = db.Conn.Query(PostQueryPrefix+"where owner=? and status=?", orgID, models.StatusPublished)
+		} else {
+			rows, err = db.Conn.Query(PostQueryPrefix+"where owner=? and status=? ORDER BY created DESC LIMIT ?,?", orgID, models.StatusPublished, (page-1)*perPage, perPage)
+		}
 	} else {
-		rows, err = db.Conn.Query(PostQueryPrefix+"where owner=? and type=? and status=?", orgID, tp, models.StatusPublished)
+		if perPage == 0 {
+			rows, err = db.Conn.Query(PostQueryPrefix+"where owner=? and type=? and status=?", orgID, tp, models.StatusPublished)
+		} else {
+			rows, err = db.Conn.Query(PostQueryPrefix+"where owner=? and type=? and status=? ORDER BY created DESC LIMIT ?,? ", orgID, tp, models.StatusPublished, (page-1)*perPage, perPage)
+		}
 	}
 
 	if err != nil && err != sql.ErrNoRows {
@@ -125,6 +134,28 @@ func OrgPosts(tp string, user *models.User, orgID string) (models.Stories, *e.Er
 
 	newPosts := append(pinned, unpinned...)
 	return newPosts, nil
+}
+
+func OrgTagPosts(user *models.User, tid string, orgID string, page int64, perPage int64) (models.Stories, *e.Error) {
+	ids := make([]string, 0)
+	rows, err := db.Conn.Query("SELECT target_id FROM tags_using WHERE tag_id=? and target_owner=? ORDER BY target_created DESC LIMIT ?,?", tid, orgID, (page-1)*perPage, perPage)
+	if err != nil {
+		logger.Warn("get user posts error", "error", err)
+		return nil, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	for rows.Next() {
+		var id string
+		rows.Scan(&id)
+		ids = append(ids, id)
+	}
+
+	posts, err1 := GetPostsByIDs(user, ids)
+	if err1 != nil {
+		return nil, err1
+	}
+
+	return posts, nil
 }
 
 func UserDrafts(user *models.User, uid string) (models.Stories, *e.Error) {

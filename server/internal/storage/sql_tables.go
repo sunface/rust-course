@@ -156,12 +156,17 @@ var sqlTables = map[string]string{
 		target_type      VARCHAR(1),
 		target_id        VARCHAR(255),
 		target_creator  VARCHAR(255),
+		target_owner    VARCHAR(255),
 		target_created   DATETIME
 	);
 	CREATE INDEX IF NOT EXISTS tags_using_tagid
 		ON tags_using (tag_id);
 	CREATE INDEX IF NOT EXISTS tags_using_targetid
 		ON tags_using (target_id);
+	CREATE INDEX IF NOT EXISTS tags_using_creator
+		ON tags_using (target_creator);
+	CREATE INDEX IF NOT EXISTS tags_using_owner
+		ON tags_using (target_owner);
 	CREATE INDEX IF NOT EXISTS tags_using_idtype
 		ON tags_using (tag_id,target_type);
 	`,

@@ -117,14 +117,14 @@ func GetTag(id string, name string) (*models.Tag, *e.Error) {
 	return tag, nil
 }
 
-func UpdateTargetTags(targetCreator string, targetID string, tags []string, targetCreated time.Time) error {
+func UpdateTargetTags(targetCreator string, targetID string, tags []string, targetCreated time.Time, targetOwner string) error {
 	_, err := db.Conn.Exec("DELETE FROM tags_using WHERE target_id=?", targetID)
 	if err != nil {
 		return err
 	}
 
 	for _, tag := range tags {
-		_, err = db.Conn.Exec("INSERT INTO tags_using (tag_id,target_type,target_id,target_creator,target_created) VALUES (?,?,?,?,?)", tag, models.GetIDType(targetID), targetID, targetCreator, targetCreated)
+		_, err = db.Conn.Exec("INSERT INTO tags_using (tag_id,target_type,target_id,target_creator,target_created,target_owner) VALUES (?,?,?,?,?,?)", tag, models.GetIDType(targetID), targetID, targetCreator, targetCreated, targetOwner)
 		if err != nil {
 			logger.Warn("add post tag error", "error", err)
 		}
@@ -166,8 +166,14 @@ func GetTargetIDs(tagID string) ([]string, error) {
 
 func GetUserTags(userID string) ([]*models.Tag, *e.Error) {
 	tagsMap := make(map[string]*models.Tag)
+	var rows *sql.Rows
+	var err error
 
-	rows, err := db.Conn.Query("SELECT tag_id from tags_using where target_creator=?", userID)
+	if models.GetIDType(userID) == models.IDTypeUser {
+		rows, err = db.Conn.Query("SELECT tag_id from tags_using where target_creator=?", userID)
+	} else {
+		rows, err = db.Conn.Query("SELECT tag_id from tags_using where target_owner=?", userID)
+	}
 	if err != nil {
 		logger.Warn("get tag error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
