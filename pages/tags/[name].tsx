@@ -87,13 +87,13 @@ const UserPage = () => {
                         </VStack>
                         <VStack width="30%" alignItems="left" spacing="2" display={{ base: "none", md: "flex" }}>
                             <Card>
-                                <Flex justifyContent="space-between" alignItems="center" px={[0, 2, 4, 8]}>
-                                    <Box>
+                            <Flex layerStyle="textSecondary" spacing="2" pt="1" alignItems="center">
+                                    <Box width="50%">
                                         <Heading size="lg"><Count count={tag.follows} /></Heading>
                                         <Text layerStyle="textSecondary" fontWeight="500" fontSize="1.2rem" mt="1" ml="1">Followers</Text>
                                     </Box>
 
-                                    <Box>
+                                    <Box width="50%">
                                         <Heading size="lg"><Count count={tag.posts} /></Heading>
                                         <Text layerStyle="textSecondary" fontWeight="500" fontSize="1.2rem" mt="1" ml="1">Posts</Text>
                                     </Box>
