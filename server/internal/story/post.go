@@ -108,6 +108,7 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 			return nil, e.New(http.StatusInternalServerError, e.Internal)
 		}
 	} else {
+		post.Updated = now
 		// 只有创建者自己才能更新内容
 		creator, _ := GetPostCreator(post.ID)
 		if creator != post.CreatorID {
@@ -115,12 +116,13 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 		}
 
 		if post.Status == models.StatusDraft {
+			post.Created = now
 			// 首次发布，需要更新创建时间
 			_, err = db.Conn.Exec("UPDATE story SET owner=?, slug=?, title=?, md=?, url=?, cover=?, brief=?,created=?,updated=?,status=? WHERE id=?",
-				post.OwnerID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, now, now, models.StatusPublished, post.ID)
+				post.OwnerID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, post.Created, post.Updated, models.StatusPublished, post.ID)
 		} else {
 			_, err = db.Conn.Exec("UPDATE story SET owner=?, slug=?, title=?, md=?, url=?, cover=?, brief=?, updated=? WHERE id=?",
-				post.OwnerID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, now, post.ID)
+				post.OwnerID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, post.Updated, post.ID)
 		}
 
 		if err != nil {
@@ -130,11 +132,14 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 	}
 
 	//update tags
+	top.RemoveTagTop(post.ID)
 	err = tags.UpdateTargetTags(user.ID, post.ID, post.Tags, post.Created)
 	if err != nil {
 		logger.Warn("upate tags error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
 	}
+	likes := interaction.GetLikes(post.ID)
+	top.Update(post.ID, likes)
 
 	return map[string]string{
 		"username": user.Username,

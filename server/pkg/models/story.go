@@ -90,3 +90,10 @@ func IsStoryCreator(userID string, storyID string) bool {
 
 	return false
 }
+
+func GetStoryCreated(storyID string) time.Time {
+	var t time.Time
+	db.Conn.QueryRow("SELECT created FROM story WHERE id=?", storyID).Scan(&t)
+
+	return t
+}

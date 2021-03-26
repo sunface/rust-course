@@ -3,6 +3,8 @@ package top
 import (
 	"context"
 	"fmt"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/go-redis/redis/v8"
@@ -94,6 +96,50 @@ func Update(storyID string, count int) {
 	}
 }
 
+func RemoveGlobalTop(storyID string) {
+	hots := make([]string, 0)
+
+	hots = append(hots, GlobalPrefix+TopYear)
+	hots = append(hots, GlobalPrefix+TopMonth)
+	hots = append(hots, GlobalPrefix+TopWeek)
+	hots = append(hots, GlobalPrefix+TopRecent)
+
+	ctx := context.Background()
+	for _, hot := range hots {
+		err := db.Redis.ZRem(ctx, hot, storyID).Err()
+		if err != nil {
+			logger.Warn("update hot error", "error", err, "key", hot, "storyID", storyID)
+			continue
+		}
+	}
+}
+
+func RemoveTagTop(storyID string) {
+	ts, _, err := models.GetTargetTags(storyID)
+	if err != nil {
+		logger.Warn("get tags error", "error", err)
+		return
+	}
+
+	hots := make([]string, 0)
+
+	for _, tag := range ts {
+		hots = append(hots, fmt.Sprintf(TagFormat, tag, TopYear))
+		hots = append(hots, fmt.Sprintf(TagFormat, tag, TopMonth))
+		hots = append(hots, fmt.Sprintf(TagFormat, tag, TopWeek))
+		hots = append(hots, fmt.Sprintf(TagFormat, tag, TopRecent))
+	}
+
+	ctx := context.Background()
+	for _, hot := range hots {
+		err = db.Redis.ZRem(ctx, hot, storyID).Err()
+		if err != nil {
+			logger.Warn("update hot error", "error", err, "key", hot, "storyID", storyID)
+			continue
+		}
+	}
+}
+
 func GetTopList(key string, start, end int64) []string {
 	ids := make([]string, 0)
 	ctx := context.Background()
@@ -108,4 +154,66 @@ func GetTopList(key string, start, end int64) []string {
 	}
 
 	return ids
+}
+
+func Init() {
+	// 检查是否凌晨
+	for {
+		now := time.Now()
+		if now.Local().Hour() == 0 {
+			break
+		}
+
+		time.Sleep(1 * time.Hour)
+	}
+
+	// 从凌晨开始，每隔24小时检查一次
+	for {
+
+		ctx := context.Background()
+		keys := []string{GlobalPrefix + TopYear, GlobalPrefix + TopMonth, GlobalPrefix + TopWeek, GlobalPrefix + TopRecent}
+		tags, _ := models.GetTags()
+		for _, tag := range tags {
+			keys = append(keys, fmt.Sprintf(TagFormat, tag, TopYear))
+			keys = append(keys, fmt.Sprintf(TagFormat, tag, TopMonth))
+			keys = append(keys, fmt.Sprintf(TagFormat, tag, TopWeek))
+			keys = append(keys, fmt.Sprintf(TagFormat, tag, TopRecent))
+		}
+
+		now := time.Now()
+		for _, k := range keys {
+			var maxDuration float64
+			if strings.HasSuffix(k, TopYear) {
+				maxDuration = 365 * 24
+			}
+			if strings.HasSuffix(k, TopMonth) {
+				maxDuration = 30 * 24
+			}
+			if strings.HasSuffix(k, TopWeek) {
+				maxDuration = 7 * 24
+			}
+			if strings.HasSuffix(k, TopRecent) {
+				maxDuration = 2 * 24
+			}
+
+			iter := db.Redis.ZScan(ctx, k, 0, "", 0).Iterator()
+			for iter.Next(ctx) {
+				id := iter.Val()
+				_, err := strconv.Atoi(id)
+				if err == nil {
+					//若是数字，则是score，跳过
+					continue
+				}
+
+				created := models.GetStoryCreated(id)
+				if now.Sub(created).Hours() > maxDuration {
+					err = db.Redis.ZRem(ctx, k, id).Err()
+					if err != nil {
+						logger.Warn("delete top error", "error", err, "key", k, "storyID", id)
+					}
+				}
+			}
+		}
+		time.Sleep(24 * time.Hour)
+	}
 }

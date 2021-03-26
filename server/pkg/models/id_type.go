@@ -48,6 +48,11 @@ func GetIdTypeTable(id string) string {
 	}
 }
 
+func IsIDStory(id string) bool {
+	tp := GetIDType(id)
+	return tp == IDTypePost || tp == IDTypeSeries || tp == IDTypeBook
+}
+
 func IdExist(id string) bool {
 	if id == "" {
 		return false

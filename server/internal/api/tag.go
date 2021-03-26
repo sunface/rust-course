@@ -24,7 +24,7 @@ func GetTag(c *gin.Context) {
 }
 
 func GetTags(c *gin.Context) {
-	res, err := tags.GetTags()
+	res, err := models.GetTags()
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return

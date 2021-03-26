@@ -67,7 +67,9 @@ func Like(storyID string, userId string) *e.Error {
 
 	tx.Commit()
 
-	top.Update(storyID, count)
+	if models.IsIDStory(storyID) {
+		top.Update(storyID, count)
+	}
 
 	return nil
 }

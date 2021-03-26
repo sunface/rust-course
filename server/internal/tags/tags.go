@@ -68,41 +68,6 @@ func SubmitTag(tag *models.Tag) *e.Error {
 	return nil
 }
 
-func GetTags() (models.Tags, *e.Error) {
-	tags := make(models.Tags, 0)
-
-	rows, err := db.Conn.Query("SELECT id,creator,title,md,name,icon,cover from tags")
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return tags, nil
-		}
-		logger.Warn("get tags error", "error", err)
-		return tags, e.New(http.StatusInternalServerError, e.Internal)
-	}
-
-	for rows.Next() {
-		var rawMd []byte
-		tag := &models.Tag{}
-		err := rows.Scan(&tag.ID, &tag.Creator, &tag.Title, &rawMd, &tag.Name, &tag.Icon, &tag.Cover)
-		if err != nil {
-			logger.Warn("scan tags error", "error", err)
-			continue
-		}
-
-		md, _ := utils.Uncompress(rawMd)
-		tag.Md = string(md)
-
-		tag.SetCover()
-		tags = append(tags, tag)
-
-		db.Conn.QueryRow("SELECT count(*) FROM tags_using WHERE tag_id=? and target_type != ?", tag.ID, models.IDTypeUser).Scan(&tag.Posts)
-	}
-
-	sort.Sort(tags)
-
-	return tags, nil
-}
-
 func GetTagsByIDs(ids []string) ([]*models.Tag, *e.Error) {
 	tags := make([]*models.Tag, 0, len(ids))
 	for _, id := range ids {

@@ -10,6 +10,7 @@ import (
 	"github.com/imdotdev/im.dev/server/internal/api"
 	"github.com/imdotdev/im.dev/server/internal/cache"
 	"github.com/imdotdev/im.dev/server/internal/storage"
+	"github.com/imdotdev/im.dev/server/internal/top"
 	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/common"
 	"github.com/imdotdev/im.dev/server/pkg/config"
@@ -46,6 +47,8 @@ func (s *Server) Start() error {
 	// }
 
 	go cache.Init()
+	go top.Init()
+
 	go func() {
 		router := gin.New()
 		router.Use(Cors())
