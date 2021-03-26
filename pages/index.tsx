@@ -19,8 +19,11 @@ import { requestApi } from "utils/axios/request"
 import StoryFilters from "components/story/story-filter"
 import { concat } from "lodash"
 import useInfiniteScroll from 'src/hooks/use-infinite-scroll'
+import { HomeSidebar } from "src/types/misc"
+import Link from "next/link"
+import { ReserveUrls } from "src/data/reserve-urls"
 const HomePage = () => {
-  const [filter,setFilter] = useState('Best')
+  const [filter, setFilter] = useState('Best')
   const initData = (p) => {
     return requestApi.get(`/story/posts/home?filter=${filter}&page=${p}&per_page=5`)
   }
@@ -40,7 +43,7 @@ const HomePage = () => {
           <VStack alignItems="left" width={["100%", "100%", "70%", "70%"]} spacing="3">
             <Card p="2">
               <Flex justifyContent="space-between" alignItems="center">
-                <StoryFilters onChange={onFilterChange}/>
+                <StoryFilters onChange={onFilterChange} />
                 <Menu>
                   <MenuButton
                     as={IconButton}
@@ -62,10 +65,10 @@ const HomePage = () => {
               </Flex>
             </Card>
             <Card width="100%" height="fit-content" p="0">
-              <Stories onLoad={initData} filter={filter}/>
+              <Stories onLoad={initData} filter={filter} />
             </Card>
           </VStack>
-          <HomeSidebar />
+          <IndexSidebar />
         </HStack>
 
       </PageContainer1>
@@ -75,35 +78,56 @@ const HomePage = () => {
 export default HomePage
 
 
-export const HomeSidebar = () => {
-  const [posts, setPosts] = useState([])
-  // const initData = async () => {
-  //   const res = await requestApi.get(`/story/posts/home/aa`)
-  //   setPosts(res.data)
-  // }
+export const IndexSidebar = () => {
+  const [sidebars, setSidebars]: [HomeSidebar[], any] = useState([])
+  const getSidebars = async () => {
+    const res = await requestApi.get("/sidebars")
+    setSidebars(res.data)
+  }
 
-  // useEffect(() => {
-  //   initData()
-  // }, [])
+  useEffect(() => {
+    getSidebars()
+  }, [])
 
   return (
     <VStack alignItems="left" width="30%" display={{ base: "none", md: "flex" }}>
-      <Card p="0">
+      {
+        sidebars.map(sb =>
+          <IndexSidebarCard sidebar={sb} />
+        )
+      }
+
+    </VStack>
+  )
+}
+
+const IndexSidebarCard = ({ sidebar }) => {
+  const [posts, setPosts] = useState([])
+  useEffect(() => {
+    initData()
+  }, [])
+
+  const initData = async () => {
+    const res = await requestApi.get(`/tag/info/${sidebar.tagName}`)
+    const res1 = await requestApi.get(`/tag/posts/${res.data.id}?filter=${sidebar.sort}&page=${1}&per_page=${sidebar.displayCount}`)
+    setPosts(res1.data)
+  }
+
+  return (
+    <>
+      {posts.length > 0 && <Card p="0">
         <CardHeader>
-          <Heading size="sm">热榜</Heading>
-          <HStack>
-            <Button variant="ghost" size="sm" height="auto">1d</Button>
-            <Button variant="ghost" size="sm" height="auto">1w</Button>
-            <Button variant="ghost" size="sm" height="auto">1m</Button>
-          </HStack>
+          <Link href={`${ReserveUrls.Tags}/${sidebar.tagName}`}><Heading size="sm" cursor="pointer">#{sidebar.tagName}</Heading></Link>
         </CardHeader>
         <Divider />
         <CardBody>
-          {/* <VStack alignItems="left">
-            <Stories stories={posts} card={SimplePostCard} size="sm" showFooter={false}/>
-          </VStack> */}
+          <VStack alignItems="left" mt="1">
+            {
+              posts.map(p => <Box mb="1"><SimplePostCard story={p} /></Box>)
+            }
+          </VStack>
         </CardBody>
-      </Card>
-    </VStack>
+      </Card>}
+    </>
   )
 }

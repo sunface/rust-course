@@ -9,7 +9,7 @@ import {
   import siteConfig from "configs/site-config"
   import PageContainer1 from "layouts/page-container1"
   import React, { useEffect, useState } from "react"
-  import { HomeSidebar } from 'pages/index'
+  import { IndexSidebar } from 'pages/index'
   import Card from "components/card"
   import { config } from "configs/config"
   import { Tag } from "src/types/tag"
@@ -108,7 +108,7 @@ import StoryCard from "components/story/story-card"
                 }
               </Card>
             </VStack>
-            <HomeSidebar />
+            <IndexSidebar />
           </HStack>
         </PageContainer1>
       </>

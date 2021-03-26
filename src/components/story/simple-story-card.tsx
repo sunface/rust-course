@@ -19,19 +19,19 @@ export const SimpleStoryCard = (props: Props) => {
     const [isLargeScreen] = useMediaQuery("(min-width: 768px)")
     const Layout = isLargeScreen ? HStack : VStack
     return (
-        <VStack alignItems="left" spacing="0">
+        <VStack alignItems="left" spacing="1">
             <Link href={getStoryUrl(story)}><Heading pb="2" fontSize=".9rem" cursor="pointer">{story.title}</Heading></Link>
-            <HStack pl="1" spacing="2" fontSize={size==='md'? '1rem' : ".9rem"}>
-                <Link href={`/${story.creator.username}`}><Text cursor="pointer" fontSize="0.8rem">{story.creator.nickname}</Text></Link>
+            <HStack pl="1" spacing="1" fontSize={size==='md'? '1rem' : ".9rem"}>
+                {/* <Link href={`/${story.creator.username}`}><Text cursor="pointer" fontSize="0.8rem">{story.creator.nickname}</Text></Link> */}
                 
-                <HStack opacity="0.9">
+                {/* <HStack opacity="0.9">
                     <Like liked={story.liked} count={story.likes} storyID={story.id} fontSize="0.8rem"/>
-                </HStack>
+                </HStack> */}
                         
                 <a href={`${getCommentsUrl(story)}#comments`}>
-                    <HStack opacity="0.9" cursor="pointer" spacing="3">
-                        {getSvgIcon("comments1", "0.9rem")}
-                        <Text fontSize="0.8rem" opacity="0.8">{story.comments}</Text>
+                    <HStack opacity="0.9" cursor="pointer" spacing="2">
+                    <Text fontSize="0.9rem" opacity="0.85">{story.comments}</Text>
+                        <Text fontSize="0.9rem" opacity="0.85">comments</Text>
                     </HStack>
                 </a>
             </HStack>

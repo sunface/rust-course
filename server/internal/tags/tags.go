@@ -100,7 +100,7 @@ func GetTag(id string, name string) (*models.Tag, *e.Error) {
 	)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, e.New(http.StatusNotFound, e.NotFound)
+			return nil, e.New(http.StatusNotFound, "Tag不存在")
 		}
 		logger.Warn("get post error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)

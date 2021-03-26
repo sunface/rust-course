@@ -142,6 +142,8 @@ func (s *Server) Start() error {
 		r.POST("/navbar", IsLogin(), SubmitNavbar)
 		r.DELETE("/navbar/:id", IsLogin(), DeleteNavbar)
 
+		r.GET("/sidebars", GetSidebars)
+		r.POST("/sidebar", IsLogin(), SubmitSidebar)
 		err := router.Run(config.Data.Server.Addr)
 		if err != nil {
 			logger.Crit("start backend server error", "error", err)

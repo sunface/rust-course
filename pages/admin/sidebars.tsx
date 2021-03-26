@@ -12,74 +12,50 @@ import { cloneDeep } from "lodash"
 import { IDType } from "src/types/id"
 import { Story } from "src/types/story"
 import PageContainer1 from "layouts/page-container1"
+import { HomeSidebar } from "src/types/misc"
+import { SearchFilter } from "src/types/search"
 
-const UserNavbarPage = () => {
-    const [navbars, setNavbars]:[Navbar[],any] = useState([])
-    const [series, setSeries]: [Story[], any] = useState([])
-    const [currentNavbar, setCurrentNavbar]: [Navbar, any] = useState(null)
+const SidebarsPage = () => {
+    const [sidebars, setSidebars]:[HomeSidebar[],any] = useState([])
+    const [currentSidebar, setCurrentSidebar]: [HomeSidebar, any] = useState(null)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const toast = useToast()
     useEffect(() => {
-        getNavbars()
-        getSeries()
+        getSidebars()
     }, [])
 
-    const getNavbars = async () => {
-        const res = await requestApi.get("/navbars")
-        setNavbars(res.data)
+    const getSidebars = async () => {
+        const res = await requestApi.get("/sidebars")
+        setSidebars(res.data)
     }
 
-    const getSeries = async () => {
-        const res = await requestApi.get(`/story/posts/editor?type=${IDType.Series}`)
-        setSeries(res.data)
-    }
 
     const submitNavbar = async () => {
-        if (!currentNavbar.label || !currentNavbar.value) {
-            toast({
-                description: "值不能为空",
-                status: "error",
-                duration: 2000,
-                isClosable: true,
-            })
-            return 
-        }
-
-        if (currentNavbar.label.length > config.user.navbarMaxLen) {
-            toast({
-                description: `Label长度不能超过${config.user.navbarMaxLen}`,
-                status: "error",
-                duration: 2000,
-                isClosable: true,
-            })
-            return 
-        }
-
-
-        await requestApi.post(`/navbar`, currentNavbar)
-        setCurrentNavbar(null)
+        await requestApi.get(`/tag/info/${currentSidebar.tagName}`)
+        await requestApi.post(`/sidebar`, currentSidebar)
+        setCurrentSidebar(null)
         onClose()
-        getNavbars()
+        getSidebars()
     }
 
     const onAddNavbar = () => {
-        setCurrentNavbar({ weight: 0, type: NavbarType.Link, label: "", value: "" })
+        setCurrentSidebar({tagName: "", sort: SearchFilter.Recent , displayCount:5, weight: 0})
         onOpen()
     }
 
     const onEditNavbar = nav => {
-        setCurrentNavbar(nav)
+        setCurrentSidebar(nav)
         onOpen()
     }
 
-    const onNavbarChange = () => {
-        const nv = cloneDeep(currentNavbar)
-        setCurrentNavbar(nv)
+    const onSidebarChange = () => {
+        const nv = cloneDeep(currentSidebar)
+        setCurrentSidebar(nv)
     }
 
     const onDeleteNavbar = async id => {
-        requestApi.delete(`/navbar/${id}`)
-        setTimeout( () => getNavbars(),300)
+        requestApi.delete(`/sidebar/${id}`)
+        setTimeout( () => getSidebars(),300)
     }
 
     return (
@@ -89,23 +65,25 @@ const UserNavbarPage = () => {
                     <Sidebar routes={adminLinks} width={["120px", "120px", "250px", "250px"]} height="fit-content" title="管理员" />
                     <Card ml="4" width="100%">
                         <Flex justifyContent="space-between" alignItems="center">
-                            <Heading size="sm">菜单设置</Heading>
-                            <Button colorScheme="teal" size="sm" onClick={onAddNavbar} _focus={null}>新建菜单项</Button>
+                            <Heading size="sm">侧边栏设置</Heading>
+                            <Button colorScheme="teal" size="sm" onClick={onAddNavbar} _focus={null}>新建侧边栏</Button>
                         </Flex>
                         <Table variant="simple" mt="4">
                             <Thead>
                                 <Tr>
-                                    <Th>Label</Th>
-                                    <Th>Value</Th>
+                                    <Th>Tag Name</Th>
+                                    <Th>Sort</Th>
+                                    <Th>Display count</Th>
                                     <Th>Weight</Th>
                                     <Th></Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
                                 {
-                                    navbars.map((nv,i) =>   <Tr key={i}>
-                                        <Td>{nv.label}</Td>
-                                        <Td>{nv.value}</Td>
+                                    sidebars.map((nv,i) =>   <Tr key={i}>
+                                        <Td>{nv.tagName}</Td>
+                                        <Td>{nv.sort}</Td>
+                                        <Td>{nv.displayCount}</Td>
                                         <Td>{nv.weight}</Td>
                                         <Td>
                                             <IconButton aria-label="edit navbar" variant="ghost" icon={getSvgIcon('edit', ".95rem")} onClick={() => onEditNavbar(nv)}/>
@@ -122,23 +100,34 @@ const UserNavbarPage = () => {
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
-                {currentNavbar && <ModalContent>
-                    <ModalHeader>{currentNavbar.label ? "编辑菜单项" : "新建菜单项"}</ModalHeader>
+                {currentSidebar && <ModalContent>
+                    <ModalHeader>{currentSidebar.tagName ? "编辑侧边栏" : "新建侧边栏"}</ModalHeader>
                     <ModalBody mb="2">
                         <VStack spacing="4" alignItems="left">
                             <HStack spacing="4">
-                                <Heading size="xs">Label</Heading>
-                                <Input value={currentNavbar.label} _focus={null} variant="flushed" onChange={e => { currentNavbar.label = e.currentTarget.value; onNavbarChange() }}></Input>
+                                <Heading size="xs" width="150px">Tag name</Heading>
+                                <Input value={currentSidebar.tagName} _focus={null} variant="flushed" onChange={e => { currentSidebar.tagName = e.currentTarget.value; onSidebarChange() }}></Input>
+                            </HStack>
+
+                            {/* <HStack spacing="4">
+                                <Heading size="xs" width="150px">Sort</Heading>
+                                <Input value={currentSidebar.sort} _focus={null} variant="flushed" onChange={e => { currentSidebar.value = e.currentTarget.value; onSidebarChange() }}  placeholder="enter a url, e.g /search"/> 
+                            </HStack> */}
+
+                            <HStack spacing="4">
+                                <Heading size="xs" width="105px">Display count</Heading>
+                                <NumberInput min={0} max={10} value={currentSidebar.displayCount} variant="flushed" onChange={e => { currentSidebar.displayCount = parseInt(e); onSidebarChange() }}>
+                                    <NumberInputField _focus={null} />
+                                    <NumberInputStepper>
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
+                                    </NumberInputStepper>
+                                </NumberInput>
                             </HStack>
 
                             <HStack spacing="4">
-                                <Heading size="xs">Value</Heading>
-                                <Input value={currentNavbar.value} _focus={null} variant="flushed" onChange={e => { currentNavbar.value = e.currentTarget.value; onNavbarChange() }}  placeholder="enter a url, e.g /search"/> 
-                            </HStack>
-
-                            <HStack spacing="4">
-                                <Heading size="xs">Weight</Heading>
-                                <NumberInput min={0} max={10} value={currentNavbar.weight} variant="flushed" onChange={e => { currentNavbar.weight = parseInt(e); onNavbarChange() }}>
+                                <Heading size="xs" width="105px">Weight</Heading>
+                                <NumberInput min={0} max={10} value={currentSidebar.weight} variant="flushed" onChange={e => { currentSidebar.weight = parseInt(e); onSidebarChange() }}>
                                     <NumberInputField _focus={null} />
                                     <NumberInputStepper>
                                         <NumberIncrementStepper />
@@ -154,5 +143,5 @@ const UserNavbarPage = () => {
         </>
     )
 }
-export default UserNavbarPage
+export default SidebarsPage
 

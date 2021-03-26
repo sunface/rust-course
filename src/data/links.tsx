@@ -1,6 +1,6 @@
 import { getSvgIcon } from 'components/svg-icon'
 import React from 'react'
-import { FaFileAlt, FaScroll, FaBookOpen, FaTags, FaUserCircle, FaRegFile, FaUser, FaRegUser, FaUserFriends } from 'react-icons/fa'
+import { FaFileAlt, FaScroll, FaBookOpen, FaTags, FaUserCircle, FaRegFile, FaUser, FaRegUser, FaUserFriends, FaElementor } from 'react-icons/fa'
 import { Route } from 'src/types/route'
 import { SearchFilter } from 'src/types/search'
 import { ReserveUrls } from './reserve-urls'
@@ -74,6 +74,12 @@ export const adminLinks: Route[] = [{
     title: '用户管理',
     path: `${ReserveUrls.Admin}/users`,
     icon: getSvgIcon("user"),
+    disabled: false
+},
+{
+    title: '首页侧栏',
+    path: `${ReserveUrls.Admin}/sidebars`,
+    icon: <FaElementor />,
     disabled: false
 },
 ]

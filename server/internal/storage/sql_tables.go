@@ -240,4 +240,12 @@ var sqlTables = map[string]string{
 		weight			TINYINT DEFAULT 0
 	);
 	`,
+
+	"home_sidebar": `CREATE TABLE IF NOT EXISTS home_sidebar (
+		id 			    INTEGER PRIMARY KEY AUTOINCREMENT,
+		tag_name        VARCHAR(255),
+		sort            VARCHAR(20),
+		display_count   TINYINT,
+		weight			TINYINT DEFAULT 0
+	);`,
 }
