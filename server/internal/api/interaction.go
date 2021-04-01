@@ -19,6 +19,10 @@ func Follow(c *gin.Context) {
 		return
 	}
 
+	if id == user.ID {
+		c.JSON(http.StatusBadRequest, common.RespError("无法关注自己"))
+		return
+	}
 	err := interaction.Follow(id, user.ID)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))

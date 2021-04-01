@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/imdotdev/im.dev/server/internal/notification"
 	"github.com/imdotdev/im.dev/server/internal/top"
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
@@ -71,6 +72,13 @@ func Like(storyID string, userId string) *e.Error {
 		top.Update(storyID, count)
 	}
 
+	if !liked {
+		// send notification to story creator and owner
+		creator, owner := models.GetStoryCreatorAndOrg(storyID)
+		if creator != "" {
+			notification.Send(creator, owner, models.NotificationLike, storyID, userId)
+		}
+	}
 	return nil
 }
 

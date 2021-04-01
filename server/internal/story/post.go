@@ -2,6 +2,7 @@ package story
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -10,6 +11,7 @@ import (
 	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/imdotdev/im.dev/server/internal/interaction"
+	"github.com/imdotdev/im.dev/server/internal/notification"
 	"github.com/imdotdev/im.dev/server/internal/org"
 	"github.com/imdotdev/im.dev/server/internal/tags"
 	"github.com/imdotdev/im.dev/server/internal/top"
@@ -140,6 +142,24 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 	}
 	likes := interaction.GetLikes(post.ID)
 	top.Update(post.ID, likes)
+
+	// send notification to creator followers and org followers
+	followers, err1 := interaction.GetFollowerIDs(post.CreatorID)
+	if err1 == nil {
+		for _, f := range followers {
+			notification.Send(f, "", models.NotificationFollow, post.ID, post.CreatorID)
+		}
+	}
+
+	if post.OwnerID != "" {
+		followers, err1 = interaction.GetFollowerIDs(post.OwnerID)
+		if err1 == nil {
+			fmt.Println(followers)
+			for _, f := range followers {
+				notification.Send("", f, models.NotificationFollow, post.ID, post.CreatorID)
+			}
+		}
+	}
 
 	return map[string]string{
 		"username": user.Username,

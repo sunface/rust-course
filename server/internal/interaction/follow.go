@@ -6,6 +6,7 @@ import (
 	"sort"
 	"time"
 
+	"github.com/imdotdev/im.dev/server/internal/notification"
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
 	"github.com/imdotdev/im.dev/server/pkg/models"
@@ -63,6 +64,14 @@ func Follow(targetID string, userId string) *e.Error {
 
 	tx.Commit()
 
+	if !followed {
+		if models.GetIDType(targetID) == models.IDTypeUser {
+			notification.Send(targetID, "", models.NotificationLike, targetID, userId)
+		} else {
+			notification.Send("", targetID, models.NotificationLike, targetID, userId)
+		}
+
+	}
 	return nil
 }
 
@@ -118,6 +127,23 @@ func GetFollowing(userID, targetType string) ([]*models.Following, *e.Error) {
 
 	sort.Sort(following)
 	return following, nil
+}
+
+func GetFollowerIDs(targetID string) ([]string, error) {
+	rows, err := db.Conn.Query("SELECT user_id from follows where target_id=?", targetID)
+	if err != nil {
+		logger.Warn("get followers error", "error", err)
+		return nil, err
+	}
+
+	users := make([]string, 0)
+	for rows.Next() {
+		var id string
+		rows.Scan(&id)
+		users = append(users, id)
+	}
+
+	return users, nil
 }
 
 func GetFollowers(targetID, targetType string) ([]*models.User, *e.Error) {

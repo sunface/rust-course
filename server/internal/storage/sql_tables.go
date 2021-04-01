@@ -248,4 +248,31 @@ var sqlTables = map[string]string{
 		display_count   TINYINT,
 		weight			TINYINT DEFAULT 0
 	);`,
+
+	"user_notification": `CREATE TABLE IF NOT EXISTS user_notification (
+		user_id 	    VARCHAR(255),
+		operator_id     VARCHAR(255),
+		notifiable_type TINYINT,
+		notifiable_id   VARCHAR(255),
+		read BOOL 		DEFAULT false,
+		created         DATETIME NOT NULL
+	);
+	CREATE UNIQUE INDEX IF NOT EXISTS user_notification_userid_notype_noid
+		ON user_notification (user_id,operator_id,notifiable_type,notifiable_id);
+	CREATE INDEX IF NOT EXISTS user_notification_created
+		ON user_notification (created)
+	`,
+	"org_notification": `CREATE TABLE IF NOT EXISTS org_notification (
+		user_id 	    VARCHAR(255),
+		operator_id     VARCHAR(255),
+		notifiable_type TINYINT,
+		notifiable_id   VARCHAR(255),
+		read BOOL 		DEFAULT false,
+		created         DATETIME NOT NULL
+	);
+	CREATE UNIQUE INDEX IF NOT EXISTS org_notification_userid_notype_noid
+		ON org_notification (user_id,operator_id,notifiable_type,notifiable_id);
+	CREATE INDEX IF NOT EXISTS user_notification_created
+		ON org_notification (created)
+	`,
 }

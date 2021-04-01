@@ -97,3 +97,14 @@ func GetStoryCreated(storyID string) time.Time {
 
 	return t
 }
+
+func GetStoryCreatorAndOrg(storyID string) (string, string) {
+	var creator, owner string
+	if GetIDType(storyID) == IDTypeComment {
+		db.Conn.QueryRow("SELECT creator FROM comments WHERE id=?", storyID).Scan(&creator)
+	} else {
+		db.Conn.QueryRow("SELECT creator,owner FROM story WHERE id=?", storyID).Scan(&creator, &owner)
+	}
+
+	return creator, owner
+}

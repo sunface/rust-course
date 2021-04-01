@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/imdotdev/im.dev/server/internal/interaction"
+	"github.com/imdotdev/im.dev/server/internal/notification"
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
 	"github.com/imdotdev/im.dev/server/pkg/models"
@@ -55,6 +56,19 @@ func AddComment(c *models.Comment) *e.Error {
 			}
 		}
 	}
+
+	// send notification to story creator and org
+	creator, owner := models.GetStoryCreatorAndOrg(c.TargetID)
+	if creator != "" && creator != c.CreatorID {
+		if models.GetIDType(c.TargetID) == models.IDTypeComment {
+			// reply
+			notification.Send(creator, owner, models.NotificationReply, c.TargetID, c.CreatorID)
+		} else {
+			// comment
+			notification.Send(creator, owner, models.NotificationComment, c.TargetID, c.CreatorID)
+		}
+	}
+
 	return nil
 }
 
