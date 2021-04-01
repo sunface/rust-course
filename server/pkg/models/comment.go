@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"github.com/imdotdev/im.dev/server/pkg/db"
+)
 
 type Comment struct {
 	ID        string      `json:"id"`
@@ -29,4 +33,17 @@ func (ar FavorComments) Len() int      { return len(ar) }
 func (ar FavorComments) Swap(i, j int) { ar[i], ar[j] = ar[j], ar[i] }
 func (ar FavorComments) Less(i, j int) bool {
 	return ar[i].Likes > ar[j].Likes
+}
+
+func GetCommentStoryID(id string) string {
+	var t string
+	db.Conn.QueryRow("SELECT story_id FROM comments WHERE id=?", id).Scan(&t)
+
+	if GetIDType(t) != IDTypeComment {
+		return t
+	}
+
+	var t1 string
+	db.Conn.QueryRow("SELECT story_id FROM comments WHERE id=?", t).Scan(&t1)
+	return t1
 }

@@ -136,6 +136,10 @@ func (s *Server) Start() error {
 		r.POST("/admin/user", IsLogin(), api.AdminSubmitUser)
 		r.GET("/admin/user/all", IsLogin(), api.AdminGetUsers)
 
+		// notification apis
+		r.GET("/notifications/list/:type", IsLogin(), api.GetNotifications)
+		r.GET("/notifications/unread", IsLogin(), api.GetUnread)
+		r.POST("/notifications/unread", IsLogin(), api.ResetUnread)
 		// other apis
 		r.GET("/config", GetConfig)
 		r.GET("/navbars", GetNavbars)
@@ -144,6 +148,7 @@ func (s *Server) Start() error {
 
 		r.GET("/sidebars", GetSidebars)
 		r.POST("/sidebar", IsLogin(), SubmitSidebar)
+
 		err := router.Run(config.Data.Server.Addr)
 		if err != nil {
 			logger.Crit("start backend server error", "error", err)

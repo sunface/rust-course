@@ -108,3 +108,9 @@ func GetStoryCreatorAndOrg(storyID string) (string, string) {
 
 	return creator, owner
 }
+
+func GetStoryTitle(storyID string) string {
+	var t string
+	db.Conn.QueryRow("SELECT title FROM story WHERE id=?", storyID).Scan(&t)
+	return t
+}

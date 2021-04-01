@@ -2,7 +2,6 @@ package story
 
 import (
 	"database/sql"
-	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -154,7 +153,6 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 	if post.OwnerID != "" {
 		followers, err1 = interaction.GetFollowerIDs(post.OwnerID)
 		if err1 == nil {
-			fmt.Println(followers)
 			for _, f := range followers {
 				notification.Send("", f, models.NotificationFollow, post.ID, post.CreatorID)
 			}

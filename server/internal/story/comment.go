@@ -32,28 +32,29 @@ func AddComment(c *models.Comment) *e.Error {
 	err = db.Conn.QueryRow("select story_id from comments where id=?", c.TargetID).Scan(&storyID)
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("select comment error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	if storyID == "" {
+		storyID = c.TargetID
+	}
+
+	var nid string
+	err = db.Conn.QueryRow("SELECT story_id FROM comments_count WHERE story_id=?", storyID).Scan(&nid)
+	if err != nil && err != sql.ErrNoRows {
+		logger.Warn("select from comments_count error", "error", err)
+		return nil
+	}
+
+	if err == sql.ErrNoRows {
+		_, err := db.Conn.Exec("INSERT INTO comments_count (story_id,count) VALUES(?,?)", storyID, 1)
+		if err != nil {
+			logger.Warn("insert into comments_count error", "error", err)
+		}
 	} else {
-		if storyID == "" {
-			storyID = c.TargetID
-		}
-
-		var nid string
-		err := db.Conn.QueryRow("SELECT story_id FROM comments_count WHERE story_id=?", storyID).Scan(&nid)
-		if err != nil && err != sql.ErrNoRows {
-			logger.Warn("select from comments_count error", "error", err)
-			return nil
-		}
-
-		if err == sql.ErrNoRows {
-			_, err := db.Conn.Exec("INSERT INTO comments_count (story_id,count) VALUES(?,?)", storyID, 1)
-			if err != nil {
-				logger.Warn("insert into comments_count error", "error", err)
-			}
-		} else {
-			_, err := db.Conn.Exec("UPDATE comments_count SET count=count+1 WHERE story_id=?", storyID)
-			if err != nil {
-				logger.Warn("update comments_count error", "error", err)
-			}
+		_, err := db.Conn.Exec("UPDATE comments_count SET count=count+1 WHERE story_id=?", storyID)
+		if err != nil {
+			logger.Warn("update comments_count error", "error", err)
 		}
 	}
 
@@ -62,10 +63,10 @@ func AddComment(c *models.Comment) *e.Error {
 	if creator != "" && creator != c.CreatorID {
 		if models.GetIDType(c.TargetID) == models.IDTypeComment {
 			// reply
-			notification.Send(creator, owner, models.NotificationReply, c.TargetID, c.CreatorID)
+			notification.Send(creator, owner, models.NotificationReply, storyID, c.CreatorID)
 		} else {
 			// comment
-			notification.Send(creator, owner, models.NotificationComment, c.TargetID, c.CreatorID)
+			notification.Send(creator, owner, models.NotificationComment, storyID, c.CreatorID)
 		}
 	}
 

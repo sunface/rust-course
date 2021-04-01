@@ -15,7 +15,7 @@ import {
   import { useViewportScroll } from "framer-motion"
   import NextLink from "next/link"
   import React, { useEffect, useState } from "react"
-  import { FaGithub, FaSearch } from "react-icons/fa"
+  import { FaBell, FaGithub, FaSearch } from "react-icons/fa"
   import Logo, { LogoIcon } from "src/components/logo"
   import { MobileNavButton, MobileNavContent } from "./mobile-nav"
   import AlgoliaSearch from "src/components/search/algolia-search"
@@ -27,6 +27,7 @@ import {
 import { getSvgIcon } from "components/svg-icon"
 import { navLinks } from "src/data/links"
 import { requestApi } from "utils/axios/request"
+import Notification from "components/notification"
   
 
   
@@ -102,6 +103,7 @@ import { requestApi } from "utils/axios/request"
                 icon={<FaGithub />}
               />
             </Link>
+            <Notification />
             <DarkMode fontSize="1.4rem"/>
             <AccountMenu />
             {/* <MobileNavButton
