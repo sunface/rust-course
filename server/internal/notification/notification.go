@@ -31,15 +31,17 @@ func Send(userID, orgID string, noType int, noID string, operatorID string) {
 	}
 }
 
-func Query(user *models.User, tp int) ([]*models.Notification, *e.Error) {
+const perPage = 10
+
+func Query(user *models.User, tp int, page int) ([]*models.Notification, *e.Error) {
 	var rows *sql.Rows
 	var err error
 	if tp == 0 {
-		rows, err = db.Conn.Query("SELECT operator_id,notifiable_type,notifiable_id,read,created FROM user_notification WHERE user_id=? ORDER BY created DESC", user.ID)
+		rows, err = db.Conn.Query("SELECT operator_id,notifiable_type,notifiable_id,read,created FROM user_notification WHERE user_id=? ORDER BY created DESC LIMIT ?,?", user.ID, (page-1)*perPage, page*perPage)
 	} else if tp == models.NotificationComment {
-		rows, err = db.Conn.Query("SELECT operator_id,notifiable_type,notifiable_id,read,created FROM user_notification WHERE user_id=? and notifiable_type in ('1','6') ORDER BY created DESC", user.ID)
+		rows, err = db.Conn.Query("SELECT operator_id,notifiable_type,notifiable_id,read,created FROM user_notification WHERE user_id=? and notifiable_type in ('1','6') ORDER BY created DESC LIMIT ?,?", user.ID, (page-1)*perPage, page*perPage)
 	} else {
-		rows, err = db.Conn.Query("SELECT operator_id,notifiable_type,notifiable_id,read,created FROM user_notification WHERE user_id=? and notifiable_type=? ORDER BY created DESC", user.ID, tp)
+		rows, err = db.Conn.Query("SELECT operator_id,notifiable_type,notifiable_id,read,created FROM user_notification WHERE user_id=? and notifiable_type=? ORDER BY created DESC  LIMIT ?,?", user.ID, tp, (page-1)*perPage, page*perPage)
 	}
 
 	if err != nil {

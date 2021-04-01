@@ -14,7 +14,11 @@ func GetNotifications(c *gin.Context) {
 	tp, _ := strconv.Atoi(c.Param("type"))
 	u := user.CurrentUser(c)
 
-	nos, err := notification.Query(u, tp)
+	page, err0 := strconv.Atoi(c.Query("page"))
+	if err0 != nil {
+		page = 1
+	}
+	nos, err := notification.Query(u, tp, page)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return

@@ -27,6 +27,7 @@ import { getUserName } from "utils/user"
 import moment from 'moment'
 import userCustomTheme from "theme/user-custom"
 import Link from "next/link"
+import Notifications from "components/notifications"
 
 const filters = [
   {icon: 'bell',label:'All',type: 0},
@@ -39,26 +40,22 @@ const filters = [
   
   const NotificationPage = () => {
     const [filter, setFilter]= useState(filters[0])
-    const [notifications,setNotifications]: [Notification[],any] = useState([])
-    const stackBorderColor = useColorModeValue(userCustomTheme.borderColor.light, userCustomTheme.borderColor.dark)
     
     useEffect(() => {
       initData()
     },[])
 
     const initData = async () => {
-      await getNotifications()
       await requestApi.post(`/notifications/unread`)
     }
 
-    const getNotifications = async (f?) => {
-      const res = await requestApi.get(`/notifications/list/${f ? f.type : filter.type}`)
-      setNotifications(res.data)
+    const getNotifications = async (p) => {
+      const res = await requestApi.get(`/notifications/list/${filter.type}?page=${p}`)
+      return res
     }
 
     const onFilterChange = (f) => {
       setFilter(f)
-      getNotifications(f)
     }
     
     return (
@@ -88,25 +85,7 @@ const filters = [
                     }
                 </Wrap>}
                 <Divider mt="3" mb="5" />
-                {notifications.length !== 0 
-                    ? 
-                    <VStack alignItems="left" px="4" spacing="5" pb="4" divider={<StackDivider borderColor={stackBorderColor} />}>
-                       {notifications.map((p,i) => 
-                        <HStack  key={i} alignItems="top" spacing="4">
-                           <Image src={p.user.avatar} height="45px"/>
-                           <VStack alignItems="left" >
-                              <HStack>
-                                <Link href={`/${p.user.username}`}><Heading fontSize="1rem" cursor="pointer">{getUserName(p.user)}</Heading></Link>
-                                <Text >{p.title}</Text>
-                              </HStack>
-                              {p.subTitle && <Link href={`/${p.user.username}/${p.storyID}`}><Heading size="sm" color="teal" cursor="pointer">{p.subTitle}</Heading></Link>}
-                              <Text fontSize=".8rem" layerStyle="textSecondary">{moment(p.created).fromNow()} {!p.read&& <Tag size="sm" colorScheme="orange">unread</Tag>}</Text>
-                           </VStack>
-                        </HStack>)}
-                    </VStack>
-                    :
-                    <Empty />
-                }
+               <Notifications onLoad={getNotifications} filter={filter}/>
               </Card>
             </VStack>
             <IndexSidebar />
