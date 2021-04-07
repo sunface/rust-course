@@ -91,6 +91,10 @@ func Query(user *models.User, tp int, page int) ([]*models.Notification, *e.Erro
 			}
 		case models.NotificationFollow:
 			no.Title = " started following you"
+		case models.NotificationPublish:
+			no.Title = " published a new story"
+			no.SubTitle = models.GetStoryTitle(noID)
+			no.StoryID = noID
 		}
 		nos = append(nos, no)
 	}

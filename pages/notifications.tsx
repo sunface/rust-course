@@ -2,11 +2,6 @@ import {
     Heading, HStack, Text, VStack, 
     Divider,
     Wrap,
-    Image,
-    useColorModeValue,
-    Box,
-    StackDivider,
-    Tag
   } from "@chakra-ui/react"
   import SEO from "components/seo"
   import siteConfig from "configs/site-config"
@@ -14,19 +9,8 @@ import {
   import React, { useEffect, useState } from "react"
   import { IndexSidebar } from 'pages/index'
   import Card from "components/card"
-  import { config } from "configs/config"
   import { requestApi } from "utils/axios/request"
-import { Story } from "src/types/story"
-import { find } from "lodash"
-import Empty from "components/empty"
-import StoryCard from "components/story/story-card"
-import { FaBell } from "react-icons/fa"
 import { getSvgIcon } from "components/svg-icon"
-import { Notification } from "src/types/notification"
-import { getUserName } from "utils/user"
-import moment from 'moment'
-import userCustomTheme from "theme/user-custom"
-import Link from "next/link"
 import Notifications from "components/notifications"
 
 const filters = [
@@ -34,7 +18,7 @@ const filters = [
   {icon: 'comments',label:'Comments',type: 1},
   {icon: 'favorites',label:'Likes', type: 2},
   {icon: 'follow',label:'Follows', type: 5},
-  {icon: 'at',label: 'Mentions', type: 3},
+  // {icon: 'at',label: 'Mentions', type: 3},
   {icon: 'post',label: 'Stories', type: 4},
 ]
   

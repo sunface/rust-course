@@ -96,6 +96,7 @@ func (s *Server) Start() error {
 		r.GET("/user/posts/:userID", api.GetUserPosts)
 		r.GET("/user/session", api.GetSession)
 		r.POST("/user/login", user.Login)
+		r.POST("/user/login/email", user.LoginEmail)
 		r.POST("/user/logout", user.Logout)
 		r.POST("/user/navbar", IsLogin(), api.SubmitUserNavbar)
 		r.GET("/user/navbars/:userID", api.GetUserNavbars)

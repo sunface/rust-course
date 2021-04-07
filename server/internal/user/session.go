@@ -1,12 +1,16 @@
 package user
 
 import (
+	"bytes"
 	"database/sql"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
+	"github.com/imdotdev/im.dev/server/internal/email"
 	"github.com/imdotdev/im.dev/server/pkg/common"
 	"github.com/imdotdev/im.dev/server/pkg/config"
 	"github.com/imdotdev/im.dev/server/pkg/db"
@@ -59,6 +63,77 @@ func Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, common.RespSuccess(session))
+}
+
+func LoginEmail(c *gin.Context) {
+	user := &models.User{}
+	c.Bind(&user)
+
+	if !govalidator.IsEmail(user.Email) {
+		c.JSON(http.StatusBadRequest, common.RespError("邮件格式不合法"))
+		return
+	}
+
+	fmt.Println(user.Email)
+
+	var buffer bytes.Buffer
+	err := email.MailTemplates.ExecuteTemplate(&buffer, "login.tmpl", map[string]string{
+		"Title": "Im.dev",
+		"URL":   "https://im.dev/login",
+	})
+	if err != nil {
+		logger.Warn("login with email error", "error", err, "email", user.Email)
+		c.JSON(http.StatusInternalServerError, common.RespInternalError())
+		return
+	}
+
+	emailMsg := &email.EmailMessage{
+		To:      []string{user.Email},
+		From:    fmt.Sprintf("%s <%s>", config.Data.SMTP.FromName, "61087682@qq.com"),
+		Subject: fmt.Sprintf("Sign in to %s", config.Data.Common.AppName),
+		Body:    buffer.String(),
+	}
+
+	err = email.Send(emailMsg)
+	if err != nil {
+		logger.Warn("send login email error", "error", err)
+		c.JSON(http.StatusBadRequest, common.RespError(err.Error()))
+		return
+	}
+	// err := user.Query("", "", user.Email)
+	// if err != nil {
+	// 	if err == sql.ErrNoRows {
+	// 		c.JSON(http.StatusNotFound, common.RespError("邮箱不存在"))
+	// 		return
+	// 	}
+	// 	logger.Error("login error", "error", err)
+	// 	c.JSON(http.StatusInternalServerError, common.RespInternalError())
+	// 	return
+	// }
+
+	// // delete old session
+	// token := getToken(c)
+	// deleteSession(token)
+
+	// token = strconv.FormatInt(time.Now().UnixNano(), 10)
+	// session := &Session{
+	// 	Token:      token,
+	// 	User:       user,
+	// 	CreateTime: time.Now(),
+	// }
+
+	// err = storeSession(session)
+	// if err != nil {
+	// 	c.JSON(500, common.RespInternalError())
+	// 	return
+	// }
+
+	// _, err = db.Conn.Exec(`UPDATE user SET last_seen_at=? WHERE id=?`, time.Now(), user.ID)
+	// if err != nil {
+	// 	logger.Warn("set last login date error", "error", err)
+	// }
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
 }
 
 // Logout ...

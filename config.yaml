@@ -36,3 +36,8 @@ posts:
   brief_max_len: 128
   # whether allow writing posts
   writing_enabled: true
+
+#################################### SMTP ##############################
+smtp:
+    from_address: "hello@im.dev"
+    from_name: "Im'dev"

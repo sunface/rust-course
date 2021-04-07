@@ -11,6 +11,7 @@ require (
 	github.com/gosimple/slug v1.9.0
 	github.com/grafana/grafana v5.4.5+incompatible
 	github.com/inconshreveable/log15 v0.0.0-20201112154412-8562bdadbbac
+	github.com/jordan-wright/email v4.0.1-0.20210109023952-943e75fe5223+incompatible
 	github.com/lithammer/shortuuid/v3 v3.0.5
 	github.com/mattn/go-sqlite3 v1.14.6
 	github.com/spf13/cobra v1.1.1

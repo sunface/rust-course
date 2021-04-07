@@ -43,6 +43,11 @@ type Config struct {
 		BriefMaxLen    int  `yaml:"brief_max_len"`
 		WritingEnabled bool `yaml:"writing_enabled"`
 	}
+
+	SMTP struct {
+		FromAddr string `yaml:"from_address"`
+		FromName string `yaml:"from_name"`
+	}
 }
 
 // Data ...

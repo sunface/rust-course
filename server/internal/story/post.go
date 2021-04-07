@@ -108,6 +108,7 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 			logger.Warn("submit post error", "error", err)
 			return nil, e.New(http.StatusInternalServerError, e.Internal)
 		}
+
 	} else {
 		post.Updated = now
 		// 只有创建者自己才能更新内容
@@ -121,6 +122,24 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 			// 首次发布，需要更新创建时间
 			_, err = db.Conn.Exec("UPDATE story SET owner=?, slug=?, title=?, md=?, url=?, cover=?, brief=?,created=?,updated=?,status=? WHERE id=?",
 				post.OwnerID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, post.Created, post.Updated, models.StatusPublished, post.ID)
+
+			// send notification to creator followers and org followers
+			followers, err1 := interaction.GetFollowerIDs(post.CreatorID)
+			if err1 == nil {
+				for _, f := range followers {
+					notification.Send(f, "", models.NotificationPublish, post.ID, post.CreatorID)
+				}
+			}
+
+			if post.OwnerID != "" {
+				followers, err1 = interaction.GetFollowerIDs(post.OwnerID)
+				if err1 == nil {
+					for _, f := range followers {
+						notification.Send("", f, models.NotificationPublish, post.ID, post.CreatorID)
+					}
+				}
+			}
+
 		} else {
 			_, err = db.Conn.Exec("UPDATE story SET owner=?, slug=?, title=?, md=?, url=?, cover=?, brief=?, updated=? WHERE id=?",
 				post.OwnerID, post.Slug, post.Title, md, post.URL, post.Cover, post.Brief, post.Updated, post.ID)
@@ -141,23 +160,6 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 	}
 	likes := interaction.GetLikes(post.ID)
 	top.Update(post.ID, likes)
-
-	// send notification to creator followers and org followers
-	followers, err1 := interaction.GetFollowerIDs(post.CreatorID)
-	if err1 == nil {
-		for _, f := range followers {
-			notification.Send(f, "", models.NotificationFollow, post.ID, post.CreatorID)
-		}
-	}
-
-	if post.OwnerID != "" {
-		followers, err1 = interaction.GetFollowerIDs(post.OwnerID)
-		if err1 == nil {
-			for _, f := range followers {
-				notification.Send("", f, models.NotificationFollow, post.ID, post.CreatorID)
-			}
-		}
-	}
 
 	return map[string]string{
 		"username": user.Username,

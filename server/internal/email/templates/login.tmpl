@@ -1,0 +1,70 @@
+{{template "base.tmpl" .}}
+​
+{{define "content"}}
+    <table class="row">
+    <tr>
+        <td class="wrapper last">
+        <table class="twelve columns">
+            <tr>
+            <td class="center">
+                <h3 style="font-weight: bold; font-style: italic;">{{.Title}}</h3>
+            </td>
+            </tr>
+        </table>
+        </td>
+    </tr>
+    </table>
+
+    <table class="row" > 
+    <tr>
+        <td class="last">
+        <table class="twelve columns">
+            <tr>
+            <td class="center">
+                <p style="/*text-align:center*/">Use the following link to sign up or automatically login to Hashnode, be careful who you give it to.</p>
+            </td>
+            </tr>
+        </table>
+        </td>
+    </tr>
+    </table>
+
+
+
+    <table class="row">
+    <tr>
+        <td class="wrapper last">
+        <table class="twelve columns">
+            <tr>
+                <td class="center six">
+                <table class="better-button" align="center" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td align="center" class="better-button-alt" bgcolor="#efefef">
+                    <a href="{{.loginURL}}"  target="_blank">Click here to sign in</a>
+                    </td>
+                </tr>
+                </table>
+            </td>
+            </tr>
+        </table>
+        </td>
+    </tr>
+    </table>
+
+
+    <table class="row" > 
+    <tr>
+        <td class="last">
+        <table class="twelve columns">
+            <tr>
+            <td class="center">
+                <p style="/*text-align:center*/">Or copy this url into your browser</p>
+                <p>{{.URL}}</p>
+            </td>
+            </tr>
+        </table>
+        </td>
+    </tr>
+    </table>
+
+{{end}}
