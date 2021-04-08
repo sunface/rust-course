@@ -6,9 +6,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/imdotdev/im.dev/server/internal/interaction"
 	"github.com/imdotdev/im.dev/server/internal/org"
 	"github.com/imdotdev/im.dev/server/internal/tags"
+	"github.com/imdotdev/im.dev/server/pkg/common"
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
 	"github.com/imdotdev/im.dev/server/pkg/models"
@@ -163,6 +165,21 @@ func EmailExist(email string) (bool, *e.Error) {
 	return true, nil
 }
 
+func GetEmailByCode(code string) (string, *e.Error) {
+	var email string
+	err := db.Conn.QueryRow("SELECT mail FROM mail_code  WHERE code=?", code).Scan(&email)
+	if err != nil && err != sql.ErrNoRows {
+		logger.Warn("check email exist  error", "error", err)
+		return "", e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	if err == sql.ErrNoRows {
+		return "", nil
+	}
+
+	return email, nil
+}
+
 func SubmitUser(user *models.User) *e.Error {
 	if user.Nickname == "" {
 		user.Nickname = "New user"
@@ -171,6 +188,15 @@ func SubmitUser(user *models.User) *e.Error {
 	var err error
 	now := time.Now()
 	if user.ID == "" {
+		nameExist, err0 := NameExist(user.Username)
+		if err0 != nil {
+			return e.New(err0.Status, err0.Message)
+		}
+
+		if nameExist {
+			return e.New(http.StatusConflict, "username已存在")
+		}
+
 		// create user
 		emailExist, err0 := EmailExist(user.Email)
 		if err0 != nil {
@@ -195,4 +221,24 @@ func SubmitUser(user *models.User) *e.Error {
 	}
 
 	return nil
+}
+
+func Register(c *gin.Context, code string, nickname string, username string) {
+	email, err0 := GetEmailByCode(code)
+	if err0 != nil {
+		c.JSON(err0.Status, common.RespError(err0.Message))
+		return
+	}
+
+	user := &models.User{Nickname: nickname, Username: username, Email: email}
+	err0 = SubmitUser(user)
+	if err0 != nil {
+		c.JSON(err0.Status, common.RespError(err0.Message))
+		return
+	}
+
+	user.Query("", "", user.Email)
+	// 从mail_code中，删除code
+	db.Conn.Exec("DELETE FROM mail_code WHERE code=?", code)
+	login(user, c)
 }

@@ -280,4 +280,9 @@ var sqlTables = map[string]string{
 		data TEXT,
 		updated         DATETIME
 	);`,
+	"mail_code": `CREATE TABLE IF NOT EXISTS mail_code (
+		code VARCHAR(255) PRIMARY KEY,
+		mail VARCHAR(255),
+		created DATETIME
+	);`,
 }

@@ -174,3 +174,27 @@ func UserEmailExist(c *gin.Context) {
 
 	c.JSON(http.StatusOK, common.RespSuccess(exist))
 }
+
+func GetUserEmailByCode(c *gin.Context) {
+	code := c.Query("code")
+	email, err := user.GetEmailByCode(code)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(email))
+}
+
+type RegisterReq struct {
+	Code     string `json:"code"`
+	Nickname string `json:"nickname"`
+	Username string `json:"username"`
+}
+
+func UserRegister(c *gin.Context) {
+	req := &RegisterReq{}
+	c.Bind(&req)
+
+	user.Register(c, req.Code, req.Nickname, req.Username)
+}

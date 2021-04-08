@@ -15,6 +15,7 @@ import (
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/log"
 	"github.com/imdotdev/im.dev/server/pkg/models"
+	"github.com/imdotdev/im.dev/server/pkg/utils"
 	"github.com/matcornic/hermes/v2"
 )
 
@@ -29,6 +30,7 @@ type Session struct {
 func Login(c *gin.Context) {
 	user := &models.User{}
 	c.Bind(&user)
+
 	err := user.Query("", "", user.Email)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -40,6 +42,10 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	login(user, c)
+}
+
+func login(user *models.User, c *gin.Context) {
 	// delete old session
 	token := getToken(c)
 	deleteSession(token)
@@ -51,7 +57,7 @@ func Login(c *gin.Context) {
 		CreateTime: time.Now(),
 	}
 
-	err = storeSession(session)
+	err := storeSession(session)
 	if err != nil {
 		c.JSON(500, common.RespInternalError())
 		return
@@ -65,6 +71,52 @@ func Login(c *gin.Context) {
 	c.JSON(http.StatusOK, common.RespSuccess(session))
 }
 
+type CodeReq struct {
+	Code string `json:"code"`
+}
+
+func LoginCode(c *gin.Context) {
+	req := &CodeReq{}
+	c.Bind(&req)
+
+	// 通过code查询邮箱地址
+	var created time.Time
+	var email string
+	err := db.Conn.QueryRow("SELECT mail,created FROM mail_code WHERE code=?", req.Code).Scan(&email, &created)
+	if err != nil && err != sql.ErrNoRows {
+		c.JSON(http.StatusInternalServerError, common.RespInternalError())
+		return
+	}
+
+	if err == sql.ErrNoRows {
+		c.JSON(http.StatusNotFound, common.RespError("code不合法"))
+		return
+	}
+
+	if time.Now().Sub(created).Hours() > 6 {
+		c.JSON(http.StatusBadRequest, common.RespError("code已过期"))
+		db.Conn.Exec("DELETE FROM mail_code WHERE code=?", req.Code)
+		return
+	}
+
+	user := &models.User{
+		Email: email,
+	}
+
+	err = user.Query("", "", user.Email)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			c.JSON(http.StatusOK, common.RespSuccess(nil))
+			return
+		}
+		logger.Error("login error", "error", err)
+		c.JSON(http.StatusInternalServerError, common.RespInternalError())
+		return
+	}
+
+	login(user, c)
+}
+
 func LoginEmail(c *gin.Context) {
 	user := &models.User{}
 	c.Bind(&user)
@@ -74,7 +126,18 @@ func LoginEmail(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(user.Email)
+	code := utils.GenID("code-")
+	_, err := db.Conn.Exec("DELETE FROM mail_code WHERE mail=?", user.Email)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, common.RespInternalError())
+		return
+	}
+
+	_, err = db.Conn.Exec("INSERT INTO mail_code (code,mail,created) VALUES (?,?,?)", code, user.Email, time.Now())
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, common.RespInternalError())
+		return
+	}
 
 	e := hermes.Email{
 		Body: hermes.Body{
@@ -89,7 +152,7 @@ func LoginEmail(c *gin.Context) {
 					Button: hermes.Button{
 						Color: "#22BC66", // Optional action button color
 						Text:  "Confirm your account",
-						Link:  config.Data.UI.Domain,
+						Link:  fmt.Sprintf("%s/login/%s", config.Data.UI.Domain, code),
 					},
 				},
 			},

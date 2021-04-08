@@ -108,13 +108,15 @@ func (s *Server) Start() error {
 		r.GET("/user/session", api.GetSession)
 		r.POST("/user/login", user.Login)
 		r.POST("/user/login/email", user.LoginEmail)
+		r.POST("/user/login/code", user.LoginCode)
 		r.POST("/user/logout", user.Logout)
 		r.POST("/user/navbar", IsLogin(), api.SubmitUserNavbar)
 		r.GET("/user/navbars/:userID", api.GetUserNavbars)
 		r.DELETE("/user/navbar/:id", IsLogin(), api.DeleteUserNavbar)
 		r.GET("/user/name/exist/:name", api.UserNameExist)
 		r.GET("/user/email/exist/:email", api.UserEmailExist)
-
+		r.GET("/user/email/byCode", api.GetUserEmailByCode)
+		r.POST("/user/register", api.UserRegister)
 		// interaction apis
 		r.POST("/interaction/like/:id", IsLogin(), api.Like)
 		r.POST("/interaction/follow/:id", IsLogin(), api.Follow)
