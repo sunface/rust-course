@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/asaskevich/govalidator"
@@ -8,6 +9,7 @@ import (
 	"github.com/imdotdev/im.dev/server/internal/admin"
 	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/common"
+	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
 	"github.com/imdotdev/im.dev/server/pkg/models"
 )
@@ -50,4 +52,13 @@ func AdminGetUsers(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, common.RespSuccess(users))
+}
+
+func AdminConfig(c *gin.Context) {
+	var data []byte
+	db.Conn.QueryRow("SELECT data FROM config WHERE id=?", 1).Scan(&data)
+
+	m := make(map[string]interface{})
+	json.Unmarshal(data, &m)
+	c.JSON(http.StatusOK, common.RespSuccess(m))
 }

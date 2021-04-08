@@ -43,15 +43,21 @@ type Config struct {
 		BriefMaxLen    int  `yaml:"brief_max_len"`
 		WritingEnabled bool `yaml:"writing_enabled"`
 	}
+}
 
+type DynamicConfig struct {
 	SMTP struct {
-		FromAddr string `yaml:"from_address"`
-		FromName string `yaml:"from_name"`
+		Addr         string `json:"addr"`
+		FromAddress  string `json:"fromAddress"`
+		FromName     string `json:"fromName"`
+		AuthUsername string `json:"authUsername"`
+		AuthPassword string `json:"authPassword"`
 	}
 }
 
 // Data ...
 var Data *Config
+var Dynamic *DynamicConfig
 
 // Init ...
 func Init(path string) {

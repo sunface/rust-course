@@ -275,4 +275,9 @@ var sqlTables = map[string]string{
 	CREATE INDEX IF NOT EXISTS user_notification_created
 		ON org_notification (created)
 	`,
+	"config": `CREATE TABLE IF NOT EXISTS config (
+		id INTEGER NOT NULL,
+		data TEXT,
+		updated         DATETIME
+	);`,
 }

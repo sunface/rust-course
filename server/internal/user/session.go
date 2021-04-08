@@ -1,7 +1,6 @@
 package user
 
 import (
-	"bytes"
 	"database/sql"
 	"fmt"
 	"net/http"
@@ -16,6 +15,7 @@ import (
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/log"
 	"github.com/imdotdev/im.dev/server/pkg/models"
+	"github.com/matcornic/hermes/v2"
 )
 
 var logger = log.RootLogger.New("logger", "user")
@@ -76,22 +76,36 @@ func LoginEmail(c *gin.Context) {
 
 	fmt.Println(user.Email)
 
-	var buffer bytes.Buffer
-	err := email.MailTemplates.ExecuteTemplate(&buffer, "login.tmpl", map[string]string{
-		"Title": "Im.dev",
-		"URL":   "https://im.dev/login",
-	})
-	if err != nil {
-		logger.Warn("login with email error", "error", err, "email", user.Email)
-		c.JSON(http.StatusInternalServerError, common.RespInternalError())
-		return
+	e := hermes.Email{
+		Body: hermes.Body{
+			Title: "Hello there",
+			Name:  "",
+			Intros: []string{
+				fmt.Sprintf("Welcome to %s! We're very excited to have you on board.", config.Data.Common.AppName),
+			},
+			Actions: []hermes.Action{
+				{
+					Instructions: "To get started, please click here:",
+					Button: hermes.Button{
+						Color: "#22BC66", // Optional action button color
+						Text:  "Confirm your account",
+						Link:  config.Data.UI.Domain,
+					},
+				},
+			},
+			Outros: []string{
+				"Need help, or have questions? Just reply to this email, we'd love to help.",
+			},
+		},
 	}
+
+	emailBody, err := email.H.GenerateHTML(e)
 
 	emailMsg := &email.EmailMessage{
 		To:      []string{user.Email},
-		From:    fmt.Sprintf("%s <%s>", config.Data.SMTP.FromName, "61087682@qq.com"),
+		From:    fmt.Sprintf("%s <%s>", config.Dynamic.SMTP.FromName, config.Dynamic.SMTP.FromAddress),
 		Subject: fmt.Sprintf("Sign in to %s", config.Data.Common.AppName),
-		Body:    buffer.String(),
+		Body:    emailBody,
 	}
 
 	err = email.Send(emailMsg)

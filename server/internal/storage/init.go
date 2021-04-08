@@ -2,6 +2,7 @@ package storage
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"os"
 	"strings"
@@ -76,6 +77,25 @@ func initTables() error {
 		return err
 	}
 
+	// init online configs
+	c := map[string]interface{}{
+		"posts": map[string]interface{}{
+			"titleMaxLen":    128,
+			"briefMaxLen":    128,
+			"writingEnabled": true,
+		},
+		"smtp": map[string]interface{}{
+			"addr":         "",
+			"fromAddress":  "",
+			"fromName":     "",
+			"authUsername": "",
+			"authPassword": "",
+		},
+	}
+
+	b, _ := json.Marshal(c)
+
+	_, err = db.Conn.Exec(`INSERT INTO config (id,data,updated) VALUES (?,?,?)`, 1, string(b), now)
 	return nil
 }
 

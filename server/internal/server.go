@@ -2,6 +2,7 @@ package internal
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"time"
 
@@ -9,6 +10,7 @@ import (
 	"github.com/go-redis/redis/v8"
 	"github.com/imdotdev/im.dev/server/internal/api"
 	"github.com/imdotdev/im.dev/server/internal/cache"
+	"github.com/imdotdev/im.dev/server/internal/email"
 	"github.com/imdotdev/im.dev/server/internal/storage"
 	"github.com/imdotdev/im.dev/server/internal/top"
 	"github.com/imdotdev/im.dev/server/internal/user"
@@ -40,11 +42,20 @@ func (s *Server) Start() error {
 	if err != nil {
 		return err
 	}
+
+	// init online dynamic config
+	err = initDynamicConfig()
+	if err != nil {
+		return err
+	}
+
 	// if config.Data.Common.IsProd {
 	gin.SetMode((gin.ReleaseMode))
 	// } else {
 	// 	gin.SetMode(gin.DebugMode)
 	// }
+
+	email.Init()
 
 	go cache.Init()
 	go top.Init()
@@ -136,13 +147,14 @@ func (s *Server) Start() error {
 		// admin apis
 		r.POST("/admin/user", IsLogin(), api.AdminSubmitUser)
 		r.GET("/admin/user/all", IsLogin(), api.AdminGetUsers)
-
+		r.GET("/admin/config", IsLogin(), api.AdminConfig)
 		// notification apis
 		r.GET("/notifications/list/:type", IsLogin(), api.GetNotifications)
 		r.GET("/notifications/unread", IsLogin(), api.GetUnread)
 		r.POST("/notifications/unread", IsLogin(), api.ResetUnread)
 		// other apis
 		r.GET("/config", GetConfig)
+		r.POST("/config", IsLogin(), UpdateConfig)
 		r.GET("/navbars", GetNavbars)
 		r.POST("/navbar", IsLogin(), SubmitNavbar)
 		r.DELETE("/navbar/:id", IsLogin(), DeleteNavbar)
@@ -217,6 +229,20 @@ func initRedis() error {
 	if err != nil {
 		return err
 	}
+
+	return nil
+}
+
+func initDynamicConfig() error {
+	var data []byte
+	err := db.Conn.QueryRow("SELECT data FROM config WHERE id=?", 1).Scan(&data)
+	if err != nil {
+		return err
+	}
+	d := &config.DynamicConfig{}
+	json.Unmarshal(data, &d)
+
+	config.Dynamic = d
 
 	return nil
 }

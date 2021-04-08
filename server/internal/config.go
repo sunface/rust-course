@@ -1,11 +1,14 @@
 package internal
 
 import (
+	"encoding/json"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/imdotdev/im.dev/server/pkg/common"
 	"github.com/imdotdev/im.dev/server/pkg/config"
+	"github.com/imdotdev/im.dev/server/pkg/db"
 )
 
 type Config struct {
@@ -49,4 +52,18 @@ func GetConfig(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, common.RespSuccess(conf))
+}
+
+func UpdateConfig(c *gin.Context) {
+	d := make(map[string]interface{})
+	c.Bind(&d)
+
+	b, _ := json.Marshal(&d)
+	_, err := db.Conn.Exec(`UPDATE config SET data=?,updated=? WHERE id=?`, b, time.Now(), 1)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, common.RespInternalError())
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
 }

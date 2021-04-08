@@ -82,6 +82,12 @@ export const adminLinks: Route[] = [{
     icon: <FaElementor />,
     disabled: false
 },
+{
+    title: '配置管理',
+    path: `${ReserveUrls.Admin}/config`,
+    icon: <FaElementor />,
+    disabled: false
+},
 ]
 
 

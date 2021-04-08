@@ -2,23 +2,29 @@ package email
 
 import (
 	"fmt"
-	"html/template"
 	"net/smtp"
 	"strings"
 
+	"github.com/imdotdev/im.dev/server/pkg/config"
+	"github.com/imdotdev/im.dev/server/pkg/log"
 	"github.com/jordan-wright/email"
+	"github.com/matcornic/hermes/v2"
 )
 
-var MailTemplates *template.Template
+var H *hermes.Hermes
 
-func init() {
-	MailTemplates = template.New("im.dev")
-	tmpl, err := template.ParseGlob("./server/internal/email/templates/*.tmpl")
-	if err != nil {
-		panic(err)
+var logger = log.RootLogger.New("logger", "email")
+
+func Init() {
+	H = &hermes.Hermes{
+		// Optional Theme
+		// Theme: new(Default)
+		Product: hermes.Product{
+			Copyright: "Copyright © 2021 im.dev. All rights reserved.",
+			// Appears in header & footer of e-mails
+			Name: fmt.Sprintf("%s - The best community for developers", config.Data.Common.AppName),
+		},
 	}
-
-	MailTemplates = tmpl
 }
 
 type EmailContent struct {
@@ -44,11 +50,8 @@ func Send(msg *EmailMessage) error {
 		e.Subject = msg.Subject
 		e.HTML = []byte(msg.Body)
 
-		fmt.Println(e.To)
-		r := strings.Split(to, "@")
-		s := fmt.Sprintf("smtp.%s:25", r[1])
-		fmt.Println("smtp:", s)
-		err := e.Send(s, smtp.PlainAuth("", "61087682@qq.com", "nybusxktxfyycahh", "smtp.qq.com"))
+		r := strings.Split(config.Dynamic.SMTP.Addr, ":")
+		err := e.Send(config.Dynamic.SMTP.Addr, smtp.PlainAuth("", config.Dynamic.SMTP.AuthUsername, config.Dynamic.SMTP.AuthPassword, r[0]))
 
 		if err != nil {
 			return err
