@@ -5,18 +5,18 @@ import { ReserveUrls } from "src/data/reserve-urls"
 import NextLink from "next/link"
 import userCustomTheme from "theme/user-custom"
 import Count from "components/count"
+import { requestApi } from "utils/axios/request"
 
 type Props = PropsOf<typeof chakra.div> & {
     tag: Tag
     showActions?: boolean
     onEdit?: any
-    onDelete?: any
     unit?: string
 }
 
 
 export const TagCard= (props:Props) =>{
-    const {tag,showActions=false,onEdit,onDelete,unit="posts"} = props
+    const {tag,showActions=false,onEdit,unit="posts"} = props
     return (
         <Flex justifyContent="space-between" alignItems="center" className="hover-bg" p="2">
                 <NextLink href={`${ReserveUrls.Tags}/${tag.name}`}>

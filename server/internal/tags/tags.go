@@ -9,6 +9,7 @@ import (
 
 	"github.com/asaskevich/govalidator"
 	"github.com/imdotdev/im.dev/server/internal/interaction"
+	"github.com/imdotdev/im.dev/server/internal/top"
 	"github.com/imdotdev/im.dev/server/pkg/db"
 	"github.com/imdotdev/im.dev/server/pkg/e"
 	"github.com/imdotdev/im.dev/server/pkg/log"
@@ -82,11 +83,55 @@ func GetTagsByIDs(ids []string) ([]*models.Tag, *e.Error) {
 	return tags, nil
 }
 
-func DeleteTag(id int64) *e.Error {
-	_, err := db.Conn.Exec("DELETE FROM tags WHERE id=?", id)
+func DeleteTag(id string) *e.Error {
+	tag, err0 := models.GetSimpleTag(id, "")
+	if err0 != nil {
+		return err0
+	}
+
+	tx, err := db.Conn.Begin()
 	if err != nil {
-		logger.Warn("delete post error", "error", err)
+		logger.Warn("start transaction error", "error", err)
 		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	// 删除tags表的数据
+	_, err = tx.Exec("DELETE FROM tags WHERE id=?", id)
+	if err != nil {
+		logger.Warn("delete tag error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	// 删除关联的tag数据
+	_, err = tx.Exec("DELETE FROM tags_using WHERE tag_id=?", id)
+	if err != nil {
+		logger.Warn("delete tag error", "error", err)
+		tx.Rollback()
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	// 删除home sidebar的引用
+	_, err = tx.Exec("DELETE FROM home_sidebar WHERE tag_name=?", tag.Name)
+	if err != nil {
+		logger.Warn("delete tag error", "error", err)
+		tx.Rollback()
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	// 删除follows
+	_, err = tx.Exec("DELETE FROM follows WHERE target_id=?", id)
+	if err != nil {
+		logger.Warn("delete tag error", "error", err)
+		tx.Rollback()
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	tx.Commit()
+
+	// 删除top里的tag列表
+	err = top.RemoveTag(id)
+	if err != nil {
+		logger.Warn("delete top error", "error", err)
 	}
 
 	return nil

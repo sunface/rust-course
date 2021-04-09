@@ -3,7 +3,6 @@ package api
 import (
 	"net/http"
 	"sort"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/imdotdev/im.dev/server/internal/interaction"
@@ -88,8 +87,8 @@ func SubmitTag(c *gin.Context) {
 }
 
 func DeleteTag(c *gin.Context) {
-	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
-	if id == 0 {
+	id := c.Param("id")
+	if id == "" {
 		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
 		return
 	}

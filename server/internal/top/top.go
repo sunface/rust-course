@@ -217,3 +217,23 @@ func Init() {
 		time.Sleep(24 * time.Hour)
 	}
 }
+
+func RemoveTag(tagID string) error {
+	hots := make([]string, 0)
+
+	hots = append(hots, fmt.Sprintf(TagFormat, tagID, TopYear))
+	hots = append(hots, fmt.Sprintf(TagFormat, tagID, TopMonth))
+	hots = append(hots, fmt.Sprintf(TagFormat, tagID, TopWeek))
+	hots = append(hots, fmt.Sprintf(TagFormat, tagID, TopRecent))
+
+	ctx := context.Background()
+	for _, hot := range hots {
+		err := db.Redis.Del(ctx, hot).Err()
+		if err != nil {
+			logger.Warn("delete top error", "error", err, "key", hot, "tag_id", tagID)
+			return err
+		}
+	}
+
+	return nil
+}

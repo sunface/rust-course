@@ -60,6 +60,7 @@ function PostEditPage() {
     return (
         <PageContainer
             nav={<Nav
+                tagID={tag.id}
                 changeEditMode={(v) => setEditMode(v)}
                 publish={() => publish()}
             />}
@@ -125,7 +126,10 @@ function HeaderContent(props: any) {
         },
     })
     const group = getRootProps()
-
+    const onDelete = async () => {
+        await requestApi.delete(`/tag/${props.tagID}`)
+    }
+    
     return (
         <>
             <Flex w="100%" h="100%" align="center" justify="space-between" px={{ base: "4", md: "6" }}>
@@ -167,6 +171,7 @@ function HeaderContent(props: any) {
                         icon={<SwitchIcon />}
                     />
                     <Button layerStyle="colorButton" ml="2" onClick={props.publish}>发布</Button>
+                    <Button colorScheme="red" ml="2" onClick={onDelete}>删除</Button>
                 </Box>
             </Flex>
         </>
