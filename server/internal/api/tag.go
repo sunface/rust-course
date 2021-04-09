@@ -2,9 +2,11 @@ package api
 
 import (
 	"net/http"
+	"sort"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/imdotdev/im.dev/server/internal/interaction"
 	"github.com/imdotdev/im.dev/server/internal/tags"
 	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/common"
@@ -24,10 +26,21 @@ func GetTag(c *gin.Context) {
 }
 
 func GetTags(c *gin.Context) {
+	filter := c.Query("filter")
 	res, err := models.GetTags()
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return
+	}
+
+	if filter == models.FilterFavorites {
+		for _, tag := range res {
+			tag.Follows = interaction.GetFollows(tag.ID)
+		}
+
+		sort.Sort(models.FollowTags(res))
+	} else {
+		sort.Sort(res)
 	}
 
 	c.JSON(http.StatusOK, common.RespSuccess(res))

@@ -11,11 +11,12 @@ type Props = PropsOf<typeof chakra.div> & {
     showActions?: boolean
     onEdit?: any
     onDelete?: any
+    unit?: string
 }
 
 
 export const TagCard= (props:Props) =>{
-    const {tag,showActions=false,onEdit,onDelete} = props
+    const {tag,showActions=false,onEdit,onDelete,unit="posts"} = props
     return (
         <Flex justifyContent="space-between" alignItems="center" className="hover-bg" p="2">
                 <NextLink href={`${ReserveUrls.Tags}/${tag.name}`}>
@@ -32,7 +33,7 @@ export const TagCard= (props:Props) =>{
                 <Button size="sm" colorScheme="teal" variant="outline" onClick={onEdit}>Edit</Button>
                 {/* <Button size="sm" onClick={onDelete} variant="ghost">Delete</Button> */}
             </HStack> : 
-            <ChakraTag py="1" px="3"  colorScheme="cyan"><Count count={tag.posts} />&nbsp;posts</ChakraTag>
+            <ChakraTag py="1" px="3"  colorScheme="cyan"><Count count={unit === 'posts' ? tag.posts : tag.follows} />&nbsp;{unit}</ChakraTag>
             }
         </Flex>  
     )

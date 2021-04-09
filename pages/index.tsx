@@ -115,11 +115,14 @@ const IndexSidebarCard = ({ sidebar }) => {
 
   return (
     <>
-      {posts.length > 0 && <Card p="0">
+      <Card p="0">
         <CardHeader>
           <Link href={`${ReserveUrls.Tags}/${sidebar.tagName}`}><Heading size="sm" cursor="pointer">#{sidebar.tagName}</Heading></Link>
         </CardHeader>
-        <Divider />
+      
+        {posts.length > 0 && 
+        <>
+          <Divider />
         <CardBody>
           <VStack alignItems="left" mt="1">
             {
@@ -127,7 +130,9 @@ const IndexSidebarCard = ({ sidebar }) => {
             }
           </VStack>
         </CardBody>
-      </Card>}
+        </>
+        }
+      </Card>
     </>
   )
 }

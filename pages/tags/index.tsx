@@ -12,32 +12,30 @@ import SEO from "components/seo"
 import siteConfig from "configs/site-config"
 import PageContainer1 from "layouts/page-container1"
 import React, { useEffect, useState } from "react"
-import { HomeSidebar } from 'pages/index'
 import Card, { CardBody, CardHeader } from "components/card"
 import { config } from "configs/config"
-import { getSvgIcon } from "components/svg-icon"
 import { Tag } from "src/types/tag"
 import { requestApi } from "utils/axios/request"
 import TagCard from 'src/components/tags/tag-card'
 import useSession from "hooks/use-session"
 import Link from "next/link"
 import { IDType } from "src/types/id"
+import { SearchFilter } from "src/types/search"
 
 const tagsFilter = [{
+  id: SearchFilter.Best,
   name: 'Popular',
   desc: 'Extremely active tags in terms of posts in the last 7 days.'
 },
+// {
+//   id: SearchFilter.Latest,
+//   name: "Recently Added",
+//   desc: "Tags that are recently added, sorted from newest to oldest."
+// },
 {
-  name: "Recently Added",
-  desc: "Tags that are recently added, sorted from newest to oldest."
-},
-{
+  id: SearchFilter.Favorites,
   name: "Most Followers",
   desc: "Tags with the maximum number of followers and posts all time.",
-},
-{
-  name: "New Proposals",
-  desc: "Follow these tags to cast your vote. We periodically approve tags based on community interest."
 }
 ]
 
@@ -48,7 +46,7 @@ const TagsPage = () => {
 
   const session = useSession()
   const getTags = () => {
-    requestApi.get(`/tag/all`).then((res) => setTags(res.data)).catch(_ => setTags([]))
+    requestApi.get(`/tag/all?filter=${filter.id}`).then((res) => setTags(res.data)).catch(_ => setTags([]))
   }
 
   const getUserTags = async () => {
@@ -115,19 +113,19 @@ const TagsPage = () => {
 
               <Divider mt="3" mb="5" />
               <VStack alignItems="left" spacing="3">
-                  {tags.map(t => <TagCard key={t.id} tag={t}/>)}
+                  {tags.map(t => <TagCard key={t.id} tag={t} unit={filter.id === SearchFilter.Best ? 'posts' : "followers"}/>)}
               </VStack>
             </Card>
           </VStack>
-          {userTags.length > 0 && <Card p="0" width="30%" display={{base: "none", md: "block"}}>
+           <Card p="0" width="30%" display={{base: "none", md: "block"}}>
             <CardHeader>
               <Heading size="sm">我关注的Tags</Heading>
             </CardHeader>
             <Divider />
-            <CardBody>
+            {userTags.length > 0 && <CardBody>
                 <VStack alignItems="left"  spacing="4">
                    {
-                     userTags.map(tag => <Link href={`/tags/${tag.name}`}>
+                     userTags.map(tag => <Link key={tag.id} href={`/tags/${tag.name}`}>
                        <HStack cursor="pointer" spacing="4">
                           {tag.icon && <Image src={tag.icon} width="35px"/>}
                           <Text>#{tag.name}</Text>
@@ -135,8 +133,8 @@ const TagsPage = () => {
                      </Link>)
                    }
                 </VStack>
-            </CardBody>
-          </Card>}
+            </CardBody>}
+          </Card>
         </HStack>
       </PageContainer1>
     </>

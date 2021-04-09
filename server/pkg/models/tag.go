@@ -38,6 +38,14 @@ func (t Tags) Less(i, j int) bool {
 	return t[i].Posts > t[j].Posts
 }
 
+type FollowTags []*Tag
+
+func (t FollowTags) Len() int      { return len(t) }
+func (t FollowTags) Swap(i, j int) { t[i], t[j] = t[j], t[i] }
+func (t FollowTags) Less(i, j int) bool {
+	return t[i].Follows > t[j].Follows
+}
+
 func GetTargetTags(targetID string) ([]string, []*Tag, error) {
 	ids := make([]string, 0)
 	rows, err := db.Conn.Query("SELECT tag_id FROM tags_using WHERE target_id=?", targetID)
