@@ -20,7 +20,7 @@ export const TagListCard= (props:Props) =>{
                 </Heading>
                 <Text layerStyle="textSecondary" fontSize=".9rem" mt="1" fontWeight="450">{tag.posts} posts</Text>
             </Box>
-            <Image src={tag.icon} width="35px" />
+            <Image src={tag.icon} width="35px" height="35px" />
         </Flex>  
     )
 } 

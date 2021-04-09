@@ -15,7 +15,7 @@ type Tag struct {
 	Creator string `json:"creator,omitempty"`
 	Title   string `json:"title"`
 	Name    string `json:"name,omitempty"`
-	Md      string `json:"md,omitempty"`
+	Md      string `json:"md"`
 	Cover   string `json:"cover,omitempty"`
 	Icon    string `json:"icon"`
 	Posts   int    `json:"posts"`

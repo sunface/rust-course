@@ -47,7 +47,7 @@ func SubmitTag(tag *models.Tag) *e.Error {
 		tag.ID = utils.GenID(models.IDTypeTag)
 		//create
 		_, err := db.Conn.Exec("INSERT INTO tags (id,creator,name, title, md, icon, cover, created, updated) VALUES(?,?,?,?,?,?,?,?,?)",
-			tag.ID, tag.Creator, tag.Name, tag.Title, md, tag.Icon, tag.Cover, now, now)
+			tag.ID, tag.Creator, tag.Name, tag.Title, string(md), tag.Icon, tag.Cover, now, now)
 		if err != nil {
 			if e.IsErrUniqueConstraint(err) {
 				return e.New(http.StatusConflict, "同样的Tag name已存在")
@@ -106,7 +106,7 @@ func GetTag(id string, name string) (*models.Tag, *e.Error) {
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
 	}
 
-	md, _ := utils.Uncompress(rawmd)
+	md, err := utils.Uncompress(rawmd)
 	tag.Md = string(md)
 
 	db.Conn.QueryRow("SELECT count(*) FROM tags_using WHERE tag_id=? and target_type !=?", tag.ID, models.IDTypeUser).Scan(&tag.Posts)

@@ -46,9 +46,9 @@ export const TagInput = (props: Props) => {
     return (
         <>
             {props.selected.length <=config.posts.maxTags && <Input size={props.size} onChange={e => filterTags(e.target.value)} onFocus={onOpen} onBlur={onClose} placeholder="start typing to search.." variant="unstyled" _focus={null} mt="3" />}
-            {tags.length > 0 && <Popover isOpen={isOpen} closeOnBlur={false} placement="bottom-start" onOpen={onOpen} onClose={onClose} autoFocus={false}>
+            {tags.length > 0 && <Popover  isOpen={isOpen} closeOnBlur={false} placement="bottom-start" onOpen={onOpen} onClose={onClose} autoFocus={false}>
                 <PopoverTrigger><Box width="100%"></Box></PopoverTrigger>
-                <PopoverContent width="100%">
+                <PopoverContent width="100%" maxH="500px" overflowY="scroll">
                     <PopoverBody width="100%" p="0">
                             {tags.map((tag, i) => {
                                     return <Box key={tag.id} cursor="pointer" onClick={_ => addTag(tag)}>

@@ -73,15 +73,17 @@ requestApi.interceptors.response.use(
         // 当前登录状态已经过期，进行登出操作
         logout()
        }
-    }
-
-    toast({
+    } else {
+      toast({
         title: `请求错误`,
         description: message,
         status: "error",
         duration: 2000,
         isClosable: true,
     })  
+    }
+
+
 
     // 这么写是为了保证请求调用方在await中等待的都是正确的返回数据，就不用对数据进行二次错误判断
     throw(error.message)

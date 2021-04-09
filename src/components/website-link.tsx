@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, BoxProps, Flex, useColorModeValue ,Text, Link, HStack} from "@chakra-ui/react"
+import { Box, BoxProps, Flex, useColorModeValue ,Text, Link, HStack, chakra} from "@chakra-ui/react"
 import { FaGithub, FaGlobeAsia, FaGreaterThan, FaLink, FaLocationArrow, FaTwitter } from "react-icons/fa"
 import userCustomTheme from "theme/user-custom"
 
@@ -29,7 +29,7 @@ export const WebsiteLink = ({type, url,...rest}: Props) => {
     <Flex justifyContent="space-between" alignItems="center" cursor="pointer" as="a" href={url} target="_blank" py="1" px="2" layerStyle="textSecondary" fontSize="1.1rem" {...rest} className="hover-bg">
         <HStack>
             {icon0}
-            <Text ml="2">{title}</Text>
+            <chakra.span ml="2">{title}</chakra.span>
         </HStack>
 
         <FaLocationArrow fontSize="13px" />
