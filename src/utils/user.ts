@@ -8,7 +8,7 @@ export function getUserName(user:User) {
 }
 
 export function isUsernameChar(c) {
-    if ((c >= "A" && "c<=Z") || (c >= "a" && "c<=z") || (c >= "0" && c <= "9") || (c === "-")) {
+    if ((c >= "A" && c<="Z") || (c >= "a" && c<="z") || (c >= "0" && c <= "9") || (c === "-")) {
        return true
     }
     
@@ -28,6 +28,10 @@ export const  validateUsername = async value => {
        return `长度不能超过${config.user.usernameMaxLen}`
     }
 
+    if (value[0] ==='-' || value[value.length-1]==='-') {
+        return usernameInvalidTips
+    } 
+    
     for (const c of value) {
         if (!isUsernameChar(c)) {
             return usernameInvalidTips

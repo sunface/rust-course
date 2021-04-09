@@ -63,8 +63,9 @@ func initTables() error {
 	}
 
 	now := time.Now()
+	adminID := utils.GenID(models.IDTypeUser)
 	_, err := db.Conn.Exec(`INSERT INTO user (id,type,username,nickname,email,role,nickname,avatar,created,updated) VALUES (?,?,?,?,?,?,?,?,?,?)`,
-		utils.GenID(models.IDTypeUser), models.IDTypeUser, config.Data.User.SuperAdminUsername, "Admin", config.Data.User.SuperAdminEmail, models.ROLE_SUPER_ADMIN, "", "", now, now)
+		adminID, models.IDTypeUser, config.Data.User.SuperAdminUsername, "Admin", config.Data.User.SuperAdminEmail, models.ROLE_SUPER_ADMIN, "", "", now, now)
 	if err != nil {
 		log.RootLogger.Crit("init super admin error", "error:", err)
 		return err
@@ -77,6 +78,12 @@ func initTables() error {
 		return err
 	}
 
+	// insert tags
+	err = initTags(adminID)
+	if err != nil {
+		log.RootLogger.Crit("init tags error", "error:", err)
+		return err
+	}
 	// init online configs
 	c := map[string]interface{}{
 		"posts": map[string]interface{}{

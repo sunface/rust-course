@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"time"
 
 	"github.com/imdotdev/im.dev/server/pkg/db"
@@ -75,4 +76,30 @@ func (user *UserSimple) Query() error {
 	}
 
 	return err
+}
+
+const usernameInvalidTips = "Username may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen."
+
+func IsUsernameValid(u string) error {
+	if len(u) == 0 {
+		return errors.New("用户名不能为空")
+	}
+
+	if u[0] == '-' {
+		return errors.New(usernameInvalidTips)
+	}
+
+	if u[len(u)-1] == '-' {
+		return errors.New(usernameInvalidTips)
+	}
+
+	for _, c := range u {
+		if (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || (c == '-') {
+			continue
+		}
+
+		return errors.New(usernameInvalidTips)
+	}
+
+	return nil
 }

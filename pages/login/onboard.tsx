@@ -10,6 +10,7 @@ import Link from "next/link"
 import { ReserveUrls } from "src/data/reserve-urls"
 import { Tag } from "src/types/tag"
 import Follow from "components/interaction/follow"
+import { validateUsername } from "utils/user"
 
 const OnboardPage = () => {
     const [step,setStep] = useState(1)
@@ -44,6 +45,16 @@ const OnboardPage = () => {
         if (nickname === "" || username === "") {
             toast({
                 description: "nickname or username can't be empty",
+                status: "error",
+                duration: 2000,
+                isClosable: true,
+            })
+            return 
+        }
+        const res0 = await validateUsername(username)
+        if (res0) {
+            toast({
+                description: res0,
                 status: "error",
                 duration: 2000,
                 isClosable: true,

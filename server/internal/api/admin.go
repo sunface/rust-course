@@ -29,6 +29,11 @@ func AdminSubmitUser(c *gin.Context) {
 		return
 	}
 
+	err0 := models.IsUsernameValid(u.Username)
+	if err0 != nil {
+		c.JSON(http.StatusBadRequest, common.RespError(err0.Error()))
+		return
+	}
 	err := user.SubmitUser(u)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
