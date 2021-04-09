@@ -1,4 +1,4 @@
-import { Box, Button, Flex, useColorMode, useColorModeValue, useDisclosure, useRadioGroup, useToast, chakra, Input, HStack, IconButton, Heading, Divider } from '@chakra-ui/react';
+import { Box, Button, Flex, useColorMode, useColorModeValue, useDisclosure, useRadioGroup, useToast, chakra, Input, HStack, IconButton, Heading, Divider, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { MarkdownEditor } from 'components/markdown-editor/editor';
 import PageContainer from 'layouts/page-container';
@@ -16,13 +16,14 @@ import RadioCard from 'components/radio-card';
 import { useViewportScroll } from 'framer-motion';
 import Card from 'components/card';
 import { Tag } from 'src/types/tag';
+import { ReserveUrls } from 'src/data/reserve-urls';
 
 
 function PostEditPage() {
     const router = useRouter()
     const { id } = router.query
     const [editMode, setEditMode] = useState(EditMode.Edit)
-    const [tag, setTag]:[Tag,any] = useState({
+    const [tag, setTag]: [Tag, any] = useState({
         md: `标签介绍，支持markdown`,
         title: ''
     })
@@ -84,26 +85,26 @@ function PostEditPage() {
                         </Box>
                     }
                 </Card>
-                <Card width="35%">      
-                        <Heading size="xs">
-                            Title
+                <Card width="35%">
+                    <Heading size="xs">
+                        Title
                             </Heading>
-                        <Input value={tag.title} onChange={(e) => { tag.title = e.target.value; onChange()}} mt="4" variant="flushed" size="sm" placeholder="Tag title..." focusBorderColor="teal.400" />
+                    <Input value={tag.title} onChange={(e) => { tag.title = e.target.value; onChange() }} mt="4" variant="flushed" size="sm" placeholder="Tag title..." focusBorderColor="teal.400" />
 
-                        <Heading size="xs" mt="8">
-                            Name
+                    <Heading size="xs" mt="8">
+                        Name
                             </Heading>
-                        <Input value={tag.name} onChange={(e) => { tag.name = e.target.value; onChange()}} mt="4" variant="flushed" size="sm" placeholder="Tag name..." focusBorderColor="teal.400" />
+                    <Input value={tag.name} onChange={(e) => { tag.name = e.target.value; onChange() }} mt="4" variant="flushed" size="sm" placeholder="Tag name..." focusBorderColor="teal.400" />
 
-                        <Heading size="xs" mt="8">
-                            封面
+                    <Heading size="xs" mt="8">
+                        封面
                             </Heading>
-                        <Input value={tag.cover} onChange={(e) => { tag.cover = e.target.value; onChange()}} mt="4" variant="flushed" size="sm" placeholder="图片链接，你可以用github当图片存储服务" focusBorderColor="teal.400" />
+                    <Input value={tag.cover} onChange={(e) => { tag.cover = e.target.value; onChange() }} mt="4" variant="flushed" size="sm" placeholder="图片链接，你可以用github当图片存储服务" focusBorderColor="teal.400" />
 
-                        <Heading size="xs" mt="8">
-                            图标
+                    <Heading size="xs" mt="8">
+                        图标
                             </Heading>
-                        <Input value={tag.icon} onChange={(e) => { tag.icon = e.target.value; onChange()}} mt="4" variant="flushed" size="sm" placeholder="图片链接" focusBorderColor="teal.400" />
+                    <Input value={tag.icon} onChange={(e) => { tag.icon = e.target.value; onChange() }} mt="4" variant="flushed" size="sm" placeholder="图片链接" focusBorderColor="teal.400" />
                 </Card>
             </HStack>
         </PageContainer>
@@ -113,10 +114,12 @@ function PostEditPage() {
 export default PostEditPage
 
 function HeaderContent(props: any) {
+    const [delOpen, setDelOpen] = React.useState(false)
+    const cancelRef = React.useRef()
     const { toggleColorMode: toggleMode } = useColorMode()
     const text = useColorModeValue("dark", "light")
     const SwitchIcon = useColorModeValue(FaMoon, FaSun)
-
+    const router = useRouter()
     const editOptions = [EditMode.Edit, EditMode.Preview]
     const { getRootProps, getRadioProps } = useRadioGroup({
         name: "framework",
@@ -128,8 +131,10 @@ function HeaderContent(props: any) {
     const group = getRootProps()
     const onDelete = async () => {
         await requestApi.delete(`/tag/${props.tagID}`)
+        setDelOpen(false)
+        router.push(`${ReserveUrls.Admin}/tags`)
     }
-    
+
     return (
         <>
             <Flex w="100%" h="100%" align="center" justify="space-between" px={{ base: "4", md: "6" }}>
@@ -171,9 +176,35 @@ function HeaderContent(props: any) {
                         icon={<SwitchIcon />}
                     />
                     <Button layerStyle="colorButton" ml="2" onClick={props.publish}>发布</Button>
-                    <Button colorScheme="red" ml="2" onClick={onDelete}>删除</Button>
+                    <Button colorScheme="red" ml="2" onClick={() => setDelOpen(true)}>删除</Button>
                 </Box>
             </Flex>
+            <AlertDialog
+                isOpen={delOpen}
+                leastDestructiveRef={cancelRef}
+                onClose={() => setDelOpen(false)}
+            >
+                <AlertDialogOverlay>
+                    <AlertDialogContent>
+                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                            Delete Tag
+                        </AlertDialogHeader>
+
+                        <AlertDialogBody>
+                            <Text color="red">删除Tag将删除所有相关的信息，同时该操作不可逆，请慎重</Text>
+                        </AlertDialogBody>
+
+                        <AlertDialogFooter>
+                            <Button ref={cancelRef} onClick={() => setDelOpen(false)}>
+                                Cancel
+                            </Button>
+                            <Button colorScheme="red" onClick={onDelete} ml={3}>
+                                Delete
+                            </Button>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialogOverlay>
+            </AlertDialog>
         </>
     )
 }

@@ -94,7 +94,7 @@ func DeleteTag(c *gin.Context) {
 	}
 
 	user := user.CurrentUser(c)
-	if !user.Role.IsAdmin() {
+	if !user.Role.IsSuperAdmin() {
 		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
 	}
 

@@ -1,4 +1,4 @@
-import { Text, Box, Heading, Image, Center, Button, Flex, VStack, Divider, useToast, FormControl, FormLabel, FormHelperText, Input, FormErrorMessage, HStack, Wrap, useMediaQuery, Avatar, Textarea, Table, Thead, Tr, Th, Tbody, Td, IconButton, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, Select, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from "@chakra-ui/react"
+import { Text, Box, Heading, Image, Center, Button, Flex, VStack, Divider, useToast, FormControl, FormLabel, FormHelperText, Input, FormErrorMessage, HStack, Wrap, useMediaQuery, Avatar, Textarea, Table, Thead, Tr, Th, Tbody, Td, IconButton, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, Select, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper ,AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter} from "@chakra-ui/react"
 import Card from "components/card"
 import PageContainer from "layouts/page-container"
 import Sidebar from "layouts/sidebar/sidebar"
@@ -103,15 +103,7 @@ const UserNavbarPage = () => {
                             </Thead>
                             <Tbody>
                                 {
-                                    navbars.map((nv,i) =>   <Tr key={i}>
-                                        <Td>{nv.label}</Td>
-                                        <Td>{nv.value}</Td>
-                                        <Td>{nv.weight}</Td>
-                                        <Td>
-                                            <IconButton aria-label="edit navbar" variant="ghost" icon={getSvgIcon('edit', ".95rem")} onClick={() => onEditNavbar(nv)}/>
-                                            <IconButton aria-label="delete navbar" variant="ghost" icon={getSvgIcon('close', "1rem")} onClick={() => onDeleteNavbar(nv.id)} />
-                                        </Td>
-                                    </Tr>)
+                                    navbars.map((nv,i) =>  <NV nv={nv} onEdit={onEditNavbar} onDelete={onDeleteNavbar} key={nv.id}/>)
                                 }
                               
                             </Tbody>
@@ -133,7 +125,7 @@ const UserNavbarPage = () => {
 
                             <HStack spacing="4">
                                 <Heading size="xs">Value</Heading>
-                                <Input value={currentNavbar.value} _focus={null} variant="flushed" onChange={e => { currentNavbar.value = e.currentTarget.value; onNavbarChange() }}  placeholder="enter a url, e.g /search"/> 
+                                <Input value={currentNavbar.value} _focus={null} variant="flushed" onChange={e => { currentNavbar.value = e.currentTarget.value; onNavbarChange() }}  placeholder="enter a url, e.g /search/posts"/> 
                             </HStack>
 
                             <HStack spacing="4">
@@ -156,3 +148,49 @@ const UserNavbarPage = () => {
 }
 export default UserNavbarPage
 
+
+const NV = ({ nv, onEdit, onDelete }) => {
+    const [isOpen, setIsOpen] = React.useState(false)
+    const onClose = () => setIsOpen(false)
+    const cancelRef = React.useRef()
+
+    return (
+        <>
+        <Tr>
+                <Td>{nv.label}</Td>
+                <Td>{nv.value}</Td>
+                <Td>{nv.weight}</Td>
+                <Td>
+                    <IconButton aria-label="edit navbar" variant="ghost" icon={getSvgIcon('edit', ".95rem")} onClick={() => onEdit(nv)}/>
+                    <IconButton aria-label="delete navbar" variant="ghost" icon={getSvgIcon('close', "1rem")} onClick={() => setIsOpen(true)} />
+                </Td>
+            </Tr>
+        <AlertDialog
+                isOpen={isOpen}
+                leastDestructiveRef={cancelRef}
+                onClose={onClose}
+            >
+                <AlertDialogOverlay>
+                    <AlertDialogContent>
+                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                            删除菜单 -  {nv.label}
+                        </AlertDialogHeader>
+
+                        <AlertDialogBody>
+                            Are you sure? You can't undo this action afterwards.
+                        </AlertDialogBody>
+
+                        <AlertDialogFooter>
+                            <Button ref={cancelRef} onClick={onClose}>
+                                Cancel
+                            </Button>
+                            <Button colorScheme="red" onClick={() => onDelete(nv.id)} ml={3}>
+                                Delete
+                            </Button>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialogOverlay>
+            </AlertDialog>
+        </>
+    )
+}

@@ -1,4 +1,4 @@
-import { Text, Box, Heading, Image, Center, Button, Flex, VStack, Divider, useToast, FormControl, FormLabel, FormHelperText, Input, FormErrorMessage, HStack, Wrap, useMediaQuery, Avatar, Textarea, Table, Thead, Tr, Th, Tbody, Td, IconButton, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, Select, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from "@chakra-ui/react"
+import { Text, Box, Heading, Image, Center, Button, Flex, VStack, Divider, useToast, FormControl, FormLabel, FormHelperText, Input, FormErrorMessage, HStack, Wrap, useMediaQuery, Avatar, Textarea, Table, Thead, Tr, Th, Tbody, Td, IconButton, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, Select, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper,AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter  } from "@chakra-ui/react"
 import Card from "components/card"
 import PageContainer from "layouts/page-container"
 import Sidebar from "layouts/sidebar/sidebar"
@@ -39,7 +39,7 @@ export const NavbarEditor = ({ orgID = "" }) => {
     }, [])
 
     const getNavbars = async () => {
-        const res = await requestApi.get(`/user/navbars/${orgID ? orgID :  0}`)
+        const res = await requestApi.get(`/user/navbars/${orgID ? orgID : 0}`)
         setNavbars(res.data)
     }
 
@@ -76,7 +76,7 @@ export const NavbarEditor = ({ orgID = "" }) => {
         }
 
         if (orgID) {
-            await requestApi.post(`/org/navbar/${orgID}`,currentNavbar)
+            await requestApi.post(`/org/navbar/${orgID}`, currentNavbar)
         } else {
             await requestApi.post(`/user/navbar`, currentNavbar)
         }
@@ -122,7 +122,7 @@ export const NavbarEditor = ({ orgID = "" }) => {
     }
 
     const onDeleteNavbar = async id => {
-        await requestApi.delete(`/${orgID?'org':'user'}/navbar/${id}`)
+        await requestApi.delete(`/${orgID ? 'org' : 'user'}/navbar/${id}`)
         getNavbars()
     }
 
@@ -145,16 +145,7 @@ export const NavbarEditor = ({ orgID = "" }) => {
                     </Thead>
                     <Tbody>
                         {
-                            navbars.map((nv, i) => <Tr key={i}>
-                                <Td>{nv.label}</Td>
-                                <Td>{nv.type === NavbarType.Link ? "link" : "series"}</Td>
-                                <Td>{nv.type === NavbarType.Link ? nv.value : getSeriesTitle(nv.value)}</Td>
-                                <Td>{nv.weight}</Td>
-                                <Td>
-                                    <IconButton aria-label="edit navbar" variant="ghost" icon={getSvgIcon('edit', ".95rem")} onClick={() => onEditNavbar(nv)} />
-                                    <IconButton aria-label="delete navbar" variant="ghost" icon={getSvgIcon('close', "1rem")} onClick={() => onDeleteNavbar(nv.id)} />
-                                </Td>
-                            </Tr>)
+                            navbars.map((nv, i) => <NV  key={nv.id} nv={nv} onEdit={onEditNavbar} onDelete={onDeleteNavbar} getSeriesTitle={getSeriesTitle}/>)
                         }
 
                     </Tbody>
@@ -202,6 +193,53 @@ export const NavbarEditor = ({ orgID = "" }) => {
                     </ModalBody>
                 </ModalContent>}
             </Modal>
+        </>
+    )
+}
+
+const NV = ({ nv, onEdit, onDelete, getSeriesTitle }) => {
+    const [isOpen, setIsOpen] = React.useState(false)
+    const onClose = () => setIsOpen(false)
+    const cancelRef = React.useRef()
+
+    return (
+        <>
+        <Tr>
+            <Td>{nv.label}</Td>
+            <Td>{nv.type === NavbarType.Link ? "link" : "series"}</Td>
+            <Td>{nv.type === NavbarType.Link ? nv.value : getSeriesTitle(nv.value)}</Td>
+            <Td>{nv.weight}</Td>
+            <Td>
+                <IconButton aria-label="edit navbar" variant="ghost" icon={getSvgIcon('edit', ".95rem")} onClick={() => onEdit(nv)} />
+                <IconButton aria-label="delete navbar" variant="ghost" icon={getSvgIcon('close', "1rem")} onClick={() => setIsOpen(true)} />
+            </Td>
+        </Tr>
+        <AlertDialog
+                isOpen={isOpen}
+                leastDestructiveRef={cancelRef}
+                onClose={onClose}
+            >
+                <AlertDialogOverlay>
+                    <AlertDialogContent>
+                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                            删除菜单 -  {nv.label}
+                        </AlertDialogHeader>
+
+                        <AlertDialogBody>
+                            Are you sure? You can't undo this action afterwards.
+                        </AlertDialogBody>
+
+                        <AlertDialogFooter>
+                            <Button ref={cancelRef} onClick={onClose}>
+                                Cancel
+                            </Button>
+                            <Button colorScheme="red" onClick={() => onDelete(nv.id)} ml={3}>
+                                Delete
+                            </Button>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialogOverlay>
+            </AlertDialog>
         </>
     )
 }

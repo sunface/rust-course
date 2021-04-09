@@ -14,6 +14,10 @@ func (r RoleType) IsValid() bool {
 	return r == ROLE_NORMAL || r == ROLE_EDITOR || r == ROLE_ADMIN || r == ROLE_SUPER_ADMIN
 }
 
+func (r RoleType) IsSuperAdmin() bool {
+	return r == ROLE_SUPER_ADMIN
+}
+
 func (r RoleType) IsAdmin() bool {
 	return r == ROLE_ADMIN || r == ROLE_SUPER_ADMIN
 }
