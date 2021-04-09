@@ -82,6 +82,7 @@ var sqlTables = map[string]string{
 		url  		VARCHAR(255),
 		cover 		VARCHAR(255),
 		brief 		TEXT,
+		views       INTEGER DEFAULT 0,
 		likes       INTEGER DEFAULT 0,
 		status 		tinyint NOT NULL,
 		created 	DATETIME NOT NULL,

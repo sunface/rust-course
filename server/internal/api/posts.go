@@ -151,6 +151,17 @@ func GetHomePosts(c *gin.Context) {
 	c.JSON(http.StatusOK, common.RespSuccess(posts))
 }
 
+func GetDashboardPosts(c *gin.Context) {
+	user := user.CurrentUser(c)
+
+	posts, err := story.DashboardPosts(user)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+	c.JSON(http.StatusOK, common.RespSuccess(posts))
+}
+
 func GetBookmarkPosts(c *gin.Context) {
 	filter := c.Param("filter")
 	user := user.CurrentUser(c)

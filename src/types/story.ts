@@ -22,8 +22,10 @@ export interface Story {
     cover?: string 
     brief?: string 
     created?: string
+    updated?:string
     tags?: string[]
     rawTags?: Tag[]
+    views?: number
     likes? : number
     liked? : boolean
     pinned?: boolean

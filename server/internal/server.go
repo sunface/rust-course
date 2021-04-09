@@ -77,6 +77,7 @@ func (s *Server) Start() error {
 		r.GET("/story/posts/org/:id", IsLogin(), api.GetOrgPosts)
 		r.GET("/story/posts/drafts", IsLogin(), api.GetEditorDrafts)
 		r.GET("/story/posts/home", api.GetHomePosts)
+		r.GET("/story/posts/dashboard", IsLogin(), api.GetDashboardPosts)
 		r.POST("/story", IsLogin(), api.SubmitStory)
 		r.POST("/story/pin/:storyID", IsLogin(), api.PinStory)
 		r.POST("/story/series", api.GetSeries)

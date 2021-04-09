@@ -136,6 +136,12 @@ func UpdateUser(u *models.User) *e.Error {
 }
 
 func NameExist(name string) (bool, *e.Error) {
+	for _, n := range common.ReserverURLs {
+		if n == "/"+name {
+			return true, nil
+		}
+	}
+
 	var username string
 	err := db.Conn.QueryRow("SELECT username FROM user  WHERE username=?", name).Scan(&username)
 	if err != nil && err != sql.ErrNoRows {

@@ -29,6 +29,26 @@ func HomePosts(user *models.User, filter string, page int64, perPage int64) (mod
 	return posts, nil
 }
 
+func DashboardPosts(user *models.User) ([]*models.Story, *e.Error) {
+	rows, err := db.Conn.Query("SELECT id,title,url,created,views,likes,updated FROM story WHERE creator=? AND status=? ORDER BY created DESC", user.ID, models.StatusPublished)
+	if err != nil && err != sql.ErrNoRows {
+		logger.Warn("get dashboard posts error", "error", err)
+		return nil, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	stories := make([]*models.Story, 0)
+	for rows.Next() {
+		story := &models.Story{}
+		rows.Scan(&story.ID, &story.Title, &story.URL, &story.Created, &story.Views, &story.Likes, &story.Updated)
+		story.Comments = GetCommentCount(story.ID)
+		stories = append(stories, story)
+
+		story.Creator = &models.UserSimple{Username: user.Username}
+	}
+
+	return stories, nil
+}
+
 func UserPosts(tp string, user *models.User, uid string, page int64, perPage int64) (models.Stories, *e.Error) {
 	var rows *sql.Rows
 	var err error

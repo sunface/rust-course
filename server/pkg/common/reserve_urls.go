@@ -4,7 +4,7 @@ package common
 var ReserverURLs = []string{
 	"/tags",
 	"/courses",
-	"/interaction",
+	"/dashboard",
 	"/editor",
 	"/admin",
 	"/bookmarks",

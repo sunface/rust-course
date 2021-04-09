@@ -295,6 +295,10 @@ func GetPostCreator(id string) (string, *e.Error) {
 	return uid, nil
 }
 
+func UpdateViews(storyID string) {
+	db.Conn.Exec("UPDATE story SET views=views+1 WHERE id=?", storyID)
+}
+
 //slug有三个规则
 // 1. 长度不能超过127
 // 2. 每次title更新，都要重新生成slug

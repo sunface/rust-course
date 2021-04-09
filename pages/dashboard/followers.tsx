@@ -4,7 +4,7 @@ import Nav from "layouts/nav/nav"
 import PageContainer from "layouts/page-container"
 import Sidebar from "layouts/sidebar/sidebar"
 import React, { useEffect, useState } from "react"
-import {adminLinks, interactionLinks} from "src/data/links"
+import {dashboardLinks} from "src/data/links"
 import { requestApi } from "utils/axios/request"
 import PageContainer1 from "layouts/page-container1"
 import Empty from "components/empty"
@@ -30,7 +30,7 @@ const FollowersPage = () => {
         <>
             <PageContainer1>
                 <Box display="flex">
-                    <Sidebar routes={interactionLinks} title="我的关注" />
+                    <Sidebar routes={dashboardLinks} title="dashboard" />
                     <Card ml="4" p="6" width="100%">
                         {
                             users.length === 0 ? <Empty /> :

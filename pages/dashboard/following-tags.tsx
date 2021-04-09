@@ -2,7 +2,7 @@ import { Text, Box, Heading, Image, Divider, useToast, HStack, Slider, SliderTra
 import Card from "components/card"
 import Sidebar from "layouts/sidebar/sidebar"
 import React, { useEffect, useState } from "react"
-import {interactionLinks} from "src/data/links"
+import {dashboardLinks} from "src/data/links"
 import { requestApi } from "utils/axios/request"
 import { useRouter } from "next/router"
 import PageContainer1 from "layouts/page-container1"
@@ -42,7 +42,7 @@ const TagsPage = () => {
         <>
             <PageContainer1>
                 <Box display="flex">
-                    <Sidebar routes={interactionLinks} title="我的关注" />
+                    <Sidebar routes={dashboardLinks} title="dashboard" />
                     <Card ml="4" p="6" width="100%">
                         <Text fontSize=".95rem" fontWeight="600">Adjust tag weight to modify your home feed. Higher values mean more appearances.</Text>
                         <Divider my="6" />

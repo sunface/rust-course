@@ -69,6 +69,7 @@ func GetStory(c *gin.Context) {
 		ar.Bookmarked, _ = story.Bookmarked(u.ID, ar.ID)
 	}
 
+	story.UpdateViews(id)
 	c.JSON(http.StatusOK, common.RespSuccess(ar))
 }
 
