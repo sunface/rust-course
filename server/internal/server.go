@@ -165,6 +165,7 @@ func (s *Server) Start() error {
 		r.GET("/sidebars", GetSidebars)
 		r.POST("/sidebar", IsLogin(), SubmitSidebar)
 
+		r.POST("/report", IsLogin(), api.SubmitReport)
 		err := router.Run(config.Data.Server.Addr)
 		if err != nil {
 			logger.Crit("start backend server error", "error", err)

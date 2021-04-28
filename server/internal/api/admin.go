@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/asaskevich/govalidator"
@@ -66,4 +67,24 @@ func AdminConfig(c *gin.Context) {
 	m := make(map[string]interface{})
 	json.Unmarshal(data, &m)
 	c.JSON(http.StatusOK, common.RespSuccess(m))
+}
+
+type ReportReq struct {
+	TargetID string `json:"targetID"`
+	Content  string `json:"content"`
+}
+
+func SubmitReport(c *gin.Context) {
+	req := &ReportReq{}
+	c.Bind(&req)
+	fmt.Println(*req)
+
+	u := user.CurrentUser(c)
+	err := admin.AddReport(req.TargetID, req.Content, u.ID)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
 }

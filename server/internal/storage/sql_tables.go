@@ -286,4 +286,14 @@ var sqlTables = map[string]string{
 		mail VARCHAR(255),
 		created DATETIME
 	);`,
+	"report": `CREATE TABLE IF NOT EXISTS report (
+		target_id   VARCHAR(255),
+		type        VARCHAR(1) NOT NULL,
+		reporter 	VARCHAR(255) NOT NULL,
+		status 		tinyint NOT NULL,
+		created 	DATETIME NOT NULL
+	);
+	CREATE UNIQUE INDEX IF NOT EXISTS report_target_reporter
+		ON report (target_id,reporter);
+	`,
 }

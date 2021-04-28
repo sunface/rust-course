@@ -1,4 +1,4 @@
-import { Box, Divider, Heading, HStack, Image} from "@chakra-ui/react"
+import { Box, Button, chakra, Divider, Flex, Heading, HStack, Image, Radio, RadioGroup, Stack, Text} from "@chakra-ui/react"
 import Comments from "components/comments/comments"
 import { MarkdownRender } from "components/markdown-editor/render"
 import  { StoryAuthor } from "components/story/story-author"
@@ -14,12 +14,17 @@ import { requestApi } from "utils/axios/request"
 import StorySidebar from "components/story/story-sidebar"
 import Series from "components/story/series"
 import Card from "components/card"
+import { FaFlag, FaRegFlag } from "react-icons/fa"
+import Head from "next/head"
+import { getSvgIcon } from "components/svg-icon"
+import Report from "components/report"
 
 const PostPage = () => {
   const router = useRouter()
   const id = router.query.post_id
   const [post, setPost]: [Story, any] = useState(null)
   const [series,setSeries] = useState([])
+  const [report,setReport] = useState(false)
   useEffect(() => {
     if (id) {
       getData()
@@ -45,7 +50,7 @@ const PostPage = () => {
     const res = await requestApi.get(`/story/series/byPostID/${id}`)
     setSeries(res.data)
   }
-
+  
   return (
     <>
       <SEO
@@ -61,9 +66,16 @@ const PostPage = () => {
                 <Heading size="lg" my="6" lineHeight="1.5">{post.title}</Heading>
 
                 <Divider my="4" />
-                <StoryAuthor story={post} />
+                <Flex width="100%" justifyContent="space-between" display="flex" alignItems="start" layerStyle="textSecondary" cursor="pointer" onClick={() => setReport(true)}>
+                  <StoryAuthor story={post} />
+                  <HStack>
+                    <FaRegFlag />
+                    <Text>Report</Text>
+                  </HStack>
+                </Flex>
                 <Divider my="4" />
 
+                {report && <Report targetID={post.id} onClose={() => setReport(false)}/>}
                 <MarkdownRender md={post.md} py="2" mt="6" />
               </Box>
               <HStack ml="2" spacing="3" mt="4">{post.rawTags.map(tag => <TagTextCard key={tag.id} tag={tag} />)}</HStack>
