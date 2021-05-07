@@ -11,6 +11,7 @@ import { User } from "src/types/user"
 import CommentEditor from "./editor"
 import { requestApi } from "utils/axios/request"
 import Link from "next/link"
+import Report from "components/report"
 
 interface Props {
     user: User
@@ -21,7 +22,8 @@ interface Props {
 export const Reply = (props: Props) => {
     const { comment, user,onChange,parent} = props
     const [editorVisible, setEditorVisible] = useState(false)
-
+    const [report,setReport] = useState(false)
+    
     const [replyVisible,setReplyVisible] = useState(false)
     const [reply,setReply] = useState('')
     const submitReply = async (md) => {
@@ -102,11 +104,13 @@ export const Reply = (props: Props) => {
                                     <MenuList>
                                         {user && <MenuItem onClick={() => setEditorVisible(true)}><FaRegEdit /><chakra.span ml="2">Edit</chakra.span></MenuItem>}
                                         {user && <MenuItem onClick={() => deleteReply(comment.id)}><FaRegTrashAlt /><chakra.span ml="2">Delete</chakra.span></MenuItem>}
-                                        <MenuItem><FaRegFlag /><chakra.span ml="2">Report</chakra.span></MenuItem>
+                                        <MenuItem onClick={()=> setReport(true)}><FaRegFlag /><chakra.span ml="2">Report</chakra.span></MenuItem>
                                     </MenuList>
                                 </Menu>
                             </HStack>
                         </Flex>
+                        
+                        {report && <Report targetID={comment.id} onClose={() => setReport(false)}/>}
 
                         {replyVisible && 
                             <Box pl="16" pr="2">

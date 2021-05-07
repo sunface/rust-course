@@ -12,6 +12,7 @@ import CommentEditor from "./editor"
 import { requestApi } from "utils/axios/request"
 import Reply from "./reply"
 import Link from "next/link"
+import Report from "components/report"
 
 interface Props {
     user: User
@@ -21,6 +22,7 @@ interface Props {
 export const CommentCard = (props: Props) => {
     const { comment, user, onChange} = props
     const [editorVisible, setEditorVisible] = useState(false)
+    const [report,setReport] = useState(false)
 
     const [replyVisible,setReplyVisible] = useState(false)
     const [reply,setReply] = useState('')
@@ -87,11 +89,13 @@ export const CommentCard = (props: Props) => {
                                     <MenuList>
                                         {user && <MenuItem onClick={() => setEditorVisible(true)}><FaRegEdit /><chakra.span ml="2">Edit</chakra.span></MenuItem>}
                                         {user && <MenuItem onClick={() => deleteComment(comment.id)}><FaRegTrashAlt /><chakra.span ml="2">Delete</chakra.span></MenuItem>}
-                                        <MenuItem><FaRegFlag /><chakra.span ml="2">Report</chakra.span></MenuItem>
+                                        <MenuItem onClick={() => setReport(true)}><FaRegFlag /><chakra.span ml="2">Report</chakra.span></MenuItem>
                                     </MenuList>
                                 </Menu>
                             </HStack>
                         </Flex>
+                        
+                        {report && <Report targetID={comment.id} onClose={() => setReport(false)}/>}
 
                         {replyVisible && <Box pl="16" pr="2"><CommentEditor menu={false} user={user} md={reply} onSubmit={md => {submitReply(md)}} onCancel={() => setReplyVisible(false)} /></Box>}
 

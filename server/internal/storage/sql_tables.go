@@ -287,6 +287,7 @@ var sqlTables = map[string]string{
 		created DATETIME
 	);`,
 	"report": `CREATE TABLE IF NOT EXISTS report (
+		id 			    INTEGER PRIMARY KEY AUTOINCREMENT,
 		target_id   VARCHAR(255),
 		type        VARCHAR(1) NOT NULL,
 		reporter 	VARCHAR(255) NOT NULL,

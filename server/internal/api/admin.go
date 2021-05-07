@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/asaskevich/govalidator"
@@ -77,7 +76,6 @@ type ReportReq struct {
 func SubmitReport(c *gin.Context) {
 	req := &ReportReq{}
 	c.Bind(&req)
-	fmt.Println(*req)
 
 	u := user.CurrentUser(c)
 	err := admin.AddReport(req.TargetID, req.Content, u.ID)
@@ -87,4 +85,20 @@ func SubmitReport(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}
+
+func GetReports(c *gin.Context) {
+	currentUser := user.CurrentUser(c)
+	if !currentUser.Role.IsAdmin() {
+		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
+		return
+	}
+
+	res, err := admin.GetReports(1)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(res))
 }
