@@ -3,11 +3,14 @@ package models
 import "time"
 
 type Report struct {
-	ID       int    `json:"id"`
-	TargetID string `json:"target_id"`
-	Reporter *UserSimple
-	Status   int       `json:"status"`
-	Created  time.Time `json:"created"`
+	ID       int         `json:"id"`
+	Type     string      `json:"type"`
+	Content  string      `json:"content"`
+	TargetID string      `json:"target_id"`
+	Reporter *UserSimple `json:"reporter"`
+	Status   int         `json:"status"`
+	Created  time.Time   `json:"created"`
+	URL      string      `json:"url"`
 }
 
 type Reports []*Report

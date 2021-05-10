@@ -102,3 +102,20 @@ func GetReports(c *gin.Context) {
 
 	c.JSON(http.StatusOK, common.RespSuccess(res))
 }
+
+func DeleteReport(c *gin.Context) {
+	id := c.Param("id")
+	currentUser := user.CurrentUser(c)
+	if !currentUser.Role.IsAdmin() {
+		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
+		return
+	}
+
+	err := admin.DeleteReport(id)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}

@@ -131,6 +131,9 @@ func GetComment(id string) (*models.Comment, *e.Error) {
 		&c.ID, &c.TargetID, &c.CreatorID, &rawMd, &c.Created, &c.Updated,
 	)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, e.New(http.StatusNotFound, "评论不存在")
+		}
 		logger.Warn("get comment error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
 	}

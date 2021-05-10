@@ -70,6 +70,7 @@ func (s *Server) Start() error {
 		r.GET("/story/post/:id", api.GetStory)
 		r.GET("/story/id/:type", IsLogin(), InvasionCheck(), api.GenStoryID)
 		r.GET("/story/comments/:id", api.GetStoryComments)
+		r.GET("/story/comment/:id", api.GetStoryComment)
 		r.POST("/story/comment", IsLogin(), api.SubmitComment)
 		r.DELETE("/story/comment/:id", IsLogin(), api.DeleteStoryComment)
 
@@ -152,6 +153,7 @@ func (s *Server) Start() error {
 		r.GET("/admin/user/all", IsLogin(), api.AdminGetUsers)
 		r.GET("/admin/config", IsLogin(), api.AdminConfig)
 		r.GET("/admin/reports", IsLogin(), api.GetReports)
+		r.DELETE("/admin/report/:id", IsLogin(), api.DeleteReport)
 		// notification apis
 		r.GET("/notifications/list/:type", IsLogin(), api.GetNotifications)
 		r.GET("/notifications/unread", IsLogin(), api.GetUnread)

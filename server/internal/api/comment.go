@@ -85,6 +85,22 @@ func GetStoryComments(c *gin.Context) {
 	c.JSON(http.StatusOK, common.RespSuccess(comments))
 }
 
+func GetStoryComment(c *gin.Context) {
+	id := c.Param("id")
+	comment, err := story.GetComment(id)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	comment.Creator = &models.UserSimple{
+		ID: comment.CreatorID,
+	}
+	comment.Creator.Query()
+
+	c.JSON(http.StatusOK, common.RespSuccess(comment))
+}
+
 func DeleteStoryComment(c *gin.Context) {
 	id := c.Param("id")
 	//only admin and owner can delete comment

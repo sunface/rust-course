@@ -2,6 +2,7 @@ package admin
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 	"sort"
 	"time"
@@ -18,8 +19,8 @@ const (
 )
 
 func AddReport(targetID string, content string, reporter string) *e.Error {
-	_, err := db.Conn.Exec("INSERT INTO report (target_id,type,reporter,status,created) VALUES (?,?,?,?,?)",
-		targetID, models.GetIDType(targetID), reporter, StatusUndealed, time.Now())
+	_, err := db.Conn.Exec("INSERT INTO report (target_id,type,content,reporter,status,created) VALUES (?,?,?,?,?,?)",
+		targetID, models.GetIDType(targetID), content, reporter, StatusUndealed, time.Now())
 
 	if err != nil {
 		if e.IsErrUniqueConstraint(err) {
@@ -34,7 +35,7 @@ func AddReport(targetID string, content string, reporter string) *e.Error {
 
 func GetReports(page int) ([]*models.Report, *e.Error) {
 	reports := make(models.Reports, 0)
-	rows, err := db.Conn.Query("SELECT id,target_id,reporter,status,created FROM report")
+	rows, err := db.Conn.Query("SELECT id,type,content,target_id,reporter,status,created FROM report")
 	if err != nil && err != sql.ErrNoRows {
 		logger.Warn("get reports error", "error", err)
 		return nil, e.New(http.StatusInternalServerError, e.Internal)
@@ -49,7 +50,7 @@ func GetReports(page int) ([]*models.Report, *e.Error) {
 			Reporter: &models.UserSimple{},
 		}
 		var uid string
-		err := rows.Scan(&r.ID, &r.TargetID, &uid, &r.Status, &r.Created)
+		err := rows.Scan(&r.ID, &r.Type, &r.Content, &r.TargetID, &uid, &r.Status, &r.Created)
 		if err != nil {
 			logger.Warn("scan report error", "error", err)
 			continue
@@ -57,10 +58,27 @@ func GetReports(page int) ([]*models.Report, *e.Error) {
 
 		r.Reporter.ID = uid
 		r.Reporter.Query()
+
+		switch r.Type {
+		case models.IDTypePost:
+			r.URL = fmt.Sprintf("/%s/%s", r.Reporter.Username, r.TargetID)
+		case models.IDTypeComment:
+			r.URL = fmt.Sprintf("/r/comment/%s", r.TargetID)
+		}
 		reports = append(reports, r)
 	}
 
 	sort.Sort(reports)
 
 	return reports, nil
+}
+
+func DeleteReport(id string) *e.Error {
+	_, err := db.Conn.Exec("DELETE FROM report WHERE id=?", id)
+	if err != nil {
+		logger.Warn("delete report error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	return nil
 }
