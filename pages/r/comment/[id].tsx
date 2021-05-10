@@ -1,24 +1,10 @@
-import { Box, Button, Flex, Heading, HStack, Image, Text, VStack } from "@chakra-ui/react"
-import Card from "components/card"
-import Empty from "components/empty"
-import { MarkdownRender } from "components/markdown-editor/render"
-import Stories from "components/story/stories"
-import SEO from "components/seo"
-import siteConfig from "configs/site-config"
 import useSession from "hooks/use-session"
-import PageContainer1 from "layouts/page-container1"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
-import { ReserveUrls } from "src/data/reserve-urls"
-import { Story } from "src/types/story"
-import { Tag } from "src/types/tag"
 import { requestApi } from "utils/axios/request"
-import { isAdmin } from "utils/role"
-import Follow from "components/interaction/follow"
-import Count from "components/count"
-import StoryFilters from "components/story/story-filter"
 import CommentCard from "components/comments/comment"
 import { Comment } from "src/types/comments"
+import { Box, Button } from "@chakra-ui/react"
 
 const CommentPage = () => {
     const router = useRouter()
@@ -37,11 +23,16 @@ const CommentPage = () => {
         console.log(res.data)
     }
 
+    const gotoPost = async () => {
+        const res = await requestApi.get(`/story/byCommentID/${comment.id}`)
+        router.push(res.data + '#comments')
+    }
 
     return (
-        <>
+        <Box p="4">
+           <Button mb="2" onClick={() => gotoPost()}>前往文章</Button>
            {comment && session && <CommentCard user={session.user} comment={comment} onChange={null}/>}
-        </>
+        </Box>
     )
 }
 

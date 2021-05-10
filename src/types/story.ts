@@ -5,7 +5,8 @@ import { Tag } from './tag';
 export enum StoryStatus {
     Draft = 1,
     Published = 2,
-    Hiddent = 3 
+    Hidden = 3 ,
+    Forbidden = 4
 }
 
 export interface Story {

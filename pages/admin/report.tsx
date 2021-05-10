@@ -61,7 +61,7 @@ const PostsPage = () => {
                                     </HStack>
 
                                     <HStack >
-                                        <Button size="sm" onClick={() => router.push(r.url)}>去处理</Button>
+                                        <Button size="sm" onClick={() => window.open(r.url)}>去处理</Button>
                                         <Button colorScheme="orange" size="sm" onClick={() => deleteReport(r.id)}>删除Report</Button>
                                     </HStack>
                                 </Flex>)

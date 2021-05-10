@@ -119,3 +119,20 @@ func DeleteReport(c *gin.Context) {
 
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
 }
+
+func ForbiddenStory(c *gin.Context) {
+	id := c.Param("id")
+	currentUser := user.CurrentUser(c)
+	if !currentUser.Role.IsAdmin() {
+		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
+		return
+	}
+
+	err := admin.ForbiddenStory(id)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}

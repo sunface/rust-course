@@ -1,4 +1,4 @@
-import { Box, Button, chakra, Divider, Flex, Heading, HStack, Image, Radio, RadioGroup, Stack, Text} from "@chakra-ui/react"
+import { Box, Button, chakra, Divider, Flex, Heading, HStack, Image, Radio, RadioGroup, Stack, Tag, Text, Tooltip} from "@chakra-ui/react"
 import Comments from "components/comments/comments"
 import { MarkdownRender } from "components/markdown-editor/render"
 import  { StoryAuthor } from "components/story/story-author"
@@ -9,7 +9,7 @@ import PostNav from "layouts/nav/post-nav"
 import PageContainer from "layouts/page-container"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
-import { Story } from "src/types/story"
+import { Story, StoryStatus } from "src/types/story"
 import { requestApi } from "utils/axios/request"
 import StorySidebar from "components/story/story-sidebar"
 import Series from "components/story/series"
@@ -63,7 +63,11 @@ const PostPage = () => {
             <Box width={["100%", "100%", "75%", "75%"]} height="fit-content" pl={[0, 0, "0%", "10%"]}>
               <Image src={post.cover} />
               <Box px="2">
-                <Heading size="lg" my="6" lineHeight="1.5">{post.title}</Heading>
+                <HStack>
+                  <Heading size="lg" my="6" lineHeight="1.5">{post.title}</Heading>
+                  {post.status === StoryStatus.Forbidden && <Tooltip label="因为文章内容问题，你的文章已经被禁用，如需恢复，请修改内容后，去创作中心申请恢复"><Tag colorScheme="red">已禁用</Tag></Tooltip>}
+                </HStack>
+
 
                 <Divider my="4" />
                 <Flex width="100%" justifyContent="space-between" display="flex" alignItems="start" layerStyle="textSecondary" cursor="pointer" onClick={() => setReport(true)}>

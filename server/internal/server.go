@@ -73,6 +73,7 @@ func (s *Server) Start() error {
 		r.GET("/story/comment/:id", api.GetStoryComment)
 		r.POST("/story/comment", IsLogin(), api.SubmitComment)
 		r.DELETE("/story/comment/:id", IsLogin(), api.DeleteStoryComment)
+		r.GET("/story/byCommentID/:cid", api.GetStoryIDByCommentID)
 
 		r.GET("/story/posts/editor", IsLogin(), api.GetEditorPosts)
 		r.GET("/story/posts/org/:id", IsLogin(), api.GetOrgPosts)
@@ -91,7 +92,7 @@ func (s *Server) Start() error {
 		r.DELETE("/story/post/:id", IsLogin(), api.DeletePost)
 		r.POST("/story/bookmark/:storyID", IsLogin(), api.Bookmark)
 		r.GET("/story/bookmark/posts", IsLogin(), api.GetBookmarkPosts)
-
+		r.POST("/story/forbidden/:id", IsLogin(), api.ForbiddenStory)
 		// tag apis
 		r.POST("/tag", IsLogin(), api.SubmitTag)
 		r.DELETE("/tag/:id", IsLogin(), api.DeleteTag)

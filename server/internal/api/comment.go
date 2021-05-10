@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -89,6 +90,7 @@ func GetStoryComment(c *gin.Context) {
 	id := c.Param("id")
 	comment, err := story.GetComment(id)
 	if err != nil {
+
 		c.JSON(err.Status, common.RespError(err.Message))
 		return
 	}
@@ -132,4 +134,24 @@ func DeleteStoryComment(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}
+
+func GetStoryIDByCommentID(c *gin.Context) {
+	cid := c.Param("cid")
+	id, _, err := story.GetStoryIDByCommentID(cid)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, common.RespError(e.Internal))
+		return
+	}
+
+	creatorID, err1 := story.GetPostCreator(id)
+	if err1 != nil {
+		c.JSON(err1.Status, common.RespError(err1.Message))
+		return
+	}
+
+	creator := &models.UserSimple{ID: creatorID}
+	creator.Query()
+
+	c.JSON(http.StatusOK, common.RespSuccess(fmt.Sprintf("/%s/%s", creator.Username, id)))
 }

@@ -10,6 +10,7 @@ const (
 	StatusDraft     = 1
 	StatusPublished = 2
 	StatusHidden    = 3
+	StatusForbidden = 4
 )
 
 type Story struct {
