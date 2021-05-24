@@ -128,3 +128,63 @@ func GetOrgTags(c *gin.Context) {
 
 	c.JSON(http.StatusOK, common.RespSuccess(res))
 }
+
+func GetTagModerators(c *gin.Context) {
+	id := c.Param("id")
+	if id == "" {
+		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
+		return
+	}
+
+	res, err := tags.GetModerators(id)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(res))
+}
+
+type AddModeratorReq struct {
+	TagID    string `json:"tagID"`
+	Username string `json:"username"`
+}
+
+func AddModerator(c *gin.Context) {
+	req := &AddModeratorReq{}
+	c.Bind(&req)
+
+	user := user.CurrentUser(c)
+	if !user.Role.IsSuperAdmin() {
+		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
+	}
+
+	err := tags.AddModerator(req.TagID, req.Username)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}
+
+func DeleteModerator(c *gin.Context) {
+	tagID := c.Param("tagID")
+	userID := c.Param("userID")
+	if tagID == "" || userID == "" {
+		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
+		return
+	}
+	user := user.CurrentUser(c)
+	if !user.Role.IsSuperAdmin() {
+		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
+	}
+
+	err := tags.DeleteModerator(tagID, userID)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}

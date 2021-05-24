@@ -172,6 +172,15 @@ var sqlTables = map[string]string{
 		ON tags_using (tag_id,target_type);
 	`,
 
+	"tag_moderators": `CREATE TABLE IF NOT EXISTS tag_moderators (
+		tag_id VARCHAR(255),
+		user_id VARCHAR(255),
+		created DATETIME NOT NULL
+	);
+	CREATE UNIQUE INDEX IF NOT EXISTS tag_md_tid_uid
+		ON tag_moderators (tag_id,user_id);
+	`,
+
 	"comments": `CREATE TABLE IF NOT EXISTS comments (
 		id           VARCHAR(255) PRIMARY KEY, 
 		story_id    VARCHAR(255),

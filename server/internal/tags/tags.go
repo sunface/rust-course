@@ -250,3 +250,64 @@ func GetUserTags(userID string) ([]*models.Tag, *e.Error) {
 
 	return tags, nil
 }
+
+func GetModerators(id string) ([]*models.UserSimple, *e.Error) {
+	users := make([]*models.UserSimple, 0)
+	rows, err := db.Conn.Query("SELECT user_id FROM tag_moderators WHERE tag_id=?", id)
+	if err != nil {
+		logger.Warn("get tag moderators error", "error", err)
+		return nil, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	for rows.Next() {
+		var uid string
+		rows.Scan(&uid)
+
+		u := &models.UserSimple{
+			ID: uid,
+		}
+
+		err = u.Query()
+		if err != nil {
+			logger.Warn("query user error", "error", err)
+			continue
+		}
+		users = append(users, u)
+	}
+
+	return users, nil
+}
+
+func AddModerator(tagID, username string) *e.Error {
+	var userID string
+	err := db.Conn.QueryRow("SELECT id FROM user WHERE username=?", username).Scan(&userID)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return e.New(http.StatusNotFound, e.NotFound)
+		}
+		logger.Warn("add tag moderator error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	_, err = db.Conn.Exec("INSERT INTO tag_moderators (tag_id,user_id,created) VALUES (?,?,?)", tagID, userID, time.Now())
+	if err != nil {
+		if e.IsErrUniqueConstraint(err) {
+			return e.New(http.StatusConflict, e.AlreadyExist)
+		}
+
+		logger.Warn("add tag moderator error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	return nil
+}
+
+func DeleteModerator(tagID, userID string) *e.Error {
+	_, err := db.Conn.Exec("DELETE FROM tag_moderators WHERE tag_id=? and user_id=?", tagID, userID)
+	if err != nil {
+		logger.Warn("add tag moderator error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	return nil
+}

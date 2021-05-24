@@ -8,4 +8,5 @@ export interface Tag {
     created?: string
     posts?: number
     follows?: number
+    moderators?: string
 }

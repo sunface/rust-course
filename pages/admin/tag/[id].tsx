@@ -88,22 +88,22 @@ function PostEditPage() {
                 <Card width="35%">
                     <Heading size="xs">
                         Title
-                            </Heading>
+                    </Heading>
                     <Input value={tag.title} onChange={(e) => { tag.title = e.target.value; onChange() }} mt="4" variant="flushed" size="sm" placeholder="Tag title..." focusBorderColor="teal.400" />
 
                     <Heading size="xs" mt="8">
                         Name
-                            </Heading>
+                    </Heading>
                     <Input value={tag.name} onChange={(e) => { tag.name = e.target.value; onChange() }} mt="4" variant="flushed" size="sm" placeholder="Tag name..." focusBorderColor="teal.400" />
 
                     <Heading size="xs" mt="8">
                         封面
-                            </Heading>
+                    </Heading>
                     <Input value={tag.cover} onChange={(e) => { tag.cover = e.target.value; onChange() }} mt="4" variant="flushed" size="sm" placeholder="图片链接，你可以用github当图片存储服务" focusBorderColor="teal.400" />
 
                     <Heading size="xs" mt="8">
                         图标
-                            </Heading>
+                    </Heading>
                     <Input value={tag.icon} onChange={(e) => { tag.icon = e.target.value; onChange() }} mt="4" variant="flushed" size="sm" placeholder="图片链接" focusBorderColor="teal.400" />
                 </Card>
             </HStack>

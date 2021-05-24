@@ -54,15 +54,15 @@ func UserPosts(tp string, user *models.User, uid string, page int64, perPage int
 	var err error
 	if tp == models.IDTypeUndefined {
 		if perPage == 0 {
-			rows, err = db.Conn.Query(PostQueryPrefix+"where creator=? and status=?", uid, models.StatusPublished)
+			rows, err = db.Conn.Query(PostQueryPrefix+"where creator=? and status!=?", uid, models.StatusDraft)
 		} else {
-			rows, err = db.Conn.Query(PostQueryPrefix+"where creator=? and status=? ORDER BY created DESC LIMIT ?,?", uid, models.StatusPublished, (page-1)*perPage, perPage)
+			rows, err = db.Conn.Query(PostQueryPrefix+"where creator=? and status!=? ORDER BY created DESC LIMIT ?,?", uid, models.StatusDraft, (page-1)*perPage, perPage)
 		}
 	} else {
 		if perPage == 0 {
-			rows, err = db.Conn.Query(PostQueryPrefix+"where creator=? and type=? and status=?", uid, tp, models.StatusPublished)
+			rows, err = db.Conn.Query(PostQueryPrefix+"where creator=? and type=? and status!=?", uid, tp, models.StatusDraft)
 		} else {
-			rows, err = db.Conn.Query(PostQueryPrefix+"where creator=? and type=? and status=? ORDER BY created DESC LIMIT ?,? ", uid, tp, models.StatusPublished, (page-1)*perPage, perPage)
+			rows, err = db.Conn.Query(PostQueryPrefix+"where creator=? and type=? and status!=? ORDER BY created DESC LIMIT ?,? ", uid, tp, models.StatusDraft, (page-1)*perPage, perPage)
 		}
 	}
 

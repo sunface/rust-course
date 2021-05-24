@@ -65,7 +65,7 @@ const PostPage = () => {
               <Box px="2">
                 <HStack>
                   <Heading size="lg" my="6" lineHeight="1.5">{post.title}</Heading>
-                  {post.status === StoryStatus.Forbidden && <Tooltip label="因为文章内容问题，你的文章已经被禁用，如需恢复，请修改内容后，去创作中心申请恢复"><Tag colorScheme="red">已禁用</Tag></Tooltip>}
+                  {post.status === StoryStatus.Forbidden && <Tooltip label="因为文章内容问题，你的文章已经被禁用，如需恢复，请修改内容后，发送邮件到官方邮箱"><Tag colorScheme="red">已禁用</Tag></Tooltip>}
                 </HStack>
 
 
