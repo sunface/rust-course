@@ -17,11 +17,12 @@ interface Props {
     showOrg?: boolean
     onLoad?: any
     filter?: string
+    onRemove?: any
 }
 
 
 export const Stroies = (props: Props) => {
-    const { card = StoryCard, showFooter = true, type = "classic", showPinned = false, showOrg = true, onLoad, filter } = props
+    const { card = StoryCard, showFooter = true, type = "classic", showPinned = false, showOrg = true, onLoad, filter,onRemove } = props
     const [posts, setPosts] = useState([])
     const [noMore, setNoMore] = useState(false)
     
@@ -93,7 +94,7 @@ export const Stroies = (props: Props) => {
                         <VStack alignItems="left">
                             {posts.map((story, i) =>
                                 <Box py="2" borderBottom={showBorder(i) ? `1px solid ${borderColor}` : null} key={story.id} px="1">
-                                    <Card story={story} size={props.size} type={type} highlight={props.highlight} showPinned={showPinned} showOrg={showOrg} />
+                                    <Card story={story} size={props.size} type={type} highlight={props.highlight} showPinned={showPinned} showOrg={showOrg} onRemove={onRemove} />
                                 </Box>)}
                         </VStack>
                         {isFetching && 'Fetching more list items...'}

@@ -67,7 +67,7 @@ function PostEditPage() {
             />}
         >
             <HStack style={{ height: 'calc(100vh - 145px)' }} alignItems="top">
-                <Card width="65%">
+                <Card width="65%" height="100%">
                     {editMode === EditMode.Edit ?
                         <MarkdownEditor
                             options={{

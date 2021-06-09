@@ -311,3 +311,27 @@ func DeleteModerator(tagID, userID string) *e.Error {
 
 	return nil
 }
+
+func IsModerator(tagID string, user *models.User) bool {
+	if user.Role.IsAdmin() {
+		return true
+	}
+
+	var uid string
+	db.Conn.QueryRow("SELECT user_id FROM tag_moderators WHERE tag_id=? and user_id=?", tagID, user.ID).Scan(&uid)
+	if uid == user.ID {
+		return true
+	}
+
+	return false
+}
+
+func RemoveTagStory(tagID, storyID string) *e.Error {
+	_, err := db.Conn.Exec("DELETE FROM tags_using WHERE tag_id=? and target_id=?", tagID, storyID)
+	if err != nil {
+		logger.Warn("remove  tag story error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	return nil
+}

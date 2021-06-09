@@ -82,7 +82,7 @@ const OnboardPage = () => {
 
     return (
         <Center h="100vh" mt="-8">
-            <Card p="6" width="600px">
+            <Card p="6" width="800px">
                 {step === 1 ? <>
                 <Text layerStyle="textSecondary" fontWeight="bold">CREATE YOUR ACCOUNT</Text>
                 <Heading size="md" mt="2">🤘 Let's start your {config.appName} journey</Heading>

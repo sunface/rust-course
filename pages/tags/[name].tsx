@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, HStack, Image, Text, VStack } from "@chakra-ui/react"
+import { Avatar, Box, Button, Flex, Heading, HStack, Image, Text, useToast, VStack } from "@chakra-ui/react"
 import Card from "components/card"
 import Empty from "components/empty"
 import { MarkdownRender } from "components/markdown-editor/render"
@@ -17,16 +17,24 @@ import { isAdmin } from "utils/role"
 import Follow from "components/interaction/follow"
 import Count from "components/count"
 import StoryFilters from "components/story/story-filter"
+import { UserSimple } from "src/types/user"
+import Users from "components/users/users"
+import Head from "next/head"
+import { getUserName } from "utils/user"
+import Link from "next/link"
+import { getSvgIcon } from "components/svg-icon"
 
 const UserPage = () => {
     const router = useRouter()
+    const toast = useToast()
 
     const [tag, setTag]: [Tag, any] = useState(null)
-
+    const [moderators,setModerators]:[UserSimple[],any] = useState([])
     const [followed, setFollowed] = useState(null)
     useEffect(() => {
         if (tag) {
             requestApi.get(`/interaction/followed/${tag.id}`).then(res => setFollowed(res.data))
+            requestApi.get(`/tag/moderators/${tag.id}`).then(res => setModerators(res.data))
         }
     }, [tag])
 
@@ -51,6 +59,30 @@ const UserPage = () => {
     }, [router.query.name])
 
     const session = useSession()
+
+    const isModerator = () => {
+        if (isAdmin(session.user.role)) {
+            return true
+        }
+
+        for (const m of moderators) {
+            if (m.id === session.user.id) {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    const removeStory = async id => {
+       await requestApi.delete(`/tag/story/${tag.id}/${id}`)
+       toast({
+            description: "从标签移除成功，刷新页面可看到效果",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+        })
+    }
     return (
         <>
             <SEO
@@ -71,7 +103,7 @@ const UserPage = () => {
                                     </Box>
                                     <Box>
                                         {followed !== null && <Follow followed={followed} targetID={tag.id} />}
-                                        {isAdmin(session?.user.role) && <Button ml="2" onClick={() => router.push(`${ReserveUrls.Admin}/tag/${tag.name}`)}>Edit</Button>}
+                                        {isModerator() && <Button ml="2" onClick={() => router.push(`${ReserveUrls.Admin}/tag/${tag.name}`)}>Edit</Button>}
                                     </Box>
                                 </Flex>
 
@@ -80,8 +112,8 @@ const UserPage = () => {
                                 <StoryFilters showBest={false} onChange={onFilterChange} />
                             </Card>
                             <Card width="100%" height="fit-content" p="0" px="3">
-                                {tag.id && 
-                                    <Stories onLoad={initPosts} filter={filter} />
+                                {tag.id &&  
+                                    <Stories onLoad={initPosts} filter={filter} onRemove={removeStory}/>
                                 }
                             </Card>
                         </VStack>
@@ -101,9 +133,22 @@ const UserPage = () => {
                             </Card>
 
                             <Card mt="4">
-                                <Heading size="sm">About this tag</Heading>
+                                <HStack><Heading size="sm">About this tag </Heading></HStack>
                                 <Box mt="2"><MarkdownRender md={tag.md} fontSize="1rem"></MarkdownRender></Box>
                             </Card>
+
+                            {moderators.length > 0 && <Card mt="4">
+                                <Heading size="sm">Tag moderators</Heading>
+                                <VStack alignItems="left" mt="4">
+                                    {moderators.map(m => <a href={`/${m.username}`} target="_blank">
+                                        <HStack cursor="pointer">
+                                        <Avatar width="45px" height="45px" src={m.avatar}/>
+                                        <Heading size="sm">{getUserName(m)}</Heading>
+                                    </HStack>
+                                    </a>)}
+                                </VStack>
+                                
+                            </Card>}
                         </VStack>
                     </HStack>}
             </PageContainer1>

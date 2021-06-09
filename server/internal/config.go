@@ -6,9 +6,11 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/common"
 	"github.com/imdotdev/im.dev/server/pkg/config"
 	"github.com/imdotdev/im.dev/server/pkg/db"
+	"github.com/imdotdev/im.dev/server/pkg/e"
 )
 
 type Config struct {
@@ -57,6 +59,12 @@ func GetConfig(c *gin.Context) {
 func UpdateConfig(c *gin.Context) {
 	d := make(map[string]interface{})
 	c.Bind(&d)
+
+	currentUser := user.CurrentUser(c)
+	if !currentUser.Role.IsAdmin() {
+		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
+		return
+	}
 
 	b, _ := json.Marshal(&d)
 	_, err := db.Conn.Exec(`UPDATE config SET data=?,updated=? WHERE id=?`, b, time.Now(), 1)

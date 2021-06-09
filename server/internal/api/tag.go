@@ -63,16 +63,16 @@ func GetTagsByIDs(c *gin.Context) {
 }
 
 func SubmitTag(c *gin.Context) {
-	user := user.CurrentUser(c)
-	if !user.Role.IsAdmin() {
-		c.JSON(http.StatusForbidden, common.RespError(e.NoEditorPermission))
-		return
-	}
-
 	tag := &models.Tag{}
 	err := c.Bind(&tag)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
+		return
+	}
+
+	user := user.CurrentUser(c)
+	if !tags.IsModerator(tag.ID, user) {
+		c.JSON(http.StatusForbidden, common.RespError(e.NoEditorPermission))
 		return
 	}
 
@@ -157,6 +157,7 @@ func AddModerator(c *gin.Context) {
 	user := user.CurrentUser(c)
 	if !user.Role.IsSuperAdmin() {
 		c.JSON(http.StatusForbidden, common.RespError(e.NoPermission))
+		return
 	}
 
 	err := tags.AddModerator(req.TagID, req.Username)
@@ -187,4 +188,28 @@ func DeleteModerator(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
+}
+
+func RemoveTagStory(c *gin.Context) {
+	tagID := c.Param("tagID")
+	storyID := c.Param("storyID")
+	if tagID == "" || storyID == "" {
+		c.JSON(http.StatusBadRequest, common.RespError(e.ParamInvalid))
+		return
+	}
+
+	user := user.CurrentUser(c)
+	if !tags.IsModerator(tagID, user) {
+		c.JSON(http.StatusForbidden, common.RespError(e.NoEditorPermission))
+		return
+	}
+
+	err := tags.RemoveTagStory(tagID, storyID)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(nil))
+
 }
