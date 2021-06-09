@@ -66,9 +66,9 @@ func Follow(targetID string, userId string) *e.Error {
 
 	if !followed {
 		if models.GetIDType(targetID) == models.IDTypeUser {
-			notification.Send(targetID, "", models.NotificationFollow, targetID, userId)
+			notification.Send(targetID, "", models.NotificationFollow, targetID, " started following you", userId)
 		} else {
-			notification.Send("", targetID, models.NotificationFollow, targetID, userId)
+			notification.Send("", targetID, models.NotificationFollow, targetID, " started following you", userId)
 		}
 
 	}

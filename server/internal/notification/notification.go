@@ -13,18 +13,18 @@ import (
 
 var logger = log.RootLogger.New("logger", "notification")
 
-func Send(userID, orgID string, noType int, noID string, operatorID string) {
+func Send(userID, orgID string, noType int, noID string, noTitle string, operatorID string) {
 	if userID != "" {
-		_, err := db.Conn.Exec("INSERT INTO user_notification (user_id,operator_id,notifiable_type,notifiable_id,created) VALUES (?,?,?,?,?)",
-			userID, operatorID, noType, noID, time.Now())
+		_, err := db.Conn.Exec("INSERT INTO user_notification (user_id,operator_id,notifiable_type,notifiable_id,no_title,created) VALUES (?,?,?,?,?,?)",
+			userID, operatorID, noType, noID, noTitle, time.Now())
 		if err != nil {
 			logger.Warn("send notification error", "error", err)
 		}
 	}
 
 	if orgID != "" {
-		_, err := db.Conn.Exec("INSERT INTO org_notification (user_id,operator_id,notifiable_type,notifiable_id,created) VALUES (?,?,?,?,?)",
-			orgID, operatorID, noType, noID, time.Now())
+		_, err := db.Conn.Exec("INSERT INTO org_notification (user_id,operator_id,notifiable_type,notifiable_id,no_title,created) VALUES (?,?,?,?,?,?)",
+			orgID, operatorID, noType, noID, noTitle, time.Now())
 		if err != nil && !e.IsErrUniqueConstraint(err) {
 			logger.Warn("send notification error", "error", err)
 		}
@@ -37,11 +37,11 @@ func Query(user *models.User, tp int, page int) ([]*models.Notification, *e.Erro
 	var rows *sql.Rows
 	var err error
 	if tp == 0 {
-		rows, err = db.Conn.Query("SELECT operator_id,notifiable_type,notifiable_id,read,created FROM user_notification WHERE user_id=? ORDER BY created DESC LIMIT ?,?", user.ID, (page-1)*perPage, page*perPage)
+		rows, err = db.Conn.Query("SELECT operator_id,notifiable_type,notifiable_id,no_title,read,created FROM user_notification WHERE user_id=? ORDER BY created DESC LIMIT ?,?", user.ID, (page-1)*perPage, page*perPage)
 	} else if tp == models.NotificationComment {
-		rows, err = db.Conn.Query("SELECT operator_id,notifiable_type,notifiable_id,read,created FROM user_notification WHERE user_id=? and notifiable_type in ('1','6') ORDER BY created DESC LIMIT ?,?", user.ID, (page-1)*perPage, page*perPage)
+		rows, err = db.Conn.Query("SELECT operator_id,notifiable_type,notifiable_id,no_title,read,created FROM user_notification WHERE user_id=? and notifiable_type in ('1','6') ORDER BY created DESC LIMIT ?,?", user.ID, (page-1)*perPage, page*perPage)
 	} else {
-		rows, err = db.Conn.Query("SELECT operator_id,notifiable_type,notifiable_id,read,created FROM user_notification WHERE user_id=? and notifiable_type=? ORDER BY created DESC  LIMIT ?,?", user.ID, tp, (page-1)*perPage, page*perPage)
+		rows, err = db.Conn.Query("SELECT operator_id,notifiable_type,notifiable_id,no_title,read,created FROM user_notification WHERE user_id=? and notifiable_type=? ORDER BY created DESC  LIMIT ?,?", user.ID, tp, (page-1)*perPage, page*perPage)
 	}
 
 	if err != nil {
@@ -56,7 +56,8 @@ func Query(user *models.User, tp int, page int) ([]*models.Notification, *e.Erro
 		var noID string
 		var read bool
 		var created time.Time
-		err := rows.Scan(&operatorID, &noType, &noID, &read, &created)
+		var title string
+		err := rows.Scan(&operatorID, &noType, &noID, &title, &read, &created)
 		if err != nil {
 			logger.Warn("scan notification", "error", err)
 			continue
@@ -65,34 +66,27 @@ func Query(user *models.User, tp int, page int) ([]*models.Notification, *e.Erro
 		operator := &models.UserSimple{ID: operatorID}
 		err = operator.Query()
 
-		no := &models.Notification{Created: created, Type: noType, User: operator, Read: read}
+		no := &models.Notification{Created: created, Type: noType, User: operator, Read: read, Title: title}
 
 		switch no.Type {
-		case models.NotificationComment:
-			no.Title = " commented on your story"
+		case models.NotificationComment, models.NotificationSystem:
 			no.SubTitle = models.GetStoryTitle(noID)
 			no.StoryID = noID
 		case models.NotificationReply:
-			no.Title = " replied to your comment"
 			no.SubTitle = models.GetStoryTitle(noID)
 			no.StoryID = noID
 		case models.NotificationLike:
 			if models.GetIDType(noID) == models.IDTypeComment {
-				no.Title = " liked your comment"
 				id := models.GetCommentStoryID(noID)
 				if id != "" {
 					no.SubTitle = models.GetStoryTitle(id)
 					no.StoryID = id
 				}
 			} else {
-				no.Title = " liked your story"
 				no.SubTitle = models.GetStoryTitle(noID)
 				no.StoryID = noID
 			}
-		case models.NotificationFollow:
-			no.Title = " started following you"
 		case models.NotificationPublish:
-			no.Title = " published a new story"
 			no.SubTitle = models.GetStoryTitle(noID)
 			no.StoryID = noID
 		}

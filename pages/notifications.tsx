@@ -15,6 +15,7 @@ import Notifications from "components/notifications"
 
 const filters = [
   {icon: 'bell',label:'All',type: 0},
+  {icon: 'comments',label:'System',type: 7},
   {icon: 'comments',label:'Comments',type: 1},
   {icon: 'favorites',label:'Likes', type: 2},
   {icon: 'follow',label:'Follows', type: 5},

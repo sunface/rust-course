@@ -264,6 +264,7 @@ var sqlTables = map[string]string{
 		operator_id     VARCHAR(255),
 		notifiable_type TINYINT,
 		notifiable_id   VARCHAR(255),
+		no_title 		VARCHAR(255),
 		read BOOL 		DEFAULT false,
 		created         DATETIME NOT NULL
 	);
@@ -277,6 +278,7 @@ var sqlTables = map[string]string{
 		operator_id     VARCHAR(255),
 		notifiable_type TINYINT,
 		notifiable_id   VARCHAR(255),
+		no_title 		VARCHAR(255),
 		read BOOL 		DEFAULT false,
 		created         DATETIME NOT NULL
 	);

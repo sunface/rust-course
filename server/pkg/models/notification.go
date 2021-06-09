@@ -9,6 +9,7 @@ const (
 	NotificationPublish = 4
 	NotificationFollow  = 5
 	NotificationReply   = 6
+	NotificationSystem  = 7
 )
 
 type Notification struct {

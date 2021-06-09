@@ -6,6 +6,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/imdotdev/im.dev/server/internal/interaction"
+	"github.com/imdotdev/im.dev/server/internal/notification"
+	"github.com/imdotdev/im.dev/server/internal/story"
 	"github.com/imdotdev/im.dev/server/internal/tags"
 	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/common"
@@ -208,6 +210,14 @@ func RemoveTagStory(c *gin.Context) {
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return
+	}
+
+	s, err := story.GetStory(storyID, "")
+	if err == nil {
+		t, err := tags.GetTag(tagID, "")
+		if err == nil {
+			notification.Send(s.CreatorID, "", models.NotificationSystem, storyID, " delete your story from tag "+t.Name, user.ID)
+		}
 	}
 
 	c.JSON(http.StatusOK, common.RespSuccess(nil))

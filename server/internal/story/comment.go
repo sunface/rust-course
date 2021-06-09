@@ -63,10 +63,10 @@ func AddComment(c *models.Comment) *e.Error {
 	if creator != "" && creator != c.CreatorID {
 		if models.GetIDType(c.TargetID) == models.IDTypeComment {
 			// reply
-			notification.Send(creator, owner, models.NotificationReply, storyID, c.CreatorID)
+			notification.Send(creator, owner, models.NotificationReply, storyID, " replied to your comment", c.CreatorID)
 		} else {
 			// comment
-			notification.Send(creator, owner, models.NotificationComment, storyID, c.CreatorID)
+			notification.Send(creator, owner, models.NotificationComment, storyID, " commented on your story", c.CreatorID)
 		}
 	}
 

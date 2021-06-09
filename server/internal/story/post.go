@@ -127,7 +127,7 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 			followers, err1 := interaction.GetFollowerIDs(post.CreatorID)
 			if err1 == nil {
 				for _, f := range followers {
-					notification.Send(f, "", models.NotificationPublish, post.ID, post.CreatorID)
+					notification.Send(f, "", models.NotificationPublish, post.ID, " published a new story", post.CreatorID)
 				}
 			}
 
@@ -135,7 +135,7 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 				followers, err1 = interaction.GetFollowerIDs(post.OwnerID)
 				if err1 == nil {
 					for _, f := range followers {
-						notification.Send("", f, models.NotificationPublish, post.ID, post.CreatorID)
+						notification.Send("", f, models.NotificationPublish, post.ID, " published a new story", post.CreatorID)
 					}
 				}
 			}

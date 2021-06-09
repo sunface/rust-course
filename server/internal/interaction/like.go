@@ -76,7 +76,13 @@ func Like(storyID string, userId string) *e.Error {
 		// send notification to story creator and owner
 		creator, owner := models.GetStoryCreatorAndOrg(storyID)
 		if creator != "" {
-			notification.Send(creator, owner, models.NotificationLike, storyID, userId)
+			var t string
+			if models.GetIDType(storyID) == models.IDTypeComment {
+				t = " liked your comment"
+			} else {
+				t = " liked your story"
+			}
+			notification.Send(creator, owner, models.NotificationLike, storyID, t, userId)
 		}
 	}
 	return nil
