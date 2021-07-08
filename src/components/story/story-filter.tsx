@@ -4,16 +4,15 @@ import { Button, HStack } from "@chakra-ui/react"
 
 interface Props {
   showBest?: boolean
+  value?: string
   onChange: any
 }
 
 export const StoryFilters = (props:Props) => {
-  const {showBest=true,onChange} = props
-  let initFilter = 'Best'
+  const {showBest=true,onChange,value="Best"} = props
+  let initFilter = value
   let filters = ['Recent','Week','Month','Year','Latest']
-  if (!showBest) {
-      initFilter = 'Recent'
-  } else {
+  if (showBest) {
       filters.unshift('Best')
   }
 

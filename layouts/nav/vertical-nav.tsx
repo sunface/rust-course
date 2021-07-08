@@ -12,7 +12,6 @@ import {
     Text
   } from "@chakra-ui/react"
   import siteConfig from "configs/site-config"
-  import { useViewportScroll } from "framer-motion"
   import NextLink from "next/link"
   import React, { useEffect, useState } from "react"
   import { FaBell, FaGithub, FaSearch } from "react-icons/fa"

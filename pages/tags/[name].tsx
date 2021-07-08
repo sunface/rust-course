@@ -23,6 +23,7 @@ import Head from "next/head"
 import { getUserName } from "utils/user"
 import Link from "next/link"
 import { getSvgIcon } from "components/svg-icon"
+import { SearchFilter } from "src/types/search"
 
 const UserPage = () => {
     const router = useRouter()
@@ -38,7 +39,7 @@ const UserPage = () => {
         }
     }, [tag])
 
-    const [filter, setFilter] = useState('Recent')
+    const [filter, setFilter] = useState(SearchFilter.Latest)
     const initPosts = (p) => {
         return requestApi.get(`/tag/posts/${tag.id}?filter=${filter}&page=${p}&per_page=5`)
     }
@@ -103,13 +104,13 @@ const UserPage = () => {
                                     </Box>
                                     <Box>
                                         {followed !== null && <Follow followed={followed} targetID={tag.id} />}
-                                        {isModerator() && <Button ml="2" onClick={() => router.push(`${ReserveUrls.Admin}/tag/${tag.name}`)}>Edit</Button>}
+                                        {session && isModerator() && <Button ml="2" onClick={() => router.push(`${ReserveUrls.Admin}/tag/${tag.name}`)}>Edit</Button>}
                                     </Box>
                                 </Flex>
 
                             </Card>
                             <Card p="2">
-                                <StoryFilters showBest={false} onChange={onFilterChange} />
+                                <StoryFilters showBest={false} onChange={onFilterChange} value={SearchFilter.Latest}/>
                             </Card>
                             <Card width="100%" height="fit-content" p="0" px="3">
                                 {tag.id &&  
