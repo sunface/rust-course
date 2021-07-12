@@ -27,7 +27,7 @@ Licensed基于[AGPL-3.0](LICENSE).
 
 ## Visitors Count
 
-<img align="left" src = "https://profile-counter.glitch.me/datav/count.svg" alt ="Loading">
+<img align="left" src = "https://profile-counter.glitch.me/imdev/count.svg" alt ="Loading">
 
 <p align="center">
   <img alt="Sloan, the sloth mascot" width="250px" src="/docs/assets/happy-dev.jpg">
