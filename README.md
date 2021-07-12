@@ -25,6 +25,9 @@ im.dev是专门为开发者打造的技术社区，支持**内容创作、社区
 ## 📑 License
 Licensed基于[AGPL-3.0](LICENSE).
 
+## Visitors Count
+
+<img align="left" src = "https://profile-counter.glitch.me/datav/count.svg" alt ="Loading">
 
 <p align="center">
   <img alt="Sloan, the sloth mascot" width="250px" src="/docs/assets/happy-dev.jpg">
