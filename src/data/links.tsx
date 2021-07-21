@@ -45,6 +45,11 @@ export const dashboardLinks: any[] = [
         path: `${ReserveUrls.Dashboard}/followers`,
         disabled: false
     },
+    {
+        title: 'Tag Moderator',
+        path: `${ReserveUrls.Dashboard}/tag-moderator`,
+        disabled: false
+    },
 ]
 
 export const searchLinks: any[] = [{

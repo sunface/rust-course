@@ -198,3 +198,7 @@ func UserRegister(c *gin.Context) {
 
 	user.Register(c, req.Code, req.Nickname, req.Username)
 }
+
+func GetUserModerators(c *gin.Context) {
+
+}

@@ -223,3 +223,15 @@ func RemoveTagStory(c *gin.Context) {
 	c.JSON(http.StatusOK, common.RespSuccess(nil))
 
 }
+
+func GetTagListByUserModeratorRole(c *gin.Context) {
+	user := user.CurrentUser(c)
+
+	res, err := tags.GetTagListByUserModeratorRole(user.ID)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(res))
+}

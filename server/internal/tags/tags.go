@@ -335,3 +335,26 @@ func RemoveTagStory(tagID, storyID string) *e.Error {
 
 	return nil
 }
+
+func GetTagListByUserModeratorRole(userID string) ([]*models.Tag, *e.Error) {
+	tags := make([]*models.Tag, 0)
+	rows, err := db.Conn.Query("SELECT tag_id FROM tag_moderators WHERE user_id=?", userID)
+	if err != nil {
+		logger.Warn("get tag moderators error", "error", err)
+		return nil, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	for rows.Next() {
+		var tid string
+		rows.Scan(&tid)
+
+		t, err := GetTag(tid, "")
+		if err != nil {
+			logger.Warn("query tag error", "error", err)
+			continue
+		}
+		tags = append(tags, t)
+	}
+
+	return tags, nil
+}

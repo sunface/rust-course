@@ -139,7 +139,10 @@ const UserPage = () => {
                             </Card>
 
                             {moderators.length > 0 && <Card mt="4">
-                                <Heading size="sm">Tag moderators</Heading>
+                                <HStack>
+                                    <Heading size="sm">Tag moderators</Heading>
+                                    {isAdmin(session.user.role) && <Box cursor="pointer" onClick={() => router.push(`/admin/tags`)}>{getSvgIcon('edit','.9rem')}</Box>}
+                                </HStack>
                                 <VStack alignItems="left" mt="4">
                                     {moderators.map(m => <a href={`/${m.username}`} target="_blank">
                                         <HStack cursor="pointer">

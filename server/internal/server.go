@@ -105,7 +105,7 @@ func (s *Server) Start() error {
 		r.POST("/tag/moderator", IsLogin(), api.AddModerator)
 		r.DELETE("/tag/moderator/:tagID/:userID", IsLogin(), api.DeleteModerator)
 		r.DELETE("/tag/story/:tagID/:storyID", IsLogin(), api.RemoveTagStory)
-
+		r.GET("/tag/list/byUserModeratorRole", IsLogin(), api.GetTagListByUserModeratorRole)
 		// user apis
 		r.GET("/user/all", api.GetUsers)
 		r.POST("/user/ids", api.GetUsersByIDs)
@@ -125,6 +125,7 @@ func (s *Server) Start() error {
 		r.GET("/user/email/exist/:email", api.UserEmailExist)
 		r.GET("/user/email/byCode", api.GetUserEmailByCode)
 		r.POST("/user/register", api.UserRegister)
+
 		// interaction apis
 		r.POST("/interaction/like/:id", IsLogin(), api.Like)
 		r.POST("/interaction/follow/:id", IsLogin(), api.Follow)
