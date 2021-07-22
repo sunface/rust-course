@@ -27,9 +27,11 @@ import { saveToken } from "utils/axios/getToken"
 import storage from "utils/localStorage"
 import { useRouter } from "next/router"
 import { validateEmail } from "utils/user"
+import useSession from "hooks/use-session"
 
 
 const LoginPage = () => {
+    const {useLogin} = useSession()
     const { isOpen, onOpen, onClose } = useDisclosure()
     const toast = useToast()
     const router = useRouter()
@@ -38,8 +40,8 @@ const LoginPage = () => {
     const login = async (email: string) => {
         const res = await requestApi.post("/user/login", { email: email })
         saveToken(res.data.token)
-        storage.set('session', res.data)
         const oldPage = storage.get('current-page')
+        useLogin()
         if (oldPage) {
             storage.remove('current-page')
             router.push(oldPage)

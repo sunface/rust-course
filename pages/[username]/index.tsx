@@ -30,7 +30,7 @@ const UserPage = () => {
   const router = useRouter()
   const username = router.query.username
   const nav = router.query.nav
-  const session = useSession()
+  const {session} = useSession()
   const [user, setUser]: [User, any] = useState(null)
   const [tags, setTags]: [Tag[], any] = useState([])
   const [tagFilter, setTagFilter]: [string, any] = useState("")

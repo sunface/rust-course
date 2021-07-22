@@ -17,7 +17,7 @@ export const Comments = ({storyID}: Props) => {
 
     const [editorVisible,setEditorVisible] = useState(false)
     const [sorter,setSorter] = useState(SearchFilter.Favorites)
-    const session = useSession()
+    const {session} = useSession()
 
     useEffect(() => {
         getComments()

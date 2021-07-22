@@ -20,10 +20,6 @@ const App = ({ Component, pageProps }) => {
   const seo = getSeo({ omitOpenGraphImage: false })
 
   useEffect(() => {
-      requestApi.get(`/user/session`).then(res => {
-        events.emit('set-session', res.data)
-      })
-
       initUIConfig()
   }, [])
 

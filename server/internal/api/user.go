@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -84,6 +85,7 @@ func UpdateUser(c *gin.Context) {
 }
 
 func GetSession(c *gin.Context) {
+	fmt.Println(("get session"))
 	sess := user.GetSession(c)
 	c.JSON(http.StatusOK, common.RespSuccess(sess))
 }

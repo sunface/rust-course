@@ -10,21 +10,19 @@ import {
     Button
 } from "@chakra-ui/react"
 import useSession from "hooks/use-session"
-import { Session } from "src/types/user"
 import { useRouter } from "next/router"
 import storage from "utils/localStorage"
 import { ReserveUrls } from "src/data/reserve-urls"
 import { FaRegSun, FaUserAlt ,FaBookmark, FaSignOutAlt,FaEdit,FaStar, FaHeart, FaThLarge} from "react-icons/fa"
 import { isAdmin, isEditor } from "utils/role"
-import { logout } from "utils/session"
+
 import Link from "next/link"
 
 export const UserMenu = () => {
-    const session: Session = useSession()
+    const {session,logout} = useSession()
     const router = useRouter()
 
     const login = () => {
-      console.log(router)
       storage.set("current-page", router.asPath)
       router.push(ReserveUrls.Login)
     }

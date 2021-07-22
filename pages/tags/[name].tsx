@@ -59,15 +59,15 @@ const UserPage = () => {
         }
     }, [router.query.name])
 
-    const session = useSession()
+    const {session} = useSession()
 
     const isModerator = () => {
-        if (isAdmin(session.user.role)) {
+        if (isAdmin(session?.user.role)) {
             return true
         }
 
         for (const m of moderators) {
-            if (m.id === session.user.id) {
+            if (m.id === session?.user.id) {
                 return true
             }
         }
@@ -141,7 +141,7 @@ const UserPage = () => {
                             {moderators.length > 0 && <Card mt="4">
                                 <HStack>
                                     <Heading size="sm">Tag moderators</Heading>
-                                    {isAdmin(session.user.role) && <Box cursor="pointer" onClick={() => router.push(`/admin/tags`)}>{getSvgIcon('edit','.9rem')}</Box>}
+                                    {session && isAdmin(session.user.role) && <Box cursor="pointer" onClick={() => router.push(`/admin/tags`)}>{getSvgIcon('edit','.9rem')}</Box>}
                                 </HStack>
                                 <VStack alignItems="left" mt="4">
                                     {moderators.map(m => <a href={`/${m.username}`} target="_blank">

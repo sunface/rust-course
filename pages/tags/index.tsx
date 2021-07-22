@@ -44,7 +44,7 @@ const TagsPage = () => {
   const [tags, setTags]: [Tag[], any] = useState([])
   const [userTags,setUserTags]:[Tag[],any] = useState([])
 
-  const session = useSession()
+  const {session} = useSession()
   const getTags = () => {
     requestApi.get(`/tag/all?filter=${filter.id}`).then((res) => setTags(res.data)).catch(_ => setTags([]))
   }

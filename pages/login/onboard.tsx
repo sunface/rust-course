@@ -11,8 +11,10 @@ import { ReserveUrls } from "src/data/reserve-urls"
 import { Tag } from "src/types/tag"
 import Follow from "components/interaction/follow"
 import { validateUsername } from "utils/user"
+import useSession from "hooks/use-session"
 
 const OnboardPage = () => {
+    const {useLogin} = useSession()
     const [step,setStep] = useState(1)
     const [email,setEmail] = useState('')
     const [nickname,setNickname] = useState('')
@@ -63,7 +65,6 @@ const OnboardPage = () => {
         }
         const res = await requestApi.post("/user/register", { code: code, nickname: nickname,username: username })
         saveToken(res.data.token)
-        storage.set('session', res.data)
 
         setStep(2)
         const res1 = await requestApi.get(`/tag/all`)
@@ -71,6 +72,7 @@ const OnboardPage = () => {
     }
 
     const finish = async () => {
+        useLogin()
         const oldPage = storage.get('current-page')
         if (oldPage) {
             storage.remove('current-page')

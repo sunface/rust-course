@@ -8,7 +8,7 @@ import { Box, Button } from "@chakra-ui/react"
 
 const CommentPage = () => {
     const router = useRouter()
-    const session = useSession()
+    const {session} = useSession()
     const [comment,setComment]:[Comment,any]  = useState(null)
     useEffect(() => {
         if (router.query.id) {

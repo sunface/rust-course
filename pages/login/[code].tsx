@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react"
 import { requestApi } from "utils/axios/request"
 import { saveToken } from "utils/axios/getToken"
 import storage from "utils/localStorage"
+import useSession from "hooks/use-session"
 
 const LoginCodePage = () => {
+    const {useLogin} = useSession()
     const router = useRouter()
     const code = router.query.code
     useEffect(() => {
@@ -18,7 +20,7 @@ const LoginCodePage = () => {
         if (res.data) {
             //已经注册过
             saveToken(res.data.token)
-            storage.set('session', res.data)
+            useLogin()
             const oldPage = storage.get('current-page')
             if (oldPage) {
                 storage.remove('current-page')

@@ -21,7 +21,7 @@ interface Props {
 
 export const StorySidebar = (props: Props) => {
     const {story,vertical = true} = props
-    const session = useSession()
+    const {session} = useSession()
     const router = useRouter()
     const getEditUrl = () => {
         if (story.type === IDType.Post) {

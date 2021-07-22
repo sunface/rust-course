@@ -17,7 +17,6 @@ const JSONbigString = require('json-bigint')({ storeAsString: true })
 import type { OutgoingHttpHeaders } from 'http'
 
 import { createStandaloneToast } from "@chakra-ui/react"
-import { logout } from 'utils/session'
 import { getToken } from './getToken'
 const toast = createStandaloneToast()
 
@@ -68,12 +67,7 @@ requestApi.interceptors.response.use(
         message = error.text ?? error.message
     }
 
-    if (status === 401) {
-       if (getToken()) {
-        // 当前登录状态已经过期，进行登出操作
-        logout()
-       }
-    } else {
+    if (status !== 401) {
       toast({
         title: `请求错误`,
         description: message,

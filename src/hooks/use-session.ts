@@ -1,31 +1,33 @@
 import { useEffect, useState } from "react"
-import { Session } from "src/types/user"
 import { requestApi } from "utils/axios/request"
-import events from "utils/events"
-import storage from "utils/localStorage"
+import useSWR from 'swr'
 
-function useSession(): Session{
-  const [session, setSession] = useState(null)
+export  const useSession = () => {
+  const [session,setSession] = useState(null)
+  const { data, revalidate } = useSWR(
+      '/user/session', 
+      () =>
+        requestApi.get(`/user/session`).then(res => {
+          return res.data
+        }),
+      {dedupingInterval: 60000}
+  )
+  
   useEffect(() => {
-    const sess = storage.get('session')
-    if (sess) {
-      setSession(sess)
-    }
-
-    events.on('set-session',storeSession)
-
-    return() =>  {
-      events.off('set-session',storeSession)
-    }
-  }, [])
-
-
-  const storeSession = (sess: Session) => {
-    sess ? storage.set('session', sess) : storage.remove('session')
-    setSession(sess)
+    setSession(data)
+  },[data])
+  
+  const useLogin = async () => {
+      revalidate()
   }
 
-  return session
+  const logout = async () => {
+    await requestApi.post("/user/logout")
+    setSession(null)
+  }
+
+  return {session,useLogin,logout}
 }
+
 
 export default useSession
