@@ -336,6 +336,56 @@ func RemoveTagStory(tagID, storyID string) *e.Error {
 	return nil
 }
 
+func DisableTagStory(tagID, storyID string) *e.Error {
+	_, err := db.Conn.Exec("INSERT INTO tag_story_disabled (tag_id,story_id,created) VALUES (?,?,?)", tagID, storyID, time.Now())
+	if err != nil {
+		logger.Warn("disable  tag story error", "error", err)
+		return e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	return nil
+}
+
+func IsStoryDisabled(tagID, storyID string) (bool, error) {
+	var sid string
+	err := db.Conn.QueryRow("SELECT story_id FROM tag_story_disabled WHERE tag_id=? and story_id=?", tagID, storyID).Scan(&sid)
+	if err == sql.ErrNoRows {
+		return false, nil
+	}
+
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
+
+func GetDisabledStroies(tagID string) (models.Stories, *e.Error) {
+	stories := make(models.Stories, 0)
+
+	rows, err := db.Conn.Query("SELECT story_id,created FROM tag_story_disabled WHERE tag_id=?", tagID)
+	if err != nil {
+		logger.Warn("query  disabled tag story error", "error", err)
+		return nil, e.New(http.StatusInternalServerError, e.Internal)
+	}
+
+	for rows.Next() {
+		var id string
+		var t time.Time
+		rows.Scan(&id, &t)
+		s, err := models.GetSimpleStory(id)
+		if err != nil {
+			logger.Warn("query  disabled tag story error", "error", err)
+			continue
+		}
+		s.Created = t
+		stories = append(stories, s)
+	}
+
+	sort.Sort(stories)
+	return stories, nil
+}
+
 func GetTagListByUserModeratorRole(userID string) ([]*models.Tag, *e.Error) {
 	tags := make([]*models.Tag, 0)
 	rows, err := db.Conn.Query("SELECT tag_id FROM tag_moderators WHERE user_id=?", userID)

@@ -1,33 +1,36 @@
-import {Text, Box, Heading, Image,  Center, Button, Flex,  VStack, Divider, useToast, Wrap, WrapItem, useColorModeValue, StackDivider } from "@chakra-ui/react"
+import {Text, Box,  Center, Button, Flex,  VStack, Divider, useColorModeValue } from "@chakra-ui/react"
 import Card from "components/card"
-import Nav from "layouts/nav/nav"
-import PageContainer from "layouts/page-container"
 import Sidebar from "layouts/sidebar/sidebar"
 import React, { useEffect, useState } from "react"
 import {dashboardLinks} from "src/data/links"
 import { requestApi } from "utils/axios/request"
 import PageContainer1 from "layouts/page-container1"
 import Empty from "components/empty"
-import { IDType } from "src/types/id"
-import UserCard from "components/users/user-card"
 import userCustomTheme from "theme/user-custom"
-import TagCard from "components/tags/tag-card"
 import SimpleTagCard from "components/tags/simple-tag-card"
+import { Story } from "src/types/story"
+import { Tag } from "src/types/tag"
 
 
-const FollowersPage = () => {
+const TagModeratorPage = () => {
     const [tags, setTags] = useState([])
-    const borderColor = useColorModeValue(userCustomTheme.borderColor.light, userCustomTheme.borderColor.dark)
+    const [stories,setStories]:[Story[],any] = useState([])
+    const [tag,setTag]:[Tag,any] = useState(null)
 
     const getTags = async () => {
         const res = await requestApi.get(`/tag/list/byUserModeratorRole`)
-        console.log(res)
         setTags(res.data)
     }
 
     useEffect(() => {
         getTags()
     }, [])
+
+    const displayDisabledStories = async (tag:Tag) => {
+        setTag(tag)
+        const res = await requestApi.get(`/tag/disalbedStories/${tag.id}`)
+        setStories(res.data)
+    }
 
     return (
         <>
@@ -45,7 +48,10 @@ const FollowersPage = () => {
                                     <VStack mt="4">
                                         {tags.map(tag =>
                                             <Box width="100%" key={tag.id}>
-                                                <SimpleTagCard tag={tag}  mt="4" />
+                                                <Flex justifyContent="space-between" alignItems="center">
+                                                    <SimpleTagCard tag={tag}  mt="4" />
+                                                    <Button colorScheme="teal" variant="outline" onClick={() => displayDisabledStories(tag)}>Disabled stories</Button>
+                                                </Flex>
                                                 <Divider mt="5" />
                                             </Box>
                                         )}
@@ -59,6 +65,6 @@ const FollowersPage = () => {
         </>
     )
 }
-export default FollowersPage
+export default TagModeratorPage
 
 

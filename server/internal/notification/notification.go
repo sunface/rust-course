@@ -17,7 +17,7 @@ func Send(userID, orgID string, noType int, noID string, noTitle string, operato
 	if userID != "" {
 		_, err := db.Conn.Exec("INSERT INTO user_notification (user_id,operator_id,notifiable_type,notifiable_id,no_title,created) VALUES (?,?,?,?,?,?)",
 			userID, operatorID, noType, noID, noTitle, time.Now())
-		if err != nil {
+		if err != nil && !e.IsErrUniqueConstraint(err) {
 			logger.Warn("send notification error", "error", err)
 		}
 	}

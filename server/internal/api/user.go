@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -85,7 +84,6 @@ func UpdateUser(c *gin.Context) {
 }
 
 func GetSession(c *gin.Context) {
-	fmt.Println(("get session"))
 	sess := user.GetSession(c)
 	c.JSON(http.StatusOK, common.RespSuccess(sess))
 }
@@ -199,8 +197,4 @@ func UserRegister(c *gin.Context) {
 	c.Bind(&req)
 
 	user.Register(c, req.Code, req.Nickname, req.Username)
-}
-
-func GetUserModerators(c *gin.Context) {
-
 }

@@ -2,6 +2,7 @@ package story
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -13,6 +14,7 @@ import (
 	"github.com/imdotdev/im.dev/server/internal/notification"
 	"github.com/imdotdev/im.dev/server/internal/org"
 	"github.com/imdotdev/im.dev/server/internal/tags"
+
 	"github.com/imdotdev/im.dev/server/internal/top"
 	"github.com/imdotdev/im.dev/server/internal/user"
 	"github.com/imdotdev/im.dev/server/pkg/config"
@@ -115,6 +117,20 @@ func SubmitStory(c *gin.Context) (map[string]string, *e.Error) {
 		creator, _ := GetPostCreator(post.ID)
 		if creator != post.CreatorID {
 			return nil, e.New(http.StatusForbidden, e.NoEditorPermission)
+		}
+
+		// check whether in tag disable list
+		for _, t := range post.Tags {
+			disabled, err := tags.IsStoryDisabled(t, post.ID)
+			if err != nil {
+				logger.Warn("check story disable error", "error", err)
+				return nil, e.New(http.StatusInternalServerError, e.Internal)
+			}
+
+			if disabled {
+				t1, _ := tags.GetTag(t, "")
+				return nil, e.New(http.StatusForbidden, fmt.Sprintf("该文章被禁止在%s标签下发布，请联系管理员解除", t1.Title))
+			}
 		}
 
 		if post.Status == models.StatusDraft {

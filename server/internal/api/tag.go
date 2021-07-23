@@ -212,6 +212,12 @@ func RemoveTagStory(c *gin.Context) {
 		return
 	}
 
+	err = tags.DisableTagStory(tagID, storyID)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
 	s, err := story.GetStory(storyID, "")
 	if err == nil {
 		t, err := tags.GetTag(tagID, "")
@@ -228,6 +234,18 @@ func GetTagListByUserModeratorRole(c *gin.Context) {
 	user := user.CurrentUser(c)
 
 	res, err := tags.GetTagListByUserModeratorRole(user.ID)
+	if err != nil {
+		c.JSON(err.Status, common.RespError(err.Message))
+		return
+	}
+
+	c.JSON(http.StatusOK, common.RespSuccess(res))
+}
+
+func GetTagDisabledStroies(c *gin.Context) {
+	tagID := c.Param("tagID")
+
+	res, err := tags.GetDisabledStroies(tagID)
 	if err != nil {
 		c.JSON(err.Status, common.RespError(err.Message))
 		return

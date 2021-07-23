@@ -106,6 +106,7 @@ func (s *Server) Start() error {
 		r.DELETE("/tag/moderator/:tagID/:userID", IsLogin(), api.DeleteModerator)
 		r.DELETE("/tag/story/:tagID/:storyID", IsLogin(), api.RemoveTagStory)
 		r.GET("/tag/list/byUserModeratorRole", IsLogin(), api.GetTagListByUserModeratorRole)
+		r.GET("/tag/disalbedStories/:tagID", IsLogin(), api.GetTagDisabledStroies)
 		// user apis
 		r.GET("/user/all", api.GetUsers)
 		r.POST("/user/ids", api.GetUsersByIDs)

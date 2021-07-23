@@ -115,3 +115,18 @@ func GetStoryTitle(storyID string) string {
 	db.Conn.QueryRow("SELECT title FROM story WHERE id=?", storyID).Scan(&t)
 	return t
 }
+
+func GetSimpleStory(id string) (*Story, error) {
+	s := &Story{}
+	err := db.Conn.QueryRow("select id,title,cover,creator,created from story where id=?", id).Scan(
+		&s.ID, &s.Title, &s.Cover, &s.CreatorID, &s.Created,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	s.Creator = &UserSimple{ID: s.CreatorID}
+	err = s.Creator.Query()
+
+	return s, err
+}
