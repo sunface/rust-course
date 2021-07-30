@@ -16,7 +16,7 @@ const TagModeratorPage = () => {
     const [tags, setTags] = useState([])
     const [stories,setStories]:[Story[],any] = useState([])
     const [tag,setTag]:[Tag,any] = useState(null)
-
+    
     const getTags = async () => {
         const res = await requestApi.get(`/tag/list/byUserModeratorRole`)
         setTags(res.data)
