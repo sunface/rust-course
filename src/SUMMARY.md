@@ -1,11 +1,11 @@
 # Rust编程指南
 
-[为何创作本书](about.md)
-[关于Rust语言](introduction.md)
+[为何创作本书](why-another.md)
+[关于Rust语言](into-rust.md)
 
 ## Getting started
 
-- [牛刀小试](first-try/getting-started.md)
+- [牛刀小试](first-try/intro.md)
     - [安装Rust环境](first-try/installation.md)
     - [墙推VSCode!](first-try/editor.md)
     - [认识Cargo](first-try/cargo.md)
@@ -13,34 +13,34 @@
 
 ## Rust学习三部曲
 
-- [基本概念](basic-rust/intro.md)
-    - [变量与类型](basic-rust/variable-type.md)
-    - [结构体、枚举](basic-rust/struct-enum.md)
-    - [函数与方法](basic-rust/function-method.md)
-    - [格式化输出](basic-rust/formatted-output.md)
-    - [字符串、数组与切片](basic-rust/string-array-slice.md)
-    - [流程控制](basic-rust/flow-control.md)
-    - [返回、异常和错误](basic-rust/exception-error.md)
-    - [模式匹配](basic-rust/match-pattern.md)
-    - [文档注释](basic-rust/comment.md)
-    - [包和模块](basic-rust/crate-module.md)
+- [基本概念](basic-concepts/intro.md)
+    - [变量与类型](basic-concepts/variable-type.md)
+    - [结构体、枚举](basic-concepts/struct-enum.md)
+    - [函数与方法](basic-concepts/function-method.md)
+    - [格式化输出](basic-concepts/formatted-output.md)
+    - [字符串、数组与切片](basic-concepts/string-array-slice.md)
+    - [流程控制](basic-concepts/flow-control.md)
+    - [返回、异常和错误](basic-concepts/exception-error.md)
+    - [模式匹配](basic-concepts/match-pattern.md)
+    - [文档注释](basic-concepts/comment.md)
+    - [包和模块](basic-concepts/crate-module.md)
     
 - [核心概念](core-concepts/intro.md)
     - [所有权](core-concepts/ownership.md)
     - [借用](core-concepts/borrowing.md)
     - [生命周期](core-concepts/lifetime.md)
     
-- [进阶编程](advance-rust/intro.md)
-    - [泛型](advance-rust/generitic.md)
-    - [特征](advance-rust/trait.md)
-    - [迭代器](advance-rust/interator.md)
-    - [集合类型](advance-rust/collection.md)
-    - [函数式编程](advance-rust/functional-programing.md)
-    - [智能指针](advance-rust/smart-pointer.md)
-    - [多线程](advance-rust/threads.md)
-    - [测试](advance-rust/tests.md)
-    - [错误处理](advance-rust/errors.md)
-    - [宏](advance-rust/macro.md)
+- [进阶编程](advanced-concepts/intro.md)
+    - [泛型](advanced-concepts/generitic.md)
+    - [特征](advanced-concepts/trait.md)
+    - [迭代器](advanced-concepts/interator.md)
+    - [集合类型](advanced-concepts/collection.md)
+    - [函数式编程](advanced-concepts/functional-programing.md)
+    - [智能指针](advanced-concepts/smart-pointer.md)
+    - [多线程](advanced-concepts/threads.md)
+    - [测试](advanced-concepts/tests.md)
+    - [错误处理](advanced-concepts/errors.md)
+    - [宏](advanced-concepts/macro.md)
 
 ## 专题内容
 
