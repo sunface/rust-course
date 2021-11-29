@@ -1,0 +1,1 @@
+# Characteristics

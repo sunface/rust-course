@@ -1,0 +1,1 @@
+# generitic.md

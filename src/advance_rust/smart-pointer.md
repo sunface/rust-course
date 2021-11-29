@@ -1,0 +1,1 @@
+# smart-pointer.md
