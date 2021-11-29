@@ -1,0 +1,33 @@
+body.light .does_not_compile,
+body.light .panics,
+body.light .not_desired_behavior,
+body.rust .does_not_compile,
+body.rust .panics,
+body.rust .not_desired_behavior {
+  background: #fff1f1;
+}
+
+body.coal .does_not_compile,
+body.coal .panics,
+body.coal .not_desired_behavior,
+body.navy .does_not_compile,
+body.navy .panics,
+body.navy .not_desired_behavior,
+body.ayu .does_not_compile,
+body.ayu .panics,
+body.ayu .not_desired_behavior {
+  background: #501f21;
+}
+
+.ferris {
+  position: absolute;
+  z-index: 99;
+  right: 5px;
+  top: 30px;
+	width: 10%;
+	height: auto;
+}
+
+.ferris-explain {
+  width: 100px;
+}

@@ -4,3 +4,8 @@ language = "en"
 multilingual = false
 src = "src"
 title = "The way to rust"
+
+[output.html]
+additional-css = ["assets/ferris.css", "assets/theme/2018-edition.css"]
+additional-js = ["assets/ferris.js"]
+git-repository-url = "https://github.com/rustcm/the-way-to-rust"
