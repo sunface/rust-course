@@ -1,8 +1,6 @@
 [book]
-title = "The way to rust"
-description = "Rust编程指南"
 authors = ["sunface"]
-language = "zh-CN"
+language = "en"
 multilingual = false
 src = "src"
-
+title = "The way to rust"
