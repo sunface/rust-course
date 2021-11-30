@@ -1,7 +1,7 @@
 # Rust编程指南
 
-[创作初心](some-thoughts.md)
-[关于Rust语言(todo)](into-rust.md)
+[Rust编程指南](about.md)
+[进入Rust语言世界](into-rust.md)
 
 ## Getting started
 
