@@ -1,6 +1,6 @@
 # Rust编程指南
 
-[为何创作本书](why-another.md)
+[创作初心](some-thoughts.md)
 [关于Rust语言(todo)](into-rust.md)
 
 ## Getting started
