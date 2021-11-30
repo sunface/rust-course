@@ -1,15 +1,19 @@
 var ferrisTypes = [
   {
     attr: 'does_not_compile',
-    title: '此程式碼無法編譯！'
+    title: 'This code does not compile!'
   },
   {
     attr: 'panics',
-    title: '此程式碼會恐慌！'
+    title: 'This code panics!'
+  },
+  {
+    attr: 'unsafe',
+    title: 'This code block contains unsafe code.'
   },
   {
     attr: 'not_desired_behavior',
-    title: '此程式碼沒有產生預期的行為。'
+    title: 'This code does not produce the desired behavior.'
   }
 ]
 
@@ -32,12 +36,13 @@ function attachFerrises (type) {
 }
 
 function attachFerris (element, type) {
+  alert('1')
   var a = document.createElement('a')
   a.setAttribute('href', 'ch00-00-introduction.html#ferris')
   a.setAttribute('target', '_blank')
 
   var img = document.createElement('img')
-  img.setAttribute('src', 'img/ferris/' + type.attr + '.svg')
+  img.setAttribute('src', '/img/ferris/' + type.attr + '.svg')
   img.setAttribute('title', type.title)
   img.className = 'ferris'
 

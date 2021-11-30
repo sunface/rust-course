@@ -1,11 +1,10 @@
 [book]
 authors = ["sunface"]
-language = "en"
-multilingual = false
-src = "src"
-title = "The way to rust"
+language = "zh-CN"
+title = "Rust编程指南(The Way To Rust)"
 
 [output.html]
 additional-css = ["assets/ferris.css", "assets/theme/2018-edition.css"]
 additional-js = ["assets/ferris.js"]
 git-repository-url = "https://github.com/rustcm/the-way-to-rust"
+edit-url-template = "https://github.com/rustcm/the-way-to-rust/edit/main/{path}"
