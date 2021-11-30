@@ -13,34 +13,38 @@
 
 ## Rust学习三部曲
 
-- [基本概念](basic-concepts/intro.md)
-    - [变量与类型](basic-concepts/variable-type.md)
-    - [结构体、枚举](basic-concepts/struct-enum.md)
-    - [函数与方法](basic-concepts/function-method.md)
-    - [格式化输出](basic-concepts/formatted-output.md)
-    - [字符串、数组与切片](basic-concepts/string-array-slice.md)
-    - [流程控制](basic-concepts/flow-control.md)
-    - [返回、异常和错误](basic-concepts/exception-error.md)
-    - [模式匹配](basic-concepts/match-pattern.md)
-    - [文档注释](basic-concepts/comment.md)
-    - [包和模块](basic-concepts/crate-module.md)
+- [基本概念](basic/intro.md)
+    - [变量绑定](basic/variable.md)
+    - [基本类型](basic/type.md)
+    - [复合类型](basic/compound-type.md)
+    - [函数与方法](basic/function-method.md)
+    - [格式化输出](basic/formatted-output.md)
+    - [字符串、数组与切片](basic/string-array-slice.md)
+    - [流程控制](basic/flow-control.md)
+    - [返回、异常和错误](basic/exception-error.md)
+    - [模式匹配](basic/match-pattern.md)
+    - [文档注释](basic/comment.md)
+    - [包和模块](basic/crate-module.md)
+    - [语句与表达式](basic/statement-expression.md)
+
+- [核心概念](core/intro.md)
+    - [所有权](core/ownership.md)
+    - [借用](core/borrowing.md)
+    - [生命周期](core/lifetime.md)
     
-- [核心概念](core-concepts/intro.md)
-    - [所有权](core-concepts/ownership.md)
-    - [借用](core-concepts/borrowing.md)
-    - [生命周期](core-concepts/lifetime.md)
-    
-- [进阶编程](advanced-concepts/intro.md)
-    - [泛型](advanced-concepts/generitic.md)
-    - [特征](advanced-concepts/trait.md)
-    - [迭代器](advanced-concepts/interator.md)
-    - [集合类型](advanced-concepts/collection.md)
-    - [函数式编程](advanced-concepts/functional-programing.md)
-    - [智能指针](advanced-concepts/smart-pointer.md)
-    - [多线程](advanced-concepts/threads.md)
-    - [测试](advanced-concepts/tests.md)
-    - [错误处理](advanced-concepts/errors.md)
-    - [宏](advanced-concepts/macro.md)
+- [进阶编程](advance/intro.md)
+    - [泛型](advance/generitic.md)
+    - [特征](advance/trait.md)
+    - [迭代器](advance/interator.md)
+    - [集合类型](advance/collection.md)
+    - [函数式编程](advance/functional-programing.md)
+    - [智能指针](advance/smart-pointer.md)
+    - [多线程](advance/threads.md)
+    - [测试](advance/tests.md)
+    - [错误处理](advance/errors.md)
+    - [宏](advance/macro.md)
+    - [Bypass Borrow Checker](advance/bypass-borrow.md)
+    - [常用三方库列表](advance/utils.md)
 
 ## 专题内容
 
@@ -54,12 +58,13 @@
     - [配置参数](cargo/manifest.md)
 - [性能调优](performance/intro.md)
     - [Benchmark性能测试](performance/benchmark.md)
+    - [减少Runtime check](performance/runtime-check.md)
 - [Unsafe](unsafe/intro.md)
     - [原始指针](unsafe/raw-pointer.md)
-
 - [宏编程](macro/intro.md)
     - [过程宏](macro/procedure-macro.md)
-
+- [常用三方库](third-party/intro.md)
+    - [serde](third-party/serde.md)
 
 ## 场景模版
 
