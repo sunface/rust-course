@@ -14,7 +14,7 @@
 ## Rust学习三部曲
 
 - [基本概念](basic/intro.md)
-    - [变量绑定](basic/variable.md)
+    - [变量与绑定](basic/variable.md)
     - [基本类型](basic/type.md)
     - [复合类型](basic/compound-type.md)
     - [函数与方法](basic/function-method.md)
@@ -69,3 +69,8 @@
 ## 场景模版
 
 - [场景示例](use-case/intro.md)
+
+
+## 附录
+- [附录](appendix/intro.md)
+    - [A-关键字](appendix/a-keywords)
