@@ -1,7 +1,7 @@
 # Rust编程指南
 
-[Rust编程指南](about.md)
-[进入Rust语言世界](into-rust.md)
+[Rust编程指南](about-book.md)
+[进入Rust编程世界](into-rust.md)
 
 ## Getting started
 
@@ -47,6 +47,11 @@
     - [常用三方库列表(todo)](advance/utils.md)
 
 ## 专题内容
+- [难点详解](obscure-concept/intro.md)
+    - [Send、Sync(todo)](obscure-concept/send-sync.md)
+    - [Pin、Unpin(todo)](obscure-concept/pin-unpin.md)
+    - [Rc、Arc、Mutex、Rwlock(todo)](obscure-concept/ref-counter-lock.md)
+    - [复杂的生命周期(todo)](obscure-concept/lifetime.md)
 
 - [代码风格](style-guide/intro.md)
     - [命名规范](style-guide/naming.md)

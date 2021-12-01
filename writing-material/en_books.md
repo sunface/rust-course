@@ -9,3 +9,5 @@ Rust相关英文书籍
 4. [Rust性能之书](https://nnethercote.github.io/perf-book/title-page.html)
 
 5. [Rust异步编程](https://rust-lang.github.io/async-book/01_getting_started/01_chapter.html)
+
+6. [Rust API Guidlines](https://rust-lang.github.io/api-guidelines/naming.html)
