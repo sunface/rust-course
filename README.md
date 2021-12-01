@@ -61,7 +61,7 @@ Rust的外部库层次不齐，针对这一点，我们根据功能分类推荐�
 因此我联合几个朋友一起创建了Rust编程学院(Rust College), 致力于给国内提供最新、最高质量Rust学习内容。
 
 官网网址:
-- https://college.cn
+- https://college.rs
 - https://rustcollege.cn
 
 

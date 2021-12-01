@@ -11,3 +11,4 @@ edit-url-template = "https://github.com/rustcm/the-way-to-rust/edit/main/{path}"
 
 [output.html.fold]
 enable = true
+level = 0
