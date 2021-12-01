@@ -68,4 +68,13 @@ fn main() {
 ```
 
 
+## 调用命令，使用用户的输入作为参数
 
+```rust
+let cmd = Command::new("rev")
+    .stdin(Stdio::inherit())
+    .stdout(Stdio::inherit())
+    .output()?;
+```
+
+https://www.reddit.com/r/learnrust/comments/r5wwkz/what_the_relationship_between_processstdio_and/

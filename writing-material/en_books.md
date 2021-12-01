@@ -11,3 +11,5 @@ Rust相关英文书籍
 5. [Rust异步编程](https://rust-lang.github.io/async-book/01_getting_started/01_chapter.html)
 
 6. [Rust API Guidlines](https://rust-lang.github.io/api-guidelines/naming.html)
+
+7. [Rust in action](https://livebook.manning.com/book/rust-in-action/chapter-5/)

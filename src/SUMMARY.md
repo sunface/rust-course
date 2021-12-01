@@ -46,6 +46,12 @@
     - [Bypass Borrow Checker(todo)](advance/bypass-borrow.md)
     - [常用三方库列表(todo)](advance/utils.md)
 
+## 该内容针对Rust非常高阶的水平，同时无需用专题形式来详述(参考[Rust高级编程](https://learnku.com/docs/nomicon/2018/310-phantom-data/4721?show_current_version=yes))
+
+- [大师之路](master/intro.md)
+    - [对抗编译检查](master/compiler/intro.md)
+        - [幽灵数据](master/compiler/phantom-data.md)
+
 ## 专题内容
 - [难点详解](obscure-concept/intro.md)
     - [Send、Sync(todo)](obscure-concept/send-sync.md)
