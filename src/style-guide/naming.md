@@ -10,7 +10,7 @@
 | 模块Modules | `snake_case` |
 | 类型Types | `UpperCamelCase` |
 | 特征Traits | `UpperCamelCase` |
-| 枚举变量Enum variants | `UpperCamelCase` |
+| 枚举项 | `UpperCamelCase` |
 | 函数Functions | `snake_case` |
 | 方法Methods | `snake_case` |
 | 通用构造器General constructors | `new` or `with_more_details` |
