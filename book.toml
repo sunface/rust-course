@@ -6,8 +6,8 @@ title = "Rust编程指南(The Way To Rust)"
 [output.html]
 additional-css = ["assets/ferris.css", "assets/theme/2018-edition.css"]
 additional-js = ["assets/ferris.js"]
-git-repository-url = "https://github.com/rustcm/the-way-to-rust"
-edit-url-template = "https://github.com/rustcm/the-way-to-rust/edit/main/{path}"
+git-repository-url = "https://github.com/rustcollege"
+edit-url-template = "https://github.com/rustcollege/the-way-to-rust/edit/main/{path}"
 
 [output.html.fold]
 enable = true
