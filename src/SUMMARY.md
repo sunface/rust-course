@@ -160,4 +160,8 @@
 
 ## 附录
 - [附录](appendix/intro.md)
-    - [A-关键字](appendix/a-keywords.md)
+    - [A-关键字](appendix/keywords.md)
+    - [B-运算符与符号](appendix/operators.md)
+    - [C-派生特征derive](appendix/derive.md)
+    - [D-Rust版本发布](appendix/rust-version.md)
+    - [E-Rust自身开发流程](appendix/rust-dev.md)
