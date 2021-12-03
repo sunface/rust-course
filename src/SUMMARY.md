@@ -8,7 +8,7 @@
 - [寻找牛刀，以便小试](first-try/intro.md)
     - [安装Rust环境](first-try/installation.md)
     - [墙推VSCode!](first-try/editor.md)
-    - [认识Cargo(todo)](first-try/cargo.md)
+    - [认识Cargo](first-try/cargo.md)
     - [不仅仅是Hello world](first-try/hello-world.md)
 
 ## Rust学习三部曲
@@ -49,14 +49,15 @@
     - [适用Result返回错误](errors/result.md)
     - [自定义错误](errors/user-define.md)
     - [让错误输出更优雅](errors/pretty-format.md)
-
+    - [会导致panic的代码](errors/panic-codes.md)
+    
 - [Cargo详解](cargo/intro.md)
     - [常用命令](cargo/commands.md)
     - [项目结构](cargo/layout.md)
     - [Cargo.toml和Cargo.lock](cargo/cargo-toml-lock.md)
+    - [依赖管理](cargo/dependency.md)
     - [构建缓存](cargo/cache.md)
     - [版本管理](cargo/version.md)
-    - [依赖覆盖](cargo/dependency-override.md)
     - [工作空间](cargo/workspace.md)
     - [条件编译、条件依赖](cargo/feature.md)
     - [配置参数(todo)](cargo/manifest.md)
