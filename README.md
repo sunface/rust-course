@@ -4,7 +4,7 @@
 - 官方网址： https://wayto.rs
 - 修订时间： **尚未发行**
 - Rust版本：Rust edition 2021
-
+- QQ交流群： 1009730433
 ## 关于本书
 
 #### 书本简介
@@ -75,3 +75,4 @@ Rust编程指南是完全开源的电子书籍，但是也应该受到版权的�
 官网网址:
 - https://college.rs
 - https://rustcollege.cn
+- QQ群：1009730433

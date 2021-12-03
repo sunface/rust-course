@@ -16,3 +16,5 @@
 8. [Rust高级编程](https://learnku.com/docs/nomicon/2018/310-phantom-data/4721?show_current_version=yes)
 
 9. [Rust Primer](https://rustcc.gitbooks.io/rustprimer/content/1st-glance/)
+
+10. [Rust Forge](https://forge.rust-lang.org/infra/other-installation-methods.html#other-rust-installation-methods)

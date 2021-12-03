@@ -5,11 +5,11 @@
 
 ## Getting started
 
-- [安装运行](first-try/intro.md)
-    - [安装Rust环境(todo)](first-try/installation.md)
-    - [墙推VSCode!(todo)](first-try/editor.md)
+- [寻找牛刀，以便小试](first-try/intro.md)
+    - [安装Rust环境](first-try/installation.md)
+    - [墙推VSCode!](first-try/editor.md)
     - [认识Cargo(todo)](first-try/cargo.md)
-    - [你好，世界!(todo)](first-try/hello-world.md)
+    - [不仅仅是Hello world](first-try/hello-world.md)
 
 ## Rust学习三部曲
 
@@ -143,6 +143,10 @@
 - [性能调优](performance/intro.md)
     - [Benchmark性能测试(todo)](performance/benchmark.md)
     - [减少Runtime check(todo)](performance/runtime-check.md)
+
+- [标准库解析](std/intro.md)
+    - [如何寻找你想要的内容](std/search.md)
+    
 
 - [常用三方库](libraries/intro.md)
     - [JSON](libraries/json/intro.md)

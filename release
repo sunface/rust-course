@@ -13,7 +13,7 @@ git config user.email "cto@188.com"
 git add .
 git commit -m 'release book'
 git branch -M gh-pages
-git remote add origin https://github.com/rustcm/the-way-to-rust
+git remote add origin https://github.com/rustcollege/the-way-to-rust
 
 ## push to github pages
 git push -u -f origin gh-pages
