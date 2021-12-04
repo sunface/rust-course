@@ -62,7 +62,8 @@
     - [条件编译、条件依赖](cargo/feature.md)
     - [配置参数(todo)](cargo/manifest.md)
     - [自定义构建脚本](cargo/build-js.md)
-
+    - [Cargo profile](cargo/profile.md)
+    
 - [测试](test/intro.md)
     - [单元测试](test/unit.md)
     - [集成测试](test/intergration.md)

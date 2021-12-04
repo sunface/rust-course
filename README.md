@@ -1,7 +1,7 @@
 # Rust编程指南
 
-- 官方书名： Rust编程指南(The Way To Rust)
-- 官方网址： https://wayto.rs
+- 官方书名： Rust编程指南(Rust Course)
+- 官方网址： https://course.rs
 - 修订时间： **尚未发行**
 - Rust版本：Rust edition 2021
 - QQ交流群： 1009730433
