@@ -15,8 +15,8 @@
 | `!` | `ident!(...)`, `ident!{...}`, `ident![...]` | 宏展开 |  |
 | `!` | `!expr` | 按位非或逻辑非 | `Not` |
 | `!=` | `var != expr` | 不等比较 | `PartialEq` |
-| `%` | `expr % expr` | 算术取模 | `Rem` |
-| `%=` | `var %= expr` | 算术取模与赋值 | `RemAssign` |
+| `%` | `expr % expr` | 算术求余 | `Rem` |
+| `%=` | `var %= expr` | 算术求余与赋值 | `RemAssign` |
 | `&` | `&expr`, `&mut expr` | 借用 | |
 | `&` | `&type`, `&mut type`, `&'a type`, `&'a mut type` | 借用指针类型 |  |
 | `&` | `expr & expr` | 按位与 | `BitAnd` |

@@ -1,6 +1,6 @@
-# Rust编程指南
+# Rust语言圣经
 
-[Rust编程指南](about-book.md)
+[Rust语言圣经](about-book.md)
 [进入Rust编程世界](into-rust.md)
 
 ## Getting started

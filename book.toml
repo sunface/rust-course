@@ -1,7 +1,7 @@
 [book]
 authors = ["sunface"]
 language = "zh-CN"
-title = "Rust编程指南(Rust Course)"
+title = "Rust语言圣经(Rust Course)"
 
 [output.html]
 additional-css = ["assets/ferris.css", "assets/theme/2018-edition.css"]
