@@ -36,7 +36,6 @@ function attachFerrises (type) {
 }
 
 function attachFerris (element, type) {
-  alert('1')
   var a = document.createElement('a')
   a.setAttribute('href', 'ch00-00-introduction.html#ferris')
   a.setAttribute('target', '_blank')

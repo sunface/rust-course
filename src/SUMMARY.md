@@ -13,14 +13,20 @@
 
 ## Rust学习三部曲
 
-- [基本语法](basic/intro.md)
-    - [变量与绑定](basic/variable.md)
-    - [基本类型(todo)](basic/type.md)
+- [基本语法 doing](basic/intro.md)
+    - [变量绑定与结构](basic/variable.md)
+    - [基本类型](basic/base-type/index.md)
+        - [数值类型](basic/base-type/numbers.md)
+        - [字符串](basic/base-type/string.md)
+        - [字符、布尔、元类型](basic/base-type/others.md)
     - [复合类型(todo)](basic/compound-type/intro.md)
-        - [Struct(todo)](basic/compound-type/struct.md)
+        - [结构体(todo)](basic/compound-type/struct.md)
+        - [枚举](basic/compound-type/enum.md)
+        - [元组](basic/compound-type/tuple.md)
+        - [数组与切片](basic/compound-type/array.md)
+    - [类型转换](basic/type-converse.md)
     - [函数与方法(todo)](basic/function-method.md)
     - [格式化输出(todo)](basic/formatted-output.md)
-    - [字符串、数组与切片(todo)](basic/string-array-slice.md)
     - [流程控制(todo)](basic/flow-control.md)
     - [返回、异常和错误(todo)](basic/exception-error.md)
     - [模式匹配(todo)](basic/match-pattern.md)
@@ -28,12 +34,12 @@
     - [包和模块(todo)](basic/crate-module.md)
     - [语句与表达式(todo)](basic/statement-expression.md)
 
-- [核心语法](core/intro.md)
+- [核心语法 todo](core/intro.md)
     - [所有权(todo)](core/ownership.md)
     - [借用(todo)](core/borrowing.md)
     - [生命周期(todo)](core/lifetime.md)
     
-- [进阶语法](advance/intro.md)
+- [进阶语法 todo](advance/intro.md)
     - [泛型(todo)](advance/generitic.md)
     - [特征(todo)](advance/trait.md)
     - [迭代器(todo)](advance/interator.md)
@@ -44,14 +50,14 @@
 
 ## 专题内容,每个专题都配套一个小型项目进行实践
 
-- [错误处理](errors/intro.md)
+- [错误处理 todo](errors/intro.md)
     - [panic!](errors/panic.md)
     - [适用Result返回错误](errors/result.md)
     - [自定义错误](errors/user-define.md)
     - [让错误输出更优雅](errors/pretty-format.md)
     - [会导致panic的代码](errors/panic-codes.md)
-    
-- [Cargo详解](cargo/intro.md)
+
+- [Cargo详解 todo](cargo/intro.md)
     - [常用命令](cargo/commands.md)
     - [项目结构](cargo/layout.md)
     - [Cargo.toml和Cargo.lock](cargo/cargo-toml-lock.md)
@@ -64,45 +70,45 @@
     - [自定义构建脚本](cargo/build-js.md)
     - [Cargo profile](cargo/profile.md)
     
-- [测试](test/intro.md)
+- [测试 todo](test/intro.md)
     - [单元测试](test/unit.md)
     - [集成测试](test/intergration.md)
     - [性能测试](test/benchmark.md)
     - [持续集成](test/ci.md)
 
-- [日志和监控](monitor/intro.md)
+- [日志和监控 todo](monitor/intro.md)
     - [日志](monitor/log.md)
-    - [可观测性](monitor/observability)
+    - [可观测性](monitor/observability.md)
     - [监控(APM)](monitor/apm.md)
 
-- [智能指针](smart-pointer/intro.md)
+- [智能指针 todo](smart-pointer/intro.md)
     - [Box对象(todo)](smart-pointer/box.md)
     - [Deref和Drop特征(todo)](smart-pointer/deref-drop.md)
     - [Rc与RefCell(todo)](smart-pointer/rc-refcell.md)
     - [自引用与内存泄漏(todo)](smart-pointer/self-referrence.md)
 
-- [常见特征解析](traits/intro.md)
+- [常见特征解析 todo](traits/intro.md)
     - [类型转换From/Into](traits/from-into.md)
     - [AsRef, AsMut](traits/as-ref-as-mut.md)
     - [Borrow, BorrowMut, ToOwned](traits/borrow-family.md)
     - [Deref和引用隐式转换](traits/deref.md)
     - [写时拷贝Cow](traits/cow.md)
     
-- [多线程](multi-threads/intro.md)
+- [多线程 todo](multi-threads/intro.md)
     - [线程管理(todo)](multi-threads/thread.md)
     - [消息传递(todo)](multi-threads/message-passing.md)
     - [数据共享Arc、Mutex、Rwlock(todo)](multi-threads/ref-counter-lock.md)
     - [数据竞争(todo)](multi-threads/races.md)
     - [Send、Sync(todo)](multi-threads/send-sync.md)
 
-- [深入内存](memory/intro.md)
+- [深入内存 todo](memory/intro.md)
     - [指针和引用(todo)](memory/pointer-ref.md)
     - [未初始化内存(todo)](memory/uninit.md)
     - [内存分配(todo)](memory/allocation.md)
     - [内存布局(todo)](memory/layout.md)
     - [虚拟内存(todo)](memory/virtual.md)
 
-- [网络和异步编程](networking/intro.md)
+- [网络和异步编程 todo](networking/intro.md)
     - [TCP和网络原理(todo)](networking/tcp.md) 
     - [并发与并行(todo)](networking/concurrency-parallelism.md)
     - [异步编程](networking/async/intro.md)
@@ -120,37 +126,38 @@
             - [基本用法](networking/async/tokio/basic.md)
             - [异步消息流](networking/async/tokio/stream.md)
 
-- [代码规范](style-guide/intro.md)
+- [代码规范 doing](style-guide/intro.md)
     - [命名规范](style-guide/naming.md)
     - [代码风格(todo)](style-guide/code.md)
-
-- [面向对象](object-oriented/intro.md)
+    - [Clippy](style-guide/clippy.md)
+    
+- [面向对象 todo](object-oriented/intro.md)
     - [为何OO(todo)](object-oriented/characteristics.md)
     - [特征对象](object-oriented/trait-object.md)
     - [设计模式](object-oriented/design-pattern.md)
 
-- [不安全Rust](unsafe/intro.md)
+- [不安全Rust todo](unsafe/intro.md)
     - [原生指针(todo)](unsafe/raw-pointer.md)
     - [修改全局变量](unsafe/modify-global-var.md)
     - [FFI外部语言用](unsafe/ffi.md)
 
-- [对抗编译检查](fight-with-compiler/intro.md)
+- [对抗编译检查 todo](fight-with-compiler/intro.md)
     - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
     - [生命周期(todo)](fight-with-compiler/lifetime.md)
     - [类型未限制(todo)](fight-with-compiler/unconstrained.md)
     
-- [宏编程](macro/intro.md)
+- [宏编程 todo](macro/intro.md)
     - [过程宏(todo)](macro/procedure-macro.md)
 
-- [性能调优](performance/intro.md)
+- [性能调优 todo](performance/intro.md)
     - [Benchmark性能测试(todo)](performance/benchmark.md)
     - [减少Runtime check(todo)](performance/runtime-check.md)
 
-- [标准库解析](std/intro.md)
+- [标准库解析 todo](std/intro.md)
     - [如何寻找你想要的内容](std/search.md)
     
 
-- [常用三方库](libraries/intro.md)
+- [常用三方库 todo](libraries/intro.md)
     - [JSON](libraries/json/intro.md)
         - [serde(todo)](libraries/json/serde.md)
     - [HTTP](libraries/http/intro.md)
@@ -159,7 +166,7 @@
         - [structopt(todo)](libraries/command/structopt.md)
         
 ## 场景模版
-- [场景模版](templates/intro.md)
+- [场景模版 todo](templates/intro.md)
     - [文件操作](templates/files/intro.md)
         - [目录(todo)](templates/files/dir.md)
     - [Http请求(todo)](templates/http/intro.md)

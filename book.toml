@@ -9,6 +9,12 @@ additional-js = ["assets/ferris.js"]
 git-repository-url = "https://github.com/rustcollege"
 edit-url-template = "https://github.com/rustcollege/rust-course/edit/main/{path}"
 
+[output.html.playground]
+editable = true
+copy-js = true
+line-numbers = true
+
 [output.html.fold]
 enable = true
 level = 0
+
