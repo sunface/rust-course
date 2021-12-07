@@ -17,8 +17,11 @@
     - [变量绑定与结构](basic/variable.md)
     - [基本类型](basic/base-type/index.md)
         - [数值类型](basic/base-type/numbers.md)
-        - [字符串](basic/base-type/string.md)
         - [字符、布尔、元类型](basic/base-type/others.md)
+    - [所有权和借用](basic/ownership/index.md)
+        - [所有权](basic/ownership/ownership.md)
+        - [引用与借用](basic/ownership/borrowing.md)
+    - [字符串](basic/string.md)
     - [复合类型(todo)](basic/compound-type/intro.md)
         - [结构体(todo)](basic/compound-type/struct.md)
         - [枚举](basic/compound-type/enum.md)
@@ -33,13 +36,9 @@
     - [文档注释(todo)](basic/comment.md)
     - [包和模块(todo)](basic/crate-module.md)
     - [语句与表达式(todo)](basic/statement-expression.md)
-
-- [核心语法 todo](core/intro.md)
-    - [所有权(todo)](core/ownership.md)
-    - [借用(todo)](core/borrowing.md)
-    - [生命周期(todo)](core/lifetime.md)
     
 - [进阶语法 todo](advance/intro.md)
+    - [生命周期(todo)](advance/lifetime.md)
     - [泛型(todo)](advance/generitic.md)
     - [特征(todo)](advance/trait.md)
     - [迭代器(todo)](advance/interator.md)
@@ -150,6 +149,7 @@
     - [过程宏(todo)](macro/procedure-macro.md)
 
 - [性能调优 todo](performance/intro.md)
+    - [Clone和Copy](performance/clone-copy.md)
     - [Benchmark性能测试(todo)](performance/benchmark.md)
     - [减少Runtime check(todo)](performance/runtime-check.md)
 
