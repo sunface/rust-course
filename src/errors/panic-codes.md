@@ -1,6 +1,9 @@
 # 会导致panic的代码
 
 
+String slice range indices must occur at valid UTF-8 character boundaries. If you attempt to create a string slice in the middle of a multibyte character, your program will exit with an error. For the purposes of introducing string slices, we are assuming ASCII only in this section; a more thorough discussion of UTF-8 handling is in the “Storing UTF-8 Encoded Text with Strings” section of Chapter 8.
+
+
 >
 > 比方说有一个 `u8` ，它可以存放从 0 到 255 的值。那么当你将其修改为范围之外的值，比如 256，则会发生**整型溢出**。关于这一行为 Rust 有一些有趣的规则。当在 debug 模式编译时，Rust 会检查整型溢出若存在这些问题则使程序在编译时 *panic*。Rust 使用这个术语来表明程序因错误而退出。 [该章节](../../errors/panic.md)会详细介绍 panic。
 >

@@ -1,1 +1,0 @@
-# string-array-slice.md
