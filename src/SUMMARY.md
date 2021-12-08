@@ -17,25 +17,27 @@
     - [变量绑定与结构](basic/variable.md)
     - [基本类型](basic/base-type/index.md)
         - [数值类型](basic/base-type/numbers.md)
-        - [字符、布尔、元类型](basic/base-type/others.md)
+        - [字符、布尔、元类型](basic/base-type/char-bool.md)
+        - [语句与表达式](basic/base-type/statement-expression.md)
+        - [函数 todo](basic/base-type/function.md)
     - [所有权和借用](basic/ownership/index.md)
         - [所有权](basic/ownership/ownership.md)
         - [引用与借用](basic/ownership/borrowing.md)
     - [字符串与切片](basic/string-slice.md)
-    - [复合类型(todo)](basic/compound-type/intro.md)
-        - [结构体(todo)](basic/compound-type/struct.md)
-        - [枚举](basic/compound-type/enum.md)
+    - [复合类型](basic/compound-type/intro.md)
         - [元组](basic/compound-type/tuple.md)
-        - [数组](basic/compound-type/array.md)
-    - [类型转换](basic/type-converse.md)
-    - [函数与方法(todo)](basic/function-method.md)
+        - [结构体](basic/compound-type/struct.md)
+        - [枚举 todo](basic/compound-type/enum.md)
+        - [数组 todo](basic/compound-type/array.md)
+    - [类型转换 todo](basic/type-converse.md)
+    - [方法Method(todo)](basic/method.md)
     - [格式化输出(todo)](basic/formatted-output.md)
     - [流程控制(todo)](basic/flow-control.md)
     - [返回、异常和错误(todo)](basic/exception-error.md)
     - [模式匹配(todo)](basic/match-pattern.md)
     - [文档注释(todo)](basic/comment.md)
     - [包和模块(todo)](basic/crate-module.md)
-    - [语句与表达式(todo)](basic/statement-expression.md)
+
     
 - [进阶语法 todo](advance/intro.md)
     - [生命周期(todo)](advance/lifetime.md)
@@ -45,7 +47,7 @@
     - [集合类型(todo)](advance/collection.md)
     - [函数式编程(todo)](advance/functional-programing.md)
     - [智能指针(todo)](advance/smart-pointer.md)
-
+    - [全局变量](advance/global-variable.md)
 
 ## 专题内容,每个专题都配套一个小型项目进行实践
 
@@ -128,6 +130,7 @@
 - [代码规范 doing](style-guide/intro.md)
     - [命名规范](style-guide/naming.md)
     - [代码风格(todo)](style-guide/code.md)
+    - [代码标记](style-guide/mark.md)
     - [Clippy](style-guide/clippy.md)
     
 - [面向对象 todo](object-oriented/intro.md)
@@ -152,6 +155,9 @@
     - [Clone和Copy](performance/clone-copy.md)
     - [Benchmark性能测试(todo)](performance/benchmark.md)
     - [减少Runtime check(todo)](performance/runtime-check.md)
+
+- [编译器 todo](compiler/intro.md)
+    - [常见属性标记](compiler/attributes.md)
 
 - [标准库解析 todo](std/intro.md)
     - [如何寻找你想要的内容](std/search.md)

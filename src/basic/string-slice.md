@@ -260,7 +260,6 @@ fn say_hello(s: &str) {
   |
   = help: the trait `Index<{integer}>` is not implemented for `String`
 ```
-https://rustwiki.org/en/book/ch08-02-strings.html#storing-utf-8-encoded-text-with-strings
 
 #### 深入字符串内部
 字符串的底层的数据存储格式实际上是[u8]，一个字节数组。对于`let hello = String::from("Hola");`这行代码来说，`hello`的长度是`4`个字节，因为`"hola"`中的每个字母在UTF8编码中仅占用1个字节，但是对于下面的代码呢?
