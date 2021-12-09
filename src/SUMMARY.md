@@ -33,7 +33,7 @@
     - [模式匹配](basic/match-pattern/intro.md)
         - [match和if let](basic/match-pattern/match-if-let.md)
         - [解构Option](basic/match-pattern/option.md)
-        - [模式和匹配](basic/match-pattern/pattern-match.md)
+        - [模式适用场景](basic/match-pattern/pattern-match.md)
         - [全模式列表](basic/match-pattern/all-patterns.md)
     - [方法Method(todo)](basic/method.md)
     - [泛型(todo)](basic/generitic.md)
