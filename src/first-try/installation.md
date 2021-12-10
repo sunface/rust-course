@@ -21,6 +21,7 @@ $ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 Rust is installed now. Great!
 ```
 
+
 注意,上面已经完成了Rust安装，**如果你在安装过程中遇到连接器错误，请继续往下看**，否则可以直接跳到[更新和卸载](#更新和卸载)，继续阅读.
 
 Rust对运行环境和Go语言很像，几乎所有环境都可以无需安装任何依赖直接运行，但是，Rust会依赖libc和链接器linker,所以如果遇到了提示链接器无法执行的错误，你需要手动安装一个C语言编译器即可:
@@ -32,10 +33,83 @@ $ xcode-select --install
 **在linux下**
 Linux 用户一般应按照相应发行版的文档来安装 GCC 或 Clang。例如，如果你使用 Ubuntu，则可安装 `build-essential`。
 
+
 ### 在 Windows 上安装 `rustup`
 
 windows上安装过程较为麻烦，因此我们专门写了一篇文章来讲解相关的安装过程，请移步：[Windows安装]()
+windows上安装要求有c++ 环境以下为安装的两种方式
 
+**1、x86_64-pc-windows-msvc(官方推荐)**
+
+先安装 [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/zh-hans/visual-cpp-build-tools/) 安装勾选 C++ 环境即可，安装时 可自行修改缓存路径与安装路径，避免占用过多C盘空间。
+准备好 c++ 环境后开始安装 Rust  [RUSTUP-INIT](https://www.rust-lang.org/learn/get-started) 下载系统相对应的Rust安装程序,一路默认就好。
+
+``` shell
+PS C:\Users\Hehongyuan> rustup-init.exe 
+......
+Current installation options:
+
+
+   default host triple: x86_64-pc-windows-msvc
+     default toolchain: stable (default)
+               profile: default
+  modify PATH variable: yes
+
+1) Proceed with installation (default)
+2) Customize installation
+3) Cancel installation
+
+```
+
+**2、x86_64-pc-windows-gnu**
+
+另外类别 C++ 环境其实官方也有说明  [Other Rust Installation Methods](https://forge.rust-lang.org/infra/other-installation-methods.html#other-rust-installation-methods)
+个人习惯使用 [mingw-w64 官网](https://www.mingw-w64.org/) 当然也可以是[win-builds](http://win-builds.org/)
+为了方便初学者使用 这里提供一个免安装的的方式 [mingw-w64下载](https://sourceforge.net/projects/mingw-w64/files/),演示选择的 `x86_64-posix-seh` 对于学习者，初次安装不需要纠结什么类别，因为切换版本很方便。下载完压缩包并解压，把压缩包下的 `/bin` 目录添加到 环境`Path` 即可
+<img alt="" src="/img/mingw-w64-download" class="center"  />
+
+1、验证 c++ 环境
+``` shell
+PS C:\Users\Hehongyuan> c++ -v
+Using built-in specs.
+COLLECT_GCC=C:\ENV\mingw64\bin\c++.exe
+COLLECT_LTO_WRAPPER=C:/ENV/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/8.1.0/lto-wrapper.exe
+Target: x86_64-w64-mingw32
+Configured with: xxxxxxxxxxxxxx
+gcc version 8.1.0 (x86_64-posix-seh-rev0, Built by MinGW-W64 project)
+
+```
+
+2、安装 Rust 注意选择 `Customize installation` 并设置 `host triple` 为 `x86_64-pc-windows-gnu`
+
+``` shell
+PS C:\Users\Hehongyuan> rustup-init.exe 
+......
+Current installation options:
+
+
+   default host triple: x86_64-pc-windows-msvc
+     default toolchain: stable (default)
+               profile: default
+  modify PATH variable: yes
+
+1) Proceed with installation (default)
+2) Customize installation
+3) Cancel installation
+>2
+
+I m going to ask you the value of each of these installation options.
+You may simply press the Enter key to leave unchanged.
+
+Default host triple? [x86_64-pc-windows-msvc]
+x86_64-pc-windows-gnu
+
+Default toolchain? (stable/beta/nightly/none) [stable]
+
+
+Profile (which tools and data to install)? (minimal/default/complete) [default]
+
+```
 
 ### 更新和卸载
 
