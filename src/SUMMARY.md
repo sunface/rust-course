@@ -162,7 +162,8 @@
     - [Clone和Copy](performance/clone-copy.md)
     - [Benchmark性能测试(todo)](performance/benchmark.md)
     - [减少Runtime check(todo)](performance/runtime-check.md)
-
+    - [CPU缓存性能优化](performance/cpu-cache.md)
+    
 - [编译器 todo](compiler/intro.md)
     - [常见属性标记](compiler/attributes.md)
 

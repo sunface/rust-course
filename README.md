@@ -1,10 +1,11 @@
 # Rust语言圣经
 
-- 官方书名： Rust语言圣经(Rust Course)
+- 作者: [Sunface](https://im.dev)
 - 官方网址： https://course.rs
 - 修订时间： **尚未发行**
 - Rust版本：Rust edition 2021
 - QQ交流群： 1009730433
+
 ## 关于本书
 
 #### 书本简介
