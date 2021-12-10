@@ -2,9 +2,9 @@
 
 - 官方网址： https://course.rs
 - 修订时间： **尚未发行**
-- Rust版本：Rust edition 2021
-- QQ交流群： 1009730433
-- 主要作者: [Sunface](https://im.dev)
+- Rust版本： Rust edition 2021
+- QQ交流群: 1009730433
+- 主要作者: &nbsp;&nbsp;&nbsp;[Sunface](https://im.dev)
 
 ## 关于本书
 
