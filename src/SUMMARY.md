@@ -35,7 +35,7 @@
         - [解构Option](basic/match-pattern/option.md)
         - [模式适用场景](basic/match-pattern/pattern-match.md)
         - [全模式列表](basic/match-pattern/all-patterns.md)
-    - [方法Method(todo)](basic/method.md)
+    - [方法Method](basic/method.md)
     - [泛型(todo)](basic/generitic.md)
     - [特征(todo)](basic/trait.md)
     - [类型转换 todo](basic/type-converse.md)
@@ -163,7 +163,7 @@
     - [Benchmark性能测试(todo)](performance/benchmark.md)
     - [减少Runtime check(todo)](performance/runtime-check.md)
     - [CPU缓存性能优化](performance/cpu-cache.md)
-    
+
 - [编译器 todo](compiler/intro.md)
     - [常见属性标记](compiler/attributes.md)
 
