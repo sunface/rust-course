@@ -1,6 +1,6 @@
 # Rust语言圣经
 
-- 作者: [Sunface](https://im.dev)
+- 书籍作者: [Sunface](https://im.dev)
 - 官方网址： https://course.rs
 - 修订时间： **尚未发行**
 - Rust版本：Rust edition 2021
