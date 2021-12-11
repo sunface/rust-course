@@ -36,8 +36,10 @@
         - [模式适用场景](basic/match-pattern/pattern-match.md)
         - [全模式列表](basic/match-pattern/all-patterns.md)
     - [方法Method](basic/method.md)
-    - [泛型](basic/generitic.md)
-    - [特征(todo)](basic/trait.md)
+    - [泛型和特征](basic/trait/intro.md)
+        - [泛型Generics](basic/trait/generic.md)
+        - [特征Trait](basic/trait/trait.md)
+        - [特征对象](basic/trait/trait-object.md)
     - [类型转换 todo](basic/type-converse.md)
     - [返回、异常和错误(todo)](basic/exception-error.md)
 
