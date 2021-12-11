@@ -24,7 +24,7 @@
         - [所有权](basic/ownership/ownership.md)
         - [引用与借用](basic/ownership/borrowing.md)
     - [复合类型](basic/compound-type/intro.md)
-        - [字符串与切片](basic/scompound-type/tring-slice.md)
+        - [字符串与切片](basic/compound-type/string-slice.md)
         - [元组](basic/compound-type/tuple.md)
         - [结构体](basic/compound-type/struct.md)
         - [枚举](basic/compound-type/enum.md)
@@ -36,7 +36,7 @@
         - [模式适用场景](basic/match-pattern/pattern-match.md)
         - [全模式列表](basic/match-pattern/all-patterns.md)
     - [方法Method](basic/method.md)
-    - [泛型(todo)](basic/generitic.md)
+    - [泛型](basic/generitic.md)
     - [特征(todo)](basic/trait.md)
     - [类型转换 todo](basic/type-converse.md)
     - [返回、异常和错误(todo)](basic/exception-error.md)
@@ -99,7 +99,8 @@
     - [Borrow, BorrowMut, ToOwned](traits/borrow-family.md)
     - [Deref和引用隐式转换](traits/deref.md)
     - [写时拷贝Cow](traits/cow.md)
-    
+    - [Eq](traits/eq.md)
+
 - [多线程 todo](multi-threads/intro.md)
     - [线程管理(todo)](multi-threads/thread.md)
     - [消息传递(todo)](multi-threads/message-passing.md)

@@ -36,8 +36,10 @@ Linux 用户一般应按照相应发行版的文档来安装 GCC 或 Clang。例
 
 ### 在 Windows 上安装 `rustup`
 
-windows上安装过程较为麻烦，因此我们专门写了一篇文章来讲解相关的安装过程，请移步：[Windows安装]()
-windows上安装要求有c++ 环境以下为安装的两种方式
+windows上安装过程较为麻烦，因此我们专门写了一篇文章来讲解相关的安装过程，请参考：[Windows安装](https://blog.csdn.net/erlib/article/details/121684998?spm=1001.2014.3001.5501).
+
+
+windows上安装要求有`c++`环境,以下为安装的两种方式
 
 **1、x86_64-pc-windows-msvc(官方推荐)**
 
