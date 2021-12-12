@@ -272,7 +272,7 @@ fn returns_summarizable() -> impl Summary {
 
 但是这种返回值方式有一个很大的限制：只能有一个具体的类型，例如：
 ```rust
-n returns_summarizable(switch: bool) -> impl Summary {
+fn returns_summarizable(switch: bool) -> impl Summary {
     if switch {
         Post {
             title: String::from(

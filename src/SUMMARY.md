@@ -40,6 +40,7 @@
         - [泛型Generics](basic/trait/generic.md)
         - [特征Trait](basic/trait/trait.md)
         - [特征对象](basic/trait/trait-object.md)
+        - [进一步了解特征 todo](basic/trait/advance-trait.md)
     - [类型转换 todo](basic/type-converse.md)
     - [返回、异常和错误(todo)](basic/exception-error.md)
 
@@ -153,9 +154,10 @@
     - [修改全局变量](unsafe/modify-global-var.md)
     - [FFI外部语言用](unsafe/ffi.md)
 
-- [对抗编译检查 todo](fight-with-compiler/intro.md)
+- [对抗编译检查 doing](fight-with-compiler/intro.md)
     - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
-    - [生命周期(todo)](fight-with-compiler/lifetime.md)
+    - [生命周期)](fight-with-compiler/lifetime/intro.md)
+        - [生命周期过大-01](fight-with-compiler/lifetime/too-long1.md)
     - [类型未限制(todo)](fight-with-compiler/unconstrained.md)
     
 - [宏编程 todo](macro/intro.md)
