@@ -82,7 +82,7 @@ sunface发表了微博好像微博没Tweet好用
 
 说实话，如果特征仅仅如此，你可能会觉得花里胡哨没啥子用，等下就让你见识下真正的威力。
 
-#### 特征定义与实现的位置
+#### 特征定义与实现的位置(孤儿规则)
 上面我们将`Summary`定义为了`pub`公开的，因此如果他人想要使用我们的`Summary`特征，则可以引入到他们的包中，然后再进行实现。
 
 关于特征实现与定义的位置，有一条非常重要的原则: **如果你想要为类型`A`实现特征`T`，那么`A`或者`T`至少有一个是在当前作用域中定义的！**.例如我们可以为上面的`Post`类型实现标准库中的`Display`特征，这是因为`Post`类型定义在当前的作用域中。同时，我们也可以在当前包中为`String`类型实现`Summary`特征，因为`Summary`定义在当前作用域中。
@@ -394,9 +394,11 @@ fn main() {
 
 详细的`derive`列表参加[附录-派生特征](../../appendix/derive.md).
 
-## 一个复杂的例子
+## 几个综合例子
 
-综合上面的内容，我们再来看一个复杂一些的例子：
+#### 为自定义类型实现`+`操作
+在Rust中除了数值类型的加法，`String`也可以做[加法](../compound-type/string-slice.md#操作字符串)，因为Rust为该类型实现了`std::ops::Add`特征，同理，如果我们为自定义类型实现了该特征，那就可以实现`Point1 + Point2`的操作: 
+
 ```rust
 use std::ops::Add;
 
@@ -433,7 +435,75 @@ fn main() {
 }
 ```
 
-在上面代码中，除了泛型之外，最值得注意的是我们实现了两个结构体的加法，具体细节留给读者细细琢磨，若有问题可以加入交流群讨论。
+#### 自定义类型的打印输出
+在开发过程中，往往只要使用`#[derive(Debug)]`对我们的自定义类型进行标注，即可实现打印输出的功能：
+```rust
+#[derive(Debug)]
+struct Point{
+    x: i32,
+    y: i32
+}
+fn main() {
+    let p = Point{x:3,y:3};
+    println!("{:?}",p);
+}
+```
+但是在实际项目中，往往需要对我们的自定义类型进行自定义的格式化输出，以让用户更好的阅读理解我们的类型，此时就要为自定义类型实现`std::fmt::Display`特征：
+```rust
+#![allow(dead_code)]
+ 
+use std::fmt;
+use std::fmt::{Display};
+ 
+#[derive(Debug,PartialEq)]
+enum FileState {
+  Open,
+  Closed,
+}
+ 
+#[derive(Debug)]
+struct File {
+  name: String,
+  data: Vec<u8>,
+  state: FileState,
+}
+ 
+impl Display for FileState {
+   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+     match *self {
+         FileState::Open => write!(f, "OPEN"),
+         FileState::Closed => write!(f, "CLOSED"),
+     }
+   }
+}
+ 
+impl Display for File {
+   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+      write!(f, "<{} ({})>",
+             self.name, self.state)
+   }
+}
+ 
+impl File {
+  fn new(name: &str) -> File {
+    File {
+        name: String::from(name),
+        data: Vec::new(),
+        state: FileState::Closed,
+    }
+  }
+}
+ 
+fn main() {
+  let f6 = File::new("f6.txt");
+  //...
+  println!("{:?}", f6);
+  println!("{}", f6);
+}
+```
 
 
-特征和特征约束，是Rust中极其重要的概念，如果你还是没搞懂，强烈建议回头再看一遍，或者寻找相关的资料进行补充学习。如果已经觉得掌握了，那么就进入下一节的学习。
+以上两个例子较为复杂，目的是为读者展示下真实的使用场景长什么样，因此需要读者细细阅读，最终消化这些知识对于你的Rust之路会有莫大的帮助。
+
+
+最后，特征和特征约束，是Rust中极其重要的概念，如果你还是没搞懂，强烈建议回头再看一遍，或者寻找相关的资料进行补充学习。如果已经觉得掌握了，那么就进入下一节的学习。

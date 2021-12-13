@@ -40,7 +40,7 @@
         - [泛型Generics](basic/trait/generic.md)
         - [特征Trait](basic/trait/trait.md)
         - [特征对象](basic/trait/trait-object.md)
-        - [进一步了解特征 todo](basic/trait/advance-trait.md)
+        - [进一步深入特征](basic/trait/advance-trait.md)
     - [类型转换 todo](basic/type-converse.md)
     - [返回、异常和错误(todo)](basic/exception-error.md)
 
@@ -164,6 +164,7 @@
     - [过程宏(todo)](macro/procedure-macro.md)
 
 - [性能调优 todo](performance/intro.md)
+    - [糟糕的提前优化](performance/early-optimise.md)
     - [Clone和Copy](performance/clone-copy.md)
     - [Benchmark性能测试(todo)](performance/benchmark.md)
     - [减少Runtime check(todo)](performance/runtime-check.md)
@@ -195,6 +196,6 @@
 - [附录](appendix/intro.md)
     - [A-关键字](appendix/keywords.md)
     - [B-运算符与符号](appendix/operators.md)
-    - [C-派生特征derive](appendix/derive.md)
-    - [D-Rust版本发布](appendix/rust-version.md)
-    - [E-Rust自身开发流程](appendix/rust-dev.md)
+    - [C-表达式](appendix/expressions.md)
+    - [D-派生特征derive](appendix/derive.md)
+    - [E-Rust版本发布](appendix/rust-version.md)
