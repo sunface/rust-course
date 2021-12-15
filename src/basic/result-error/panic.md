@@ -1,4 +1,4 @@
-# 不可恢复错误panic!
+# panic深入剖析
 
 在正式开始之前，先来思考一个问题: 假设我们想要从文件读取数据，如果失败，你有没有好的办法通知调用者为何失败？如果成功，你有没有好的办法把读取的结果返还给调用者？
 
@@ -88,6 +88,11 @@ note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose bac
 panic = 'abort'
 ```
 
+## 线程`panic`后，程序会否终止？
+长话短说，如果是`main`线程，则程序会终止，如果是其它子线程，该线程会终止。因此，尽量不要在`main`线程中做太多任务，将这些任务交由子线程去做，就算`panic`也不会导致整个程序的结束。
+
+具体解析见[panic原理剖析](#panic原理剖析)
+
 ## 何时该使用panic!
 
 下面让我们大概罗列下合适适合使用`panic`，虽然原则上，你理解了之前的内容后，会自己作出合适的选择，但是罗列出来可以帮助你强化这一点。
@@ -140,13 +145,15 @@ let home: IpAddr = "127.0.0.1".parse().unwrap();
 
 ## panic原理剖析
 
-本来不想写这块儿内容，因为对于大多数人都没有帮助，但是转念一想，既然号称圣经，那么本书就得与众不同，避重就轻显然不是该有的态度。
+本来不想写这块儿内容，因为真的难写，但是转念一想，既然号称圣经，那么本书就得与众不同，避重就轻显然不是该有的态度。
 
+当调用`panic!`宏时，它会
+1. 格式化`panic`信息，然后使用该信息作为参数，调用`std::panic::panic_any()`函数
+2. `panic_any`会检查应用是否使用了`panic hook`，如果使用了，该`hook`函数会被调用
+3. 当`hook`函数返回后，当前的线程就开始进行栈展开：从`panic_any`开始,如果寄存器或者栈因为某些原因信息错乱了，那很可能该展开会发生异常，最终线程会直接停止，展开也无法继续进行。
+4. 展开的过程是一帧一帧的去回溯整个栈，每个帧的数据都会随之被丢弃，但是在展开过程中，你可能会遇到被用户标记为`catching`的帧(通过`std::panic::catch_unwind()`函数标记)，此时用户提供的`catch`函数会被调用，展开也随之停止: 当然，如果`catch`选择在内部调用`std::panic::resume_unwind()`函数，则展开还会继续。
 
+还有一种情况，在展开过程中，如果展开本身`panic`了，那展开线程会终止，展开也随之停止。
 
-Not sure exactly what you're asking, but I'll try to describe the panic mechanism as I understand it. I'm sure folks will correct my mistakes.
-When you call the panic!() macro it formats the panic message and then calls std::panic::panic_any() with the message as the argument. panic_any() first checks to see if there's a "panic hook" installed by the application: if so, the hook function is called. Assuming that the hook function returns, the unwinding of the current thread begins with the parent stack frame of the caller of panic_any(). If the registers or the stack are messed up, likely trying to start unwinding will cause an exception of some kind, at which point the thread will be aborted instead of unwinding.
-Unwinding is a process of walking back up the stack, frame-by-frame. At each frame, any data owned by the frame is dropped. (I believe things are dropped in reverse static order, as they would be at the end of a function.)
-One exceptional case during unwinding is that the unwinding may hit a frame marked as "catching" the unwind via std::panic::catch_unwind(). If so, the supplied catch function is called and unwinding ceases: the catching frame may continue the unwinding with std::panic::resume_unwind() or not.
-Another exceptional case during unwinding is that some drop may itself panic. In this case the unwinding thread is aborted.
-Once unwinding of a thread is aborted or completed (no more frames to unwind), the outcome depends on which thread panicked. For the main thread, the operating environment's abort functionality is invoked to terminate the panicking process via core::intrinsics::abort(). Child threads, on the other hand, are simply terminated and can be collected later with std::thread::join()
+一旦线程展开被终止或者完成，最终的输出结果是取决于哪个线程`panic`：对于`main`线程，操作系统提供的终止功能`core::intrinsics::abort()`会被调用，最终结束当前的`panic`进程；如果是其它子线程，那么线程就会简单的终止，同时信息会在稍后通过`std::thread::join()`进行收集.
+

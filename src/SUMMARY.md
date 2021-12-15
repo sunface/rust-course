@@ -43,8 +43,8 @@
         - [进一步深入特征](basic/trait/advance-trait.md)
     - [类型转换](basic/converse.md)
     - [返回和错误处理](basic/result-error/intro.md)
-        - [不可恢复错误panic!](basic/result-error/panic.md)
-        - [可恢复的错误Result](basic/result-error/result.md)
+        - [panic深入剖析!](basic/result-error/panic.md)
+        - [返回值Result和?](basic/result-error/result.md)
 
     
 - [Rust高级进阶 doing](advance/intro.md)
