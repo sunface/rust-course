@@ -16,5 +16,5 @@ line-numbers = true
 
 [output.html.fold]
 enable = true
-level = 0
+level = 1
 

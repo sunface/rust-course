@@ -1,4 +1,4 @@
-# 附录 E：Rust版本发布
+# 附录 G：Rust版本发布
 
 ## Rust版本说明 
 早在第一章，我们见过 `cargo new` 在 *Cargo.toml* 中增加了一些有关 `edition` 的元数据。本附录将解释其意义！

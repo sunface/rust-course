@@ -1,6 +1,6 @@
-# 进一步了解特征
+# 深入了解特征
 
-特征之于Rust更甚于接口之于其他语言，因此特征在Rust中很重要也相对较为复杂，我们决定把特征分为两篇进行介绍，该篇就是关于特征的进阶篇，会讲述一些你不常用到但是该了解的特性。
+特征之于Rust更甚于接口之于其他语言，因此特征在Rust中很重要也相对较为复杂，我们决定把特征分为两篇进行介绍，[第一篇](./trait.md)在之前已经讲过，现在就是第二篇：关于特征的进阶篇，会讲述一些你不常用到但是该了解的特性。
 
 ## 关联类型
 在方法一章中，我们将到了[关联函数](../method.md#关联函数)，但是实际上关联类型和关联函数并没有任何交集，虽然它们的名字有一半的交集。
@@ -341,20 +341,23 @@ impl fmt::Display for Point {
  `newtype`不仅仅能实现以上的功能，而且它在运行时没有任何性能损耗，因为在编译期，该类型会被自动忽略。
 
  下面来看一个例子，我们有一个动态数组类型：`Vec<T>`，它定义在标准库中，还有一个特征`Display`，它也定义在标准库中，如果没有`newtype`，我们是无法为`Vec<T>`实现`Display`的: 
- ```rust
- error[E0117]: only traits defined in the current crate can be implemented for arbitrary types  
- --> src/main.rs:5:1
-  |
+
+
+```console
+error[E0117]: only traits defined in the current crate can be implemented for arbitrary types  
+--> src/main.rs:5:1
+|
 5 | impl<T> std::fmt::Display for Vec<T> {
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^------
-  | |                             |
-  | |                             `Vec` is not defined in the current crate
-  | impl doesn't use only types from inside the current crate
-  |
-  = note: define and implement a trait or new type instead
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^------
+| |                             |
+| |                             Vec is not defined in the current crate
+| impl doesn't use only types from inside the current crate
+|
+= note: define and implement a trait or new type instead
 ```
 
 编译器给了我们提示：`define and implement a trait or new type instead`，重新定义一个特征，或者使用`new type`，前者当然不可行，那么来试试后者：
+
 ```rust
 use std::fmt;
 

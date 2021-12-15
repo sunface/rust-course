@@ -13,7 +13,7 @@
 
 ## Rust学习三部曲
 
-- [基本语法 doing](basic/intro.md)
+- [Rust基础入门](basic/intro.md)
     - [变量绑定与结构](basic/variable.md)
     - [基本类型](basic/base-type/index.md)
         - [数值类型](basic/base-type/numbers.md)
@@ -41,27 +41,31 @@
         - [特征Trait](basic/trait/trait.md)
         - [特征对象](basic/trait/trait-object.md)
         - [进一步深入特征](basic/trait/advance-trait.md)
-    - [类型转换 todo](basic/type-converse.md)
-    - [返回、异常和错误(todo)](basic/exception-error.md)
-
+    - [类型转换](basic/converse.md)
+    - [返回和错误处理](basic/result-error/intro.md)
+        - [不可恢复错误panic!](basic/result-error/panic.md)
+        - [可恢复的错误Result](basic/result-error/result.md)
 
     
-- [进阶语法 todo](advance/intro.md)
+- [Rust高级进阶 doing](advance/intro.md)
+    - [自定义类型和动态类型 todo](advance/custom-type.md)
     - [集合类型(todo)](advance/collection.md)
     - [格式化输出(todo)](advance/formatted-output.md)
     - [文档注释(todo)](advance/comment.md)
     - [包和模块(todo)](advance/crate-module.md)
-    - [生命周期(todo)](advance/lifetime.md)
+    - [生命周期(todo)](advance/lifetime/intro.md)
+        - [认识生命周期](advance/lifetime/basic.md)
+        - [深入生命周期](advance/lifetime/advance.md)
     - [迭代器(todo)](advance/interator.md)
     - [函数式编程(todo)](advance/functional-programing.md)
     - [智能指针(todo)](advance/smart-pointer.md)
     - [全局变量](advance/global-variable.md)
+    - [一些写代码的技巧](advance/coding-tips.md)
 
 ## 专题内容,每个专题都配套一个小型项目进行实践
 
 - [错误处理 todo](errors/intro.md)
-    - [panic!](errors/panic.md)
-    - [适用Result返回错误](errors/result.md)
+    - [简化错误处理](errors/simplify.md)
     - [自定义错误](errors/user-define.md)
     - [让错误输出更优雅](errors/pretty-format.md)
     - [会导致panic的代码](errors/panic-codes.md)
@@ -198,4 +202,6 @@
     - [B-运算符与符号](appendix/operators.md)
     - [C-表达式](appendix/expressions.md)
     - [D-派生特征derive](appendix/derive.md)
-    - [E-Rust版本发布](appendix/rust-version.md)
+    - [E-prelude模块 todo](appendix/prelude.md)
+    - [F-难点索引](appendix/difficulties.md)
+    - [G-Rust版本发布](appendix/rust-version.md)

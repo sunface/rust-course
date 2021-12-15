@@ -5,3 +5,5 @@
 ## crates
 1. https://github.com/Kimundi/owning-ref-rs
 2. https://github.com/joshua-maros/ouroboros
+
+https://www.reddit.com/r/learnrust/comments/rf4qdz/is_it_possible_to_hold_an_arena_and_references/
