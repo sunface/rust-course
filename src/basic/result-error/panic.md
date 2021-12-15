@@ -140,6 +140,10 @@ let home: IpAddr = "127.0.0.1".parse().unwrap();
 
 ## panic原理剖析
 
+本来不想写这块儿内容，因为对于大多数人都没有帮助，但是转念一想，既然号称圣经，那么本书就得与众不同，避重就轻显然不是该有的态度。
+
+
+
 Not sure exactly what you're asking, but I'll try to describe the panic mechanism as I understand it. I'm sure folks will correct my mistakes.
 When you call the panic!() macro it formats the panic message and then calls std::panic::panic_any() with the message as the argument. panic_any() first checks to see if there's a "panic hook" installed by the application: if so, the hook function is called. Assuming that the hook function returns, the unwinding of the current thread begins with the parent stack frame of the caller of panic_any(). If the registers or the stack are messed up, likely trying to start unwinding will cause an exception of some kind, at which point the thread will be aborted instead of unwinding.
 Unwinding is a process of walking back up the stack, frame-by-frame. At each frame, any data owned by the frame is dropped. (I believe things are dropped in reverse static order, as they would be at the end of a function.)
