@@ -180,7 +180,8 @@
 
 - [编译器 todo](compiler/intro.md)
     - [常见属性标记](compiler/attributes.md)
-
+    - [优化编译速度](compiler/speed-up.md)
+    
 - [标准库解析 todo](std/intro.md)
     - [如何寻找你想要的内容](std/search.md)
     
