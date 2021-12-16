@@ -1,14 +1,14 @@
 # 结构体
 
-在上一节，我们提到需要一个更高级的数据结构来帮助我们更好的抽象问题，而结构体`strct`恰恰就是这样的复合数据结构，它是由其它数据类型组合而来, 其它语言也有类似的数据结构，不过可能有不同的名称，例如`object`、`record`等。
+上一节中提到需要一个更高级的数据结构来帮助我们更好的抽象问题，结构体`strct`恰恰就是这样的复合数据结构，它是由其它数据类型组合而来。 其它语言也有类似的数据结构，不过可能有不同的名称，例如`object`、`record`等。
 
-结构体跟之前讲过的[元组](../base-type/tuple.md)有些相像：都是由多种类型组合而成。但是与元组不同的是，结构体可以为内部的每个字段起一个富有含义的名称。因此结构体更加灵活更加强大，你无需依赖这些字段的顺序来访问和解析它们。
+结构体跟之前讲过的[元组](./tuple.md)有些相像：都是由多种类型组合而成。但是与元组不同的是，结构体可以为内部的每个字段起一个富有含义的名称。因此结构体更加灵活更加强大，你无需依赖这些字段的顺序来访问和解析它们。
 
 ## 结构体语法
 天下无敌的剑士往往也因为他有一炳无双之剑，既然结构体这么强大，那么我们就需要给它配套一套强大的语法，让用户能更好的驾驭。
 
 #### 定义结构体
-定义结构体有几部分组成：
+一个结构体有几部分组成：
 - 通过关键字`struct`定义
 - 一个清晰明确的结构体`名称`
 - 数个具名的结构体`字段`
@@ -25,7 +25,7 @@ struct User {
 该结构体名称是`User`，拥有4个具名的字段，且每个字段都有对应的类型声明，例如`username`代表了用户名，是一个可变的`String`类型。
 
 #### 创建结构体实例
-为了使用上述结构体，我们需要创建`User`结构体的`实例`：
+为了使用上述结构体，我们需要创建`User`结构体的**实例**：
 ```rust
   let user1 = User {
         email: String::from("someone@example.com"),
@@ -35,11 +35,11 @@ struct User {
 };
 ```
 有几点值得注意:
-1. 初始化实例时，需要为每个字段都进行初始化
+1. 初始化实例时，需要为**每个字段**都进行初始化
 2. 初始化时的字段顺序无需按照定义的顺序来
 
 #### 访问结构体字段
-通过`.`操作符即可访问结构体实例内部的字段值，并且也可以修改它们：
+通过`.`操作符即可访问结构体实例内部的字段值，也可以修改它们：
 ```rust
     let mut user1 = User {
         email: String::from("someone@example.com"),
@@ -53,7 +53,7 @@ struct User {
 需要注意的是，必须要将整个结构体都声明为可变的，才能修改它，Rust不允许单独将某个字段标记为可变: `let mut user1 = User {...}`.
 
 #### 简化结构体创建
-先看以下这个函数:
+下面的函数类似一个构建函数，返回了`User`结构体的实例：
 ```rust
 fn build_user(email: String, username: String) -> User {
     User {
@@ -64,7 +64,7 @@ fn build_user(email: String, username: String) -> User {
     }
 }
 ```
-它接收两个字符串参数：`email`和`username`，然后使用它们来创建一个`User`结构体，并且返回。可以注意到这两行：`email: email`和`username: username`，非常的扎眼，因为实在太啰嗦了，如果你从typscript过来，肯定会鄙视Rust一番，不过好在，它也不是无可救药:
+它接收两个字符串参数：`email`和`username`，然后使用它们来创建一个`User`结构体，并且返回。可以注意到这两行：`email: email`和`username: username`，非常的扎眼，因为实在有些啰嗦，如果你从typscript过来，肯定会鄙视Rust一番，不过好在，它也不是无可救药:
 ```rust
 fn build_user(email: String, username: String) -> User {
     User {
@@ -89,7 +89,7 @@ fn build_user(email: String, username: String) -> User {
     };
 ```
 
-老话重提，如果你从typescript过来，肯定觉得啰嗦爆了，手动把user1的三个字段逐个赋值给user2，好在Rust为我们提供了`结构体更新语法`:
+老话重提，如果你从typescript过来，肯定觉得啰嗦爆了：竟然手动把`user1`的三个字段逐个赋值给`user2`，好在Rust为我们提供了`结构体更新语法`:
 ```rust
   let user2 = User {
         email: String::from("another@example.com"),
@@ -104,10 +104,10 @@ fn build_user(email: String, username: String) -> User {
 >
 > 聪明的读者肯定要发问了：明明有三个字段进行了自动赋值，为何只有`username`发生了所有权转移？
 >
-> 仔细回想一下[所有权](../ownership/ownership.md)那一节的内容，我们提到了Copy特征：实现了Copy特征的类型无需所有权转移，可以直接在赋值时进行
+> 仔细回想一下[所有权](../ownership/ownership.md#拷贝(浅拷贝))那一节的内容，我们提到了Copy特征：实现了Copy特征的类型无需所有权转移，可以直接在赋值时进行
 > 数据拷贝，其中`bool`和`u64`类型就实现了`Copy`特征，因此`active`和`sign_in_count`字段在赋值给user2时，仅仅发生了拷贝，而不是所有权转移.
 >
-> 值的注意的是：`username`所有权被转移给了`user2`,导致了`user1`无法再被使用，但是并不代表`user1`内部的字段不能被急需使用，例如:
+> 值的注意的是：`username`所有权被转移给了`user2`,导致了`user1`无法再被使用，但是并不代表`user1`内部的字段不能被继续使用，例如:
 
 ```rust
  let user1 = User {
@@ -132,7 +132,7 @@ fn build_user(email: String, username: String) -> User {
 
 ## 结构体的内存排列
 
-先看以下代码：
+先来看以下代码：
 ```rust
 #[derive(Debug)]
  struct File {
@@ -246,4 +246,4 @@ help: consider introducing a named lifetime parameter
 ```
 
 
-未来在[生命周期](../../advance/lifetime.md)中会讲到如何修复这个问题以便在结构体中存储引用，不过在那之前，我们会避免在结构体中使用引用类型。
+未来在[生命周期](../../advance/lifetime/basic.md)中会讲到如何修复这个问题以便在结构体中存储引用，不过在那之前，我们会避免在结构体中使用引用类型。
