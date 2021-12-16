@@ -4,3 +4,9 @@
 
 ### ?
 ?主要用于简化错误传播，在[这里](../basic/result-error/result.md#传播界的大明星:)有详细讲解。
+
+### ()
+元类型,见[这里](../basic/base-type/char-bool.md#元类型)和[这里](../basic/base-type/function.md#无返回值)
+
+### !
+[永不返回](../basic/base-type/function.md#永不返回的函数)
