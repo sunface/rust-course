@@ -14,6 +14,8 @@ if condition == true {
 } else {
     // B...
 }
+```
+
 该代码读作：若`condition`条件为`true`，则执行`A`代码，否则执行`B`代码.
 
 先看下面代码：
