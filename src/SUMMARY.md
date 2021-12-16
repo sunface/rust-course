@@ -36,6 +36,9 @@
         - [模式适用场景](basic/match-pattern/pattern-match.md)
         - [全模式列表](basic/match-pattern/all-patterns.md)
     - [方法Method](basic/method.md)
+    - [集合类型 todo](basic/collections/intro.md)
+        - [动态数组Vector todo](basic/collections/vector.md)
+        - [KV存储HashMap todo](basic/collections/hashmap.md)
     - [泛型和特征](basic/trait/intro.md)
         - [泛型Generics](basic/trait/generic.md)
         - [特征Trait](basic/trait/trait.md)
@@ -48,14 +51,13 @@
 
     
 - [Rust高级进阶 doing](advance/intro.md)
-    - [自定义类型和动态类型 todo](advance/custom-type.md)
-    - [集合类型(todo)](advance/collection.md)
-    - [格式化输出(todo)](advance/formatted-output.md)
-    - [文档注释(todo)](advance/comment.md)
-    - [包和模块(todo)](advance/crate-module.md)
     - [生命周期(todo)](advance/lifetime/intro.md)
         - [认识生命周期](advance/lifetime/basic.md)
         - [深入生命周期](advance/lifetime/advance.md)
+    - [自定义类型和动态类型 todo](advance/custom-type.md)
+    - [格式化输出(todo)](advance/formatted-output.md)
+    - [文档注释(todo)](advance/comment.md)
+    - [包和模块(todo)](advance/crate-module.md)
     - [迭代器(todo)](advance/interator.md)
     - [函数式编程(todo)](advance/functional-programing.md)
     - [智能指针(todo)](advance/smart-pointer.md)
@@ -66,7 +68,7 @@
 - [Rust最佳实践 todo](practice/intro.md)
     - [一些写代码的技巧 todo](practice/coding-tips.md)
     - [最佳实践 todo](practice/best-pratice.md)
-    
+
 - [错误处理 todo](errors/intro.md)
     - [简化错误处理](errors/simplify.md)
     - [自定义错误](errors/user-define.md)
