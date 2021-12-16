@@ -60,10 +60,13 @@
     - [函数式编程(todo)](advance/functional-programing.md)
     - [智能指针(todo)](advance/smart-pointer.md)
     - [全局变量](advance/global-variable.md)
-    - [一些写代码的技巧](advance/coding-tips.md)
+    
 
 ## 专题内容,每个专题都配套一个小型项目进行实践
-
+- [Rust最佳实践 todo](practice/intro.md)
+    - [一些写代码的技巧 todo](practice/coding-tips.md)
+    - [最佳实践 todo](practice/best-pratice.md)
+    
 - [错误处理 todo](errors/intro.md)
     - [简化错误处理](errors/simplify.md)
     - [自定义错误](errors/user-define.md)
@@ -162,6 +165,7 @@
     - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
     - [生命周期)](fight-with-compiler/lifetime/intro.md)
         - [生命周期过大-01](fight-with-compiler/lifetime/too-long1.md)
+        - [生命周期过大-02](fight-with-compiler/lifetime/too-long2.md)
     - [类型未限制(todo)](fight-with-compiler/unconstrained.md)
     
 - [宏编程 todo](macro/intro.md)

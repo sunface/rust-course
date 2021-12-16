@@ -113,6 +113,7 @@ Rust 每 6 周发布一个版本，如时钟般准确。如果你知道了某个
 
 ### Rustup 和 Rust Nightly 的职责
 
+#### 安装Rust Nightly版本
 Rustup 使得改变不同发布通道的 Rust 更为简单，其在全局或分项目的层次工作。其默认会安装稳定版 Rust。例如为了安装 nightly：
 
 ```text
@@ -128,6 +129,7 @@ beta-x86_64-pc-windows-msvc
 nightly-x86_64-pc-windows-msvc
 ```
 
+#### 在指定目录使用Rust Nightly
 如你所见，默认是稳定版。大部分 Rust 用户在大部分时间使用稳定版。你可能也会这么做，不过如果你关心最新的功能，可以为特定项目使用 nightly 版。为此，可以在项目目录使用 `rustup override` 来设置当前目录 `rustup` 使用 nightly 工具链：
 
 ```text
