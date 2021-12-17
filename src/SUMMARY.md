@@ -14,7 +14,7 @@
 ## Rust学习三部曲
 
 - [Rust基础入门](basic/intro.md)
-    - [变量绑定与结构](basic/variable.md)
+    - [变量绑定与解构](basic/variable.md)
     - [基本类型](basic/base-type/index.md)
         - [数值类型](basic/base-type/numbers.md)
         - [字符、布尔、元类型](basic/base-type/char-bool.md)
@@ -36,14 +36,14 @@
         - [模式适用场景](basic/match-pattern/pattern-match.md)
         - [全模式列表](basic/match-pattern/all-patterns.md)
     - [方法Method](basic/method.md)
-    - [集合类型 todo](basic/collections/intro.md)
-        - [动态数组Vector todo](basic/collections/vector.md)
-        - [KV存储HashMap todo](basic/collections/hashmap.md)
     - [泛型和特征](basic/trait/intro.md)
         - [泛型Generics](basic/trait/generic.md)
         - [特征Trait](basic/trait/trait.md)
         - [特征对象](basic/trait/trait-object.md)
         - [进一步深入特征](basic/trait/advance-trait.md)
+    - [集合类型](basic/collections/intro.md)
+        - [动态数组Vector](basic/collections/vector.md)
+        - [KV存储HashMap](basic/collections/hashmap.md)
     - [类型转换](basic/converse.md)
     - [返回和错误处理](basic/result-error/intro.md)
         - [panic深入剖析!](basic/result-error/panic.md)
@@ -186,7 +186,7 @@
     
 - [标准库解析 todo](std/intro.md)
     - [如何寻找你想要的内容](std/search.md)
-    
+    - [Vector常用方法](std/vector.md)
 
 - [常用三方库 todo](libraries/intro.md)
     - [JSON](libraries/json/intro.md)
