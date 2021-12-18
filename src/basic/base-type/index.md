@@ -19,7 +19,7 @@ Rust每个值都有其确切的数据类型, 总的来说可以分为两类：�
 let guess = "42".parse().expect("Not a number!");
 ```
 
-让我们先忽悠`.parse().expect..`部分，总之，这段代码将字符串`"42"`进行解析，但是我们没有标注想要解析的类型，因此编译器会报错：
+让我们先忽略`.parse().expect..`部分，总之，这段代码将字符串`"42"`进行解析，但是我们没有标注想要解析的类型，因此编译器会报错：
 ```console
 $ cargo build
    Compiling no_type_annotations v0.1.0 (file:///projects/no_type_annotations)
