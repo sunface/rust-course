@@ -187,7 +187,8 @@
 - [标准库解析 todo](std/intro.md)
     - [如何寻找你想要的内容](std/search.md)
     - [Vector常用方法](std/vector.md)
-
+    - [HashMap](std/hashmap.md)
+    
 - [常用三方库 todo](libraries/intro.md)
     - [JSON](libraries/json/intro.md)
         - [serde(todo)](libraries/json/serde.md)
