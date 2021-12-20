@@ -66,7 +66,8 @@ Current installation options:
 个人习惯使用 [mingw-w64 官网](https://www.mingw-w64.org/) , 当然你也可以选择[win-builds](http://win-builds.org/).
 
 为了方便初学者使用 这里提供一个免安装的的方式 [mingw-w64下载](https://sourceforge.net/projects/mingw-w64/files/),演示选择的 `x86_64-posix-seh` 对于学习者，初次安装不需要纠结什么类别，因为切换版本很方便。下载完压缩包并解压，把压缩包下的 `/bin` 目录添加到 环境`Path` 即可:
-<img alt="" src="/img/mingw-w64-download" class="center"  />
+
+<img alt="" src="/img/mingw-w64-download.png" class="center"  />
 
 1、验证 c++ 环境
 ``` shell
