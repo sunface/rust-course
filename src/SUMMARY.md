@@ -54,12 +54,13 @@
     - [生命周期](advance/lifetime/intro.md)
         - [认识生命周期](advance/lifetime/basic.md)
         - [深入生命周期](advance/lifetime/advance.md)
-    - [迭代器(todo)](advance/iterator.md)
+    - [函数式编程 doing](advance/functional-programing/intro.md)
+        - [闭包closure](advance/functional-programing/closure.md)
+        - [迭代器(todo)](advance/functional-programing/iterator.md)
     - [自定义类型和动态类型 todo](advance/custom-type.md)
     - [格式化输出(todo)](advance/formatted-output.md)
     - [文档注释(todo)](advance/comment.md)
     - [包和模块(todo)](advance/crate-module.md)
-    - [函数式编程(todo)](advance/functional-programing.md)
     - [智能指针(todo)](advance/smart-pointer.md)
     - [全局变量](advance/global-variable.md)
     
@@ -168,6 +169,7 @@
     - [CPU缓存性能优化](performance/cpu-cache.md)
     - [堆和栈](performance/heap-stack.md)
     - [常用性能测试工具](performance/tools.md)
+
 - [编译器 todo](compiler/intro.md)
     - [常见属性标记](compiler/attributes.md)
     - [优化编译速度](compiler/speed-up.md)

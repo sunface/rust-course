@@ -33,6 +33,10 @@
 [RFC 430]: https://github.com/rust-lang/rfcs/blob/master/text/0430-finalizing-naming-conventions.md
 [C-FEATURE]: #c-feature
 
+## 特征命名
+特征的名称应该使用动词，而不是形容词或者名词，例如`Print`和`Draw`明显好于`Printable`和`Drawable`。
+
+
 
 ##  类型转换要遵守`as_`, `to_`, `into_`命名惯例(C-CONV)
 类型转换应该通过方法调用的方式实现，其中的前缀规则如下：
