@@ -1,6 +1,7 @@
 # Rust语言圣经(The course)
 
-- 官方网址： https://course.rs
+- 官方地址： https://course.rs
+- 知乎专栏： https://www.zhihu.com/people/iSunface/columns
 - 修订时间： **尚未发行**
 - Rust版本： Rust edition 2021
 - QQ交流群: 1009730433
@@ -17,6 +18,14 @@
 - **开源库推荐**, 根据场景推荐高质量的开源库，降低Rust上手门槛
 
 总之在写作过程中我们始终铭记初心：为中国用户打造一本**全面的、深入的、持续更新的**Rust教程。 新手用来入门，老手用来提高，高手用来提升生产力。
+
+### 感谢
+本书在内容上部分借鉴了以下书籍，特此感谢：
+- [Rust Book](https://doc.rust-lang.org/book)
+- [Cargo Book](https://doc.rust-lang.org/cargo/index.html)
+- [Perf Book](https://nnethercote.github.io/perf-book/title-page.html)
+- [Async Book](https://rust-lang.github.io/async-book/01_getting_started/01_chapter.html)
+详细清单参见[这里](https://github.com/sunface/rust-course/blob/main/writing-material/books.md)
 
 ### 开源说明
 Rust语言圣经是**完全开源**的电子书, 每个章节都至少用时4-6个小时才能初步完稿，牺牲了大量休闲娱乐、陪伴家人的时间，还没有任何钱赚，**如果大家觉得这本书作者真的用心了，希望你能帮我们点一个`star`**，感激不尽：）
