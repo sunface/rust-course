@@ -1,6 +1,6 @@
-## this script is releasing the book to github pages
+## this script deploys the static website of course.rs to github pages
 
-## build book
+## build static website for book
 mdbook build
 ## copy CNAME info to book dir
 cp CNAME ./book/
@@ -12,7 +12,7 @@ git init
 git config user.name "sunface"
 git config user.email "cto@188.com"
 git add .
-git commit -m 'release book'
+git commit -m 'deploy'
 git branch -M gh-pages
 git remote add origin https://github.com/sunface/rust-course
 

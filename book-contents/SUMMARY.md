@@ -54,15 +54,15 @@
     - [生命周期](advance/lifetime/intro.md)
         - [认识生命周期](advance/lifetime/basic.md)
         - [深入生命周期](advance/lifetime/advance.md)
-    - [函数式编程 doing](advance/functional-programing/intro.md)
+    - [函数式编程](advance/functional-programing/intro.md)
         - [闭包closure](advance/functional-programing/closure.md)
-        - [迭代器(todo)](advance/functional-programing/iterator.md)
+        - [迭代器iterator](advance/functional-programing/iterator.md)
     - [自定义类型和动态类型 todo](advance/custom-type.md)
-    - [格式化输出(todo)](advance/formatted-output.md)
-    - [文档注释(todo)](advance/comment.md)
-    - [包和模块(todo)](advance/crate-module.md)
-    - [智能指针(todo)](advance/smart-pointer.md)
-    - [全局变量](advance/global-variable.md)
+    - [格式化输出 todo](advance/formatted-output.md)
+    - [文档注释 todo](advance/comment.md)
+    - [包和模块 todo](advance/crate-module.md)
+    - [智能指针 todo](advance/smart-pointer.md)
+    - [全局变量 todo](advance/global-variable.md)
     
 
 ## 专题内容,每个专题都配套一个小型项目进行实践
@@ -177,6 +177,7 @@
     - [如何寻找你想要的内容](std/search.md)
     - [Vector常用方法](std/vector.md)
     - [HashMap](std/hashmap.md)
+    - [Iterator常用方法](std/iterator.md)
     
 - [常用三方库 todo](libraries/intro.md)
     - [JSON](libraries/json/intro.md)
