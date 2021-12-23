@@ -1,6 +1,6 @@
 ## 本书参考的书籍
 
-1. [Rust语言](https://rustwiki.org/zh-CN/book/)
+1. [Rust语言](https://doc.rust-lang.org/book)
 
 3. [Cargo教学](https://doc.rust-lang.org/cargo/index.html)
 
@@ -13,11 +13,12 @@
 7. [Rust in action](https://livebook.manning.com/book/rust-in-action/chapter-5/)
     - [示例](https://github.com/barabadzhi/rust-in-action)
 
-8. [Rust高级编程](https://learnku.com/docs/nomicon/2018/310-phantom-data/4721?show_current_version=yes)
-    [Rust nomicon](https://doc.rust-lang.org/nomicon/dot-operator.html)
+8. [Rust nomicon](https://doc.rust-lang.org/nomicon/dot-operator.html)
     
 9. [Rust Primer](https://rustcc.gitbooks.io/rustprimer/content/1st-glance/)
 
 10. [Rust Forge](https://forge.rust-lang.org/infra/other-installation-methods.html#other-rust-installation-methods)
 
 11. [rustc开发者之书](https://rustc-dev-guide.rust-lang.org/method-lookup.html)
+
+12. [Rust Style](https://doc.rust-lang.org/1.6.0/style/README.html)

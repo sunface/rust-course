@@ -133,8 +133,6 @@
             - [基本用法](networking/async/tokio/basic.md)
             - [异步消息流](networking/async/tokio/stream.md)
 
-- [常见陷阱 todo](traps/intro.md)
-
 - [代码规范 doing](style-guide/intro.md)
     - [命名规范](style-guide/naming.md)
     - [代码风格(todo)](style-guide/code.md)
@@ -162,6 +160,7 @@
     - [过程宏(todo)](macro/procedure-macro.md)
 
 - [性能调优 todo](performance/intro.md)
+    - [深入理解move](performance/deep-into-move.md)
     - [糟糕的提前优化](performance/early-optimise.md)
     - [Clone和Copy](performance/clone-copy.md)
     - [Benchmark性能测试(todo)](performance/benchmark.md)
