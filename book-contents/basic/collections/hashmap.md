@@ -259,6 +259,7 @@ println!("{:?}", map);
 
 若要追求安全，尽可能减少冲突，同时防止拒绝服务(Denial of Service, DoS)攻击，就要使用密码学安全的哈希函数，`HashMap`就是使用了这样的哈希函数。反之若要追求性能，就需要使用没有那么安全的算法。
 
+#### 高性能三方库
 因此若性能测试显示当前标准库默认的哈希函数不能满足你的性能需求，就需要去[`crates.io`](https://crates.io)上寻找其它的哈希函数实现, 使用方法很简单：
 ```rust
 use std::hash::BuildHasherDefault;
@@ -272,6 +273,6 @@ hash.insert(42, "the answer");
 assert_eq!(hash.get(&42), Some(&"the answer"));
 ```
 
-> 在1.36版本前，Rust默认哈希函数使用的是SipHash算法，性能较为低下，但是从`1.36`版本开始, 替换为`AHash`算法，要快得多，但是在安全性上确实不及老版本，因此在你决定替换哈希算法或者哈希库之前，请务必进行性能测试，现在的标准库性能着实相当不错！
+> 目前，`HashMap`使用的哈希函数是`SipHash`，它的性能不是很高，但是安全性很高。`SipHash`在中等大小的key上，性能相当不错，但是对于小型的key(例如整数)或者大型key(例如字符串)来说，性能还是不够好。若你需要极致性能，例如实现算法，可以考虑这个库：[ahash](https://github.com/tkaitchuck/ahash)
 
 最后，如果你想要了解`HashMap`更多的用法，请参见本书的标准库解析章节：[HashMap常用方法](../../std/hashmap.md)
