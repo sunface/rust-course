@@ -154,6 +154,7 @@
     - [生命周期)](fight-with-compiler/lifetime/intro.md)
         - [生命周期过大-01](fight-with-compiler/lifetime/too-long1.md)
         - [生命周期过大-02](fight-with-compiler/lifetime/too-long2.md)
+        - [循环中的生命周期](fight-with-compiler/lifetime/loop.md)
     - [类型未限制(todo)](fight-with-compiler/unconstrained.md)
     
 - [宏编程 todo](macro/intro.md)
@@ -199,13 +200,6 @@
     - [配置参数(todo)](cargo/manifest.md)
     - [自定义构建脚本](cargo/build-js.md)
     - [Cargo profile](cargo/profile.md)
-        
-## 场景模版
-- [场景模版 todo](templates/intro.md)
-    - [文件操作](templates/files/intro.md)
-        - [目录(todo)](templates/files/dir.md)
-    - [Http请求(todo)](templates/http/intro.md)
-
 
 ## 附录
 - [附录](appendix/intro.md)
