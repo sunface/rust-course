@@ -58,7 +58,7 @@
         - [闭包closure](advance/functional-programing/closure.md)
         - [迭代器iterator](advance/functional-programing/iterator.md)
     - [深入类型之newtype和Sized](advance/custom-type.md)
-    - [格式化输出 todo](advance/formatted-output.md)
+    - [格式化输出](advance/formatted-output.md)
     - [文档注释 todo](advance/comment.md)
     - [包和模块 todo](advance/crate-module.md)
     - [智能指针 todo](advance/smart-pointer.md)
@@ -167,6 +167,7 @@
     - [Benchmark性能测试(todo)](performance/benchmark.md)
     - [减少Runtime check(todo)](performance/runtime-check.md)
     - [CPU缓存性能优化](performance/cpu-cache.md)
+    - [计算性能优化](performance/calculate.md)
     - [堆和栈](performance/heap-stack.md)
     - [常用性能测试工具](performance/tools.md)
 

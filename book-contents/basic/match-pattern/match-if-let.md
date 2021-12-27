@@ -1,5 +1,7 @@
 # match和if let
 
+在Rust中，模式匹配最常用的就是`match`和`if let`，本章节将对两者及相关的概念进行详尽介绍。
+
 先来看一个关于`match`的简单例子:
 ```rust
 enum Direction {
@@ -264,6 +266,39 @@ if let Some(3) = some_u8_value {
 
 这两种匹配对于新手来说，可能有些难以抉择，但是只要记住一点就好: **当你只要匹配一个条件，且忽略其他条件时就用`if let`，否则都用match**.
 
+## matches!宏
+Rust标准库中提供了一个非常实用的宏:`matches!`，它可以将一个表达式跟模式进行匹配，然后返回匹配的结果`true` or `false`.
+
+例如，有一个动态数组，里面存有以下枚举：
+```rust
+enum MyEnum {
+    Foo,
+    Bar
+}
+
+fn main() {
+    let v = vec![MyEnum::Foo,MyEnum::Bar,MyEnum::F
+}
+```
+
+现在如果想对`v`进行过滤，只保留类型是`MyEnum::Foo`的元素，你可能想这么写:
+```rust
+v.iter().filter(|x| x == MyEnum:::Foo);
+```
+
+但是，实际上这行代码会保存，因为你无法将`x`跟一个类型进行比较。好在，你可以使用`match`来完成，但是会导致代码更为啰嗦，是否有更简洁的方式？答案是使用`matches!`:
+```rust
+v.iter().filter(|x| matches!(x, MyEnum::Foo));
+```
+
+很简单也很简洁，再来看看更多的例子：
+```rust
+let foo = 'f';
+assert!(matches!(foo, 'A'..='Z' | 'a'..='z'));
+
+let bar = Some(4);
+assert!(matches!(bar, Some(x) if x > 2));
+```
 
 ## 变量覆盖
 无论是是`match`还是`if let`，他们都可以在模式匹配时覆盖掉老的值，绑定新的直:

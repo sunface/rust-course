@@ -22,3 +22,5 @@
 11. [rustc开发者之书](https://rustc-dev-guide.rust-lang.org/method-lookup.html)
 
 12. [Rust Style](https://doc.rust-lang.org/1.6.0/style/README.html)
+
+13. [Learning Rust](https://learning-rust.github.io/docs/a1.why_rust.html)
