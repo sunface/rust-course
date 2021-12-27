@@ -88,7 +88,8 @@ container                        | 容器                          |
 container type                   | 容器类型                      |
 convert                          | 转换，转化，转                |
 copy                             | 复制，拷贝                    |
-crate                            | 包，包装箱，装包              | 一般不译，crate 是 Rust 的基本编译单元
+crate                            | 包                          | crate 是 Rust 的基本编译单元
+crate root                       | 包根                        | 别拍我，我知道很奇葩
 curly braces                     | 大括号，包含“{”和“}”          |
 custom type                      | 自定义类型                    |
 **D**                            |                               |
@@ -268,7 +269,7 @@ owned                            | 所拥有的                      |
 owner                            | 所有者，拥有者                |
 ownership                        | 所有权                        |
 **P**                            |                               |
-package manager                  | 包管理器，软件包管理器        |
+package                          | 不翻译                        |
 panic                            | 异常、致命错误、不译            | 在 Rust 中用于不可恢复的错误处理，跟其它语言的exception类似
 parallelism                      | 并行                         |
 parameter                        | 参数                         | 
