@@ -48,8 +48,8 @@
     - [返回和错误处理](basic/result-error/intro.md)
         - [panic深入剖析!](basic/result-error/panic.md)
         - [返回值Result和?](basic/result-error/result.md)
+    - [文档注释 todo](basic/comment.md)
 
-    
 - [Rust高级进阶 doing](advance/intro.md)
     - [生命周期](advance/lifetime/intro.md)
         - [认识生命周期](advance/lifetime/basic.md)
@@ -57,11 +57,18 @@
     - [函数式编程](advance/functional-programing/intro.md)
         - [闭包closure](advance/functional-programing/closure.md)
         - [迭代器iterator](advance/functional-programing/iterator.md)
+    - [包和模块](advance/crate-module/intro.md)
+        - [包crate](advance/crate-module/crate.md)
+        - [模块Module](advance/crate-module/module.md)
+        - [使用use引入](advance/crate-module/use.md)
+        - [工作空间workspace](advance/crate-module/workspace.md)
     - [深入类型之newtype和Sized](advance/custom-type.md)
     - [格式化输出](advance/formatted-output.md)
-    - [文档注释 todo](advance/comment.md)
-    - [包和模块 todo](advance/crate-module.md)
-    - [智能指针 todo](advance/smart-pointer.md)
+    - [智能指针 todo](advance/smart-pointer/intro.md)
+        - [Box对象(todo)](advance/smart-pointer/box.md)
+        - [Deref和Drop特征(todo)](advance/smart-pointer/deref-drop.md)
+        - [Rc与RefCell(todo)](advance/smart-pointer/rc-refcell.md)
+        - [自引用与内存泄漏(todo)](advance/smart-pointer/self-referrence.md)
     - [全局变量 todo](advance/global-variable.md)
     
 
@@ -81,17 +88,6 @@
     - [集成测试](test/intergration.md)
     - [性能测试](test/benchmark.md)
     - [持续集成](test/ci.md)
-
-- [日志和监控 todo](monitor/intro.md)
-    - [日志](monitor/log.md)
-    - [可观测性](monitor/observability.md)
-    - [监控(APM)](monitor/apm.md)
-
-- [智能指针 todo](smart-pointer/intro.md)
-    - [Box对象(todo)](smart-pointer/box.md)
-    - [Deref和Drop特征(todo)](smart-pointer/deref-drop.md)
-    - [Rc与RefCell(todo)](smart-pointer/rc-refcell.md)
-    - [自引用与内存泄漏(todo)](smart-pointer/self-referrence.md)
 
 - [常见特征解析 todo](traits/intro.md)
     - [类型转换From/Into](traits/from-into.md)
@@ -148,6 +144,7 @@
     - [原生指针(todo)](unsafe/raw-pointer.md)
     - [修改全局变量](unsafe/modify-global-var.md)
     - [FFI外部语言用](unsafe/ffi.md)
+    - [那些会导致UB的代码](unsafe/ub.md)
 
 - [对抗编译检查 doing](fight-with-compiler/intro.md)
     - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
@@ -175,6 +172,11 @@
     - [常见属性标记](compiler/attributes.md)
     - [优化编译速度](compiler/speed-up.md)
     
+- [日志和监控 todo](monitor/intro.md)
+    - [日志](monitor/log.md)
+    - [可观测性](monitor/observability.md)
+    - [监控(APM)](monitor/apm.md)
+
 - [标准库解析 todo](std/intro.md)
     - [如何寻找你想要的内容](std/search.md)
     - [Vector常用方法](std/vector.md)
