@@ -144,6 +144,89 @@ fn increase(&mut self) {
 
 在这里，我们不再单独声明变量`b`，而是直接调用`self.b+=1`进行递增，根据借用生命周期[NLL](https://course.rs/advance/lifetime/advance.html#nllnon-lexical-lifetime)的规则，第一个可变借用`self.increase_a()`的生命周期随着方法调用的结束而结束，那么就不会影响`self.b += 1`中的借用。
 
-## 总结
-心中有剑，手中无剑，是武学至高境界，对于代码而言，亦是如此，当你掌握了内在的原理，就算遇到了未知，也能运用这些原理分析和解决。
 
+## 闭包中的例子
+再来看一个使用了闭包的例子:
+```rust
+use tokio::runtime::Runtime;
+
+struct Server {
+    number_of_connections : u64
+}
+
+impl Server {
+    pub fn new() -> Self {
+        Server { number_of_connections : 0}
+    }
+
+    pub fn increase_connections_count(&mut self) {
+        self.number_of_connections += 1;
+    }
+}
+
+struct ServerRuntime {
+    runtime: Runtime,
+    server: Server
+}
+
+impl ServerRuntime {
+    pub fn new(runtime: Runtime, server: Server) -> Self {
+        ServerRuntime { runtime, server }
+    }
+
+    pub fn increase_connections_count(&mut self) {
+        self.runtime.block_on(async {
+            self.server.increase_connections_count()
+        })
+    }
+}
+```
+
+代码中使用了`tokio`，在`increase_connections_count`函数中启动了一个异步任务，并且等待它的完成。这个函数中分别引用了`self`中的不同字段:`runtime`和`server`，但是可能因为闭包的原因，编译器没有像本文最开始的例子中那样聪明，并不能识别这两个引用仅仅引用了同一个结构体的不同部分，因此报错了：
+```console
+error[E0501]: cannot borrow `self.runtime` as mutable because previous closure requires unique access
+  --> the_little_things\src\main.rs:28:9
+   |
+28 |            self.runtime.block_on(async {
+   |  __________^____________--------_______-
+   | |          |            |
+   | | _________|            first borrow later used by call
+   | ||
+29 | ||             self.server.increase_connections_count()
+   | ||             ---- first borrow occurs due to use of `self` in generator
+30 | ||         })
+   | ||_________-^ second borrow occurs here
+   | |__________|
+   |            generator construction occurs here
+```
+
+#### 解决办法
+解决办法很粗暴，既然编译器不能理解闭包中的引用是不同的，那么我们就主动告诉它:
+```rust
+pub fn increase_connections_count(&mut self) {
+    let runtime = &mut self.runtime;
+    let server = &mut self.server;
+    runtime.block_on(async {
+        server.increase_connections_count()
+    })
+}
+```
+
+上面通过变量声明的方式，在闭包外声明了两个变量分别引用结构体`self`的不同字段，这样一来，编译器就不会那么笨，编译顺利通过。
+
+你也可以这么写：
+```rust
+pub fn increase_connections_count(&mut self) {
+    let ServerRuntime { runtime, server } = self;
+    runtime.block_on(async {
+        server.increase_connections_count()
+    })
+}
+```
+
+当然，如果难以解决，还有一个笨办法，那就是将`server`和`runtime`分离开来，不要放在一个结构体中。
+
+## 总结
+心中有剑，手中无剑，是武学至高境界。
+
+本文列出的那条编译规则，在未来就将是大家心中的那把剑，当这些心剑招式足够多时，量变产生质变，终将天下无敌。
