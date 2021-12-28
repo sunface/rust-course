@@ -70,9 +70,22 @@
         - [Rc与RefCell(todo)](advance/smart-pointer/rc-refcell.md)
         - [自引用与内存泄漏(todo)](advance/smart-pointer/self-referrence.md)
     - [全局变量 todo](advance/global-variable.md)
-    
+    - [多线程 todo](advance/multi-threads/intro.md)
+        - [线程管理(todo)](advance/multi-threads/thread.md)
+        - [消息传递(todo)](advance/multi-threads/message-passing.md)
+        - [数据共享Arc、Mutex、Rwlock(todo)](advance/multi-threads/ref-counter-lock.md)
+        - [数据竞争(todo)](advance/multi-threads/races.md)
+        - [Send、Sync(todo)](advance/multi-threads/send-sync.md)
 
 ## 专题内容,每个专题都配套一个小型项目进行实践
+- [Rust陷阱系列](pitfalls/index.md)
+    - [for循环中使用外部数组](pitfalls/use-vec-in-for.md)
+    - [线程类型导致的栈溢出](pitfalls/stack-overflow.md)
+    - [算术溢出导致的panic](pitfalls/arithmetic-overflow.md)
+    - [闭包中奇怪的生命周期](pitfalls/closure-with-lifetime.md)
+    - [可变变量不可变？](pitfalls/the-disabled-mutability.md)
+    - [可变借用失败引发的深入思考](pitfalls/multiple-mutable-references.md)
+    
 - [Rust最佳实践 todo](practice/intro.md)
     - [一些写代码的技巧 todo](practice/coding-tips.md)
     - [最佳实践 todo](practice/best-pratice.md)
@@ -96,13 +109,6 @@
     - [Deref和引用隐式转换](traits/deref.md)
     - [写时拷贝Cow](traits/cow.md)
     - [Eq](traits/eq.md)
-
-- [多线程 todo](multi-threads/intro.md)
-    - [线程管理(todo)](multi-threads/thread.md)
-    - [消息传递(todo)](multi-threads/message-passing.md)
-    - [数据共享Arc、Mutex、Rwlock(todo)](multi-threads/ref-counter-lock.md)
-    - [数据竞争(todo)](multi-threads/races.md)
-    - [Send、Sync(todo)](multi-threads/send-sync.md)
 
 - [深入内存 todo](memory/intro.md)
     - [指针和引用(todo)](memory/pointer-ref.md)
