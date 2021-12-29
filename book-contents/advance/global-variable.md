@@ -37,3 +37,6 @@ impl Factory{
     }
 }
 ```
+
+## 从函数中返回全局变量
+https://www.reddit.com/r/learnrust/comments/rqn74g/cant_a_function_return_a_reference_to_some_global/

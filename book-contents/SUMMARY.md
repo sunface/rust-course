@@ -62,7 +62,6 @@
         - [包crate](advance/crate-module/crate.md)
         - [模块Module](advance/crate-module/module.md)
         - [使用use引入模块及受限可见性](advance/crate-module/use.md)
-        - [工作空间workspace](advance/crate-module/workspace.md)
     - [深入类型之newtype和Sized](advance/custom-type.md)
     - [格式化输出](advance/formatted-output.md)
     - [智能指针 todo](advance/smart-pointer/intro.md)
@@ -87,7 +86,8 @@
     - [闭包中奇怪的生命周期](pitfalls/closure-with-lifetime.md)
     - [可变变量不可变？](pitfalls/the-disabled-mutability.md)
     - [可变借用失败引发的深入思考](pitfalls/multiple-mutable-references.md)
-    
+    - [不太勤快的迭代器](pitfalls/lazy-iterators.md)
+
 - [Rust最佳实践 todo](practice/intro.md)
     - [一些写代码的技巧 todo](practice/coding-tips.md)
     - [最佳实践 todo](practice/best-pratice.md)
