@@ -1,4 +1,4 @@
-# Rust语言圣经(The course)
+# Rust语言圣经(Rust course)
 
 - 官方网址： https://course.rs
 - 修订时间： **尚未发行**
