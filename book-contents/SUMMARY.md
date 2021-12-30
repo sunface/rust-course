@@ -79,6 +79,11 @@
         - [Send、Sync(todo)](advance/multi-threads/send-sync.md)
 
 ## 专题内容,每个专题都配套一个小型项目进行实践
+- [Rust最佳实践 doing](practice/intro.md)
+    - [日常开发三方库精选](practice/third-party-libs.md)
+    - [一些写代码的技巧 todo](practice/coding-tips.md)
+    - [最佳实践 todo](practice/best-pratice.md)
+
 - [Rust陷阱系列](pitfalls/index.md)
     - [for循环中使用外部数组](pitfalls/use-vec-in-for.md)
     - [线程类型导致的栈溢出](pitfalls/stack-overflow.md)
@@ -87,11 +92,7 @@
     - [可变变量不可变？](pitfalls/the-disabled-mutability.md)
     - [可变借用失败引发的深入思考](pitfalls/multiple-mutable-references.md)
     - [不太勤快的迭代器](pitfalls/lazy-iterators.md)
-
-- [Rust最佳实践 todo](practice/intro.md)
-    - [一些写代码的技巧 todo](practice/coding-tips.md)
-    - [最佳实践 todo](practice/best-pratice.md)
-    - [日常开发三方库精选](practice/third-party-libs.md)
+    - [奇怪的序列x..y](pitfalls/weird-ranges.md)
 
 - [错误处理 todo](errors/intro.md)
     - [简化错误处理](errors/simplify.md)
@@ -138,6 +139,9 @@
             - [基本用法](networking/async/tokio/basic.md)
             - [异步消息流](networking/async/tokio/stream.md)
 
+- [Web应用开发 todo](web/intro.md)
+    - [编解码与序列化 todo](web/serialization.md)
+    
 - [代码规范 doing](style-guide/intro.md)
     - [命名规范](style-guide/naming.md)
     - [代码风格(todo)](style-guide/code.md)
