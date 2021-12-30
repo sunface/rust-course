@@ -48,7 +48,6 @@
     - [返回和错误处理](basic/result-error/intro.md)
         - [panic深入剖析!](basic/result-error/panic.md)
         - [返回值Result和?](basic/result-error/result.md)
-    - [文档注释 todo](basic/comment.md)
 
 - [Rust高级进阶 doing](advance/intro.md)
     - [生命周期](advance/lifetime/intro.md)
@@ -62,6 +61,7 @@
         - [包crate](advance/crate-module/crate.md)
         - [模块Module](advance/crate-module/module.md)
         - [使用use引入模块及受限可见性](advance/crate-module/use.md)
+    - [注释和文档](advance/comment.md)
     - [深入类型之newtype和Sized](advance/custom-type.md)
     - [格式化输出](advance/formatted-output.md)
     - [智能指针 todo](advance/smart-pointer/intro.md)
@@ -141,7 +141,7 @@
 
 - [Web应用开发 todo](web/intro.md)
     - [编解码与序列化 todo](web/serialization.md)
-    
+
 - [代码规范 doing](style-guide/intro.md)
     - [命名规范](style-guide/naming.md)
     - [代码风格(todo)](style-guide/code.md)
