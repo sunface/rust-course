@@ -91,6 +91,7 @@
 - [Rust最佳实践 todo](practice/intro.md)
     - [一些写代码的技巧 todo](practice/coding-tips.md)
     - [最佳实践 todo](practice/best-pratice.md)
+    - [日常开发三方库精选](practice/third-party-libs.md)
 
 - [错误处理 todo](errors/intro.md)
     - [简化错误处理](errors/simplify.md)
