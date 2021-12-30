@@ -256,6 +256,87 @@ pub fn try_div(a: i32, b: i32) -> Result<i32, String> {
 
 <img alt="" src="/img/comment-03.png" class="center"  />
 
+## 文档注释中的代码跳转
+Rust在文档注释中还提供了一个非常强大的功能，那就是可以实现对外部项的链接: 
+
+#### 跳转到标准库
+```rust
+/// `add_one`返回一个[`Option`]类型
+pub fn add_one(x: i32) -> Option<i32> {
+    Some(x + 1)
+}
+```
+
+此处的**[`Option`]**就是一个链接，指向了标准库中的`Option`枚举类型，有两种方式可以进行跳转:
+- 在IDE中，使用`Command + 鼠标左键`(mac系统下)
+- 在文档中直接点击链接
+
+再比如，还可以使用路径的方式跳转:
+```rust
+use std::sync::mpsc::Receiver;
+
+/// [`Receiver<T>`]   [`std::future`].
+///
+///  [`std::future::Future`] [`Self::recv()`].
+pub struct AsyncReceiver<T> {
+    sender: Receiver<T>,
+}
+
+impl<T> AsyncReceiver<T> {
+    pub async fn recv() -> T {
+        unimplemented!()
+    }
+}
+```
+
+#### 使用完整路径跳转到指定项
+除了跳转到标准库，你还可以通过指定具体的路径跳转到自己代码或者其它库的指定项,例如在`lib.rs`中添加以下代码: 
+```rust
+mod a {
+    /// `add_one`返回一个[`Option`]类型
+    /// 跳转到[`crate::MySpecialFormatter`]
+    pub fn add_one(x: i32) -> Option<i32> {
+        Some(x + 1)
+    }
+}
+
+struct MySpecialFormatter;
+```
+
+使用`crate::MySpecialFormatter`这种路径就可以实现跳转到`lib.rs`中定义的结构体上。
+
+#### 同名项的跳转
+如果遇到同名项，可以使用标示类型的方式进行跳转：
+```rust
+/// 跳转到结构体  [`Foo`](struct@Foo)
+struct Bar;
+
+/// 跳转到同名函数 [`Foo`](fn@Foo)
+struct Foo {}
+
+/// 跳转到同名宏 [`foo!`]
+fn Foo() {}
+
+macro_rules! foo {
+  () => {}
+}
+```
+
+## 文档搜索别名
+Rust文档支持搜索功能，我们可以为自己的类型定义几个别名，以实现更好的搜索展现，当别名命中时，搜索结果会被放在第一位:
+```rust
+#[doc(alias = "x")]
+#[doc(alias = "big")]
+pub struct BigX;
+
+#[doc(alias("y", "big"))]
+pub struct BigY;
+```
+
+结果如下图所示:
+<img alt="" src="/img/comment-05.png" class="center"  />
+
+
 ## 一个综合例子
 这个例子我们将重点应用几个知识点：
 

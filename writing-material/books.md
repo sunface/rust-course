@@ -24,3 +24,5 @@
 12. [Rust Style](https://doc.rust-lang.org/1.6.0/style/README.html)
 
 13. [Learning Rust](https://learning-rust.github.io/docs/a1.why_rust.html)
+
+14. [Rust doc](https://doc.rust-lang.org/rustdoc/the-doc-attribute.html)
