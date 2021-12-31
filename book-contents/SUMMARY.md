@@ -65,7 +65,7 @@
     - [深入类型之newtype和Sized](advance/custom-type.md)
     - [格式化输出](advance/formatted-output.md)
     - [智能指针 doing](advance/smart-pointer/intro.md)
-        - [Box<T>堆对象分配)](advance/smart-pointer/box.md)
+        - [Box<T>堆对象分配](advance/smart-pointer/box.md)
         - [Deref和Drop特征(todo)](advance/smart-pointer/deref-drop.md)
         - [Cell todo](advance/smart-pointer/cell.md)
         - [Rc与RefCell(todo)](advance/smart-pointer/rc-refcell.md)
@@ -165,6 +165,8 @@
         - [生命周期过大-01](fight-with-compiler/lifetime/too-long1.md)
         - [生命周期过大-02](fight-with-compiler/lifetime/too-long2.md)
         - [循环中的生命周期](fight-with-compiler/lifetime/loop.md)
+    - [重复借用](fight-with-compiler/borrowing/intro.md)
+        - [同时在函数内外使用引用](fight-with-compiler/borrowing/ref-exist-in-out-fn.md)
     - [类型未限制(todo)](fight-with-compiler/unconstrained.md)
     
 - [宏编程 todo](macro/intro.md)
