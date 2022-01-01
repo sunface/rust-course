@@ -277,7 +277,7 @@ enum MyEnum {
 }
 
 fn main() {
-    let v = vec![MyEnum::Foo,MyEnum::Bar,MyEnum::F
+    let v = vec![MyEnum::Foo,MyEnum::Bar,MyEnum::Foo];
 }
 ```
 
@@ -286,7 +286,7 @@ fn main() {
 v.iter().filter(|x| x == MyEnum:::Foo);
 ```
 
-但是，实际上这行代码会保存，因为你无法将`x`跟一个类型进行比较。好在，你可以使用`match`来完成，但是会导致代码更为啰嗦，是否有更简洁的方式？答案是使用`matches!`:
+但是，实际上这行代码会报错，因为你无法将`x`跟一个类型进行比较。好在，你可以使用`match`来完成，但是会导致代码更为啰嗦，是否有更简洁的方式？答案是使用`matches!`:
 ```rust
 v.iter().filter(|x| matches!(x, MyEnum::Foo));
 ```
