@@ -13,62 +13,57 @@ name = "variables2"
 path = "exercises/variables/variables2.rs"
 mode = "compile"
 hint = """
-The compiler message is saying that Rust cannot infer the type that the
-variable binding `x` has with what is given here.
-What happens if you annotate line 7 with a type annotation?
-What if you give x a value?
-What if you do both?
-What type should x be, anyway?
-What if x is the same type as 10? What if it's a different type?"""
+编译器在说，Rust 无法根据给定内容推断出变量 `x` 的类型.
+如果你对第 7 行注明类型，会发生什么？
+如果你对 x 赋予一个值呢？
+如果你同时做到了以上两点呢？
+ x 到底是什么类型？
+如果 x 与 10 是同一类型，亦或者它是不同的类型呢？"""
 
 [[exercises]]
 name = "variables3"
 path = "exercises/variables/variables3.rs"
 mode = "compile"
 hint = """
-In Rust, variable bindings are immutable by default. But here we're trying
-to reassign a different value to x! There's a keyword we can use to make
-a variable binding mutable instead."""
+在 Rust，变量绑定默认是不可变的。但我们正试图重新分配
+一个不同的值给 x ！我们可以使用一个关键字使变量可变。"""
 
 [[exercises]]
 name = "variables4"
 path = "exercises/variables/variables4.rs"
 mode = "compile"
 hint = """
-Oops! In this exercise, we have a variable binding that we've created on
-line 7, and we're trying to use it on line 8, but we haven't given it a
-value. We can't print out something that isn't there; try giving x a value!
-This is an error that can cause bugs that's very easy to make in any
-programming language -- thankfully the Rust compiler has caught this for us!"""
+糟了！在这个练习中，我们在第 7 行创建了一个变量，然后试图在第 8 行
+使用它，但是它并没被赋值！我们无法打印出不存在的内容，所以尝试赋予 x 一个值！
+这个错误造成的 Bug 在任何编程语言中都非常容易发生——感谢 Rust 编译器提醒了我们"""
 
 [[exercises]]
 name = "variables5"
 path = "exercises/variables/variables5.rs"
 mode = "compile"
 hint = """
-In variables3 we already learned how to make an immutable variable mutable
-using a special keyword. Unfortunately this doesn't help us much in this exercise
-because we want to assign a different typed value to an existing variable. Sometimes
-you may also like to reuse existing variable names because you are just converting
-values to different types like in this exercise.
-Fortunately Rust has a powerful solution to this problem: 'Shadowing'!
-You can read more about 'Shadowing' in the book's section 'Variables and Mutability':
+在 variables3 中，我们已经学会了使用一个特殊的关键字使一个不可变的变量变得可变。
+可惜的是，在这个练习中，这个方法并不管用，因为我们想给一个现有的变量分配一个不
+同类型的值。有时，你会想重复使用现有的变量名称，因为你只是将数值转换为不同的类型，就像
+本练习中一样。幸运的是，Rust 有一个强大的技术可以解决这个问题：变量遮蔽（Shadowing）！
+有关变量遮蔽的更多内容可通过这本书的 'Variables and Mutability'* 章节了解:
 https://doc.rust-lang.org/book/ch03-01-variables-and-mutability.html#shadowing
-Try to solve this exercise afterwards using this technique."""
+尝试使用此技术解决此练习。
+
+译：Variables and Mutability：变量与可变性"""
 
 [[exercises]]
 name = "variables6"
 path = "exercises/variables/variables6.rs"
 mode = "compile"
 hint = """
-We know about variables and mutability, but there is another important type of
-variable available; constants.
-Constants are always immutable and they are declared with keyword 'const' rather
-than keyword 'let'.
-Constants types must also always be annotated.
+我们已经了解了变量与可变性，但还有另一种重要的变量类型；常量（Constant）。 
+常量永远不可改变的，它用关键字 'const' 而非关键字 'let' 声明，并且其类型也必须被注明。
 
-Read more about constants under 'Differences Between Variables and Constants' in the book's section 'Variables and Mutability':
+更多关于常量的信息 'Differences Between Variables and Constants'* 在这本书的章节 'Variables and Mutability':
 https://doc.rust-lang.org/book/ch03-01-variables-and-mutability.html#differences-between-variables-and-constants
+
+译：Differences Between Variables and Constants：变量与常量的区别
 """
 
 # FUNCTIONS

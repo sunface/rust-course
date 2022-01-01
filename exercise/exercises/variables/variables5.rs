@@ -1,11 +1,11 @@
 // variables5.rs
-// Make me compile! Execute the command `rustlings hint variables5` if you want a hint :)
+// 让我能够编译！执行 `rustex hint variables5` 获取提示 :)
 
 // I AM NOT DONE
 
 fn main() {
     let number = "T-H-R-E-E"; // don't change this line
-    println!("Spell a Number : {}", number);
+    println!("Spell a Number : {}", number);// 译："拼接的数字：{}"
     number = 3;
-    println!("Number plus two is : {}", number + 2);
+    println!("Number plus two is : {}", number + 2);// 译："数字加上二是：{}"
 }

@@ -1,5 +1,5 @@
 // variables6.rs
-// Make me compile! Execute the command `rustlings hint variables6` if you want a hint :)
+// 让我能够编译！执行 `rustex hint variables6` 获取提示 :)
 
 // I AM NOT DONE
 
