@@ -3,6 +3,7 @@
 
 // I AM NOT DONE
 
+/// 翻译: [mg-chao](https://github.com/mg-chao)
 fn main() {
     let number = "T-H-R-E-E"; // don't change this line
     println!("Spell a Number : {}", number);// 译："拼接的数字：{}"

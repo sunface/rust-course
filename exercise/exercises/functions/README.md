@@ -1,7 +1,7 @@
-# Functions
+# 函数（Functions）
 
-Here, you'll learn how to write functions and how Rust's compiler can trace things way back.
+在这里，你将学习如何编写函数，以及 Rust 的编译器如何对事物进行追溯（way back）。
 
-## Further information
+## 更多信息
 
 - [How Functions Work](https://doc.rust-lang.org/book/ch03-03-how-functions-work.html)

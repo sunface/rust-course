@@ -3,6 +3,7 @@
 
 // I AM NOT DONE
 
+/// 翻译: [mg-chao](https://github.com/mg-chao)
 fn main() {
     let x = 3;
     println!("Number {}", x);// 译："数字 {}"
