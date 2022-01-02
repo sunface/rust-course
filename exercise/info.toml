@@ -14,7 +14,7 @@ path = "exercises/variables/variables2.rs"
 mode = "compile"
 hint = """
 编译器在说，Rust 无法根据给定内容推断出变量 `x` 的类型.
-如果你对第 7 行注明类型，会发生什么？
+如果你对第 7 行标注类型，会发生什么？
 如果你对 x 赋予一个值呢？
 如果你同时做到了以上两点呢？
  x 到底是什么类型？
@@ -58,7 +58,7 @@ path = "exercises/variables/variables6.rs"
 mode = "compile"
 hint = """
 我们已经了解了变量与可变性，但还有另一种重要的变量类型；常量（Constant）。 
-常量永远不可改变的，它用关键字 'const' 而非关键字 'let' 声明，并且其类型也必须被注明。
+常量永远不可改变的，它用关键字 'const' 而非关键字 'let' 声明，并且其类型也必须被标注。
 
 更多关于常量的信息 'Differences Between Variables and Constants'* 在这本书的章节 'Variables and Mutability':
 https://doc.rust-lang.org/book/ch03-01-variables-and-mutability.html#differences-between-variables-and-constants
