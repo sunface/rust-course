@@ -128,23 +128,23 @@ name = "if1"
 path = "exercises/if/if1.rs"
 mode = "test"
 hint = """
-It's possible to do this in one line if you would like!
-Some similar examples from other languages:
-- In C(++) this would be: `a > b ? a : b`
-- In Python this would be:  `a if a > b else b`
-Remember in Rust that:
-- the `if` condition does not need to be surrounded by parentheses
-- `if`/`else` conditionals are expressions
-- Each condition is followed by a `{}` block."""
+如果你愿意的话，也可以用一行来做这件事!
+其他语言中的一些类似例子:
+- 在 C(++) 中会是: `a > b ? a : b`
+- 在 Python 中会是:  `a if a > b else b`
+请记住在 Rust 中：
+- `if` 的条件不需要用圆括号括起来
+- `if`/`else` 的条件是表达式
+- 每个条件后面都有一个 `{}` 块。"""
 
 [[exercises]]
 name = "if2"
 path = "exercises/if/if2.rs"
 mode = "test"
 hint = """
-For that first compiler error, it's important in Rust that each conditional
-block return the same type! To get the tests passing, you will need a couple
-conditions checking different input values."""
+对于第一个编译错误，在于 Rust 中的重要一点：
+每个条件块（conditional block）都必须返回相同的类型。
+为了通过测试，你需要几个条件用来判断不同的输入"""
 
 # TEST 1
 

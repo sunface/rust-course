@@ -1,7 +1,7 @@
 # If
 
-`if`, the most basic type of control flow, is what you'll learn here.
+你将在这学习最基本的控制流（control flow）——`if`
 
-## Further information
+## 更多信息
 
 - [Control Flow - if expressions](https://doc.rust-lang.org/book/ch03-05-control-flow.html#if-expressions)

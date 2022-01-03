@@ -3,14 +3,14 @@
 // I AM NOT DONE
 
 pub fn bigger(a: i32, b: i32) -> i32 {
-    // Complete this function to return the bigger number!
-    // Do not use:
-    // - another function call
-    // - additional variables
-    // Execute `rustlings hint if1` for hints
+    // 完成这个返回更大数字的函数！
+    // 但不允许以下方式：
+    // - 调用其它函数
+    // - 额外变量
+    // 执行 `rustex hint if1` 获取提示
 }
 
-// Don't mind this for now :)
+// 暂时不要在意它 :)
 #[cfg(test)]
 mod tests {
     use super::*;
