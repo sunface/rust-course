@@ -21,7 +21,9 @@ let mut v = Vec::new();
 v.push(1);
 ```
 
-此时，`v`就无需手动声明类型，因为编译器通过`v.push(1)`，推测出`v`中的元素类型是`i32`，因此推导出`v`的类型是`Vec<id3>`.
+此时，`v`就无需手动声明类型，因为编译器通过`v.push(1)`，推测出`v`中的元素类型是`i32`，因此推导出`v`的类型是`Vec<i32>`.
+
+> 如果预先知道要存储的元素个数，可以使用`Vec::with_capacity(capacity)`创建动态数组，这样可以避免因为插入大量新数据导致频繁的内存分配和拷贝，提升性能
 
 #### vec![]
 还可以使用宏`vec!`来创建数组，与`Vec::new`有所不同，前者能在创建同时给予初始化值：
@@ -38,7 +40,7 @@ let mut v = Vec::new();
 v.push(1);
 ```
 
-与其它类型一样，必须将`v`声明为`mut`后，才能进行修改,.
+与其它类型一样，必须将`v`声明为`mut`后，才能进行修改。
 
 
 ## Vector与其元素共存亡
@@ -192,7 +194,7 @@ impl IpAddr for V6 {
 fn main() {
     let v: Vec<Box<dyn IpAddr>> = vec![
         Box::new(V4("127.0.0.1".to_string())),
-        Box::new(V6("127.0.0.1".to_string())),
+        Box::new(V6("::1".to_string())),
     ];
 
     for ip in v {
