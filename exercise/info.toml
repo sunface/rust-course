@@ -13,62 +13,57 @@ name = "variables2"
 path = "exercises/variables/variables2.rs"
 mode = "compile"
 hint = """
-The compiler message is saying that Rust cannot infer the type that the
-variable binding `x` has with what is given here.
-What happens if you annotate line 7 with a type annotation?
-What if you give x a value?
-What if you do both?
-What type should x be, anyway?
-What if x is the same type as 10? What if it's a different type?"""
+编译器在说，Rust 无法根据给定内容推断出变量 `x` 的类型.
+如果你对第 7 行标注类型，会发生什么？
+如果你对 x 赋予一个值呢？
+如果你同时做到了以上两点呢？
+ x 到底是什么类型？
+如果 x 与 10 是同一类型，亦或者它是不同的类型呢？"""
 
 [[exercises]]
 name = "variables3"
 path = "exercises/variables/variables3.rs"
 mode = "compile"
 hint = """
-In Rust, variable bindings are immutable by default. But here we're trying
-to reassign a different value to x! There's a keyword we can use to make
-a variable binding mutable instead."""
+在 Rust，变量绑定默认是不可变的。但我们正试图重新分配
+一个不同的值给 x ！我们可以使用一个关键字使变量可变。"""
 
 [[exercises]]
 name = "variables4"
 path = "exercises/variables/variables4.rs"
 mode = "compile"
 hint = """
-Oops! In this exercise, we have a variable binding that we've created on
-line 7, and we're trying to use it on line 8, but we haven't given it a
-value. We can't print out something that isn't there; try giving x a value!
-This is an error that can cause bugs that's very easy to make in any
-programming language -- thankfully the Rust compiler has caught this for us!"""
+糟了！在这个练习中，我们在第 7 行创建了一个变量，然后试图在第 8 行
+使用它，但是它并没被赋值！我们无法打印出不存在的内容，所以尝试赋予 x 一个值！
+这个错误造成的 Bug 在任何编程语言中都非常容易发生——感谢 Rust 编译器提醒了我们"""
 
 [[exercises]]
 name = "variables5"
 path = "exercises/variables/variables5.rs"
 mode = "compile"
 hint = """
-In variables3 we already learned how to make an immutable variable mutable
-using a special keyword. Unfortunately this doesn't help us much in this exercise
-because we want to assign a different typed value to an existing variable. Sometimes
-you may also like to reuse existing variable names because you are just converting
-values to different types like in this exercise.
-Fortunately Rust has a powerful solution to this problem: 'Shadowing'!
-You can read more about 'Shadowing' in the book's section 'Variables and Mutability':
+在 variables3 中，我们已经学会了使用一个特殊的关键字使一个不可变的变量变得可变。
+可惜的是，在这个练习中，这个方法并不管用，因为我们想给一个现有的变量分配一个不
+同类型的值。有时，你会想重复使用现有的变量名称，因为你只是将数值转换为不同的类型，就像
+本练习中一样。幸运的是，Rust 有一个强大的技术可以解决这个问题：变量遮蔽（Shadowing）！
+有关变量遮蔽的更多内容可通过这本书的 'Variables and Mutability'* 章节了解:
 https://doc.rust-lang.org/book/ch03-01-variables-and-mutability.html#shadowing
-Try to solve this exercise afterwards using this technique."""
+尝试使用此技术解决此练习。
+
+译：Variables and Mutability：变量与可变性"""
 
 [[exercises]]
 name = "variables6"
 path = "exercises/variables/variables6.rs"
 mode = "compile"
 hint = """
-We know about variables and mutability, but there is another important type of
-variable available; constants.
-Constants are always immutable and they are declared with keyword 'const' rather
-than keyword 'let'.
-Constants types must also always be annotated.
+我们已经了解了变量与可变性，但还有另一种重要的变量类型；常量（Constant）。 
+常量永远不可改变的，它用关键字 'const' 而非关键字 'let' 声明，并且其类型也必须被标注。
 
-Read more about constants under 'Differences Between Variables and Constants' in the book's section 'Variables and Mutability':
+更多关于常量的信息 'Differences Between Variables and Constants'* 在这本书的章节 'Variables and Mutability':
 https://doc.rust-lang.org/book/ch03-01-variables-and-mutability.html#differences-between-variables-and-constants
+
+译：Differences Between Variables and Constants：变量与常量的区别
 """
 
 # FUNCTIONS
@@ -78,48 +73,44 @@ name = "functions1"
 path = "exercises/functions/functions1.rs"
 mode = "compile"
 hint = """
-This main function is calling a function that it expects to exist, but the
-function doesn't exist. It expects this function to have the name `call_me`.
-It expects this function to not take any arguments and not return a value.
-Sounds a lot like `main`, doesn't it?"""
+主函数中正试图调用一个名为 `call_me` 的函数，可这个函数并不存在。
+它希望这个函数不接受任何参数，同时也不返回值。
+听起来很像 `main` 函数，不是吗？"""
 
 [[exercises]]
 name = "functions2"
 path = "exercises/functions/functions2.rs"
 mode = "compile"
 hint = """
-Rust requires that all parts of a function's signature have type annotations,
-but `call_me` is missing the type annotation of `num`."""
+ Rust 要求函数签名（signature）有类型标注，但是 `call_me` 函数缺少 `num` 的类型标注。"""
 
 [[exercises]]
 name = "functions3"
 path = "exercises/functions/functions3.rs"
 mode = "compile"
 hint = """
-This time, the function *declaration* is okay, but there's something wrong
-with the place where we're calling the function."""
+此时, 函数 *声明（declaration）* 是没问题的，但函数调用出了问题"""
 
 [[exercises]]
 name = "functions4"
 path = "exercises/functions/functions4.rs"
 mode = "compile"
 hint = """
-The error message points to line 14 and says it expects a type after the
-`->`. This is where the function's return type should be-- take a look at
-the `is_even` function for an example!"""
+错误信息指向第 15 行，说希望在`->`之后有一个类型。
+那个地方标注了函数的返回类型——看看 `is_even` 函数的示例吧"""
 
 [[exercises]]
 name = "functions5"
 path = "exercises/functions/functions5.rs"
 mode = "compile"
 hint = """
-This is a really common error that can be fixed by removing one character.
-It happens because Rust distinguishes between expressions and statements: expressions return
-a value based on its operand, and statements simply return a () type which behaves just like `void` in C/C++ language.
-We want to return a value of `i32` type from the `square` function, but it is returning a `()` type...
-They are not the same. There are two solutions:
-1. Add a `return` ahead of `num * num;`
-2. remove `;`, make it to be `num * num`"""
+这是一个非常常见的错误，可以通过删除一个字符来解决。
+发生的原因是 Rust 区分了表达式和语句：表达式根据其运算数（operand）返回一个值, 
+而语句仅返回一个 `()` 类型，其行为好比 C/C++ 中的 `void` 。
+我们希望 `square` 函数返回一个 `i32` 类型的值，但现在它返回的是 `()` 类型...
+它们显然是不一样的。对此有两种解决方案。
+1. 在 `num * num;` 前面加上 `return` 关键字
+2. 移除 `;`，让它变成 `num * num`"""
 
 # IF
 
@@ -128,23 +119,23 @@ name = "if1"
 path = "exercises/if/if1.rs"
 mode = "test"
 hint = """
-It's possible to do this in one line if you would like!
-Some similar examples from other languages:
-- In C(++) this would be: `a > b ? a : b`
-- In Python this would be:  `a if a > b else b`
-Remember in Rust that:
-- the `if` condition does not need to be surrounded by parentheses
-- `if`/`else` conditionals are expressions
-- Each condition is followed by a `{}` block."""
+如果你愿意的话，也可以用一行来做这件事!
+其他语言中的一些类似例子:
+- 在 C(++) 中会是: `a > b ? a : b`
+- 在 Python 中会是:  `a if a > b else b`
+请记住在 Rust 中：
+- `if` 的条件不需要用圆括号括起来
+- `if`/`else` 的条件是表达式
+- 每个条件后面都有一个 `{}` 块。"""
 
 [[exercises]]
 name = "if2"
 path = "exercises/if/if2.rs"
 mode = "test"
 hint = """
-For that first compiler error, it's important in Rust that each conditional
-block return the same type! To get the tests passing, you will need a couple
-conditions checking different input values."""
+对于第一个编译错误，在于 Rust 中的重要一点：
+每个条件块（conditional block）都必须返回相同的类型。
+为了通过测试，你需要几个条件用来判断不同的输入"""
 
 # TEST 1
 

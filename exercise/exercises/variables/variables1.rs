@@ -12,5 +12,5 @@
 /// 加油 💪
 fn main() {
     x = 5;
-    println!("x has the value {}", x);
+    println!("x has the value {}", x);// 译：x 的值是
 }

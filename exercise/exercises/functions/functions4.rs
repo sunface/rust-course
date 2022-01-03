@@ -1,14 +1,15 @@
 // functions4.rs
-// Make me compile! Execute `rustlings hint functions4` for hints :)
+// 让我能够编译！执行 `rustex hint functions4` 获取提示 :)
 
-// This store is having a sale where if the price is an even number, you get
-// 10 Rustbucks off, but if it's an odd number, it's 3 Rustbucks off.
+// 商店正在进行促销，如果价格是偶数，可以优惠 10 Rustbucks，如果是奇数，则优惠 3 Rustbucks。
+// 译：Rustbucks 可能想表达 Rust元 的意思，好比 美元 。
 
 // I AM NOT DONE
 
+/// 翻译: [mg-chao](https://github.com/mg-chao)
 fn main() {
     let original_price = 51;
-    println!("Your sale price is {}", sale_price(original_price));
+    println!("Your sale price is {}", sale_price(original_price));// 译："你需支付 {}"
 }
 
 fn sale_price(price: i32) -> {
