@@ -52,7 +52,8 @@ trait Container<A,B> {
     fn contains(&self,a: A,b: B) -> bool;
 }
 
-fn difference<A,B,C>(container: &C) -> i32 where 
+fn difference<A,B,C>(container: &C) -> i32
+  where
     C : Container<A,B> {...}
 ```
 
@@ -77,7 +78,7 @@ trait Add<RHS=Self> {
     fn add(self, rhs: RHS) -> Self::Output;
 }
 ```
-它有一个泛型参数`RHS`，但是与我们以往的用法不同，这里它给`RHS`一个默认值，也就是当用户不指定`RHS`时，默认使用两个同样类型的值进行相加，然后返回一个关联类型`Outpu`。
+它有一个泛型参数`RHS`，但是与我们以往的用法不同，这里它给`RHS`一个默认值，也就是当用户不指定`RHS`时，默认使用两个同样类型的值进行相加，然后返回一个关联类型`Output`。
 
 可能上面那段不太好理解，下面我们用代码来举例：
 ```rust
@@ -196,12 +197,9 @@ fn main() {
 
 运行后依次输出:
 ```console
-fn main() {
-    let person = Human;
-    Pilot::fly(&person);
-    Wizard::fly(&person);
-    person.fly();
-}
+This is your captain speaking.
+Up!
+*waving arms furiously*
 ```
 
 因为`fly`方法的参数是`self`，当显示的调用时，编译器就可以根据调用的类型(`self`的类型)决定具体调用哪个方法。

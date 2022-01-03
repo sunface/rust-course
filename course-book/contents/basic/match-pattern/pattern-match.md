@@ -11,7 +11,7 @@
 
 ### 所有可能用到模式的地方
 
-#### match分支**
+#### match分支
 
 ```rust
 match VALUE {
@@ -32,7 +32,7 @@ match VALUE {
 #### if let分支
 `if let`往往用于匹配一个模式，而忽略剩下的所有模式的场景：
 ```rust
-if let Pattern = SOME_VALUE {
+if let PATTERN = SOME_VALUE {
 
 }
 ```
@@ -130,4 +130,4 @@ if let Some(x) = some_option_value {
 }
 ```
 
-因为`if let`允许匹配一种模式，而忽悠其余的模式。
+因为`if let`允许匹配一种模式，而忽略其余的模式。

@@ -441,7 +441,7 @@ fn main() {
 如果编译上面的例子，会得到下面的错误：
 
 ```text
-error: `..` can only be used once per tuple pattern // 每个元组模式只能使用一个`..'`
+error: `..` can only be used once per tuple pattern // 每个元组模式只能使用一个`..`
  --> src/main.rs:5:22
   |
 5 |         (.., second, ..) => {
@@ -510,7 +510,7 @@ match x {
 }
 ```
 
-这个匹配条件表明此分支值匹配 `x` 值为 `4`、`5` 或 `6` **同时** `y` 为 `true` 的情况。
+这个匹配条件表明此分支只匹配 `x` 值为 `4`、`5` 或 `6` **同时** `y` 为 `true` 的情况。
 
 虽然在第一个分支中，`x`匹配了模式`4`，但是对于匹配守卫`if y`来说，因为`y`是`false`，因此该守卫条件的值永远是`false`，也意味着第一个分支永远无法被匹配.
 
