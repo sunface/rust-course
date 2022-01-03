@@ -73,48 +73,44 @@ name = "functions1"
 path = "exercises/functions/functions1.rs"
 mode = "compile"
 hint = """
-This main function is calling a function that it expects to exist, but the
-function doesn't exist. It expects this function to have the name `call_me`.
-It expects this function to not take any arguments and not return a value.
-Sounds a lot like `main`, doesn't it?"""
+主函数中正试图调用一个名为 `call_me` 的函数，可这个函数并不存在。
+它希望这个函数不接受任何参数，同时也不返回值。
+听起来很像 `main` 函数，不是吗？"""
 
 [[exercises]]
 name = "functions2"
 path = "exercises/functions/functions2.rs"
 mode = "compile"
 hint = """
-Rust requires that all parts of a function's signature have type annotations,
-but `call_me` is missing the type annotation of `num`."""
+ Rust 要求函数签名（signature）有类型标注，但是 `call_me` 函数缺少 `num` 的类型标注。"""
 
 [[exercises]]
 name = "functions3"
 path = "exercises/functions/functions3.rs"
 mode = "compile"
 hint = """
-This time, the function *declaration* is okay, but there's something wrong
-with the place where we're calling the function."""
+此时, 函数 *声明（declaration）* 是没问题的，但函数调用出了问题"""
 
 [[exercises]]
 name = "functions4"
 path = "exercises/functions/functions4.rs"
 mode = "compile"
 hint = """
-The error message points to line 14 and says it expects a type after the
-`->`. This is where the function's return type should be-- take a look at
-the `is_even` function for an example!"""
+错误信息指向第 15 行，说希望在`->`之后有一个类型。
+那个地方标注了函数的返回类型——看看 `is_even` 函数的示例吧"""
 
 [[exercises]]
 name = "functions5"
 path = "exercises/functions/functions5.rs"
 mode = "compile"
 hint = """
-This is a really common error that can be fixed by removing one character.
-It happens because Rust distinguishes between expressions and statements: expressions return
-a value based on its operand, and statements simply return a () type which behaves just like `void` in C/C++ language.
-We want to return a value of `i32` type from the `square` function, but it is returning a `()` type...
-They are not the same. There are two solutions:
-1. Add a `return` ahead of `num * num;`
-2. remove `;`, make it to be `num * num`"""
+这是一个非常常见的错误，可以通过删除一个字符来解决。
+发生的原因是 Rust 区分了表达式和语句：表达式根据其运算数（operand）返回一个值, 
+而语句仅返回一个 `()` 类型，其行为好比 C/C++ 中的 `void` 。
+我们希望 `square` 函数返回一个 `i32` 类型的值，但现在它返回的是 `()` 类型...
+它们显然是不一样的。对此有两种解决方案。
+1. 在 `num * num;` 前面加上 `return` 关键字
+2. 移除 `;`，让它变成 `num * num`"""
 
 # IF
 
