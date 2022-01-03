@@ -24,7 +24,7 @@ fn main() {
 > 
 > 有几种常用的方式:
 > - 第一种是查询标准库或者三方库文档，搜索`File`，然后找到它的`open`方法，但是此处更推荐第二种方法:
-> - 在[Rust IDE](../../first-try/editor.md)章节，我们推荐了`VSCode` IED和`rust-analyze`插件，如果你成功安装的话，那么就可以在`VScode`中很方便的通过代码跳转的方式查看代码，同时`rust-analyze`插件还会对代码中的类型进行标注，非常方便好用！
+> - 在[Rust IDE](../../first-try/editor.md)章节，我们推荐了`VSCode` IED和`rust-analyzer`插件，如果你成功安装的话，那么就可以在`VScode`中很方便的通过代码跳转的方式查看代码，同时`rust-analyzer`插件还会对代码中的类型进行标注，非常方便好用！
 > - 你还可以尝试故意标记一个错误的类型，然后让编译器告诉你:
 ```rust
 let f: u32 = File::open("hello.txt");
@@ -314,7 +314,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
 这样就能使用`?`提前返回了，同时我们又一次看到了`Box<dyn Error>`特征对象，因为`std::error:Error`是Rust中抽象层次最高的错误，其它标准库中的错误都实现了该特征，因此我们可以用该特征对象代表一切错误，就算`main`函数中调用任何标准库函数发生错误，都可以通过`Box<dyn Error>`这个特征对象进行返回.
 
-至于`main`函数可以有多种返回值，那是因为实现了[std::process::Termination]特征,目前为止该特征还没进入稳定版Rust中，也许未来你可以为自己的类型实现该特征！
+至于`main`函数可以有多种返回值，那是因为实现了[std::process::Termination](https://doc.rust-lang.org/std/process/trait.Termination.html)特征,目前为止该特征还没进入稳定版Rust中，也许未来你可以为自己的类型实现该特征！
 
 至此，Rust的基础内容学习已经全部完成，下面我们将学习Rust的高级进阶内容，正式开启你的高手之路。
 
