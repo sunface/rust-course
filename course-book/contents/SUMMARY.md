@@ -66,7 +66,7 @@
     - [格式化输出](advance/formatted-output.md)
     - [智能指针 doing](advance/smart-pointer/intro.md)
         - [Box<T>堆对象分配](advance/smart-pointer/box.md)
-        - [Deref和Drop特征(todo)](advance/smart-pointer/deref-drop.md)
+        - [Deref解引用](advance/smart-pointer/deref.md)
         - [Cell todo](advance/smart-pointer/cell.md)
         - [Rc与RefCell(todo)](advance/smart-pointer/rc-refcell.md)
         - [自引用与内存泄漏(todo)](advance/smart-pointer/self-referrence.md)
