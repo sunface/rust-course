@@ -152,64 +152,57 @@ name = "move_semantics1"
 path = "exercises/move_semantics/move_semantics1.rs"
 mode = "compile"
 hint = """
-So you've got the "cannot borrow immutable local variable `vec1` as mutable" error on line 13,
-right? The fix for this is going to be adding one keyword, and the addition is NOT on line 13
-where the error is."""
+在第 13 行有个 "cannot borrow immutable local variable `vec1` as mutable"* 错误，对吗？
+修复错误的方法是添加一个关键词，并且添加的位置不在报错的第 13 行上。
+
+译注：不能将不可变的局部变量 `vec1` 借用为可变变量"""
 
 [[exercises]]
 name = "move_semantics2"
 path = "exercises/move_semantics/move_semantics2.rs"
 mode = "compile"
 hint = """
-So `vec0` is being *moved* into the function `fill_vec` when we call it on
-line 10, which means it gets dropped at the end of `fill_vec`, which means we
-can't use `vec0` again on line 13 (or anywhere else in `main` after the
-`fill_vec` call for that matter). We could fix this in a few ways, try them
-all!
-1. Make another, separate version of the data that's in `vec0` and pass that
-   to `fill_vec` instead.
-2. Make `fill_vec` borrow its argument instead of taking ownership of it,
-   and then copy the data within the function in order to return an owned
-   `Vec<i32>`
-3. Make `fill_vec` *mutably* borrow its argument (which will need to be
-   mutable), modify it directly, then not return anything. Then you can get rid
-   of `vec1` entirely -- note that this will change what gets printed by the
-   first `println!`"""
+当我们在第 10 行调用 `fill_vec` 时，`vec0' 被 *移动（moved）* 到
+函数 `fill_vec` 中，这意味着它会在 `fill_vec` 函数的末尾被丢弃，同时也
+导致了我们不能在第 13 行再次使用 `vec0`（或在 `main` 中调用 `fill_vec` 后的任何地方）。
+我们可以用几种方法来解决这个问题，都试一试吧！
+1. 做一个 `vec0` 数据的拷贝，并将其传递给 `fill_vec` 。
+2. 让 `fill_vec` 通过借用而不是获取所有权的方式获取参数，然后在函数中复制一份数据，以便返回
+   一个具有所有权的 `Vec<i32>` 变量。
+3. 让 `fill_vec` 借用可变参数（参数也需要可变），直接进行操作，然后不返回任何东西。接着你需要
+   完全地去掉 `vec1`——但注意，这也将改变第一个 `println!` 打印出内容。"""
 
 [[exercises]]
 name = "move_semantics3"
 path = "exercises/move_semantics/move_semantics3.rs"
 mode = "compile"
 hint = """
-The difference between this one and the previous ones is that the first line
-of `fn fill_vec` that had `let mut vec = vec;` is no longer there. You can,
-instead of adding that line back, add `mut` in one place that will change
-an existing binding to be a mutable binding instead of an immutable one :)"""
+与之前不同：`fn fill_vec` 第一行的 `let mut vec = vec;` 现在已经不存在了。 
+你可以在某个地方添加 `mut` 以使现有的不可变绑定变得可变，而非把不同的那一行加回去 :)"""
 
 [[exercises]]
 name = "move_semantics4"
 path = "exercises/move_semantics/move_semantics4.rs"
 mode = "compile"
 hint = """
-Stop reading whenever you feel like you have enough direction :) Or try
-doing one step and then fixing the compiler errors that result!
-So the end goal is to:
-   - get rid of the first line in main that creates the new vector
-   - so then `vec0` doesn't exist, so we can't pass it to `fill_vec`
-   - we don't want to pass anything to `fill_vec`, so its signature should
-     reflect that it does not take any arguments
-   - since we're not creating a new vec in `main` anymore, we need to create
-     a new vec in `fill_vec`, similarly to the way we did in `main`"""
+只要你觉得有确切的目标，就可以停止阅读 :) 或者试着做一个步骤，然后修复编译错误。
+因此，目标有：
+   - 去掉 main 中创建新 vector 的第一行
+   - 所以 `vec0` 已不存在了，不能再把它传给 `fill_vec` 。
+   - 现已不需要向 `fill_vec` 传递任何东西，所以它的（函数）签名应该反映出它不接受任何参数*。
+   - 由于已不在 `main` 创建 vector ，所以需要在 `fill_vec` 中创建一个新的 vector，
+     类似于 `main` 中的做法。
+     
+译注：练习中 fill_vec 的函数签名已经没有接受参数了，所以估计是在调用的地方"""
 
 [[exercises]]
 name = "move_semantics5"
 path = "exercises/move_semantics/move_semantics5.rs"
 mode = "compile"
 hint = """
-Carefully reason about the range in which each mutable reference is in
-vogue. Does it help to update the value of referent (x) immediately after
-the mutable reference is taken? Read more about 'Mutable References'
-in the book's section References and Borrowing':
+仔细推敲每个可变引用的使用范围。
+在获取可变引用后是否能够立即更新引用（x）的值？ 
+在本书的 'References and Borrowing' 部分了解更多关于 'Mutable References' 的信息。
 https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html#mutable-references.
 """
 
