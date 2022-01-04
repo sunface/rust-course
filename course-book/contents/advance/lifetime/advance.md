@@ -22,7 +22,7 @@ fn main() {
 }
 ```
 
-上面的代码中，`foo.mutate_and_share()`虽然借用了`&mut self`，但是它最终返回的是一个`&self`，然后赋值给`loan`，因此理论上来说它最终是进行了不可变借用，同时`foo.share`也进行了不可变借用，那么根据Rust的借用规则：多个不可用借用可以同时存在，因此该代码应该编译通过。
+上面的代码中，`foo.mutate_and_share()`虽然借用了`&mut self`，但是它最终返回的是一个`&self`，然后赋值给`loan`，因此理论上来说它最终是进行了不可变借用，同时`foo.share`也进行了不可变借用，那么根据Rust的借用规则：多个不可变借用可以同时存在，因此该代码应该编译通过。
 
 事实上，运行代码后，你将看到一个错误:
 ```console
@@ -123,7 +123,7 @@ error[E0499]: cannot borrow `*map` as mutable more than once at a time
 
 ## 无界生命周期
 
-不安全代码(`unsafe`)经常会凭空产生引用或生命周期, 这些生命周期被称为是**无界(unbound)**的。
+不安全代码(`unsafe`)经常会凭空产生引用或生命周期, 这些生命周期被称为是 **无界\(unbound\)** 的。
 
 无界生命周期往往是在解引用一个原生指针(裸指针raw pointer)时产生的，换句话说，它是凭空产生的，因为输入参数根本就没有这个生命周期：
 ```rust
@@ -162,9 +162,9 @@ struct Ref<'a, T: 'a> {
 }
 ```
 
-因为结构体字段`r`引用了`T`，因此`r`的生命周期`'a`必须要比`T`的生命周期更长(被引用者的生命周期必须要比引用长)。
+因为结构体字段`r`引用了`T`，因此`r`的生命周期`'a`必须要比`T`的生命周期更短(被引用者的生命周期必须要比引用长)。
 
-在Rust1.30版本之前，该写法是必须的，但是从1.31版本开始，编译器可以自动推导`T: 'a`类型的约束，因此我们只需这样写即可:
+在Rust 1.30版本之前，该写法是必须的，但是从1.31版本开始，编译器可以自动推导`T: 'a`类型的约束，因此我们只需这样写即可:
 ```rust
 struct Ref<'a, T> {
     r: &'a T
@@ -289,9 +289,6 @@ impl<'a> Reader for BufReader<'a> {
 ```
 如果你以前写的`impl`块长上面这样, 同时在`impl`内部的方法中，根本就没有用到`'a`，那就可以写成下面的代码形式。
 
-歪个楼，有读者估计会发问：既然用不到`'a`，为何还要写出来？如果你仔细回忆下上一节的内容，里面有一句专门用粗体标注的文字：**生命周期参数也是类型的一部分**，因此`BufReader<'a>`是一个完整的类型，在实现它的时候，你不能把`'a`给丢了！
-
-
 ```rust
 impl Reader for BufReader<'_> {
     // methods go here
@@ -300,6 +297,7 @@ impl Reader for BufReader<'_> {
 
 `'_`生命周期表示`BufReader`有一个不使用的生命周期，我们可以忽略它，无需为它创建一个名称。
 
+歪个楼，有读者估计会发问：既然用不到`'a`，为何还要写出来？如果你仔细回忆下上一节的内容，里面有一句专门用粗体标注的文字：**生命周期参数也是类型的一部分**，因此`BufReader<'a>`是一个完整的类型，在实现它的时候，你不能把`'a`给丢了！
 
 #### 生命周期约束消除
 ```rust
@@ -357,8 +355,8 @@ fn main() {
     
     println!("Interface should be dropped here and the borrow released");
     
-    // this fails because inmutable/mutable borrow
-    // but Interface should be already dropped here and the borrow released
+    // 下面的调用会失败，因为同时有不可变/可变借用
+    // 但是Interface在之前调用完成后就应该被释放了
     use_list(&list);
 }
 
@@ -383,7 +381,7 @@ error[E0502]: cannot borrow `list` as immutable because it is also borrowed as m
 
 这段代码看上去并不复杂，实际上难度挺高的，首先在直觉上，`list.get_interface()`借用的可变引用，按理来说应该在这行代码结束后，就归还了，为何能持续到`use_list(&list)`后面呢？
 
-这是因为我们在`get_interface`方法中声明的`lifetime`有问题，该方法的参数的生明周期是`'a`，而`List`的生命周期也是`'a`，说明该方法至少活得跟`List`一样久，再回到`main`函数中，`list`可以活到`main`函数的结束，因此`list.get_interface()`借用的可变引用也会活到`main`函数的结束，在此期间，自然无法再进行借用了。
+这是因为我们在`get_interface`方法中声明的`lifetime`有问题，该方法的参数的生命周期是`'a`，而`List`的生命周期也是`'a`，说明该方法至少活得跟`List`一样久，再回到`main`函数中，`list`可以活到`main`函数的结束，因此`list.get_interface()`借用的可变引用也会活到`main`函数的结束，在此期间，自然无法再进行借用了。
 
 要解决这个问题，我们需要为`get_interface`方法的参数给予一个不同于`List<'a>`的生命周期`'b`，最终代码如下：
 ```rust
@@ -426,8 +424,7 @@ fn main() {
     
     println!("Interface should be dropped here and the borrow released");
     
-    // 下面的调用会失败，因为同时有不可变/可变借用
-    // 但是Interface在之前调用完成后就应该被释放了
+    // 下面的调用可以通过，因为Interface的生命周期不需要跟list一样长
     use_list(&list);
 }
 
