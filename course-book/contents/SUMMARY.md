@@ -95,6 +95,18 @@
     - [不太勤快的迭代器](pitfalls/lazy-iterators.md)
     - [奇怪的序列x..y](pitfalls/weird-ranges.md)
 
+
+- [对抗编译检查 doing](fight-with-compiler/intro.md)
+    - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
+    - [生命周期)](fight-with-compiler/lifetime/intro.md)
+        - [生命周期过大-01](fight-with-compiler/lifetime/too-long1.md)
+        - [生命周期过大-02](fight-with-compiler/lifetime/too-long2.md)
+        - [循环中的生命周期](fight-with-compiler/lifetime/loop.md)
+        - [闭包碰到特征对象-01](fight-with-compiler/lifetime/closure-with-static.md)
+    - [重复借用](fight-with-compiler/borrowing/intro.md)
+        - [同时在函数内外使用引用](fight-with-compiler/borrowing/ref-exist-in-out-fn.md)
+    - [类型未限制(todo)](fight-with-compiler/unconstrained.md)
+
 - [错误处理 todo](errors/intro.md)
     - [简化错误处理](errors/simplify.md)
     - [自定义错误](errors/user-define.md)
@@ -159,16 +171,6 @@
     - [修改全局变量](unsafe/modify-global-var.md)
     - [FFI外部语言用](unsafe/ffi.md)
     - [那些会导致UB的代码](unsafe/ub.md)
-
-- [对抗编译检查 doing](fight-with-compiler/intro.md)
-    - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
-    - [生命周期)](fight-with-compiler/lifetime/intro.md)
-        - [生命周期过大-01](fight-with-compiler/lifetime/too-long1.md)
-        - [生命周期过大-02](fight-with-compiler/lifetime/too-long2.md)
-        - [循环中的生命周期](fight-with-compiler/lifetime/loop.md)
-    - [重复借用](fight-with-compiler/borrowing/intro.md)
-        - [同时在函数内外使用引用](fight-with-compiler/borrowing/ref-exist-in-out-fn.md)
-    - [类型未限制(todo)](fight-with-compiler/unconstrained.md)
     
 - [宏编程 todo](macro/intro.md)
     - [过程宏(todo)](macro/procedure-macro.md)
