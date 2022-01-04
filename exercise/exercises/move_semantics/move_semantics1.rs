@@ -1,5 +1,5 @@
 // move_semantics1.rs
-// Make me compile! Execute `rustlings hint move_semantics1` for hints :)
+// 让我能够编译！执行 `rustex hint move_semantics1` 获取提示 :)
 
 // I AM NOT DONE
 
@@ -8,7 +8,7 @@ fn main() {
 
     let vec1 = fill_vec(vec0);
 
-    println!("{} has length {} content `{:?}`", "vec1", vec1.len(), vec1);
+    println!("{} has length {} content `{:?}`", "vec1", vec1.len(), vec1);// 译："{} 长度为 {} 内容是 `{:?}`"
 
     vec1.push(88);
 

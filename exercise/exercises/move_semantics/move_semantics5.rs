@@ -1,7 +1,6 @@
 // move_semantics5.rs
-// Make me compile only by reordering the lines in `main()`, but without
-// adding, changing or removing any of them.
-// Execute `rustlings hint move_semantics5` for hints :)
+// 只通过重新排列 `main()` 中的已有行来完成编译，并且不能增加、更改或删除任何行
+// 执行 `rustex hint move_semantics5` 获取提示 :)
 
 // I AM NOT DONE
 

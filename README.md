@@ -19,6 +19,17 @@
 
 总之在写作过程中我们始终铭记初心：为中国用户打造一本**全面的、深入的、持续更新的**Rust教程。 新手用来入门，老手用来提高，高手用来提升生产力。
 
+
+### Contributors
+非常感谢本教程的所有贡献者们，你们的任何一处修改都将使教程内容变得更加优秀！
+
+尤其感谢[@1132719438](https://github.com/1132719438)、[@codemystery](https://github.com/codemystery)和[@mg-chao](https://github.com/mg-chao)，花费大量时间贡献了多处fix甚至是高质量的内容优化，非常感动，再次感谢～～
+
+### 开源说明
+Rust语言圣经是**完全开源**的电子书, 每个章节都至少用时4-6个小时才能初步完稿，牺牲了大量休闲娱乐、陪伴家人的时间，还没有任何钱赚，**如果大家觉得这本书作者真的用心了，希望你能帮我们点一个`star`**，感激不尽：）
+
+在开源版权上，我们选择了[No License](https://www.google.com.hk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwigkv-KtMT0AhXFdXAKHdI4BCcQFnoECAQQAw&url=https%3A%2F%2Fchoosealicense.com%2Fno-permission%2F&usg=AOvVaw3M2Q4IbdhnpJ2K71TF7SPB)，这意味着读者可以随意的fork和阅读，但是**不能私下修改后再包装分发**，如果有这方面的需求，请联系我们，我们不会收钱，只是希望知道谁通过什么方式分发了这本书的部分内容，望理解.
+
 ### 感谢
 本书在内容上部分借鉴了以下书籍，特此感谢：
 - [Rust Book](https://doc.rust-lang.org/book)
@@ -26,11 +37,6 @@
 - [Perf Book](https://nnethercote.github.io/perf-book/title-page.html)
 - [Async Book](https://rust-lang.github.io/async-book/01_getting_started/01_chapter.html)
 详细清单参见[这里](https://github.com/sunface/rust-course/blob/main/writing-material/books.md)
-
-### 开源说明
-Rust语言圣经是**完全开源**的电子书, 每个章节都至少用时4-6个小时才能初步完稿，牺牲了大量休闲娱乐、陪伴家人的时间，还没有任何钱赚，**如果大家觉得这本书作者真的用心了，希望你能帮我们点一个`star`**，感激不尽：）
-
-在开源版权上，我们选择了[No License](https://www.google.com.hk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwigkv-KtMT0AhXFdXAKHdI4BCcQFnoECAQQAw&url=https%3A%2F%2Fchoosealicense.com%2Fno-permission%2F&usg=AOvVaw3M2Q4IbdhnpJ2K71TF7SPB)，这意味着读者可以随意的fork和阅读，但是**不能私下修改后再包装分发**，如果有这方面的需求，请联系我们，我们不会收钱，只是希望知道谁通过什么方式分发了这本书的部分内容，望理解.
 
 
 ### Rust社区
@@ -41,3 +47,4 @@ Rust语言圣经是**完全开源**的电子书, 每个章节都至少用时4-6�
 
 为此，我整了一本书和一个社区，欢迎大家的加入:
 - QQ群：1009730433
+
