@@ -1,8 +1,7 @@
 // move_semantics4.rs
-// Refactor this code so that instead of having `vec0` and creating the vector
-// in `fn main`, we create it within `fn fill_vec` and transfer the
-// freshly created vector from fill_vec to its caller.
-// Execute `rustlings hint move_semantics4` for hints!
+// 重构这段代码，做到删除 `vec0` ，并在 `fn fill_vec` 而非 `fn main` 中创建 vector ，
+// 然后将新创建的 vector 从 `fill_vec` 转移到其调用者。
+// 执行 `rustex hint move_semantics4` 获取提示 :)
 
 // I AM NOT DONE
 
@@ -18,7 +17,7 @@ fn main() {
     println!("{} has length {} content `{:?}`", "vec1", vec1.len(), vec1);
 }
 
-// `fill_vec()` no longer takes `vec: Vec<i32>` as argument
+// `fill_vec()` 不再获取 `vec: Vec<i32>` 参数
 fn fill_vec() -> Vec<i32> {
     let mut vec = vec;
 
