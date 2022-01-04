@@ -94,7 +94,8 @@ fn main() {
 
 ```
 
-该段代码不能通过编译的原因，是因为某个借用不再需要，但编译器不理解这点，反而谨慎的给该借用安排了一个很大的作用域，结果导致后续的借用失败：
+该段代码不能通过编译的原因是编译器未能精确地判断出某个可变借用不再需要，反而谨慎的给该借用安排了一个很大的作用域，结果导致后续的借用失败：
+
 ```console
 error[E0499]: cannot borrow `*map` as mutable more than once at a time
   --> src/main.rs:13:17
@@ -116,14 +117,14 @@ error[E0499]: cannot borrow `*map` as mutable more than once at a time
    | |_________- returning this value requires that `*map` is borrowed for `'m`
 ```
 
-可以看出，在`match map.get_mut(&key)`方法调用完成后，对`map`的可变借用就结束了，但是由于编译器不太聪明，它认为该借用会持续到整个`match`语句块的结束(第16行处)，结果导致了后续借用的失败。
+分析代码可知在`match map.get_mut(&key)`方法调用完成后，对`map`的可变借用就可以结束了。但从报错看来，编译器不太聪明，它认为该借用会持续到整个`match`语句块的结束(第16行处)，这便造成了后续借用的失败。
 
 类似的例子还有很多，由于篇幅有限，就不在这里一一列举，如果大家想要阅读更多的类似代码，可以看看[<<Rust代码鉴赏>>](https://github.com/sunface/rust-codes)一书。
 
 
 ## 无界生命周期
 
-不安全代码(`unsafe`)经常会凭空产生引用或生命周期, 这些生命周期被称为是**无界(unbound)**的。
+不安全代码(`unsafe`)经常会凭空产生引用或生命周期, 这些生命周期被称为是 **无界(unbound)** 的。
 
 无界生命周期往往是在解引用一个原生指针(裸指针raw pointer)时产生的，换句话说，它是凭空产生的，因为输入参数根本就没有这个生命周期：
 ```rust
@@ -226,7 +227,7 @@ let closure_slision = |x: &i32| -> &i32 { x };
 
 编译器就必须深入到闭包函数体中，去分析和推测生命周期，复杂度因此极具提升：试想一下，编译器该如何从复杂的上下文中分析出参数引用的生命周期和闭包体中生命周期的关系？
 
-由于上述原因(当然，实际情况复杂的多)，Rust语言开发者其实目前是有意为之，针对函数和闭包实现了两种不同的生命周期消除规则。
+由于上述原因(当然，实际情况复杂的多)，Rust语言开发者目前其实是有意针对函数和闭包实现了两种不同的生命周期消除规则。
 
 
 ## NLL(Non-Lexical Lifetime)
@@ -314,7 +315,7 @@ struct Ref<'a, T> {
 }
 ```
 
-在本节的生命周期约束中，也提到过，新版本Rust中，上面情况中的`T: 'a`可以被消除掉，当然，你也可以显式的声明，但是会影响代码可读性。关于类似的场景，Rust团队计划在未来提供更多的消除规则，但是，你懂得，计划未来就等于未知。
+在本节的生命周期约束中，也提到过，新版本Rust中，上面情况中的`T: 'a`可以被消除掉，当然，你也可以显式的声明，但是会影响代码可读性。关于类似的场景，Rust团队计划在未来提供更多的消除规则，但是，你懂的，计划未来就等于未知。
 
 ## 一个复杂的例子
 下面是一个关于生命周期声明过大的例子，会较为复杂，希望大家能细细阅读，它能帮你对生命周期的理解更加深入。
@@ -357,8 +358,8 @@ fn main() {
     
     println!("Interface should be dropped here and the borrow released");
     
-    // this fails because inmutable/mutable borrow
-    // but Interface should be already dropped here and the borrow released
+    // 下面的调用会失败，因为同时有不可变/可变借用
+    // 但是Interface在之前调用完成后就应该被释放了
     use_list(&list);
 }
 
