@@ -212,40 +212,37 @@ https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html#mutable-ref
 name = "primitive_types1"
 path = "exercises/primitive_types/primitive_types1.rs"
 mode = "compile"
-hint = "No hints this time ;)"
+hint = "这次没有提示 ;)"
 
 [[exercises]]
 name = "primitive_types2"
 path = "exercises/primitive_types/primitive_types2.rs"
 mode = "compile"
-hint = "No hints this time ;)"
+hint = "这次没有提示 ;)"
 
 [[exercises]]
 name = "primitive_types3"
 path = "exercises/primitive_types/primitive_types3.rs"
 mode = "compile"
 hint = """
-There's a shorthand to initialize Arrays with a certain size that does not
-require you to type in 100 items (but you certainly can if you want!).
-For example, you can do:
+有一种简便的方法可以初始化具有一定大小的数组，而不需要你输入 100 个
+元素（但如果你想的话，那当然可以！）。
+例如，你可以这样做：
 let array = ["Are we there yet?"; 10];
 
-Bonus: what are some other things you could have that would return true
-for `a.len() >= 100`?"""
+额外目标: 还有哪些东西可以在 `a.len()>=100` 时返回 true """
 
 [[exercises]]
 name = "primitive_types4"
 path = "exercises/primitive_types/primitive_types4.rs"
 mode = "test"
 hint = """
-Take a look at the Understanding Ownership -> Slices -> Other Slices section of the book:
-https://doc.rust-lang.org/book/ch04-03-slices.html
-and use the starting and ending indices of the items in the Array
-that you want to end up in the slice.
+看看这本书的：Understanding Ownership -> Slices -> Other Slices 章节吧：
+https://doc.rust-lang.org/book/ch04-03-slices.html，
+然后找出所需切片元素对应数组里的起始和截止下标。 
 
-If you're curious why the first argument of `assert_eq!` does not
-have an ampersand for a reference since the second argument is a
-reference, take a look at the Deref coercions section of the book:
+如果你好奇既然 `assert_eq!` 的第二个参数是引用，为什么第一个参数
+没有使用 & 号用来表示引用，可以看看这本书的 Deref 强制转换部分：
 https://doc.rust-lang.org/book/ch15-02-deref.html"""
 
 [[exercises]]
@@ -253,22 +250,20 @@ name = "primitive_types5"
 path = "exercises/primitive_types/primitive_types5.rs"
 mode = "compile"
 hint = """
-Take a look at the Data Types -> The Tuple Type section of the book:
+看看这本书的 Data Types -> The Tuple Type 类型章节：
 https://doc.rust-lang.org/book/ch03-02-data-types.html#the-tuple-type
-Particularly the part about destructuring (second to last example in the section).
-You'll need to make a pattern to bind `name` and `age` to the appropriate parts
-of the tuple. You can do it!!"""
+特别是关于解构的部分（这节中倒数第二个例子）。
+你需要一个模式将 `name` 和 `age` 绑定到元组的适当部分。你能够做到的！！"""
 
 [[exercises]]
 name = "primitive_types6"
 path = "exercises/primitive_types/primitive_types6.rs"
 mode = "test"
 hint = """
-While you could use a destructuring `let` for the tuple here, try
-indexing into it instead, as explained in the last example of the
-Data Types -> The Tuple Type section of the book:
+虽然你可以使用 `let` 对元组进行解构 ，但不妨试试对它进行索引，
+正如这本书的 Data Types -> The Tuple Type 部分的最后一个例子表示的那样。
 https://doc.rust-lang.org/book/ch03-02-data-types.html#the-tuple-type
-Now you have another tool in your toolbox!"""
+现在，你的工具箱里又多了一个工具！"""
 
 # STRUCTS
 
