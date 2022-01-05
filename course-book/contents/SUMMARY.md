@@ -95,7 +95,6 @@
     - [不太勤快的迭代器](pitfalls/lazy-iterators.md)
     - [奇怪的序列x..y](pitfalls/weird-ranges.md)
     - [无处不在的迭代器](pitfalls/iterator-everywhere.md)
-    - [编译期报错的RefCell todo](pitfalls/refcell-compilation-error.md)
 
 - [对抗编译检查(持续更新)](fight-with-compiler/intro.md)
     - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
@@ -106,6 +105,7 @@
         - [闭包碰到特征对象-01](fight-with-compiler/lifetime/closure-with-static.md)
     - [重复借用](fight-with-compiler/borrowing/intro.md)
         - [同时在函数内外使用引用](fight-with-compiler/borrowing/ref-exist-in-out-fn.md)
+        - [智能指针引起的重复借用错误](fight-with-compiler/borrowing/borrow-distinct-fields-of-struct.md)
     - [类型未限制(todo)](fight-with-compiler/unconstrained.md)
 
 - [错误处理 todo](errors/intro.md)
