@@ -176,3 +176,7 @@ fn main() {
 }
 ```
 It takes 2.03 ms to execute :)
+
+
+## 动态和静态分发
+https://www.reddit.com/r/rust/comments/ruavjm/is_there_a_difference_in_performance_between/

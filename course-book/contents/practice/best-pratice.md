@@ -8,3 +8,6 @@ https://www.reddit.com/r/rust/comments/rrgho1/what_is_the_recommended_way_to_use
 
 ## 最佳开发流程
 cargo watch
+
+## 测试文件组织结构
+https://www.reddit.com/r/rust/comments/rsuhnn/need_a_piece_of_advice_about_organising_tests/
