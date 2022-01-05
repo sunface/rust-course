@@ -1,6 +1,6 @@
 // primitive_types4.rs
-// Get a slice out of Array a where the ??? is so that the test passes.
-// Execute `rustlings hint primitive_types4` for hints!!
+// 在 ??? 处获取数组 a 的一个切片（slice），以通过测试。
+// 执行 `rustex hint primitive_types4` 获取提示！!
 
 // I AM NOT DONE
 

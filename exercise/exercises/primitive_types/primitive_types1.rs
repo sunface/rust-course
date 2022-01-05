@@ -1,6 +1,6 @@
 // primitive_types1.rs
-// Fill in the rest of the line that has code missing!
-// No hints, there's no tricks, just get used to typing these :)
+// 补充不完整代码行的缺失部分！
+// 没有提示，也没有什么诀窍，只要习惯于键入这些内容就可以了 :)
 
 // I AM NOT DONE
 
@@ -9,11 +9,11 @@ fn main() {
 
     let is_morning = true;
     if is_morning {
-        println!("Good morning!");
+        println!("Good morning!");// 译："早上好"
     }
 
-    let // Finish the rest of this line like the example! Or make it be false!
+    let // 参照上面的示例来补充这一行的缺失部分！或者让它值为 false ！
     if is_evening {
-        println!("Good evening!");
+        println!("Good evening!");// 译："晚上好"
     }
 }
