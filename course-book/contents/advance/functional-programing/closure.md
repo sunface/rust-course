@@ -181,7 +181,7 @@ let sum  = |x, y| x + y;
 let v = sum(1,2);
 ```
 
-这里我们用使用了`sum`，同时把`1`传给了`x`，`2`传给了`y`，因此编译器才可以推导出`x,y`的类型为`i32`。
+这里我们使用了`sum`，同时把`1`传给了`x`，`2`传给了`y`，因此编译器才可以推导出`x,y`的类型为`i32`。
 
 下面展示了同一个功能的函数和闭包实现形式:
 ```rust
@@ -285,7 +285,7 @@ fn main() {
 }
 ```
 
-上面代码中，`x`并不是闭包`equal_to_x`的参数，但是它依然可以去使用`x`，因为`x`在`equal_to_x`的作用域范围内。
+上面代码中，`x`并不是闭包`equal_to_x`的参数，但是它依然可以去使用`x`，因为`equal_to_x`在`x`的作用域范围内。
 
 对于函数来说，就算你把函数定义在`main`函数体中，它也不能访问`x`:
 ```rust
@@ -320,52 +320,62 @@ error[E0434]: can't capture dynamic environment in a fn item // 在函数中无�
 
 #### 三种Fn特征
 闭包捕获变量有三种途径，恰好对应函数参数的三种传入方式：转移所有权、可变借用、不可变借用，因此相应的Fn特征也有三种:
-1. `FnOnce`, 该类型的闭包会拿走被捕获变量的所有权。`Once`顾名思义，说明该闭包只能拿走所有权一次:
-```rust
-fn main() {
-    let x = vec![1,2,3];
+1. `FnOnce`, 该类型的闭包会拿走被捕获变量的所有权。`Once`顾名思义，说明该闭包只能运行一次：
 
-    let len_is = move |z| z == x.len();
-    let len_is_not = move |z| z != x.len();
-    println!("{}",len_is(3));
-    println!("{}",len_is_not(4));
+```rust
+fn fn_once<F>(func: F)
+where
+    F: FnOnce(usize) -> bool,
+{
+    println!("{}", func(3));
+    println!("{}", func(4));
+}
+
+fn main() {
+    let x = vec![1, 2, 3];
+    fn_once(|z|{z == x.len()})
 }
 ```
 
-`move`关键字用来告诉闭包，捕获变量的所有权而不是进行借用，因此`x`变量的所有权将被首选转移到`len_is`中，紧接着`len_is_not`又试图获取`x`的所有权，此时自然会报错：
+**仅**实现 `FnOnce` 特征的闭包在调用时会转移所有权，所以显然不能对已失去所有权的闭包变量进行二次调用：
+
 ```console
-error[E0382]: use of moved value: `x`  // 使用已经没有所有权的x
- --> src/main.rs:5:22
+error[E0382]: use of moved value: `func`
+ --> src\main.rs:6:20
   |
-2 |     let x = vec![1,2,3];
-  |         - move occurs because `x` has type `Vec<i32>`, which does not implement the `Copy` trait
-3 |         - 发生所有权转移因为x的类型是Vec<i32>,它没有实现Copy特征
-4 |     let len_is = move |z| z == x.len();
-  |                  --------      - variable moved due to use in closure // 在此处x所有权被转移
-  |                  |
-  |                  value moved into closure here
-5 |     let len_is_not = move |z| z != x.len();
-  |                      ^^^^^^^^      - use occurs due to use in closure 
-  |                      |
-  |                      value used here after move // 试图再次转移所有权
+1 | fn fn_once<F>(func: F)
+  |               ---- move occurs because `func` has type `F`, which does not implement the `Copy` trait
+                  // 因为`func`的类型是没有实现`Copy`特性的 `F`，所以发生了所有权的转移
+...
+5 |     println!("{}", func(3));
+  |                    ------- `func` moved due to this call // 转移在这
+6 |     println!("{}", func(4));
+  |                    ^^^^ value used here after move // 转移后再次用
+  |
 ```
 
-这里面有一个很重要的提示，因为`Vec<i32>`没有实现`Copy`特征，所以会报错，那么我们试试有实现`Copy`的类型：
-```rust
-fn main() {
-    let x = 3;
+这里面有一个很重要的提示，因为`F`没有实现`Copy`特征，所以会报错，那么我们添加一个约束，试试实现了`Copy`的闭包：
 
-    let equal_to = move |z| z == x;
-    let not_equal_to = move |z| z != x;
-    println!("{}",equal_to(3));
-    println!("{}",not_equal_to(4));
+```rust
+fn fn_once<F>(func: F)
+where
+    F: FnOnce(usize) -> bool + Copy,// 改动在这里
+{
+    println!("{}", func(3));
+    println!("{}", func(4));
+}
+
+fn main() {
+    let x = vec![1, 2, 3];
+    fn_once(|z|{z == x.len()})
 }
 ```
 
-上面代码中，`x`的类型是`i32`，该类型实现了`Copy`特征，因此虽然我们使用了`move`关键字让闭包拿走`x`的所有权，但是由于`x`是可复制的，闭包仅仅是复制了`x`的值，编译后，顺利通过:
+上面代码中，`func`的类型`F`实现了`Copy`特征，调用时使用的将是它的拷贝，所以并没有发生所有权的转移。
+
 ```console
-true
-true
+true 
+false
 ```
 
 2. `FnMut`, 它以可变借用的方式捕获了环境中的值，因此可以修改该值：
