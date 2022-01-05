@@ -1,0 +1,1 @@
+https://www.reddit.com/r/rust/comments/rtqrx4/introducing_atomicstory/

@@ -25,3 +25,6 @@ fn main() {
     }
 }
 ```
+
+## 多个线程同时无锁的对一个数组进行修改
+https://www.reddit.com/r/rust/comments/rtutr0/lockless_threads_for_mutable_operations/

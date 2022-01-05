@@ -68,8 +68,8 @@
         - [Box<T>堆对象分配](advance/smart-pointer/box.md)
         - [Deref解引用](advance/smart-pointer/deref.md)
         - [Drop释放资源](advance/smart-pointer/drop.md)
-        - [Cell与RefCell todo](advance/smart-pointer/cell.md)
-        - [Rc与Arc todo](advance/smart-pointer/rc-refcell.md)
+        - [Rc与Arc同一数据多所有者](advance/smart-pointer/rc-arc.md)
+        - [Cell与RefCell todo](advance/smart-pointer/cell-refcell.md)
         - [自引用与内存泄漏 todo](advance/smart-pointer/self-referrence.md)
     - [全局变量 todo](advance/global-variable.md)
     - [多线程 todo](advance/multi-threads/intro.md)
@@ -94,7 +94,7 @@
     - [可变借用失败引发的深入思考](pitfalls/multiple-mutable-references.md)
     - [不太勤快的迭代器](pitfalls/lazy-iterators.md)
     - [奇怪的序列x..y](pitfalls/weird-ranges.md)
-
+    - [无处不在的迭代器](pitfalls/iterator-everywhere.md)
 
 - [对抗编译检查 doing](fight-with-compiler/intro.md)
     - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
