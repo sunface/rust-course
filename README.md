@@ -17,7 +17,7 @@
 - **场景化模版**，程序员上网查询如何操作文件是常事，没有人能记住所有代码,场景化模版可解君忧
 - **开源库推荐**, 根据场景推荐高质量的开源库，降低Rust上手门槛
 
-总之在写作过程中我们始终铭记初心：为中国用户打造一本**全面的、深入的、持续更新的**Rust教程。 新手用来入门，老手用来提高，高手用来提升生产力。
+总之在写作过程中我们始终铭记初心：为中国用户打造一门**全面的、深入的、持续更新的**Rust教程。 新手用来入门，老手用来提高，高手用来提升生产力。
 
 ### 贡献者
 非常感谢本教程的所有贡献者们，正是有了你们，才有了现在的高质量Rust教程！
@@ -31,7 +31,7 @@
 ### 开源说明
 Rust语言圣经是**完全开源**的电子书, 每个章节都至少用时4-6个小时才能初步完稿，牺牲了大量休闲娱乐、陪伴家人的时间，还没有任何钱赚，**如果大家觉得这本书作者真的用心了，希望你能帮我们点一个`star`**，感激不尽：）
 
-在开源版权上，我们选择了[No License](https://www.google.com.hk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwigkv-KtMT0AhXFdXAKHdI4BCcQFnoECAQQAw&url=https%3A%2F%2Fchoosealicense.com%2Fno-permission%2F&usg=AOvVaw3M2Q4IbdhnpJ2K71TF7SPB)，这意味着读者可以随意的fork和阅读，但是**不能私下修改后再包装分发**，如果有这方面的需求，请联系我们，我们不会收钱，只是希望知道谁通过什么方式分发了这本书的部分内容，望理解.
+在开源版权上，我们选择了[No License](https://www.google.com.hk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwigkv-KtMT0AhXFdXAKHdI4BCcQFnoECAQQAw&url=https%3A%2F%2Fchoosealicense.com%2Fno-permission%2F&usg=AOvVaw3M2Q4IbdhnpJ2K71TF7SPB)，这意味着读者可以随意的fork和阅读，但是**不能私下修改后再包装分发**，如果有这方面的需求，请联系我们，望理解.
 
 ### 感谢
 本书在内容上部分借鉴了以下书籍，特此感谢：
