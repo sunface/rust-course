@@ -294,7 +294,7 @@ name = "structs3"
 path = "exercises/structs/structs3.rs"
 mode = "test"
 hint = """
-Package 实现的 new 方法在重量（weight_in_grams）不符合物理的情况下需要 panic :)，在 Rust 需要怎么做？
+Package 实现的 new 方法在重量（weight_in_grams）不符合物理的情况下需要 panic :)，这在 Rust 需要怎么做？
 
 对于 is_international：一个包裹具有国际性的条件有哪些？似乎与它所经过的地方有关吧？
 
