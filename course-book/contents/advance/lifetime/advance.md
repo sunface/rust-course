@@ -279,6 +279,80 @@ use(a);                 //   |                            |
 - [项目地址](https://github.com/rust-lang/polonius) 
 - [具体介绍](http://smallcultfollowing.com/babysteps/blog/2018/04/27/an-alias-based-formulation-of-the-borrow-checker/)
 
+## Reborrow再借用
+学完`NLL`后，我们就有了一定的基础，可以继续学习关于借用和生命周期的一个高级内容：**再借用**。
+
+先来看一段代码: 
+```rust
+#[derive(Debug)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl Point {
+    fn move_to(&mut self, x: i32, y: i32) {
+        self.x = x;
+        self.y = y;
+    }
+}
+
+fn main() {
+    let mut p = Point { x: 0, y: 0 };
+    let r = &mut p;
+    let rr: &Point = &*r;
+
+    println!("{:?}", rr);
+    r.move_to(10, 10);
+    println!("{:?}", r);
+}
+```
+
+以上代码，大家可能会觉得可变引用`r`和不可变引用`rr`同时存在会报错吧？但是事实上并不会，原因在于`rr`是对`r`的再借用。
+
+对于再借用而言，`rr`在借用时不会破坏借用规则，但是你不能在它的生命周期内再使用原来的借用`r`，来看看对上段代码的分析:
+```rust
+fn main() {
+    let mut p = Point { x: 0, y: 0 };
+    let r = &mut p;
+    // reborrow! 此时对`r`的再借用不会导致跟上面的借用冲突
+    let rr: &Point = &*r;
+    
+    // 再借用`rr`最后一次使用发生在这里，在它的生命周期中，我们并没有使用原来的借用`r`，因此不会报错
+    println!("{:?}", rr);
+
+    // 再借用结束后，才去使用原来的借用`r`
+    r.move_to(10, 10);
+    println!("{:?}", r);
+}
+```
+
+再来看一个例子：
+```rust
+use std::vec::Vec;
+fn read_length(strings: &mut Vec<String>) -> usize {
+   strings.len()
+}
+```
+如上所示，函数体内对参数的二次借用也是典型的Reborrow场景。
+
+
+那么下面让我们来做件坏事, 破坏这条规则，使其报错:
+```rust
+fn main() {
+    let mut p = Point { x: 0, y: 0 };
+    let r = &mut p;
+    let rr: &Point = &*r; 
+
+    r.move_to(10, 10);
+    
+    println!("{:?}", rr);
+
+    println!("{:?}", r);
+}
+```
+果然，破坏永远比重建简单:) 只需要在`rr`再借用的生命周期内使用一次原来的借用`r`即可！
+
 ## 生命周期消除规则补充
 在上一节中，我们介绍了三大基础生命周期消除规则，实际上，随着Rust的版本进化，该规则也在不断演进，这里再介绍几个常见的消除规则：
 
