@@ -1,6 +1,6 @@
 // structs3.rs
 // 接口既可以包含数据也可以处理逻辑。
-// 在这个练习中，我们已经定义了 Package 结构，但我们想测试根据它实现的一些逻辑。
+// 在这个练习中，我们已经定义了 Package 结构，但我们想测试一些根据它实现的逻辑。
 // 让代码通过编译和测试！
 // 如果你有问题，可以执行 `rustlings hint structs3` 查看提示
 
@@ -41,7 +41,7 @@ mod tests {
 
     #[test]
     #[should_panic]
-    fn fail_creating_weightless_package() {// 译：失败地创造失重的包裹（要求不允许负重量的包裹出现）
+    fn fail_creating_weightless_package() {// 译：失败地创建没有重量的包裹
         let sender_country = String::from("Spain");// 译：西班牙
         let recipient_country = String::from("Austria");// 译：奥地利
 

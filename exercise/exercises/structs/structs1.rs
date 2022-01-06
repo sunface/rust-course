@@ -18,7 +18,7 @@ mod tests {
 
     #[test]
     fn classic_c_structs() {
-        // TODO: 实例化一个经典的 C 结构体!
+        // TODO: 实例化一个经典的 C 结构体！
         // let green =
 
         assert_eq!(green.name, "green");
@@ -27,7 +27,7 @@ mod tests {
 
     #[test]
     fn tuple_structs() {
-        // TODO: 实例化一个元组结构!
+        // TODO: 实例化一个元组结构！
         // let green =
 
         assert_eq!(green.0, "green");
@@ -36,7 +36,7 @@ mod tests {
 
     #[test]
     fn unit_structs() {
-        // TODO: 实例化一个单元结构!
+        // TODO: 实例化一个单元结构！
         // let unit_struct =
         let message = format!("{:?}s are fun!", unit_struct);
 

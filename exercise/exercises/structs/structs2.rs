@@ -33,7 +33,7 @@ mod tests {
     #[test]
     fn your_order() {
         let order_template = create_order_template();
-        // TODO: 利用上面的模板然后改变一些其中值来创建属于你的订单!
+        // TODO: 利用上面的模板（template 是模板的意思）然后改变其中的一些值来创建属于你的订单！
         // let your_order =
         assert_eq!(your_order.name, "Hacker in Rust");
         assert_eq!(your_order.year, order_template.year);
