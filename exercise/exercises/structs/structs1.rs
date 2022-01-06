@@ -1,13 +1,13 @@
 // structs1.rs
-// Address all the TODOs to make the tests pass!
+// 解决所有的 TODO ，通过测试！
 
 // I AM NOT DONE
 
 struct ColorClassicStruct {
-    // TODO: Something goes here
+    // TODO: 一些东西需要在这里
 }
 
-struct ColorTupleStruct(/* TODO: Something goes here */);
+struct ColorTupleStruct(/* TODO: 一些东西需要在这里 */);
 
 #[derive(Debug)]
 struct UnitStruct;
@@ -18,7 +18,7 @@ mod tests {
 
     #[test]
     fn classic_c_structs() {
-        // TODO: Instantiate a classic c struct!
+        // TODO: 实例化一个经典的 C 结构体!
         // let green =
 
         assert_eq!(green.name, "green");
@@ -27,7 +27,7 @@ mod tests {
 
     #[test]
     fn tuple_structs() {
-        // TODO: Instantiate a tuple struct!
+        // TODO: 实例化一个元组结构!
         // let green =
 
         assert_eq!(green.0, "green");
@@ -36,7 +36,7 @@ mod tests {
 
     #[test]
     fn unit_structs() {
-        // TODO: Instantiate a unit struct!
+        // TODO: 实例化一个单元结构!
         // let unit_struct =
         let message = format!("{:?}s are fun!", unit_struct);
 

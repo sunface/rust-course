@@ -272,35 +272,35 @@ name = "structs1"
 path = "exercises/structs/structs1.rs"
 mode = "test"
 hint = """
-Rust has more than one type of struct. Three actually, all variants are used to package related data together.
-There are normal (or classic) structs. These are named collections of related data stored in fields.
-Tuple structs are basically just named tuples.
-Finally, Unit structs. These don't have any fields and are useful for generics.
+Rust 不只有一种结构。实际上，所有的变体都是用来组合相关的数据。
+首先是一般的（或经典的）结构，一块相关的数据被命名为一个字段集合。
+元组结构基本上就是被命名的元组。
+最后的单元结构没有任何字段，对泛型很有用。
 
-In this exercise you need to complete and implement one of each kind.
-Read more about structs in The Book: https://doc.rust-lang.org/book/ch05-01-defining-structs.html"""
+在这个练习中，你需要完成并实现每一种结构。
+更多关于结构的内容在这：https://doc.rust-lang.org/book/ch05-01-defining-structs.html"""
 
 [[exercises]]
 name = "structs2"
 path = "exercises/structs/structs2.rs"
 mode = "test"
 hint = """
-Creating instances of structs is easy, all you need to do is assign some values to its fields.
-There are however some shortcuts that can be taken when instantiating structs.
-Have a look in The Book, to find out more: https://doc.rust-lang.org/stable/book/ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax"""
+创建结构体的实例很简单，你只需要给它的字段分配一些值。
+然而，在实例化结构时，还有些捷径。
+看看这本书，来了解更多：https://doc.rust-lang.org/stable/book/ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax"""
 
 [[exercises]]
 name = "structs3"
 path = "exercises/structs/structs3.rs"
 mode = "test"
 hint = """
-The new method needs to panic if the weight is physically impossible :), how do we do that in Rust?
+Package 实现的 new 方法在重量（weight_in_grams）不符合物理的情况下需要 panic :)，在 Rust 需要怎么做？
 
-For is_international: What makes a package international? Seems related to the places it goes through right?
+对于 is_international：一个包裹具有国际性的条件有哪些？似乎与它所经过的地方有关吧？
 
-For calculate_transport_fees: Bigger is more expensive usually, we don't have size, but something may fit the bill here :)
+对于 calculate_transport_fees：更大的通常更贵，我们的 Package 没有尺寸，但有些东西可能同样符合需要 :)
 
-Have a look in The Book, to find out more about method implementations: https://doc.rust-lang.org/book/ch05-03-method-syntax.html"""
+看看这本书，了解更多关于方法实现的信息：https://doc.rust-lang.org/book/ch05-03-method-syntax.html"""
 
 # ENUMS
 

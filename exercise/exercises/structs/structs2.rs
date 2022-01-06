@@ -1,5 +1,5 @@
 // structs2.rs
-// Address all the TODOs to make the tests pass!
+// 解决所有的 TODO ，通过测试！
 
 // I AM NOT DONE
 
@@ -33,7 +33,7 @@ mod tests {
     #[test]
     fn your_order() {
         let order_template = create_order_template();
-        // TODO: Create your own order using the update syntax and template above!
+        // TODO: 利用上面的模板然后改变一些其中值来创建属于你的订单!
         // let your_order =
         assert_eq!(your_order.name, "Hacker in Rust");
         assert_eq!(your_order.year, order_template.year);
