@@ -279,7 +279,7 @@ use(a);                 //   |                            |
 - [项目地址](https://github.com/rust-lang/polonius) 
 - [具体介绍](http://smallcultfollowing.com/babysteps/blog/2018/04/27/an-alias-based-formulation-of-the-borrow-checker/)
 
-## Reborrow再借用
+# Reborrow再借用
 学完`NLL`后，我们就有了一定的基础，可以继续学习关于借用和生命周期的一个高级内容：**再借用**。
 
 先来看一段代码: 
