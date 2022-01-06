@@ -14,3 +14,6 @@ https://www.reddit.com/r/rust/comments/rsuhnn/need_a_piece_of_advice_about_organ
 
 ## git备份
 https://github.com/tkellogg/dura
+
+## code cover
+https://docs.codecov.com/docs
