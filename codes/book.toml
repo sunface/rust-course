@@ -1,0 +1,14 @@
+[book]
+authors = ["sunface"]
+language = "zh-CN"
+multilingual = false
+src = "src"
+title = "Rust代码鉴赏(Rust Codes)"
+
+[output.html]
+git-repository-url = "https://github.com/rustcollege/codes"
+edit-url-template = "https://github.com/rustcollege/codes/edit/main/{path}"
+
+[output.html.fold]
+enable = true
+level = 1
