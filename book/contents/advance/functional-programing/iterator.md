@@ -9,7 +9,7 @@
 例如以下的JS代码就是一个循环:
 ```javascript
 let arr = [1, 2, 3];
-for i = 0; i < arr.length() - 1; i ++ {
+for (let i = 0; i < arr.length; i++) {
     console.log(arr[i]);
 }
 ```
