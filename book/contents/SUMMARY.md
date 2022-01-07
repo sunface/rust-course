@@ -89,6 +89,20 @@
     - [一些写代码的技巧 todo](practice/coding-tips.md)
     - [最佳实践 todo](practice/best-pratice.md)
 
+
+- [对抗编译检查(持续更新)](fight-with-compiler/intro.md)
+    - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
+    - [生命周期](fight-with-compiler/lifetime/intro.md)
+        - [生命周期过大-01](fight-with-compiler/lifetime/too-long1.md)
+        - [生命周期过大-02](fight-with-compiler/lifetime/too-long2.md)
+        - [循环中的生命周期](fight-with-compiler/lifetime/loop.md)
+        - [闭包碰到特征对象-01](fight-with-compiler/lifetime/closure-with-static.md)
+    - [重复借用](fight-with-compiler/borrowing/intro.md)
+        - [同时在函数内外使用引用](fight-with-compiler/borrowing/ref-exist-in-out-fn.md)
+        - [智能指针引起的重复借用错误](fight-with-compiler/borrowing/borrow-distinct-fields-of-struct.md)
+    - [类型未限制(todo)](fight-with-compiler/unconstrained.md)
+
+
 - [Rust陷阱系列(持续更新)](pitfalls/index.md)
     - [for循环中使用外部数组](pitfalls/use-vec-in-for.md)
     - [线程类型导致的栈溢出](pitfalls/stack-overflow.md)
@@ -99,18 +113,6 @@
     - [不太勤快的迭代器](pitfalls/lazy-iterators.md)
     - [奇怪的序列x..y](pitfalls/weird-ranges.md)
     - [无处不在的迭代器](pitfalls/iterator-everywhere.md)
-
-- [对抗编译检查(持续更新)](fight-with-compiler/intro.md)
-    - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
-    - [生命周期)](fight-with-compiler/lifetime/intro.md)
-        - [生命周期过大-01](fight-with-compiler/lifetime/too-long1.md)
-        - [生命周期过大-02](fight-with-compiler/lifetime/too-long2.md)
-        - [循环中的生命周期](fight-with-compiler/lifetime/loop.md)
-        - [闭包碰到特征对象-01](fight-with-compiler/lifetime/closure-with-static.md)
-    - [重复借用](fight-with-compiler/borrowing/intro.md)
-        - [同时在函数内外使用引用](fight-with-compiler/borrowing/ref-exist-in-out-fn.md)
-        - [智能指针引起的重复借用错误](fight-with-compiler/borrowing/borrow-distinct-fields-of-struct.md)
-    - [类型未限制(todo)](fight-with-compiler/unconstrained.md)
 
 - [进阶类型转换](converse/intro.md)
     - [枚举和整数](converse/enum-int.md)
