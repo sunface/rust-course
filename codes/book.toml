@@ -6,8 +6,8 @@ src = "src"
 title = "Rust代码鉴赏(Rust Codes)"
 
 [output.html]
-git-repository-url = "https://github.com/rustcollege/codes"
-edit-url-template = "https://github.com/rustcollege/codes/edit/main/{path}"
+git-repository-url = "https://github.com/sunface/rust-course/tree/main/codes"
+edit-url-template = "https://github.com/sunface/rust-course/tree/main/codes/{path}"
 
 [output.html.fold]
 enable = true
