@@ -69,6 +69,8 @@ Current installation options:
 
 若您觉得下载太慢，可以试试由[Caviar-X](https://github.com/Caviar-X)提供的[代理](https://github.pigeons.icu/msys2/msys2-installer/releases/download/2021-11-30/msys2-x86_64-20211130.exe)
 
+在安装mingw-toolchain后，请将`%MSYS安装路径%\mingw64\bin`添加到系统变量`PATH`中
+
 配置好后，在MSYS中输入
 ```bash
 $ curl https://sh.rustup.rs -sSf | sh
