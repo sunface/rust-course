@@ -309,21 +309,22 @@ name = "enums1"
 path = "exercises/enums/enums1.rs"
 mode = "compile"
 hint = """
-Hint: The declaration of the enumeration type has not been defined yet."""
+提示：枚举类型还没有被定义。"""
 
 [[exercises]]
 name = "enums2"
 path = "exercises/enums/enums2.rs"
 mode = "compile"
 hint = """
-Hint: you can create enumerations that have different variants with different types
-such as no data, anonymous structs, a single string, tuples, ...etc"""
+提示：你可以创建多种不同类型的枚举，如不包含值、匿名结构*、字符串、元组，等等。
+
+译：匿名结构可能是不命名字段名的结构"""
 
 [[exercises]]
 name = "enums3"
 path = "exercises/enums/enums3.rs"
 mode = "test"
-hint = "No hints this time ;)"
+hint = "这次没有提示 ;)"
 
 # MODULES
 
