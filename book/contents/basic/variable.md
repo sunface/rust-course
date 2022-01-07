@@ -158,7 +158,8 @@ fn main() {
 $ cargo run
    Compiling variables v0.1.0 (file:///projects/variables)
    ...
-The value of x is: 12
+The value of x in the inner scope is: 12
+The value of x is: 6
 ```
 
 这和`mut`变量的使用是不同的，第二个let生成了完全不同的新变量，两个变量只是恰好拥有同样的名称，涉及一次内存对象的再分配
@@ -174,11 +175,11 @@ let spaces = "   ";
 let spaces = spaces.len();
 ```
 
-这种结构是允许的，因为第一个 `spaces` 变量是一个字符串类型，第二个 `spaces` 变量是一个全新的变量且和第第一个具有相同的变量名，且是一个数值类型。所以变量遮蔽可以帮我们节省些脑细胞，不用去想如`spaces_str` 和 `spaces_num`此类的变量名；相反我们可以重复使用更简单的 `spaces` 变量名。 你也可以不用`let`:
+这种结构是允许的，因为第一个 `spaces` 变量是一个字符串类型，第二个 `spaces` 变量是一个全新的变量且和第一个具有相同的变量名，且是一个数值类型。所以变量遮蔽可以帮我们节省些脑细胞，不用去想如`spaces_str` 和 `spaces_num`此类的变量名；相反我们可以重复使用更简单的 `spaces` 变量名。 你也可以不用`let`:
 
 ```rust,
-    let mut spaces = "   ";
-    spaces = spaces.len();
+let mut spaces = "   ";
+spaces = spaces.len();
 ```
 
 运行一下
