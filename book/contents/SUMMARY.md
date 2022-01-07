@@ -70,8 +70,9 @@
         - [Drop释放资源](advance/smart-pointer/drop.md)
         - [Rc与Arc实现1vN所有权机制](advance/smart-pointer/rc-arc.md)
         - [Cell与RefCell内部可变性](advance/smart-pointer/cell-refcell.md)
-        - [Weak与循环引用](advance/smart-pointer/circle-reference.md)
-    - [结构体中的自引用](advance/self-referential.md))
+    - [循环引用与自引用](advance/circle-self-ref/intro.md)
+        - [Weak与循环引用](advance/circle-self-ref/circle-reference.md)
+        - [结构体中的自引用](advance/circle-self-ref/self-referential.md))
     - [多线程 todo](advance/multi-threads/intro.md)
         - [线程管理 todo](advance/multi-threads/thread.md)
         - [消息传递 todo](advance/multi-threads/message-passing.md)
@@ -93,7 +94,7 @@
             - [基本用法](advance/async/tokio/basic.md)
             - [异步消息流](advance/async/tokio/stream.md))
     - [全局变量 todo](advance/global-variable.md)
-    
+
 ## 专题内容,每个专题都配套一个小型项目进行实践
 - [Rust最佳实践 doing](practice/intro.md)
     - [日常开发三方库精选](practice/third-party-libs.md)
