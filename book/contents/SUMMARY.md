@@ -112,6 +112,9 @@
         - [智能指针引起的重复借用错误](fight-with-compiler/borrowing/borrow-distinct-fields-of-struct.md)
     - [类型未限制(todo)](fight-with-compiler/unconstrained.md)
 
+- [进阶类型转换](converse/intro.md)
+    - [枚举和整数](converse/enum-int.md)
+    
 - [错误处理 todo](errors/intro.md)
     - [简化错误处理](errors/simplify.md)
     - [自定义错误](errors/user-define.md)

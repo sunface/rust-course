@@ -26,3 +26,8 @@
 13. [Learning Rust](https://learning-rust.github.io/docs/a1.why_rust.html)
 
 14. [Rust doc](https://doc.rust-lang.org/rustdoc/the-doc-attribute.html)
+
+15. [Unstable Rust](https://doc.rust-lang.org/stable/unstable-book/)
+
+## 可参考的教程
+1. https://github.com/ferrous-systems/teaching-material#core-topics
