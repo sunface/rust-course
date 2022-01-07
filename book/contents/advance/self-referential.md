@@ -34,84 +34,81 @@ fn main(){
 
 因为我们试图同时使用值和值的引用，最终所有权转移和借用一起发生了。所以，这个问题貌似并没有那么好解决，不信你可以回想下自己具有的知识，是否可以解决？
 
-#### 使用ouroboros
-对于自引用结构体，三方库也有支持的，其中一个就是`ouroboros`，当然它也有自己的限制，我们后面会提到，先来看看该如何使用：
+## 使用Option
+最简单的方式就是使用`Opiton`分两步来实现:
 ```rust
-use ouroboros::self_referencing;
-
-#[self_referencing]
-struct SelfRef {
-    value: String,
-
-    #[borrows(value)]
-    pointer_to_value: &'this str,
-}
-
-fn main(){
-    let v = SelfRefBuilder {
-        value: "aaa".to_string(),
-        pointer_to_value_builder: |value: &String| value,
-    }.build();
-
-    // 借用value值
-    let s = v.borrow_value();
-    // 借用指针
-    let p = v.borrow_pointer_to_value();
-    // value值和指针指向的值相等
-    assert_eq!(s, *p);
-}
-```
-
-可以看到，`ouroboros`使用起来并不复杂，就是需要你去按照它的方式创建结构体和引用类型：`SelfRef`变成`SelfRefBuilder`，引用字段从`pointer_to_value`变成`pointer_to_value_builder`，并且连类型都变了。
-
-在使用时，通过`borrow_value`来借用`value`的值，通过`borrow_pointer_to_value`来借用`pointer_to_value`这个指针。
-
-看上去很美好对吧？但是你可以尝试着去修改`String`字符串的值试试，`ouroboros`限制还是较多的，但是对于基本类型依然是支持的不错，以下例子来源于官方:
-```rust
-use ouroboros::self_referencing;
-
-#[self_referencing]
-struct MyStruct {
-    int_data: i32,
-    float_data: f32,
-    #[borrows(int_data)]
-    int_reference: &'this i32,
-    #[borrows(mut float_data)]
-    float_reference: &'this mut f32,
+#[derive(Debug)]
+struct WhatAboutThis<'a> {
+    name: String,
+    nickname: Option<&'a str>,
 }
 
 fn main() {
-    let mut my_value = MyStructBuilder {
-        int_data: 42,
-        float_data: 3.14,
-        int_reference_builder: |int_data: &i32| int_data,
-        float_reference_builder: |float_data: &mut f32| float_data,
-    }.build();
+    let mut tricky = WhatAboutThis {
+        name: "Annabelle".to_string(),
+        nickname: None,
+    };
+    tricky.nickname = Some(&tricky.name[..4]);
 
-    // Prints 42
-    println!("{:?}", my_value.borrow_int_data());
-    // Prints 3.14
-    println!("{:?}", my_value.borrow_float_reference());
-    // Sets the value of float_data to 84.0
-    my_value.with_mut(|fields| {
-        **fields.float_reference = (**fields.int_reference as f32) * 2.0;
-    });
-
-    // We can hold on to this reference...
-    let int_ref = *my_value.borrow_int_reference();
-    println!("{:?}", *int_ref);
-    // As long as the struct is still alive.
-    drop(my_value);
-    // This will cause an error!
-    // println!("{:?}", *int_ref);
+    println!("{:?}", tricky);
 }
 ```
 
-总之，使用这个库前，强烈建议看一些官方的例子中支持什么样的类型和API，如果能满足的你的需求，就果断使用它，如果不能满足，就继续往下看。
+在某种程度上来说，`Option`这个方法可以工作，但是这个方法的限制较多，例如从一个函数创建并返回它是不可能的:
+```rust
+fn creator<'a>() -> WhatAboutThis<'a> { 
+    let mut tricky = WhatAboutThis {
+        name: "Annabelle".to_string(),
+        nickname: None,
+    };
+    tricky.nickname = Some(&tricky.name[..4]);
 
-<!-- 只能说，它确实帮助我们解决了问题，但是一个是破坏了原有的结构，另外就是并不是所有数据类型都支持：它需要目标值的内存地址不会改变，这里的`String`非常适合因此`Vec`动态数组就不适合，因为当内存空间不够时，Rust会重新分配一块空间来存放该数组，这会导致内存地址的改变。 -->
+    tricky
+}
+```
 
-#### unsafe实现
+报错如下:
+```console
+error[E0515]: cannot return value referencing local data `tricky.name`
+  --> src/main.rs:24:5
+   |
+22 |     tricky.nickname = Some(&tricky.name[..4]);
+   |                             ----------- `tricky.name` is borrowed here
+23 | 
+24 |     tricky
+   |     ^^^^^^ returns a value referencing data owned by the current function
+```
+
+其实从函数签名就能看出来端倪，`'a`生命周期是凭空产生的！
+
+如果是通过方法使用，你需要一个无用`&'a self`生命周期标识，一旦有了这个标识，代码将变得更加受限，你将很容易就获得借用错误，就连NLL规则都没用：
+```rust
+#[derive(Debug)]
+struct WhatAboutThis<'a> {
+    name: String,
+    nickname: Option<&'a str>,
+}
+
+impl<'a> WhatAboutThis<'a> {
+    fn tie_the_knot(&'a mut self) {
+       self.nickname = Some(&self.name[..4]); 
+    }
+}
+
+fn main() {
+    let mut tricky = WhatAboutThis {
+        name: "Annabelle".to_string(),
+        nickname: None,
+    };
+    tricky.tie_the_knot();
+
+    // cannot borrow `tricky` as immutable because it is also borrowed as mutable
+    // println!("{:?}", tricky);
+}
+```
+
+## unsafe实现
+既然借用规则妨碍了我们，那就一脚踢开: 
 ```rust
 #[derive(Debug)]
 struct SelfRef {
@@ -204,7 +201,7 @@ hello, world!, 0x16f3#aec70
 
 上面的`unsafe`虽然简单好用，但是它不太安全，是否还有其他选择？还真的有，那就是`Pin`。
 
-#### 无法被移动的Pin
+## 无法被移动的Pin
 Pin在后续章节会深入讲解，目前你只需要知道它可以固定住一个值，防止该值的所有权被转移。
 
 通过开头我们知道，自引用最麻烦的就是创建引用的同时，值的所有权会被转移，而通过Pin就可以很好的防止这一点:
@@ -257,39 +254,103 @@ fn main() {
 
 上面的代码也非常清晰，虽然使用了`unsafe`，其实更多的是无奈之举，跟之前的`unsafe`实现完全不可同日而语。
 
-总之通过`Pin`来实现，绝对值得优先考虑，代码清晰的同时逼格还挺高。
+其实`Pin`在这里并没有魔法，它也并不是实现自引用类型的主要原因，最关键的还是里面的原生指针的使用，而`Pin`起到的就是确保我们的值不会被移走，否则指针就会指向一个错误的地址！
 
-## 玉树临风的自引用
+
+
+## 使用ouroboros
+对于自引用结构体，三方库也有支持的，其中一个就是`ouroboros`，当然它也有自己的限制，我们后面会提到，先来看看该如何使用：
 ```rust
-use std::str;
+use ouroboros::self_referencing;
 
-struct MyStruct<'a>{
-    Buf: Vec<u8>,
-    repr: Parsed<'a>
-}
+#[self_referencing]
+struct SelfRef {
+    value: String,
 
-struct Parsed<'a>{
-    name:&'a str
+    #[borrows(value)]
+    pointer_to_value: &'this str,
 }
 
 fn main(){
+    let v = SelfRefBuilder {
+        value: "aaa".to_string(),
+        pointer_to_value_builder: |value: &String| value,
+    }.build();
 
-    let v = vec!(0065,0066,0067,0068,0069);
-    let s = str::from_utf8(&v).unwrap();
-    println!("{}",s);
-    let p = &v[1..=3];
-    let s1 = str::from_utf8(p).unwrap();
-    println!("{}",s1);
-    let par = Parsed{name:s1};
-
-    let new1 = MyStruct{Buf:v,repr:par};
+    // 借用value值
+    let s = v.borrow_value();
+    // 借用指针
+    let p = v.borrow_pointer_to_value();
+    // value值和指针指向的值相等
+    assert_eq!(s, *p);
 }
 ```
 
+可以看到，`ouroboros`使用起来并不复杂，就是需要你去按照它的方式创建结构体和引用类型：`SelfRef`变成`SelfRefBuilder`，引用字段从`pointer_to_value`变成`pointer_to_value_builder`，并且连类型都变了。
 
+在使用时，通过`borrow_value`来借用`value`的值，通过`borrow_pointer_to_value`来借用`pointer_to_value`这个指针。
+
+看上去很美好对吧？但是你可以尝试着去修改`String`字符串的值试试，`ouroboros`限制还是较多的，但是对于基本类型依然是支持的不错，以下例子来源于官方:
+```rust
+use ouroboros::self_referencing;
+
+#[self_referencing]
+struct MyStruct {
+    int_data: i32,
+    float_data: f32,
+    #[borrows(int_data)]
+    int_reference: &'this i32,
+    #[borrows(mut float_data)]
+    float_reference: &'this mut f32,
+}
+
+fn main() {
+    let mut my_value = MyStructBuilder {
+        int_data: 42,
+        float_data: 3.14,
+        int_reference_builder: |int_data: &i32| int_data,
+        float_reference_builder: |float_data: &mut f32| float_data,
+    }.build();
+
+    // Prints 42
+    println!("{:?}", my_value.borrow_int_data());
+    // Prints 3.14
+    println!("{:?}", my_value.borrow_float_reference());
+    // Sets the value of float_data to 84.0
+    my_value.with_mut(|fields| {
+        **fields.float_reference = (**fields.int_reference as f32) * 2.0;
+    });
+
+    // We can hold on to this reference...
+    let int_ref = *my_value.borrow_int_reference();
+    println!("{:?}", *int_ref);
+    // As long as the struct is still alive.
+    drop(my_value);
+    // This will cause an error!
+    // println!("{:?}", *int_ref);
+}
+```
+
+总之，使用这个库前，强烈建议看一些官方的例子中支持什么样的类型和API，如果能满足的你的需求，就果断使用它，如果不能满足，就继续往下看。
+
+只能说，它确实帮助我们解决了问题，但是一个是破坏了原有的结构，另外就是并不是所有数据类型都支持：它需要目标值的内存地址不会改变，因此`Vec`动态数组就不适合，因为当内存空间不够时，Rust会重新分配一块空间来存放该数组，这会导致内存地址的改变。 
+
+类似的库还有:
+- [rental](https://github.com/jpernst/rental)， 这个库其实是最有名的，但是好像不再维护了，用倒是没问题
+- [owning-ref](https://github.com/Kimundi/owning-ref-rs) 
+
+这三个库，各有各的特点，也各有各的缺陷，建议大家需要时，一定要仔细调研，并且写demo进行测试，不可大意。
+
+> rental虽然不怎么维护，但是可能依然是这三个里面最强大的，而且网上的用例也比较多，容易找到参考代码
+
+
+## 终极大法
+如果两个放在一起会报错，那就分开它们。对，终极大法就这么简单，当然思路上的简单不代表实现上的简单，最终结果就是导致代码复杂度的上升。
 
 
 ## 学习一本书：如何实现链表
+最后，推荐一本专门将如何实现链表的书(真是富有Rust特色，链表都能复杂到出书了O, O)，[too many lists](https://rust-unofficial.github.io/too-many-lists/)
+
 
 ## 总结
 上面讲了这么多方法，但是我们依然无法正确的告诉你在某个场景应该使用哪个方法，这个需要你自己的判断，因为自引用实在是过于复杂。
