@@ -69,14 +69,58 @@ Current installation options:
 
 配置好后，在MSYS中输入
 ```bash
-curl https://sh.rustup.rs -sSf | sh
+$ curl https://sh.rustup.rs -sSf | sh
 ```
 来安装rustup
 
 之后，根据以下输出进行配置
 
+```text
+Current installation options:
 
-配置完成后，您就已经安装了 `Rust` 和 `rustup`
+
+   default host triple: x86_64-pc-windows-msvc
+     default toolchain: stable (default)
+               profile: default
+  modify PATH variable: yes
+
+1) Proceed with installation (default)
+2) Customize installation
+3) Cancel installation
+>2
+
+I'm going to ask you the value of each of these installation options.
+You may simply press the Enter key to leave unchanged.
+
+Default host triple? [x86_64-pc-windows-msvc]
+x86_64-pc-windows-gnu
+
+Default toolchain? (stable/beta/nightly/none) [stable]
+stable
+
+Profile (which tools and data to install)? (minimal/default/complete) [default]
+complete
+
+Modify PATH variable? (Y/n)
+Y
+
+
+Current installation options:
+
+
+   default host triple: x86_64-pc-windows-gnu
+     default toolchain: stable
+               profile: complete
+  modify PATH variable: yes
+
+1) Proceed with installation (default)
+2) Customize installation
+3) Cancel installation
+>
+```
+之后，按下1，等待
+
+完成后，您就已经安装了 `Rust` 和 `rustup`
 
 要卸载 `Rust` 和 `rustup`，在MSYS中运行以下卸载命令：
 
@@ -88,7 +132,7 @@ rustup self uninstall
 
 检查是否正确安装了 Rust，可打开终端并输入下面这行, 此时能看到最新发布的稳定版本的版本号、提交哈希值和提交日期:
 
-```console
+```bash
 $ rustc -V
 rustc 1.56.1 (59eed8a2a 2021-11-01)
 ```
