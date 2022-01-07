@@ -81,9 +81,6 @@
         - [Send、Sync todo](advance/multi-threads/send-sync.md)
 
 ## 专题内容,每个专题都配套一个小型项目进行实践
-- [用Rust增强Javascript todo](rustjs/intro.md)
-    - [deno todo](rustjs/deno.md)
-
 - [Rust最佳实践 doing](practice/intro.md)
     - [日常开发三方库精选](practice/third-party-libs.md)
     - [一些写代码的技巧 todo](practice/coding-tips.md)
@@ -116,6 +113,9 @@
 
 - [进阶类型转换](converse/intro.md)
     - [枚举和整数](converse/enum-int.md)
+    
+- [用Rust增强Javascript todo](rustjs/intro.md)
+    - [deno todo](rustjs/deno.md)
     
 - [错误处理 todo](errors/intro.md)
     - [简化错误处理](errors/simplify.md)
