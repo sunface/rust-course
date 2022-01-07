@@ -5,7 +5,7 @@
 
 #[derive(Debug)]
 enum Message {
-    // TODO：定义几种 Message 类型，遵照下面的使用方式
+    // TODO：遵照下面的使用方式来定义几种 Message 的类型
 }
 
 fn main() {
