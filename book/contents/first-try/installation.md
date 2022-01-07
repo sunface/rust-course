@@ -61,72 +61,27 @@ Current installation options:
 
 **2、x86_64-pc-windows-gnu**
 
-该类型的C++ 环境其实官方也有说明  [Other Rust Installation Methods](https://forge.rust-lang.org/infra/other-installation-methods.html#other-rust-installation-methods).
-
-个人习惯使用 [mingw-w64 官网](https://www.mingw-w64.org/) , 当然你也可以选择[win-builds](http://win-builds.org/).
-
-为了方便初学者使用 这里提供一个免安装的的方式 [mingw-w64下载](https://sourceforge.net/projects/mingw-w64/files/),演示选择的 `x86_64-posix-seh` 对于学习者，初次安装不需要纠结什么类别，因为切换版本很方便。下载完压缩包并解压，把压缩包下的 `/bin` 目录添加到 环境`Path` 即可:
-
-<img alt="" src="/img/mingw-w64-download.png" class="center"  />
-
-1、验证 c++ 环境
-``` shell
-PS C:\Users\Hehongyuan> c++ -v
-Using built-in specs.
-COLLECT_GCC=C:\ENV\mingw64\bin\c++.exe
-COLLECT_LTO_WRAPPER=C:/ENV/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/8.1.0/lto-wrapper.exe
-Target: x86_64-w64-mingw32
-Configured with: xxxxxxxxxxxxxx
-gcc version 8.1.0 (x86_64-posix-seh-rev0, Built by MinGW-W64 project)
-
-```
-
-2、安装 Rust 注意选择 `Customize installation` 并设置 `host triple` 为 `x86_64-pc-windows-gnu`
-
-``` shell
-PS C:\Users\Hehongyuan> rustup-init.exe 
-......
-Current installation options:
-
-
-   default host triple: x86_64-pc-windows-msvc
-     default toolchain: stable (default)
-               profile: default
-  modify PATH variable: yes
-
-1) Proceed with installation (default)
-2) Customize installation
-3) Cancel installation
->2
-
-I m going to ask you the value of each of these installation options.
-You may simply press the Enter key to leave unchanged.
-
-Default host triple? [x86_64-pc-windows-msvc]
-x86_64-pc-windows-gnu
-
-Default toolchain? (stable/beta/nightly/none) [stable]
-
-
-Profile (which tools and data to install)? (minimal/default/complete) [default]
-
-```
-
-> windows上安装过程较为麻烦，因此我们专门写了一篇文章来讲解相关的安装过程，请参考：[Windows安装](https://blog.csdn.net/erlib/article/details/121684998?spm=1001.2014.3001.5501).
-
+相比于msvc版本来说，gnu版本具有更轻量，更靠近linux的优势
 
 ### 更新和卸载
 
-通过 `rustup` 安装 Rust 后，更新到最新版本很简单。在终端中运行以下更新命令：
+首先，根据[MSYS2官网](https://www.msys2.org/)配置MSYS
 
-```console
-$ rustup update
+配置好后，在MSYS中输入
+```bash
+curl https://sh.rustup.rs -sSf | sh
 ```
+来安装rustup
 
-要卸载 `Rust` 和 `rustup`，在终端中运行以下卸载命令：
+之后，根据以下输出进行配置
 
-```console
-$ rustup self uninstall
+
+配置完成后，您就已经安装了 `Rust` 和 `rustup`
+
+要卸载 `Rust` 和 `rustup`，在MSYS中运行以下卸载命令：
+
+```bash
+rustup self uninstall
 ```
 
 ### 检查安装是否成功
