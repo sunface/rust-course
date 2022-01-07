@@ -66,7 +66,7 @@ fn main(){
 
 在使用时，通过`borrow_value`来借用`value`的值，通过`borrow_pointer_to_value`来借用`pointer_to_value`这个指针。
 
-看上去很美好对吧？但是你可以尝试着去修改`String`字符串的值试试，`ouroboros`限制还是较多的，但是对于基本类型依然是支持的不错:
+看上去很美好对吧？但是你可以尝试着去修改`String`字符串的值试试，`ouroboros`限制还是较多的，但是对于基本类型依然是支持的不错，以下例子来源于官方:
 ```rust
 use ouroboros::self_referencing;
 
@@ -288,13 +288,6 @@ fn main(){
 
 
 
-## 三方库解决引用循环
-一些三方库也可以用来解决引用循环的问题，例如:
-
-1. https://github.com/Kimundi/owning-ref-rs
-2. https://github.com/joshua-maros/ouroboros
-
-不过需要注意的是，这些库需要目标值的内存地址不会改变，因此`Vec`动态数组就不适合，因为当内存空间不够时，Rust会重新分配一块空间来存放该数组，这会导致内存地址的改变。
 
 ## 学习一本书：如何实现链表
 

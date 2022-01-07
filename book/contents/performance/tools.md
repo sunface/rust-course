@@ -2,3 +2,6 @@
 
 
 https://era.co/blog/unbuffered-io-slows-rust-programs
+
+# profiling
+https://www.reddit.com/r/rust/comments/rxj81f/rust_profiling/
