@@ -1,11 +1,11 @@
 // enums2.rs
-// Make me compile! Execute `rustlings hint enums2` for hints!
+// 让我能够编译！执行 `rustex hint enums2` 获取提示！
 
 // I AM NOT DONE
 
 #[derive(Debug)]
 enum Message {
-    // TODO: define the different variants used below
+    // TODO：定义下面使用到的多种 Message 类型
 }
 
 impl Message {

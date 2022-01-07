@@ -1,10 +1,10 @@
 // enums3.rs
-// Address all the TODOs to make the tests pass!
+// 解决所有的 TODO ，通过测试！
 
 // I AM NOT DONE
 
 enum Message {
-    // TODO: implement the message variant types based on their usage below
+    // TODO：根据以下的使用方式，实现 Message 的不同类型
 }
 
 struct Point {
@@ -36,7 +36,7 @@ impl State {
     }
 
     fn process(&mut self, message: Message) {
-        // TODO: create a match expression to process the different message variants
+        // TODO：使用 match 表达式来处理不同类型的消息
     }
 }
 
