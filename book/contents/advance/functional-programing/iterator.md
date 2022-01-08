@@ -429,7 +429,6 @@ mod bench {
     fn rand_array(cnt: u32) -> Vec<f64> {
         let mut rng = thread_rng();
         (0..cnt).map(|_| rng.gen::<f64>()).collect()
-
     }
 
     #[bench]
@@ -465,6 +464,7 @@ And further: What you do use, you couldn’t hand code any better.
 
 一般来说，C++的实现遵循零开销原则：没有使用时，你不必为其买单。
 更进一步说，需要使用时，你也无法写出更优的代码了。
+（翻译一下：用就完事了）
 ```
 
 总之，迭代器是 Rust 受函数式语言启发而提供的高级语言特性，可以写出更加简洁、逻辑清晰的代码。编译器还可以通过循环展开（Unrolling）、向量化、消除边界检查等优化手段，使得迭代器和for循环都有极为高效的执行效率。
