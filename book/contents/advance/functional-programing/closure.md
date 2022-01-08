@@ -268,7 +268,7 @@ where
 }
 ```
 
-上面的缓存有一个很大的问题：只支持`u32`类型的值，若我们想要缓存`String`类型，显然就行不通了，因此需要将`u32`替换成泛型`E`，该练习就留给读者自己完成，具体代码可以参考[这里](https://github.com/sunface/rust-course/blob/main/course-solutions/closure.md)
+上面的缓存有一个很大的问题：只支持`u32`类型的值，若我们想要缓存`String`类型，显然就行不通了，因此需要将`u32`替换成泛型`E`，该练习就留给读者自己完成，具体代码可以参考[这里](https://github.com/sunface/rust-course/blob/main/book/solutions/closure.md)
 
 
 ## 捕获作用域中的值
@@ -377,6 +377,8 @@ fn main() {
 true 
 false
 ```
+
+如果你想强制闭包取得捕获变量的所有权，可以在参数列表前添加`move`关键字，这种用法通常用于闭包的生命周期大于捕获变量的生命周期时，例如将闭包返回或移入其他线程。
 
 2. `FnMut`, 它以可变借用的方式捕获了环境中的值，因此可以修改该值：
 ```rust
@@ -510,7 +512,7 @@ fn exec<F: FnOnce()>(f: F)  {
 ##### 三种Fn的关系
 实际上，一个闭包并不仅仅实现某一种Fn特征，规则如下：
 - 所有的闭包都实现了`FnOnce`特征，因此任何一个闭包都至少可以被调用一次
-- 没有使用`move`的闭包实现了`FnMut`特征
+- 没有移出所捕获变量的所有权的闭包实现了`FnMut`特征
 - 不需要对捕获变量进行改变的闭包实现了`Fn`特征
 
 用一段代码来简单诠释上述规则:
@@ -539,6 +541,32 @@ fn exec2<F: Fn()>(f: F)  {
 ```
 
 虽然，闭包只是对`s`进行了不可变借用，实际上，它可以适用于任何一种`Fn`特征：三个`exec`函数说明了一切。强烈建议读者亲自动手试试各种情况下使用的`Fn`特征，更有助于加深这方面的理解。
+
+关于第二条规则，有如下示例：
+
+```rust
+fn main() {
+    let mut s = String::new();
+
+    let update_string = |str| -> String {s.push_str(str); s };
+
+    exec(update_string);
+}
+
+fn exec<'a, F: FnMut(&'a str) -> String>(mut f: F) {
+    f("hello");
+}
+```
+
+```console
+5 |     let update_string = |str| -> String {s.push_str(str); s };
+  |                         ^^^^^^^^^^^^^^^                   - closure is `FnOnce` because it moves the variable `s` out of its environment
+  |                                                           // 闭包实现了`FnOnce`，因为它从捕获环境中移出了变量`s`
+  |                         |
+  |                         this closure implements `FnOnce`, not `FnMut`
+```
+
+此例中，闭包从捕获环境中移出了变量`s`的所有权，因此这个闭包仅实现了`FnOnce`，未实现`FnMut`和`Fn`。再次印证之前讲的**一个闭包实现了哪种Fn特征取决于该闭包如何使用被捕获的变量，而不是取决于闭包如何捕获它们**，跟是否使用`move`没有必然联系。
 
 如果还是有疑惑？没关系，我们来看看这三个特征的简化版源码：
 ```rust
@@ -596,7 +624,7 @@ help: use `impl Fn(i32) -> i32` as the return type, as all return paths are of t
 
 嗯，编译器提示我们加一个`impl`关键字，哦，这样一说，读者可能就想起来了，`impl Trait`可以用来返回一个实现了指定特征的类型，那么这里`impl Fn(i32) -> i32`的返回值形式，说明我们要返回一个闭包类型，它实现了`Fn(i32) -> i32`特征。
 
-完美解决，但是，在[特征]那一章，我们提到过，`impl Trait`的返回方式有一个非常大的局限，就是你只能返回同样的类型，例如:
+完美解决，但是，在[特征](../../basic/trait/trait.md)那一章，我们提到过，`impl Trait`的返回方式有一个非常大的局限，就是你只能返回同样的类型，例如:
 ```rust
 fn factory(x:i32) -> impl Fn(i32) -> i32 {
 
