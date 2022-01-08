@@ -67,8 +67,8 @@ let s = String::from("hello");
 
 let len = s.len();
 
-let slice = &s[3..len];
-let slice = &s[3..];
+let slice = &s[4..len];
+let slice = &s[4..];
 ```
 
 你也可以截取完整的`String`切片：
