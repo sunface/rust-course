@@ -267,8 +267,8 @@ pub fn add_one(x: i32) -> Option<i32> {
 }
 ```
 
-此处的**[`Option`]**就是一个链接，指向了标准库中的`Option`枚举类型，有两种方式可以进行跳转:
-- 在IDE中，使用`Command + 鼠标左键`(mac系统下)
+此处的 **[`Option`]** 就是一个链接，指向了标准库中的`Option`枚举类型，有两种方式可以进行跳转:
+- 在IDE中，使用`Command + 鼠标左键`(mac系统下)，`CTRL + 鼠标左键`(win系统下)
 - 在文档中直接点击链接
 
 再比如，还可以使用路径的方式跳转:
@@ -409,7 +409,7 @@ use art::utils::mix;
 fn main() {
     let blue = PrimaryColor::Blue;
     let yellow = PrimaryColor::Yellow;
-     println!("{:?}",mix(blue, yellow));
+    println!("{:?}",mix(blue, yellow));
 }
 ```
 
