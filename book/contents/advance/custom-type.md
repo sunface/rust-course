@@ -13,7 +13,7 @@
 一箩筐的理由～～ 让我们先从第二点讲起。
 
 #### 为外部类型实现外部特征
-在之前的章节中，我们有讲过如果在外部类型上实现外部特征必须使用`newtype`的方式，否则你就得遵循孤儿规则：要为类型`A`实现特征`T`，那么`A`或者`T`必须有一个在当前的作用范围内。
+在之前的章节中，我们有讲过如果在外部类型上实现外部特征必须使用`newtype`的方式，否则你就得遵循孤儿规则：要为类型`A`实现特征`T`，那么`A`或者`T`必须至少有一个在当前的作用范围内。
 
 例如, 如果想使用`println!("{}",v)`的方式去格式化输出一个动态数组`Vec`，以期给用户提供更加清晰可读的内容，那么就需要为`Vec`实现`Display`特征，但是这里有一个问题：`Vec`类型定义在标准库中，`Display`亦然， 这时就可以祭出大杀器`newtype`来解决：
 ```rust
@@ -56,12 +56,12 @@ impl Add for Meters {
     }
 }
 fn main() {
-   let d = calculate_distance(Meters(10), Meters(20));
-   println!("{}",d);
+    let d = calculate_distance(Meters(10), Meters(20));
+    println!("{}",d);
 }
 
 fn calculate_distance(d1: Meters,d2: Meters) -> Meters {
-        d1 + d2
+    d1 + d2
 }
 ```
 
@@ -79,7 +79,7 @@ struct Meters(u32);
 
 fn main() {
     let i: u32 = 2;
-     assert_eq!(i.pow(2),4);
+    assert_eq!(i.pow(2),4);
 
     let n = Meters(i);
     // 下面的代码将报错，因为`Meters`类型上没有`pow`方法
