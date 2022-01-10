@@ -127,7 +127,7 @@ fn build_user(email: String, username: String) -> User {
     println!("{}", user1.active);
 
     // 下面这行会报错
-    //println!("{}", user1);
+    //println!("{}", user1.username);
 ```
 
 ## 结构体的内存排列
