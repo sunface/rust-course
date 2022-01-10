@@ -19,6 +19,16 @@
 
 总之在写作过程中我们始终铭记初心：为中国用户打造一门**全面的、深入的、持续更新的**Rust教程。 新手用来入门，老手用来提高，高手用来提升生产力。
 
+### 感谢
+本书在内容上借鉴了以下书籍，特此感谢：
+- [Rust Book](https://doc.rust-lang.org/book)
+详细清单参见[这里](./book/writing-material/books.md)
+
+因为它们绝大部分是支持APACHE + MIT双协议的，因此我们选择了遵循其中的MIT协议，并在这里统一对借鉴的书籍进行说明。
+
+> 本书并不是翻译，虽然在内容上借鉴了很多大量的英文书籍和网站，但是并不是翻译，希望理解。这其中大量的心血不是简单几句翻译+借鉴就能轻飘飘概括的，如果你深入读了这本书，自然会理解我的意思。其实我也想只做做翻译，每天省下大量的时间做啥不香呢:) 每个章节都要花费N个小时才能完成，我何必自找苦吃，找个谷歌翻译然后改一下不香吗？
+
+
 ### 贡献者
 非常感谢本教程的所有贡献者们，正是有了你们，才有了现在的高质量Rust教程！
 
@@ -33,13 +43,7 @@ Rust语言圣经是**完全开源**的电子书, 每个章节都至少用时4-6�
 
 在开源版权上，我们选择了[No License](https://www.google.com.hk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwigkv-KtMT0AhXFdXAKHdI4BCcQFnoECAQQAw&url=https%3A%2F%2Fchoosealicense.com%2Fno-permission%2F&usg=AOvVaw3M2Q4IbdhnpJ2K71TF7SPB)，这意味着读者可以随意的fork和阅读，但是**不能私下修改后再包装分发**，如果有这方面的需求，请联系我们，望理解.
 
-### 感谢
-本书在内容上部分借鉴了以下书籍，特此感谢：
-- [Rust Book](https://doc.rust-lang.org/book)
-- [Cargo Book](https://doc.rust-lang.org/cargo/index.html)
-- [Perf Book](https://nnethercote.github.io/perf-book/title-page.html)
-- [Async Book](https://rust-lang.github.io/async-book/01_getting_started/01_chapter.html)
-详细清单参见[这里](https://github.com/sunface/rust-course/blob/main/writing-material/books.md)
+
 
 
 ### Rust社区
