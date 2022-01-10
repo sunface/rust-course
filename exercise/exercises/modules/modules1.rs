@@ -1,10 +1,10 @@
 // modules1.rs
-// Make me compile! Execute `rustlings hint modules1` for hints :)
+// 让我能够编译！执行 `rustex hint modules1` 获取提示 :)
 
 // I AM NOT DONE
 
 mod sausage_factory {
-    // Don't let anybody outside of this module see this!
+    // 确保它仅在当前模块可见。
     fn get_secret_recipe() -> String {
         String::from("Ginger")
     }

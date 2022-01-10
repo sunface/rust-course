@@ -333,28 +333,27 @@ name = "modules1"
 path = "exercises/modules/modules1.rs"
 mode = "compile"
 hint = """
-Everything is private in Rust by default-- but there's a keyword we can use
-to make something public! The compiler error should point to the thing that
-needs to be public."""
+Rust 中所有的东西默认都是私有的（private）——但是有个关键字可以标明某些东西为公开的（public）。
+而编译器错误正指明某些东西需要能够被公开访问"""
 
 [[exercises]]
 name = "modules2"
 path = "exercises/modules/modules2.rs"
 mode = "compile"
 hint = """
-The delicious_snacks module is trying to present an external interface that is 
-different than its internal structure (the `fruits` and `veggies` modules and
-associated constants). Complete the `use` statements to fit the uses in main and
-find the one keyword missing for both constants."""
+delicious_snacks 模块试图提供一个区别其内部结构的外部接口（对于 `fruits` 和 `veggies` 以及相关的常数）。
+参照 main 中的使用情况完善 `use` 语句，并找到两个常量中缺少的某个关键字。"""
 
 [[exercises]]
 name = "modules3"
 path = "exercises/modules/modules3.rs"
 mode = "compile"
 hint = """
-UNIX_EPOCH and SystemTime are declared in the std::time module. Add a use statement
-for these two to bring them into scope. You can use nested paths or the glob
-operator to bring these two in using only one line."""
+UNIX_EPOCH 和 SystemTime 声明在 std::time 模块。通过 `use` 语句
+将它们引入作用域。你可以使用嵌套路径（nested paths）
+或全局操作符（glob operator）只需一行就能够引入它们。
+
+译：嵌套是 {x,y,z} ，全局是 * """
 
 # COLLECTIONS
 

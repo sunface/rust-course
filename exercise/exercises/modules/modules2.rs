@@ -1,13 +1,13 @@
 // modules2.rs
-// You can bring module paths into scopes and provide new names for them with the
-// 'use' and 'as' keywords. Fix these 'use' statements to make the code compile.
-// Make me compile! Execute `rustlings hint modules2` for hints :)
+// 你可以把模块引入作用域，并使用 'use' 和 'as' 关键字给它们取个别称.
+// 修复 'use' 语句的相关代码以通过编译。
+// 让我能够编译！执行 `rustex hint modules2` 获取提示 :)
 
 // I AM NOT DONE
 
 mod delicious_snacks {
 
-    // TODO: Fix these use statements
+    // TODO: 修复这些 'use' 语句
     use self::fruits::PEAR as ???
     use self::veggies::CUCUMBER as ???
 
