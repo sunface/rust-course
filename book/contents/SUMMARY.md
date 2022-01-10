@@ -75,7 +75,7 @@
         - [结构体中的自引用](advance/circle-self-ref/self-referential.md))
     - [多线程并发编程 doing](advance/concurrency-with-threads/intro.md)
         - [并发和并行](advance/concurrency-with-threads/concurrency-parallelism.md)
-        - [使用线程](advance/concurrency-with-threads/thread.md)
+        - [使用多线程](advance/concurrency-with-threads/thread.md)
         - [消息传递 todo](advance/concurrency-with-threads/message-passing.md)
         - [数据共享Mutex、Rwlock todo](advance/concurrency-with-threads/ref-counter-lock.md)
         - [Send、Sync todo](advance/multi-threads/send-sync.md)
