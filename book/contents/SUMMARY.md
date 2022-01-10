@@ -136,7 +136,11 @@
     
 - [用Rust增强Javascript todo](rustjs/intro.md)
     - [deno todo](rustjs/deno.md)
-    
+
+- [复杂错误索引 todo](errorindex/intro.md)   
+    - [所有权和借用 todo](errorindex/borrowing/intro.md)
+    - [生命周期 todo](errorindex/lifetime/intro.md)
+
 - [错误处理 todo](errors/intro.md)
     - [简化错误处理 todo](errors/simplify.md)
     - [自定义错误 todo](errors/user-define.md)
