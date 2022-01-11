@@ -1,7 +1,8 @@
 # Rust语言圣经(The course)
 
 - 官方地址： https://course.rs
-- 知乎专栏： https://www.zhihu.com/people/iSunface/columns
+- 知乎专栏： https://www.zhihu.com/people/iSunface/columnss
+- 国内镜像: https://book.rust.team (course.rs可能需要翻墙使用，如果大家访问不了，可以使用此镜像地址阅读)
 - 修订时间： **尚未发行**
 - Rust版本： Rust edition 2021
 - QQ交流群: 1009730433
