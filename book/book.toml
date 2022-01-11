@@ -19,3 +19,5 @@ line-numbers = true
 enable = true
 level = 2
 
+[rust]
+edition = "2021"   #在线运行用2021版本的
