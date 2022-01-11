@@ -130,7 +130,8 @@
     - [不太勤快的迭代器](pitfalls/lazy-iterators.md)
     - [奇怪的序列x..y](pitfalls/weird-ranges.md)
     - [无处不在的迭代器](pitfalls/iterator-everywhere.md)
-
+    - [线程间传递消息导致主线程无法结束](pitfalls/main-with-channel-blocked.md)
+  
 - [进阶类型转换](converse/intro.md)
     - [枚举和整数](converse/enum-int.md)
     
