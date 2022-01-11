@@ -57,7 +57,7 @@ error: a bin target must be available for `cargo run`
 ```
 原因是库类型的`package`只能作为三方库被其它项目引用，而不能独立运行，只有之前的二进制`package`才可以运行。
 
-与`src/main.js`一样，Cargo知道，如果一个`package`包含有`src/lib.js`，意味它包含有一个库类型的同名包`my-lib`，该包的根文件是`src/lib.js`
+与`src/main.rs`一样，Cargo知道，如果一个`package`包含有`src/lib.rs`，意味它包含有一个库类型的同名包`my-lib`，该包的根文件是`src/lib.rs`
 
 #### 易混淆的package和包
 看完上面，相信大家看出来为何`package`和包容易被混淆了吧？因为你用`cargo new`创建的`package`和它其中包含的包是同名的！
@@ -66,7 +66,7 @@ error: a bin target must be available for `cargo run`
 
 
 #### 典型的`package`结构
-上面创建的`package`中仅包含`src/main.rs`文件，意味着它仅包含一个二进制同名包`my-project`。如果一个`package`同时拥有`src/main.js`和`src/lib.rs`，那就意味着它包含两个包：库包和二进制包，这两个包名也都是`my-project` —— 都与`package`同名。
+上面创建的`package`中仅包含`src/main.rs`文件，意味着它仅包含一个二进制同名包`my-project`。如果一个`package`同时拥有`src/main.rs`和`src/lib.rs`，那就意味着它包含两个包：库包和二进制包，这两个包名也都是`my-project` —— 都与`package`同名。
 
 一个真实项目中典型的`package`，会包含多个二进制包，这些包文件被放在`src/bin`目录下，每一个文件都是独立的二进制包，同时也会包含一个库包，该包只能存在一个`src/lib.rs`：
 ```css
