@@ -40,15 +40,3 @@ Rust语言圣经是**完全开源**的电子书, 每个章节都至少用时4-6�
 
 在开源版权上，我们选择了[No License](https://www.google.com.hk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwigkv-KtMT0AhXFdXAKHdI4BCcQFnoECAQQAw&url=https%3A%2F%2Fchoosealicense.com%2Fno-permission%2F&usg=AOvVaw3M2Q4IbdhnpJ2K71TF7SPB)，这意味着读者可以随意的fork和阅读，但是**不能私下修改后再包装分发**，如果有这方面的需求，请联系我们，望理解.
 
-
-
-
-### Rust社区
-与国外的Rust发展如火如荼相比，国内的近况不是特别理想。导致目前这种状况的原因，我个人认为有以下几点原因：
-1. 上手难度大，学习曲线陡峭
-2. 英文资料难学(阅读较难的技术内容，需要精准阅读，因此对外语能力要求较高)，中文资料也不太好学(内容全面度、实时性，晦涩难懂等)
-3. 没有体系化的学习路线，新人往往扫完一遍入门书籍，就不知道何去何从
-
-为此，我整了一本书和一个社区，欢迎大家的加入:
-- QQ群：1009730433
-
