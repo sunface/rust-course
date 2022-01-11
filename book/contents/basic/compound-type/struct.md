@@ -50,7 +50,7 @@ struct User {
 
     user1.email = String::from("anotheremail@example.com");
 ```
-需要注意的是，必须要将整个结构体都声明为可变的，才能修改其中的某个字段，Rust不允许单独将某个字段标记为可变: `let mut user1 = User {...}`.
+需要注意的是，必须要将整个结构体都声明为可变的，才能修改其中的字段，Rust不允许单独将某个字段标记为可变: `let mut user1 = User {...}`.
 
 #### 简化结构体创建
 下面的函数类似一个构建函数，返回了`User`结构体的实例：
