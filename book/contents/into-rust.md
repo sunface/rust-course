@@ -34,7 +34,7 @@ Rust 最早是 Mozilla 雇员 Graydon Hoare 的个人项目，从 2009 年开始
 好在，针对这些，目前国内有了一门非常全面的[Rust学习教程](https://github.com/sunface/rust-course)(非官方那本书)，可以有效降低Rust的学习和使用门槛。
 
 #### 运行效率
-得益于各种零抽象开销、深入到底层的优化潜力、优质的标准库和三方库实现，Rust具备非常优秀的性能，和C语言、C++是[一个级别](https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/rust.html)。
+得益于各种零开销抽象、深入到底层的优化潜力、优质的标准库和三方库实现，Rust具备非常优秀的性能，和C语言、C++是[一个级别](https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/rust.html)。
 
 同时Rust有一个极大的好处：只要按照正确的方式使用Rust，无需性能优化，就能实现非常优秀的表现，不可谓不惊艳，
 
