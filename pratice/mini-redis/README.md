@@ -1,5 +1,8 @@
 # mini-redis
 
+本项目从[tokio/mini-redis](https://github.com/tokio-rs/mini-redis)fork而来，作为rust course的练习项目之一，**文档和注释还未进行翻译**，欢迎大家贡献。
+
+
 `mini-redis` is an incomplete, idiomatic implementation of a
 [Redis](https://redis.io) client and server built with
 [Tokio](https://tokio.rs).

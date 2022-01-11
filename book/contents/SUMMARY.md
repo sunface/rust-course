@@ -213,9 +213,11 @@
     - [常用性能测试工具](performance/tools.md)
 
 - [编译器 todo](compiler/intro.md)
-    - [常见属性标记](compiler/attributes.md)
-    - [优化编译速度](compiler/speed-up.md)
-    
+    - [常见属性标记 todo](compiler/attributes.md)
+    - [提升编译速度 todo](compiler/speed-up.md)
+    - [编译器优化](compiler/optimization/intro.md)
+      - [Option枚举](compiler/optimization/option.md)
+
 - [日志和监控 todo](monitor/intro.md)
     - [日志](monitor/log.md)
     - [可观测性](monitor/observability.md)

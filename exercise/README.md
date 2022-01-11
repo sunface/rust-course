@@ -4,7 +4,8 @@ Rust练习题，是Rust学习教程的第二步，请在完成[第一步](https:
 本项目从[rustling](https://github.com/rust-lang/rustlings)fork而来，主要有以下改变：
 1. 翻译成中文
 2. 为<<精通Rust编程>>一书提供相应的配套练习题
-
+3. 未来提供一些更有针对性和更有难度的习题，官方的还是太简单了
+   
 ## 开始使用
 
 _注意: 如果你在使用MacOS，确保已经安装了Xcode以及相应的开发者工具 `xcode-select --install`._
