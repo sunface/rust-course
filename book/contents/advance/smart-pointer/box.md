@@ -45,7 +45,7 @@ fn foo(x: &str) -> String {
 以上场景，我们在本章将一一讲解，后面车速较快，请系好安全带。
 
 #### 使用`Box<T>`将数据存储在堆上
-如果一个变量拥有一个数值`let a = 3`, 那变量`a`必然是存储在栈上的，那如果我们想要`a`的值存储在堆上就需要使用`Boxt<T>`: 
+如果一个变量拥有一个数值`let a = 3`, 那变量`a`必然是存储在栈上的，那如果我们想要`a`的值存储在堆上就需要使用`Box<T>`: 
 ```rust
 fn main() {
     let a = Box::new(3);
@@ -114,7 +114,7 @@ error[E0072]: recursive type `List` has infinite size //递归类型`List`拥有
   |               ---- recursive without indirection
 ```
 
-此时若想解决这个问题，就可以使用我们的`Boxt<T>`:
+此时若想解决这个问题，就可以使用我们的`Box<T>`:
 ```rust
 enum List {
     Cons(i32, Box<List>),
