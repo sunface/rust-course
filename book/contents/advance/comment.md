@@ -84,22 +84,22 @@ pub fn add_one(x: i32) -> i32 {
 
 #### 文档块注释`/** ... */`
 与代码注释一样，文档也有块注释，当注释内容多时，可以减少`///`的使用:
-```rust
+````rust
 /** `add_two`将指定值加2.
 
 # Examples
 
-\`\`\`
+```
 let arg = 5;
 let answer = my_crate::add_two(arg);
 
 assert_eq!(7, answer);
-\`\`\`
+```
 */
 pub fn add_two(x: i32) -> i32 {
     x + 2 
 }
-```
+````
 
 #### 查看文档cargo doc
 锦衣不夜行，这是中国人的传统美德。我们写了这么漂亮的文档注释，当然要看看网页中是什么效果咯。
