@@ -76,7 +76,7 @@
     - [多线程并发编程 doing](advance/concurrency-with-threads/intro.md)
         - [并发和并行](advance/concurrency-with-threads/concurrency-parallelism.md)
         - [使用多线程](advance/concurrency-with-threads/thread.md)
-        - [消息与锁](advance/concurrency-with-threads/message-passing.md)
+        - [线程间的消息传递](advance/concurrency-with-threads/message-passing.md)
         - [Send、Sync todo](advance/multi-threads/send-sync.md)
         - [一个综合例子](advance/multi-threads/example.md)
     - [async/await并发编程 todo](advance/async/intro.md)
