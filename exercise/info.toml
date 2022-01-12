@@ -362,13 +362,12 @@ name = "vec1"
 path = "exercises/collections/vec1.rs"
 mode = "test"
 hint = """
-In Rust, there are two ways to define a Vector.
-1. One way is to use the `Vec::new()` function to create a new vector
-  and fill it with the `push()` method.
-2. The second way, which is simpler is to use the `vec![]` macro and
-  define your elements inside the square brackets.
-Check this chapter: https://doc.rust-lang.org/stable/book/ch08-01-vectors.html
-of the Rust book to learn more.
+Rust 有以下两种方式定义一个 vector 。
+1. 一种方法是使用 `Vec::new()` 来创建一个新的 vector，然后
+   使用 `push()` 方法往里面添加元素。
+2. 第二种方法更简单，那就是使用 `vec![]` 宏，接着在宏的方括号内定义需要的元素。
+阅读这本书的此章节：https://doc.rust-lang.org/stable/book/ch08-01-vectors.html
+来了解更多。
 """
 
 [[exercises]]
@@ -376,9 +375,8 @@ name = "vec2"
 path = "exercises/collections/vec2.rs"
 mode = "test"
 hint = """
-Hint 1: `i` is each element from the Vec as they are being iterated.
-  Can you try multiplying this?
-Hint 2: Check the suggestion from the compiler error ;)
+提示 1 ：`i` 是 Vec 中被迭代的每个元素，你可以乘以它吗？
+提示 2 : 研究下编译错误给出的建议 ;)
 """
 
 [[exercises]]
@@ -386,10 +384,8 @@ name = "hashmap1"
 path = "exercises/collections/hashmap1.rs"
 mode = "test"
 hint = """
-Hint 1: Take a look at the return type of the function to figure out
-  the type for the `basket`.
-Hint 2: Number of fruits should be at least 5. And you have to put
-  at least three different types of fruits.
+提示 1 ：看看函数的返回类型，推测出 `basket` 的类型。
+提示 2 ：水果的数量应该不少于 5 个。并且需要确保篮子里至少有三种水果。
 """
 
 [[exercises]]
@@ -397,8 +393,8 @@ name = "hashmap2"
 path = "exercises/collections/hashmap2.rs"
 mode = "test"
 hint = """
-Use the `entry()` and `or_insert()` methods of `HashMap` to achieve this.
-Learn more at https://doc.rust-lang.org/stable/book/ch08-03-hash-maps.html#only-inserting-a-value-if-the-key-has-no-value
+使用 `HashMap` 中的 `entry()` 和 `or_insert()` 来完成目标。
+了解更多：https://doc.rust-lang.org/stable/book/ch08-03-hash-maps.html#only-inserting-a-value-if-the-key-has-no-value 
 """
 
 # STRINGS
