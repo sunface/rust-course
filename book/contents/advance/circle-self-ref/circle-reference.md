@@ -115,7 +115,7 @@ fatal runtime error: stack overflow
 |   不拥有所有权      | 拥有值的所有权 |
 | 不阻止值被释放(drop) | 所有权计数归零，才能drop | 
 | 引用的值存在返回Some,不存在返回None | 引用的值必定存在 | 
-| 通过`upgrade`取到`Option<Rc<T>>`,然后再取值 | 通过`Deref`自动解引用，取值无需任何操作｜
+| 通过`upgrade`取到`Option<Rc<T>>`,然后再取值 | 通过`Deref`自动解引用，取值无需任何操作 |
 
 通过这个对比，可以非常清晰的看出`Weak`为何这么弱，而这种弱恰恰非常适合我们实现以下的场景：
 
