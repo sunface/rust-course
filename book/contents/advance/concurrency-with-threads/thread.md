@@ -221,15 +221,13 @@ fn main() {
 但是当你的任务大部分时间都处于阻塞状态时，就可以考虑增多线程数量，这样当某个线程处于阻塞状态时，会被切走，进而运行其它的线程，典型就是网络IO操作，我们可以为每一个进来的用户连接创建一个线程去处理，该连接绝大部分时间都是处于IO读取阻塞状态，因此有限的CPU核心完全可以处理成百上千的用户连接线程，但是事实上，对于这种网络IO情况，一般都不再使用多线程的方式了，毕竟操作系统的线程数是有限的，意味着并发数也很容易达到上限，使用async/await的`M:N`并发模型，就没有这个烦恼。
 
 #### 多线程的开销
-下面的代码是一个无锁实现的hashmap在多线程下的使用:
+下面的代码是一个无锁实现(CAS)的hashmap在多线程下的使用:
 ```rust
 for i in 0..num_threads {
-    //clone the shared data structure
     let ht = Arc::clone(&ht);
 
     let handle = thread::spawn(move || {
         for j in 0..adds_per_thread {
-            //randomly generate and add a (key, value)
             let key = thread_rng().gen::<u32>();
             let value = thread_rng().gen::<u32>();
             ht.set_item(key, value);

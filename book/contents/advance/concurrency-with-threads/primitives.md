@@ -1,4 +1,4 @@
-# 并发原语和共享内存
+# 并发原语和共享内存(上)
 在多线程编程中，同步性极其的重要，当你需要同时访问一个资源、控制不同线程的执行次序时，都需要使用到同步性。
 
 在Rust中有多种方式可以实现同步性。在上一节中讲到的消息传递就是同步性的一种实现方式，我们可以通过消息传递来控制不同线程间的执行次序。还可以使用共享内存来实现同步性，例如通过锁和原子操作等并发原语来实现多个线程同时且安全地去访问一个资源。
@@ -164,19 +164,234 @@ Result: 10
 简单总结下：`Rc<T>/RefCell<T>`用于单线程可变性， `Arc<T>/Mutext<T>`用于多线程可变性。
 
 
-#### Mutex<T>的局限性
-Mutexes have a reputation for being difficult to use because you have to remember two rules:
+#### 需要小心的Mutex<T>
+如果有其它语言的编程经验，就知道互斥锁这家伙不好对付，如果要正确使用，你得牢记在心：
 
-You must attempt to acquire the lock before using the data.
-When you’re done with the data that the mutex guards, you must unlock the data so other threads can acquire the lock.
+- 在使用数据前必须先获取锁
+- 在数据使用完成后，必须**及时**的释放锁，比如文章开头的例子，使用内部语句块的目的就是为了及时的释放锁
 
-Management of mutexes can be incredibly tricky to get right, which is why so many people are enthusiastic about channels. However, thanks to Rust’s type system and ownership rules, you can’t get locking and unlocking wrong.
+这两点看起来不起眼，但是如果要正确的使用，其实是相当不简单的，对于其它语言，忘记释放锁是经常发生的，虽然Rust通过智能指针的`drop`机制帮助我们避免了这一点，但是由于不及时释放锁导致的性能问题也是常见的。
 
-Another detail to note is that Rust can’t protect you from all kinds of logic errors when you use Mutex<T>. Recall in Chapter 15 that using Rc<T> came with the risk of creating reference cycles, where two Rc<T> values refer to each other, causing memory leaks. Similarly, Mutex<T> comes with the risk of creating deadlocks. These occur when an operation needs to lock two resources and two threads have each acquired one of the locks, causing them to wait for each other forever. If you’re interested in deadlocks, try creating a Rust program that has a deadlock; then research deadlock mitigation strategies for mutexes in any language and have a go at implementing them in Rust. The standard library API documentation for Mutex<T> and MutexGuard offers useful information.
-#### Mutex和Arc
+正因为这种困难性，导致很多用户都热衷于使用消息传递的方式来实现同步，例如Go语言直接把`channel`内置在语言特性中，甚至还有无锁的语言，例如`erlang`，完全使用`Actor`模型，依赖消息传递来完成共享和同步。好在Rust的类型系统、所有权机制、智能指针等可以很好的帮助我们减轻使用锁时的负担。
 
-## RwLock
+另一个值的注意的是在使用`Mutex<T>`时，Rust无法保证我们避免所有的逻辑错误，例如在之前章节，我们提到过使用`Rc<T>`可能会导致[循环引用的问题](../circle-self-ref/circle-reference.md)。类似的，`Mutex<T>`也存在使用上的风险，例如创建死锁(deadlock)：当一个操作试图锁住两个资源，然后两个线程各自获取其中一个锁，并试图获取另一个锁时，就会造成死锁。
 
-## Atomic
+## 死锁
+在Rust中有多种方式可以创建死锁，了解这些方式有助于你提前规避可能的风险，一起来看看。
 
-## Condvar
+#### 单线程死锁
+这种死锁比较容易规避，但是当代码复杂后还是有可能遇到：
+```rust
+use std::sync::Mutex;
+
+fn main() {
+    let data = Mutex::new(0);
+    let d1 = data.lock();
+    let d2 = data.lock(); // cannot lock, since d1 is still active
+}
+```
+
+非常简单，只要你在另一个锁还未被释放时去申请新的锁，就会触发，当代码复杂后，这种情况可能就没有那么显眼。
+
+#### 多线程死锁
+当有两个锁，然后两个线程各自使用了其中一个锁，并且试图去访问另一个锁时，就可能发生死锁：
+```rust
+use std::{sync::{Mutex, MutexGuard}, thread};
+use std::thread::sleep;
+use std::time::Duration;
+
+use lazy_static::lazy_static;
+lazy_static! {
+    static ref MUTEX1: Mutex<i64> = Mutex::new(0);
+    static ref MUTEX2: Mutex<i64> = Mutex::new(0);
+}
+
+fn main() {
+    // 存放子线程的句柄
+    let mut children = vec![];
+    for i_thread in 0..2 {
+        children.push(thread::spawn(move || {
+            for _ in 0..1 {
+                // 线程1
+                if i_thread % 2 == 0 {
+                    // 锁住mutex1
+                    let guard: MutexGuard<i64> = MUTEX1.lock().unwrap();
+
+                    println!("线程 {} 锁住了mutex1，接着准备去锁mutex2 !", i_thread);
+
+                    // 当前线程睡眠一小会儿，等待线程2锁住mutex2
+                    sleep(Duration::from_millis(10));
+
+                    // 去锁mutex2
+                    let guard = MUTEX2.lock().unwrap();
+                // 线程2
+                } else {
+                    // 锁住mutex2
+                    let _guard = MUTEX2.lock().unwrap();
+
+                    println!("线程 {} 锁住了mutex2, 准备去锁mutex1", i_thread);
+
+                    let _guard = MUTEX1.lock().unwrap();
+                }
+            }
+        }));
+    }
+
+    // 等子线程完成
+    for child in children {
+        let _ = child.join();
+    }
+
+    println!("死锁没有发生");
+}
+```
+
+在上面的描述中，我们用了可能发生死锁，是因为死锁在这段代码中不是必然发生的，总有一次运行你能看到最后一行打印输出。这是由于子线程的初始化顺序和执行速度并不确定，我们无法确定哪个线程的锁先被执行，因此也无法确定两个线程对锁的具体使用顺序。
+
+但是，可以简单的说明下死锁发生的必然条件：线程1锁住了`mutex1`并且线程`2`锁住了`mutex2`，然后线程1试图去访问`mutex2`，同时线程`2`试图去访问`mutex1`，就会锁住。 因为线程2需要等待线程1释放`mutex1`后，才会释放`mutex2`，而与此同时，线程1需要等待线程2释放`mutex2`后才能释放`mutex1`，这种情况造成了两个线程都无法释放对方需要的锁，最终锁死。
+
+为何某些时候，死锁不会发生？。原因很简单，线程2在线程1锁`mutex1`之前，就已经全部执行完了，随之线程2的`mutex2`和`mutex1`被全部释放，线程1对锁的获取将不再有竞争者。 同理，线程1若全部被执行完，那线程2也不会被锁，因此我们在线程1中间加一个睡眠，增加死锁发生的概率。如果你在线程2中同样的位置也增加一个睡眠，那死锁将必然发生!
+
+#### try_lock
+与`lock`方法不同，`try_lock`会尝试去获取一次锁，**如果无法获取会返回一个错误，因此不会发生阻塞**:
+```rust
+use std::{sync::{Mutex, MutexGuard}, thread};
+use std::thread::sleep;
+use std::time::Duration;
+
+use lazy_static::lazy_static;
+lazy_static! {
+    static ref MUTEX1: Mutex<i64> = Mutex::new(0);
+    static ref MUTEX2: Mutex<i64> = Mutex::new(0);
+}
+
+fn main() {
+    // 存放子线程的句柄
+    let mut children = vec![];
+    for i_thread in 0..2 {
+        children.push(thread::spawn(move || {
+            for _ in 0..1 {
+                // 线程1
+                if i_thread % 2 == 0 {
+                    // 锁住mutex1
+                    let guard: MutexGuard<i64> = MUTEX1.lock().unwrap();
+
+                    println!("线程 {} 锁住了mutex1，接着准备去锁mutex2 !", i_thread);
+
+                    // 当前线程睡眠一小会儿，等待线程2锁住mutex2
+                    sleep(Duration::from_millis(10));
+
+                    // 去锁mutex2
+                    let guard = MUTEX2.try_lock();
+                    println!("线程1获取mutex2锁的结果: {:?}",guard);
+                // 线程2
+                } else {
+                    // 锁住mutex2
+                    let _guard = MUTEX2.lock().unwrap();
+
+                    println!("线程 {} 锁住了mutex2, 准备去锁mutex1", i_thread);
+                    sleep(Duration::from_millis(10));
+                    let guard = MUTEX1.try_lock();
+                    println!("线程2获取mutex1锁的结果: {:?}",guard);
+                }
+            }
+        }));
+    }
+
+    // 等子线程完成
+    for child in children {
+        let _ = child.join();
+    }
+
+    println!("死锁没有发生");
+}
+```
+
+为了演示`try_lock`的作用，我们特定使用了之前必定会死锁的代码，然后将`lock`替换程`try_lock`，而此时，这段代码将不会再有死锁发生：
+```console
+线程 0 锁住了mutex1，接着准备去锁mutex2 !
+线程 1 锁住了mutex2, 准备去锁mutex1
+线程2获取mutex1锁的结果: Err("WouldBlock")
+线程1获取mutex2锁的结果: Ok(0)
+死锁没有发生
+```
+
+如上所示，当`try_lock`失败时，会报出一个错误:`Err("WouldBlock")`，然后线程其余代码会继续执行，不再被阻塞。
+
+> 一个有趣的命名规则：在Rust标准库中，使用`try_xxx`都会尝试进行一次操作，如果无法完成，就立即返回，不会发生阻塞。例如消息传递章节中的`try_recv`以及本章节中的`try_lock`
+
+
+## 读写锁RwLock
+`Mutex`有一个问题，无论是读还是写都会同时只有一个线程能访问，因此读写都会被锁住。在某些时候，我们需要大量的并发读，此时就可以使用`RwLock`:
+```rust
+use std::sync::RwLock;
+
+fn main() {
+    let lock = RwLock::new(5);
+
+    // 同一时间允许多个读
+    {
+        let r1 = lock.read().unwrap();
+        let r2 = lock.read().unwrap();
+        assert_eq!(*r1, 5);
+        assert_eq!(*r2, 5);
+    } // 读锁在此处被drop
+
+    // 同一时间只允许一个写
+    {
+        let mut w = lock.write().unwrap();
+        *w += 1;
+        assert_eq!(*w, 6);
+        
+        // 以下代码会panic，因为读和写不允许同时存在
+        // 写锁w直到该语句块结束才被释放，因此下面的读锁依然处于`w`的作用域中
+        // let r1 = lock.read();
+        // println!("{:?}",r1);
+    }// 写锁在此处被drop
+}
+```
+
+`RwLock`在使用上和`Mutex`区别不大，就是还额外提供了一个`read`方法，需要注意的是，当读写同时发生时，程序会直接`panic`(本例是单线程，实际上多个线程中也是如此)，因为会发生死锁：
+```console
+thread 'main' panicked at 'rwlock read lock would result in deadlock', /rustc/efec545293b9263be9edfb283a7aa66350b3acbf/library/std/src/sys/unix/rwlock.rs:49:13
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+```
+
+好在我们可以使用`try_write`和`try_read`来尝试进行一次写/读，若失败则返回错误:
+```console
+Err("WouldBlock")
+```
+
+简单总结下`RwLock`:
+
+1. 同时允许多个读，但最多只能有一个写
+2. 读和写不能同时存在
+3. 读可以使用`read`、`try_read`，写`write`、`try_write`, 在实际项目中，`try_xxx`会安全的多
+   
+## Mutex还是RwLock
+首先简单性上`Mutex`完胜，因为使用`RwLock`你得操心几个问题：
+
+- 读和写不能同时发生，如果使用`try_xxx`解决，就必须做大量的错误处理和失败重试机制
+- 当读多写少时，写操作可能会因为一直无法获得锁导致连续多次失败([writer starvation](https://stackoverflow.com/questions/2190090/how-to-prevent-writer-starvation-in-a-read-write-lock-in-pthreads))
+- RwLock其实是操作系统提供的实现，原理要比`Mutex`复杂的多，锁的自身性能而言，是比不上原生实现的`Mutex`
+
+因此我们可以简单总结下两者的使用场景：
+
+- 追求高并发读取时，使用`RwLock`，因为`Mutex`一次只允许一个线程去读取
+- 如果要保证写操作的成功性，使用`Mutex`
+- 不知道哪个适合，统一使用`Mutex`
+
+需要注意的是，`RwLock`虽然看上去好像提供了高并发读取的能力，但这个不能说明它的性能比`Mutex`高，事实上`Mutex`性能要好不少，后者**唯一的问题也仅仅在于不能并发读取**。
+
+一个常见的错误使用`RwLock`的场景就是使用`HashMap`进行简单读写时，因为`HashMap`的读和写都非常快，`RwLock`的复杂实现和相对低的性能反而会导致整体性能的降低，因此一般来说更适合使用`Mutex`。
+
+总之，如果你要使用`RwLock`要确保满足以下两个条件：并发读，且需要对读到的资源进行"长时间"的操作，`HashMap`也许满足了并发读的需求，但是往往并不能满足后者："长时间"的操作。
+
+> benchmark永远是你在迷茫时最好的朋友！
+
+## 三方库提供的锁实现
+标准库在设计时总会存在取舍，因为往往性能并不是最好的，如果你追求性能，可以使用三方库提供的并发原语:
+- [parking_lot](https://crates.io/crates/parking_lot), 功能更完善、稳定，社区较为活跃，star较多，更新较为活跃
+- [spin](https://crates.io/crates/spin), 在多数场景中性能比`parking_lot`高一点，最近没怎么更新
+
+如果不是追求特别极致的性能，建议选择前者。
