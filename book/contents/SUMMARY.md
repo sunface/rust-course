@@ -77,8 +77,9 @@
         - [并发和并行](advance/concurrency-with-threads/concurrency-parallelism.md)
         - [使用多线程](advance/concurrency-with-threads/thread.md)
         - [线程间的消息传递](advance/concurrency-with-threads/message-passing.md)
+        - [线程同步：并发原语和共享内存](advance/concurrency-with-threads/primitives.md)
         - [Send、Sync todo](advance/multi-threads/send-sync.md)
-        - [一个综合例子](advance/multi-threads/example.md)
+        - [一个综合例子 todo](advance/multi-threads/example.md)
     - [async/await并发编程 todo](advance/async/intro.md)
         - [async/await语法 todo](advance/async/async-await.md)
         - [future详解 todo](advance/async/future/into.md)
@@ -147,7 +148,6 @@
     - [自定义错误 todo](errors/user-define.md)
     - [让错误输出更优雅 todo](errors/pretty-format.md)
     - [会导致panic的代码 todo](errors/panic-codes.md)
-
 
 - [Cargo详解 todo](cargo/intro.md)
     - [常用命令 todo](cargo/commands.md)
