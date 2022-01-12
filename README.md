@@ -1,9 +1,10 @@
 # Rust语言圣经(The course)
 
-- 官方地址： https://course.rs
-- 知乎专栏： https://www.zhihu.com/people/iSunface/columnss
-- 国内镜像： https://book.rust.team (course.rs可能需要翻墙使用，如果大家访问不了，可以使用此镜像地址阅读)
-- 修订时间： **尚未发行**
+- 在线阅读
+  - 官方： https://course.rs
+  - 知乎： [支持章节内目录跳转](https://www.zhihu.com/column/c_1452781034895446017)
+  - 镜像： https://book.rust.team (若course.rs打不开，可使用此国内镜像地址)
+- 最近修订： 新增章节[线程间的消息传递](https://zhuanlan.zhihu.com/p/456082244)
 - Rust版本： Rust edition 2021
 - QQ交流群: 1009730433
 
