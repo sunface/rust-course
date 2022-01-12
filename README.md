@@ -23,6 +23,7 @@
 ### 借鉴的书籍
 本书的部分内容借鉴了以下书籍，特此感谢：
 - [Rust Book](https://doc.rust-lang.org/book)
+- [Rust nomicon](https://doc.rust-lang.org/nomicon/dot-operator.html)
 详细清单参见[这里](./book/writing-material/books.md)
 
 因为它们绝大部分是支持APACHE + MIT双协议的，因此我们选择了遵循其中的MIT协议，并在这里统一对借鉴的书籍进行说明。
