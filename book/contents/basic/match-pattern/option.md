@@ -11,7 +11,7 @@ enum Option<T> {
 
 那么现在的问题就是该如何去使用这个`Option`枚举类型，根据我们上一节的经验，可以通过`match`来实现。
 
-> 因为`Option`，`Some`，`None`都包含在`prelude`中，因此你可以直接通过名称来使用它们，而无需以`Option::Some`这种形式去使用，总之，千万不要因为形式变短了（这里不太懂想表达什么），而忘记`Some`和`None`也是`Option`底下的枚举成员！
+> 因为`Option`，`Some`，`None`都包含在`prelude`中，因此你可以直接通过名称来使用它们，而无需以`Option::Some`这种形式去使用，总之，千万不要因为调用路径变短了，就忘记`Some`和`None`也是`Option`底下的枚举成员！
 
 ## 匹配 `Option<T>`
 
