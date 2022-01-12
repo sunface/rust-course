@@ -1,6 +1,6 @@
 # 枚举
 
-枚举(enum或enumeration)允许你通过列举可能的成员来定义一个**枚举类型**,例如扑克牌花色：
+枚举(enum或enumeration)允许你通过列举可能的成员来定义一个**枚举类型**，例如扑克牌花色：
 ```rust
 enum PokerSuit {
   Clubs,
