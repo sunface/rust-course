@@ -32,8 +32,9 @@
 
 - [@1132719438](https://github.com/1132719438)
 - [@mg-chao](https://github.com/mg-chao)
-- [@JesseAtSZ](https://github.com/JesseAtSZ)
 - [@codemystery](https://github.com/codemystery)
+- [@JesseAtSZ](https://github.com/JesseAtSZ)
+- [@chenxuuu](https://github.com/chenxuuu)
 
 尤其感谢这些主要贡献者，谢谢你们花费大量时间贡献了多处`fix`和高质量的内容优化，非常感动，再次感谢～～
 
