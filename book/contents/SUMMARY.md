@@ -53,7 +53,6 @@
     - [生命周期](advance/lifetime/intro.md)
         - [认识生命周期](advance/lifetime/basic.md)
         - [深入生命周期](advance/lifetime/advance.md)
-    - [高阶特征约束(HRTB) todo](advance/hrtb.md)
     - [函数式编程](advance/functional-programing/intro.md)
         - [闭包closure](advance/functional-programing/closure.md)
         - [迭代器iterator](advance/functional-programing/iterator.md)
@@ -96,7 +95,7 @@
             - [基本用法](advance/async/tokio/basic.md)
             - [异步消息流](advance/async/tokio/stream.md))
     - [全局变量 todo](advance/global-variable.md)
-
+    - [高阶特征约束(HRTB) todo](advance/hrtb.md)
 ## 专题内容,每个专题都配套一个小型项目进行实践
 - [Rust最佳实践 doing](practice/intro.md)
     - [日常开发三方库精选](practice/third-party-libs.md)
