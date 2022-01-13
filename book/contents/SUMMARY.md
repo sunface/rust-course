@@ -79,8 +79,8 @@
         - [线程同步：消息传递](advance/concurrency-with-threads/message-passing.md)
         - [线程同步：锁、Condvar和信号量](advance/concurrency-with-threads/sync1.md)
         - [线程同步：Atomic原子操作与内存顺序](advance/concurrency-with-threads/sync2.md)
-        - [Send、Sync todo](advance/multi-threads/send-sync.md)
-        - [一个综合例子 todo](advance/multi-threads/example.md)
+        - [基于Send和Sync的线程安全](advance/concurrency-with-threads/send-sync.md)
+        - [一个综合例子](advance/concurrency-with-threads/example.md)
     - [async/await并发编程 todo](advance/async/intro.md)
         - [async/await语法 todo](advance/async/async-await.md)
         - [future详解 todo](advance/async/future/into.md)
@@ -139,7 +139,7 @@
     
 - [用Rust增强Javascript todo](rustjs/intro.md)
     - [deno todo](rustjs/deno.md)
-
+    - [wasm tod](rustjs/wasm/intro.md)
 - [复杂错误索引 todo](errorindex/intro.md)   
     - [所有权和借用 todo](errorindex/borrowing/intro.md)
     - [生命周期 todo](errorindex/lifetime/intro.md)
@@ -210,6 +210,7 @@
     - [CPU缓存性能优化 todo](performance/cpu-cache.md)
     - [计算性能优化 todo](performance/calculate.md)
     - [堆和栈 todo](performance/heap-stack.md)
+    - [内存allocator todo](performance/allocator.md)
     - [常用性能测试工具 todo](performance/tools.md)
 
 - [编译器 todo](compiler/intro.md)
