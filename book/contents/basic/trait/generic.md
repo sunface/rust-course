@@ -356,7 +356,7 @@ fn main() {
 ```rust
 #![allow(incomplete_features)]
 #![feature(generic_const_exprs)]
-（这段代码编译不通过，第13行报错，这里泛型的声明好像没有体现出const）
+（这段代码编译不通过，Assert处报错，这里泛型的声明好像没有体现出const）
 fn something<T>(val: T)
 where
     Assert<{ core::mem::size_of::<T>() < 768 }>: IsTrue,
