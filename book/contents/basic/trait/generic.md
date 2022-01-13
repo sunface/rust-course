@@ -351,7 +351,42 @@ fn main() {
 
 在泛型参数之前，Rust完全不适合复杂矩阵的运算，自从有了const泛型，一切即将改变。
 
-## const fn
+#### const泛型表达式
+假设我们某段代码需要在内存很小的平台上工作，因此需要限制函数参数占用的内存大小，此时就可以使用const泛型表达式来实现：
+```rust
+#![allow(incomplete_features)]
+#![feature(generic_const_exprs)]
+
+fn something<T>(val: T)
+where
+    Assert<{ core::mem::size_of::<T>() < 768 }>: IsTrue,
+    //       ^-----------------------------^ 这里是一个const表达式，换成其它的const表达式也可以
+{
+    //
+}
+
+fn main() {
+    something([0u8; 0]); // ok
+    something([0u8; 512]); // ok
+    something([0u8; 1024]); // 编译错误，数组长度是1024自己，超过了768字节的参数长度限制
+}
+
+// ---
+
+pub enum Assert<const CHECK: bool> {
+    //
+}
+
+pub trait IsTrue {
+    //
+}
+
+impl IsTrue for Assert<true> {
+    //
+}
+```
+
+#### const fn
 @todo
 
 ## 泛型的性能
