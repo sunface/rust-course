@@ -79,7 +79,6 @@
         - [线程同步：锁、Condvar和信号量](advance/concurrency-with-threads/sync1.md)
         - [线程同步：Atomic原子操作与内存顺序](advance/concurrency-with-threads/sync2.md)
         - [基于Send和Sync的线程安全](advance/concurrency-with-threads/send-sync.md)
-        - [一个综合例子](advance/concurrency-with-threads/example.md)
     - [async/await并发编程 todo](advance/async/intro.md)
         - [async/await语法 todo](advance/async/async-await.md)
         - [future详解 todo](advance/async/future/into.md)
