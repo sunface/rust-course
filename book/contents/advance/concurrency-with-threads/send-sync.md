@@ -91,7 +91,7 @@ fn main() {
     t.join().unwrap();
 }
 ```
-报错跟之前无二： `*mut u8 cannot be sent between threads safely`, 但是有一个问题，我们无法为其直接实现`Send`特征，好在可以用[`newtype`类型](../custom-type.md#newtype):`struct MyBox(*mut u8);`。
+报错跟之前无二： `*mut u8 cannot be sent between threads safely`, 但是有一个问题，我们无法为其直接实现`Send`特征，好在可以用[`newtype`类型](../custom-type.md#newtype) :`struct MyBox(*mut u8);`。
 
 还记得之前的规则吗：复合类型中有一个成员没实现`Send`，该复合类型就不是`Send`，因此我们需要手动为它实现:
 ```rust

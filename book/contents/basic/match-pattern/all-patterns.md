@@ -561,6 +561,31 @@ match msg {
 
 当你既想要限定分支范围，又想要使用分支的变量时，就可以用`@`来绑定到一个新的变量上，实现想要的功能。
 
+#### @前绑定后解构(Rust1.56新增)
+使用`@`还可以在绑定新变量的同时，对目标进行解构：
+```rust
+#[derive(Debug)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn main() {
+    // 绑定新变量`p`，同时对`Point`进行解构
+    let p @ Point {x: px, y: py } = Point {x: 10, y: 23};
+    println!("x: {}, y: {}", px, py);
+    println!("{:?}", p);
+
+    
+    let point = Point {x: 10, y: 5};
+    if let p @ Point {x: 10, y} = point {
+        println!("x is 10 and y is {} in {:?}", y, p);
+    } else {
+        println!("x was not 10 :(");
+    }
+}
+```
+
 #### @新特性(Rust1.53新增)
 考虑下面一段代码:
 ```rust
