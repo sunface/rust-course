@@ -404,21 +404,19 @@ name = "strings1"
 path = "exercises/strings/strings1.rs"
 mode = "compile"
 hint = """
-The `current_favorite_color` function is currently returning a string slice with the `'static`
-lifetime. We know this because the data of the string lives in our code itself -- it doesn't
-come from a file or user input or another program -- so it will live as long as our program
-lives. But it is still a string slice. There's one way to create a `String` by converting a
-string slice covered in the Strings chapter of the book, and another way that uses the `From`
-trait."""
+`current_favorite_color` 函数返回的是一个生命周期为 `'static` 的字符串切片。
+我们知道这点是因为字符串直接存储在了代码中——它并不来自于文件、用户输入或
+其他程序——所以只要程序还在运行，它就会一直存在。但它仍然是一个字符串切片。
+有一种方法可以将字符串切片转换为 `String`，这在书的 Strings 章节有所介绍，还有一种
+方法是使用 `From` 特征"""
 
 [[exercises]]
 name = "strings2"
 path = "exercises/strings/strings2.rs"
 mode = "compile"
 hint = """
-Yes, it would be really easy to fix this by just changing the value bound to `word` to be a
-string slice instead of a `String`, wouldn't it?? There is a way to add one character to line
-9, though, that will coerce the `String` into a string slice."""
+是的，只要把绑定在 `word` 上的值改为字符串切片而非 `String` 就可以很容易地解决这个问题，不是吗？？
+有个方法是在第 9 行添一个字符，这将强制把 `String` 转为字符串切片。"""
 
 # TEST 2
 
