@@ -12,7 +12,7 @@
 
 ## 变量命名
 
-在命名方面，和其它语言没有区别，不过当给变量命名时，需要遵循[Rust命名规范](../style-guide/naming.md)。
+在命名方面，和其它语言没有区别，不过当给变量命名时，需要遵循[Rust命名规范](../practice/style-guide/naming.md)。
 
 > Rust语言有一些**关键字**（*keywords*），和其他语言一样，这些关键字都是被保留给Rust语言使用的，因此，它们不能被用作变量或函数的名称。 在[附录 A](../appendix/keywords) 中可找到关键字列表。
 
