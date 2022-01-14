@@ -90,6 +90,33 @@ let (x, y, z) = (1, 2, 3);
 ```rust
 let (x, y) = (1, 2, 3);
 ```
+```rust
+   Compiling playground v0.0.1 (/playground)
+
+error[E0308]: mismatched types
+
+ --> src/main.rs:4:5
+
+  |
+
+4 | let (x, y) = (1, 2, 3);
+
+  |     ^^^^^^   --------- this expression has type `({integer}, {integer}, {integer})`
+
+  |     |
+
+  |     expected a tuple with 3 elements, found one with 2 elements
+
+  |
+
+  = note: expected tuple `({integer}, {integer}, {integer})`
+
+             found tuple `(_, _)`
+
+For more information about this error, try `rustc --explain E0308`.
+
+error: could not compile `playground` due to previous error
+```
 对于元组来说，元素个数也是类型的一部分！
 
 #### 函数参数
