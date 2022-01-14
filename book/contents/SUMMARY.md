@@ -49,7 +49,7 @@
         - [panic深入剖析!](basic/result-error/panic.md)
         - [返回值Result和?](basic/result-error/result.md)
 
-- [Rust高级进阶 doing](advance/intro.md)
+- [Rust高级进阶](advance/intro.md)
     - [生命周期](advance/lifetime/intro.md)
         - [认识生命周期](advance/lifetime/basic.md)
         - [深入生命周期](advance/lifetime/advance.md)
@@ -79,7 +79,7 @@
         - [线程同步：锁、Condvar和信号量](advance/concurrency-with-threads/sync1.md)
         - [线程同步：Atomic原子操作与内存顺序](advance/concurrency-with-threads/sync2.md)
         - [基于Send和Sync的线程安全](advance/concurrency-with-threads/send-sync.md)
-    - [全局变量 todo](advance/global-variable.md)
+    - [全局变量](advance/global-variable.md)
     <!-- - [高阶特征约束(HRTB) todo](advance/hrtb.md) -->
 ## 专题内容,每个专题都配套一个小型项目进行实践
 - [async/await异步编程 doing](async/intro.md)

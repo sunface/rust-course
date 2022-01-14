@@ -4,7 +4,7 @@
   - 官方： https://course.rs
   - 知乎： [支持章节内目录跳转](https://www.zhihu.com/column/c_1452781034895446017)
   - 镜像： https://book.rust.team (若course.rs打不开，可使用此国内镜像地址)
-- 最近修订： 新增章节 [多线程方舟Send和Sync](https://zhuanlan.zhihu.com/p/456907672?)
+- 最近修订： 新增章节 [全局变量和Box::leak](https://zhuanlan.zhihu.com/p/457369865)
 - Rust版本： Rust edition 2021
 - QQ交流群：1009730433
 
