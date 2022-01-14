@@ -80,7 +80,7 @@
         - [线程同步：Atomic原子操作与内存顺序](advance/concurrency-with-threads/sync2.md)
         - [基于Send和Sync的线程安全](advance/concurrency-with-threads/send-sync.md)
     - [全局变量 todo](advance/global-variable.md)
-    - [高阶特征约束(HRTB) todo](advance/hrtb.md)
+    <!-- - [高阶特征约束(HRTB) todo](advance/hrtb.md) -->
 ## 专题内容,每个专题都配套一个小型项目进行实践
 - [async/await异步编程 doing](async/intro.md)
     - [async/await语法 todo](async/async-await.md)
