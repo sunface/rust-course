@@ -32,8 +32,8 @@
 非常感谢本教程的所有贡献者们，正是有了你们，才有了现在的高质量Rust教程！
 
 - [@JesseAtSZ](https://github.com/JesseAtSZ)
+- [@mg-chao](https://github.com/mg-chao) 
 - [@1132719438](https://github.com/1132719438)
-- [@mg-chao](https://github.com/mg-chao)
 - [@codemystery](https://github.com/codemystery)
 - [@chenxuuu](https://github.com/chenxuuu)
 
