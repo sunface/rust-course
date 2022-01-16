@@ -433,74 +433,63 @@ name = "errors1"
 path = "exercises/error_handling/errors1.rs"
 mode = "test"
 hint = """
-`Err` is one of the variants of `Result`, so what the 2nd test is saying
-is that `generate_nametag_text` should return a `Result` instead of an
-`Option`.
+`Err` 是 `Result` 的成员之一，所以第二个测试的意思是 `generate_nametag_text` 
+应该返回 `Result` 而不是 `Option` 。
 
-To make this change, you'll need to:
-   - update the return type in the function signature to be a Result<String, String> that
-     could be the variants `Ok(String)` and `Err(String)`
-   - change the body of the function to return `Ok(stuff)` where it currently
-     returns `Some(stuff)`
-   - change the body of the function to return `Err(error message)` where it
-     currently returns `None`
-   - change the first test to expect `Ok(stuff)` where it currently expects
-     `Some(stuff)`."""
+要做到这些改变，你需要：
+   - 修改函数签名的返回类型为 Result<String, String>，以便能返回 `Ok(String)` 和 `Err(String)`。
+   - 更改函数返回值 `Some(stuff)` 为 `Ok(stuff)` 。
+   - 更改函数返回值 `None` 为 `Err(error message)` 。
+   - 将第一个测试预期的值从 `Some(stuff)` 改为 `Ok(stuff)`。"""
 
 [[exercises]]
 name = "errors2"
 path = "exercises/error_handling/errors2.rs"
 mode = "test"
 hint = """
-One way to handle this is using a `match` statement on
-`item_quantity.parse::<i32>()` where the cases are `Ok(something)` and
-`Err(something)`. This pattern is very common in Rust, though, so there's
-a `?` operator that does pretty much what you would make that match statement
-do for you! Take a look at this section of the Error Handling chapter:
+解决这个问题的一个方法是对 `item_quantity.parse::<i32>()` 使用 match 语句，
+其中有两种情况需要被处理，分别是 `Ok(something)` 和 `Err(something)`。
+不过这种方法在 Rust 中很常见，所以有一个 `?` 操作符，作用几乎符合你想让匹配语句做的事！
+看一下 Error Handling 章节的这部分:
 https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html#a-shortcut-for-propagating-errors-the--operator
-and give it a try!"""
+然后试一试！"""
 
 [[exercises]]
 name = "errors3"
 path = "exercises/error_handling/errors3.rs"
 mode = "compile"
 hint = """
-If other functions can return a `Result`, why shouldn't `main`?"""
+如果其它函数可以返回 `Result`，为什么 `main` 函数不能？"""
 
 [[exercises]]
 name = "errors4"
 path = "exercises/error_handling/errors4.rs"
 mode = "test"
 hint = """
-`PositiveNonzeroInteger::new` is always creating a new instance and returning an `Ok` result.
-It should be doing some checking, returning an `Err` result if those checks fail, and only
-returning an `Ok` result if those checks determine that everything is... okay :)"""
+`PositiveNonzeroInteger::new` 将创建一个新的实例，并返回一个 `Ok` 。
+它应该做一些检查，如果检查到失败，则返回 `Err` ，如果确定一切正常，则返回 `Ok` :)。"""
 
 [[exercises]]
 name = "errors5"
 path = "exercises/error_handling/errors5.rs"
 mode = "compile"
 hint = """
-Hint: There are two different possible `Result` types produced within
-`main()`, which are propagated using `?` operators. How do we declare a
-return type from `main()` that allows both?
+提示：在 `main()` 中产生了两种 `Result` 类型，它们是通过 `?` 运算符返回的。
+那么我们如何在 `main()` 中声明一个容纳这两者的返回类型？
 
-Another hint: under the hood, the `?` operator calls `From::from`
-on the error value to convert it to a boxed trait object, a
-`Box<dyn error::Error>`, which is polymorphic-- that means that lots of
-different kinds of errors can be returned from the same function because
-all errors act the same since they all implement the `error::Error` trait.
-Check out this section of the book:
+额外提示：`?` 操作符的底层实现实际上是对错误值调用了 `From::from` ，将其转换为
+了 `Box<dyn error::Error>` 类型。它是多态的——这意味着不同类型的错误可以从同一个函数返回，
+因为它们都实现了`error::Error`特征，行为都是一致的。
+请看这本书的这一部分：
 https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html#a-shortcut-for-propagating-errors-the--operator
 
-This exercise uses some concepts that we won't get to until later in the
-course, like `Box` and the `From` trait. It's not important to understand
-them in detail right now, but you can read ahead if you like.
+这个练习使用了一些课程后期才会介绍到的概念，如 `Box` 指针和 `From` 特征。
+现在详细了解它们并不重要，但如果你感兴趣，可以提前阅读。
 
-Read more about boxing errors:
+阅读更多装箱错误（boxing errors）的内容：
 https://doc.rust-lang.org/stable/rust-by-example/error/multiple_error_types/boxing_errors.html
 
-Read more about using the `?` operator with boxed errors:
+阅读更多关于使用 `?` 操作符和装箱错误的内容。
 https://doc.rust-lang.org/stable/rust-by-example/error/multiple_error_types/reenter_question_mark.html
 """
 
@@ -509,19 +498,15 @@ name = "errors6"
 path = "exercises/error_handling/errors6.rs"
 mode = "test"
 hint = """
-This exercise uses a completed version of `PositiveNonzeroInteger` from
-errors4.
+这个练习使用的是来自于 error 4 的 `PositiveNonzeroInteger` 完整版本。
 
-Below the line that TODO asks you to change, there is an example of using
-the `map_err()` method on a `Result` to transform one type of error into
-another. Try using something similar on the `Result` from `parse()`. You
-might use the `?` operator to return early from the function, or you might
-use a `match` expression, or maybe there's another way!
+在 TODO 要求你修改的那一行下面，有一个在 `Result` 上使用 `map_err()` 方法将
+一种类型的错误转换为另一种类型的例子。尝试在 `parse()` 的 `Result` 上使用类似的东西。
+你可能使用 `?` 操作符在函数中提前返回，或者使用 `match` 表达式，以及等等其它方法。
 
-You can create another function inside `impl ParsePosNonzeroError` to use
-with `map_err()`.
+你可以在 `impl ParsePosNonzeroError` 内创建另一个方法来配合 `map_err()` 使用。
 
-Read more about `map_err()` in the `std::result` documentation:
+在 `std::result` 文档了解更多关于 `map_err()` 的信息：
 https://doc.rust-lang.org/std/result/enum.Result.html#method.map_err"""
 
 # Generics

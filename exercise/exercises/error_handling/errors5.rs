@@ -1,8 +1,8 @@
 // errors5.rs
 
-// This program uses a completed version of the code from errors4.
-// It won't compile right now! Why?
-// Execute `rustlings hint errors5` for hints!
+// 这个程序使用练习 errors4 代码的完整版。
+// 它现在不能编译! 为什么呢？
+// 执行 `rustlings hint errors5` 获取提示！
 
 // I AM NOT DONE
 
@@ -10,7 +10,7 @@ use std::error;
 use std::fmt;
 use std::num::ParseIntError;
 
-// TODO: update the return type of `main()` to make this compile.
+// TODO：修改 `main()` 的返回类型，以使其通过编译。
 fn main() -> Result<(), ParseIntError> {
     let pretend_user_input = "42";
     let x: i64 = pretend_user_input.parse()?;
@@ -18,7 +18,7 @@ fn main() -> Result<(), ParseIntError> {
     Ok(())
 }
 
-// Don't change anything below this line.
+// 不要更改此行以下的任何内容。
 
 #[derive(PartialEq, Debug)]
 struct PositiveNonzeroInteger(u64);
@@ -39,7 +39,7 @@ impl PositiveNonzeroInteger {
     }
 }
 
-// This is required so that `CreationError` can implement `error::Error`.
+// 以下是必要的，以便 `CreationError` 能够实现 `error::Error` 。
 impl fmt::Display for CreationError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let description = match *self {
