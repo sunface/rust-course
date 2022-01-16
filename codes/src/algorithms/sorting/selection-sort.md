@@ -1,16 +1,24 @@
 # 选择排序
 
 ```rust
-pub fn selection_sort<T: Ord>(arr: &mut [T]) {
-    let len = arr.len();
-    for left in 0..len {
-        let mut smallest = left;
-        for right in (left + 1)..len {
-            if arr[right] < arr[smallest] {
-                smallest = right;
+pub fn selection_sort<T: PartialOrd>(arr: &mut [T]) {
+    if arr.len() <= 1 {
+        return;
+    }
+
+    let size = arr.len();
+    for i in 0..(size - 1) {
+        // 找到最小元素的索引值
+        let mut min_index = i;
+        for j in (i + 1)..size {
+            if arr[j] < arr[min_index] {
+                min_index = j;
             }
         }
-        arr.swap(smallest, left);
+
+        if min_index != i {
+            arr.swap(i, min_index);
+        }
     }
 }
 
@@ -19,31 +27,37 @@ mod tests {
     use super::*;
 
     #[test]
-    fn basic() {
-        let mut res = vec!["d", "a", "c", "b"];
-        selection_sort(&mut res);
-        assert_eq!(res, vec!["a", "b", "c", "d"]);
+    fn test_empty_vec() {
+        let mut empty_vec: Vec<String> = vec![];
+        selection_sort(&mut empty_vec);
+        assert_eq!(empty_vec, Vec::<String>::new());
     }
 
     #[test]
-    fn empty() {
-        let mut res = Vec::<u8>::new();
-        selection_sort(&mut res);
-        assert_eq!(res, vec![]);
+    fn test_number_vec() {
+        let mut vec = vec![7, 49, 73, 58, 30, 72, 44, 78, 23, 9];
+        selection_sort(&mut vec);
+        assert_eq!(vec, vec![7, 9, 23, 30, 44, 49, 58, 72, 73, 78]);
     }
 
     #[test]
-    fn one_element() {
-        let mut res = vec!["a"];
-        selection_sort(&mut res);
-        assert_eq!(res, vec!["a"]);
-    }
-
-    #[test]
-    fn pre_sorted() {
-        let mut res = vec!["a", "b", "c"];
-        selection_sort(&mut res);
-        assert_eq!(res, vec!["a", "b", "c"]);
+    fn test_string_vec() {
+        let mut vec = vec![
+            String::from("Bob"),
+            String::from("David"),
+            String::from("Carol"),
+            String::from("Alice"),
+        ];
+        selection_sort(&mut vec);
+        assert_eq!(
+            vec,
+            vec![
+                String::from("Alice"),
+                String::from("Bob"),
+                String::from("Carol"),
+                String::from("David"),
+            ]
+        );
     }
 }
 ```
