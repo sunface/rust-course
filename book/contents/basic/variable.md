@@ -175,14 +175,14 @@ let spaces = "   ";
 let spaces = spaces.len();
 ```
 
-这种结构是允许的，因为第一个 `spaces` 变量是一个字符串类型，第二个 `spaces` 变量是一个全新的变量且和第一个具有相同的变量名，且是一个数值类型。所以变量遮蔽可以帮我们节省些脑细胞，不用去想如`spaces_str` 和 `spaces_num`此类的变量名；相反我们可以重复使用更简单的 `spaces` 变量名。 你也可以不用`let`:
+这种结构是允许的，因为第一个 `spaces` 变量是一个字符串类型，第二个 `spaces` 变量是一个全新的变量且和第一个具有相同的变量名，且是一个数值类型。所以变量遮蔽可以帮我们节省些脑细胞，不用去想如`spaces_str` 和 `spaces_num`此类的变量名；相反我们可以重复使用更简单的 `spaces` 变量名。 如果你不用`let`:
 
 ```rust,
 let mut spaces = "   ";
 spaces = spaces.len();
 ```
 
-运行一下
+运行一下，你就会发现编译器报错：
 
 ```console
 $ cargo run
