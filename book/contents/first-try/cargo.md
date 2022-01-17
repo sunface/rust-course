@@ -97,7 +97,7 @@ $ cargo check
     Finished dev [unoptimized + debuginfo] target(s) in 0.06s
 ```
 
-> Rust虽然编译速度还行，但是还是不能Go语言相提并论，因为Rust需要做很多复杂的编译优化和语言特性解析, 甚至连如何优化编译速度都成了一门学问[优化编译速度](../compiler/spped-up.md)
+> Rust虽然编译速度还行，但是还是不能Go语言相提并论，因为Rust需要做很多复杂的编译优化和语言特性解析, 甚至连如何优化编译速度都成了一门学问[优化编译速度](../compiler/speed-up.md)
 
 
 ## cargo.toml 和 cargo.lock
