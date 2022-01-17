@@ -1,18 +1,17 @@
 // errors6.rs
 
-// Using catch-all error types like `Box<dyn error::Error>` isn't recommended
-// for library code, where callers might want to make decisions based on the
-// error content, instead of printing it out or propagating it further. Here,
-// we define a custom error type to make it possible for callers to decide
-// what to do next when our function returns an error.
+// 像 `Box<dyn error::Error>` 这样的万能错误类型并不推荐用于库代码，
+// 因为调用者可能想根据错误内容进行相关处理，而不是将其打印出来或进一步传播。
+// 在这里，我们自定义了一个错误类型，让调用者有可能去决定当函数返回错误时
+// 下一步该怎么做
 
-// Make these tests pass! Execute `rustlings hint errors6` for hints :)
+// 通过这些测试！执行 `rustlings hint errors6` 获取提示 :)
 
 // I AM NOT DONE
 
 use std::num::ParseIntError;
 
-// This is a custom error type that we will be using in `parse_pos_nonzero()`.
+// 这是一个自定义的错误类型，我们将在 `parse_pos_nonzero()` 中使用。
 #[derive(PartialEq, Debug)]
 enum ParsePosNonzeroError {
     Creation(CreationError),
@@ -23,20 +22,19 @@ impl ParsePosNonzeroError {
     fn from_creation(err: CreationError) -> ParsePosNonzeroError {
         ParsePosNonzeroError::Creation(err)
     }
-    // TODO: add another error conversion function here.
+    // TODO：在这添加另一个错误转换函数。
 }
 
 fn parse_pos_nonzero(s: &str)
     -> Result<PositiveNonzeroInteger, ParsePosNonzeroError>
 {
-    // TODO: change this to return an appropriate error instead of panicking
-    // when `parse()` returns an error.
+    // TODO：改为返回一个恰当的错误，而不是在 `parse()` 返回一个错误时 panic
     let x: i64 = s.parse().unwrap();
     PositiveNonzeroInteger::new(x)
         .map_err(ParsePosNonzeroError::from_creation)
 }
 
-// Don't change anything below this line.
+// 不要更改这一行以下的任何内容。
 
 #[derive(PartialEq, Debug)]
 struct PositiveNonzeroInteger(u64);
@@ -63,7 +61,7 @@ mod test {
 
     #[test]
     fn test_parse_error() {
-        // We can't construct a ParseIntError, so we have to pattern match.
+        // 我们不能构造一个 ParseIntError ，所以必须进行模式匹配。
         assert!(matches!(
             parse_pos_nonzero("not a number"),
             Err(ParsePosNonzeroError::ParseInt(_))

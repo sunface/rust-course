@@ -1,5 +1,5 @@
 // errors4.rs
-// Make this test pass! Execute `rustlings hint errors4` for hints :)
+// 通过测试！执行 `rustlings hint errors4` 获取提示 :)
 
 // I AM NOT DONE
 
