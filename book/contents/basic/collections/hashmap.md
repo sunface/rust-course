@@ -2,7 +2,7 @@
 
 和动态数组一样，`HashMap` 也是 Rust 标准库中提供的集合类型，但是又与动态数组不同，`HashMap` 中存储的是一一映射的 `KV `键值对，并提供了平均复杂度为 `O(1)` 的查询方法，当我们希望通过一个 `Key` 去查询值时，该类型非常有用，以致于 `Go语言` 将该类型设置成了语言级别的内置特性。
 
-Rust 中哈希(Map？)类型为 `HashMap<K,V>`，在其它语言中，也有类似的数据结构，例如 `hash map`，`map`，`object`，`hash table`，`字典`等等，引用小品演员孙涛的一句台词：大家都是本地狐狸，别搁那装貂 :)。
+Rust 中哈希类型（哈希映射）为 `HashMap<K,V>`，在其它语言中，也有类似的数据结构，例如 `hash map`，`map`，`object`，`hash table`，`字典`等等，引用小品演员孙涛的一句台词：大家都是本地狐狸，别搁那装貂 :)。
 
 ## 创建HashMap
 
@@ -126,7 +126,7 @@ error[E0382]: borrow of moved value: `name`
 提示很清晰，`name` 是 `String` 类型，因此它受到所有权的限制，在 `insert` 时，它的所有权被转移给 `handsome_boys`，所以最后在使用时，会遇到这个无情但是意料之中的报错。
 
 
-**如果你使用引用类型放入HashMap中**，请确保该引用的生命周期至少跟 `HashMap` 一样久：
+**如果你使用引用类型放入HashMap中**，请确保该引用的生命周期至少跟 `HashMap` 活得一样久：
 ```rust
 fn main() {
     use std::collections::HashMap;
