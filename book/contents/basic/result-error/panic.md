@@ -19,7 +19,7 @@ fn main() {
 
 运行后输出:
 ```console
-thread 'main' panicked at 'crash!!1', src/main.rs:3:5
+thread 'main' panicked at 'crash and burn', src/main.rs:2:5
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ```
 
