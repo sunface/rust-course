@@ -126,6 +126,7 @@ encapsulation                    | 封装                          |
 equality test                    | 相等测试                      |
 elision                          | 省略                          |
 exhaustiveness checking          | 穷尽性检查，无遗漏检查        |
+executor                         | 执行器                       | 
 expression                       | 表达式                        |
 expression-oriented language     | 面向表达式的语言              |
 explicit                         | 显式                          |
