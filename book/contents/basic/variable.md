@@ -196,6 +196,6 @@ error[E0308]: mismatched types
 error: aborting due to previous error
 ```
 
-显然，Rust对类型的要求很严格，不允许将字符串类型赋值给整数类型`usize`，`usize`是一种cpu相关的整数类型，在[数值类型](./base-type/numbers#整数类型)有详细介绍.
+显然，Rust对类型的要求很严格，不允许将整数类型`usize`赋值给字符串类型，`usize`是一种cpu相关的整数类型，在[数值类型](./base-type/numbers#整数类型)有详细介绍.
 
 万事开头难，到目前为止，都进展很顺利，那下面开始，咱们正式进入Rust的类型世界，看看有哪些挑战在前面等着大家。
