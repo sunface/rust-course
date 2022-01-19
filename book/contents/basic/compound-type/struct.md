@@ -107,7 +107,7 @@ fn build_user(email: String, username: String) -> User {
 > 仔细回想一下[所有权](../ownership/ownership.md#拷贝(浅拷贝))那一节的内容，我们提到了Copy特征：实现了Copy特征的类型无需所有权转移，可以直接在赋值时进行
 > 数据拷贝，其中`bool`和`u64`类型就实现了`Copy`特征，因此`active`和`sign_in_count`字段在赋值给user2时，仅仅发生了拷贝，而不是所有权转移.
 >
-> 值的注意的是：`username`所有权被转移给了`user2`,导致了`user1`无法再被使用，但是并不代表`user1`内部的其它字段不能被继续使用，例如:
+> 值得注意的是：`username`所有权被转移给了`user2`,导致了`user1`无法再被使用，但是并不代表`user1`内部的其它字段不能被继续使用，例如:
 
 ```rust
 # #[derive(Debug)]
