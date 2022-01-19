@@ -516,18 +516,18 @@ name = "generics1"
 path = "exercises/generics/generics1.rs"
 mode = "compile"
 hint = """
-Vectors in rust make use of generics to create dynamically sized arrays of any type.
-You need to tell the compiler what type we are pushing onto this vector."""
+Rust 中的 Vector 通过泛型来创建任意类型的动态数组。
+所以你要告诉编译器，我们要把什么类型的元素推入到这个数组里。"""
 
 [[exercises]]
 name = "generics2"
 path = "exercises/generics/generics2.rs"
 mode = "test"
 hint = """
-Currently we are wrapping only values of type 'u32'.
-Maybe we could update the explicit references to this data type somehow?
+目前我们只包装了 'u32' 类型的值。
+或许我们可以通过某种方式来修改对类型的显式引用？
 
-If you are still stuck https://doc.rust-lang.org/stable/book/ch10-01-syntax.html#in-method-definitions
+如果你还没有头绪：https://doc.rust-lang.org/stable/book/ch10-01-syntax.html#in-method-definitions
 """
 
 [[exercises]]
@@ -535,12 +535,11 @@ name = "generics3"
 path = "exercises/generics/generics3.rs"
 mode = "test"
 hint = """
-To find the best solution to this challenge you're going to need to think back to your
-knowledge of traits, specifically Trait Bound Syntax -  you may also need this: "use std::fmt::Display;"
+为了找到解决这个难题的最佳方法，你需要回想一下有关 trait 的知识，特别是 trait 的绑定语法——可能
+还需要这个："use std::fmt::Display;"
 
-This is definitely harder than the last two exercises! You need to think about not only making the
-ReportCard struct generic, but also the correct property - you will need to change the implementation
-of the struct slightly too...you can do it!
+这绝对比前两个练习更难！你需要使 ReportCard 结构通用，并拥有正确的属性，同时
+你也需要稍微改变一下结构的实现……加油💪！
 """
 
 # OPTIONS

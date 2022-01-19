@@ -1,7 +1,7 @@
-// This shopping list program isn't compiling!
-// Use your knowledge of generics to fix it.
+// 这个购物清单程序无法编译！
+// 用你对泛型的了解来解决这个问题。
 
-// Execute `rustlings hint generics1` for hints!
+// 执行 `rustlings hint generics1` 获取提示！
 
 // I AM NOT DONE
 
