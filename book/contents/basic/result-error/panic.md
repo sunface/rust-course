@@ -24,7 +24,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ```
 
 以上信息包含了两条重要信息：
-- `main` 函数所在的线程崩溃了，发生的代码位置是 `src/main.rs` 中的第3行第5个字符(去除该行前面的空字符)
+- `main` 函数所在的线程崩溃了，发生的代码位置是 `src/main.rs` 中的第2行第5个字符(去除该行前面的空字符)
 - 在使用时加上一个环境变量可以获取更详细的栈展开信息：`RUST_BACKTRACE=1 cargo run`
 
 下面让我们针对第二点进行详细展开讲解。
