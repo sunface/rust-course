@@ -30,5 +30,5 @@ error[E0282]: type annotations needed
   |         ^^^^^ consider giving `guess` a type
 ```
 
-因此我们需要提供给编译器更多的信息，例如给`guess`变量一个**显示的类型标注**: `let guess: i32 = ...` 或者`"42".parse::<i32>()`.
+因此我们需要提供给编译器更多的信息，例如给`guess`变量一个**显式的类型标注**: `let guess: i32 = ...` 或者`"42".parse::<i32>()`.
 
