@@ -8,7 +8,7 @@
 
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
 
-- 最近修订： 新增章节 [与众不同的Rust异步编程入门](https://zhuanlan.zhihu.com/p/459497216)
+- 最近修订： 新增章节 [异步编程底层探秘](https://zhuanlan.zhihu.com/p/459944365)
 - Rust 版本： Rust edition 2021
 - QQ 交流群：1009730433
 
