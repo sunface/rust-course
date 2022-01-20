@@ -1,5 +1,5 @@
 // option3.rs
-// Make me compile! Execute `rustlings hint option3` for hints
+// 让我通过编译！执行 `rustlings hint option3` 获取提示
 
 // I AM NOT DONE
 
@@ -15,5 +15,5 @@ fn main() {
         Some(p) => println!("Co-ordinates are {},{} ", p.x, p.y),
         _ => println!("no match"),
     }
-    y; // Fix without deleting this line.
+    y; // 无需删除这行就可以解决。
 }

@@ -549,15 +549,15 @@ name = "option1"
 path = "exercises/option/option1.rs"
 mode = "compile"
 hint = """
-Hint 1: Check out some functions of Option:
+提示 1：了解 Option 的一些方法：
 is_some
 is_none
 unwrap
 
-and:
-pattern matching
+和：
+模式匹配
 
-Hint 2: There are no sensible defaults for the value of an Array; the values need to be filled before use.
+提示 2：数组没有合适的默认值；在使用前需要添加这些值。
 """
 
 [[exercises]]
@@ -565,13 +565,13 @@ name = "option2"
 path = "exercises/option/option2.rs"
 mode = "compile"
 hint = """
-check out:
+查看：
 https://doc.rust-lang.org/rust-by-example/flow_control/if_let.html
 https://doc.rust-lang.org/rust-by-example/flow_control/while_let.html
 
-Remember that Options can be stacked in if let and while let.
-For example: Some(Some(variable)) = variable2
-Also see Option::flatten
+记住，可以多次层叠地对 Options 使用 if let 或 while let 。
+例如: Some(Some(variable)) = variable2
+也可以参考下 Option::flatten
 """
 
 [[exercises]]
@@ -579,10 +579,9 @@ name = "option3"
 path = "exercises/option/option3.rs"
 mode = "compile"
 hint = """
-The compiler says a partial move happened in the `match`
-statement. How can this be avoided? The compiler shows the correction
-needed. After making the correction as suggested by the compiler, do
-read: https://doc.rust-lang.org/std/keyword.ref.html"""
+编译器说 `match` 语句中发生了部分移动。
+怎样避免这种情况？编译器也已给出了所需的修正。
+按照编译器的建议进行修正后，请阅读：https://doc.rust-lang.org/std/keyword.ref.html"""
 
 # TRAITS
 

@@ -1,11 +1,11 @@
 // option2.rs
-// Make me compile! Execute `rustlings hint option2` for hints
+// 让我通过编译！执行 `rustlings hint option2` 获取提示！
 
 // I AM NOT DONE
 
 fn main() {
     let optional_word = Some(String::from("rustlings"));
-    // TODO: Make this an if let statement whose value is "Some" type
+    // TODO：改成适用于值为 "Some" 类型的 if let 语句，
     word = optional_word {
         println!("The word is: {}", word);
     } else {
@@ -17,8 +17,8 @@ fn main() {
         optional_integers_vec.push(Some(x));
     }
 
-    // TODO: make this a while let statement - remember that vector.pop also adds another layer of Option<T>
-    // You can stack `Option<T>`'s into while let and if let
+    // TODO：改成 while let 语句——记住，vector.pop 的返回类型为 Option<T>。
+    // 你可以多次层叠地对 `Option<T>` 使用 while let 或 if let
     integer = optional_integers_vec.pop() {
         println!("current value: {}", integer);
     }
