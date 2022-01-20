@@ -26,7 +26,7 @@ let heart = PokerSuit::Hearts;
 let diamond = PokerSuit::Diamonds;
 ```
 
-我们通过`::`操作符来访问`PokerSuit`下的具体成员，从代码可以清晰看出，`heart`和`diamond`都是`PkerSuit`枚举类型的，接着可以定义一个函数来使用它们：
+我们通过`::`操作符来访问`PokerSuit`下的具体成员，从代码可以清晰看出，`heart`和`diamond`都是`PokerSuit`枚举类型的，接着可以定义一个函数来使用它们：
 ```rust
 fn main() {
     let heart = PokerSuit::Hearts;
