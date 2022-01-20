@@ -83,8 +83,8 @@
     <!-- - [高阶特征约束(HRTB) todo](advance/hrtb.md) -->
 ## 专题内容,每个专题都配套一个小型项目进行实践
 - [async/await异步编程 doing](async/intro.md)
-  - [async编程简介](async/getting-started.md)
-  - [底层原理: Future执行与任务调度](async/future-excuting.md)
+  - [async编程入门](async/getting-started.md)
+  - [底层探秘: Future执行与任务调度](async/future-excuting.md)
   - [async/await语法 todo](async/async-await.md)
   - [Pin、Unpin todo](async/pin-unpin.md)
   - [遇到不支持的异步特性? todo](async/future/workarounds.md)
