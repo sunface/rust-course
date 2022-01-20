@@ -1,9 +1,9 @@
 // option1.rs
-// Make me compile! Execute `rustlings hint option1` for hints
+// 让我通过编译！执行 `rustlings hint option1` 获取提示！
 
 // I AM NOT DONE
 
-// you can modify anything EXCEPT for this function's sig
+// 你可以自由修改代码，但这个函数签名除外。
 fn print_number(maybe_number: Option<u16>) {
     println!("printing: {}", maybe_number.unwrap());
 }
