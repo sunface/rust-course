@@ -45,7 +45,7 @@
 - [@1132719438](https://github.com/1132719438)
 - [@codemystery](https://github.com/codemystery)
 - [@AllanDowney](https://github.com/AllanDowney)
-- [@chenxuuu](https://github.com/chenxuuu)
+- [@W-Qing](https://github.com/W-Qing)
 
 尤其感谢这些主要贡献者，谢谢你们花费大量时间贡献了多处`fix`和高质量的内容优化，非常感动，再次感谢～～
 
