@@ -5,6 +5,7 @@ target/
 *.pdb
 exercises/clippy/Cargo.toml
 exercises/clippy/Cargo.lock
-.idea
+.idea/
 .vscode
 *.iml
+
