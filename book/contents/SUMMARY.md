@@ -96,7 +96,7 @@
   - [底层探秘: Future执行与任务调度](async/future-excuting.md)
   - [定海神针Pin和Unpin](async/pin-unpin.md)
   - [async、await和Stream流处理](async/async-await.md)
-  - [一些棘手问题的解决 todo](async/hassles.md)
+  - [同时运行多个Future](async/multi-futures-simultaneous.md)
   - [HTTP Client/Server todo](async/http.md)
   - [tokio todo](async/tokio/intro.md)
       - [基本用法](async/tokio/basic.md)
