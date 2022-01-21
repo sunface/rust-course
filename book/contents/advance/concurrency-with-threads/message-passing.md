@@ -314,7 +314,7 @@ Bingo，更奇怪的事出现了，第一条消息瞬间发送完成，没有阻
 ## 传输多种类型的数据
 之前提到过，一个消息通道只能传输一种类型的数据，如果你想要传输多种类型的数据，可以为每个类型创建一个通道，你也可以使用枚举类型来实现：
 ```rust
-se std::sync::mpsc::{self, Receiver, Sender};
+use std::sync::mpsc::{self, Receiver, Sender};
 
 enum Fruit {
     Apple(u8),
