@@ -310,22 +310,22 @@ error[E0277]: `PhantomPinned` cannot be unpinned
 > 需要注意的是固定在栈上非常依赖于你写出的 `unsafe` 代码的正确性。我们知道 `&'a mut T` 可以固定的生命周期是 `'a` ，但是我们却不知道当生命周期 `'a` 结束后，该指针指向的数据是否会被移走。如果你的 `unsafe` 代码里这么实现了，那么就会违背 `Pin` 应该具有的作用！
 >
 > 一个常见的错误就是忘记去遮蔽(shadow )初始的变量，因为你可以 `drop` 掉 `Pin` ，然后在 `&'a mut T` 结束后去移动数据:
->
-> ```rust
-> pub fn main() {
->    let mut test1 = Test::new("test1");
->    let mut test1 = unsafe { Pin::new_unchecked(&mut test1) };
->    Test::init(test1.as_mut());
->
->    let mut test2 = Test::new("test2");
->    let mut test2 = unsafe { Pin::new_unchecked(&mut test2) };
->    Test::init(test2.as_mut());
->
->    println!("a: {}, b: {}", Test::a(test1.as_ref()), Test::b(test1.as_ref()));
->    std::mem::swap(test1.get_mut(), test2.get_mut());
->    println!("a: {}, b: {}", Test::a(test2.as_ref()), Test::b(test2.as_ref()));
->}
->```
+
+```rust
+pub fn main() {
+    let mut test1 = Test::new("test1");
+    let mut test1 = unsafe { Pin::new_unchecked(&mut test1) };
+    Test::init(test1.as_mut());
+
+    let mut test2 = Test::new("test2");
+    let mut test2 = unsafe { Pin::new_unchecked(&mut test2) };
+    Test::init(test2.as_mut());
+
+    println!("a: {}, b: {}", Test::a(test1.as_ref()), Test::b(test1.as_ref()));
+    std::mem::swap(test1.get_mut(), test2.get_mut());
+    println!("a: {}, b: {}", Test::a(test2.as_ref()), Test::b(test2.as_ref()));
+}
+```
 
 #### 固定到堆上
 将一个 `!Unpin` 类型的值固定到堆上，会给予该值一个稳定的内存地址，它指向的堆中的值在 `Pin` 后是无法被移动的。而且与固定在栈上不同，我们知道堆上的值在整个生命周期内都会被稳稳地固定住。
