@@ -45,7 +45,7 @@
         - [动态数组Vector](basic/collections/vector.md)
         - [KV存储HashMap](basic/collections/hashmap.md)
     - [类型转换](basic/converse.md)
-    - [返回和错误处理](basic/result-error/intro.md)
+    - [返回值和错误](basic/result-error/intro.md)
         - [panic深入剖析!](basic/result-error/panic.md)
         - [返回值Result和?](basic/result-error/result.md)
 
@@ -79,14 +79,23 @@
         - [线程同步：锁、Condvar和信号量](advance/concurrency-with-threads/sync1.md)
         - [线程同步：Atomic原子操作与内存顺序](advance/concurrency-with-threads/sync2.md)
         - [基于Send和Sync的线程安全](advance/concurrency-with-threads/send-sync.md)
+    - [Unsafe Rust todo](advance/unsafe/intro.md)
+      - [原生指针 todo](advance/unsafe/raw-pointer.md)
+      - [FFI外部语言用 todo](advance/unsafe/ffi.md)
     - [全局变量](advance/global-variable.md)
-    <!-- - [高阶特征约束(HRTB) todo](advance/hrtb.md) -->
+    - [错误处理 todo](advance/errors/intro.md)
+      - [简化错误处理 todo](advance/errors/simplify.md)
+      - [自定义错误 todo](advance/errors/user-define.md)
+      - [让错误输出更优雅 todo](advance/errors/pretty-format.md)
+      - [会导致panic的代码 todo](advance/errors/panic-codes.md)
+    - [高阶特征约束(HRTB) todo](advance/hrtb.md)
+
 ## 专题内容,每个专题都配套一个小型项目进行实践
 - [async/await异步编程 doing](async/intro.md)
   - [async编程入门](async/getting-started.md)
   - [底层探秘: Future执行与任务调度](async/future-excuting.md)
   - [定海神针Pin和Unpin](async/pin-unpin.md)
-  - [async/await 和 Stream todo](async/async-await.md)
+  - [async、await和Stream流处理](async/async-await.md)
   - [一些棘手问题的解决 todo](async/hassles.md)
   - [HTTP Client/Server todo](async/http.md)
   - [tokio todo](async/tokio/intro.md)
@@ -135,15 +144,12 @@
 - [用Rust增强Javascript todo](rustjs/intro.md)
     - [deno todo](rustjs/deno.md)
     - [wasm tod](rustjs/wasm/intro.md)
+
+
 - [复杂错误索引 todo](errorindex/intro.md)   
     - [所有权和借用 todo](errorindex/borrowing/intro.md)
     - [生命周期 todo](errorindex/lifetime/intro.md)
 
-- [错误处理 todo](errors/intro.md)
-    - [简化错误处理 todo](errors/simplify.md)
-    - [自定义错误 todo](errors/user-define.md)
-    - [让错误输出更优雅 todo](errors/pretty-format.md)
-    - [会导致panic的代码 todo](errors/panic-codes.md)
 
 - [Cargo详解 todo](cargo/intro.md)
     - [常用命令 todo](cargo/commands.md)
@@ -187,11 +193,6 @@
     - [为何OO todo](object-oriented/characteristics.md)
     - [设计模式 todo](object-oriented/design-pattern.md)
 
-- [不安全Rust todo](unsafe/intro.md)
-    - [原生指针 todo](unsafe/raw-pointer.md)
-    - [修改全局变量 todo](unsafe/modify-global-var.md)
-    - [FFI外部语言用 todo](unsafe/ffi.md)
-    - [那些会导致UB的代码 todo](unsafe/ub.md)
     
 - [宏编程 todo](macro/intro.md)
     - [过程宏(todo)](macro/procedure-macro.md)
