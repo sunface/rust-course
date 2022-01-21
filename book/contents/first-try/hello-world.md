@@ -4,7 +4,7 @@
 
 ## 多国语言的"世界，你好"
 
-还记得大明湖畔等你的[VSCode](./editor.md) IDE 和通过 `Cargo` 创建的[世界，你好](./cargo.md)工程嘛? 
+还记得大明湖畔等你的 [VSCode](./editor.md) IDE 和通过 `Cargo` 创建的[世界，你好](./cargo.md)工程嘛? 
 
 现在使用 VSCode 打开[上一节](./cargo.md)中创建的 `world_hello` 工程, 然后进入 `main.rs` 文件，此文件是当前 Rust 工程的入口文件，和其它语言几无区别。
 
