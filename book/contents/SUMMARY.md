@@ -85,7 +85,7 @@
 - [async/await异步编程 doing](async/intro.md)
   - [async编程入门](async/getting-started.md)
   - [底层探秘: Future执行与任务调度](async/future-excuting.md)
-  - [定海神针Pin和Unpin todo](async/pin-unpin.md)
+  - [定海神针Pin和Unpin](async/pin-unpin.md)
   - [async/await 和 Stream todo](async/async-await.md)
   - [一些棘手问题的解决 todo](async/hassles.md)
   - [HTTP Client/Server todo](async/http.md)
