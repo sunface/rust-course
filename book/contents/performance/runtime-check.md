@@ -28,5 +28,7 @@ https://www.reddit.com/r/rust/comments/rntx7s/why_use_boxleak/
 ## bounds check
 https://www.reddit.com/r/rust/comments/rnbubh/whats_the_big_deal_with_bounds_checking/
 
+https://www.reddit.com/r/rust/comments/s6u65e/optimization_of_bubble_sort_fails_without_hinting/
+
 ## 使用assert 优化检查性能
 https://www.reddit.com/r/rust/comments/rui1zz/write_assertions_that_clarify_code_to_both_the/
