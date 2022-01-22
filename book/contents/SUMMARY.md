@@ -79,6 +79,7 @@
         - [线程同步：锁、Condvar和信号量](advance/concurrency-with-threads/sync1.md)
         - [线程同步：Atomic原子操作与内存顺序](advance/concurrency-with-threads/sync2.md)
         - [基于Send和Sync的线程安全](advance/concurrency-with-threads/send-sync.md)
+        - [实践应用：多线程Web服务器 todo](advance/concurrency-with-threads/web-server.md)
     - [Unsafe Rust todo](advance/unsafe/intro.md)
       - [原生指针 todo](advance/unsafe/raw-pointer.md)
       - [FFI外部语言用 todo](advance/unsafe/ffi.md)
@@ -98,7 +99,7 @@
   - [async、await和Stream流处理](async/async-await.md)
   - [同时运行多个Future](async/multi-futures-simultaneous.md)
   - [一些疑难问题的解决办法](async/pain-points-and-workarounds.md)
-  - [HTTP Client/Server todo](async/http.md)
+  - [实践应用：Async Web服务器](async/web-server.md)
   - [tokio todo](async/tokio/intro.md)
       - [基本用法](async/tokio/basic.md)
       - [异步消息流](async/tokio/stream.md))   
@@ -142,11 +143,6 @@
 - [进阶类型转换](converse/intro.md)
     - [枚举和整数](converse/enum-int.md)
     
-- [用Rust增强Javascript todo](rustjs/intro.md)
-    - [deno todo](rustjs/deno.md)
-    - [wasm tod](rustjs/wasm/intro.md)
-
-
 - [复杂错误索引 todo](errorindex/intro.md)   
     - [所有权和借用 todo](errorindex/borrowing/intro.md)
     - [生命周期 todo](errorindex/lifetime/intro.md)
@@ -227,13 +223,6 @@
     - [HashMap todo](std/hashmap.md)
     - [Iterator常用方法 todo](std/iterator.md)
 
-- [常用三方库 todo](libraries/intro.md)
-    - [JSON](libraries/json/intro.md)
-        - [serde(todo)](libraries/json/serde.md)
-    - [HTTP](libraries/http/intro.md)
-        - [reqwest(todo)](libraries/http/reqwest.md)
-    - [命令行解析](libraries/command/intro.md)
-        - [structopt(todo)](libraries/command/structopt.md)
 
 ## 附录
 - [附录](appendix/intro.md)
