@@ -1,4 +1,4 @@
-# Rust 语言圣经 (The course)
+# Rust语言圣经 (The Course)
 
 - 在线阅读
 
