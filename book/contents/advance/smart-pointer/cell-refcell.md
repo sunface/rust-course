@@ -113,7 +113,7 @@ let z = &mut x;
 x = 2;
 *y = 3;
 *z = 4;
-println!("{}", x;
+println!("{}", x);
 ```
 
 虽然性能一致，但代码`1`拥有代码`2`不具有的优势：它能编译成功:)
@@ -204,7 +204,7 @@ fn main() {
 
     let s1 = s.clone();
     let s2 = s.clone();
-    // let mut s2 = .borrow_mut();
+    // let mut s2 = s.borrow_mut();
     s2.borrow_mut().push_str(", on yeah!");
 
     println!("{:?}\n{:?}\n{:?}", s, s1, s2);
@@ -339,9 +339,9 @@ fn retain_even(nums: &mut Vec<i32>) {
 }
 ```
 
-此时代码将不会报错，因为`Cell`上的`set`方法获取的是不可变引用`pub fn set(&self, val: T) {`.
+此时代码将不会报错，因为`Cell`上的`set`方法获取的是不可变引用`pub fn set(&self, val: T)`.
 
-当然，以上代码的本质还是对`Cell`的运用，只不过这两个方法可以很方便的帮我们把`&mut T`类型转换成`&[Cell<T>]`类型。
+当然，以上代码的本质还是对`Cell`的运用，只不过这两个方法可以很方便的帮我们把`&mut [T]`类型转换成`&[Cell<T>]`类型。
 
 
 ## 总结
