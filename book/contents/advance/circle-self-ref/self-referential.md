@@ -196,7 +196,7 @@ fn main() {
 运行后输出:
 ```console
 hello, 0x16f3aec70
-hello, world!, 0x16f3#aec70
+hello, world!, 0x16f3aec70
 ```
 
 上面的`unsafe`虽然简单好用，但是它不太安全，是否还有其他选择？还真的有，那就是`Pin`。
@@ -254,12 +254,12 @@ fn main() {
 
 上面的代码也非常清晰，虽然使用了`unsafe`，其实更多的是无奈之举，跟之前的`unsafe`实现完全不可同日而语。
 
-其实`Pin`在这里并没有魔法，它也并不是实现自引用类型的主要原因，最关键的还是里面的原生指针的使用，而`Pin`起到的就是确保我们的值不会被移走，否则指针就会指向一个错误的地址！
+其实`Pin`在这里并没有魔法，它也并不是实现自引用类型的主要原因，最关键的还是里面的原生指针的使用，而`Pin`起到的作用就是确保我们的值不会被移走，否则指针就会指向一个错误的地址！
 
 
 
 ## 使用ouroboros
-对于自引用结构体，三方库也有支持的，其中一个就是`ouroboros`，当然它也有自己的限制，我们后面会提到，先来看看该如何使用：
+对于自引用结构体，三方库也有支持的，其中一个就是[ouroboros](https://github.com/joshua-maros/ouroboros)，当然它也有自己的限制，我们后面会提到，先来看看该如何使用：
 ```rust
 use ouroboros::self_referencing;
 
@@ -337,7 +337,7 @@ fn main() {
 
 类似的库还有:
 - [rental](https://github.com/jpernst/rental)， 这个库其实是最有名的，但是好像不再维护了，用倒是没问题
-- [owning-ref](https://github.com/Kimundi/owning-ref-rs) 
+- [owning-ref](https://github.com/Kimundi/owning-ref-rs) ，将所有者和它的引用绑定到一个封装类型
 
 这三个库，各有各的特点，也各有各的缺陷，建议大家需要时，一定要仔细调研，并且写demo进行测试，不可大意。
 
@@ -352,7 +352,7 @@ fn main() {
 
 
 ## 学习一本书：如何实现链表
-最后，推荐一本专门将如何实现链表的书(真是富有Rust特色，链表都能复杂到出书了O, O)，[too many lists](https://rust-unofficial.github.io/too-many-lists/)
+最后，推荐一本专门将如何实现链表的书(真是富有Rust特色，链表都能复杂到出书了O, O)，[Learn Rust by writing Entirely Too Many Linked Lists](https://rust-unofficial.github.io/too-many-lists/)
 
 
 ## 总结

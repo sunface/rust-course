@@ -149,7 +149,7 @@ fn display(s: &str) {
 ```rust
 fn main() {
     let m = MyBox::new(String::from("Rust"));
-    hello(&(*m)[..]);
+    display(&(*m)[..]);
 }
 ```
 
@@ -161,7 +161,7 @@ fn main() {
 ```rust
 fn main() {
     let s = MyBox::new(String::from("hello, world"));
-    let s1:&str = &s;
+    let s1: &str = &s;
     let s2: String = s.to_string();
 }
 ```
@@ -171,14 +171,14 @@ fn main() {
 ## Deref规则总结
 在上面，我们零碎的介绍了不少关于`Deref`特征的知识，下面来通过较为正式的方式来对其规则进行下总结。
 
-一个类型为`T`的对象`foo`，如果`T: Deref<Target=U>`，那么，相关`foo`的引用`&foo`在应用的时候会自动转换`&U`。
+一个类型为`T`的对象`foo`，如果`T: Deref<Target=U>`，那么，相关`foo`的引用`&foo`在应用的时候会自动转换为`&U`。
 
-粗看这条规则，貌似有点类似于`AsRef`，而跟`解引`似乎风马牛不相及, 实际里面里面有些玄妙之处。
+粗看这条规则，貌似有点类似于`AsRef`，而跟`解引用`似乎风马牛不相及, 实际里面有些玄妙之处。
 
 Rust编译器会在做`*v`操作的时候，自动先把`v`做引用归一化操作，即转换成内部通用引用的形式`&v`，整个表达式就变成 `*&v`。这里面有两种情况：
 
 1. 把智能指针（比如在库中定义的，Box, Rc, Arc, Cow 等），去掉壳，转成内部标准形式`&v`；
-2. 把多重`&` （比如：`&&&&&&&v`），简化成`&v`（通过插入足够数量的`*`进行解引）。
+2. 把多重`&` （比如：`&&&&&&&v`），简化成`&v`（通过插入足够数量的`*`进行解引用）。
 所以，它实际上在解引用之前做了一个引用的归一化操作。
 
 为什么要转呢？ 因为编译器设计的能力是，只能够对 &v 这种引用进行解引用。其它形式的它不认识，所以要做引用归一化操作。
@@ -215,7 +215,7 @@ Rust编译器会在做`*v`操作的时候，自动先把`v`做引用归一化操
     foo(&counted);
 ```
 
-因为`Vec<T>` 实现了`Deref<Target=[T]>`。
+因为`Rc<T>` 实现了`Deref<Target=T>`。
 
 ```rust
     struct Foo;
@@ -283,7 +283,7 @@ fn display(s: &mut String) {
 
 以上代码有几点值得注意:
 
-- 要实现`DerefMut`必须要先实现`Deref`特征: `pub trait DerefMut: Deref {`
+- 要实现`DerefMut`必须要先实现`Deref`特征: `pub trait DerefMut: Deref`
 - `T: DerefMut<Target=U>`解读:将`&mut T`类型通过`DerefMut`特征的方法转换为`&mut U`类型，对应上例中，就是将`&mut MyBox<String>`转换为`&mut String`
 
 对于上述三条规则中的第三条，它比另外两条稍微复杂了点：Rust可以把可变引用隐式的转换成不可变引用，但反之则不行。

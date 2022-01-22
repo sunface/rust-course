@@ -91,7 +91,7 @@ thread 'main' has overflowed its stack
 fatal runtime error: stack overflow
 ```
 
-通过`a.tail`的调用，Rust试图打印出`a -> b ->a···`的所有内容，但是在不懈的努力后，`main`线程终于不堪重负，发生了[栈溢出](https://zhuanlan.zhihu.com/p/446039229)。
+通过`a.tail`的调用，Rust试图打印出`a -> b ->a···`的所有内容，但是在不懈的努力后，`main`线程终于不堪重负，发生了[栈溢出](https://course.rs/pitfalls/stack-overflow.html)。
 
 以上的代码可能并不会造成什么大的问题，但是在一个更加复杂的程序中，类似的问题可能会造成你的程序不断的分配内存、泄漏内存，最终程序会不幸**OOM**，当然这其中的CPU损耗也不可小觑。
 
@@ -279,9 +279,9 @@ fn main() {
 这个例子就留给读者自己解读和分析，我们就不画蛇添足了：）
 
 ## unsafe解决循环引用
-除了使用Rust标准库提供的这些类型，你还可以使用`unsafe`里的原生指针来解决这些棘手的问题，但是由于我们还没有讲解`unsafe`，因此这里就不进行展开，只附上[源码链接](https://codes.rs/unsafe/self-ref.html), 挺长的，需要耐心o,O
+除了使用Rust标准库提供的这些类型，你还可以使用`unsafe`里的原生指针来解决这些棘手的问题，但是由于我们还没有讲解`unsafe`，因此这里就不进行展开，只附上[源码链接](https://codes.rs/unsafe/self-ref.html), 挺长的，需要耐心o_O
 
-虽然`unsfae`不安全，但是在各种库的代码中依然很常见用它来实现自引用结构，主要优点如下:
+虽然`unsafe`不安全，但是在各种库的代码中依然很常见用它来实现自引用结构，主要优点如下:
 
 - 性能高，毕竟直接用原生指针操作
 - 代码更简单更符合直觉: 对比下`Option<Rc<RefCell<Node>>>`
