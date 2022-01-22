@@ -43,7 +43,7 @@ sunfei@sunfeideMa
 
 对于 `println` 来说，我们没有使用其它语言惯用的 `%s`,`%d` 来做输出占位符，而是使用 `{}`，因为 Rust 在底层帮我们做了大量工作，会自动识别输出数据的类型，例如当前例子，会识别为 `String` 类型。
 
-在 2021 edtion 前,和其它语言不同，Rust 的集合类型不能直接进行循环，需要变成迭代器(这里是通过 `.iter()` 方法, 即写成 `for region in regions.iter()`)，才能用于迭代循环。但是在 2021 edition及以后, rust 支持直接写 `for region in regions`。
+最后,和其它语言不同，Rust 的集合类型不能直接进行循环，需要变成迭代器(这里是通过 `.iter()` 方法, 即写成 `for region in regions.iter()`)，才能用于迭代循环。但是在 2021 edition及以后, 支持直接写 `for region in regions`，原因会在迭代器章节的开头提到，是因为 for 隐式地将 regions 转换成迭代器。
 
 至于函数声明、调用、数组的使用，和其它语言没什么区别，So Easy！
 
