@@ -1,12 +1,10 @@
 // traits1.rs
-// Time to implement some traits!
+// 是时候来实现些 trait 了！
 //
-// Your task is to implement the trait
-// `AppendBar' for the type `String'.
+// 你的任务是为 `String` 实现 `AppendBar` trait。
 //
-// The trait AppendBar has only one function,
-// which appends "Bar" to any object
-// implementing this trait.
+// `AppendBar` 只有一个函数，它将 "Bar" 追加到任何实现该 trait 的对象上。
+// 译：Append 有追加、附加的意思，所以“追加/附加 Bar”。
 
 // I AM NOT DONE
 
@@ -15,7 +13,7 @@ trait AppendBar {
 }
 
 impl AppendBar for String {
-    //Add your code here
+    // 在这里编写代码
 }
 
 fn main() {
