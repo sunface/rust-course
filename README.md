@@ -8,7 +8,7 @@
 
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
 
-- 最近修订： 新增章节 [定海神针Pin和Unpin](https://zhuanlan.zhihu.com/p/460226073)
+- 最近修订： 新增章节 [为async疑难杂症把把脉](https://zhuanlan.zhihu.com/p/460749920)
 - Rust 版本： Rust edition 2021
 - QQ 交流群：1009730433
 
