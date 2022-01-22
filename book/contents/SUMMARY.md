@@ -97,6 +97,7 @@
   - [定海神针Pin和Unpin](async/pin-unpin.md)
   - [async、await和Stream流处理](async/async-await.md)
   - [同时运行多个Future](async/multi-futures-simultaneous.md)
+  - [一些疑难问题的解决办法](async/pain-points-and-workarounds.md)
   - [HTTP Client/Server todo](async/http.md)
   - [tokio todo](async/tokio/intro.md)
       - [基本用法](async/tokio/basic.md)
