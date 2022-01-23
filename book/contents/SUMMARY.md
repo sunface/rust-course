@@ -2,6 +2,7 @@
 
 [进入Rust编程世界](into-rust.md)
 [关于本书](about-book.md)
+[避免从入门到放弃](sth-you-should-not-do.md)
 
 ## Getting started
 
@@ -100,9 +101,10 @@
   - [同时运行多个Future](async/multi-futures-simultaneous.md)
   - [一些疑难问题的解决办法](async/pain-points-and-workarounds.md)
   - [实践应用：Async Web服务器](async/web-server.md)
-  - [tokio todo](async/tokio/intro.md)
-      - [基本用法](async/tokio/basic.md)
-      - [异步消息流](async/tokio/stream.md))   
+  
+- [tokio使用指南](tokio/intro.md)
+    - [基本用法](tokio/basic.md)
+    - [异步消息流](tokio/stream.md))   
    
 - [Rust最佳实践 doing](practice/intro.md)
     - [日常开发三方库精选](practice/third-party-libs.md)
@@ -139,7 +141,9 @@
     - [奇怪的序列x..y](pitfalls/weird-ranges.md)
     - [无处不在的迭代器](pitfalls/iterator-everywhere.md)
     - [线程间传递消息导致主线程无法结束](pitfalls/main-with-channel-blocked.md)
-  
+
+- [如何实现一个链表]()
+    
 - [进阶类型转换](converse/intro.md)
     - [枚举和整数](converse/enum-int.md)
     
