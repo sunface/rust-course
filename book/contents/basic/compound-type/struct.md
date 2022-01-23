@@ -27,16 +27,17 @@ struct User {
 #### 创建结构体实例
 为了使用上述结构体，我们需要创建`User`结构体的**实例**：
 ```rust
-  let user1 = User {
+    let user1 = User {
         email: String::from("someone@example.com"),
         username: String::from("someusername123"),
         active: true,
         sign_in_count: 1,
-};
+    };
 ```
+
 有几点值得注意:
-1. 初始化实例时，需要为**每个字段**都进行初始化
-2. 初始化时的字段顺序无需按照定义的顺序来
+1. 初始化实例时，**每个字段**都需要进行初始化
+2. 初始化时的字段顺序不需要和结构体定义时的顺序一致
 
 #### 访问结构体字段
 通过`.`操作符即可访问结构体实例内部的字段值，也可以修改它们：
@@ -50,7 +51,7 @@ struct User {
 
     user1.email = String::from("anotheremail@example.com");
 ```
-需要注意的是，必须要将整个结构体都声明为可变的，才能修改其中的字段，Rust不允许单独将某个字段标记为可变: `let mut user1 = User {...}`.
+需要注意的是，必须要将结构体实例声明为可变的，才能修改其中的字段，Rust不支持将某个结构体某个字段标记为可变.
 
 #### 简化结构体创建
 下面的函数类似一个构建函数，返回了`User`结构体的实例：
