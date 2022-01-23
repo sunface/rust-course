@@ -93,18 +93,19 @@
     - [高阶特征约束(HRTB) todo](advance/hrtb.md)
 
 ## 专题内容,每个专题都配套一个小型项目进行实践
-- [async/await异步编程 doing](async/intro.md)
+- [async/await异步编程](async/intro.md)
   - [async编程入门](async/getting-started.md)
   - [底层探秘: Future执行与任务调度](async/future-excuting.md)
   - [定海神针Pin和Unpin](async/pin-unpin.md)
-  - [async、await和Stream流处理](async/async-await.md)
+  - [async/await和Stream流处理](async/async-await.md)
   - [同时运行多个Future](async/multi-futures-simultaneous.md)
   - [一些疑难问题的解决办法](async/pain-points-and-workarounds.md)
   - [实践应用：Async Web服务器](async/web-server.md)
   
-- [tokio使用指南](tokio/intro.md)
-    - [基本用法](tokio/basic.md)
-    - [异步消息流](tokio/stream.md))   
+- [tokio使用指南 doing](tokio/intro.md)
+    - [tokio简介](tokio/overview.md)
+    <!-- - [基本用法](tokio/basic.md)
+    - [异步消息流](tokio/stream.md))    -->
    
 - [Rust最佳实践 doing](practice/intro.md)
     - [日常开发三方库精选](practice/third-party-libs.md)
