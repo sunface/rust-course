@@ -1,0 +1,1 @@
+https://www.reddit.com/r/rust/comments/s9yugv/compile_rust_to_wasm_and_import_as_typescript/
