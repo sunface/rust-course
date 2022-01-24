@@ -54,6 +54,7 @@
     - [生命周期](advance/lifetime/intro.md)
         - [认识生命周期](advance/lifetime/basic.md)
         - [深入生命周期](advance/lifetime/advance.md)
+        <!-- - [一些关于生命周期的误解 todo](advance/lifetime/misconceptions.md) -->
     - [函数式编程](advance/functional-programing/intro.md)
         - [闭包closure](advance/functional-programing/closure.md)
         - [迭代器iterator](advance/functional-programing/iterator.md)
@@ -104,9 +105,9 @@
   
 - [tokio使用指南 doing](tokio/intro.md)
     - [tokio概览](tokio/overview.md)
-    - [tokio初印象](tokio/getting-startted.md)
-    <!-- - [基本用法](tokio/basic.md)
-    - [异步消息流](tokio/stream.md))    -->
+    - [使用初印象](tokio/getting-startted.md)
+    - [创建异步任务](tokio/spawning.md)
+    <!-- - [异步消息流](tokio/stream.md))    -->
    
 - [Rust最佳实践 doing](practice/intro.md)
     - [日常开发三方库精选](practice/third-party-libs.md)
