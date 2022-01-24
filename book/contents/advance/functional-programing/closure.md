@@ -34,11 +34,11 @@ fn muuuuu(intensity: u32) -> u32 {
 fn workout(intensity: u32, random_number: u32) {
     if intensity < 25 {
         println!(
-            "今天活力满满, 先做 {} 个俯卧撑!",
+            "今天活力满满，先做 {} 个俯卧撑!",
             muuuuu(intensity)
         ); 
         println!(
-            "旁边有妹子在看，俯卧撑太low, 再来 {} 组卧推!",
+            "旁边有妹子在看，俯卧撑太low，再来 {} 组卧推!",
             muuuuu(intensity)
         );
     } else {
@@ -46,7 +46,7 @@ fn workout(intensity: u32, random_number: u32) {
             println!("昨天练过度了，今天还是休息下吧！");
         } else {
             println!(
-                "昨天练过度了，今天干干有氧, 跑步 {} 分钟!",
+                "昨天练过度了，今天干干有氧，跑步 {} 分钟!",
                 muuuuu(intensity)
             );
         }
@@ -96,7 +96,7 @@ fn workout(intensity: u32, random_number: u32) {
 
 经过上面修改后，所有的调用都通过 `action` 来完成，若未来声(动)音(作)变了，只要修改为 `let action = woooo` 即可。
 
-但是问题又来了,若 `intensity` 也变了怎么办？例如变成 `action(intensity + 1)`，那你又得哐哐哐修改几十处调用。
+但是问题又来了，若 `intensity` 也变了怎么办？例如变成 `action(intensity + 1)`，那你又得哐哐哐修改几十处调用。
 
 该怎么办？没太好的办法了，只能祭出大杀器：闭包。
 
@@ -113,11 +113,11 @@ fn workout(intensity: u32, random_number: u32) {
 
     if intensity < 25 {
         println!(
-            "今天活力满满, 先做 {} 个俯卧撑!",
+            "今天活力满满，先做 {} 个俯卧撑!",
             action()
         );
         println!(
-            "旁边有妹子在看，俯卧撑太low, 再来 {} 组卧推!",
+            "旁边有妹子在看，俯卧撑太low，再来 {} 组卧推!",
             action()
         );
     } else {
@@ -125,7 +125,7 @@ fn workout(intensity: u32, random_number: u32) {
             println!("昨天练过度了，今天还是休息下吧！");
         } else {
             println!(
-                "昨天练过度了，今天干干有氧, 跑步 {} 分钟!",
+                "昨天练过度了，今天干干有氧，跑步 {} 分钟!",
                 action()
             );
         }
@@ -175,7 +175,7 @@ let sum = |x: i32, y: i32| -> i32 {
 }
 ```
 
-与之相比，不标注类型的闭包声明会更简洁些: `let sum = |x, y| x + y`，需要注意的是，针对 `sum` 闭包，如果你只进行了声明，但是没有使用，编译器会提示你为 `x,y` 添加类型标注，因为它缺乏必要的上下文：
+与之相比，不标注类型的闭包声明会更简洁些：`let sum = |x, y| x + y`，需要注意的是，针对 `sum` 闭包，如果你只进行了声明，但是没有使用，编译器会提示你为 `x,y` 添加类型标注，因为它缺乏必要的上下文：
 ```rust
 let sum  = |x, y| x + y;
 let v = sum(1,2);
@@ -655,7 +655,7 @@ fn factory(x:i32) -> impl Fn(i32) -> i32 {
     }
 }
 ```
-运行后，编译器报错:
+运行后，编译器报错：
 ```console
 error[E0308]: `if` and `else` have incompatible types
   --> src/main.rs:15:9
@@ -673,7 +673,7 @@ error[E0308]: `if` and `else` have incompatible types
 
 嗯，提示很清晰：`if` 和 `else` 分支中返回了不同的闭包类型，这就很奇怪了，明明这两个闭包长的一样的，好在细心的读者应该回想起来，本章节前面咱们有提到：就算签名一样的闭包，类型也是不同的，因此在这种情况下，就无法再使用 `impl Trait` 的方式去返回闭包。
 
-怎么办？再看看编译器提示，里面有这样一行小字:
+怎么办？再看看编译器提示，里面有这样一行小字：
 ```console
 = help: consider boxing your closure and/or using it as a trait object
 ```
