@@ -175,47 +175,55 @@ fn main() {
 
 粗看这条规则，貌似有点类似于`AsRef`，而跟`解引用`似乎风马牛不相及, 实际里面有些玄妙之处。
 
-Rust编译器会在做`*v`操作的时候，自动先把`v`做引用归一化操作，即转换成内部通用引用的形式`&v`，整个表达式就变成 `*&v`。这里面有两种情况：
+#### 引用归一化
+Rust编译器实际上只能对 `&v` 形式的引用进行解引用操作，那么问题来了，如果是一个智能指针或者 `&&&&v` 类型的呢？ 该如何对这两个进行解引用？
 
-1. 把智能指针（比如在库中定义的，Box, Rc, Arc, Cow 等），去掉壳，转成内部标准形式`&v`；
-2. 把多重`&` （比如：`&&&&&&&v`），简化成`&v`（通过插入足够数量的`*`进行解引用）。
-所以，它实际上在解引用之前做了一个引用的归一化操作。
+答案是：Rust 会在解引用时自动把智能指针和 `&&&&v` 做引用归一化操作，转换成 `&v` 形式，最终再对 `&v` 进行解引用:
 
-为什么要转呢？ 因为编译器设计的能力是，只能够对 &v 这种引用进行解引用。其它形式的它不认识，所以要做引用归一化操作。
+- 把智能指针（比如在库中定义的，Box, Rc, Arc, Cow 等）从结构体脱壳为内部的引用类型，也就是转成结构体内部的`&v`
+- 把多重`&` （比如：`&&&&&&&v`），归一成`&v`
 
-使用引用进行过渡也是为了能够防止不必要的拷贝。
 
-下面举一些例子：
+关于第二种情况，这么干巴巴的说，也许大家会迷迷糊糊的，我们来看一段标准库源码:
 ```rust
-    fn foo(s: &str) {
-        // borrow a string for a second
-    }
+impl<T: ?Sized> Deref for &T {
+    type Target = T;
 
-    // String implements Deref<Target=str>
+    fn deref(&self) -> &T {
+        *self
+    }
+}
+```
+
+在这段源码中，`&T` 被自动解引用为 `T` , 也就是 `&T: Deref<Target=T>` 。 按照这个代码，`&&&&T` 会被自动解引用为 `&&&T`, 然后再自动解引用为 `&&T`，以此类推， 直到最终变成 `&T`。
+
+
+
+#### 几个例子
+```rust
+    fn foo(s: &str) {}
+
+    // 由于 String 实现了 Deref<Target=str>
     let owned = "Hello".to_string();
 
-    // therefore, this works:
+    // 因此下面的函数可以正常运行:
     foo(&owned);
 ```
 
-因为`String`实现了`Deref<Target=str>`。
 
 ```rust
     use std::rc::Rc;
 
-    fn foo(s: &str) {
-        // borrow a string for a second
-    }
+    fn foo(s: &str) {}
 
-    // String implements Deref<Target=str>
+    // String 实现了 Deref<Target=str>
     let owned = "Hello".to_string();
+    // 且 Rc 智能指针可以被自动脱壳为内部的 `owned` 引用： &String ，然后 &String 再自动解引用为 &str
     let counted = Rc::new(owned);
 
-    // therefore, this works:
+    // 因此下面的函数可以正常运行:
     foo(&counted);
 ```
-
-因为`Rc<T>` 实现了`Deref<Target=T>`。
 
 ```rust
     struct Foo;
