@@ -5,7 +5,7 @@
   - 国内镜像： https://book.rust.team
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
 
-- 最近修订： 新增章节 [Tokio使用指南 - 初印象](https://zhuanlan.zhihu.com/p/461044853)
+- 最近修订： 新增章节 [Tokio使用指南 - 创建异步任务](https://zhuanlan.zhihu.com/p/461384827)
 - Rust版本： Rust edition 2021
 - QQ交流群：1009730433
 
