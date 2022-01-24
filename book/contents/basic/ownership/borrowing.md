@@ -100,7 +100,7 @@ error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&` ref
 
 ### 可变引用
 
-只需要一个小调整，既可以修复上面代码的错误：
+只需要一个小调整，即可修复上面代码的错误：
 ```rust
 fn main() {
     let mut s = String::from("hello");
