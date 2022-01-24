@@ -153,7 +153,7 @@ async fn do_something() {
 }
 ```
 
-需要注意，**异步函数的返回值是一个 `Future` **，若直接调用该函数，不会输出任何结果，因为 `Future` 还未被执行：
+需要注意，**异步函数的返回值是一个 `Future`**，若直接调用该函数，不会输出任何结果，因为 `Future` 还未被执行：
 ```rust
 fn main() {
       do_something();
