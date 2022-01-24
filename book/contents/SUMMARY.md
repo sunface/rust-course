@@ -211,6 +211,7 @@
     - [堆和栈 todo](performance/heap-stack.md)
     - [内存allocator todo](performance/allocator.md)
     - [常用性能测试工具 todo](performance/tools.md)
+    - [Enum内存优化 todo](performance/enum.md)
 
 - [编译器 todo](compiler/intro.md)
     - [常见属性标记 todo](compiler/attributes.md)

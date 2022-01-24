@@ -15,19 +15,17 @@
 
 8. [Rust nomicon](https://doc.rust-lang.org/nomicon/dot-operator.html)
     
-9. [Rust Primer](https://rustcc.gitbooks.io/rustprimer/content/1st-glance/)
+9. [Rust Forge](https://forge.rust-lang.org/infra/other-installation-methods.html#other-rust-installation-methods)
 
-10. [Rust Forge](https://forge.rust-lang.org/infra/other-installation-methods.html#other-rust-installation-methods)
+10. [rustc开发者之书](https://rustc-dev-guide.rust-lang.org/method-lookup.html)
 
-11. [rustc开发者之书](https://rustc-dev-guide.rust-lang.org/method-lookup.html)
+11. [Rust Style](https://doc.rust-lang.org/1.6.0/style/README.html)
 
-12. [Rust Style](https://doc.rust-lang.org/1.6.0/style/README.html)
+12. [Learning Rust](https://learning-rust.github.io/docs/a1.why_rust.html)
 
-13. [Learning Rust](https://learning-rust.github.io/docs/a1.why_rust.html)
+13. [Rust doc](https://doc.rust-lang.org/rustdoc/the-doc-attribute.html)
 
-14. [Rust doc](https://doc.rust-lang.org/rustdoc/the-doc-attribute.html)
-
-15. [Unstable Rust](https://doc.rust-lang.org/stable/unstable-book/)
+14. [Unstable Rust](https://doc.rust-lang.org/stable/unstable-book/)
 
 ## 可参考的教程
 1. https://github.com/ferrous-systems/teaching-material#core-topics
