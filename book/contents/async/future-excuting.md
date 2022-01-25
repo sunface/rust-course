@@ -263,7 +263,7 @@ Rust的 `Future` 是惰性的：只有屁股上拍一拍，它才会努力动一
 futures = "0.3"
 ```
 
-在之前的内容中，我们在 `src/lib.rs` 中创建了定时器 `Future` ，现在在 `src/main.js` 中来创建程序的主体内容，开始之前，先引入所需的包：
+在之前的内容中，我们在 `src/lib.rs` 中创建了定时器 `Future` ，现在在 `src/main.rs` 中来创建程序的主体内容，开始之前，先引入所需的包：
 ```rust
 use {
     futures::{
