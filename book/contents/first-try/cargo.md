@@ -79,7 +79,7 @@ Hello, world!
 - `cargo run --release`
 - `cargo build --release`
 
-运行我们的高性能 `relese` 程序：
+运行我们的高性能 `release` 程序：
 
 ```console
 $ ./target/release/world_hello 
