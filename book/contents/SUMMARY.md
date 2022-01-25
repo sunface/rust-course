@@ -18,7 +18,7 @@
     - [变量绑定与解构](basic/variable.md)
     - [基本类型](basic/base-type/index.md)
         - [数值类型](basic/base-type/numbers.md)
-        - [字符、布尔、元类型](basic/base-type/char-bool.md)
+        - [字符、布尔、单元类型](basic/base-type/char-bool.md)
         - [语句与表达式](basic/base-type/statement-expression.md)
         - [函数](basic/base-type/function.md)
     - [所有权和借用](basic/ownership/index.md)
@@ -108,19 +108,9 @@
     - [使用初印象](tokio/getting-startted.md)
     - [创建异步任务](tokio/spawning.md)
     <!-- - [异步消息流](tokio/stream.md))    -->
-   
-- [Rust最佳实践 doing](practice/intro.md)
-    - [日常开发三方库精选](practice/third-party-libs.md)
-    - [一些写代码的技巧 todo](practice/coding-tips.md)
-    - [最佳实践 todo](practice/best-pratice.md)
-    - [值得学习的源代码 todo](practice/good-sourcecode.md)
-    - [代码规范 doing](practice/style-guide/intro.md)
-        - [命名规范](practice/style-guide/naming.md)
-        - [代码风格(todo)](practice/style-guide/code.md)
-        - [代码标记](practice/style-guide/mark.md)
-        - [Clippy](practice/style-guide/clippy.md)
+
         
-- [对抗编译检查(持续更新)](fight-with-compiler/intro.md)
+- [对抗编译检查 doing](fight-with-compiler/intro.md)
     - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
     - [生命周期](fight-with-compiler/lifetime/intro.md)
         - [生命周期过大-01](fight-with-compiler/lifetime/too-long1.md)
@@ -133,7 +123,7 @@
     - [类型未限制(todo)](fight-with-compiler/unconstrained.md)
 
 
-- [Rust陷阱系列(持续更新)](pitfalls/index.md)
+- [Rust陷阱系列](pitfalls/index.md)
     - [for循环中使用外部数组](pitfalls/use-vec-in-for.md)
     - [线程类型导致的栈溢出](pitfalls/stack-overflow.md)
     - [算术溢出导致的panic](pitfalls/arithmetic-overflow.md)
@@ -145,8 +135,22 @@
     - [无处不在的迭代器](pitfalls/iterator-everywhere.md)
     - [线程间传递消息导致主线程无法结束](pitfalls/main-with-channel-blocked.md)
 
-- [如何实现一个链表]()
+   
+- [Rust最佳实践 doing](practice/intro.md)
+    - [日常开发三方库精选](practice/third-party-libs.md)
+    - [一些写代码的技巧 todo](practice/coding-tips.md)
+    - [最佳实践 todo](practice/best-pratice.md)
+    - [值得学习的源代码 todo](practice/good-sourcecode.md)
+    - [代码规范 doing](practice/style-guide/intro.md)
+        - [命名规范](practice/style-guide/naming.md)
+        - [代码风格(todo)](practice/style-guide/code.md)
+        - [代码标记 todo](practice/style-guide/mark.md)
+        - [Clippy todo](practice/style-guide/clippy.md)
+  
+- [如何实现一个链表 todo]()
     
+- [Javascript 和 WASM todo]()
+  
 - [进阶类型转换](converse/intro.md)
     - [枚举和整数](converse/enum-int.md)
     
