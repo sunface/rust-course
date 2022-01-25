@@ -178,7 +178,7 @@ error[E0308]: `match` arms have incompatible types // match的分支类型不同
 4 | |        0..3 => i,
   | |                - this is found to be of type `{integer}` // 该分支返回整数类型
 5 | |        _ => println!("不合规定的值:{}",i) 
-  | |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected integer, found `()` // 该分支返回()元类型
+  | |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected integer, found `()` // 该分支返回()单元类型
 6 | |     };
   | |_____- `match` arms have incompatible types
 ```

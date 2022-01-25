@@ -25,18 +25,20 @@ impl Iterator for Counter {
 
     fn next(&mut self) -> Option<Self::Item> {
         // --snip--
+    }
+}
 ```
 
 在上述代码中，我们为 `Counter` 类型实现了 `Iterator` 特征，那么 `Self` 就是当前的 `Iterator` 特征对象， `Item` 就是 `u32` 类型。
 
-聪明的读者之所以聪明，是因为你们喜欢联想和举一反三，同时你们也喜欢提问：为何不用泛型，例如如下代码
+聪明的读者之所以聪明，是因为你们喜欢联想和举一反三，同时你们也喜欢提问：为何不用泛型，例如如下代码：
 ```rust
 pub trait Iterator<Item> {
     fn next(&mut self) -> Option<Item>;
 }
 ```
 
-答案其实很简单，为了代码的可读性，当你使用了泛型后，你需要在所有地方都这样写 `Iterator<Item>`，而使用了关联类型，你只需要这样写 `Iterator`，当类型定义复杂时，这种写法可以极大的增加可读性：
+答案其实很简单，为了代码的可读性，当你使用了泛型后，你需要在所有地方都写 `Iterator<Item>`，而使用了关联类型，你只需要写 `Iterator`，当类型定义复杂时，这种写法可以极大的增加可读性：
 ```rust
 pub trait CacheableItem: Clone + Default + fmt::Debug + Decodable + Encodable {
   type Address: AsRef<[u8]> + Clone + fmt::Debug + Eq + Hash;
@@ -57,7 +59,7 @@ fn difference<A,B,C>(container: &C) -> i32
     C : Container<A,B> {...}
 ```
 
-可以看到，由于使用了泛型，导致函数头部也必须增加泛型的声明，而使用关联类型，将得到可读性好的多的代码：
+可以看到，由于使用了泛型，导致函数头部也必须增加泛型的声明，而使用关联类型，将得到可读性好得多的代码：
 ```rust
 trait Container{
     type A;
