@@ -19,7 +19,7 @@ enum Poll<T> {
 }
 ```
 
-在上一章中，我们提到过 `Future` 需要被执行器`poll`(轮询)后才能运行，诺，这里 `poll` 就来了，通过调用该方法，可以推进 `Future` 的进一步执行，直到被切走为止( 这里不好理解，但是你只需要知道 `Future` 并不能保证被在一次 `poll` 中就被执行完，后面会详解介绍)。
+在上一章中，我们提到过 `Future` 需要被执行器`poll`(轮询)后才能运行，诺，这里 `poll` 就来了，通过调用该方法，可以推进 `Future` 的进一步执行，直到被切走为止( 这里不好理解，但是你只需要知道 `Future` 并不能保证在一次 `poll` 中就被执行完，后面会详解介绍)。
 
 若在当前 `poll` 中， `Future` 可以被完成，则会返回 `Poll::Ready(result)` ，反之则返回 `Poll::Pending`， 并且安排一个 `wake` 函数：当未来 `Future` 准备好进一步执行时， 该函数会被调用，然后管理该 `Future` 的执行器(例如上一章节中的`block_on`函数)会再次调用 `poll` 方法，此时 `Future` 就可以继续执行了。
 
@@ -224,7 +224,7 @@ impl Future for TimerFuture {
 最后，再来创建一个 API 用于构建定时器和启动计时线程: 
 ```rust
 impl TimerFuture {
-    /// 创建一个新的`TimeFuture`，在指定的时间结束后，该`Future`可以完成
+    /// 创建一个新的`TimerFuture`，在指定的时间结束后，该`Future`可以完成
     pub fn new(duration: Duration) -> Self {
         let shared_state = Arc::new(Mutex::new(SharedState {
             completed: false,
@@ -257,7 +257,7 @@ Rust的 `Future` 是惰性的：只有屁股上拍一拍，它才会努力动一
 执行器会管理一批 `Future` (最外层的 `ascyn` 函数)，然后通过不停地 `poll` 推动它们直到完成。 最开始，执行器会先 `poll` 一次 `Future` ，后面就不会主动去 `poll` 了，而是等待 `Future` 通过调用 `wake` 函数来通知它可以继续，它才会继续去 `poll` 。这种**wake 通知然后 poll**的方式会不断重复，直到 `Future` 完成。
 
 #### 构建执行器
-下面我们将实现一个简单的执行器，它可以同时并发运行多个 `Future` 。例子中，需要用到 `futures` 包的 `ArcWake` 特征，它可以提供一个方便的途径去构建一个 `Waker` 。编辑 `Cargo.tom` ，添加下面依赖:
+下面我们将实现一个简单的执行器，它可以同时并发运行多个 `Future` 。例子中，需要用到 `futures` 包的 `ArcWake` 特征，它可以提供一个方便的途径去构建一个 `Waker` 。编辑 `Cargo.toml` ，添加下面依赖:
 ```rust
 [dependencies]
 futures = "0.3"
@@ -300,7 +300,7 @@ struct Spawner {
 struct Task {
     /// 进行中的Future，在未来的某个时间点会被完成
     /// 
-    /// 按理来说`Mutext`在这里是多余的，因为我们只有一个线程来执行任务。但是由于
+    /// 按理来说`Mutex`在这里是多余的，因为我们只有一个线程来执行任务。但是由于
     /// Rust并不聪明，它无法知道`Future`只会在一个线程内被修改，并不会被跨线程修改。因此
     /// 我们需要使用`Mutex`来满足这个笨笨的编译器对线程安全的执着。
     ///
@@ -427,7 +427,7 @@ impl SimpleFuture for SocketRead<'_> {
   
 关于第二点，其中一个简单粗暴的方法就是使用一个新线程不停的检查 `socket` 中是否有了数据，当有了后，就调用 `wake()` 函数。该方法确实可以满足需求，但是性能着实太低了，需要为每个阻塞的 `Future` 都创建一个单独的线程！
 
-在现实世界中，该问题往往是通过操作系统提供的 `IO` 服务来完成，例如 `linux` 、`FreeBSD` 和 `Macos` 中的 **`epoll`** ，`Windows` 中的 **`IOCP`**, `Fuchisa`中的 **`ports`** 等(可以通过 Rust 的跨平台包 `mio` 来使用它们)。使用它们，允许一个线程同时阻塞地去等待多个异步IO事件，一旦某个事件完成就立即退出阻塞并返回数据。相关实现类似于以下代码：
+在现实世界中，该问题往往是通过操作系统提供的 `IO` 多路复用机制来完成，例如 `Linux` 中的 **`epoll`**，`FreeBSD` 和 `MacOS` 中的 **`kqueue`** ，`Windows` 中的 **`IOCP`**, `Fuchisa`中的 **`ports`** 等(可以通过 Rust 的跨平台包 `mio` 来使用它们)。借助IO多路复用机制，可以实现一个线程同时阻塞地去等待多个异步IO事件，一旦某个事件完成就立即退出阻塞并返回数据。相关实现类似于以下代码：
 ```rust
 struct IoBlocker {
     /* ... */
@@ -442,7 +442,7 @@ struct Event {
 }
 
 impl IoBlocker {
-    /// 创建异步IO事件的集合，这些事件是阻塞等待的
+    /// 创建需要阻塞等待的异步IO事件的集合
     fn new() -> Self { /* ... */ }
 
     /// 对指定的IO事件表示兴趣
