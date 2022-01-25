@@ -107,6 +107,7 @@
     - [tokio概览](tokio/overview.md)
     - [使用初印象](tokio/getting-startted.md)
     - [创建异步任务](tokio/spawning.md)
+    - [共享状态](tokio/shared-state.md)
     <!-- - [异步消息流](tokio/stream.md))    -->
 
         
