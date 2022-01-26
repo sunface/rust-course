@@ -10,7 +10,7 @@ $ mv src/main.rs examples/hello-redis.rs
 然后再重新创建一个空的 `src/main.rs` 文件，至此换挡已经完成，提速正式开始。
 
 ## 接收 sockets
-作为服务器端，最基础的工作无疑是接收外部进来的 TCP 连接，可以通过 `tokio::net::TcpListene` 来完成。
+作为服务器端，最基础的工作无疑是接收外部进来的 TCP 连接，可以通过 `tokio::net::TcpListener` 来完成。
 
 > Tokio 中大多数类型的名称都和标准库中对应的同步类型名称相同，而且，如果没有特殊原因，Tokio 的 API 名称也和标准库保持一致，只不过用 `async fn` 取代 `fn` 来声明函数。
 
