@@ -17,7 +17,7 @@ touch src/bin/client.rs
 cargo run --bin server
 ```
 
-此时，服务器已经成功运行起来。 同样的，可以用 `cargo run --bin clien` 这种方式运行即将实现的客户端。
+此时，服务器已经成功运行起来。 同样的，可以用 `cargo run --bin client` 这种方式运行即将实现的客户端。
 
 万事俱备，只欠代码，一起来看看客户端该如何实现。
 
