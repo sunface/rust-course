@@ -186,7 +186,7 @@ fn main() {
     let mut s = String::from("你好,世界");
     // 将字符'!'推入s中
     s.push('!');
-    // 最后s的内容是"hello,world!"
+    // 最后s的内容是"你好,世界!"
     assert_eq!(s,"你好,世界!");
 
     let s1 = String::from("hello,");
