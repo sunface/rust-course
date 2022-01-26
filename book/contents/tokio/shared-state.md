@@ -66,7 +66,7 @@ async fn main() {
 #### 为何使用 `std::sync::Mutex`
 上面代码还有一点非常重要，那就是我们使用了 `std::sync::Mutex` 来保护 `HashMap`，而不是使用 `tokio::sync::Mutex`。
 
-在使用 Tokio 编写异步代码时，一个常见的错误无条件地使用 `tokio::sync::Mutex` ，而真相是：Tokio 提供的异步锁只应该使用在 `.await`调用过程中，而且 `Tokio` 的 `Mutuex` 实际上内部使用的也是 `std::sync::Mutex`。
+在使用 Tokio 编写异步代码时，一个常见的错误无条件地使用 `tokio::sync::Mutex` ，而真相是：Tokio 提供的异步锁只应该使用在 `.await`调用过程中，而且 `Tokio` 的 `Mutex` 实际上内部使用的也是 `std::sync::Mutex`。
 
 多补充几句，在异步代码中，关于锁的使用有以下经验之谈：
 
