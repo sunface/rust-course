@@ -128,7 +128,7 @@ pub async fn connect<T: ToSocketAddrs>(addr: T) -> Result<Client> {
 由于 `async` 会返回一个 `Future`，因此我们还需要配合使用 `.await` 来让该 `Future` 运行起来，最终获得返回值:
 ```rust
 async fn say_to_world() -> String {
-    String::from("hello, world")
+    String::from("world")
 }
 
 #[tokio::main]
@@ -139,8 +139,8 @@ async fn main() {
     // 首先打印出 "hello"
     println!("hello");
 
-    // 使用 `.await` 让 `say_world` 开始运行起来
-    op.await;
+    // 使用 `.await` 让 `say_to_world` 开始运行起来
+    println!("{}", op.await);
 }
 ```
 
