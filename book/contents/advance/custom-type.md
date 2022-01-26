@@ -285,5 +285,5 @@ error[E0277]: the size for values of type `str` cannot be known at compilation t
   = note: all function arguments must have a statically known size
 ```
 
-提示的很清晰，不知道 `str` 的大小，因此无法对其使用 `Box` 进行封装。
+提示得很清晰，不知道 `str` 的大小，因此无法对其使用 `Box` 进行封装。
 
