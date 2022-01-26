@@ -257,7 +257,7 @@ impl Read for MockTcpStream {
 }
 ```
 
-`Write`的实现也类似，需要实现三个方法 : `poll_write`, `poll_flush`, and `poll_close`。 `poll_write` 会拷贝输入数据到mock的 `TcpStream` 中，当完成后返回 `Poll::Ready`。由于 `TcpStream` 无需 `flush` 和 `close`，因此另两个方法直接返回 `Poll::Ready` 即可.
+`Write`的实现也类似，需要实现三个方法 : `poll_write`, `poll_flush`, 与 `poll_close`。 `poll_write` 会拷贝输入数据到mock的 `TcpStream` 中，当完成后返回 `Poll::Ready`。由于 `TcpStream` 无需 `flush` 和 `close`，因此另两个方法直接返回 `Poll::Ready` 即可.
 
 ```rust
 impl Write for MockTcpStream {
