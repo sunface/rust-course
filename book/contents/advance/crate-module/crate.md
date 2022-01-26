@@ -41,7 +41,7 @@ main.rs
 #### 库 Package
 再来创建一个库类型的 `package`：
 ```console
-$ cargo new my-test --lib
+$ cargo new my-lib --lib
      Created library `my-lib` package
 $ ls my-lib
 Cargo.toml
@@ -50,7 +50,7 @@ $ ls my-lib/src
 lib.rs
 ```
 
-首先，如果你试图运行 `my-test`，会报错：
+首先，如果你试图运行 `my-lib`，会报错：
 ```console
 $ cargo run
 error: a bin target must be available for `cargo run`
