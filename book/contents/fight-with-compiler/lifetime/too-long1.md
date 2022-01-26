@@ -141,7 +141,8 @@ struct List<'text> {
 }
 
 impl<'text> List<'text> {
-    pub fn get_interface<'manager>(&'manager mut self) -> Interface<'text, 'manager> {
+    pub fn get_interface<'manager>(&'manager mut self) -> Interface<'text, 'manager> 
+    where 'text: 'manager {
         Interface {
             manager: &mut self.manager
         }
