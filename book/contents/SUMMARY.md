@@ -82,16 +82,13 @@
         - [线程同步：Atomic原子操作与内存顺序](advance/concurrency-with-threads/sync2.md)
         - [基于Send和Sync的线程安全](advance/concurrency-with-threads/send-sync.md)
         - [实践应用：多线程Web服务器 todo](advance/concurrency-with-threads/web-server.md)
-    - [Unsafe Rust todo](advance/unsafe/intro.md)
-      - [原生指针 todo](advance/unsafe/raw-pointer.md)
-      - [FFI外部语言用 todo](advance/unsafe/ffi.md)
     - [全局变量](advance/global-variable.md)
     - [错误处理 todo](advance/errors/intro.md)
       - [简化错误处理 todo](advance/errors/simplify.md)
       - [自定义错误 todo](advance/errors/user-define.md)
       - [让错误输出更优雅 todo](advance/errors/pretty-format.md)
       - [会导致panic的代码 todo](advance/errors/panic-codes.md)
-    - [高阶特征约束(HRTB) todo](advance/hrtb.md)
+    <!-- - [高阶特征约束(HRTB) todo](advance/hrtb.md) -->
 
 ## 专题内容,每个专题都配套一个小型项目进行实践
 - [async/await异步编程](async/intro.md)
@@ -113,6 +110,9 @@
     - [解析数据帧](tokio/frame.md)
     <!-- - [异步消息流](tokio/stream.md))    -->
 
+- [Unsafe Rust todo](unsafe/intro.md)
+    - [原生指针 todo](unsafe/raw-pointer.md)
+    - [FFI外部语言用 todo](unsafe/ffi.md)
         
 - [对抗编译检查 doing](fight-with-compiler/intro.md)
     - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
@@ -155,12 +155,12 @@
     
 - [Javascript 和 WASM todo]()
   
-- [进阶类型转换](converse/intro.md)
+- [高级类型转换](converse/intro.md)
     - [枚举和整数](converse/enum-int.md)
     
-- [复杂错误索引 todo](errorindex/intro.md)   
+<!-- - [复杂错误索引 todo](errorindex/intro.md)   
     - [所有权和借用 todo](errorindex/borrowing/intro.md)
-    - [生命周期 todo](errorindex/lifetime/intro.md)
+    - [生命周期 todo](errorindex/lifetime/intro.md) -->
 
 
 - [Cargo详解 todo](cargo/intro.md)
