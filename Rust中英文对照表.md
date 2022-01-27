@@ -47,7 +47,7 @@ box                              | 箱子，盒子，装箱类型          | 一
 boxed                            | 装箱，装包                    |
 boxing                           | 装箱，装包                    |
 brace                            | 大括号，“{”或“}”              |
-buffer                           | 缓冲，缓冲区，缓冲器，缓存    |
+buffer                           | 缓冲区                      |
 build                            | 构建                          |
 builder pattern                  | 创建者模式                    |
 **C**                            |                               |
