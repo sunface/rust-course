@@ -302,7 +302,8 @@ range expression                 | 区间表达式                    |
 raw identifier                   | 原生标识符                    |
 raw pointer                      | 原生指针，裸指针              |
 RC                               | 引用计数                      | reference counted
-Reader                           | 读取器                        |
+reader                           | 读取器                        |
+reader/writer                    | 读写器                        |
 recursive macro                  | 递归宏                        |
 reference                        | 引用                          |
 reference cycle                  | 引用循环                      |
@@ -408,6 +409,7 @@ workspace                        | 工作空间                       |
 wrap                             | 包装                          | 暂译！
 wrapped                          | 装包                          |
 wrapper                          | 装包                          |
+writer                           | 写入器                        |
 **Y**                            |                               |
 yield                            | 产生(收益、效益等)，产出，提供|
 **Z**                            |                               |
