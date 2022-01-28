@@ -108,6 +108,7 @@
     - [消息传递](tokio/channels.md)
     - [I/O](tokio/io.md)
     - [解析数据帧](tokio/frame.md)
+    - [深入async](tokio/async.md)
     <!-- - [异步消息流](tokio/stream.md))    -->
 
 - [Unsafe Rust todo](unsafe/intro.md)
@@ -153,8 +154,6 @@
   
 - [如何实现一个链表 todo]()
     
-- [Javascript 和 WASM todo]()
-  
 - [高级类型转换](converse/intro.md)
     - [枚举和整数](converse/enum-int.md)
     
@@ -234,11 +233,15 @@
     - [监控(APM) todo](monitor/apm.md)
 
 - [标准库解析 todo](std/intro.md)
-    - [如何寻找你想要的内容 todo](std/search.md)
+    - [标准库使用最佳时间 todo](std/search.md)
     - [Vector常用方法 todo](std/vector.md)
     - [HashMap todo](std/hashmap.md)
     - [Iterator常用方法 todo](std/iterator.md)
 
+- [Rust区块链入门]()
+- [Rust游戏开发入门]()
+- [Rust前端开发入门]()
+- [Rust和WASM]()
 
 ## 附录
 - [附录](appendix/intro.md)
