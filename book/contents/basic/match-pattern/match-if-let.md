@@ -223,7 +223,7 @@ error[E0004]: non-exhaustive patterns: `West` not covered // 非穷尽匹配，`
    = note: the matched value is of type `Direction`
 ```
 
-不禁想感叹，Rust 的编译器**真强大**，忍不住爆粗口了，sorry，如果你以后进一步深入使用 Rust 也会像我这样感叹的。Rust 编译器清晰地知道 `match` 中有哪些分支没有被覆盖, 这种行为能强制我们处理所有的可能性，有效避免传说中价值**十亿美金**的 `null` 陷阱。
+不禁想感叹，Rust 的编译器**真强大**，忍不住想爆粗口了，sorry，如果你以后进一步深入使用 Rust 也会像我这样感叹的。Rust 编译器清晰地知道 `match` 中有哪些分支没有被覆盖, 这种行为能强制我们处理所有的可能性，有效避免传说中价值**十亿美金**的 `null` 陷阱。
 
 #### `_` 通配符
 
