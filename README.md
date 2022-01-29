@@ -5,7 +5,7 @@
   - 国内镜像： https://book.rust.team
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
 
-- 最近修订： 新增章节 [Tokio使用指南 - 探寻Tokio背后的秘密](https://zhuanlan.zhihu.com/p/462707829)
+- 最近修订： 新增章节 [Tokio使用指南 - 类似迭代器的Stream](https://zhuanlan.zhihu.com/p/463061975)
 - Rust版本： Rust edition 2021
 - QQ交流群：1009730433
 

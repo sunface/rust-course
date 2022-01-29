@@ -110,7 +110,7 @@
     - [解析数据帧](tokio/frame.md)
     - [深入async](tokio/async.md)
     - [select](tokio/select.md)
-    - [异步数据流Stream](tokio/stream.md))   
+    - [类似迭代器的Stream](tokio/stream.md))   
 
 - [Unsafe Rust todo](unsafe/intro.md)
     - [原生指针 todo](unsafe/raw-pointer.md)
