@@ -209,7 +209,7 @@ enum Option<T> {
 
 其中 `T` 是泛型参数，`Some(T)`表示该枚举成员的数据类型是 `T`，换句话说，`Some` 可以包含任何类型的数据。
 
-`Option<T>` 枚举是如此有用以至于它甚至被包含在了 `prelude`(prelude属于 Rust 标准库，Rust 会将最常用的类型、函数等提前引入其中，避免我们再手动引入)之中，你不需要将其显式引入作用域。另外，它的成员 `Some` 和 `None` 也是如此，无需使用 `Option::` 前缀就可直接使用 `Some` 和 `None`。总之，不能因为 `Some(T)` 和 `None` 中没有 `Option::` 的身影，就否认它们是 `Option` 下的卧龙凤雏。
+`Option<T>` 枚举是如此有用以至于它被包含在了 [`prelude`](../../appendix/prelude.md)（prelude 属于 Rust 标准库，Rust 会将最常用的类型、函数等提前引入其中，省得我们再手动引入）之中，你不需要将其显式引入作用域。另外，它的成员 `Some` 和 `None` 也是如此，无需使用 `Option::` 前缀就可直接使用 `Some` 和 `None`。总之，不能因为 `Some(T)` 和 `None` 中没有 `Option::` 的身影，就否认它们是 `Option` 下的卧龙凤雏。
 
 再来看以下代码：
 ```rust
