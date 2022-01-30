@@ -1,9 +1,9 @@
 # 可恢复的错误Result
 还记得上一节中，提到的关于文件读取的思考题吧？当时我们解决了读取文件时遇到不可恢复错误该怎么处理的问题，现在来看看，读取过程中，正常返回和遇到可以恢复的错误时该如何处理。
 
-假设，我们有一台消息服务器，每个用户都通过 websocket 连接到该服务器来接收和发送消息，该过程就涉及到 socket 文件的读写，那么此时，如果一个用户的读写发生了错误，显然不能直接panic，否则服务器会直接崩溃，所有用户都会断开连接，因此我们需要一种更温和的错误处理方式：`Result<T,E>`。
+假设，我们有一台消息服务器，每个用户都通过 websocket 连接到该服务器来接收和发送消息，该过程就涉及到 socket 文件的读写，那么此时，如果一个用户的读写发生了错误，显然不能直接 `panic`，否则服务器会直接崩溃，所有用户都会断开连接，因此我们需要一种更温和的错误处理方式：`Result<T, E>`。
 
-之前章节有提到过，`Result<T,E>` 是一个枚举类型，定义如下：
+之前章节有提到过，`Result<T, E>` 是一个枚举类型，定义如下：
 ```rust
 enum Result<T, E> {
     Ok(T),
@@ -24,7 +24,7 @@ fn main() {
 > 
 > 有几种常用的方式，此处更推荐第二种方法：
 > - 第一种是查询标准库或者三方库文档，搜索 `File`，然后找到它的 `open` 方法
-> - 在[Rust IDE](../../first-try/editor.md)章节，我们推荐了 `VSCode` IED和 `rust-analyzer` 插件，如果你成功安装的话，那么就可以在 `VScode` 中很方便的通过代码跳转的方式查看代码，同时 `rust-analyzer` 插件还会对代码中的类型进行标注，非常方便好用！
+> - 在 [Rust IDE](../../first-try/editor.md) 章节，我们推荐了 `VSCode` IDE 和 `rust-analyzer` 插件，如果你成功安装的话，那么就可以在 `VSCode` 中很方便的通过代码跳转的方式查看代码，同时 `rust-analyzer` 插件还会对代码中的类型进行标注，非常方便好用！
 > - 你还可以尝试故意标记一个错误的类型，然后让编译器告诉你：
 ```rust
 let f: u32 = File::open("hello.txt");
@@ -44,7 +44,7 @@ error[E0308]: mismatched types
 
 上面代码，故意将 `f` 类型标记成整形，编译器立刻不乐意了，你是在忽悠我吗？打开文件操作返回一个整形？来，大哥来告诉你返回什么：`std::result::Result<std::fs::File, std::io::Error>`，我的天呐，怎么这么长的类型！
 
-别慌，其实很简单，首先 `Result` 本身是定义在 `std::result` 中的，但是因为 `Result` 很常用，所以就被包含在了[`prelude`](../../appendix/prelude.md)中(将常用的东东提前引入到当前作用域内），因此无需手动引入 `std::result::Result`，那么返回类型可以简化为 `Result<std::fs::File,std::io::Error>`，你看看是不是很像标准的 `Result<T,E>` 枚举定义？只不过 `T` 被替换成了具体的类型 `std::fs::File`，是一个文件句柄类型，`E` 被替换成 `std::io::Error`，是一个 IO 错误类型.
+别慌，其实很简单，首先 `Result` 本身是定义在 `std::result` 中的，但是因为 `Result` 很常用，所以就被包含在了 [`prelude`](../../appendix/prelude.md) 中（将常用的东东提前引入到当前作用域内），因此无需手动引入 `std::result::Result`，那么返回类型可以简化为 `Result<std::fs::File,std::io::Error>`，你看看是不是很像标准的 `Result<T, E>` 枚举定义？只不过 `T` 被替换成了具体的类型 `std::fs::File`，是一个文件句柄类型，`E` 被替换成 `std::io::Error`，是一个 IO 错误类型.
 
 这个返回值类型说明 `File::open` 调用如果成功则返回一个可以进行读写的文件句柄，如果失败，则返回一个 IO 错误：文件不存在或者没有访问文件的权限等。总之 `File::open` 需要一个方式告知调用者是成功还是失败，并同时返回具体的文件句柄(成功)或错误信息(失败)，万幸的是，这些信息可以通过 `Result` 枚举提供：
 ```rust
@@ -62,7 +62,7 @@ fn main() {
 }
 ```
 
-代码很清晰，对打开文件后的 `Result<T,E>` 类型进行匹配取值，如果是成功，则将 `Ok(file)` 中存放的的文件句柄 `file` 赋值给 `f`，如果失败，则将 `Err(error)` 中存放的错误信息 `error` 使用 `panic` 抛出来，进而结束程序，这非常符合上文提到过的 `panic` 使用场景。
+代码很清晰，对打开文件后的 `Result<T, E>` 类型进行匹配取值，如果是成功，则将 `Ok(file)` 中存放的的文件句柄 `file` 赋值给 `f`，如果失败，则将 `Err(error)` 中存放的错误信息 `error` 使用 `panic` 抛出来，进而结束程序，这非常符合上文提到过的 `panic` 使用场景。
 
 
 好吧，也没有那么合理 :)
@@ -93,12 +93,12 @@ fn main() {
 - 如果是文件不存在错误 `ErrorKind::NotFound`，就创建文件，这里创建文件`File::create` 也是返回 `Result`，因此继续用 `match` 对其结果进行处理：创建成功，将新的文件句柄赋值给 `f`，如果失败，则 `panic`
 - 剩下的错误，一律 `panic`
 
-虽然很清晰，但是代码还是有些啰嗦，我们会在[简化错误处理](../../errors/simplify.md)一章重点讲述如何写出更优雅的错误。
+虽然很清晰，但是代码还是有些啰嗦，我们会在[简化错误处理](../../advance/errors/simplify.md)一章重点讲述如何写出更优雅的错误。
 
 ## 失败就 panic: unwrap 和 expect
 上一节中，已经看到过这两兄弟的简单介绍，这里再来回顾下。
 
-在不需要处理错误的场景，例如写原型、示例时，我们不想使用 `match` 去匹配 `Result<T,E> `以获取其中的 `T` 值，因为 `match` 的穷尽匹配特性，你总要去处理下 `Err` 分支。那么有没有办法简化这个过程？有，答案就是 `unwrap` 和 `expect`。
+在不需要处理错误的场景，例如写原型、示例时，我们不想使用 `match` 去匹配 `Result<T, E> ` 以获取其中的 `T` 值，因为 `match` 的穷尽匹配特性，你总要去处理下 `Err` 分支。那么有没有办法简化这个过程？有，答案就是 `unwrap` 和 `expect`。
 
 它们的作用就是，如果返回成功，就将 `Ok(T)` 中的值取出来，如果失败，就直接 `panic`，真的勇士绝不多BB，直接崩溃。
 
@@ -166,7 +166,7 @@ fn read_username_from_file() -> Result<String, io::Error> {
 
 有几点值得注意：
 - 该函数返回一个 `Result<String, io::Error>` 类型，当读取用户名成功时，返回 `Ok(String)`，失败时，返回 `Err(io:Error)`
-- `File::open` 和 `f.read_to_string` 返回的 `Result<T,E>` 中的 `E` 就是 `io::Error`
+- `File::open` 和 `f.read_to_string` 返回的 `Result<T, E>` 中的 `E` 就是 `io::Error`
 
 由此可见，该函数将 `io::Error` 的错误往上进行传播，该函数的调用者最终会对 `Result<String,io::Error>` 进行再处理，至于怎么处理就是调用者的事，如果是错误，它可以选择继续向上传播错误，也可以直接 `panic`，亦或将具体的错误原因包装后写入 socket 中呈现给终端用户。
 
@@ -202,7 +202,7 @@ let mut f = match f {
 
 虽然 `?` 和 `match` 功能一致，但是事实上 `?` 会更胜一筹。何解？
 
-想象一下，一个设计良好的系统中，肯定有自定义的错误特征，错误之间很可能会存在上下级关系，例如标准库中的 `std::io::Error `和 `std::error::Error`，前者是io相关的错误结构体，后者是一个最最通用的标准错误特征，同时前者实现了后者，因此 `std::io::Error` 可以转换为 `std:error::Error`。
+想象一下，一个设计良好的系统中，肯定有自定义的错误特征，错误之间很可能会存在上下级关系，例如标准库中的 `std::io::Error `和 `std::error::Error`，前者是 IO 相关的错误结构体，后者是一个最最通用的标准错误特征，同时前者实现了后者，因此 `std::io::Error` 可以转换为 `std:error::Error`。
 
 明白了以上的错误转换，`?` 的更胜一筹就很好理解了，它可以自动进行类型提升（转换）：
 ```rust
@@ -231,7 +231,7 @@ fn read_username_from_file() -> Result<String, io::Error> {
     Ok(s)
 }
 ```
-瞧见没？ `?` 还能实现链式调用，`File::open` 遇到错误就返回，没有错误就将 `Ok` 中的值取出来用于下一个方法调用，简直太精妙了，从 Go 语言过来的我，内心狂喜(其实学 Rust 的苦和痛我才不会告诉你们)。
+瞧见没？ `?` 还能实现链式调用，`File::open` 遇到错误就返回，没有错误就将 `Ok` 中的值取出来用于下一个方法调用，简直太精妙了，从 Go 语言过来的我，内心狂喜（其实学 Rust 的苦和痛我才不会告诉你们）。
 
 不仅有更强，还要有最强，我不信还有人比我更短(不要误解)：
 ```rust
@@ -270,7 +270,7 @@ fn first(arr: &[i32]) -> Option<&i32> {
    arr.get(0)
 }
 ```
-有一句话怎么说？没有需求，制造需求也要上。。。大家别跟我学习，这是软件开发大忌。只能用代码洗洗眼了：
+有一句话怎么说？没有需求，制造需求也要上……大家别跟我学习，这是软件开发大忌。只能用代码洗洗眼了：
 ```rust
 fn last_char_of_first_line(text: &str) -> Option<char> {
     text.lines().next()?.chars().last()
@@ -298,7 +298,7 @@ fn main() {
     let f = File::open("hello.txt")?;
 }
 ```
-因为 `?` 要求 `Result<T,E>` 形式的返回值，而 `main` 函数的返回是 `()`，因此无法满足，那是不是就无解了呢？
+因为 `?` 要求 `Result<T, E>` 形式的返回值，而 `main` 函数的返回是 `()`，因此无法满足，那是不是就无解了呢？
 
 实际上 Rust 还支持另外一种形式的 `main` 函数：
 ```rust
@@ -314,7 +314,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
 这样就能使用 `?` 提前返回了，同时我们又一次看到了`Box<dyn Error>` 特征对象，因为 `std::error:Error` 是 Rust 中抽象层次最高的错误，其它标准库中的错误都实现了该特征，因此我们可以用该特征对象代表一切错误，就算 `main` 函数中调用任何标准库函数发生错误，都可以通过 `Box<dyn Error>` 这个特征对象进行返回.
 
-至于 `main` 函数可以有多种返回值，那是因为实现了[std::process::Termination](https://doc.rust-lang.org/std/process/trait.Termination.html)特征，目前为止该特征还没进入稳定版Rust中，也许未来你可以为自己的类型实现该特征！
+至于 `main` 函数可以有多种返回值，那是因为实现了 [std::process::Termination](https://doc.rust-lang.org/std/process/trait.Termination.html) 特征，目前为止该特征还没进入稳定版 Rust 中，也许未来你可以为自己的类型实现该特征！
 
 至此，Rust 的基础内容学习已经全部完成，下面我们将学习 Rust 的高级进阶内容，正式开启你的高手之路。
 
