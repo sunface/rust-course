@@ -25,9 +25,9 @@ async fn enjoy_book_and_music() -> (Book, Music) {
 }
 ```
 
-看上去像模像样，嗯，在某些语言中也许可以，但是 Rust 不行。因为在某些语言中，`Future`一旦创建就开始运行，等到返回的时候，基本就可以同时结束并返回了。 但是 Rust 中的 `Future` 是惰性的，直到调用 `.await` 时，才会开始运行。而那两个 `await` 由于在代码中有先后顺序，因此它们是连续运行的。
+看上去像模像样，嗯，在某些语言中也许可以，但是 Rust 不行。因为在某些语言中，`Future`一旦创建就开始运行，等到返回的时候，基本就可以同时结束并返回了。 但是 Rust 中的 `Future` 是惰性的，直到调用 `.await` 时，才会开始运行。而那两个 `await` 由于在代码中有先后顺序，因此它们是顺序运行的。
 
-为了正确的并发两个 `Future` ， 我们来试试 `futures::join!` 宏:
+为了正确的并发运行两个 `Future` ， 我们来试试 `futures::join!` 宏:
 ```rust
 use futures::join;
 
@@ -107,7 +107,7 @@ async fn race_tasks() {
 #### default 和 complete 
 `select!`还支持 `default` 和 `complete` 分支:
 - `complete` 分支当所有的 `Future` 和 `Stream` 完成后才会被执行，它往往配合`loop`使用，`loop`用于循环完成所有的 `Future`
-- `default`分支，若没有任何 `Future` 或 `Stream` 处于 `Read` 状态， 则该分支会被立即执行
+- `default`分支，若没有任何 `Future` 或 `Stream` 处于 `Ready` 状态， 则该分支会被立即执行
 
 ```rust
 use futures::future;
@@ -147,7 +147,7 @@ pin_mut!(t1, t2);
 首先，`.fuse()`方法可以让 `Future` 实现 `FusedFuture` 特征， 而 `pin_mut!` 宏会为 `Future` 实现 `Unpin`特征，这两个特征恰恰是使用 `select` 所必须的:
 
 - `Unpin`，由于 `select` 不会通过拿走所有权的方式使用`Future`，而是通过可变引用的方式去使用，这样当 `select` 结束后，该 `Future` 若没有被完成，它的所有权还可以继续被其它代码使用。
-- `FusedFuture`的原因跟上面类似，当 `Future` 一旦完成后，那 `select` 就不能再对其进行轮询使用。`Fuse`意味着融化的意思，相当于 `Future` 一旦完成，就融化了，无法再被使用。
+- `FusedFuture`的原因跟上面类似，当 `Future` 一旦完成后，那 `select` 就不能再对其进行轮询使用。`Fuse`意味着熔断，相当于 `Future` 一旦完成，再次调用`poll`会直接返回`Poll::Pending`。
 
 只有实现了`FusedFuture`，`select` 才能配合 `loop` 一起使用。假如没有实现，就算一个 `Future` 已经完成了，它依然会被 `select` 不停的轮询执行。
 
