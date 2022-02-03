@@ -1,12 +1,12 @@
 # async/await 和 Stream流处理
-在入门章节中，我们简单学习了该如何使用 `async/.await`， 同时在后面也了解了一些底层原理，现在是时候继续继续深入了。
+在入门章节中，我们简单学习了该如何使用 `async/.await`， 同时在后面也了解了一些底层原理，现在是时候继续深入了。
 
 `async/.await`是 Rust 语法的一部分，它在遇到阻塞操作时( 例如IO )会让出当前线程的所有权而不是阻塞当前线程，这样就允许当前线程继续去执行其它代码，最终实现并发。
 
 有两种方式可以使用`async`： `async fn`用于声明函数，`async { ... }`用于声明语句块，它们会返回一个实现 `Future` 特征的值:
 ```rust
 // `foo()`返回一个`Future<Output = u8>`,
-// 当调用`foo().wait`时，该`Future`将被运行，当调用结束后我们将获取到一个`u8`值
+// 当调用`foo().await`时，该`Future`将被运行，当调用结束后我们将获取到一个`u8`值
 async fn foo() -> u8 { 5 }
 
 fn bar() -> impl Future<Output = u8> {
@@ -124,7 +124,7 @@ fn move_block() -> impl Future<Output = ()> {
 
 
 ## Stream流处理
-`Stream` 特征类似于 `Future` 特征，但是前者可以在完成前可以生成多个值，这种行为跟标准库中的 `Iterator` 特征倒是颇为相似。
+`Stream` 特征类似于 `Future` 特征，但是前者在完成前可以生成多个值，这种行为跟标准库中的 `Iterator` 特征倒是颇为相似。
 ```rust
 trait Stream {
     // Stream生成的值的类型
