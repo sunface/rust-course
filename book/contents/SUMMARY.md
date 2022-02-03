@@ -111,6 +111,8 @@
     - [深入async](tokio/async.md)
     - [select](tokio/select.md)
     - [类似迭代器的Stream](tokio/stream.md))   
+    - [优雅的关闭](tokio/graceful-shutdown.md)
+    - [异步跟同步共存](tokio/bridging-with-sync.md)
 
 - [Unsafe Rust todo](unsafe/intro.md)
     - [原生指针 todo](unsafe/raw-pointer.md)
