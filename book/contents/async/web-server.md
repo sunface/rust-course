@@ -79,10 +79,10 @@ fn handle_connection(mut stream: TcpStream) {
 
 运行以上代码，并从浏览器访问 `127.0.0.1:7878` 你将看到一条来自 `Ferris` 的问候。
 
-在回忆了单线程版本该如何实现后，我们也将进入正题，一起来实现一个基于 `ascyn` 的异步Web服务器。
+在回忆了单线程版本该如何实现后，我们也将进入正题，一起来实现一个基于 `async` 的异步Web服务器。
 
 ## 运行异步代码
-一个 Web 服务器必须要能并发的处理大量来自用户的请求，也就是我们不能在处理上一个用户的请求后，再处理下一个用户的请求。上面的单线程版本可以修改为多线程甚至于线程池来实现并发处理，但是线程还是太重了，使用 `async` 实现 `Web` 服务器才是最适合的。
+一个 Web 服务器必须要能并发的处理大量来自用户的请求，也就是我们不能在处理完上一个用户的请求后，再处理下一个用户的请求。上面的单线程版本可以修改为多线程甚至于线程池来实现并发处理，但是线程还是太重了，使用 `async` 实现 `Web` 服务器才是最适合的。
 
 首先将 `handle_connection` 修改为 `async` 实现:
 ```rust
@@ -148,7 +148,7 @@ async fn handle_connection(mut stream: TcpStream) {
 }
 ```
 
-上面是全新实现的 `handle_connection` ，它会在内部睡眠5秒，模拟一次用户慢请求，需要注意的是，我们并没有使用 `std::thread::sleep` 进行睡眠， 原因是该函数并不适用于并发代码，它会让当前线程陷入睡眠中，导致其它任务无法继续运行！因此我们需要一个睡眠函数 `async_std::task::sleep`，它仅会让当前的任务陷入睡眠，然后该任务会让出线程的控制权，这样线程就可以继续运行其它任务。
+上面是全新实现的 `handle_connection` ，它会在内部睡眠5秒，模拟一次用户慢请求，需要注意的是，我们并没有使用 `std::thread::sleep` 进行睡眠，原因是该函数是阻塞的，它会让当前线程陷入睡眠中，导致其它任务无法继续运行！因此我们需要一个睡眠函数 `async_std::task::sleep`，它仅会让当前的任务陷入睡眠，然后该任务会让出线程的控制权，这样线程就可以继续运行其它任务。
 
 因此，光把函数变成 `async` 往往是不够的，还需要将它内部的代码也都变成异步兼容的，阻塞线程绝对是不可行的。
 
@@ -222,7 +222,7 @@ async fn main() {
 ## 测试 handle_connection 函数
 对于测试 Web 服务器，使用集成测试往往是最简单的，但是在本例子中，将使用单元测试来测试连接处理函数的正确性。
 
-为了保证单元测试的隔离性和确定性，我们使用 `Mock` 来替代 `TcpStream` 。首先，修改 `handle_connection` 的函数签名让测试更简单，之所以可以修改签名，原因在于 `async_std::net::TcpStream` 实际上并不是必须的，只要任何结构体实现了 `async_std::io::Read`, `async_std::io::Write` 和 `marker::Unpin` 就可以替代它：
+为了保证单元测试的隔离性和确定性，我们使用 `MockTcpStream` 来替代 `TcpStream` 。首先，修改 `handle_connection` 的函数签名让测试更简单，之所以可以修改签名，原因在于 `async_std::net::TcpStream` 实际上并不是必须的，只要任何结构体实现了 `async_std::io::Read`, `async_std::io::Write` 和 `marker::Unpin` 就可以替代它：
 ```rust
 use std::marker::Unpin;
 use async_std::io::{Read, Write};
