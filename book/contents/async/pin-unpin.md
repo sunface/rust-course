@@ -119,10 +119,10 @@ pub struct Pin<P> {
 
 因此，一个类型如果不能被移动，它必须实现 `!Unpin` 特征。如果大家对 `Pin` 、 `Unpin` 还是模模糊糊，建议再重复看一遍之前的内容，理解它们对于我们后面要讲到的内容非常重要！
 
-如果将 `Unpin` 与之前章节学过的 [`Send/Sync`](https://www.zhihu.com/question/303273488/answer/2309266713) 进行下对比，会发现它们都很像：
+如果将 `Unpin` 与之前章节学过的 [`Send/Sync`](https://course.rs/advance/concurrency-with-threads/send-sync.html) 进行下对比，会发现它们都很像：
 
 - 都是标记特征( marker trait )，该特征未定义任何行为，非常适用于标记
-- 都可以通过!语法去除实现
+- 都可以通过`!`语法去除实现
 - 绝大多数情况都是自动实现, 无需我们的操心
 
 
@@ -310,22 +310,57 @@ error[E0277]: `PhantomPinned` cannot be unpinned
 > 需要注意的是固定在栈上非常依赖于你写出的 `unsafe` 代码的正确性。我们知道 `&'a mut T` 可以固定的生命周期是 `'a` ，但是我们却不知道当生命周期 `'a` 结束后，该指针指向的数据是否会被移走。如果你的 `unsafe` 代码里这么实现了，那么就会违背 `Pin` 应该具有的作用！
 >
 > 一个常见的错误就是忘记去遮蔽(shadow )初始的变量，因为你可以 `drop` 掉 `Pin` ，然后在 `&'a mut T` 结束后去移动数据:
-
-```rust
-pub fn main() {
-    let mut test1 = Test::new("test1");
-    let mut test1 = unsafe { Pin::new_unchecked(&mut test1) };
-    Test::init(test1.as_mut());
-
-    let mut test2 = Test::new("test2");
-    let mut test2 = unsafe { Pin::new_unchecked(&mut test2) };
-    Test::init(test2.as_mut());
-
-    println!("a: {}, b: {}", Test::a(test1.as_ref()), Test::b(test1.as_ref()));
-    std::mem::swap(test1.get_mut(), test2.get_mut());
-    println!("a: {}, b: {}", Test::a(test2.as_ref()), Test::b(test2.as_ref()));
-}
-```
+> ```rust
+> fn main() {
+>    let mut test1 = Test::new("test1");
+>    let mut test1_pin = unsafe { Pin::new_unchecked(&mut test1) };
+>    Test::init(test1_pin.as_mut());
+> 
+>    drop(test1_pin);
+>    println!(r#"test1.b points to "test1": {:?}..."#, test1.b);
+> 
+>    let mut test2 = Test::new("test2");
+>    mem::swap(&mut test1, &mut test2);
+>    println!("... and now it points nowhere: {:?}", test1.b);
+> }
+> # use std::pin::Pin;
+> # use std::marker::PhantomPinned;
+> # use std::mem;
+> #
+> # #[derive(Debug)]
+> # struct Test {
+> #     a: String,
+> #     b: *const String,
+> #     _marker: PhantomPinned,
+> # }
+> #
+> #
+> # impl Test {
+> #     fn new(txt: &str) -> Self {
+> #         Test {
+> #             a: String::from(txt),
+> #             b: std::ptr::null(),
+> #             // This makes our type `!Unpin`
+> #             _marker: PhantomPinned,
+> #         }
+> #     }
+> #
+> #     fn init<'a>(self: Pin<&'a mut Self>) {
+> #         let self_ptr: *const String = &self.a;
+> #         let this = unsafe { self.get_unchecked_mut() };
+> #         this.b = self_ptr;
+> #     }
+> #
+> #     fn a<'a>(self: Pin<&'a Self>) -> &'a str {
+> #         &self.get_ref().a
+> #     }
+> #
+> #     fn b<'a>(self: Pin<&'a Self>) -> &'a String {
+> #         assert!(!self.b.is_null(), "Test::b called without Test::init being called first");
+> #         unsafe { &*(self.b) }
+> #     }
+> # }
+> ```
 
 #### 固定到堆上
 将一个 `!Unpin` 类型的值固定到堆上，会给予该值一个稳定的内存地址，它指向的堆中的值在 `Pin` 后是无法被移动的。而且与固定在栈上不同，我们知道堆上的值在整个生命周期内都会被稳稳地固定住。
@@ -412,7 +447,10 @@ execute_unpin_future(fut); // OK
 - 若 `T: Unpin` ( Rust 类型的默认实现)，那么 `Pin<'a, T>` 跟 `&'a mut T` 完全相同，也就是 `Pin` 将没有任何效果, 该移动还是照常移动
 - 绝大多数标准库类型都实现了 `Unpin` ，事实上，对于 Rust 中你能遇到的绝大多数类型，该结论依然成立
 ，其中一个例外就是：`async/await` 生成的 `Future` 没有实现 `Unpin`
-- 你可以通过以下方法为自己的类型添加 `!Unpin` 约束：1. 使用文中提到的 `std::marker::PhantomPinned` 2. 使用`nightly` 版本下的 `feature flag` 
+- 你可以通过以下方法为自己的类型添加 `!Unpin` 约束：
+  - 使用文中提到的 `std::marker::PhantomPinned`
+  - 使用`nightly` 版本下的 `feature flag` 
 - 可以将值固定到栈上，也可以固定到堆上
   - 将 `!Unpin` 值固定到栈上需要使用 `unsafe`
   - 将 `!Unpin` 值固定到堆上无需 `unsafe` ，可以通过 `Box::pin` 来简单的实现
+- 当固定类型`T: !Unpin`时，你需要保证数据从被固定到被drop这段时期内，其内存不会变得非法或者被重用
