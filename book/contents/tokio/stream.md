@@ -111,7 +111,7 @@ got = Ok(Message { channel: "numbers", content: b"6" })
 
 与迭代器类似，`stream` 也有适配器，例如一个 `stream` 适配器可以将一个 `stream` 转变成另一个 `stream` ，例如 `map`、`take` 和 `filter`。
 
-在之前的客户端中，`subscribe` 订阅一直持续下去，知道程序被关闭。现在，让我们来升级下，让它在收到三条消息后就停止迭代，最终结束。
+在之前的客户端中，`subscribe` 订阅一直持续下去，直到程序被关闭。现在，让我们来升级下，让它在收到三条消息后就停止迭代，最终结束。
 ```rust
 let messages = subscriber
     .into_stream()
@@ -228,7 +228,7 @@ impl Stream for Interval {
 ```
 
 #### async-stream
-手动实现 `Stream` 特征实际上是相当麻烦的事，然而不幸地是，Rust 语言的 `async/await` 语法目前还不能用于定义 `stream`，虽然相关的工作已经在进行中。
+手动实现 `Stream` 特征实际上是相当麻烦的事，不幸地是，Rust 语言的 `async/await` 语法目前还不能用于定义 `stream`，虽然相关的工作已经在进行中。
 
 作为替代方案，[`async-stream`](https://docs.rs/async-stream/latest/async_stream/) 包提供了一个 `stream!` 宏，它可以将一个输入转换成 `stream`，使用这个包，上面的代码可以这样实现：
 ```rust
