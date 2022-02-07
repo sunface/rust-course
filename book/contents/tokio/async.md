@@ -118,7 +118,7 @@ use std::time::{Duration, Instant};
 enum MainFuture {
     // 初始化，但永远不会被 poll
     State0,
-    // 等待 `Delay` 运行，例如 `future.awai` 代码行
+    // 等待 `Delay` 运行，例如 `future.await` 代码行
     State1(Delay),
     // Future 执行完成
     Terminated,
