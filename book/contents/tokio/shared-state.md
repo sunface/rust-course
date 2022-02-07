@@ -1,5 +1,5 @@
 # 共享状态
-上一章节中，咱们搭建了一个异步的 redis 服务器，并成功的提供了服务，但是其隐藏了了一个巨大的问题：状态(数据)无法在多个连接之间共享，下面一起来看看该如何解决。
+上一章节中，咱们搭建了一个异步的 redis 服务器，并成功的提供了服务，但是其隐藏了一个巨大的问题：状态(数据)无法在多个连接之间共享，下面一起来看看该如何解决。
 
 ## 解决方法
 好在 Tokio 十分强大，上面问题对应的解决方法也不止一种：
@@ -24,7 +24,7 @@ bytes = "1"
 ## 初始化 HashMap
 由于 `HashMap` 会在多个任务甚至多个线程间共享，再结合之前的选择，最终我们决定使用 `<Arc<Mutext<T>>>` 的方式对其进行包裹。
 
-但是，大家先来畅想一下使用它进行包括后的类型长什么样？ 大概，可能，长这样：`Arc<Mutex<HashMap<String, Bytes>>>`，天哪噜，一不小心，你就遇到了 Rust 的阴暗面：类型大串烧。可以想象，如果要在代码中到处使用这样的类型，可读性会极速下降，因此我们需要一个[类型别名](https://course.rs/advance/custom-type.html#类型别名type-alias)( type alias )来简化下：
+但是，大家先来畅想一下使用它进行包裹后的类型长什么样？ 大概，可能，长这样：`Arc<Mutex<HashMap<String, Bytes>>>`，天哪噜，一不小心，你就遇到了 Rust 的阴暗面：类型大串烧。可以想象，如果要在代码中到处使用这样的类型，可读性会极速下降，因此我们需要一个[类型别名](https://course.rs/advance/custom-type.html#类型别名type-alias)( type alias )来简化下：
 ```rust
 use bytes::Bytes;
 use std::collections::HashMap;
@@ -35,7 +35,7 @@ type Db = Arc<Mutex<HashMap<String, Bytes>>>;
 
 此时，`Db` 就是一个类型别名，使用它就可以替代那一大串的东东，等下你就能看到功效。
 
-接着，我们需要在 `main` 函数中对 `HashMap` 进行初始化，然后使用 `Arc` 克隆一份它的所有权并将其传入到生成的异步任务中。事实上在 Tokio 中，这里的 `Arc` 被称之为 **handle**，或者更宽泛的说，`handle` 在 Tokio 中可以用来访问某个共享状态。
+接着，我们需要在 `main` 函数中对 `HashMap` 进行初始化，然后使用 `Arc` 克隆一份它的所有权并将其传入到生成的异步任务中。事实上在 Tokio 中，这里的 `Arc` 被称为 **handle**，或者更宽泛的说，`handle` 在 Tokio 中可以用来访问某个共享状态。
 
 ```rust
 use tokio::net::TcpListener;
@@ -66,11 +66,11 @@ async fn main() {
 #### 为何使用 `std::sync::Mutex`
 上面代码还有一点非常重要，那就是我们使用了 `std::sync::Mutex` 来保护 `HashMap`，而不是使用 `tokio::sync::Mutex`。
 
-在使用 Tokio 编写异步代码时，一个常见的错误无条件地使用 `tokio::sync::Mutex` ，而真相是：Tokio 提供的异步锁只应该使用在 `.await`调用过程中，而且 `Tokio` 的 `Mutex` 实际上内部使用的也是 `std::sync::Mutex`。
+在使用 Tokio 编写异步代码时，一个常见的错误无条件地使用 `tokio::sync::Mutex` ，而真相是：Tokio 提供的异步锁只应该在跨多个 `.await`调用时使用，而且 Tokio 的 `Mutex` 实际上内部使用的也是 `std::sync::Mutex`。
 
 多补充几句，在异步代码中，关于锁的使用有以下经验之谈：
 
-- 锁如果在 `.await` 的过程中持有，应该使用 `Tokio` 提供的锁，原因是 `.await`的过程中锁可能在线程间转移，若使用标准库的同步锁存在死锁的可能性，例如某个任务刚获取完锁，还没使用完就因为 `.await` 让出了当前线程的所有权，结果下个任务又去获取了锁，造成死锁
+- 锁如果在多个 `.await` 过程中持有，应该使用 Tokio 提供的锁，原因是 `.await`的过程中锁可能在线程间转移，若使用标准库的同步锁存在死锁的可能性，例如某个任务刚获取完锁，还没使用完就因为 `.await` 让出了当前线程的所有权，结果下个任务又去获取了锁，造成死锁
 - 锁竞争不多的情况下，使用 `std::sync::Mutex`
 - 锁竞争多，可以考虑使用三方库提供的性能更高的锁，例如 [`parking_lot::Mutex`](https://docs.rs/parking_lot/0.10.2/parking_lot/type.Mutex.html)
 
@@ -112,11 +112,11 @@ async fn process(socket: TcpStream, db: Db) {
 ## 任务、线程和锁竞争
 当竞争不多的时候，使用阻塞性的锁去保护共享数据是一个正确的选择。当一个锁竞争触发后，当前正在执行任务(请求锁)的线程会被阻塞，并等待锁被前一个使用者释放。这里的关键就是：**锁竞争不仅仅会导致当前的任务被阻塞，还会导致执行任务的线程被阻塞，因此该线程准备执行的其它任务也会因此被阻塞！**
 
-默认情况下，`Tokio` 调度器使用了多线程模式，此时如果有大量的任务都需要访问同一个锁，那么锁竞争将变得激烈起来。当然，你也可以使用 [**current_thread**](https://docs.rs/tokio/1.15.0/tokio/runtime/index.html#current-thread-scheduler) 运行时设置，在该设置下会使用一个单线程的调度器(执行器)，所有的任务都会创建并执行在当前线程上，因此不再会有锁竞争。
+默认情况下，Tokio 调度器使用了多线程模式，此时如果有大量的任务都需要访问同一个锁，那么锁竞争将变得激烈起来。当然，你也可以使用 [**current_thread**](https://docs.rs/tokio/1.15.0/tokio/runtime/index.html#current-thread-scheduler) 运行时设置，在该设置下会使用一个单线程的调度器(执行器)，所有的任务都会创建并执行在当前线程上，因此不再会有锁竞争。
 
 > current_thread 是一个轻量级、单线程的运行时，当任务数不多或连接数不多时是一个很好的选择。例如你想在一个异步客户端库的基础上提供给用户同步的API访问时，该模式就很适用
 
-当同步锁的竞争变成一个问题时，使用 `Tokio` 提供的异步锁几乎并不能帮你解决问题，此时可以考虑如下选项：
+当同步锁的竞争变成一个问题时，使用 Tokio 提供的异步锁几乎并不能帮你解决问题，此时可以考虑如下选项：
 
 - 创建专门的任务并使用消息传递的方式来管理状态
 - 将锁进行分片
@@ -158,7 +158,7 @@ async fn increment_and_do_stuff(mutex: &Mutex<i32>) {
 } // 锁在这里超出作用域
 ```
 
-如果你要 `spawn` 一个任务来执行上面的函数话，会报错:
+如果你要 `spawn` 一个任务来执行上面的函数的话，会报错:
 ```console
 error: future cannot be sent between threads safely
    --> src/lib.rs:13:5

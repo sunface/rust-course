@@ -7,10 +7,10 @@ Tokio 中的 I/O 操作和 `std` 在使用方式上几无区别，最大的区�
 - 还有数据结构也实现了它们：`Vec<u8>`、`&[u8]`，这样就可以直接使用这些数据结构作为读写器( reader / writer)
 
 ## AsyncRead 和 AsyncWrite
-这两个特征为字节流的异步读写提供了便利的使用方法，这些方法都使用 `async` 声明，且需要通过 `.await` 进行调用，
+这两个特征为字节流的异步读写提供了便利，通常我们会使用 `AsyncReadExt` 和 `AsyncWriteExt` 提供的工具方法，这些方法都使用 `async` 声明，且需要通过 `.await` 进行调用，
 
 #### async fn read
- `read` 是一个异步方法可以将数据读入缓冲区( `buffer` )中，然后返回读取的字节数。
+ `AsyncReadExt::read` 是一个异步方法可以将数据读入缓冲区( `buffer` )中，然后返回读取的字节数。
 ```rust
 use tokio::fs::File;
 use tokio::io::{self, AsyncReadExt};
@@ -31,7 +31,7 @@ async fn main() -> io::Result<()> {
 需要注意的是：当 `read` 返回 `Ok(0)` 时，意味着字节流( stream )已经关闭，在这之后继续调用 `read` 会立刻完成，依然获取到返回值 `Ok(0)`。 例如，字节流如果是 `TcpStream` 类型，那 `Ok(0)` 说明该**连接的读取端已经被关闭**(写入端关闭，会报其它的错误)。
 
 #### async fn read_to_end
-该方法会从字节流中读取所有的字节，直到遇到 `EOF` ：
+`AsyncReadExt::read_to_end` 方法会从字节流中读取所有的字节，直到遇到 `EOF` ：
 ```rust
 use tokio::io::{self, AsyncReadExt};
 use tokio::fs::File;
@@ -48,7 +48,7 @@ async fn main() -> io::Result<()> {
 ```
 
 #### async fn write
-`write` 异步方法会尝试将缓冲区的内容写入到写入器( `writer` )中，同时返回写入的字节数:
+`AsyncWriteExt::write` 异步方法会尝试将缓冲区的内容写入到写入器( `writer` )中，同时返回写入的字节数:
 ```rust
 use tokio::io::{self, AsyncWriteExt};
 use tokio::fs::File;
@@ -67,7 +67,7 @@ async fn main() -> io::Result<()> {
 上面代码很清晰，但是大家可能会疑惑 `b"some bytes"` 是什么意思。这种写法可以将一个 `&str` 字符串转变成一个字节数组：`&[u8;10]`，然后 `write` 方法又会将这个 `&[u8;10]` 的数组类型隐式强转为数组切片: `&[u8]`。
 
 #### async fn write_all
-将缓冲区的内容全部写入到写入器中：
+`AsyncWriteExt::write_all` 将缓冲区的内容全部写入到写入器中：
 ```rust
 use tokio::io::{self, AsyncWriteExt};
 use tokio::fs::File;
@@ -81,12 +81,12 @@ async fn main() -> io::Result<()> {
 }
 ```
 
-以上只是部分方法，实际上还有一些实用的方法由于篇幅有限无法列出，大家可以通过 API 文档查看完整的列表。
+以上只是部分方法，实际上还有一些实用的方法由于篇幅有限无法列出，大家可以通过 [API 文档](https://docs.rs/tokio/latest/tokio/io/index.html) 查看完整的列表。
 
 ## 实用函数
 另外，和标准库一样， `tokio::io` 模块包含了多个实用的函数或API，可以用于处理标准输入/输出/错误等。
 
-例如，`tokio::io::copy` 异步的将读取器( `reader` )中的内容拷贝到写入器中。
+例如，`tokio::io::copy` 异步的将读取器( `reader` )中的内容拷贝到写入器( `writer` )中。
 ```rust
 use tokio::fs::File;
 use tokio::io;
@@ -287,6 +287,10 @@ struct Task {
 当然，编译器会帮助我们做一些优化。例如，会进一步优化 `async` 语句块的布局，而不是像上面一样简单的使用 `enum`。在实践中，变量也不会在枚举成员间移动。
 
 但是再怎么优化，任务的结构体至少也会跟其中的栈数组一样大，因此通常情况下，使用堆上的缓冲区会高效实用的多。
+
+> 当任务因为调度在线程间移动时，存储在栈上的数据需要进行保存和恢复，过大的栈上变量会带来不小的数据拷贝开销
+> 
+> 因此，存储大量数据的变量最好放到堆上
 
 ##### 处理EOF
 当 TCP 连接的读取端关闭后，再调用 `read` 方法会返回 `Ok(0)`。此时，再继续下去已经没有意义，因此我们需要退出循环。忘记在 EOF 时退出读取循环，是网络编程中一个常见的 bug :

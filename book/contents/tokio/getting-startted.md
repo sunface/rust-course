@@ -95,7 +95,7 @@ Perfect, 代码成功运行，是时候来解释下其中蕴藏的至高奥秘�
 let mut client = client::connect("127.0.0.1:6379").await?;
 ```
 
-[`client::connect`](https://docs.rs/mini-redis/0.4.1/mini_redis/client/fn.connect.html) 函数由`mini-redis` 包提供，它使用异步的方式跟指定的远程 `IP` 地址建立 TCP 长连接，一旦连接建立成功，那 `clien` 的赋值初始化也将完成。
+[`client::connect`](https://docs.rs/mini-redis/0.4.1/mini_redis/client/fn.connect.html) 函数由`mini-redis` 包提供，它使用异步的方式跟指定的远程 `IP` 地址建立 TCP 长连接，一旦连接建立成功，那 `client` 的赋值初始化也将完成。
 
 特别值得注意的是：虽然该连接是异步建立的，但是从代码本身来看，完全是**同步的代码编写方式**，唯一能说明异步的点就是 `.await`。
 
@@ -133,7 +133,7 @@ async fn say_to_world() -> String {
 
 #[tokio::main]
 async fn main() {
-    // 此处的函数调用是惰性的，并不会执行 `say_world()` 函数体中的代码
+    // 此处的函数调用是惰性的，并不会执行 `say_to_world()` 函数体中的代码
     let op = say_to_world();
 
     // 首先打印出 "hello"
@@ -184,7 +184,7 @@ fn main() {
 tokio = { version = "1", features = ["full"] }
 ```
 
-里面有个 `features = ["full"]` 可能大家会比较迷惑，当然，关于它的具体解释在本书的 `[Cargo详解专题]` 有介绍，这里就简单进行说明，
+里面有个 `features = ["full"]` 可能大家会比较迷惑，当然，关于它的具体解释在本书的 [Cargo详解专题](https://course.rs/cargo/intro.html) 有介绍，这里就简单进行说明，
 
 `Tokio` 有很多功能和特性，例如 `TCP`，`UDP`，`Unix sockets`，同步工具，多调度类型等等，不是每个应用都需要所有的这些特性。为了优化编译时间和最终生成可执行文件大小、内存占用大小，应用可以对这些特性进行可选引入。
 
