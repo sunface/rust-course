@@ -185,7 +185,7 @@ use std::io::{self, Write};
 - `use self::xxx`，表示加载当前模块中的 `xxx`。此时 `self` 可省略
 - `use xxx::{self, yyy}`，表示，加载当前路径下模块 `xxx` 本身，以及模块 `xxx` 下的 `yyy`
 
-## 使用*引入模块下的所有项*
+## 使用`*`引入模块下的所有项
 对于之前一行一行引入 `std::collections` 的方式，我们还可以使用
 ```rust
 use std::collections::*;
