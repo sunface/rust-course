@@ -69,8 +69,8 @@ fn main() {
     let post = Post{title: "Rust语言简介".to_string(),author: "Sunface".to_string(), content: "Rust棒极了!".to_string()};
     let weibo = Weibo{username: "sunface".to_string(),content: "好像微博没Tweet好用".to_string()};
     
-    post.summarize();
-    weibo.summarize();
+    println!("{}",post.summarize());
+    println!("{}",weibo.summarize());
 }
 ```
 
