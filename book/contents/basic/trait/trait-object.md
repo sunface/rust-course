@@ -265,7 +265,7 @@ help: function arguments must have a statically known size, borrowed types alway
 在 Rust 中，有两个`self`，一个指代当前的实例对象，一个指代特征或者方法类型的别名：
 ```rust
 trait Draw {
-    fn draw(&self) ->  Self;
+    fn draw(&self) -> Self;
 }
 
 #[derive(Clone)]
