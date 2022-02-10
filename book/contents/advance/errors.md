@@ -496,7 +496,7 @@ fn render() -> Result<String, std::io::Error> {
   
 下面依次来看看相关的解决方式。
 
-#### Box\<dyn Error\>
+#### Box<dyn Error>
 大家还记得我们之前提到的 `std::error::Error` 特征吧，当时有说：自定义类型实现 `Debug + Display` 特征的主要原因就是为了能转换成 `Error` 的特征对象，而特征对象恰恰是在同一个地方使用不同类型的关键:
 
 ```rust
