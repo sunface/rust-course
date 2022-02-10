@@ -237,7 +237,7 @@ impl<T: Display + PartialOrd> Pair<T> {
 }
 ```
 
-`cmd_display` 方法，并不是所有的 `Pair<T>` 结构体对象都可以拥有，只有 `T` 同时实现了 `Display + PartialOrd` 的 `Part<T>` 才可以拥有此方法。
+`cmd_display` 方法，并不是所有的 `Pair<T>` 结构体对象都可以拥有，只有 `T` 同时实现了 `Display + PartialOrd` 的 `Pair<T>` 才可以拥有此方法。
 该函数可读性会更好，因为泛型参数、参数、返回值都在一起，可以快速的阅读，同时每个泛型参数的特征也在新的代码行中通过**特征约束**进行了约束。
 
 **也可以有条件的实现特征**, 例如，标准库为任何实现了 `Display` 特征的类型实现了 `ToString` 特征：
