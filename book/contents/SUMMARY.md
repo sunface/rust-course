@@ -83,11 +83,7 @@
         - [基于Send和Sync的线程安全](advance/concurrency-with-threads/send-sync.md)
         - [实践应用：多线程Web服务器 todo](advance/concurrency-with-threads/web-server.md)
     - [全局变量](advance/global-variable.md)
-    - [错误处理 doing](advance/errors/intro.md)
-      - [简化错误处理 todo](advance/errors/simplify.md)
-      - [自定义错误 todo](advance/errors/user-define.md)
-      - [让错误输出更优雅 todo](advance/errors/pretty-format.md)
-      - [会导致panic的代码 todo](advance/errors/panic-codes.md)
+    - [错误处理](advance/errors.md)
     <!-- - [高阶特征约束(HRTB) todo](advance/hrtb.md) -->
 
 ## 专题内容,每个专题都配套一个小型项目进行实践
