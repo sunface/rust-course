@@ -261,11 +261,15 @@ help: function arguments must have a statically known size, borrowed types alway
 
 当使用特征对象时，Rust 必须使用动态分发。编译器无法知晓所有可能用于特征对象代码的类型，所以它也不知道应该调用哪个类型的哪个方法实现。为此，Rust 在运行时使用特征对象中的指针来知晓需要调用哪个方法。动态分发也阻止编译器有选择的内联方法代码，这会相应的禁用一些优化。
 
+下面这张图很好的解释了静态分发 `Box<T>` 和动态分发 `Box<dyn Trait>` 的区别：
+
+<img alt="" src="/img/trait-object-01.svg" class="center"  />
+
 ## Self与self
 在 Rust 中，有两个`self`，一个指代当前的实例对象，一个指代特征或者方法类型的别名：
 ```rust
 trait Draw {
-    fn draw(&self) ->  Self;
+    fn draw(&self) -> Self;
 }
 
 #[derive(Clone)]
