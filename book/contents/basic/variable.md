@@ -61,7 +61,7 @@ error[E0384]: cannot assign twice to immutable variable `x`
 error: aborting due to previous error
 ```
 
-具体的错误原因是 `cannot assign twice to immutable variable x`（对不可变的变量无法进行二次再赋值），因为我们尝试给不可变的 `x` 变量赋予第二个值。
+具体的错误原因是 `cannot assign twice to immutable variable x`（对不可变的变量无法进行二次再赋值），因为我们尝试给不可变的 `x` 变量赋予了第二个值。
 
 这种错误是为了避免无法预期的错误发生在我们的变量上：一个变量往往被多处代码所使用，其中一部分代码假定该变量的值永远不会改变，而另外一部分代码却无情的改变了这个值，在实际开发过程中，这个错误是很难被发现的，特别是在多线程编程中。
 
