@@ -54,6 +54,7 @@
     - [生命周期](advance/lifetime/intro.md)
         - [认识生命周期](advance/lifetime/basic.md)
         - [深入生命周期](advance/lifetime/advance.md)
+        - [&'static 和 T: 'static](advance/lifetime/static.md)
         <!-- - [一些关于生命周期的误解 todo](advance/lifetime/misconceptions.md) -->
     - [函数式编程](advance/functional-programing/intro.md)
         - [闭包closure](advance/functional-programing/closure.md)
@@ -84,6 +85,9 @@
         - [实践应用：多线程Web服务器 todo](advance/concurrency-with-threads/web-server.md)
     - [全局变量](advance/global-variable.md)
     - [错误处理](advance/errors.md)
+    - [Unsafe Rust doing](advance/unsafe/intro.md)
+      - [原生指针 doing](advance/unsafe/raw-pointer.md)
+      - [FFI todo](advance/unsafe/ffi.md)
     <!-- - [高阶特征约束(HRTB) todo](advance/hrtb.md) -->
 
 ## 专题内容,每个专题都配套一个小型项目进行实践
@@ -109,10 +113,6 @@
     - [类似迭代器的Stream](tokio/stream.md))   
     - [优雅的关闭](tokio/graceful-shutdown.md)
     - [异步跟同步共存](tokio/bridging-with-sync.md)
-
-- [Unsafe Rust todo](unsafe/intro.md)
-    - [原生指针 todo](unsafe/raw-pointer.md)
-    - [FFI外部语言用 todo](unsafe/ffi.md)
         
 - [对抗编译检查 doing](fight-with-compiler/intro.md)
     - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
