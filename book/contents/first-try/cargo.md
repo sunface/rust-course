@@ -21,7 +21,7 @@ Go 语言在 1.10 版本之前，所有的包都是在 `github.com` 下存放，
 终于到了紧张刺激的 new new new 环节：
 
 ```console
-cargo new world_hello
+$ cargo new world_hello
 ```
 
 上面的命令使用 `cargo new` 创建一个项目，项目名是 `world_hello` （向读者势力低头的项目名称，泪奔），该项目的结构和配置文件都是由 `cargo` 生成，意味着**我们的项目被 `cargo` 所管理**。
