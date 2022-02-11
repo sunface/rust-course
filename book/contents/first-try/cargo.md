@@ -33,7 +33,7 @@ Rust 项目主要分为两个类型：`bin` 和 `lib`，前者是一个可运行
 早期的 `cargo` 在创建项目时，必须添加 `--bin` 的参数，如下所示：
 
 ```console
-cargo new world_hello --bin
+$ cargo new world_hello --bin
 ```
 
 现在的版本，已经无需此参数，`cargo` 默认就创建 `bin` 类型的项目，
