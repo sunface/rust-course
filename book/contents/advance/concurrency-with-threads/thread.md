@@ -300,7 +300,7 @@ after wait
 after wait
 ```
 
-## 线程局部变量(Thread Loval Variable)
+## 线程局部变量(Thread Local Variable)
 对于多线程编程，线程局部变量在一些场景下非常有用，而 Rust 通过标准库和三方库对此进行了支持。
 
 #### 标准库 thread_local
