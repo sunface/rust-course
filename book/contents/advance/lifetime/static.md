@@ -38,7 +38,7 @@ fn print<T: Display + 'static>(message: &T) {
 
 但是，**`&'static` 生命周期针对的仅仅是引用，而不是持有该引用的变量，对于变量来说，还是要遵循相应的作用域规则** :
 ```rust
-se std::{slice::from_raw_parts, str::from_utf8_unchecked};
+use std::{slice::from_raw_parts, str::from_utf8_unchecked};
 
 fn get_memory_location() -> (usize, usize) {
   // “Hello World” 是字符串字面量，因此它的生命周期是 `'static`.
