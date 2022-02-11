@@ -85,7 +85,7 @@
         - [实践应用：多线程Web服务器 todo](advance/concurrency-with-threads/web-server.md)
     - [全局变量](advance/global-variable.md)
     - [错误处理](advance/errors.md)
-    - [Unsafe Rust doing](advance/unsafe/intro.md)
+    - [Unsafe Rust](advance/unsafe/intro.md)
       - [原生指针 doing](advance/unsafe/raw-pointer.md)
       - [FFI todo](advance/unsafe/ffi.md)
     <!-- - [高阶特征约束(HRTB) todo](advance/hrtb.md) -->
