@@ -1,7 +1,7 @@
 [package]
-name = "restex"
+name = "rustlings"
 version = "4.6.0"
-authors = ["sunface <https://im.dev>"]
+authors = []
 edition = "2021"
 
 [dependencies]
@@ -14,7 +14,7 @@ regex = "1.1.6"
 serde = {version = "1.0.10", features = ["derive"]}
 
 [[bin]]
-name = "rustex"
+name = "rustlings"
 path = "src/main.rs"
 
 [dev-dependencies]
