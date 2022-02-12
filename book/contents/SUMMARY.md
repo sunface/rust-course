@@ -86,8 +86,7 @@
     - [全局变量](advance/global-variable.md)
     - [错误处理](advance/errors.md)
     - [Unsafe Rust](advance/unsafe/intro.md)
-      - [原生指针 doing](advance/unsafe/raw-pointer.md)
-      - [FFI todo](advance/unsafe/ffi.md)
+      - [五种兵器](advance/unsafe/superpowers.md)
     <!-- - [高阶特征约束(HRTB) todo](advance/hrtb.md) -->
 
 ## 专题内容,每个专题都配套一个小型项目进行实践
