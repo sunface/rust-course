@@ -90,6 +90,12 @@
     <!-- - [高阶特征约束(HRTB) todo](advance/hrtb.md) -->
 
 ## 专题内容,每个专题都配套一个小型项目进行实践
+- [测试 doing](test/intro.md)
+    - [单元测试 todo](test/unit.md)
+    - [集成测试 todo](test/intergration.md)
+    - [性能测试 todo](test/benchmark.md)
+    - [持续集成 todo](test/ci.md)
+
 - [async/await异步编程](async/intro.md)
   - [async编程入门](async/getting-started.md)
   - [底层探秘: Future执行与任务调度](async/future-excuting.md)
@@ -173,11 +179,7 @@
     - [自定义构建脚本 todo](cargo/build-js.md)
     - [Cargo profile todo](cargo/profile.md)
      
-- [测试 todo](test/intro.md)
-    - [单元测试 todo](test/unit.md)
-    - [集成测试 todo](test/intergration.md)
-    - [性能测试 todo](test/benchmark.md)
-    - [持续集成 todo](test/ci.md)
+
 
 - [常见特征解析 todo](traits/intro.md)
     - [类型转换From/Into todo](traits/from-into.md)
@@ -235,11 +237,11 @@
     - [Vector常用方法 todo](std/vector.md)
     - [HashMap todo](std/hashmap.md)
     - [Iterator常用方法 todo](std/iterator.md)
-
+<!-- 
 - [Rust区块链入门]()
 - [Rust游戏开发入门]()
 - [Rust前端开发入门]()
-- [Rust和WASM]()
+- [Rust和WASM]() -->
 
 ## 附录
 - [附录](appendix/intro.md)
