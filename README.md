@@ -5,7 +5,7 @@
   - 国内镜像： https://book.rust.team
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
 
-- 最近修订： 2022-02-11 新增 [unsafe简介](https://zhuanlan.zhihu.com/p/466269892)
+- 最近修订： 2022-02-11 新增 [unsafe之五种兵器](https://zhuanlan.zhihu.com/p/466613792)
 - Rust版本： Rust edition 2021
 - QQ交流群：1009730433
 
