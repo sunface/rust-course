@@ -28,7 +28,7 @@ fn main() {}
 
 这里我们创建一个有些复杂的枚举类型 `List`，这个类型很有意思，它的每个值都指向了另一个 `List`，此外，得益于 `Rc` 的使用还允许多个值指向一个 `List`：
 
-<img alt="" src="/img/self-ref-01.png" class="center"  />
+<img alt="" src="https://pica.zhimg.com/80/v2-0db007dfb4167ebc22f50cf5b5a85f53_1440w.png" class="center"  />
 
 如上图所示，每个矩形框节点都是一个 `List` 类型，它们或者是拥有值且指向另一个 `List` 的`Cons`，或者是一个没有值的终结点 `Nil`。同时，由于 `RefCell` 的使用，每个 `List` 所指向的 `List` 还能够被修改。
 
@@ -81,7 +81,7 @@ b指向的节点 = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
 在 `main` 函数结束前，`a` 和 `b` 的引用计数均是 `2`，随后 `b` 触发 `Drop`，此时引用计数会变为 `1`，并不会归 `0`，因此 `b` 所指向内存不会被释放，同理可得 `a` 指向的内存也不会被释放，最终发生了内存泄漏。
 
 下面一张图很好的展示了这种引用循环关系：
-<img alt="" src="/img/self-ref-02.png" class="center"  />
+<img alt="" src="https://pic1.zhimg.com/80/v2-2dbfc981f05019bf70bf81c93f956c35_1440w.png" class="center"  />
 
 现在我们还需要轻轻的推一下，让塔米诺骨牌轰然倒塌。反注释最后一行代码，试着运行下：
 ```console

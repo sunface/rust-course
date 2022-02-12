@@ -109,7 +109,7 @@ pub struct Pin<P> {
 
 它包裹一个指针，并且能确保该指针指向的数据不会被移动，例如 `Pin<&mut T>` , `Pin<&T>` , `Pin<Box<T>>` ，都能确保 `T` 不会被移动。
 
-<img alt="" src="/img/async-03.png" class="center"  />
+<img alt="" src="https://pic1.zhimg.com/80/v2-de79f3a7a401588d671ecd121916cd90_1440w.png" class="center"  />
 
 而 `Unpin` 才是一个特征，它表明一个类型可以随意被移动，那么问题来了，可以被 `Pin` 住的值，它有没有实现什么特征呢？ 答案很出乎意料，可以被 `Pin` 住的值实现的特征是 `!Unpin` ，大家可能之前没有见过，但是它其实很简单，`!` 代表没有实现某个特征的意思，`!Unpin` 说明类型没有实现 `Unpin` 特征，那自然就可以被 `Pin` 了。
 
@@ -228,7 +228,7 @@ fn main() {
 
 下面的图片也可以帮助更好的理解这个过程：
 
-<img alt="" src="/img/async-02.jpg" class="center"  />
+<img alt="" src="https://pica.zhimg.com/80/v2-eaeb33da283dc1063b862d2307821976_1440w.jpg" class="center"  />
 
 ## Pin 在实践中的运用
 在理解了 `Pin` 的作用后，我们再来看看它怎么帮我们解决问题。

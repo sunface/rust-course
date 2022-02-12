@@ -6,7 +6,7 @@
 
 `Erlang` 之父[`Joe Armstrong`](https://en.wikipedia.org/wiki/Joe_Armstrong_(programmer))（伟大的异步编程先驱，开创一个时代的殿堂级计算机科学家，我还犹记得当年刚学到 `Erlang` 时的震撼，respect！）用一张5岁小孩都能看到的图片解释了并发与并行的区别： 
 
-<img alt="" src="/img/threads-01.png" class="center"  />
+<img alt="" src="https://pic1.zhimg.com/80/f37dd89173715d0e21546ea171c8a915_1440w.png" class="center"  />
 
 
 上图很直观的体现了：

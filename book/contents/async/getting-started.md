@@ -3,7 +3,7 @@
 
 我们先通过一张web框架性能对比图来感受下 Rust 异步编程的性能:
 
-<img alt="actix-vs-gin screenshot" width="100%" src="/img/async-01.png" class="center"  />
+<img alt="actix-vs-gin screenshot" width="100%" src="https://pic1.zhimg.com/v2-3cebd732fb56f43713f106fdcfa44a3c_b.png" class="center"  />
 
 上图并不能说 Rust 写的 `actix` 框架比 Go 的 `gin` 更好、更优秀，但是确实可以一定程度上说明 Rust 的异步性能非常的高！
 

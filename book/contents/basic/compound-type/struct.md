@@ -162,7 +162,7 @@ println!("{:?}", user1);
 ``` 
 
 上面定义的 `File` 结构体在内存中的排列如下图所示：
-<img alt="" src="/img/struct-01.png" class="center"  />
+<img alt="" src="https://pic3.zhimg.com/80/v2-8cc4ed8cd06d60f974d06ca2199b8df5_1440w.png" class="center"  />
  
 从图中可以清晰的看出 `File` 结构体两个字段 `name` 和 `data` 分别拥有底层两个 `[u8]` 数组的所有权(`String` 类型的底层也是 `[u8]` 数组)，通过 `ptr` 指针指向底层数组的内存地址，这里你可以把 `ptr` 指针理解为 Rust 中的引用类型。
 

@@ -263,7 +263,7 @@ help: function arguments must have a statically known size, borrowed types alway
 
 下面这张图很好的解释了静态分发 `Box<T>` 和动态分发 `Box<dyn Trait>` 的区别：
 
-<img alt="" src="/img/trait-object-01.svg" class="center"  />
+<img alt="" src="https://pic1.zhimg.com/80/v2-b771fe4cfc6ebd63d9aff42840eb8e67_1440w.jpg" class="center"  />
 
 ## Self与self
 在 Rust 中，有两个`self`，一个指代当前的实例对象，一个指代特征或者方法类型的别名：

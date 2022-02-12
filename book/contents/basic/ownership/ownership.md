@@ -190,7 +190,7 @@ error[E0382]: use of moved value: `s1`
 
 如果你在其他语言中听说过术语**浅拷贝( shallow copy )**和**深拷贝( deep copy )**，那么拷贝指针、长度和容量而不拷贝数据听起来就像浅拷贝，但是又因为 Rust 同时使第一个变量 `s1` 无效了，因此这个操作被称为**移动（move）**，而不是浅拷贝。上面的例子可以解读为 `s1` 被**移动**到了 `s2` 中。那么具体发生了什么，用一张图简单说明：
 
-<img alt="s1 moved to s2" src="/img/ownership01.svg" class="center" style="width: 50%;" />
+<img alt="s1 moved to s2" src="https://pic1.zhimg.com/80/v2-3ec77951de6a17584b5eb4a3838b4b61_1440w.jpg" class="center" style="width: 50%;" />
 
 这样就解决了我们之前的问题，`s1` 不再指向任何数据，只有 `s2` 是有效的，当 `s2` 离开作用域，它就会释放内存。 相信此刻，你应该明白了，为什么 Rust 称呼 `let a = b` 为**变量绑定**了吧？
 

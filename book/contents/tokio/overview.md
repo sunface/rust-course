@@ -44,7 +44,7 @@ tokio是一个纸醉金迷之地，只要有钱就可以为所欲为，哦，抱
 因为快所以快，前者是 Rust 快，后者是 `tokio` 快。 `tokio` 在编写时充分利用了 Rust 提供的各种零成本抽象和高性能特性，而且贯彻了 Rust 的牛逼思想：如果你选择手写代码，那么最好的结果就是跟 `tokio` 一样快！
 
 以下是一张官方提供的性能参考图，大致能体现出 `tokio` 的性能之恐怖:
-<img alt="tokio performance" src="/img/tokio-01.png" class="center"  />
+<img alt="tokio performance" src="https://pica.zhimg.com/80/v2-5f5ca10550ec936427c2919191331ae8_1440w.png" class="center"  />
 
 **高可靠**
 

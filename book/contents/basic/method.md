@@ -36,7 +36,7 @@ impl Circle {
 
 我们这里先不详细展开讲解，只是先建立对方法定义的大致印象。下面的图片将 Rust 方法定义与其它语言的方法定义做了对比：
 
-<img alt="" src="/img/method-01.png" class="center"/>
+<img alt="" src="https://pica.zhimg.com/80/v2-0d848e960f3279999eab4b1317f6538e_1440w.png" class="center"/>
 
 可以看出，其它语言中所有定义都在 `class` 中，但是 Rust 的对象定义和方法定义是分离的，这种数据和使用分离的方式，会给予使用者极高的灵活度。
 
