@@ -23,6 +23,7 @@ fn main() {
 > #### 如何获知变量类型或者函数的返回类型
 > 
 > 有几种常用的方式，此处更推荐第二种方法：
+> 
 > - 第一种是查询标准库或者三方库文档，搜索 `File`，然后找到它的 `open` 方法
 > - 在 [Rust IDE](../../first-try/editor.md) 章节，我们推荐了 `VSCode` IDE 和 `rust-analyzer` 插件，如果你成功安装的话，那么就可以在 `VSCode` 中很方便的通过代码跳转的方式查看代码，同时 `rust-analyzer` 插件还会对代码中的类型进行标注，非常方便好用！
 > - 你还可以尝试故意标记一个错误的类型，然后让编译器告诉你：
@@ -90,6 +91,7 @@ fn main() {
 ```
 
 上面代码在匹配出 `error` 后，又对 `error` 进行了详细的匹配解析，最终结果：
+
 - 如果是文件不存在错误 `ErrorKind::NotFound`，就创建文件，这里创建文件`File::create` 也是返回 `Result`，因此继续用 `match` 对其结果进行处理：创建成功，将新的文件句柄赋值给 `f`，如果失败，则 `panic`
 - 剩下的错误，一律 `panic`
 
@@ -165,6 +167,7 @@ fn read_username_from_file() -> Result<String, io::Error> {
 ```
 
 有几点值得注意：
+
 - 该函数返回一个 `Result<String, io::Error>` 类型，当读取用户名成功时，返回 `Ok(String)`，失败时，返回 `Err(io:Error)`
 - `File::open` 和 `f.read_to_string` 返回的 `Result<T, E>` 中的 `E` 就是 `io::Error`
 
@@ -286,6 +289,7 @@ fn first(arr: &[i32]) -> Option<&i32> {
 }
 ```
 这段代码无法通过编译，切记：`?` 操作符需要一个变量来承载正确的值，这个函数只会返回 `Some(&i32)` 或者 `None`，只有错误值能直接返回，正确的值不行，所以如果数组中存在 0 号元素，那么函数第二行使用 `?` 后的返回类型为 `&i32` 而不是 `Some(&i32)`。因此 `?` 只能用于以下形式：
+
 - `let v = xxx()?;`
 - `xxx()?.yyy()?;`
 
