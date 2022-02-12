@@ -108,7 +108,7 @@ pub fn add_two(x: i32) -> i32 {
 
 当然，为了方便，我们使用 `cargo doc --open` 命令，可以在生成文档后，自动在浏览器中打开网页，最终效果如图所示：
 
-<img alt="" src="/img/comment-01.png" class="center"  />
+<img alt="" src="https://pic2.zhimg.com/80/v2-926c91d429e2933a6a3ae3233fc56b1c_1440w.png" class="center"  />
 
 非常棒，而且非常简单，这就是 Rust 工具链的强大之处。
 
@@ -145,7 +145,7 @@ pub mod compute;
 
 运行 `cargo doc --open` 查看下效果：
 
-<img alt="" src="/img/comment-02.png" class="center"  />
+<img alt="" src="https://pic3.zhimg.com/80/v2-38dbea938884c159e74f777c6f49e3af_1440w.png" class="center"  />
 
 包模块注释，可以让用户从整体的角度理解包的用途，对于用户来说是非常友好的，就和一篇文章的开头一样，总是要对文章的内容进行大致的介绍，让用户在看的时候心中有数。
 
@@ -254,7 +254,7 @@ pub fn try_div(a: i32, b: i32) -> Result<i32, String> {
 
 以上文档注释中，我们使用 `#` 将不想让用户看到的内容隐藏起来，但是又不影响测试用例的运行，最终用户将只能看到那行没有隐藏的 `let res = world_hello::compute::try_div(10, 0)?;`：
 
-<img alt="" src="/img/comment-03.png" class="center"  />
+<img alt="" src="https://pic1.zhimg.com/80/v2-d1b98f5e70b7f8c8fb9aecce325dba0e_1440w.png" class="center"  />
 
 ## 文档注释中的代码跳转
 Rust 在文档注释中还提供了一个非常强大的功能，那就是可以实现对外部项的链接：
@@ -334,7 +334,7 @@ pub struct BigY;
 ```
 
 结果如下图所示：
-<img alt="" src="/img/comment-05.png" class="center"  />
+<img alt="" src="https://pic1.zhimg.com/80/v2-1ab5b19d2bd06f3d83204d062b399bcd_1440w.png" class="center"  />
 
 
 ## 一个综合例子
@@ -422,7 +422,7 @@ Green
 
 最后，再来看看文档长啥样：
 
-<img alt="" src="/img/comment-04.png" class="center"  />
+<img alt="" src="https://pic1.zhimg.com/80/v2-e9ef7351458fd01020b35990c3daf222_1440w.png" class="center"  />
 
 ## 总结
 在 Rust 中，注释分为三个主要类型：代码注释、文档注释、包和模块注释，每个注释类型都拥有两种形式：行注释和块注释，熟练掌握包模块和注释的知识，非常有助于我们创建工程性更强的项目。
