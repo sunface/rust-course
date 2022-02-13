@@ -14,7 +14,7 @@
 打开终端并输入下面命令：
 
 ```console
-curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+$ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 ```
 
 这个命令将下载一个脚本并开始安装 `rustup` 工具，此工具将安装 Rust 的最新稳定版本。可能会提示你输入管理员密码。
@@ -34,7 +34,7 @@ Rust 对运行环境的依赖和 Go 语言很像，几乎所有环境都可以�
 **MacOS 下：**
 
 ```console
-xcode-select --install
+$ xcode-select --install
 ```
 **Linux 下：**
 
@@ -82,7 +82,7 @@ Current installation options:
 配置好后，在 MSYS 中输入下面的命令来安装 rustup。
 
 ```bash
-curl https://sh.rustup.rs -sSf | sh
+$ curl https://sh.rustup.rs -sSf | sh
 ```
 
 之后，根据以下输出进行配置。
@@ -135,7 +135,7 @@ Current installation options:
 要卸载 Rust 和 `rustup`，在终端执行以下命令即可卸载：
 
 ```bash
-rustup self uninstall
+$ rustup self uninstall
 ```
 
 ## 检查安装是否成功
@@ -143,10 +143,10 @@ rustup self uninstall
 检查是否正确安装了 Rust，可打开终端并输入下面这行，此时能看到最新发布的稳定版本的版本号、提交哈希值和提交日期：
 
 ```bash
-rustc -V
+$ rustc -V
 rustc 1.56.1 (59eed8a2a 2021-11-01)
 
-cargo -V
+$ cargo -V
 cargo 1.57.0 (b2e52d7ca 2021-10-21)
 ```
 > 注：若发现版本号不同，以您的版本号为准
