@@ -35,7 +35,7 @@ fn main() {
 在下面，我们将一起构建一个同步的 `mini-redis` ，为了实现这一点，需要将 `Runtime` 对象存储起来，然后利用上面提到的 `block_on` 方法。
 
 
-首先，创建一个文件 `src/blocking_client.rs`，然后使用下面代码将异步的 `Clien` 结构体包裹起来:
+首先，创建一个文件 `src/blocking_client.rs`，然后使用下面代码将异步的 `Client` 结构体包裹起来:
 ```rust
 use tokio::net::ToSocketAddrs;
 use tokio::runtime::Runtime;
@@ -106,7 +106,7 @@ impl BlockingClient {
 }
 ```
 
-这代码看上去挺长，实际上很简单，通过 `block_on` 将异步形式的 `Client` 的法变成同步调用的形式。例如 `BlockingClient` 的 `get` 方法实际上是对内部的异步 `get` 方法的同步调用。
+这代码看上去挺长，实际上很简单，通过 `block_on` 将异步形式的 `Client` 的方法变成同步调用的形式。例如 `BlockingClient` 的 `get` 方法实际上是对内部的异步 `get` 方法的同步调用。
 
 与上面的平平无奇相比，下面的代码将更有趣，因为它将 `Client` 转变成一个 `Subscriber` 对象:
 ```rust
@@ -155,7 +155,7 @@ impl BlockingSubscriber {
 由上可知，`subscribe` 方法会使用运行时将一个异步的 `Client` 转变成一个异步的 `Subscriber`，此外，`Subscriber` 结构体有一个非异步的方法 `get_subscribed`，对于这种方法，只需直接调用即可，而无需使用运行时。
 
 ## 其它方法
-上面介绍的是最简单的方法，但是，如果只有这一种， tokio 也不会成为今天这个大名鼎鼎的自己。
+上面介绍的是最简单的方法，但是，如果只有这一种， tokio 也不会如此大名鼎鼎。
 
 #### runtime.spawn
 可以通过 `Runtime` 的 `spawn` 方法来创建一个基于该运行时的后台任务：
@@ -223,9 +223,9 @@ Task 0 stopping.
 
 在此例中，我们生成了10个后台任务在运行时中运行，然后等待它们的完成。作为一个例子，想象一下在图形渲染应用( GUI )中，有时候需要通过网络访问远程服务来获取一些数据，那上面的这种模式就非常适合，因为这些网络访问比较耗时，而且不会影响图形的主体渲染，因此可以在主线程中渲染图形，然后使用其它线程来运行 Tokio 的运行时，并通过该运行时使用异步的方式完成网络访问，最后将这些网络访问的结果发送到 GUI 进行数据渲染，例如一个进度条。
 
-还有一点很重要，在本例子中只能使用 `multi_thread` 运行时。如果我们使用了 `current_thread`，你会发现主线程的耗时任务会在后台任务开始之前就完成了。因为在 `multi_thread` 模式下，生成的任务只会在 `block_on` 期间才执行。
+还有一点很重要，在本例子中只能使用 `multi_thread` 运行时。如果我们使用了 `current_thread`，你会发现主线程的耗时任务会在后台任务开始之前就完成了。因为在 `current_thread` 模式下，生成的任务只会在 `block_on` 期间才执行。
 
-在 `multi_thread` 模式下，我们并不需要通过 `block_on` 来触发任务的运行，这里是仅仅是用来阻塞并等待最终的结果。而除了通过 `block_on` 等待结果外，你还可以：
+在 `multi_thread` 模式下，我们并不需要通过 `block_on` 来触发任务的运行，这里仅仅是用来阻塞并等待最终的结果。而除了通过 `block_on` 等待结果外，你还可以：
 
 - 使用消息传递的方式，例如 `tokio::sync::mpsc`，让异步任务将结果发送到主线程，然后主线程通过 `.recv`方法等待这些结果
 - 通过共享变量的方式，例如 `Mutex`，这种方式非常适合实现 GUI 的进度条: GUI 在每个渲染帧读取该变量即可。
