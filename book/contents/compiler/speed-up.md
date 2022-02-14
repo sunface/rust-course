@@ -5,3 +5,5 @@ https://www.reddit.com/r/rust/comments/rnkyc0/why_does_my_code_compile_faster_on
 https://www.reddit.com/r/rust/comments/rv8126/speedup_compilation_time/
 
 https://www.reddit.com/r/rust/comments/rsfcgb/why_is_my_rust_build_so_slow/
+
+https://www.reddit.com/r/rust/comments/sqi1ba/is_it_just_me_or_rustanalyzer_is_unreliableslow/
