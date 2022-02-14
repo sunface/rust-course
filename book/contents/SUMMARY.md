@@ -90,9 +90,10 @@
     <!-- - [高阶特征约束(HRTB) todo](advance/hrtb.md) -->
 
 ## 专题内容,每个专题都配套一个小型项目进行实践
-- [测试 doing](test/intro.md)
-    - [单元测试 todo](test/unit.md)
-    - [集成测试 todo](test/intergration.md)
+- [自动化测试](test/intro.md)
+    - [如何写测试](test/write-tests.md)
+    - [控制测试的执行](test/test-control.md)
+    - [单元测试和集成测试](test/unit-integration-test.md)
     - [性能测试 todo](test/benchmark.md)
     - [持续集成 todo](test/ci.md)
 
