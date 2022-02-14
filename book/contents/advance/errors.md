@@ -347,7 +347,7 @@ fn produce_error() -> Result<(), AppError> {
 
 fn main() {
     match produce_error() {
-        Err(e) => eprintln!("{}", e), // Sorry, Can not find the Page!
+        Err(e) => eprintln!("{}", e), // 抱歉，未找到指定的页面!
         _ => println!("No error"),
     }
 
