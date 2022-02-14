@@ -6,7 +6,7 @@
 ## For 循环与迭代器
 从用途来看，迭代器跟 `for` 循环颇为相似，都是去遍历一个集合，但是实际上它们存在不小的差别，其中最主要的差别就是：**是否通过索引来访问集合**。
 
-例如以下的JS代码就是一个循环：
+例如以下的 JS 代码就是一个循环：
 ```javascript
 let arr = [1, 2, 3];
 for (let i = 0; i < arr.length; i++) {
@@ -26,7 +26,7 @@ for v in arr {
 
 那又有同学要发问了，在 Rust 中数组是迭代器吗？因为在之前的代码中直接对数组 `arr` 进行了迭代，答案是 `No`。那既然数组不是迭代器，为啥咱可以对它的元素进行迭代呢？
 
-简而言之就是数组实现了 `IntoIterator` 特征，Rust 通过 `for` 语法糖，自动把实现了该特征的数组类型转换为迭代器(你也可以为自己的集合类型实现此特征)，最终让我们可以直接对一个数组进行迭代，类似的还有：
+简而言之就是数组实现了 `IntoIterator` 特征，Rust 通过 `for` 语法糖，自动把实现了该特征的数组类型转换为迭代器（你也可以为自己的集合类型实现此特征），最终让我们可以直接对一个数组进行迭代，类似的还有：
 ```rust
 for i in 1..10 {
     println!("{}", i);
@@ -45,7 +45,7 @@ for v in arr.into_iter() {
 迭代器是函数语言的核心特性，它赋予了 Rust 远超于循环的强大表达能力，我们将在本章中一一为大家进行展现。
 
 ## 惰性初始化
-在Rust中，迭代器是惰性的，意味着如果你不使用它，那么它将不会发生任何事：
+在 Rust 中，迭代器是惰性的，意味着如果你不使用它，那么它将不会发生任何事：
 ```rust
 let v1 = vec![1, 2, 3];
 
@@ -95,7 +95,7 @@ fn main() {
 
 - `next` 方法返回的是 `Option` 类型，当有值时返回 `Some(i32)`，无值时返回 `None`
 - 遍历是按照迭代器中元素的排列顺序依次进行的，因此我们严格按照数组中元素的顺序取出了 `Some(1)`，`Some(2)`，`Some(3)`
-- 手动迭代必须将迭代器声明为 `mut` 可变，因为调用 `next` 会改变迭代器其中的状态数据(当前遍历的位置等)，而 `for` 循环去迭代则无需标注 `mut`，因为它会帮我们自动完成
+- 手动迭代必须将迭代器声明为 `mut` 可变，因为调用 `next` 会改变迭代器其中的状态数据（当前遍历的位置等），而 `for` 循环去迭代则无需标注 `mut`，因为它会帮我们自动完成
 
 总之，`next` 方法对**迭代器的遍历是消耗性的**，每次消耗它一个元素，最终迭代器中将没有任何元素，只能返回 `None`。
 
@@ -254,7 +254,7 @@ warning: unused `Map` that must be used
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
   |
   = note: `#[warn(unused_must_use)]` on by default
-  = note: iterators are lazy and do nothing unless consumed // 迭代器map是惰性的，这里不产生任何效果
+  = note: iterators are lazy and do nothing unless consumed // 迭代器 map 是惰性的，这里不产生任何效果
 ```
 
 如上述中文注释所说，这里的 `map` 方法是一个迭代者适配器，它是惰性的，不产生任何行为，因此我们还需要一个消费者适配器进行收尾：
@@ -305,7 +305,7 @@ fn shoes_in_size(shoes: Vec<Shoe>, shoe_size: u32) -> Vec<Shoe> {
 `filter` 是迭代器适配器，用于对迭代器中的每个值进行过滤。 它使用闭包作为参数，该闭包的参数 `s` 是来自迭代器中的值，然后使用 `s` 跟外部环境中的 `shoe_size` 进行比较，若相等，则在迭代器中保留 `s` 值，若不相等，则从迭代器中剔除 `s` 值，最终通过 `collect` 收集为 `Vec<Shoe>` 类型。
 
 ## 实现 Iterator 特征
-之前的内容我们一直基于数组来创建迭代器，实际上，不仅仅是数组，基于其它集合类型一样可以创建迭代器，例如 `HashMap`。 你也可以创建自己的迭代器 - 只要为自定义类型实现 `Iterator` 特征即可。
+之前的内容我们一直基于数组来创建迭代器，实际上，不仅仅是数组，基于其它集合类型一样可以创建迭代器，例如 `HashMap`。 你也可以创建自己的迭代器 —— 只要为自定义类型实现 `Iterator` 特征即可。
 
 首先，创建一个计数器：
 ```rust
@@ -464,14 +464,12 @@ test bench::bench_iter ... bench:     983,858 ns/iter (+/- 44,673)
 
 迭代器是 Rust 的 **零成本抽象**（zero-cost abstractions）之一，意味着抽象并不会引入运行时开销，这与 `Bjarne Stroustrup`（C++ 的设计和实现者）在 `Foundations of C++（2012）` 中所定义的 **零开销**（zero-overhead）如出一辙：
 
-```
-In general, C++ implementations obey the zero-overhead principle: What you don’t use, you don’t pay for.
-And further: What you do use, you couldn’t hand code any better.
-
-一般来说，C++的实现遵循零开销原则：没有使用时，你不必为其买单。
-更进一步说，需要使用时，你也无法写出更优的代码了。
-（翻译一下：用就完事了）
-```
+> In general, C++ implementations obey the zero-overhead principle: What you don’t use, you don’t pay for.
+> And further: What you do use, you couldn’t hand code any better.
+>
+> 一般来说，C++的实现遵循零开销原则：没有使用时，你不必为其买单。
+> 更进一步说，需要使用时，你也无法写出更优的代码了。
+> （翻译一下：用就完事了）
 
 总之，迭代器是 Rust 受函数式语言启发而提供的高级语言特性，可以写出更加简洁、逻辑清晰的代码。编译器还可以通过循环展开（Unrolling）、向量化、消除边界检查等优化手段，使得迭代器和 `for` 循环都有极为高效的执行效率。
 
