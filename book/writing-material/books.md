@@ -27,5 +27,8 @@
 
 14. [Unstable Rust](https://doc.rust-lang.org/stable/unstable-book/)
 
+15. [Rust Fuzz Book](https://rust-fuzz.github.io/book/)
+
+
 ## 可参考的教程
 1. https://github.com/ferrous-systems/teaching-material#core-topics

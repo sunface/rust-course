@@ -402,4 +402,4 @@ extern "C" {
 总之，能不使用 `unsafe` 一定不要使用，就算使用也要控制好边界，让范围尽可能的小，就像本章的例子一样，只有真的需要 `unsafe` 的代码，才应该包含其中, 而不是将无关代码也纳入进来。
 
 ## 进一步学习
-1. [Unsafe Rust: How and when (not) to use it]: https://blog.logrocket.com/unsafe-rust-how-and-when-not-to-use-it/
+1. [Unsafe Rust: How and when (not) to use it](https://blog.logrocket.com/unsafe-rust-how-and-when-not-to-use-it/)
