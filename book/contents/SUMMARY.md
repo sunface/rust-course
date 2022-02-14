@@ -91,11 +91,12 @@
 
 ## 专题内容,每个专题都配套一个小型项目进行实践
 - [自动化测试](test/intro.md)
-    - [如何写测试](test/write-tests.md)
-    - [控制测试的执行](test/test-control.md)
+    - [编写测试及控制执行](test/write-tests.md)
     - [单元测试和集成测试](test/unit-integration-test.md)
     - [性能测试 todo](test/benchmark.md)
     - [持续集成 todo](test/ci.md)
+    - [断言assertion](test/assertion.md)
+
 
 - [async/await异步编程](async/intro.md)
   - [async编程入门](async/getting-started.md)

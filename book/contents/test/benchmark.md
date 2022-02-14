@@ -2,6 +2,7 @@
 
 https://www.reddit.com/r/rust/comments/sh8u72/why_my_rust_benchmarks_were_wrong_or_how_to/
 
+https://doc.rust-lang.org/unstable-book/library-features/test.html
 
 ## benchmark迷一般的性能结果
 代码如下
