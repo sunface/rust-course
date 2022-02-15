@@ -5,7 +5,7 @@
   - 国内镜像： https://book.rust.team
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
 
-- 最近修订： 2022-02-12 新增 [没人爱的测试](https://zhuanlan.zhihu.com/p/467323266?)
+- 最近修订： 2022-02-12 新增 [单元测试和集成测试](https://zhuanlan.zhihu.com/p/467653448)
 - Rust版本： Rust edition 2021
 - QQ交流群：1009730433
 
