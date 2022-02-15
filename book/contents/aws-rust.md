@@ -1,4 +1,4 @@
-# AWS 眼中的 Rust 语言
+# 使用 Rust 来节约企业成本
 夸 Rust 语言的方式至少有 3000 种，但是从环保和可持续发展角度去夸的大家见过嘛？这不，AWS 就给我们带来了一篇非常精彩的文章，一起来看看。
 
 > 原文链接： https://aws.amazon.com/cn/blogs/opensource/sustainability-with-rust/ ，由于原文过长，译文进行了适当的精简(例如夸 AWS 的部分 - , -)

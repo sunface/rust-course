@@ -3,7 +3,7 @@
 [进入Rust编程世界](into-rust.md)
 [关于本书](about-book.md)
 [避免从入门到放弃](sth-you-should-not-do.md)
-[AWS眼中的Rust](aws-rust.md)
+[使用Rust来节约企业成本](aws-rust.md)
 
 ## Getting started
 
