@@ -93,9 +93,9 @@
 - [自动化测试](test/intro.md)
     - [编写测试及控制执行](test/write-tests.md)
     - [单元测试和集成测试](test/unit-integration-test.md)
-    - [性能测试 todo](test/benchmark.md)
-    - [持续集成 todo](test/ci.md)
-    - [断言assertion](test/assertion.md)
+    - [用Github Actions进行持续集成](test/ci.md)
+    - [性能基准测试benchmark todo](test/benchmark.md)
+    - [断言assertion todo](test/assertion.md)
 
 
 - [async/await异步编程](async/intro.md)
