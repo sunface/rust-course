@@ -258,7 +258,7 @@ match some_u8_value {
 
 杀鸡焉用牛刀，可以用 `if let` 的方式来实现：
 ```rust
-if let Some(3) = some_u8_value {
+if let Some(3) = v {
     println!("three");
 }
 ```
