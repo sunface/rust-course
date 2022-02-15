@@ -3,6 +3,7 @@
 [进入Rust编程世界](into-rust.md)
 [关于本书](about-book.md)
 [避免从入门到放弃](sth-you-should-not-do.md)
+[AWS眼中的Rust](aws-rust.md)
 
 ## Getting started
 
@@ -97,7 +98,6 @@
     - [用Github Actions进行持续集成](test/ci.md)
     - [性能基准测试benchmark todo](test/benchmark.md)
 
-
 - [async/await异步编程](async/intro.md)
   - [async编程入门](async/getting-started.md)
   - [底层探秘: Future执行与任务调度](async/future-excuting.md)
@@ -121,6 +121,12 @@
     - [优雅的关闭](tokio/graceful-shutdown.md)
     - [异步跟同步共存](tokio/bridging-with-sync.md)
 
+- [易混淆概念解析 todo](confonding/intro.md)
+    - [String、&str 和 str todo](confonding/string.md)
+    - [原生指针、引用和智能指针 todo](confonding/pointer.md)
+    - [作用域、生命周期和 NLL todo](confonding/lifetime.md)
+    - [move、Copy和Clone todo](confonding/move-copy.md)
+  
 - [对抗编译检查 doing](fight-with-compiler/intro.md)
     - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
     - [生命周期](fight-with-compiler/lifetime/intro.md)
@@ -145,12 +151,6 @@
     - [奇怪的序列x..y](pitfalls/weird-ranges.md)
     - [无处不在的迭代器](pitfalls/iterator-everywhere.md)
     - [线程间传递消息导致主线程无法结束](pitfalls/main-with-channel-blocked.md)
-
-- [易混淆概念解析 todo](confonding/intro.md)
-    - [String、&str 和 str todo](confonding/string.md)
-    - [原生指针、引用和智能指针 todo](confonding/pointer.md)
-    - [作用域、生命周期和 NLL todo](confonding/lifetime.md)
-    - [move、Copy和Clone todo](confonding/move-copy.md)
   
 - [Rust最佳实践 doing](practice/intro.md)
     - [日常开发三方库精选](practice/third-party-libs.md)
