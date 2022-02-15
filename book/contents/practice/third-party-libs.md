@@ -84,7 +84,7 @@
 
 ### 网络、通信协议
 * Websocket
-  * [snapview/tokio-tungstenite](https://github.com/snapview/tokio-tungstenite) 更适合Web应用使用的生产级Websocket库，它是异步非阻塞的，基于基于下下面的`tungstenite-rs`库和tokio实现
+  * [snapview/tokio-tungstenite](https://github.com/snapview/tokio-tungstenite) 更适合Web应用使用的生产级Websocket库，它是异步非阻塞的，基于下面的`tungstenite-rs`库和tokio实现
   * [rust-websocket](https://github.com/websockets-rs/rust-websocket)  老牌Websocket库，提供了客户端和服务器端实现，但是。。。很久没更新了
   * [snapview/tungstenite-rs](https://github.com/snapview/tungstenite-rs) 轻量级的Websocket流实现，该库更偏底层，例如，你可以用来构建其它网络库
 * gRPC
