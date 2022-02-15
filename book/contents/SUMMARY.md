@@ -197,15 +197,6 @@
     - [内存分配 todo](memory/allocation.md)
     - [内存布局 todo](memory/layout.md)
     - [虚拟内存 todo](memory/virtual.md)   
-
-- [Web应用开发 todo](web/intro.md)
-    - [编解码与序列化 todo](web/serialization.md)
-
-
-- [面向对象 todo](object-oriented/intro.md)
-    - [为何OO todo](object-oriented/characteristics.md)
-    - [设计模式 todo](object-oriented/design-pattern.md)
-
     
 - [宏编程 todo](macro/intro.md)
     - [过程宏(todo)](macro/procedure-macro.md)
@@ -239,6 +230,8 @@
     - [Vector常用方法 todo](std/vector.md)
     - [HashMap todo](std/hashmap.md)
     - [Iterator常用方法 todo](std/iterator.md)
+
+- [SIMD](simd/intro.md)
 <!-- 
 - [Rust区块链入门]()
 - [Rust游戏开发入门]()

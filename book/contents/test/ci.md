@@ -1,5 +1,6 @@
 # 持续集成
-
+## 持续集成
+持续集成是一个复杂的话题，因此我们在这里并不会深入讲解，下面一起来看看何为持续集成，以及该如何使用 `Github Actions` 中对 Rust 的代码进行持续构建和测试。
 
 ## github ci
 https://github.com/julianandrews/sgf-render/blob/master/.github/workflows/build.yml
