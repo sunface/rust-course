@@ -287,7 +287,7 @@ where
 }
 ```
 
-上面的缓存有一个很大的问题：只支持 `u32` 类型的值，若我们想要缓存 `String` 类型，显然就行不通了，因此需要将 `u32` 替换成泛型 `E`，该练习就留给读者自己完成，具体代码可以参考[这里](https://github.com/sunface/rust-course/blob/main/book/solutions/closure.md)
+上面的缓存有一个很大的问题：只支持 `u32` 类型的值，若我们想要缓存 `String` 类型，显然就行不通了，因此需要将 `u32` 替换成泛型 `E`，该练习就留给读者自己完成，具体代码可以参考[这里](http://exercise.rs/functional-programming/closure.html)
 
 
 ## 捕获作用域中的值
