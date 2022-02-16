@@ -3,10 +3,8 @@
 [进入Rust编程世界](into-rust.md)
 [关于本书](about-book.md)
 [避免从入门到放弃](sth-you-should-not-do.md)
+[AWS为何这么喜欢Rust?](usecases/aws-rust.md)
 
-- [一些使用案例](usecases/intro.md)
-  - [AWS眼中的Rust](usecases/aws-rust.md)
-  
 ## Getting started
 
 - [寻找牛刀，以便小试](first-try/intro.md)
@@ -92,7 +90,7 @@
       - [五种兵器](advance/unsafe/superpowers.md)
     <!-- - [高阶特征约束(HRTB) todo](advance/hrtb.md) -->
 
-## 专题内容,每个专题都配套一个小型项目进行实践
+## 专题内容,每个专题都配套一个小型项目进行实践  
 - [自动化测试](test/intro.md)
     - [编写测试及控制执行](test/write-tests.md)
     - [单元测试和集成测试](test/unit-integration-test.md)
