@@ -568,3 +568,38 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; fini
 ```
 
 类似的还有很多，大家可以自己摸索研究下，总之，熟练掌握测试的使用是非常重要的，虽然包括我在内的很多开发并不喜欢写测试 :)
+
+
+## `[dev-dependencies]`
+与 `package.json`( Nodejs )文件中的 `devDependencies` 一样， Rust 也能引入只在开发测试场景使用的外部依赖。
+
+其中一个例子就是 [`pretty_assertions`](https://docs.rs/pretty_assertions/1.0.0/pretty_assertions/index.html)，它可以用来扩展标准库中的 `assert_eq!` 和 `assert_ne!`，例如提供彩色字体的结果对比。
+
+在 `Cargo.toml` 文件中添加以下内容来引入 `pretty_assertions`：
+```toml
+# standard crate data is left out
+[dev-dependencies]
+pretty_assertions = "1"
+```
+
+然后在 `src/lib.rs` 中添加:
+```rust
+pub fn add(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use pretty_assertions::assert_eq; // 该包仅能用于测试
+
+    #[test]
+    fn test_add() {
+        assert_eq!(add(2, 3), 5);
+    }
+}
+```
+
+在 `tests` 模块中，我们通过 `use pretty_assertions::assert_eq;` 成功的引入之前添加的包，由于 `tests` 模块明确的用于测试目的，这种引入并不会报错。 大家可以试试在正常代码(非测试代码)中引入该包，看看会发生什么。
+
+

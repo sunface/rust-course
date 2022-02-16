@@ -8,7 +8,7 @@ src = "contents"
 additional-css = ["assets/ferris.css", "assets/theme/2018-edition.css"]
 additional-js = ["assets/ferris.js"]
 git-repository-url = "https://github.com/sunface/rust-course"
-edit-url-template = "https://github.com/sunface/rust-course/edit/main/book/{path}"
+edit-url-template = "https://github.com/sunface/rust-course/edit/main/{path}"
 
 [output.html.playground]
 editable = true
