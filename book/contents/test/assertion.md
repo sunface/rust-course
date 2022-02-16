@@ -45,7 +45,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 **以上特征限制对于下面即将讲解的 `assert_ne!` 一样有效，** 就不再重复讲述。
 
 ## assert_ne!
-`assert_ne!` 在使用和线之上与 `assert_eq!` 并无区别，唯一的区别就在于，前者判断的是两者的不相等性。
+`assert_ne!` 在使用和限制上与 `assert_eq!` 并无区别，唯一的区别就在于，前者判断的是两者的不相等性。
 
 我们将之前报错的代码稍作修改：
 ```rust
