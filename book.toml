@@ -1,7 +1,7 @@
 [book]
 authors = ["sunface"]
 language = "zh-CN"
-title = "Rust语言圣经(教程 Course)"
+title = "Rust语言圣经(Rust教程 Rust Course)"
 src = "contents"
 
 [output.html]
