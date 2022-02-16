@@ -30,7 +30,7 @@
 - [Rust Book](https://doc.rust-lang.org/book)
 - [Rust nomicon](https://doc.rust-lang.org/nomicon/dot-operator.html)
 - [Async Rust](https://rust-lang.github.io/async-book/01_getting_started/01_chapter.html)
-- 详细清单参见 [这里](./book/writing-material/books.md)
+- 详细清单参见 [这里](./assets/writing-material/books.md)
 
 因为它们绝大部分是支持 APACHE + MIT 双协议的，因此我们选择了遵循其中的 MIT 协议，并在这里统一对借鉴的书籍进行说明。
 
