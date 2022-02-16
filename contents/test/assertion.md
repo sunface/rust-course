@@ -4,7 +4,7 @@
 ## 断言列表
 在正式开始前，来看看常用的断言有哪些:
 - `assert!`, `assert_eq!`, `assert_ne!`, 它们会在所有模式下运行
-- `debug_assert!`, `debug_assert_eq!`, `deubg_assert_ne!`, 它们只会在 `Debug` 模式下运行
+- `debug_assert!`, `debug_assert_eq!`, `debug_assert_ne!`, 它们只会在 `Debug` 模式下运行
 
 
 ## assert_eq!
@@ -37,7 +37,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 可以看到，错误不仅按照预期发生了，我们还成功的定制了错误信息! 这种格式化输出的方式跟 `println!` 并无区别，具体参见 [`std::fmt`](https://doc.rust-lang.org/std/fmt/index.html)。
 
-因为涉及到相等比较( `==` )和错误信息打印，因此两个表达式的值必须实现 `PartialEq` 和 `Deubg` 特征，其中所有的原生类型和大多数标准库类型都实现了这些特征，而对于你自己定义的结构体、枚举，如果想要对其进行 `assert_eq!` 断言，则需要实现 `PartialEq` 和 `Debug` 特征:
+因为涉及到相等比较( `==` )和错误信息打印，因此两个表达式的值必须实现 `PartialEq` 和 `Debug` 特征，其中所有的原生类型和大多数标准库类型都实现了这些特征，而对于你自己定义的结构体、枚举，如果想要对其进行 `assert_eq!` 断言，则需要实现 `PartialEq` 和 `Debug` 特征:
 
 - 若希望实现个性化相等比较和错误打印，则需手动实现
 - 否则可以为自定义的结构体、枚举添加 `#[derive(PartialEq, Debug)]` 注解，来[自动派生](../appendix/derive.md)对应的特征
@@ -113,7 +113,7 @@ mod tests {
 ```
 
 ## `debug_assert!` 系列
-`debug_assert!`, `debug_assert_eq!`, `deubg_assert_ne!` 这三个在功能上与之前讲解的版本并无区别，主要区别在于，`debug_assert!` 系列只能在 `Debug` 模式下输出，例如如下代码：
+`debug_assert!`, `debug_assert_eq!`, `debug_assert_ne!` 这三个在功能上与之前讲解的版本并无区别，主要区别在于，`debug_assert!` 系列只能在 `Debug` 模式下输出，例如如下代码：
 ```rust
 fn main() {
     let a = 3;
