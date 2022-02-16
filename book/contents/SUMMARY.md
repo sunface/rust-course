@@ -3,8 +3,10 @@
 [进入Rust编程世界](into-rust.md)
 [关于本书](about-book.md)
 [避免从入门到放弃](sth-you-should-not-do.md)
-[使用Rust来节约企业成本](aws-rust.md)
 
+- [一些使用案例](usecases/intro.md)
+  - [AWS眼中的Rust](usecases/aws-rust.md)
+  
 ## Getting started
 
 - [寻找牛刀，以便小试](first-try/intro.md)
@@ -151,7 +153,7 @@
     - [奇怪的序列x..y](pitfalls/weird-ranges.md)
     - [无处不在的迭代器](pitfalls/iterator-everywhere.md)
     - [线程间传递消息导致主线程无法结束](pitfalls/main-with-channel-blocked.md)
-  
+
 - [Rust最佳实践 doing](practice/intro.md)
     - [日常开发三方库精选](practice/third-party-libs.md)
     - [一些写代码的技巧 todo](practice/coding-tips.md)
