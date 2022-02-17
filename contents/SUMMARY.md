@@ -124,12 +124,12 @@
     - [优雅的关闭](tokio/graceful-shutdown.md)
     - [异步跟同步共存](tokio/bridging-with-sync.md)
 
-- [Rust难点解析 todo](confonding/intro.md)
-    - [String、&str 和 str todo](confonding/string.md)
+- [易混淆概念解析](confonding/intro.md)
+    - [String、&str 和 str](confonding/string.md)
     - [原生指针、引用和智能指针 todo](confonding/pointer.md)
     - [作用域、生命周期和 NLL todo](confonding/lifetime.md)
     - [move、Copy和Clone todo](confonding/move-copy.md)
-   - [写时拷贝Cow todo](confonding/cow.md)
+    - [写时拷贝Cow todo](confonding/cow.md)
   
 - [对抗编译检查 doing](fight-with-compiler/intro.md)
     - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
