@@ -83,7 +83,7 @@ fn change(some_string: &String) {
 }
 ```
 
-很不幸，妹子你没抱到, 哦口误，你修改错了：
+很不幸，妹子你没抱到，哦口误，你修改错了：
 ```console
 error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&` reference
  --> src/main.rs:8:5
