@@ -18,8 +18,8 @@ fn main() {
 
 在 Rust 中宏分为两大类：声明式宏 `macro_rules!` 和三种过程宏( *procedural macros* ):
 - `#[derive]`，在之前多次见到的派生宏，可以为目标结构体或枚举派生指定的代码，例如 `Debug` 特征
-- 属性宏(Attribute-like macro)，用于为目标添加自定义的属性
-- 函数宏(Function-like macro)，看上去就像是函数调用
+- 类属性宏(Attribute-like macro)，用于为目标添加自定义的属性
+- 类函数宏(Function-like macro)，看上去就像是函数调用
 
 如果感觉难以理解，也不必担心，接下来我们将逐个看看它们的庐山真面目，在次之前，先来看下为何需要宏，特别是 Rust 的函数明明已经很强大了。
 
@@ -174,8 +174,6 @@ pub fn some_name(input: TokenStream) -> TokenStream {
 
 用于定义过程宏的函数 `some_name` 使用 `TokenStream` 作为输入参数，并且返回的也是同一个类型。`TokenStream` 是在 `proc_macro` 包中定义的，顾名思义，它代表了一个 `Token` 序列。
 
-该宏所标记的代码块会被解析为一个树型结构：树上的节点就是一个 `Token`，以此类推，`some_name` 返回的 `TokenStream` 也是一个树形结构，基于它，就可以生成最终的展开代码。
-
 在理解了过程宏的基本定义后，我们再来看看该如何创建三种类型的过程宏，首先，从大家最熟悉的 `derive` 开始。
 
 ## 自定义 `derive` 过程宏
@@ -201,19 +199,266 @@ fn main() {
 }
 ```
 
-简单吗？简单！不过为了实现这段代码展示的功能，我们还需要创建相应的过程宏才行。 首先，创建一个新的 `lib` 类型的包(工程):
+简单吗？简单！不过为了实现这段代码展示的功能，我们还需要创建相应的过程宏才行。 首先，创建一个新的工程用于演示：
 ```shell
-$ cargo new hello_macro --lib
+$ cargo new hello_macro
+$ cd hello_macro/
+$ touch src/lib.rs
 ```
 
-接下来，定义宏所需的 `HelloMacro` 特征和其关联函数:
+此时，`src` 目录下包含两个文件 `lib.rs` 和 `main.rs`，前者是 `lib` 包根，后者是二进制包根，如果大家对包根不熟悉，可以看看[这里](https://course.rs/basic/crate-module/crate.html)。
 
-## 额外的学习资料
-https://www.reddit.com/r/rust/comments/s3mm8m/macro_hygiene/
+接下来，先在 `src/lib.rs` 中定义过程宏所需的 `HelloMacro` 特征和其关联函数:
+```rust
+pub trait HelloMacro {
+    fn hello_macro();
+}
+```
+
+然后在 `src/main.rs` 中编写主体代码，首先映入大家脑海的可能会是如下实现:
+```rust
+use hello_macro::HelloMacro;
+
+struct Sunfei;
+
+impl HelloMacro for Sunfei {
+    fn hello_macro() {
+        println!("Hello, Macro! My name is Sunfei!");
+    }
+}
+
+struct Sunface;
+
+impl HelloMacro for Sunface {
+    fn hello_macro() {
+        println!("Hello, Macro! My name is Sunface!");
+    }
+}
+
+fn main() {
+    Sunfei::hello_macro();
+}
+```
+
+但是这种方式有个问题，如果想要实现不同的招呼内容，就需要为每一个类型都实现一次相应的特征，Rust 不支持反射，因此我们无法在运行时获得类型名。
+
+使用宏，就不存在这个问题：
+```rust
+use hello_macro::HelloMacro;
+use hello_macro_derive::HelloMacro;
+
+#[derive(HelloMacro)]
+struct Sunfei;
+
+#[derive(HelloMacro)]
+struct Sunface;
+
+fn main() {
+    Sunfei::hello_macro();
+    Sunface::hello_macro();
+}
+```
+
+简单明了的代码总是令人愉快，为了让代码运行起来，还需要定义下过程宏。就如前文提到的，目前只能在单独的包中定义过程宏，尽管未来这种限制会被取消，但是现在我们还得遵循这个规则。
+
+宏所在的包名自然也有要求，必须以 `derive` 为后缀，对于 `hello_macro` 宏而言，包名就应该是 `hello_macro_derive`。在之前创建的 `hello_macro` 项目根目录下，运行如下命令，创建一个单独的 `lib` 包:
+```rust
+cargo new hello_macro_derive --lib
+```
+
+至此， `hello_macro` 项目的目录结构如下：
+```shell
+hello_macro
+├── Cargo.toml
+├── src
+│   ├── main.rs
+│   └── lib.rs
+└── hello_macro_derive
+    ├── Cargo.toml
+    ├── src
+        └── lib.rs
+```
+
+由于过程宏所在的包跟我们的项目紧密相连，因此将它放在项目之中。现在，问题又来了，该如何在项目的 `src/main.rs` 中引用 `hello_macro_derive` 包的内容？
+
+方法有两种，第一种是将 `hello_macro_derive` 发布到 `crates.io` 或 `github` 中，就像我们引用的其它依赖一样；另一种就是使用相对路径引入的本地化方式，修改 `hello_macro/Cargo.tom` 文件添加以下内容:
+```toml
+[dependencies]
+hello_macro_derive = { path = "../hello_macro/hello_macro_derive" }
+# 也可以使用下面的相对路径
+# hello_macro_derive = { path = "./hello_macro_derive" }
+```
+
+此时，`hello_macro` 项目就可以成功的引用到 `hello_macro_derive` 本地包了，对于项目依赖引入的详细介绍，可以参见 [Cargo 章节](https://course.rs/cargo/dependency.html)。
+
+接下来，就到了重头戏环节，一起来看看该如何定义过程宏。
+
+#### 定义过程宏
+首先，在 `hello_macro_derive/Cargo.toml` 文件中添加以下内容：
+```toml
+[lib]
+proc-macro = true
+
+[dependencies]
+syn = "1.0"
+quote = "1.0"
+```
+
+其中 `syn` 和 `quote` 依赖包都是定义过程宏所必需的，同时，还需要在 `[lib]` 中将过程宏的开关开启 : `proc-macro = true`。
+
+其次，在 `hello_macro_derive/src/lib.rs` 中添加如下代码：
+```rust
+extern crate proc_macro;
+
+use proc_macro::TokenStream;
+use quote::quote;
+use syn;
+
+#[proc_macro_derive(HelloMacro)]
+pub fn hello_macro_derive(input: TokenStream) -> TokenStream {
+    // 基于 input 构建 AST 语法树
+    let ast = syn::parse(input).unwrap();
+
+    // 构建特征实现代码
+    impl_hello_macro(&ast)
+}
+```
+
+这个函数的签名我们在之前已经介绍过，总之，这种形式的过程宏定义是相当通用的，下面来分析下这段代码。
+
+首先有一点，对于绝大多数过程宏而言，这段代码往往只在 `impl_hello_macro(&ast)` 中的实现有所区别，对于其它部分基本都是一致的，例如包的引入、宏函数的签名、语法树构建等。
+
+`proc_macro` 包是 Rust 自带的，因此无需在 `Cargo.toml` 中引入依赖，它包含了相关的编译器 `API`，可以用于读取和操作 Rust 源代码。
+
+由于我们为 `hello_macro_derive` 函数标记了 `#[proc_macro_derive(HelloMacro)]`，当用户使用 `#[derive(HelloMacro)]` 标记了他的类型后，`hello_macro_derive` 函数就将被调用。这里的秘诀就是特征名 `HelloMacro`，它就像一座桥梁，将用户的类型和过程宏联系在一起。 
 
 
+`sync` 将字符串形式的 Rust 代码解析为一个 AST 树的数据结构，该数据结构可以在随后的 `impl_hello_macro` 函数中进行操作。最后，操作的结果又会被 `quote` 包转换回 Rust 代码。这些包非常关键，可以帮我们节省大量的精力，否则你需要自己去编写支持代码解析和还原的解析器，这可不是一件简单的任务！
+
+`sync.parse` 调用会返回一个 `DeriveInput` 结构体来代表解析后的 Rust 代码:
+```rust
+DeriveInput {
+    // --snip--
+
+    ident: Ident {
+        ident: "Sunfei",
+        span: #0 bytes(95..103)
+    },
+    data: Struct(
+        DataStruct {
+            struct_token: Struct,
+            fields: Unit,
+            semi_token: Some(
+                Semi
+            )
+        }
+    )
+}
+```
+
+以上就是源代码 `struct Sunfei;` 解析后的结果，里面有几点值得注意:
+
+- `fields: Unit` 说明源代码是一个单元结构体
+- `ident: "Sunfei"` 说明类型名称为 `Sunfei`， `ident` 是标识符 `identifier` 的简写
+
+如果想要了解更多的信息，可以查看 [`sync` 文档](https://docs.rs/syn/1.0/syn/struct.DeriveInput.html)。
+
+大家可能会注意到在 `hello_macro_derive` 函数中有 `unwrap` 的调用，也许会以为这是为了演示目的，没有做错误处理，实际上并不是的。由于该函数只能返回 `TokenStream` 而不是 `Result`，那么在报错时直接 `panic` 来抛出错误就成了相当好的选择。当然，这里实际上还是做了简化，在生产项目中，你应该通过 `panic!` 或 `expect` 抛出更具体的报错信息。
+
+至此，这个函数大家应该已经基本理解了，下面来看看如何构建特征实现的代码，也是过程宏的核心目标:
+```rust
+fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
+    let name = &ast.ident;
+    let gen = quote! {
+        impl HelloMacro for #name {
+            fn hello_macro() {
+                println!("Hello, Macro! My name is {}!", stringify!(#name));
+            }
+        }
+    };
+    gen.into()
+}
+```
+
+首先，将结构体的名称赋予给 `name`，也就是 `name` 中会包含一个字段，它的值是字符串 "Sunfei"。
+
+其次，使用 `quote!` 可以定义我们想要返回的 Rust 代码。由于编译器需要的内容和 `quote!` 直接返回的不一样，因此还需要使用 `.into` 方法其转换为 `TokenStream`。
+
+大家注意到 `#name` 的使用了吗？这也是 `quote!` 提供的功能之一，如果想要深入了解 `quote`，可以看看[官方文档](https://docs.rs/quote)。
+
+特征的 `hell_macro()` 函数只有一个功能，就是使用 `println!` 打印一行欢迎语句。
+
+其中 `stringify!` 是 Rust 提供的内置宏，可以将一个表达式(例如 `1 + 2`)在编译期转换成一个字符串字面值(`"1 + 2"`)，该字面量会直接打包进编译出的二进制文件中，具有 `'static` 生命周期。而 `format!` 宏都对表达式进行求值，最终结果是一个 `String` 类型。在这里使用 `stringify!` 有两个好处:
+
+- `#name` 可能是一个表达式，我们需要它的字面值形式
+- 可以减少一次 `String` 带来的内存分配
+
+至此，过程宏的定义、特征定义、主体代码都已经完成，运行下试试:
+```shell
+$ cargo run
+     Running `target/debug/hello_macro`
+Hello, Macro! My name is Sunfei!
+Hello, Macro! My name is Sunface!
+```
+
+Bingo，虽然过程有些复杂，但是结果还是很喜人，我们终于完成了自己的第一个过程宏！
+
+接下来，再来看看过程宏的另外两种类型跟 `derive` 类型有何区别。
+
+## 类属性宏(Attribute-like macros)
+类属性过程宏跟 `derive` 宏类似，但是前者允许我们定义自己的属性。除此之外，`derive` 只能用于结构体和枚举，而类属性宏可以用于其它类型项，例如函数。
+
+假设我们在开发一个 `web` 框架，当用户通过 `HTTP GET` 请求访问 `/` 根路径时，使用 `index` 函数为其提供服务:
+```rust
+#[route(GET, "/")]
+fn index() {
+```
+
+如上所示，代码功能非常清晰、简洁，这里的 `#[route]` 属性就是一个过程宏，它的定义函数大概如下：
+```rust
+#[proc_macro_attribute]
+pub fn route(attr: TokenStream, item: TokenStream) -> TokenStream {
+```
+
+与 `derive` 宏不同，类属性宏的定义函数有两个参数：
+
+- 第一个参数时用于说明属性包含的内容：`Get, "/"` 部分
+- 第二个是属性所标注的类型项，在这里是 `fn index() {...}`，注意，函数体也被包含其中
+
+除此之外，类属性宏跟 `derive` 宏的工作方式并无区别：创建一个包，类型是 `proc-macro`，接着实现一个函数用于生成想要的代码。
+
+## 类函数宏(Function-like macros)
+类函数宏可以让我们定义像函数那样调用的宏，从这个角度来看，它跟声明宏 `macro_rules` 较为类似。
+
+区别在于，`macro_rules` 的定义形式与 `match` 匹配非常相像，而类函数宏的定义形式则类似于之前讲过的两种过程宏:
+```rust
+#[proc_macro]
+pub fn sql(input: TokenStream) -> TokenStream {
+```
+
+而使用形式则类似于函数调用:
+```rust
+let sql = sql!(SELECT * FROM posts WHERE id=1);
+```
+
+大家可能会好奇，为何我们不使用声明宏 `macro_rules` 来定义呢？原因是这里需要对 `SQL` 语句进行解析并检查其正确性，这个复杂的过程是 `macro_rules` 难以对付的，**而过程宏相比起来就会灵活的多**。
 
 
-https://www.reddit.com/r/rust/comments/rjumsg/any_good_resources_for_learning_rust_macros/
+## 补充学习资料
+1. [dtolnay/proc-macro-workshop](https://github.com/dtolnay/proc-macro-workshop)，学习如何编写过程宏
+2. [The Little Book of Rust Macros](https://veykril.github.io/tlborm/)，学习如何编写声明宏 `macro_rules!`
+3. [syn](https://crates.io/crates/syn) 和 [quote](https://crates.io/crates/quote) ，用于编写过程宏的包，它们的文档有很多值得学习的东西
+4. [Structuring, testing and debugging procedural macro crates](https://www.reddit.com/r/rust/comments/rjumsg/any_good_resources_for_learning_rust_macros/)，从测试、debug、结构化的角度来编写过程宏
+5. [blog.turbo.fish](https://blog.turbo.fish)，里面的过程宏系列文章值得一读
 
-https://www.reddit.com/r/rust/comments/roaofg/procedural_macros_parsing_custom_syntax/
+
+## 总结
+Rust 中的宏主要分为两大类：声明宏和过程宏。
+
+声明宏目前使用 `macro_rules` 进行创建，它的形式类似于 `match` 匹配，对于用户而言，可读性和维护性都较差。由于其存在的问题和限制，在未来， `macro_rules` 会被 `deprecated`，Rust 会使用一个新的声明宏来替代它。
+
+而过程宏的定义更像是我们平时写函数的方式，因此它更加灵活，它分为三种类型：`derive` 宏、类属性宏、类函数宏，具体在文中都有介绍。
+
+虽然 Rust 中的宏很强大，但是它并不应该成为我们的常规武器，原因是它会影响 Rust 代码的可读性和可维护性，我相信没有几个人愿意去维护别人写的宏 ：）
+
+因此，大家应该熟悉宏的使用场景，但是不要滥用，当你真的需要时，再回来查看本章了解实现细节，这才是最完美的使用方式。
