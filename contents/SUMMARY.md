@@ -125,6 +125,7 @@
     - [异步跟同步共存](tokio/bridging-with-sync.md)
 
 - [易混淆概念解析](confonding/intro.md)
+    - [切片和切片引用](confonding/slice.md)
     - [String、&str 和 str](confonding/string.md)
     - [原生指针、引用和智能指针 todo](confonding/pointer.md)
     - [作用域、生命周期和 NLL todo](confonding/lifetime.md)
