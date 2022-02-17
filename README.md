@@ -5,7 +5,7 @@
   - 国内镜像： https://book.rust.team
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
 
-- 最近修订： 2022-02-12 新增 [用Github Actions进行持续集成](https://zhuanlan.zhihu.com/p/467756846)
+- 最近修订： 2022-02-17 新增 [断言Assertions](https://zhuanlan.zhihu.com/p/468668085)
 - Rust版本： Rust edition 2021
 - QQ交流群：1009730433
 
