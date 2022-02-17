@@ -130,7 +130,6 @@
     - [原生指针、引用和智能指针 todo](confonding/pointer.md)
     - [作用域、生命周期和 NLL todo](confonding/lifetime.md)
     - [move、Copy和Clone todo](confonding/move-copy.md)
-    - [写时拷贝Cow todo](confonding/cow.md)
   
 - [对抗编译检查 doing](fight-with-compiler/intro.md)
     - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
@@ -159,15 +158,10 @@
 
 - [Rust最佳实践 doing](practice/intro.md)
     - [日常开发三方库精选](practice/third-party-libs.md)
-    - [一些写代码的技巧 todo](practice/coding-tips.md)
-    - [最佳实践 todo](practice/best-pratice.md)
-    - [值得学习的源代码 todo](practice/good-sourcecode.md)
-    - [代码规范 doing](practice/style-guide/intro.md)
-        - [命名规范](practice/style-guide/naming.md)
-        - [代码风格(todo)](practice/style-guide/code.md)
-        - [代码标记 todo](practice/style-guide/mark.md)
-        - [Clippy todo](practice/style-guide/clippy.md)
-    - [日志和监控 todo](practice/logs.md)
+    - [代码开发实践 todo](practice/best-pratice.md)
+    - [命名规范](practice/naming.md)
+    - [日志 todo](practice/logs.md)
+    - [可观测性监控 todo](practice/observability.md)
   
 - [如何实现一个链表 todo]()
     

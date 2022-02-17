@@ -23,13 +23,15 @@ error[E0277]: the size for values of type `str` cannot be known at compilation t
   |         ^^^^^^ doesn't have a size known at compile-time
 ```
 
+如果追求更深层的原因，我们可以总结如下：**所有的切片都是动态类型，它们都无法直接被使用，而 `str` 就是字符串切片，`[u8]` 是数组切片。**
+
 
 同时还是 String 和 &str 的底层数据类型。 由于 str 是动态
 
 `str` 类型是硬编码进可执行文件，也无法被修改，但是 `String` 则是一个可增长、可改变且具有所有权的 UTF8 编码字符串，**当 Rust 用户提到字符串时，往往指的就是 `String` 类型和 `&str` 字符串切片类型，这两个类型都是 UTF8 编码**。
 
 除了 `String` 类型的字符串，Rust 的标准库还提供了其他类型的字符串，例如 `OsString`， `OsStr`， `CsString` 和` CsStr` 等，注意到这些名字都以 `String` 或者 `Str` 结尾了吗？它们分别对应的是具有所有权和被借用的变量。
-An str defines a slice of a block of data in memory which are meant to be interpreted as a sequence of characters and that’s all. It is uncertain where it is stored and how long that slice would be. This is why we can not use this type in a plain way in the time of writing. (Rust 1.58)
+
 
 https://pic1.zhimg.com/80/v2-177bce575bfaf289ae12d677689a26f4_1440w.png
 https://pic2.zhimg.com/80/v2-697ad53cb502ccec4b2e98c40975344f_1440w.png
