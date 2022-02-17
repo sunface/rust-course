@@ -123,6 +123,19 @@
     - [类似迭代器的Stream](tokio/stream.md))   
     - [优雅的关闭](tokio/graceful-shutdown.md)
     - [异步跟同步共存](tokio/bridging-with-sync.md)
+ 
+- [Cargo使用指南](cargo/intro.md)
+    - [上手使用](cargo/getting-started.md)
+    - [使用手册 doing](cargo/guide/intro.md)
+      - [为何会有Cargo](cargo/guide/why-exist.md)
+      - [下载并构建Package](cargo/guide/download-package.md)
+      - [添加依赖](cargo/guide/dependencies.md)
+      - [Package目录结构](cargo/guide/package-layout.md)
+    - [进阶参考 todo](cargo/reference/intro.md)
+        - [指定依赖项 todo](cargo/reference/specify-deps/intro.md)
+          - [依赖覆盖 todo](cargo/reference/specify-deps/overriding.md)
+        - [Cargo.toml格式讲解 todo](cargo/reference/manifest/intro.md)
+          - [修改默认的文件目录 todo](cargo/reference/manifest/cargo-target.md)
 
 - [易混淆概念解析](confonding/intro.md)
     - [切片和切片引用](confonding/slice.md)
@@ -130,7 +143,7 @@
     - [原生指针、引用和智能指针 todo](confonding/pointer.md)
     - [作用域、生命周期和 NLL todo](confonding/lifetime.md)
     - [move、Copy和Clone todo](confonding/move-copy.md)
-  
+
 - [对抗编译检查 doing](fight-with-compiler/intro.md)
     - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
     - [生命周期](fight-with-compiler/lifetime/intro.md)
@@ -158,26 +171,13 @@
 
 - [Rust最佳实践 doing](practice/intro.md)
     - [日常开发三方库精选](practice/third-party-libs.md)
-    - [代码开发实践 todo](practice/best-pratice.md)
     - [命名规范](practice/naming.md)
-    - [日志 todo](practice/logs.md)
+    - [代码开发实践 todo](practice/best-pratice.md)
+    - [日志记录 todo](practice/logs.md)
     - [可观测性监控 todo](practice/observability.md)
   
-- [如何实现一个链表 todo]()
-    
-- [Cargo使用指南 todo](cargo/intro.md)
-    - [常用命令 todo](cargo/commands.md)
-    - [项目结构 todo](cargo/layout.md)
-    - [Cargo.toml和Cargo.lock todo](cargo/cargo-toml-lock.md)
-    - [依赖管理 todo](cargo/dependency.md)
-    - [构建缓存 todo](cargo/cache.md)
-    - [版本管理 todo](cargo/version.md)
-    - [工作空间 todo](cargo/workspace.md)
-    - [条件编译、条件依赖 todo](cargo/feature.md)
-    - [配置参数 todo](cargo/manifest.md)
-    - [自定义构建脚本 todo](cargo/build-js.md)
-    - [Cargo profile todo](cargo/profile.md)
-
+<!-- - [如何实现一个链表 todo]() -->
+  
 - [Rust性能剖析 todo](profiling/intro.md)  
   - [深入内存 todo](profiling/memory/intro.md)
       - [指针和引用 todo](profiling/memory/pointer-ref.md)
