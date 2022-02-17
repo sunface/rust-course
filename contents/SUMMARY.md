@@ -90,7 +90,7 @@
     - [Unsafe Rust](advance/unsafe/intro.md)
       - [五种兵器](advance/unsafe/superpowers.md)
     - [Macro宏编程](advance/macro.md)
-    - [SIMD todo](advance/simd.md)
+    <!-- - [SIMD todo](advance/simd.md) -->
     <!-- - [高阶特征约束(HRTB) todo](advance/hrtb.md) -->
 
 ## 专题内容,每个专题都配套一个小型项目进行实践  
