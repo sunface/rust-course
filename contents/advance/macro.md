@@ -156,7 +156,57 @@ let v = {
 
 由于绝大多数 Rust 开发者都是宏的用户而不是编写者，因此在这里我们不会对 `macro_rules` 进行更深入的学习，如果大家感兴趣，可以看看这本书 [ “The Little Book of Rust Macros”](https://veykril.github.io/tlborm/)。
 
+## 用过程宏为属性标记生成代码
+第二种常用的宏就是[*过程宏*]( *procedural macros* )，从形式上来看，过程宏跟函数较为相像，但过程宏是使用源代码作为输入参数，基于代码进行一系列操作后，再输出一段全新的代码。**注意，过程宏输出的代码并不会替换之前的代码，这一点与声明宏有很大的不同！**
 
+至于前文提到的过程宏的三种类型(自定义 `derive`、属性宏、函数宏)，它们的工作方式都是类似的。
+
+当**创建过程宏**时，它的定义必须要放入一个独立的包中，且包的类型也是特殊的，这么做的原因相当复杂，大家只要知道这种限制在未来可能会有所改变即可。
+
+假设我们要创建一个 `derive` 类型的过程宏：
+```rust
+use proc_macro;
+
+#[proc_macro_derive(HelloMacro)]
+pub fn some_name(input: TokenStream) -> TokenStream {
+}
+```
+
+用于定义过程宏的函数 `some_name` 使用 `TokenStream` 作为输入参数，并且返回的也是同一个类型。`TokenStream` 是在 `proc_macro` 包中定义的，顾名思义，它代表了一个 `Token` 序列。
+
+该宏所标记的代码块会被解析为一个树型结构：树上的节点就是一个 `Token`，以此类推，`some_name` 返回的 `TokenStream` 也是一个树形结构，基于它，就可以生成最终的展开代码。
+
+在理解了过程宏的基本定义后，我们再来看看该如何创建三种类型的过程宏，首先，从大家最熟悉的 `derive` 开始。
+
+## 自定义 `derive` 过程宏
+假设我们有一个特征 `HelloMacro`，现在有两种方式让用户使用它：
+
+- 为每个类型手动实现该特征，就像之前[特征章节](https://course.rs/basic/trait/trait.html#为类型实现特征)所做的
+- 使用过程宏来统一实现该特征，这样用户只需要对类型进行标记即可：`#[derive(HelloMacro)]`
+
+以上两种方式并没有孰优孰劣，主要在于不同的类型是否可以使用同样的默认特征实现，如果可以，那过程宏的方式可以帮我们减少很多代码实现: 
+```rust
+use hello_macro::HelloMacro;
+use hello_macro_derive::HelloMacro;
+
+#[derive(HelloMacro)]
+struct Sunfei;
+
+#[derive(HelloMacro)]
+struct Sunface;
+
+fn main() {
+    Sunfei::hello_macro();
+    Sunface::hello_macro();
+}
+```
+
+简单吗？简单！不过为了实现这段代码展示的功能，我们还需要创建相应的过程宏才行。 首先，创建一个新的 `lib` 类型的包(工程):
+```shell
+$ cargo new hello_macro --lib
+```
+
+接下来，定义宏所需的 `HelloMacro` 特征和其关联函数:
 
 ## 额外的学习资料
 https://www.reddit.com/r/rust/comments/s3mm8m/macro_hygiene/

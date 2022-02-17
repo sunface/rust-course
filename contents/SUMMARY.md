@@ -85,7 +85,7 @@
         - [实践应用：多线程Web服务器 todo](advance/concurrency-with-threads/web-server.md)
     - [全局变量](advance/global-variable.md)
     - [错误处理](advance/errors.md)
-    - [进阶类型转换](advance/converse/intro.md)
+    - [进阶类型转换 doing](advance/converse/intro.md)
       - [枚举和整数](advance/converse/enum-int.md)
     - [Unsafe Rust](advance/unsafe/intro.md)
       - [五种兵器](advance/unsafe/superpowers.md)
