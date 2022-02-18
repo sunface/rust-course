@@ -201,7 +201,7 @@ openssl = "1.0.1"
 
 如果你想要知道 `cfg` 能够作用的目标，可以在终端中运行 `rustc --print=cfg` 进行查询。当然，你可以指定平台查询: `rustc --print=cfg --target=x86_64-pc-windows-msvc`，该命令将对 `64bit` 的 Windows 进行查询。
 
-聪明的同学已经发现，这非常类似于条件依赖引入，那我们是不是可以根据自定义的条件来决定是否引入某个依赖呢？具体答案参见后续的 [feature](cargo/reference/features.md) 章节。这里是一个简单的示例:
+聪明的同学已经发现，这非常类似于条件依赖引入，那我们是不是可以根据自定义的条件来决定是否引入某个依赖呢？具体答案参见后续的 [feature](https://course.rs/cargo/reference/features.html) 章节。这里是一个简单的示例:
 ```toml
 [dependencies]
 foo = { version = "1.0", optional = true }
@@ -267,3 +267,50 @@ cc = "1.0.3"
 
 有一点需要注意：构建脚本(` build.rs` )和项目的正常代码是彼此独立，因此它们的依赖不能互通： 构建脚本无法使用 `[dependencies]` 或 `[dev-dependencies]` 中的依赖，而 `[build-dependencies]` 中的依赖也无法被构建脚本之外的代码所使用。
 
+## 选择 features
+如果你依赖的包提供了条件性的 `features`，你可以指定使用哪一个:
+```toml
+[dependencies.awesome]
+version = "1.3.5"
+default-features = false # 不要包含默认的 features，而是通过下面的方式来指定
+features = ["secure-password", "civet"]
+```
+
+更多的信息参见 [Features 章节](https://course.rs/cargo/reference/features.html)
+
+## 在 Cargo.toml 中重命名依赖
+如果你想要实现以下目标：
+
+- 避免在 Rust 代码中使用 `use foo as bar`
+- 依赖某个包的多个版本
+- 依赖来自于不同注册服务的同名包
+
+那可以使用 Cargo 提供的 `package key` :
+```toml
+[package]
+name = "mypackage"
+version = "0.0.1"
+
+[dependencies]
+foo = "0.1"
+bar = { git = "https://github.com/example/project", package = "foo" }
+baz = { version = "0.1", registry = "custom", package = "foo" }
+```
+
+此时，你的代码中可以使用三个包：
+```rust
+extern crate foo; // 来自 crates.io
+extern crate bar; // 来自 git repository
+extern crate baz; // 来自 registry `custom`
+```
+
+有趣的是，由于这三个 `package` 的名称都是 `foo`(在各自的 `Cargo.toml` 中定义)，因此我们显式的通过 `package = "foo"` 的方式告诉 Cargo：我们需要的就是这个 `foo package`，虽然它被重命名为 `bar` 或 `baz`。 
+
+有一点需要注意，当使用可选依赖时，如果你将 `foo` 包重命名为 `bar` 包，那引用前者的 feature 时的路径名也要做相应的修改:
+```toml
+[dependencies]
+bar = { version = "0.1", package = 'foo', optional = true }
+
+[features]
+log-debug = ['bar/log-debug'] # 若使用 'foo/log-debug' 会导致报错
+```
