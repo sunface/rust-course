@@ -1,8 +1,8 @@
 # Rust语言圣经 (The Course)
 
 - 在线阅读
-  - 官方： https://course.rs
-  - 国内镜像： https://book.rust.team
+  - 官方： [https://course.rs](https://course.rs)
+  - 国内镜像： [https://book.rust.team](https://book.rust.team)
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
 - Rust版本： Rust edition 2021
 - QQ交流群：1009730433
@@ -28,7 +28,7 @@
 - [Rust Book](https://doc.rust-lang.org/book)
 - [Rust nomicon](https://doc.rust-lang.org/nomicon/dot-operator.html)
 - [Async Rust](https://rust-lang.github.io/async-book/01_getting_started/01_chapter.html)
-- 详细清单参见 [这里](./book/writing-material/books.md)
+- 详细清单参见 [这里](https://github.com/sunface/rust-course/blob/main/assets/writing-material/books.md)
 
 因为它们绝大部分是支持 APACHE + MIT 双协议的，因此我们选择了遵循其中的 MIT 协议，并在这里统一对借鉴的书籍进行说明。
 
