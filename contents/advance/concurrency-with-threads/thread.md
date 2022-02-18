@@ -185,9 +185,9 @@ fn main() {
 use std::thread;
 use std::time::Duration;
 fn main() {
-    // 创建一个线程
+    // 创建一个线程A
     let new_thread = thread::spawn(move || {
-        // 再创建一个线程
+        // 再创建一个线程B
         thread::spawn(move || {
             loop {
                 println!("I am a new thread.");
