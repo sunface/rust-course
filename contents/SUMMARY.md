@@ -140,13 +140,14 @@
           - [依赖覆盖 todo](cargo/reference/specify-deps/overriding.md)
         - [Cargo.toml格式讲解 todo](cargo/reference/manifest/intro.md)
           - [Cargo对象(Target) todo](cargo/reference/manifest/cargo-target.md)
+        - [features todo](cargo/reference/features.md)
         - [发布配置profile todo](cargo/reference/profile.md)
         - [配置管理 todo](cargo/reference/configuration.md)
         - [环境变量 todo](cargo/reference/env.md)
         - [构建脚本 todo](cargo/reference/build-script/intro.md)
           - [构建脚本示例 todo](cargo/reference/build-script/examples.md)
         - [Package ID说明 todo](cargo/reference/package-id.md)
-
+    - [附录：Git鉴权](cargo/git-auth.md)
 
 - [易混淆概念解析](confonding/intro.md)
     - [切片和切片引用](confonding/slice.md)
@@ -209,6 +210,7 @@
       - [常用性能测试工具 todo](profiling/performance/tools.md)
       - [Enum内存优化 todo](profiling/performance/enum.md)
   - [编译优化 todo](profiling/compiler/intro.md)
+      - [LLVM todo](profiling/compiler/llvm.md)
       - [常见属性标记 todo](profiling/compiler/attributes.md)
       - [提升编译速度 todo](profiling/compiler/speed-up.md)
       - [编译器优化 todo](profiling/compiler/optimization/intro.md)
