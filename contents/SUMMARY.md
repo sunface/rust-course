@@ -131,11 +131,17 @@
       - [下载并构建Package](cargo/guide/download-package.md)
       - [添加依赖](cargo/guide/dependencies.md)
       - [Package目录结构](cargo/guide/package-layout.md)
+      - [Cargo.toml vs Cargo.lock](cargo/guide/cargo-toml-lock.md)
+      - [测试和CI](cargo/guide/tests-ci.md)
+      - [Cargo构建缓存](cargo/guide/build-cache.md)
     - [进阶参考 todo](cargo/reference/intro.md)
         - [指定依赖项 todo](cargo/reference/specify-deps/intro.md)
           - [依赖覆盖 todo](cargo/reference/specify-deps/overriding.md)
         - [Cargo.toml格式讲解 todo](cargo/reference/manifest/intro.md)
           - [修改默认的文件目录 todo](cargo/reference/manifest/cargo-target.md)
+        - [环境变量](cargo/reference/env.md)
+        - [Package ID 说明](cargo/reference/package-id.md)
+
 
 - [易混淆概念解析](confonding/intro.md)
     - [切片和切片引用](confonding/slice.md)

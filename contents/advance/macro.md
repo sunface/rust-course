@@ -17,6 +17,7 @@ fn main() {
 虽然三种使用形式皆可，但是 Rust 内置的宏都有自己约定俗成的使用方式，例如 `vec![...]`、`assert_eq!(...)` 等。
 
 在 Rust 中宏分为两大类：声明式宏 `macro_rules!` 和三种过程宏( *procedural macros* ):
+
 - `#[derive]`，在之前多次见到的派生宏，可以为目标结构体或枚举派生指定的代码，例如 `Debug` 特征
 - 类属性宏(Attribute-like macro)，用于为目标添加自定义的属性
 - 类函数宏(Function-like macro)，看上去就像是函数调用
