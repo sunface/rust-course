@@ -1,4 +1,4 @@
-# Cargo构建缓存
+# Cargo缓存
 Cargo 使用了缓存的方式提升构建效率，当构建时，Cargo 会将已下载的依赖包放在 `CARGO_HOME` 目录下，下面一起来看看。
 
 ## Cargo Home
@@ -13,13 +13,13 @@ $ echo $HOME/.cargo/
 > 注意！ Cargo Home 目录的内部结构并没有稳定化，在未来可能会发生变化
 
 
-#### 文件
+## 文件
 
 - `config.toml` 是 Cargo 的全局配置文件，具体请查看[这里](https://course.rs/cargo/reference/configuration.html)
 - `credentials.toml` 为 `cargo login` 提供私有化登录证书，用于登录 `package` 注册中心，例如 `crates.io`
 - `.crates.toml`, `.crates2.json` 这两个是隐藏文件，包含了通过 `cargo install` 安装的包的 `package` 信息，**请不要手动修改！**
 
-#### 目录
+## 目录
 
 - `bin` 目录包含了通过 `cargo install` 或 `rustup` 下载的包编译出的可执行文件。你可以将该目录加入到 `$PATH` 环境变量中，以实现对这些可执行文件的直接访问
 - `git` 中存储了 `Git` 的资源文件:
@@ -30,7 +30,7 @@ $ echo $HOME/.cargo/
   - `registry/cache` 中保存了已下载的依赖，这些依赖包以 `gzip` 的压缩档案形式保存，后缀名为 `.crate`
   - `registry/src`，若一个已下载的 `.crate` 档案被一个 `package` 所需要，该档案会被解压缩到 `registry/src` 文件夹下，最终 `rustc` 可以在其中找到所需的 `.rs` 文件
 
-#### 在 CI 时缓存 Cargo Home
+## 在 CI 时缓存 Cargo Home
 为了避免持续集成时重复下载所有的包依赖，我们可以将 `$CARGO_HOME` 目录进行缓存，但缓存整个目录是效率低下的，原因是源文件可能会被缓存两次。
 
 例如我们依赖一个包 `serde 1.0.92`，如果将整个 `$CACHE_HOME` 目录缓存，那么`serde` 的源文件就会被缓存两次：在 `registry/cache` 中的 `serde-1.0.92.crate` 以及 `registry/src` 下被解压缩的 `.rs` 文件。
@@ -42,7 +42,7 @@ $ echo $HOME/.cargo/
 - `registry/cache/`
 - `git/db/`
 
-#### 清楚缓存
+## 清楚缓存
 理论上，我们可以手动移除缓存中的任何一部分，当后续有包需要时 `Cargo` 会尽可能去恢复这些资源：
 
 - 解压缩 `registry/src` 下的 `.crate` 档案
@@ -50,4 +50,3 @@ $ echo $HOME/.cargo/
 - 如果以上都没了，会从网络上重新下载
 
 你也可以使用 [cargo-cache] 包来选择性的清除 `cache` 中指定的部分，当然，它还可以用来查看缓存中的组件大小。
-
