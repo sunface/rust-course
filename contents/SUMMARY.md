@@ -139,6 +139,7 @@
           - [依赖覆盖 todo](cargo/reference/specify-deps/overriding.md)
         - [Cargo.toml格式讲解 todo](cargo/reference/manifest/intro.md)
           - [修改默认的文件目录 todo](cargo/reference/manifest/cargo-target.md)
+        - [配置管理](cargo/reference/configuration.md)
         - [环境变量](cargo/reference/env.md)
         - [Package ID 说明](cargo/reference/package-id.md)
 
