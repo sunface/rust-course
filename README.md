@@ -38,8 +38,8 @@
 
 非常感谢本教程的所有贡献者们，正是有了你们，才有了现在的高质量 Rust 教程！
 
-- [@JesseAtSZ](https://github.com/JesseAtSZ)
 - [@1132719438](https://github.com/1132719438)
+- [@JesseAtSZ](https://github.com/JesseAtSZ)
 - [@AllanDowney](https://github.com/AllanDowney)
 - [@mg-chao](https://github.com/mg-chao)
 - [@Mintnoii](https://github.com/Mintnoii)
