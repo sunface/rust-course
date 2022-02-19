@@ -1,6 +1,6 @@
 # 编写测试及控制执行
 
-在 Rust 中，测试是通过函数的方式实现的，它可以用于验证非测试代码的正确性。测试函数往往依次执行以下三种行为：
+在 Rust 中，测试是通过函数的方式实现的，它可以用于验证被测试代码的正确性。测试函数往往依次执行以下三种行为：
 
 1. 设置所需的数据或状态
 2. 运行想要测试的代码
@@ -62,7 +62,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 - 测试用例是分批执行的，`running 1 test` 表示下面的输出 `test result` 来自一个测试用例的运行结果。
 - `test tests::it_works` 中包含了测试用例的名称
 - `test result: ok` 中的 `ok` 表示测试成功通过
-- `1 passed` 代表成功通过一个测试用例(因为只有一个)，`0 failed` : 没有测试用例失败，`0  ignored` 说明我们没有将任何测试函数标记为运行时可忽略，`0 filtered` 意味着没有对测试结果做任何过滤，`0 mesasured` 代表[性能测试(benchmark)](https://course.rs/test/benchmark.html)的结果
+- `1 passed` 代表成功通过一个测试用例(因为只有一个)，`0 failed` : 没有测试用例失败，`0  ignored` 说明我们没有将任何测试函数标记为运行时可忽略，`0 filtered` 意味着没有对测试结果做任何过滤，`0 mesasured` 代表[基准测试(benchmark)](https://course.rs/test/benchmark.html)的结果
 
 关于 `filtered` 和 `ignored` 的使用，在本章节的后续内容我们会讲到，这里暂且略过。
 
@@ -87,7 +87,7 @@ mod tests {
 }
 ```
 
-新的测试函数 `anothre` 相当简单粗暴，直接使用 `panic` 来报错，使用 `cargo test` 运行看看结果：
+新的测试函数 `another` 相当简单粗暴，直接使用 `panic` 来报错，使用 `cargo test` 运行看看结果：
 ```shell
 running 2 tests
 test tests::another ... FAILED

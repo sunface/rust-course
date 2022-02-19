@@ -16,13 +16,13 @@ fn main() {
 
 虽然三种使用形式皆可，但是 Rust 内置的宏都有自己约定俗成的使用方式，例如 `vec![...]`、`assert_eq!(...)` 等。
 
-在 Rust 中宏分为两大类：声明式宏 `macro_rules!` 和三种过程宏( *procedural macros* ):
+在 Rust 中宏分为两大类：**声明式宏( *declarative macros* )** `macro_rules!` 和三种**过程宏( *procedural macros* )**:
 
 - `#[derive]`，在之前多次见到的派生宏，可以为目标结构体或枚举派生指定的代码，例如 `Debug` 特征
 - 类属性宏(Attribute-like macro)，用于为目标添加自定义的属性
 - 类函数宏(Function-like macro)，看上去就像是函数调用
 
-如果感觉难以理解，也不必担心，接下来我们将逐个看看它们的庐山真面目，在次之前，先来看下为何需要宏，特别是 Rust 的函数明明已经很强大了。
+如果感觉难以理解，也不必担心，接下来我们将逐个看看它们的庐山真面目，在此之前，先来看下为何需要宏，特别是 Rust 的函数明明已经很强大了。
 
 ## 宏和函数的区别
 宏和函数的区别并不少，而且对于宏擅长的领域，函数其实是有些无能为力的。
@@ -30,7 +30,7 @@ fn main() {
 #### 元编程
 从根本上来说，宏是通过一种代码来生成另一种代码，如果大家熟悉元编程，就会发现两者的共同点。
 
-在[附录 D 中](https://course.rs/appendix/derive.html)讲到的 `derive` 属性，就会自动为结构体派生出相应特征所需的代码，例如 `#[derive(Debug)]`，还有熟悉的 `println!` 和 `vec!`，所有的这些宏都会展开成相应的代码，且很可能是长得多的代码。
+在[附录 D](https://course.rs/appendix/derive.html)中讲到的 `derive` 属性，就会自动为结构体派生出相应特征所需的代码，例如 `#[derive(Debug)]`，还有熟悉的 `println!` 和 `vec!`，所有的这些宏都会展开成相应的代码，且很可能是长得多的代码。
 
 总之，元编程可以帮我们减少所需编写的代码，也可以一定程度上减少维护的成本，虽然函数复用也有类似的作用，但是宏依然拥有自己独特的优势。
 
@@ -113,7 +113,7 @@ macro_rules! vec {
 1. `$()` 中包含的是模式 `$x:expr`，该模式中的 `expr` 表示会匹配任何 Rust 表达式，并给予该模式一个名称 `$x`
 2. 因此 `$x` 模式可以跟整数 `1` 进行匹配，也可以跟字符串 "hello" 进行匹配: `vec!["hello", "world"]`
 3. `$()` 之后的逗号，意味着`1` 和 `2` 之间可以使用逗号进行分割，也意味着 `3` 既可以没有逗号，也可以有逗号：`vec![1, 2, 3,]`
-4. `*` 说明之前的模式可以出现一次也可以任意次，这里出现了三次
+4. `*` 说明之前的模式可以出现零次也可以任意次，这里出现了三次
 
 接下来，我们再来看看与模式相关联、在 `=>` 之后的代码：
 ```rust
@@ -158,7 +158,7 @@ let v = {
 由于绝大多数 Rust 开发者都是宏的用户而不是编写者，因此在这里我们不会对 `macro_rules` 进行更深入的学习，如果大家感兴趣，可以看看这本书 [ “The Little Book of Rust Macros”](https://veykril.github.io/tlborm/)。
 
 ## 用过程宏为属性标记生成代码
-第二种常用的宏就是[*过程宏*]( *procedural macros* )，从形式上来看，过程宏跟函数较为相像，但过程宏是使用源代码作为输入参数，基于代码进行一系列操作后，再输出一段全新的代码。**注意，过程宏输出的代码并不会替换之前的代码，这一点与声明宏有很大的不同！**
+第二种常用的宏就是[*过程宏*](https://doc.rust-lang.org/reference/procedural-macros.html) ( *procedural macros* )，从形式上来看，过程宏跟函数较为相像，但过程宏是使用源代码作为输入参数，基于代码进行一系列操作后，再输出一段全新的代码。**注意，过程宏输出的代码并不会替换之前的代码，这一点与声明宏有很大的不同！**
 
 至于前文提到的过程宏的三种类型(自定义 `derive`、属性宏、函数宏)，它们的工作方式都是类似的。
 
@@ -282,7 +282,7 @@ hello_macro
 
 由于过程宏所在的包跟我们的项目紧密相连，因此将它放在项目之中。现在，问题又来了，该如何在项目的 `src/main.rs` 中引用 `hello_macro_derive` 包的内容？
 
-方法有两种，第一种是将 `hello_macro_derive` 发布到 `crates.io` 或 `github` 中，就像我们引用的其它依赖一样；另一种就是使用相对路径引入的本地化方式，修改 `hello_macro/Cargo.tom` 文件添加以下内容:
+方法有两种，第一种是将 `hello_macro_derive` 发布到 `crates.io` 或 `github` 中，就像我们引用的其它依赖一样；另一种就是使用相对路径引入的本地化方式，修改 `hello_macro/Cargo.toml` 文件添加以下内容:
 ```toml
 [dependencies]
 hello_macro_derive = { path = "../hello_macro/hello_macro_derive" }
@@ -334,9 +334,9 @@ pub fn hello_macro_derive(input: TokenStream) -> TokenStream {
 由于我们为 `hello_macro_derive` 函数标记了 `#[proc_macro_derive(HelloMacro)]`，当用户使用 `#[derive(HelloMacro)]` 标记了他的类型后，`hello_macro_derive` 函数就将被调用。这里的秘诀就是特征名 `HelloMacro`，它就像一座桥梁，将用户的类型和过程宏联系在一起。 
 
 
-`sync` 将字符串形式的 Rust 代码解析为一个 AST 树的数据结构，该数据结构可以在随后的 `impl_hello_macro` 函数中进行操作。最后，操作的结果又会被 `quote` 包转换回 Rust 代码。这些包非常关键，可以帮我们节省大量的精力，否则你需要自己去编写支持代码解析和还原的解析器，这可不是一件简单的任务！
+`syn` 将字符串形式的 Rust 代码解析为一个 AST 树的数据结构，该数据结构可以在随后的 `impl_hello_macro` 函数中进行操作。最后，操作的结果又会被 `quote` 包转换回 Rust 代码。这些包非常关键，可以帮我们节省大量的精力，否则你需要自己去编写支持代码解析和还原的解析器，这可不是一件简单的任务！
 
-`sync.parse` 调用会返回一个 `DeriveInput` 结构体来代表解析后的 Rust 代码:
+`syn::parse` 调用会返回一个 `DeriveInput` 结构体来代表解析后的 Rust 代码:
 ```rust
 DeriveInput {
     // --snip--
@@ -362,7 +362,7 @@ DeriveInput {
 - `fields: Unit` 说明源代码是一个单元结构体
 - `ident: "Sunfei"` 说明类型名称为 `Sunfei`， `ident` 是标识符 `identifier` 的简写
 
-如果想要了解更多的信息，可以查看 [`sync` 文档](https://docs.rs/syn/1.0/syn/struct.DeriveInput.html)。
+如果想要了解更多的信息，可以查看 [`syn` 文档](https://docs.rs/syn/1.0/syn/struct.DeriveInput.html)。
 
 大家可能会注意到在 `hello_macro_derive` 函数中有 `unwrap` 的调用，也许会以为这是为了演示目的，没有做错误处理，实际上并不是的。由于该函数只能返回 `TokenStream` 而不是 `Result`，那么在报错时直接 `panic` 来抛出错误就成了相当好的选择。当然，这里实际上还是做了简化，在生产项目中，你应该通过 `panic!` 或 `expect` 抛出更具体的报错信息。
 
@@ -389,7 +389,7 @@ fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
 
 特征的 `hell_macro()` 函数只有一个功能，就是使用 `println!` 打印一行欢迎语句。
 
-其中 `stringify!` 是 Rust 提供的内置宏，可以将一个表达式(例如 `1 + 2`)在编译期转换成一个字符串字面值(`"1 + 2"`)，该字面量会直接打包进编译出的二进制文件中，具有 `'static` 生命周期。而 `format!` 宏都对表达式进行求值，最终结果是一个 `String` 类型。在这里使用 `stringify!` 有两个好处:
+其中 `stringify!` 是 Rust 提供的内置宏，可以将一个表达式(例如 `1 + 2`)在编译期转换成一个字符串字面值(`"1 + 2"`)，该字面量会直接打包进编译出的二进制文件中，具有 `'static` 生命周期。而 `format!` 宏会对表达式进行求值，最终结果是一个 `String` 类型。在这里使用 `stringify!` 有两个好处:
 
 - `#name` 可能是一个表达式，我们需要它的字面值形式
 - 可以减少一次 `String` 带来的内存分配

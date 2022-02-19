@@ -1,5 +1,5 @@
 # 用Github Actions进行持续集成
-[Github Actions](https://github.com/features/actions) 是官方于 2018年 推出的持续集成服务，它非常强大，本文将手把手带领大家学习如何使用 `Github Actions` 对 Rust 项目进行持续集成，
+[Github Actions](https://github.com/features/actions) 是官方于 2018 年推出的持续集成服务，它非常强大，本文将手把手带领大家学习如何使用 `Github Actions` 对 Rust 项目进行持续集成。
 
 持续集成是软件开发中异常重要的一环，大家应该都听说过 `Jenkins`，它就是一个拥有悠久历史的持续集成工具。简单来说，持续集成会定期拉取同一个项目中所有成员的相关代码，对其进行自动化构建。
 
@@ -15,7 +15,7 @@
 若你需要某个 `action`，不必自己写复杂的脚本，直接引用他人写好的 `action` 即可，整个持续集成过程，就变成了多个 `action` 的组合，这就是` GitHub Actions` 最厉害的地方。
 
 #### action 的分享与引用
-既然 `action` 这么强大，我们就将自己的 `action` 分享给他人，也可以引用他人分享的 `action`，有以下几种方式：
+既然 `action` 这么强大，我们就可以将自己的 `action` 分享给他人，也可以引用他人分享的 `action`，有以下几种方式：
 
 1. 将你的 `action` 放在 github 上的公共仓库中，这样其它开发者就可以引用，例如 [github-profile-summary-cards](https://github.com/vn7n24fzkq/github-profile-summary-cards) 就提供了相应的 `action`，可以生成 github 用户统计信息，然后嵌入到你的个人主页中，具体效果[见这里](https://github.com/sunface)
 2. Github 提供了一个[官方市场](https://github.com/marketplace?type=actions)，里面收集了许多质量不错的 `actions`，并支持在线搜索
@@ -198,8 +198,8 @@ jobs:
 
     steps:
       - name:
-      env:
-      NODE_ENV: prod
+        env:
+          NODE_ENV: prod
 ```
 
 如果有多个 `env` 存在，会使用就近那个。
