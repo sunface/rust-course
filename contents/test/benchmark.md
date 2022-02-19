@@ -142,14 +142,14 @@ mod tests {
 
 其实，原因藏在`LLVM`中: `LLVM`认为`fibonacci_u64`函数调用的结果没有使用，同时也认为该函数没有任何副作用(造成其它的影响，例如修改外部变量、访问网络等), 因此它有理由把这个函数调用优化掉！
 
-解决很简单，使用Rust标准库中的 `black_box` 函数:
+解决很简单，使用 Rust 标准库中的 `black_box` 函数:
 ```rust
  for i in 100..200 {
     test::black_box(fibonacci_u64(test::black_box(i)));
 }
 ```
 
-通过这个函数，我们告诉编译器，让它尽量少做优化，此时LLVM就不会再自作主张了:)
+通过这个函数，我们告诉编译器，让它尽量少做优化，此时 LLVM 就不会再自作主张了:)
 
 ```shell
 $ cargo bench
@@ -203,11 +203,18 @@ criterion_main!(benches);
 
 最后，使用 `cargo bench` 运行并观察结果：
 ```shell
-  Running target/release/deps/example-423eedc43b2b3a93
+     Running target/release/deps/example-423eedc43b2b3a93
+Benchmarking fib 20
+Benchmarking fib 20: Warming up for 3.0000 s
+Benchmarking fib 20: Collecting 100 samples in estimated 5.0658 s (188100 iterations)
+Benchmarking fib 20: Analyzing
 fib 20                  time:   [26.029 us 26.251 us 26.505 us]
 Found 11 outliers among 99 measurements (11.11%)
   6 (6.06%) high mild
   5 (5.05%) high severe
+slope  [26.029 us 26.505 us] R^2            [0.8745662 0.8728027]
+mean   [26.106 us 26.561 us] std. dev.      [808.98 ns 1.4722 us]
+median [25.733 us 25.988 us] med. abs. dev. [234.09 ns 544.07 ns]
 ```
 
 可以看出，这个结果是明显比官方的更详尽的，如果大家希望更深入的学习它的使用，可以参见[官方文档](https://bheisler.github.io/criterion.rs/book/getting_started.html)。
