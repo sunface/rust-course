@@ -158,7 +158,7 @@ let v = {
 由于绝大多数 Rust 开发者都是宏的用户而不是编写者，因此在这里我们不会对 `macro_rules` 进行更深入的学习，如果大家感兴趣，可以看看这本书 [ “The Little Book of Rust Macros”](https://veykril.github.io/tlborm/)。
 
 ## 用过程宏为属性标记生成代码
-第二种常用的宏就是[*过程宏*](https://doc.rust-lang.org/reference/procedural-macros.html) ( *procedural macros* )，从形式上来看，过程宏跟函数较为相像，但过程宏是使用源代码作为输入参数，基于代码进行一系列操作后，再输出一段全新的代码。**注意，过程宏输出的代码并不会替换之前的代码，这一点与声明宏有很大的不同！**
+第二种常用的宏就是[*过程宏*](https://doc.rust-lang.org/reference/procedural-macros.html) ( *procedural macros* )，从形式上来看，过程宏跟函数较为相像，但过程宏是使用源代码作为输入参数，基于代码进行一系列操作后，再输出一段全新的代码。**注意，过程宏中的derive宏输出的代码并不会替换之前的代码，这一点与声明宏有很大的不同！**
 
 至于前文提到的过程宏的三种类型(自定义 `derive`、属性宏、函数宏)，它们的工作方式都是类似的。
 

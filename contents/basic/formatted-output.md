@@ -350,6 +350,54 @@ fn main() {
 }
 ```
 
+## 在格式化字符串时捕获环境中的值（Rust1.58新增）
+
+在以前，想要输出一个函数的返回值，你需要这么做：
+```rust
+fn get_person() -> String {
+    String::from("sunface")
+}
+fn main() {
+    let p = get_person();
+    println!("Hello, {}!", p);                // implicit position
+    println!("Hello, {0}!", p);               // explicit index
+    println!("Hello, {person}!", person = p);
+}
+```
+问题倒也不大，但是一旦格式化字符串长了后，就会非常冗余，而在1.58后，我们可以这么写：
+```rust
+fn get_person() -> String {
+    String::from("sunface")
+}
+fn main() {
+    let person = get_person();
+    println!("Hello, {person}!");
+}
+```
+是不是清晰、简洁了很多？甚至还可以将环境中的值用于格式化参数:
+```rust
+let (width, precision) = get_format();
+for (name, score) in get_scores() {
+  println!("{name}: {score:width$.precision$}");
+}
+```
+但也有局限，它只能捕获普通的变量，对于更复杂的类型(例如表达式)，可以先将它赋值给一个变量或使用以前的`name = expression`形式的格式化参数。
+目前除了`panic!`外，其它接收格式化参数的宏，都可以使用新的特性。对于`panic!` 而言，如果还在使用`Rust2015`或`2018`大版本 ，那`panic!("{ident}")`依然会被当成 正常的字符串来处理，同时编译器会给予`warn`提示。而对于`2021版本`，则可以正常使用:
+```rust
+fn get_person() -> String {
+    String::from("sunface")
+}
+fn main() {
+    let person = get_person();
+    panic!("Hello, {person}!");
+}
+```
+
+输出:
+```console
+thread 'main' panicked at 'Hello, sunface!', src/main.rs:6:5
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+```
 
 ## 总结
 把这些格式化都牢记在脑中是不太现实的，也没必要，我们要做的就是知道 Rust 支持相应的格式化输出，在需要之时，读者再来查阅本文即可。
