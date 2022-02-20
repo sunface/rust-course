@@ -42,11 +42,11 @@ $ echo $HOME/.cargo/
 - `registry/cache/`
 - `git/db/`
 
-## 清楚缓存
+## 清除缓存
 理论上，我们可以手动移除缓存中的任何一部分，当后续有包需要时 `Cargo` 会尽可能去恢复这些资源：
 
-- 解压缩 `registry/src` 下的 `.crate` 档案
+- 解压缩到 `registry/src` 的 `.crate` 档案
 - 从 `.git` 中 `checkout` 缓存的仓库
 - 如果以上都没了，会从网络上重新下载
 
-你也可以使用 [cargo-cache] 包来选择性的清除 `cache` 中指定的部分，当然，它还可以用来查看缓存中的组件大小。
+你也可以使用 [cargo-cache](https://crates.io/crates/cargo-cache) 包来选择性的清除 `cache` 中指定的部分，当然，它还可以用来查看缓存中的组件大小。
