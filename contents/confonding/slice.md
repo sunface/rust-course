@@ -1,7 +1,7 @@
 # 切片和切片引用
 关于 `str` / `&str`，`[u8]` / `&[u8]` 区别，你能清晰的说出来嘛？如果答案是 No ，那就跟随我一起来看看切片和切片引用到底有何区别吧。
 
-> 在继续之前，参见[此处](https://course.rs/basic/compound-type/string-slice.html#切片slice)了解何为切片
+> 在继续之前，查看[这里](https://course.rs/basic/compound-type/string-slice.html#切片slice)了解何为切片
 
 切片允许我们引用集合中部分连续的元素序列，而不是引用整个集合。例如，字符串切片就是一个子字符串，数组切片就是一个子数组。
 
