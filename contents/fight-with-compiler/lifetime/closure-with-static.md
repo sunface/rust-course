@@ -2,7 +2,7 @@
 特征对象是一个好东西，闭包也是一个好东西，但是如果两者你都想要时，可能就会火星撞地球，boom! 至于这两者为何会勾搭到一起？考虑一个常用场景：使用闭包作为回调函数. 
 
 ## 学习目标
-如何使用闭包作为特征对象，并解决以下错误：`the parameter type `impl Fn(&str) -> Res` may not live long enough`
+如何使用闭包作为特征对象，并解决以下错误：`the parameter type ` \`impl Fn(&str) -> Res\` ` may not live long enough`
 
 ## 报错的代码
 在下面代码中，我们通过闭包实现了一个简单的回调函数(错误代码已经标注)：
@@ -47,6 +47,16 @@ fn main() {
         cb("hello, world");
     }
 }
+```
+
+```
+error[E0310]: the parameter type `impl Fn(&str) -> Res` may not live long enough
+  --> src/main.rs:25:30
+   |
+24 |     pub fn set(&mut self, cb: impl Fn(&str) -> Res) {
+   |                               -------------------- help: consider adding an explicit lifetime bound...: `impl Fn(&str) -> Res + 'static`
+25 |         self.callback = Some(Box::new(cb));
+   |                              ^^^^^^^^^^^^ ...so that the type `impl Fn(&str) -> Res` will meet its required lifetime bounds
 ```
 
 从第一感觉来说，报错属实不应该，因为我们连引用都没有用，生命周期都不涉及，怎么就报错了？在继续深入之前，先来观察下该闭包是如何被使用的：
@@ -121,7 +131,7 @@ inl.set(move |val| {
 // println!("{}", local);
 ```
 
-如上所示，你也可以选择将本地变量的所有权`move`进闭包中，此时闭包再次具有`'statci`生命周期
+如上所示，你也可以选择将本地变量的所有权`move`进闭包中，此时闭包再次具有`'static`生命周期
 
 ##### 4. 非要捕获本地变量的引用？
 对于第2种情况，如果非要这么干，那`'static`肯定是没办法了，我们只能给予闭包一个新的生命周期:
