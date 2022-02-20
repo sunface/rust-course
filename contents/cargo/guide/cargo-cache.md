@@ -45,7 +45,7 @@ $ echo $HOME/.cargo/
 ## 清除缓存
 理论上，我们可以手动移除缓存中的任何一部分，当后续有包需要时 `Cargo` 会尽可能去恢复这些资源：
 
-- 解压缩到 `registry/src` 的 `.crate` 档案
+- 解压缩 `registry/cache` 下的 `.crate` 档案
 - 从 `.git` 中 `checkout` 缓存的仓库
 - 如果以上都没了，会从网络上重新下载
 
