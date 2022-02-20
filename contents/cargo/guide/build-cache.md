@@ -1,5 +1,5 @@
 # 构建( Build )缓存
-`cargo build` 的结果会被放入项目根目录下的 `target` 文件夹中，当然，这个位置可以三种方式更改：设置 `CARGO_TARGET_DIR` [环境变量](https://course.rs/cargo/reference/env.html)、[`build.target-dir`]((https://course.rs/cargo/reference/configuration.html#buildtarget-dir)) 配置项以及 `--target-dir` 命令行参数。
+`cargo build` 的结果会被放入项目根目录下的 `target` 文件夹中，当然，这个位置可以三种方式更改：设置 `CARGO_TARGET_DIR` [环境变量](https://course.rs/cargo/reference/env.html)、[`build.target-dir`](https://course.rs/cargo/reference/configuration.html#buildtarget-dir) 配置项以及 `--target-dir` 命令行参数。
 
 ## target 目录结构
 `target` 目录的结构取决于是否使用 `--target` 标志为特定的平台构建。

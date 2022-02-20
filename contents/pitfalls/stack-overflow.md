@@ -1,6 +1,6 @@
 # 线程类型导致的栈溢出
 
-在Rust中，我们不太容易遇到栈溢出，因为默认栈还挺大的，而且大的数据往往存在堆上(动态增长)，但是一旦遇到该如何处理？先来看段代码：
+在 Rust 中，我们不太容易遇到栈溢出，因为默认栈还挺大的，而且大的数据往往存在堆上(动态增长)，但是一旦遇到该如何处理？先来看段代码：
 ```rust
 #![feature(test)]
 extern crate test;
@@ -26,7 +26,7 @@ thread 'tests::it_works' has overflowed its stack
 fatal runtime error: stack overflow
 ```
 
-Bang，很不幸，遇到了百年一遇的栈溢出错误，再来试试`cargo bench`，竟然通过了测试，这是什么原因？为何`cargo test`和`cargo bench`拥有完全不同的行为？这就要从Rust的栈原理讲起。
+Bang，很不幸，遇到了百年一遇的栈溢出错误，再来试试`cargo bench`，竟然通过了测试，这是什么原因？为何`cargo test`和`cargo bench`拥有完全不同的行为？这就要从 Rust 的栈原理讲起。
 
 首先看看`stack`数组，它的大小是`8 × 2 × 512 × 512 = 4 MiB`，嗯，很大，崩溃也正常(读者说，正常，只是作者你不太正常。。).
 
@@ -45,7 +45,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 ```
 Bingo, 成功了,最后再补充点测试的背景知识:
 
-> cargo test为何使用新线程？因为它需要并行的运行测试用例，与之相反，cargo bench只需要顺序的执行，因此main线程足矣
+> `cargo test`为何使用新线程？因为它需要并行的运行测试用例，与之相反，`cargo bench`只需要顺序的执行，因此main线程足矣
 
 
 
