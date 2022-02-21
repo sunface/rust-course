@@ -116,7 +116,7 @@ $ cargo check
     Finished dev [unoptimized + debuginfo] target(s) in 0.06s
 ```
 
-> Rust 虽然编译速度还行，但是还是不能 Go 语言相提并论，因为 Rust 需要做很多复杂的编译优化和语言特性解析，甚至连如何优化编译速度都成了一门学问 [优化编译速度](../compiler/speed-up.md)
+> Rust 虽然编译速度还行，但是还是不能 Go 语言相提并论，因为 Rust 需要做很多复杂的编译优化和语言特性解析，甚至连如何优化编译速度都成了一门学问 [优化编译速度](../profiling/compiler/speed-up.md)
 
 ## Cargo.toml 和 Cargo.lock
 
@@ -167,6 +167,6 @@ geometry = { path = "crates/geometry" }
 
 ## 基于 cargo 的项目组织结构
 
-前文有提到 `cargo` 默认生成的项目结构，真实的项目肯定会有所不同，但是在目前的学习阶段，还无需关注。感兴趣的同学可以移步：[Cargo 项目结构](../cargo/layout.md)
+前文有提到 `cargo` 默认生成的项目结构，真实的项目肯定会有所不同，但是在目前的学习阶段，还无需关注。感兴趣的同学可以移步：[Cargo 项目结构](../cargo/guide/package-layout.md)
 
 至此，大家对 Rust 项目的创建和管理已经有了初步的了解，那么来完善刚才的`"世界，你好"`项目吧。
