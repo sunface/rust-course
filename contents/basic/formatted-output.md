@@ -26,10 +26,10 @@ println!("{:04}", 42);             // => "0042" with leading zeros
 ```rust
 fn main() {
     let s = "hello";
-    println!("{}, world",s);
+    println!("{}, world", s);
     let s1 = format!("{}, world", s);
-    print!("{}",s1);
-    print!("{}\n","!");
+    print!("{}", s1);
+    print!("{}\n", "!");
 }
 ```
 
@@ -48,7 +48,7 @@ eprintln!("Error: Could not complete task")
 它们仅应该被用于输出错误信息和进度信息，其它场景都应该使用 `print!` 系列。
 
 ## {} 与 {:?}
-与其它语言常用的 `%d`，`%s` 不同，Rust 特立独行地选择了 `{}` 作为格式化占位符(说到这个，有点想吐槽下，Rust 中自创的概念其实还挺多的，真不知道该夸奖还是该吐槽-,-)，事实证明，这种选择非常正确，它帮助用户减少了很多使用成本，你无需再为特定的类型选择特定的占位符，统一用 `{}` 来替代即可，剩下的类型推导等细节只要交给 Rust 去做。
+与其它语言常用的 `%d`，`%s` 不同，Rust 特立独行地选择了 `{}` 作为格式化占位符（说到这个，有点想吐槽下，Rust 中自创的概念其实还挺多的，真不知道该夸奖还是该吐槽-,-），事实证明，这种选择非常正确，它帮助用户减少了很多使用成本，你无需再为特定的类型选择特定的占位符，统一用 `{}` 来替代即可，剩下的类型推导等细节只要交给 Rust 去做。
 
 与 `{}` 类似，`{:?}` 也是占位符：
 
@@ -69,9 +69,9 @@ struct Person {
 fn main() {
     let i = 3.1415926;
     let s = String::from("hello");
-    let v = vec![1,2,3];
-    let p = Person{name: "sunface".to_string(),age: 18};
-    println!("{:?}, {:?}, {:?},{:?}",i,s,v,p);
+    let v = vec![1, 2, 3];
+    let p = Person{name: "sunface".to_string(), age: 18};
+    println!("{:?}, {:?}, {:?}, {:?}", i, s, v, p);
 }
 ```
 
@@ -88,7 +88,7 @@ let p = Person {
     name: "sunface".to_string(),
     age: 18,
 };
-println!("{}, {}, {},{}", i, s, v, p);
+println!("{}, {}, {}, {}", i, s, v, p);
 ```
 
 运行后可以看到 `v` 和 `p` 都无法通过编译，因为没有实现 `Display` 特征，但是你又不能像派生 `Debug` 一般派生 `Display`，只能另寻他法：
@@ -103,14 +103,14 @@ println!("{}, {}, {},{}", i, s, v, p);
 `{:#?}` 与 `{:?}` 几乎一样，唯一的区别在于它能更优美地输出内容：
 ```console
 // {:?}
-[1, 2, 3],Person { name: "sunface", age: 18 }
+[1, 2, 3], Person { name: "sunface", age: 18 }
 
 // {:#?}
 [
     1,
     2,
     3,
-],Person {
+], Person {
     name: "sunface",
 }
 ```
@@ -177,11 +177,11 @@ fn main() {
 除了按照依次顺序使用值去替换占位符之外，还能让指定位置的参数去替换某个占位符，例如 `{1}`，表示用第二个参数替换该占位符(索引从0开始)：
 ```rust
 fn main() {
-    println!("{}{}",1,2); // =>"12"
-    println!("{1}{0}",1,2); // =>"21"
+    println!("{}{}", 1, 2); // =>"12"
+    println!("{1}{0}", 1, 2); // =>"21"
     // => Alice, this is Bob. Bob, this is Alice
     println!("{0}, this is {1}. {1}, this is {0}", "Alice", "Bob");
-    println!("{1}{}{0}{}",1,2); // => 2112
+    println!("{1}{}{0}{}", 1, 2); // => 2112
 }
 ```
 
@@ -200,15 +200,25 @@ fn main() {
 println!("{abc} {1}", abc = "def", 2);
 ```
 
+```rust
+error: positional arguments cannot follow named arguments
+ --> src/main.rs:4:36
+   |
+ 4 | println!("{abc} {1}", abc = "def", 2);
+   |                             -----  ^ positional arguments must be before named arguments
+   |                             |
+   |                             named argument
+```
+
 ## 格式化参数
 格式化输出，意味着对输出格式会有更多的要求，例如只输出浮点数的小数点后两位：
 ```rust
 fn main() {
     let v = 3.1415926;
     // Display => 3.14
-    println!("{:.2}",v);
+    println!("{:.2}", v);
     // Debug => 3.14
-    println!("{:.2?}",v);
+    println!("{:.2?}", v);
 }
 ```
 
@@ -260,11 +270,11 @@ fn main() {
 fn main() {
     // 以下全部都会补齐5个字符的长度
     // 左对齐 => Hello x    !
-    println!("Hello {:<5}!","x"); 
+    println!("Hello {:<5}!", "x");
     // 右对齐 => Hello     x
-    println!("Hello {:>5}!","x");
+    println!("Hello {:>5}!", "x");
     // 居中对齐 => Hello   x  !
-    println!("Hello {:^5}!","x");
+    println!("Hello {:^5}!", "x");
 
     // 对齐并使用指定符号填充 => Hello x&&&&!
     // 指定符号填充的前提条件是必须有对齐字符
@@ -278,12 +288,12 @@ fn main() {
 fn main() {
     let v = 3.1415926;
     // 保留小数点后两位 => 3.14
-    println!("{:.2}",v);
+    println!("{:.2}", v);
     // 带符号保留小数点后两位 => +3.14
-    println!("{:+.2}",v);
+    println!("{:+.2}", v);
     // 不带小数 => 3
-    println!("{:.0}",v);
-    // 通过参数来设定精度 => 3.1416,相当于{:.4}
+    println!("{:.0}", v);
+    // 通过参数来设定精度 => 3.1416，相当于{:.4}
     println!("{:.1$}", v, 4);
     
     let s = "hi我是Sunface孙飞";
@@ -334,8 +344,8 @@ fn main() {
 
 #### 指针地址
 ```rust
-let v= vec![1,2,3];
-println!("{:p}",v.as_ptr()) // => 0x600002324050
+let v= vec![1, 2, 3];
+println!("{:p}", v.as_ptr()) // => 0x600002324050
 ```
 
 #### 转义
@@ -350,7 +360,7 @@ fn main() {
 }
 ```
 
-## 在格式化字符串时捕获环境中的值（Rust1.58新增）
+## 在格式化字符串时捕获环境中的值（Rust 1.58 新增）
 
 在以前，想要输出一个函数的返回值，你需要这么做：
 ```rust
@@ -364,7 +374,7 @@ fn main() {
     println!("Hello, {person}!", person = p);
 }
 ```
-问题倒也不大，但是一旦格式化字符串长了后，就会非常冗余，而在1.58后，我们可以这么写：
+问题倒也不大，但是一旦格式化字符串长了后，就会非常冗余，而在 1.58 后，我们可以这么写：
 ```rust
 fn get_person() -> String {
     String::from("sunface")
@@ -381,8 +391,8 @@ for (name, score) in get_scores() {
   println!("{name}: {score:width$.precision$}");
 }
 ```
-但也有局限，它只能捕获普通的变量，对于更复杂的类型(例如表达式)，可以先将它赋值给一个变量或使用以前的`name = expression`形式的格式化参数。
-目前除了`panic!`外，其它接收格式化参数的宏，都可以使用新的特性。对于`panic!` 而言，如果还在使用`Rust2015`或`2018`大版本 ，那`panic!("{ident}")`依然会被当成 正常的字符串来处理，同时编译器会给予`warn`提示。而对于`2021版本`，则可以正常使用:
+但也有局限，它只能捕获普通的变量，对于更复杂的类型（例如表达式），可以先将它赋值给一个变量或使用以前的 `name = expression` 形式的格式化参数。
+目前除了 `panic!` 外，其它接收格式化参数的宏，都可以使用新的特性。对于 `panic!` 而言，如果还在使用 `2015版本` 或 `2018版本`，那 `panic!("{ident}")` 依然会被当成 正常的字符串来处理，同时编译器会给予 `warn` 提示。而对于 `2021版本` ，则可以正常使用:
 ```rust
 fn get_person() -> String {
     String::from("sunface")

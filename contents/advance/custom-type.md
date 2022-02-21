@@ -13,9 +13,9 @@
 一箩筐的理由～～ 让我们先从第二点讲起。
 
 #### 为外部类型实现外部特征
-在之前的章节中，我们有讲过如果在外部类型上实现外部特征必须使用 `newtype` 的方式，否则你就得遵循孤儿规则：要为类型 `A` 实现特征 `T`，那么 `A` 或者 `T` 必须至少有一个在当前的作用范围内。
+在之前的章节中，我们有讲过，如果在外部类型上实现外部特征必须使用 `newtype` 的方式，否则你就得遵循孤儿规则：要为类型 `A` 实现特征 `T`，那么 `A` 或者 `T` 必须至少有一个在当前的作用范围内。
 
-例如，如果想使用 `println!("{}",v)` 的方式去格式化输出一个动态数组 `Vec`，以期给用户提供更加清晰可读的内容，那么就需要为 `Vec` 实现 `Display` 特征，但是这里有一个问题： `Vec` 类型定义在标准库中，`Display` 亦然，这时就可以祭出大杀器 `newtype` 来解决：
+例如，如果想使用 `println!("{}", v)` 的方式去格式化输出一个动态数组 `Vec`，以期给用户提供更加清晰可读的内容，那么就需要为 `Vec` 实现 `Display` 特征，但是这里有一个问题： `Vec` 类型定义在标准库中，`Display` 亦然，这时就可以祭出大杀器 `newtype` 来解决：
 ```rust
 use std::fmt;
 
@@ -36,7 +36,7 @@ fn main() {
 如上所示，使用元组结构体语法 `struct Wrapper(Vec<String>)` 创建了一个 `newtype` Wrapper，然后为它实现 `Display` 特征，最终实现了对 `Vec` 动态数组的格式化输出。
 
 #### 更好的可读性及类型异化
-首先，更好的可读性不等于更少的代码(如果你学过Scala，相信会深有体会)，其次下面的例子只是一个示例，未必能体现出更好的可读性：
+首先，更好的可读性不等于更少的代码（如果你学过Scala，相信会深有体会），其次下面的例子只是一个示例，未必能体现出更好的可读性：
 ```rust
 use std::ops::Add;
 use std::fmt;
@@ -57,10 +57,10 @@ impl Add for Meters {
 }
 fn main() {
     let d = calculate_distance(Meters(10), Meters(20));
-    println!("{}",d);
+    println!("{}", d);
 }
 
-fn calculate_distance(d1: Meters,d2: Meters) -> Meters {
+fn calculate_distance(d1: Meters, d2: Meters) -> Meters {
     d1 + d2
 }
 ```
@@ -79,11 +79,11 @@ struct Meters(u32);
 
 fn main() {
     let i: u32 = 2;
-    assert_eq!(i.pow(2),4);
+    assert_eq!(i.pow(2), 4);
 
     let n = Meters(i);
     // 下面的代码将报错，因为`Meters`类型上没有`pow`方法
-    // assert_eq!(n.pow(2),4);
+    // assert_eq!(n.pow(2), 4);
 }
 ```
 
@@ -143,7 +143,7 @@ fn returns_long_type() -> Thunk {
 
 Bang！是不是？！立刻大幅简化了我们的使用。喝着奶茶、哼着歌、我写起代码撩起妹，何其快哉！
 
-在标准库中，类型别名应用最广的就是简化 `Result<T,E>` 枚举。
+在标准库中，类型别名应用最广的就是简化 `Result<T, E>` 枚举。
 
 例如在 `std::io` 库中，它定义了自己的 `Error` 类型：`std::io::Error`，那么如果要使用该 `Result` 就要用这样的语法：`std::result::Result<T, std::io::Error>;`，想象一下代码中充斥着这样的东东是一种什么感受？颤抖吧。。。
 
@@ -163,7 +163,7 @@ fn main() {
     let i = 2;
     let v = match i {
        0..=3 => i,
-       _ => println!("不合规定的值:{}",i) 
+       _ => println!("不合规定的值:{}", i)
     };
 }
 ```
@@ -177,7 +177,7 @@ error[E0308]: `match` arms have incompatible types // match的分支类型不同
   |  _____________-
 4 | |        0..3 => i,
   | |                - this is found to be of type `{integer}` // 该分支返回整数类型
-5 | |        _ => println!("不合规定的值:{}",i) 
+5 | |        _ => println!("不合规定的值:{}", i)
   | |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected integer, found `()` // 该分支返回()单元类型
 6 | |     };
   | |_____- `match` arms have incompatible types
@@ -191,7 +191,7 @@ fn main() {
     let i = 2;
     let v = match i {
        0..=3 => i,
-       _ => panic!("不合规定的值:{}",i) 
+       _ => panic!("不合规定的值:{}", i)
     };
 }
 ```
@@ -238,7 +238,7 @@ fn generic<T>(t: T) {
 }
 ```
 
-该函数很简单，就一个泛型参数T，那么如果保证 `T` 是固定大小的类型？仔细回想下，貌似在之前的课程章节中，我们也没有做过任何事情去做相关的限制，那 `T` 怎么就成了固定大小的类型了？奥秘在于编译器自动帮我们加上了 `Sized` 特征约束：
+该函数很简单，就一个泛型参数T，那么如何保证 `T` 是固定大小的类型？仔细回想下，貌似在之前的课程章节中，我们也没有做过任何事情去做相关的限制，那 `T` 怎么就成了固定大小的类型了？奥秘在于编译器自动帮我们加上了 `Sized` 特征约束：
 ```rust
 fn generic<T: Sized>(t: T) {
     // --snip--
