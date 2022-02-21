@@ -23,7 +23,7 @@
   * [`exclude`](#the-exclude-and-include-fields) — 发布时排除的文件
   * [`include`](#the-exclude-and-include-fields) — 发布时包含的文件
   * [`publish`](#the-publish-field) — 用于阻止项目的发布
-  * [`metadata`](#the-metadata-table) — 额外的信息，用于提供给外部工具
+  * [`metadata`](#the-metadata-table) — 额外的配置信息，用于提供给外部工具
   * [`default-run`](#the-default-run-field) — [`cargo run`] 所使用的默认可执行文件( binary )
   * [`autobins`](cargo-targets.md#target-auto-discovery) — 禁止可执行文件的自动发现
   * [`autoexamples`](cargo-targets.md#target-auto-discovery) — 禁止示例文件的自动发现
@@ -41,7 +41,7 @@
   * [`[dev-dependencies]`](specify-deps.md#dev-dependencies) — 用于 examples、tests 和 benchmarks 的依赖包
   * [`[build-dependencies]`](specify-deps.md#build-dependencies) — 用于构建脚本的依赖包
   * [`[target]`](specify-deps.md#根据平台引入依赖) — 平台特定的依赖包
-* [`[badges]`](#the-badges-section) — 用于在注册服务(例如 crates.io ) 上显示项目的当前维护状态
+* [`[badges]`](#the-badges-section) — 用于在注册服务(例如 crates.io ) 上显示项目的一些状态信息，例如当前的维护状态：活跃中、寻找维护者、deprecated 
 * [`[features]`](features.md) — `features` 可以用于条件编译
 * [`[patch]`](deps-overriding.md) — 推荐使用的依赖覆盖方式
 * [`[replace]`](deps-overriding.md#不推荐的replace) — 不推荐使用的依赖覆盖方式 (deprecated).
@@ -79,4 +79,289 @@ Cargo 使用了[语义化版本控制](https://semver.org)的概念，例如字�
 
 使用该规则，你还需要遵循一些基本规则:
 
+- 使用标准的 `x.y.z` 形式的版本号，例如 `1.0.0` 而不是 `1.0`
 - 在版本到达 `1.0.0` 之前，怎么都行，但是如果有破坏性变更( breaking changes )，需要增加 `minor` 版本号。例如，为结构体新增字段或为枚举新增成员就是一种破坏性变更
+- 在 `1.0.0` 之后，如果发生破坏性变更，需要增加 `major` 版本号
+- 在 `1.0.0` 之后不要去破坏构建流程
+- 在 `1.0.0` 之后，不要在 `patch` 更新中添加新的 `api` ( `pub` 声明)，如果要添加新的 `pub` 结构体、特征、类型、函数、方法等对象时，增加 `minor` 版本号
+
+如果大家想知道 Rust 如何使用版本号来解析依赖，可以查看[这里](https://doc.rust-lang.org/stable/cargo/reference/resolver.html)。同时 [SemVer 兼容性](https://doc.rust-lang.org/stable/cargo/reference/semver.html) 提供了更为详尽的破坏性变更列表。
+
+#### authors
+
+```toml
+[package]
+authors = ["Sunfei <contact@im.dev>"]
+```
+
+该字段仅用于项目的元信息描述和 `build.rs` 用到的 `CARGO_PKG_AUTHORS` 环境变量，它并不会显示在 `crates.io` 界面上。
+
+> 警告：清单中的 `[package]` 部分一旦发布到 `crates.io` 就无法进行更改，因此对于已发布的包来说，`authors` 字段是无法修改的
+
+#### edition
+可选字段，用于指定项目所使用的 [Rust Edition](https://course.rs/appendix/rust-version.html)。
+
+该配置将影响项目中的所有 `Cargo Target` 和包，前者包含测试用例、benchmark、可执行文件、示例等。
+
+```toml
+[package]
+# ...
+edition = '2021'
+```
+
+大多数时候，我们都无需手动指定，因为 `cargo new` 的时候，会自动帮我们添加。若 `edition` 配置不存在，那 `2015 Edition` 会被默认使用。
+
+#### rust-version
+可选字段，用于说明你的项目支持的最低 Rust 版本(编译器能顺利完成编译)。一旦你使用的 Rust 版本比这个字段设置的要低，`Cargo` 就会报错，然后告诉用户所需的最低版本。
+
+该字段是在 Rust 1.56 引入的，若大家使用的 Rust 版本低于该版本，则该字段会被自动忽略时。
+
+```toml
+[package]
+# ...
+edition = '2021'
+rust-version = "1.56"
+```
+
+还有一点，`rust-version` 必须比第一个引入 `edition` 的 Rust 版本要新。例如 Rust Edition 2021 是在 Rust 1.56 版本引入的，若你使用了 `edition = '2021'` 的 `[package]` 配置，则指定的 `rust version` 字段必须要要大于等于 `1.56` 版本。
+
+还可以使用 `--ignore-rust-version` 命令行参数来忽略 `rust-version`。
+
+该字段将影响项目中的所有 `Cargo Target` 和包，前者包含测试用例、benchmark、可执行文件、示例等。
+
+## description
+该字段是项目的简介，`crates.io` 会在项目首页使用该字段包含的内容，**不支持 `Markdown` 格式**。
+
+```toml
+[package]
+# ...
+description = "A short description of my package"
+```
+
+> 注意: 若发布 `crates.io` ，则该字段是必须的
+
+## documentation
+该字段用于说明项目文档的地址，若没有设置，`crates.io` 会自动链接到 `docs.rs` 上的相应页面。
+
+```toml
+[package]
+# ...
+documentation = "https://docs.rs/bitflags"
+```
+
+#### readme
+`readme` 字段指向项目的 `Readme.md` 文件，该文件应该存在项目的根目录下(跟 `Cargo.toml` 同级)，用于向用户描述项目的详细信息，支持 `Markdown` 格式。大家看到的 `crates.io` 上的项目首页就是基于该文件的内容进行渲染的。
+
+```toml
+[package]
+# ...
+readme = "README.md"
+```
+
+若该字段未设置且项目根目录下存在 `README.md`、`README.txt` 或 `README` 文件，则该文件的名称将被默认使用。
+
+你也可以通过将 `readme` 设置为 `false` 来禁止该功能，若设置为 `true` ，则默认值 `README.md` 将被使用。
+
+#### homepage
+该字段用于设置项目主页的 URL:
+```toml
+[package]
+# ...
+homepage = "https://serde.rs/"
+```
+
+#### repository
+设置项目的源代码仓库地址，例如 `github` 链接:
+```toml
+[package]
+# ...
+repository = "https://github.com/rust-lang/cargo/"
+```
+
+#### license和license-file
+`license` 字段用于描述项目所遵循的开源协议。而 `license-file` 则用于指定包含开源协议的文件所在的路径(相对于 `Cargo.toml`)。
+
+如果要发布到 `crates.io` ，则该协议必须是 [SPDX2.1 协议表达式](https://doc.rust-lang.org/stable/cargo/reference/manifest.html#the-badges-section)。同时 `license` 名称必须是来自于 [SPDX 协议列表 3.11](https://github.com/spdx/license-list-data/tree/v3.11)。
+
+SPDX 只支持使用 `AND` 、`OR` 来组合多个开源协议:
+```toml
+[package]
+# ...
+license = "MIT OR Apache-2.0"
+```
+
+`OR` 代表用户可以任选一个协议进行遵循，而 `AND` 表示用户必须要同时遵循两个协议。还可以通过 `WITH` 来在指定协议之外添加额外的要求:
+
+- `MIT OR Apache-2.0`
+- `LGPL-2.1-only AND MIT AND BSD-2-Clause`
+- `GPL-2.0-or-later WITH Bison-exception-2.2`
+
+
+**若项目使用了非标准的协议**，你可以通过指定 `license-file` 字段来替代 `license` 的使用:
+```toml
+[package]
+# ...
+license-file = "LICENSE.txt"
+```
+
+> 注意：crates.io 要求必须设置 `license` 或 `license-file`
+
+#### keywords
+该字段使用字符串数组的方式来指定项目的关键字列表，当用户在 `crates.io` 上搜索时，这些关键字可以提供索引的功能。
+
+```toml
+[package]
+# ...
+keywords = ["gamedev", "graphics"]
+```
+
+> 注意：`crates.io` 最多只支持 5 个关键字，每个关键字都必须是合法的 `ASCII` 文本，且需要使用字母作为开头，只能包含字母、数字、`_` 和 `-`，最多支持 20 个字符长度
+
+#### categories
+`categories` 用于描述项目所属的类别:
+```toml
+categories = ["command-line-utilities", "development-tools::cargo-plugins"]
+```
+
+> 注意：`crates.io` 最多只支持 5 个类别，目前不支持用户随意自定义类别，你所使用的类别需要跟 [https://crates.io/category_slugs](https://crates.io/category_slugs) 上的类别**精准匹配**。
+
+
+#### workspace
+该字段用于配置当前项目所属的工作空间。
+
+若没有设置，则将沿着文件目录向上寻找，直至找到第一个 设置了 `[workspace]` 的`Cargo.toml`。因此，当一个成员不在工作空间的子目录时，设置该字段将非常有用。
+
+```toml
+[package]
+# ...
+workspace = "path/to/workspace/root"
+```
+
+需要注意的是 `Cargo.toml` 清单还有一个 `[workspace` 部分专门用于设置工作空间，若它被设置了，则 `package` 中的 `workspace` 字段将无法被指定。这是因为一个包无法同时满足两个角色：
+
+- 该包是工作空间的根包(root crate)，通过 `[workspace]` 指定)
+- 该包是另一个工作空间的成员，通过 `package.workspace` 指定
+
+若要了解工作空间的更多信息，请参见[这里](https://course.rs/cargo/reference/workspaces.html)。
+
+#### build
+`build` 用于指定位于项目根目录中的构建脚本，关于构建脚本的更多信息，可以阅读 [构建脚本](https://course.rs/cargo/reference/build-script/intro.html) 一章。 
+
+```toml
+[package]
+# ...
+build = "build.rs"
+```
+
+还可以使用 `build = false` 来禁止构建脚本的自动检测。
+
+#### links
+用于指定项目链接的本地库的名称，更多的信息请看构建脚本章节的 [links](https://course.rs/cargo/reference/build-script/intro.html#links)
+
+```toml
+[package]
+# ...
+links = "foo"
+```
+
+#### exclude和include
+这两个字段可以用于显式地指定想要包含在外或在内的文件列表，往往用于发布到注册服务时。你可以使用 `cargo package --list` 来检查哪些文件被包含在项目中。
+
+```toml
+[package]
+# ...
+exclude = ["/ci", "images/", ".*"]
+```
+
+```toml
+[package]
+# ...
+include = ["/src", "COPYRIGHT", "/examples", "!/examples/big_example"]
+```
+
+尽管大家可能没有指定 `include` 或 `exclude`，但是任然会有些规则自动被应用，一起来看看。
+
+若 `include` 没有被指定，则以下文件将被排除在外: 
+
+- 项目不是 git 仓库，则所有以 `.` 开头的隐藏文件会被排除
+- 项目是 git 仓库，通过 `.gitignore` 配置的文件会被排除
+
+无论 `include` 或 `exclude` 是否被指定，以下文件都会被排除在外:
+
+- 任何包含 `Cargo.toml` 的子目录会被排除
+- 根目录下的 `target` 目录会被排除
+
+以下文件会永远被 `include` ，你无需显式地指定：
+
+- `Cargo.toml`
+- 若项目包含可执行文件或示例代码，则最小化的 `Cargo.lock` 会自动被包含
+- `license-file` 指定的协议文件
+
+> 这两个字段很强大，但是对于生产实践而言，我们还是推荐通过 `.gitignore` 来控制，因为这样协作者更容易看懂。如果大家希望更深入的了解 `include/exclue`，可以参考下官方的 `Cargo` [文档](https://doc.rust-lang.org/stable/cargo/reference/manifest.html?search=#the-exclude-and-include-fields)
+
+
+#### publish
+该字段常常用于防止项目因为失误被发布到 `crates.io` 等注册服务上，例如如果希望项目在公司内部私有化，你应该设置：
+```toml
+[package]
+# ...
+publish = false
+```
+
+也可以通过字符串数组的方式来指定允许发布到的注册服务名称:
+```toml
+[package]
+# ...
+publish = ["some-registry-name"]
+```
+
+若 `publish` 数组中包含了一个注册服务名称，则 `cargo publish` 命令会使用该注册服务，除非你通过 `--registry` 来设定额外的规则。
+
+#### metadata
+Cargo 默认情况下会对 `Cargo.toml` 中未使用的 `key` 进行警告，以帮助大家提前发现风险。但是 `package.metadata` 并不在其中，因为它是由用户自定义的提供给外部工具的配置文件。例如：
+```toml
+[package]
+name = "..."
+# ...
+
+# 以下配置元数据可以在生成安卓 APK 时使用
+[package.metadata.android]
+package-name = "my-awesome-android-app"
+assets = "path/to/static"
+```
+
+与其相似的还有 `[workspace.metadata]`，都可以作为外部工具的配置信息来使用。
+
+#### default-run
+当大家使用 `cargo run` 来运行项目时，该命令会使用默认的二进制可执行文件作为程序启动入口。
+
+我们可以通过 `default-run` 来修改默认的入口，例如现在有两个二进制文件 `src/bin/a.rs` 和 `src/bin/b.rs`，通过以下配置可以将入口设置为前者:
+```toml
+[package]
+default-run = "a"
+```
+
+#### [badges]
+该部分用于指定项目当前的状态，该状态会展示在 `crates.io` 的项目主页中，例如以下配置可以设置项目的维护状态:
+```toml
+[badges]
+# `maintenance` 是项目的当前维护状态，它可能会被其它注册服务所使用，但是目前还没有被 #`crates.io` 使用:  https://github.com/rust-lang/crates.io/issues/2437
+# and https://github.com/rust-lang/crates.io/issues/2438 for more details.
+#
+# The `status` field is required. Available options are:
+# - `actively-developed`: New features are being added and bugs are being fixed.
+# - `passively-maintained`: There are no plans for new features, but the maintainer intends to
+#   respond to issues that get filed.
+# - `as-is`: The crate is feature complete, the maintainer does not intend to continue working on
+#   it or providing support, but it works for the purposes it was designed for.
+# - `experimental`: The author wants to share it with the community but is not intending to meet
+#   anyone's particular use case.
+# - `looking-for-maintainer`: The current maintainer would like to transfer the crate to someone
+#   else.
+# - `deprecated`: The maintainer does not recommend using this crate (the description of the crate
+#   can describe why, there could be a better solution available or there could be problems with
+#   the crate that the author does not want to fix).
+# - `none`: Displays no badge on crates.io, since the maintainer has not chosen to specify
+#   their intentions, potential crate users will need to investigate on their own.
+maintenance = { status = "..." }
+```
