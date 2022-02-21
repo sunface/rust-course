@@ -5,7 +5,7 @@
   - 国内镜像： [https://book.rust.team](https://book.rust.team)
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
 
-- 最近修订： 2022-02-17 新增 [易混淆概念：切片和切片引用](https://course.rs/confonding/slice.html)
+- 最近修订： 2022-02-17 新增 [Cargo使用指南 - 初印象](https://zhuanlan.zhihu.com/p/470251959)
 - Rust版本： Rust edition 2021
 - QQ交流群：1009730433
 
