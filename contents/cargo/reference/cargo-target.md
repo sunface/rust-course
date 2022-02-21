@@ -1,6 +1,4 @@
-# 修改默认的文件目录
-
-## Cargo Target
+# Cargo Target
 **Cargo 项目中包含有一些对象，它们包含的源代码文件可以被编译成相应的包，这些对象被称之为 Cargo Target**。例如[之前章节](https://course.rs/cargo/guide/package-layout.html)提到的库对象 `Library` 、二进制对象 `Binary`、示例对象 `Examples`、测试对象 `Tests` 和 基准性能对象 `Benches` 都是 Cargo Target。
 
 本章节我们一起来看看该如何在 `Cargo.toml` 清单中配置这些对象，当然，大部分时候都无需手动配置，因为默认的配置通常由项目目录的布局自动推断出来。

@@ -1,13 +1,13 @@
 # 添加依赖
-[`crates.io`](https://crates.io) 是 Rust 社区维护的中心化 `package` 注册服务，用户可以在其中寻找和下载所需的 `package`。对于 `cargo` 来说，默认就是从这里下载依赖。
+[`crates.io`](https://crates.io) 是 Rust 社区维护的中心化注册服务，用户可以在其中寻找和下载所需的包。对于 `cargo` 来说，默认就是从这里下载依赖。
 
-下面我们来添加一个 `time` 依赖包，若你的 `Cargo.toml` 文件中没有 `[dependencies]` 部分，就手动添加一个，然后添加目标包名和版本号:
+下面我们来添加一个 `time` 依赖包，若你的 `Cargo.toml` 文件中没有 `[dependencies]` 部分，就手动添加一个，并添加目标包名和版本号:
 ```toml
 [dependencies]
 time = "0.1.12"
 ```
 
-可以看到我们指定了 `time` 包的版本号 "0.1.12"，关于版本号，实际上还有其它的指定方式，具体参见[指定依赖项](https://course.rs/cargo/reference/specify-deps/intro.html)章节。
+可以看到我们指定了 `time` 包的版本号 "0.1.12"，关于版本号，实际上还有其它的指定方式，具体参见[指定依赖项](https://course.rs/cargo/reference/specify-deps.html)章节。
 
 如果想继续添加 `regexp` 包，只需在 `time` 包后面添加即可 :
 ```toml

@@ -1,17 +1,17 @@
 # 上手使用
 Cargo 会在安装 Rust 的时候一并进行安装，无需我们手动的操作执行，安装 Rust 参见[这里](https://course.rs/first-try/installation.html)。
 
-在开始之前，先来明确一个名词: `Package`，由于 `Crate` 被翻译成包，因此 `Package` 再被翻译成包就很不合适。为此我们决定不对 `Package` 进行翻译，但是大家可以将其理解为软件包、项目或工程。
+在开始之前，先来明确一个名词: `Package`，由于 `Crate` 被翻译成包，因此 `Package` 再被翻译成包就很不合适，经过斟酌，我们决定翻译成项目，你也可以理解为工程、软件包，总之，在本书中`Package` 意味着项目，而项目也意味着 `Package` 。
 
-安装完成后，接下来使用 `Cargo` 来创建一个新的[二进制 Package](https://course.rs/basic/crate-module/crate.html)，二进制意味着该 `Package` 可以作为一个服务运行或被编译成可执行文件运行。
+安装完成后，接下来使用 `Cargo` 来创建一个新的[二进制项目](https://course.rs/basic/crate-module/crate.html)，二进制意味着该项目可以作为一个服务运行或被编译成可执行文件运行。
 
 ```rust
 $ cargo new hello_world
 ```
 
-这里我们使用 `cargo new` 创建一个新的 Package ，事实上该命令等价于 `cargo new hello_world --bin`，`bin` 是 `binary` 的简写，代表着二进制程序，由于 `--bin` 是默认参数，因此可以对其进行省略。
+这里我们使用 `cargo new` 创建一个新的项目 ，事实上该命令等价于 `cargo new hello_world --bin`，`bin` 是 `binary` 的简写，代表着二进制程序，由于 `--bin` 是默认参数，因此可以对其进行省略。
 
-创建成功后，先来看看 `Package` 的目录结构长啥样：
+创建成功后，先来看看项目的基本目录结构长啥样：
 ```shell
 $ cd hello_world
 $ tree .
