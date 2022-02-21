@@ -139,7 +139,7 @@
         - [指定依赖项](cargo/reference/specify-deps.md)
         - [依赖覆盖](cargo/reference/deps-overriding.md)
         - [Cargo.toml清单详解](cargo/reference/manifest.md)
-        - [Cargo对象(Target) todo](cargo/reference/cargo-target.md)
+        - [Cargo Target](cargo/reference/cargo-target.md)
         - [工作空间 todo](cargo/reference/workspaces.md)
         - [features todo](cargo/reference/features.md)
         - [编译器设置和优化 todo](cargo/reference/profiles.md)

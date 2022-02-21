@@ -44,4 +44,4 @@
 
 关于 Rust 中的包和模块，[之前的章节](https://course.rs/basic/crate-module/intro.html)有更详细的解释。
 
-这里的一些目录配置还能通过配置文件来修改，详情参见本章的后续章节[修改默认的文件目录](https://course.rs/cargo/reference/manifest/cargo-target.html)
+此外，`bin`、`tests`、`examples` 等目录路径都可以通过配置文件进行配置，它们被统一称之为 [Cargo Target](https://course.rs/cargo/reference/cargo-target.html)。
