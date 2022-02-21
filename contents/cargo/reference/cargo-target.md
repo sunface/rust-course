@@ -78,17 +78,76 @@ crate-type = ["staticlib"]
 由于它们的配置内容都是相似的，因此我们以 `[lib]` 为例来说明相应的配置项:
 ```toml
 [lib]
-name = "foo"           # The name of the target.
-path = "src/lib.rs"    # The source file of the target.
-test = true            # Is tested by default.
-doctest = true         # Documentation examples are tested by default.
-bench = true           # Is benchmarked by default.
-doc = true             # Is documented by default.
-plugin = false         # Used as a compiler plugin (deprecated).
-proc-macro = false     # Set to `true` for a proc-macro library.
-harness = true         # Use libtest harness.
-edition = "2015"       # The edition of the target.
-crate-type = ["lib"]   # The crate types to generate.
-required-features = [] # Features required to build this target (N/A for lib).
+name = "foo"           # 对象名称: 库对象、`src/main.rs` 二进制对象的名称默认是项目名
+path = "src/lib.rs"    # 对象的源文件路径
+test = true            # 能否被测试，默认是 true
+doctest = true         # 文档测试是否开启，默认是 true
+bench = true           # 基准测试是否开启
+doc = true             # 文档功能是否开启
+plugin = false         # 是否可以用于编译器插件(deprecated).
+proc-macro = false     # 是否是过程宏类型的库
+harness = true         # 是否使用libtest harness : https://doc.rust-lang.org/stable/rustc/tests/index.html
+edition = "2015"       # 对象使用的 Rust Edition
+crate-type = ["lib"]   # 生成的包类型
+required-features = [] # 构建对象所需的 Cargo Features (N/A for lib).
 ```
 
+#### name
+对于库对象和默认的二进制对象( `src/main.rs `)，默认的名称是项目的名称( `package.name` )。
+
+对于其它类型的对象，默认是目录或文件名。
+
+除了 `[lib]` 外，`name` 字段对于其他对象都是必须的。
+
+#### proc-macro
+该字段的使用方式在[过程宏章节](https://course.rs/advance/macro.html#定义过程宏)有详细的介绍。
+
+#### edition
+对使用的 Rust Edition 版本进行设置。
+
+如果没有设置，则默认使用 `[package]` 中配置的 `package.edition`，通常来说，这个字段不应该被单独设置，只有在一些特殊场景中才可能用到：例如将一个大型项目逐步升级为新的 edition 版本。
+
+#### crate-type
+该字段定义了对象生成的[包类型](https://doc.rust-lang.org/stable/reference/linkage.html)。它是一个数组，因此为同一个对象指定多个包类型。
+
+需要注意的是，只有库对象和示例对象可以被指定，因为其他的二进制、测试和基准测试对象只能是 `bin` 这个包类型。
+
+默认的包类型如下:
+
+| 对象 | 包类型 |
+| --- | --- |
+| 正常的库对象 | "lib" |
+| 过程宏的库对象 | "proc-macro" |
+| 示例对象 |  "bin" |
+
+可用的选项包括 `bin`、`lib`、`rlib`、`dylib`、`cdylib`、`staticlib` 和 `proc-macro` ，如果大家想了解更多，可以看下官方的[参考手册](https://doc.rust-lang.org/stable/reference/linkage.html)。
+
+#### required-features
+该字段用于指定在构建对象时所需的 [`features`](https://course.rs/cargo/reference/features.html) 列表。
+
+该字段只对 `[[bin]]`、 `[[bench]]`、 `[[test]]` 和 `[[example]]` 有效，对于 `[lib]` 没有任何效果。
+
+```toml
+[features]
+# ...
+postgres = []
+sqlite = []
+tools = []
+
+[[bin]]
+name = "my-pg-tool"
+required-features = ["postgres", "tools"]
+```
+
+## 对象自动发现
+默认情况下，`Cargo` 会基于项目的[目录文件布局](https://course.rs/cargo/guide/package-layout.html)自动发现和确定对象，而之前的配置项则允许我们对其进行手动的配置修改(若项目布局跟标准的不一样时)。
+
+而这种自动发现对象的设定可以通过以下配置来禁用:
+```toml
+[package]
+# ...
+autobins = false
+autoexamples = false
+autotests = false
+autobenches = false
+```
