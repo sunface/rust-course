@@ -47,6 +47,7 @@ box                              | 箱子，盒子，装箱类型          | 一
 boxed                            | 装箱，装包                    |
 boxing                           | 装箱，装包                    |
 brace                            | 大括号，“{”或“}”              |
+breaking changes                 | 破坏性变更                    |
 buffer                           | 缓冲区                      |
 build                            | 构建                          |
 builder pattern                  | 创建者模式                    |
