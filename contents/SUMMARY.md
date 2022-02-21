@@ -137,7 +137,7 @@
       - [Build缓存](cargo/guide/build-cache.md)
     - [进阶指南 doing](cargo/reference/intro.md)
         - [指定依赖项](cargo/reference/specify-deps/intro.md)
-          - [依赖覆盖 todo](cargo/reference/specify-deps/overriding.md)
+          - [依赖覆盖](cargo/reference/specify-deps/overriding.md)
         - [Cargo.toml格式讲解 todo](cargo/reference/manifest/intro.md)
           - [Cargo对象(Target) todo](cargo/reference/manifest/cargo-target.md)
         - [features todo](cargo/reference/features.md)

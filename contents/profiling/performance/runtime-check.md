@@ -1,5 +1,6 @@
 # 减少runtime check
 
+https://www.reddit.com/r/rust/comments/sx8b7m/how_is_rust_able_to_elide_bounds_checks/
 
 ## 减少集合访问的边界检查
 
