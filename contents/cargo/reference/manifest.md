@@ -4,27 +4,27 @@
 * [`cargo-features`](unstable.md) — 只能用于 `nightly`版本的 `feature`
 * [`[package]`](#package) — 定义项目( `package` )的元信息
   * [`name`](#name) — 名称
-  * [`version`](#the-version-field) — 版本
-  * [`authors`](#the-authors-field) — 开发作者
-  * [`edition`](#the-edition-field) — Rust edition.
-  * [`rust-version`](#the-rust-version-field) — 支持的最小化 Rust 版本
-  * [`description`](#the-description-field) — 描述
-  * [`documentation`](#the-documentation-field) — 文档 URL
-  * [`readme`](#the-readme-field) — README 文件的路径
-  * [`homepage`](#the-homepage-field) - 主页 URL
-  * [`repository`](#the-repository-field) — 源代码仓库的 URL 
-  * [`license`](#the-license-and-license-file-fields) — 开源协议 License.
-  * [`license-file`](#the-license-and-license-file-fields) — License 文件的路径.
-  * [`keywords`](#the-keywords-field) — 项目的关键词
-  * [`categories`](#the-categories-field) — 项目分类
-  * [`workspace`](#the-workspace-field) — 工作空间 workspace 的路径
-  * [`build`](#the-build-field) — 构建脚本的路径
-  * [`links`](#the-links-field) — 本地链接库的名称
-  * [`exclude`](#the-exclude-and-include-fields) — 发布时排除的文件
-  * [`include`](#the-exclude-and-include-fields) — 发布时包含的文件
+  * [`version`](#version) — 版本
+  * [`authors`](#authors) — 开发作者
+  * [`edition`](#edition) — Rust edition.
+  * [`rust-version`](#rust-version) — 支持的最小化 Rust 版本
+  * [`description`](#description) — 描述
+  * [`documentation`](#documentation) — 文档 URL
+  * [`readme`](#readme) — README 文件的路径
+  * [`homepage`](#homepage) - 主页 URL
+  * [`repository`](#repository) — 源代码仓库的 URL 
+  * [`license`](#license和license-file) — 开源协议 License.
+  * [`license-file`](#license和license-file) — License 文件的路径.
+  * [`keywords`](#keywords) — 项目的关键词
+  * [`categories`](#categories) — 项目分类
+  * [`workspace`](#workspace) — 工作空间 workspace 的路径
+  * [`build`](#build) — 构建脚本的路径
+  * [`links`](#links) — 本地链接库的名称
+  * [`exclude`](#exclude和include) — 发布时排除的文件
+  * [`include`](#exclude和include) — 发布时包含的文件
   * [`publish`](#the-publish-field) — 用于阻止项目的发布
-  * [`metadata`](#the-metadata-table) — 额外的配置信息，用于提供给外部工具
-  * [`default-run`](#the-default-run-field) — [`cargo run`] 所使用的默认可执行文件( binary )
+  * [`metadata`](#metadata) — 额外的配置信息，用于提供给外部工具
+  * [`default-run`](#default-run) — [`cargo run`] 所使用的默认可执行文件( binary )
   * [`autobins`](cargo-targets.md#target-auto-discovery) — 禁止可执行文件的自动发现
   * [`autoexamples`](cargo-targets.md#target-auto-discovery) — 禁止示例文件的自动发现
   * [`autotests`](cargo-targets.md#target-auto-discovery) — 禁止测试文件的自动发现
@@ -41,7 +41,7 @@
   * [`[dev-dependencies]`](specify-deps.md#dev-dependencies) — 用于 examples、tests 和 benchmarks 的依赖包
   * [`[build-dependencies]`](specify-deps.md#build-dependencies) — 用于构建脚本的依赖包
   * [`[target]`](specify-deps.md#根据平台引入依赖) — 平台特定的依赖包
-* [`[badges]`](#the-badges-section) — 用于在注册服务(例如 crates.io ) 上显示项目的一些状态信息，例如当前的维护状态：活跃中、寻找维护者、deprecated 
+* [`[badges]`](#badges) — 用于在注册服务(例如 crates.io ) 上显示项目的一些状态信息，例如当前的维护状态：活跃中、寻找维护者、deprecated 
 * [`[features]`](features.md) — `features` 可以用于条件编译
 * [`[patch]`](deps-overriding.md) — 推荐使用的依赖覆盖方式
 * [`[replace]`](deps-overriding.md#不推荐的replace) — 不推荐使用的依赖覆盖方式 (deprecated).
@@ -341,27 +341,25 @@ assets = "path/to/static"
 default-run = "a"
 ```
 
-#### [badges]
+## [badges]
 该部分用于指定项目当前的状态，该状态会展示在 `crates.io` 的项目主页中，例如以下配置可以设置项目的维护状态:
 ```toml
 [badges]
-# `maintenance` 是项目的当前维护状态，它可能会被其它注册服务所使用，但是目前还没有被 #`crates.io` 使用:  https://github.com/rust-lang/crates.io/issues/2437
-# and https://github.com/rust-lang/crates.io/issues/2438 for more details.
+# `maintenance` 是项目的当前维护状态，它可能会被其它注册服务所使用，但是目前还没有被 `crates.io` 使用:  https://github.com/rust-lang/crates.io/issues/2437
 #
-# The `status` field is required. Available options are:
-# - `actively-developed`: New features are being added and bugs are being fixed.
-# - `passively-maintained`: There are no plans for new features, but the maintainer intends to
-#   respond to issues that get filed.
-# - `as-is`: The crate is feature complete, the maintainer does not intend to continue working on
-#   it or providing support, but it works for the purposes it was designed for.
-# - `experimental`: The author wants to share it with the community but is not intending to meet
-#   anyone's particular use case.
-# - `looking-for-maintainer`: The current maintainer would like to transfer the crate to someone
-#   else.
-# - `deprecated`: The maintainer does not recommend using this crate (the description of the crate
-#   can describe why, there could be a better solution available or there could be problems with
-#   the crate that the author does not want to fix).
-# - `none`: Displays no badge on crates.io, since the maintainer has not chosen to specify
-#   their intentions, potential crate users will need to investigate on their own.
+# `status` 字段时必须的，以下是可用的选项:
+# - `actively-developed`: 新特性正在积极添加中，bug 在持续修复中
+# - `passively-maintained`: 目前没有计划去支持新的特性，但是项目维护者可能会回答你提出的 issue
+# - `as-is`: 该项目的功能已经完结，维护者不准备继续开发和提供支持了，但是它的功能已经达到了预期
+# - `experimental`: 作者希望同大家分享，但是还不准备满足任何人的特殊要求
+# - `looking-for-maintainer`: 当前维护者希望将项目转移给新的维护者
+# - `deprecated`: 不再推荐使用该项目，需要说明原因以及推荐的替代项目
+# - `none`:  不显示任何 badge ，因此维护者没有说明他们的状态，用户需要自己去调查发生了什么
 maintenance = { status = "..." }
 ```
+
+## [dependencies]
+在[之前章节](http://course.rs/cargo/reference/specify-deps.html)中，我们已经详细介绍过 `[dependencies]` 、 `[dev-dependencies]` 和 `[build-dependencies]`，这里就不再赘述。
+
+## [profile.*]
+该部分可以对编译器进行配置，例如 debug 和优化，在后续的[编译器优化](http://course.rs/cargo/reference/profiles.html)章节有详细介绍。
