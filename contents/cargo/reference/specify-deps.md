@@ -252,7 +252,7 @@ mio = "0.0.1"
 
 > 注意，当发布包到 crates.io 时，`[dev-dependencies]` 中的依赖只有指定了 `version` 的才会被包含在发布包中。况且，再加上测试稳定性的考虑，我们建议为 `[dev-dependencies]` 中的包指定相应的版本号
 
-## 构建依赖
+## [build-dependencies]
 我们还可以指定某些依赖仅用于构建脚本:
 ```toml
 [build-dependencies]
