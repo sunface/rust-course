@@ -8,7 +8,7 @@
 ## 对象介绍
 在开始讲解如何配置对象前，我们先来看看这些对象究竟是什么，估计还有些同学对此有些迷糊 :)
 
-#### 库对象( Library )
+#### 库对象(Library)
 库对象用于定义一个库，该库可以被其它的库或者可执行文件所链接。**该对象包含的默认文件名是 `src/lib.rs`，且默认情况下，库对象的名称[跟项目名是一致的](https://course.rs/basic/crate-module/crate.html#package)**，
 
 一个工程只能有一个库对象，因此也只能有一个 `src/lib.rs` 文件，以下是一种自定义配置:
@@ -151,3 +151,24 @@ autoexamples = false
 autotests = false
 autobenches = false
 ```
+
+只有在特定场景下才应该禁用自动对象发现。例如，你有一个模块想要命名为 `bin`，目录结构如下:
+```shell
+├── Cargo.toml
+└── src
+    ├── lib.rs
+    └── bin
+        └── mod.rs
+```
+
+这在默认情况下会导致问题，因为 `Cargo` 会使用 `src/bin` 作为存放二进制对象的地方。
+
+为了阻止这一点，可以设置 `autobins = false` :
+```toml
+├── Cargo.toml
+└── src
+    ├── lib.rs
+    └── bin
+        └── mod.rs
+```
+
