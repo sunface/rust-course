@@ -140,7 +140,7 @@
         - [依赖覆盖](cargo/reference/deps-overriding.md)
         - [Cargo.toml清单详解](cargo/reference/manifest.md)
         - [Cargo Target](cargo/reference/cargo-target.md)
-        - [工作空间 todo](cargo/reference/workspaces.md)
+        - [工作空间Workspace](cargo/reference/workspaces.md)
         - [features todo](cargo/reference/features.md)
         - [编译器设置和优化 todo](cargo/reference/profiles.md)
         - [发布配置profile todo](cargo/reference/profile.md)
