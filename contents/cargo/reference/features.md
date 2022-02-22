@@ -122,3 +122,30 @@ parallel = ["jpeg-decoder/rayon"]
 - `--no-default-features`: 对选择的包禁用 `default` featue
 
 ## feature同一化
+`feature` 只有在定义的包中才是唯一的，不同包之间的 `feature` 允许同名。因此，在一个包上启用 `feature` 不会导致另一个包的同名 `feature` 被误启用。
+
+当一个依赖被多个包所使用时，这些包对该依赖所设置的 `feature` 将被进行合并，这样才能确保该依赖只有一个拷贝存在，大家可以查看[这里](https://doc.rust-lang.org/stable/cargo/reference/resolver.html#features)了解下解析器如何对 feature 进行解析处理。
+
+这里，我们使用 `winapi` 为例来说明这个过程。首先，`winapi` 使用了大量的 `features`；然后我们有两个包 `foo` 和 `bar` 分别使用了它的两个 features，那么在合并后，最终 `winapi` 将同时启四个 features :
+
+<img src="https://pic2.zhimg.com/80/v2-251973b0cc83f35cd6858bf21dd00ed6_1440w.png" />
+
+由于这种不可控性，我们需要让 `启用feature  = 添加特性` 这个等式成立，换而言之，**启用一个 feature 不应该导致某个功能被禁止**。这样才能的让多个包启用同一个依赖的不同features。
+
+例如，如果我们想可选的支持 `no_std` 环境(不使用标准库)，那么有两种做法：
+
+- 默认代码使用标准库的，当该 `no_std` feature 启用时，禁用相关的标准库代码
+- 默认代码使用非标准库的，当 `std` feature 启用时，才使用标准库的代码
+
+前者就是功能削减，与之相对，后者是功能添加，根据之前的内容，我们应该选择后者的做法：
+```rust
+#![no_std]
+
+#[cfg(feature = "std")]
+extern crate std;
+
+#[cfg(feature = "std")]
+pub fn function_that_requires_std() {
+    // ...
+}
+```
