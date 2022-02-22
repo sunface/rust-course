@@ -414,3 +414,5 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 还是那句话，[<<Rust语言圣经>>](https://github.com/sunface/rust-course)不仅仅是 Rust 学习书籍，还是一本厚重的工具书！
 
+至此，Rust 的基础内容学习已经全部完成，下面我们将学习 Rust 的高级进阶内容，正式开启你的高手之路。
+
