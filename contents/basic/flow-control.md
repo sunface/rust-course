@@ -109,7 +109,7 @@ for item in &container {
 }
 ```
 
-【注：相比集合（collection），对于实现了 `copy` 特征的数组（array）而言， `for item in arr` 并不会把 `arr` 转移，因此循环之后仍然可以使用 `arr` 。】
+> 对于实现了 `copy` 特征的数组(例如 [i32; 10] )而言， `for item in arr` 并不会把 `arr` 转移，而是直接对其进行了拷贝，因此循环之后仍然可以使用 `arr` 。
 
 
 如果想在循环中，**修改该元素**，可以使用 `mut` 关键字：
