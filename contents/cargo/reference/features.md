@@ -222,3 +222,40 @@ V2 版本的解析器可以在某些情况下避免 feature 同一化的发生�
 
 > 由于此部分内容可能只有极少数的用户需要，因此我们并没有对其进行扩展，如果大家希望了解更多关于 V2 的内容，可以查看[官方文档](https://doc.rust-lang.org/stable/cargo/reference/features.html#feature-resolver-version-2)
 
+## 构建脚本
+[构建脚本](https://course.rs/cargo/reference/build-script/intro.html)可以通过 `CARGO_FEATURE_<name>` 环境变量获取启用的 `feauture` 列表，其中 `<name>` 是 feature 的名称，该名称被转换成大全写字母，且 `-` 被转换为 `_`。
+
+
+## required-features
+该字段可以用于禁用特定的 Cargo Target：当某个 feature 没有被启用时，查看[这里](https://course.rs/cargo/reference/cargo-target.html#required-features)获取更多信息。
+
+## SemVer兼容性
+启用一个 feautre 不应该引入一个不兼容 SemVer 的改变。例如，启用的 feature 不应该改变现有的 API，因为这会给用户造成不兼容的破坏性变更。 如果大家想知道哪些变化是兼容的，可以参见[官方文档](https://doc.rust-lang.org/stable/cargo/reference/semver.html)。
+
+总之，在新增/移除 feature 或可选依赖时，你需要小心，因此这些可能会造成向后不兼容性。更多信息参见[这里](https://doc.rust-lang.org/stable/cargo/reference/semver.html#cargo)，简单总结如下：
+
+- 在发布 `minor` 版本时，以下通常是安全的:
+  - [新增 feature](https://doc.rust-lang.org/stable/cargo/reference/semver.html#cargo-feature-add) 或[可选依赖](https://doc.rust-lang.org/stable/cargo/reference/semver.html#cargo-dep-add)
+  - [修改某个依赖的 features](https://doc.rust-lang.org/stable/cargo/reference/semver.html#cargo-change-dep-feature)
+- 在发布 `minor` 时，以下操作应该避免：
+  - [移除 feature](https://doc.rust-lang.org/stable/cargo/reference/semver.html#cargo-feature-remove) 或[可选依赖](https://doc.rust-lang.org/stable/cargo/reference/semver.html#cargo-remove-opt-dep)
+  - [将现有的公有代码放在某个 feature 之后](https://doc.rust-lang.org/stable/cargo/reference/semver.html#cargo-remove-opt-dep)
+  - [从 feature 列表中移除一个 feature](https://doc.rust-lang.org/stable/cargo/reference/semver.html#cargo-feature-remove-another)
+
+
+## feature文档和发现
+将你的项目支持的 feature 信息写入到文档中是非常好的选择:
+
+- 我们可以通过在 `lib.rs` 的顶部添加[文档注释](https://course.rs/basic/comment.html#文档注释)的方式来实现。例如 `regex` 就是[这么做的](https://github.com/rust-lang/regex/blob/1.4.2/src/lib.rs#L488-L583)。
+- 若项目拥有一个用户手册，那也可以在那里添加说明，例如 [serde.rs](https://github.com/rust-lang/regex/blob/1.4.2/src/lib.rs#L488-L583)。
+- 若项目是二进制类型(可运行的应用服务，包含 `fn main` 入口)，可以将说明放在 `README` 文件或其他文档中，例如 [sccache](https://github.com/mozilla/sccache/blob/0.2.13/README.md#build-requirements)。
+
+特别是对于不稳定的或者不该再被使用的 feature 而言，它们更应该被放在文档中进行清晰的说明。
+
+当构建发布到 `docs.rs` 上的文档时，会使用 `Cargo.toml` 中的元数据来控制哪些 features 会被启用。查看 [docs.rs 文档](https://docs.rs/about/metadata)获取更多信息。
+
+#### 如何发现features
+若依赖库的文档中对其使用的 `features` 做了详细描述，那你会更容易知道他们使用了哪些 `features` 以及该如何使用。
+
+当依赖库的文档没有相关信息时，你也可以通过源码仓库的 `Cargo.toml` 文件来获取，但是有些时候，使用这种方式来跟踪并获取全部相关的信息是相当困难的。
+
