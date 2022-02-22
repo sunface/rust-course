@@ -124,7 +124,7 @@ parallel = ["jpeg-decoder/rayon"]
 ## feature同一化
 `feature` 只有在定义的包中才是唯一的，不同包之间的 `feature` 允许同名。因此，在一个包上启用 `feature` 不会导致另一个包的同名 `feature` 被误启用。
 
-当一个依赖被多个包所使用时，这些包对该依赖所设置的 `feature` 将被进行合并，这样才能确保该依赖只有一个拷贝存在，大家可以查看[这里](https://doc.rust-lang.org/stable/cargo/reference/resolver.html#features)了解下解析器如何对 feature 进行解析处理。
+**当一个依赖被多个包所使用时，这些包对该依赖所设置的 `feature` 将被进行合并，这样才能确保该依赖只有一个拷贝存在，这个过程就被称之为同一化**。大家可以查看[这里](https://doc.rust-lang.org/stable/cargo/reference/resolver.html#features)了解下解析器如何对 feature 进行解析处理。
 
 这里，我们使用 `winapi` 为例来说明这个过程。首先，`winapi` 使用了大量的 `features`；然后我们有两个包 `foo` 和 `bar` 分别使用了它的两个 features，那么在合并后，最终 `winapi` 将同时启四个 features :
 
@@ -149,3 +149,76 @@ pub fn function_that_requires_std() {
     // ...
 }
 ```
+
+#### 彼此互斥的feature
+某极少数情况下，features 之间可能会互相不兼容。我们应该避免这种设计，因为如果一旦这么设计了，那你可能需要修改依赖图的很多地方才能避免两个不兼容 feature 的同时启用。
+
+如果实在没有办法，可以考虑增加一个编译错误来让报错更清晰:
+```toml
+#[cfg(all(feature = "foo", feature = "bar"))]
+compile_error!("feature \"foo\" and feature \"bar\" cannot be enabled at the same time");
+```
+
+当同时启用 `foo` 和 `bar` 时，编译器就会爆出一个更清晰的错误：feature `foo` 和 `bar` 无法同时启用。
+
+总之，我们还是应该在设计上避免这种情况的发生，例如：
+
+- 将某个功能分割到多个包中
+- 当冲突时，设置 feature 优先级，[cfg-if](https://crates.io/crates/cfg-if) 包可以帮助我们写出更复杂的 `cfg` 表达式
+
+#### 检视已解析的features
+在复杂的依赖图中，如果想要了解不同的 features 是如何被多个包多启用的，这是相当困难的。好在 `cargo tree` 命令提供了几个选项可以帮组我们更好的检视哪些 features 被启用了:
+
+`cargo tree -e features` ，该命令以依赖图的方式来展示已启用的 features，包含了每个依赖包所启用的特性：
+```shell
+$ cargo tree -e features
+test_cargo v0.1.0 (/Users/sunfei/development/rust/demos/test_cargo)
+└── uuid feature "default"
+    ├── uuid v0.8.2
+    └── uuid feature "std"
+        └── uuid v0.8.2
+```
+
+`cargo tree -f "{p} {f}"` 命令会提供一个更加紧凑的视图：
+```shell
+% cargo tree -f "{p} {f}"
+test_cargo v0.1.0 (/Users/sunfei/development/rust/demos/test_cargo) 
+└── uuid v0.8.2 default,std
+```
+
+`cargo tree -e features -i foo`，该命令会显示 `features` 会如何"流入"指定的包 `foo` 中:
+```shell
+cargo tree -e features -i uuid
+uuid v0.8.2
+├── uuid feature "default"
+│   └── test_cargo v0.1.0 (/Users/sunfei/development/rust/demos/test_cargo)
+│       └── test_cargo feature "default" (command-line)
+└── uuid feature "std"
+    └── uuid feature "default" (*)
+```
+
+该命令在依赖图较为复杂时非常有用，使用它可以让你了解某个依赖包上开启了哪些 `features` 以及其中的原因。
+
+大家可以查看官方的 `cargo tree` [文档](https://doc.rust-lang.org/stable/cargo/commands/cargo-tree.html)获取更加详细的使用信息。
+
+## Feature解析器V2版本
+我们还能通过以下配置指定使用 V2 版本的解析器( [resolver](https://doc.rust-lang.org/stable/cargo/reference/resolver.html#resolver-versions) ):
+```toml
+[package]
+name = "my-package"
+version = "1.0.0"
+resolver = "2"
+```
+
+V2 版本的解析器可以在某些情况下避免 feature 同一化的发生，具体的情况在[这里](https://doc.rust-lang.org/stable/cargo/reference/resolver.html#feature-resolver-version-2)有描述，下面做下简单的总结:
+
+- 为特定平台开启的 `features` 且此时并没有被构建，会被忽略
+- `Build-dependencies` 和 `proc-macros` 不再跟普通的依赖共享 `features`
+- `Dev-dependencies` 的 `features` 不会被启用，除非正在构建的对象需要它们(例如测试对象、示例对象等)
+
+对于部分场景而言，feature 同一化确实是需要避免的，例如，一个构建依赖开启了 `std` feature，而同一个依赖又被用于 `no_std` 环境，很明显，开启 `std` 将导致错误的发生。
+
+说完优点，我们再来看看 V2 的缺点，其中增加编译构建时间就是其中之一，原因是同一个依赖会被构建多次(每个都拥有不同的 feature 列表)。
+
+> 由于此部分内容可能只有极少数的用户需要，因此我们并没有对其进行扩展，如果大家希望了解更多关于 V2 的内容，可以查看[官方文档](https://doc.rust-lang.org/stable/cargo/reference/features.html#feature-resolver-version-2)
+
