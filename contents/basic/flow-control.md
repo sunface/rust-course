@@ -16,7 +16,7 @@ if condition == true {
 }
 ```
 
-该代码读作：若 `condition` 条件为 `true`，则执行 `A` 代码，否则执行 `B` 代码。
+该代码读作：若 `condition` 的值为 `true`，则执行 `A` 代码，否则执行 `B` 代码。
 
 先看下面代码：
 ```rust
@@ -109,7 +109,7 @@ for item in &container {
 }
 ```
 
-> 对于实现了 `copy` 特征的数组(例如 [i32; 10] )而言， `for item in arr` 并不会把 `arr` 转移，而是直接对其进行了拷贝，因此循环之后仍然可以使用 `arr` 。
+> 对于实现了 `copy` 特征的数组(例如 [i32; 10] )而言， `for item in arr` 并不会把 `arr` 的所有权转移，而是直接对其进行了拷贝，因此循环之后仍然可以使用 `arr` 。
 
 
 如果想在循环中，**修改该元素**，可以使用 `mut` 关键字：
@@ -184,6 +184,20 @@ for item in collection {
 ```console
 1
 3
+```
+#### `break`
+使用 `break` 可以直接跳出当前整个循环：
+```rust
+ for i in 1..4 {
+     if i == 2 {
+         break;
+     }
+     println!("{}",i);
+ }
+```
+上面代码对 1 到 3 的序列进行迭代，在遇到值为 2 时的跳出整个循环，后面的循环不在执行，输出如下：
+```console
+1
 ```
 
 #### while循环
