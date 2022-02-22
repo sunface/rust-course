@@ -5,7 +5,7 @@
 `target` 目录的结构取决于是否使用 `--target` 标志为特定的平台构建。
 
 #### 不使用 --target
-若 `--target` 标志没有指定，`Cargo` 会根据宿主机架构进行构建，构建结果会放入项目根目录下的 `target` 目录中，`target` 下每个子目录中包含了相应的 [`发布配置profile`](cargo/reference/profile.md) 的构建结果，例如 `release`、`debug` 是自带的`profile`，前者往往用于生产环境，因为会做大量的性能优化，而后者则用于开发环境，此时的编译效率和报错信息是最好的。
+若 `--target` 标志没有指定，`Cargo` 会根据宿主机架构进行构建，构建结果会放入项目根目录下的 `target` 目录中，`target` 下每个子目录中包含了相应的 [`发布配置profile`](cargo/reference/profiles.md) 的构建结果，例如 `release`、`debug` 是自带的`profile`，前者往往用于生产环境，因为会做大量的性能优化，而后者则用于开发环境，此时的编译效率和报错信息是最好的。
 
 除此之外我们还可以定义自己想要的 `profile` ，例如用于测试环境的 `profile`： `test`，用于预发环境的 `profile` ：`pre-prod` 等。
 
