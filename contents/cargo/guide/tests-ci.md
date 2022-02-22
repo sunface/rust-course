@@ -14,9 +14,9 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 从上面结果可以看出，项目中实际上还没有任何测试代码。
 
-事实上，除了单元测试、集成测试，`cargo test` 还会编译测试 `examples/` 下的示例文件以及[文档中的示例](https://course.rs/basic/comment.html#文档测试doc-test)。
+事实上，除了单元测试、集成测试，`cargo test` 还会编译 `examples/` 下的示例文件以及[文档中的示例](https://course.rs/basic/comment.html#文档测试doc-test)。
 
-如果希望深入学习如何在 Rust 编写及运行测试，请查阅[自动化测试章节](https://course.rs/test/intro.html)。
+如果希望深入学习如何在 Rust 编写及运行测试，请查阅[该章节](https://course.rs/test/intro.html)。
 
 ## CI
 持续集成是软件开发中异常重要的一环，大家应该都听说过 Jenkins，它就是一个拥有悠久历史的持续集成工具。简单来说，持续集成会定期拉取同一个项目中所有成员的相关代码，对其进行自动化构建。
@@ -25,7 +25,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 在有了持续集成后，只要编写好相应的编译、测试、发布配置文件，那持续集成平台会自动帮助我们完成整个相关的流程，期间无需任何人介入，高效且可靠。
 
-## Github Actions
+#### Github Actions
 关于如何使用 `Github Actions` 进行持续集成，在[之前的章节](https://course.rs/test/ci.html)已经有过详细的介绍，这里就不再赘述。
 
 #### Travis CI
