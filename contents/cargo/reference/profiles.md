@@ -45,6 +45,15 @@ cargo build --profile release-lto
 
 与默认的 profile 相同，自定义 profile 的编译结果也存放在 [`target/`](https://course.rs/cargo/guide/build-cache.html) 下的同名目录中，例如 `--profile release-lto` 的输出结果存储在 `target/release-lto` 中。
 
+## 选择 profile
+
+- 默认使用 `dev` : `cargo build`, `cargo rustc`, `cargo check`, 和 `cargo run`
+- 默认使用 `test`: `cargo test`
+- 默认使用 `bench`: `cargo bench`
+- 默认使用 `release`： `cargo install`, `cargo build --release`, `cargo build --release`
+- 使用自定义 profile: `cargo build --profile release-lto`
+
+
 ## profile设置
 下面我们来看看 profile 中可以进行哪些优化设置。
 
@@ -213,6 +222,43 @@ opt-level = 0
 codegen-units = 256
 ```
 
-如果是自定义 profile，那它会自动从当前正在使用的 profile 继承相应的设置，且不会修改。
+如果是自定义 profile，那它会自动从当前正在使用的 profile 继承相应的设置，但不会修改。
+
+
+## 重写profile
+我们还可以对特定的包使用的 profile 进行重写(override):
+```toml
+# `foo` package 将使用 -Copt-level=3 标志.
+[profile.dev.package.foo]
+opt-level = 3
+```
+
+这里的 `package` 名称实际上是一个 [`Package ID`](https://course.rs/cargo/reference/package-id.html)，因此我们还可以通过版本号来选择: `[profile.dev.package."foo:2.1.0"]`。
+
+如果要为所有依赖包重写(不包括工作空间的成员):
+```toml
+[profile.dev.package."*"]
+opt-level = 2
+```
+
+为构建脚本、过程宏和它们的依赖重写：
+```toml
+[profile.dev.build-override]
+opt-level = 3
+```
+
+> 注意：如果一个依赖同时被正常代码和构建脚本所使用，当 `--target` 没有指定时，Cargo 只会构建该依赖一次。
+>
+> 但是当使用了 `build-override` 后，该依赖会被构建两次，一次为正常代码，一次为构建脚本，因此会增加一些编译时间
+
+重写的优先级按以下顺序执行(第一个匹配获胜):
+
+- `[profile.dev.package.name]`，指定名称进行重写
+- `[profile.dev.package."*"]`，对所有非工作空间成员的 package 进行重写
+- `[profile.dev.build-override]`，对构建脚本、过程宏及它们的依赖进行重写
+- `[profile.dev]`
+- Cargo 内置的默认值
+
+重写无法使用 `panic`、`lto` 或 `rpath` 设置。
 
 
