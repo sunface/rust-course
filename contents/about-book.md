@@ -21,6 +21,15 @@
 
 总之在写作过程中我们始终铭记初心：为中国用户打造一门**全面的、深入的、持续更新的** Rust 教程。 新手用来入门，老手用来提高，高手用来提升生产力。
 
+### 开源说明
+
+在开源版权上，我们选择了 [No License](https://www.google.com.hk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwigkv-KtMT0AhXFdXAKHdI4BCcQFnoECAQQAw&url=https%3A%2F%2Fchoosealicense.com%2Fno-permission%2F&usg=AOvVaw3M2Q4IbdhnpJ2K71TF7SPB)，这意味着读者可以随意的 fork 和阅读，但是**不能私下修改后再包装分发**，如果有这方面的需求，请联系我们，望理解。
+
+Rust语言圣经是**完全开源**的电子书，每个章节都至少用时 4-6 个小时才能初步完稿，牺牲了大量休闲娱乐、陪伴家人的时间，还没有任何钱赚。
+
+**如果大家觉得这本书作者真的用心了，希望你能帮我们点一个 🌟 `star`。感激不尽！：）**
+
+
 ### 借鉴的书籍
 
 站在巨人的肩膀上，能帮我们看的更远，特此感谢以下巨人：
@@ -44,11 +53,3 @@
 - [@Mintnoii](https://github.com/Mintnoii)
 
 尤其感谢这些主要贡献者，谢谢你们花费大量时间贡献了多处`fix`和高质量的内容优化。非常感动，再次感谢～～
-
-### 开源说明
-
-在开源版权上，我们选择了 [No License](https://www.google.com.hk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwigkv-KtMT0AhXFdXAKHdI4BCcQFnoECAQQAw&url=https%3A%2F%2Fchoosealicense.com%2Fno-permission%2F&usg=AOvVaw3M2Q4IbdhnpJ2K71TF7SPB)，这意味着读者可以随意的 fork 和阅读，但是**不能私下修改后再包装分发**，如果有这方面的需求，请联系我们，望理解。
-
-Rust语言圣经是**完全开源**的电子书，每个章节都至少用时 4-6 个小时才能初步完稿，牺牲了大量休闲娱乐、陪伴家人的时间，还没有任何钱赚。
-
-**如果大家觉得这本书作者真的用心了，希望你能帮我们点一个 🌟 `star`。感激不尽！：）**

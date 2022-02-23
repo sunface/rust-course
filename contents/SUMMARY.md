@@ -3,10 +3,11 @@
 [进入Rust编程世界](into-rust.md)
 [AWS为何这么喜欢Rust?](usecases/aws-rust.md)
 [避免从入门到放弃](sth-you-should-not-do.md)
-[关于本书](about-book.md)
+<!-- [关于本书](about-book.md) -->
+
+[快速查询入口](index-list.md)
 
 ## Getting started
-- [快速查询从这里开始](index-list.md)
 - [寻找牛刀，以便小试](first-try/intro.md)
     - [安装Rust环境](first-try/installation.md)
     - [墙推VSCode!](first-try/editor.md)
