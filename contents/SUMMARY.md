@@ -145,7 +145,6 @@
           - [Features示例](cargo/reference/features/examples.md)
         - [发布配置Profile](cargo/reference/profiles.md)
         - [通过config.toml对Cargo进行配置](cargo/reference/configuration.md)
-        - [环境变量 todo](cargo/reference/env.md)
         - [构建脚本 todo](cargo/reference/build-script/intro.md)
           - [构建脚本示例 todo](cargo/reference/build-script/examples.md)
         - [发布到crates.io todo](cargo/reference/publishing-on-crates.io.md)

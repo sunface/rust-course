@@ -8,7 +8,7 @@ $ echo $HOME/.cargo/
 /Users/sunfei/.cargo/
 ```
 
-我们也可以通过修改 `CARGO_HOME` [环境变量](https://course.rs/cargo/reference/env.html)的方式来重新设定该目录的位置。若你需要在项目中通过代码的方式来获取 `CARGO_HOME` ，[`home`](https://crates.io/crates/home) 包提供了相应的 API。
+我们也可以通过修改 `CARGO_HOME` 环境变量的方式来重新设定该目录的位置。若你需要在项目中通过代码的方式来获取 `CARGO_HOME` ，[`home`](https://crates.io/crates/home) 包提供了相应的 API。
 
 > 注意！ Cargo Home 目录的内部结构并没有稳定化，在未来可能会发生变化
 
@@ -50,3 +50,16 @@ $ echo $HOME/.cargo/
 - 如果以上都没了，会从网络上重新下载
 
 你也可以使用 [cargo-cache](https://crates.io/crates/cargo-cache) 包来选择性的清除 `cache` 中指定的部分，当然，它还可以用来查看缓存中的组件大小。
+
+## 构建时卡住：Blocking waiting for file lock ..
+在开发过程中，或多或少我们都会碰到这种问题，例如你同时打开了 VSCode IDE 和终端，然后在  `Cargo.toml` 中刚添加了一个新的依赖。
+
+此时 IDE 会捕捉到这个修改然后自动去重新下载依赖(这个过程可能还会更新 `crates.io` 使用的索引列表)，在此过程中， Cargo 会将相关信息写入到 `$HOME/.cargo/.package_cache` 下，并将其锁住。
+
+如果你试图在另一个地方(例如终端)对同一个项目进行构建，就会报错: `Blocking waiting for file lock on package cache`。
+
+解决办法很简单：
+
+- 既然下载慢，那就使用[国内的注册服务](https://course.rs/cargo/reference/specify-deps.html#从其它注册服务引入依赖包)，不再使用 crates.io
+- 耐心等待持有锁的用户构建完成
+- 强行停止正在构建的进程，例如杀掉 IDE 使用的 rust-analyer 插件进程，然后删除 `$HOME/.cargo/.package_cache` 目录
