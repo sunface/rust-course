@@ -119,7 +119,7 @@ thread 'main' panicked at 'called `Result::unwrap()` on an `Err` value: Os { cod
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ```
 
-`expect` 跟 `unwrap` 很像，只不过它允许指定 `panic!` 时的报错信息：
+`expect` 跟 `unwrap` 很像，也是遇到错误直接 `panic`, 但是会带上自定义的错误提示信息，相当于重载了错误打印的函数：
 ```rust
 use std::fs::File;
 
