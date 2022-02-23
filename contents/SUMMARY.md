@@ -6,7 +6,7 @@
 [关于本书](about-book.md)
 
 ## Getting started
-
+- [快速查询从这里开始](index-list.md)
 - [寻找牛刀，以便小试](first-try/intro.md)
     - [安装Rust环境](first-try/installation.md)
     - [墙推VSCode!](first-try/editor.md)
@@ -47,7 +47,7 @@
         - [动态数组Vector](basic/collections/vector.md)
         - [KV存储HashMap](basic/collections/hashmap.md)
     - [类型转换](basic/converse.md)
-    - [返回值和错误](basic/result-error/intro.md)
+    - [返回值和异常](basic/result-error/intro.md)
         - [panic深入剖析!](basic/result-error/panic.md)
         - [返回值Result和?](basic/result-error/result.md)
     - [包和模块](basic/crate-module/intro.md)
