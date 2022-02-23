@@ -45,8 +45,6 @@ cargo build --profile release-lto
 
 与默认的 profile 相同，自定义 profile 的编译结果也存放在 [`target/`](https://course.rs/cargo/guide/build-cache.html) 下的同名目录中，例如 `--profile release-lto` 的输出结果存储在 `target/release-lto` 中。
 
-## 默认profile
-
 ## profile设置
 下面我们来看看 profile 中可以进行哪些优化设置。
 
@@ -150,4 +148,71 @@ cargo build --profile release-lto
 用于控制 [-C rpath](https://doc.rust-lang.org/stable/rustc/codegen-options/index.html#rpath)标志，可以控制 [`rpath`](https://en.wikipedia.org/wiki/Rpath) 的启用与关闭。
 
 `rpath` 代表硬编码到二进制可执行文件或库文件中的**运行时代码搜索(runtime search path)**，动态链接库的加载器就通过它来搜索所需的库。
+
+
+## 默认profile
+#### dev
+`dev` profile 往往用于开发和 debug，`cargo build` 或 `cargo run` 默认使用的就是 `dev` profile，`cargo build --debug` 也是。
+
+> 注意：`dev` profile 的结果并没有输出到 `target/dev` 同名目录下，而是 `target/debug` ，这是历史遗留问题
+
+默认的 `dev` profile 设置如下：
+```toml
+[profile.dev]
+opt-level = 0
+debug = true
+split-debuginfo = '...'  # Platform-specific.
+debug-assertions = true
+overflow-checks = true
+lto = false
+panic = 'unwind'
+incremental = true
+codegen-units = 256
+rpath = false
+```
+
+#### release
+`release` 往往用于预发/生产环境或性能测试，以下命令使用的就是 `release` profile:
+
+- `cargo build --release`
+- `cargo run --release`
+- `cargo install`
+
+默认的 `release` profile 设置如下：
+```toml
+[profile.release]
+opt-level = 3
+debug = false
+split-debuginfo = '...'  # Platform-specific.
+debug-assertions = false
+overflow-checks = false
+lto = false
+panic = 'unwind'
+incremental = false
+codegen-units = 16
+rpath = false
+```
+
+#### test
+该 profile 用于构建测试，它的设置是继承自 `dev`
+
+#### bench
+`bench` profile 用于构建基准测试 benchmark，它的设计默认继承自 `release`
+
+#### 构建本身依赖
+默认情况下，所有的 profile 都不会对构建过程本身所需的依赖进行优化，构建过程本身包括构建脚本、过程宏。
+
+默认的设置是：
+```toml
+[profile.dev.build-override]
+opt-level = 0
+codegen-units = 256
+
+[profile.release.build-override]
+opt-level = 0
+codegen-units = 256
+```
+
+如果是自定义 profile，那它会自动从当前正在使用的 profile 继承相应的设置，且不会修改。
+
 
