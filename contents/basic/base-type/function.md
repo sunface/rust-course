@@ -17,7 +17,7 @@ fn add(i: i32, j: i32) -> i32 {
 当你看懂了这张图，其实就等于差不多完成了函数章节的学习，但是这么短的章节显然对不起读者老爷们的厚爱，所以我们来展开下。
 
 ## 函数要点
-- 函数名和变量名使用[蛇形命名法(snake case)](../../practice/style-guide/naming.md)，例如 `fn add_two() -> {}`
+- 函数名和变量名使用[蛇形命名法(snake case)](https://course.rs/practice/naming.html)，例如 `fn add_two() -> {}`
 - 函数的位置可以随便放，Rust 不关心我们在哪里定义了函数，只要有定义即可
 - 每个函数参数都需要标注类型
 
