@@ -66,7 +66,10 @@
     - [函数式编程: 闭包、迭代器](advance/functional-programing/intro.md)
         - [闭包closure](advance/functional-programing/closure.md)
         - [迭代器iterator](advance/functional-programing/iterator.md)
-    - [深入类型之newtype和Sized](advance/custom-type.md)
+    - [深入类型](advance/into-types/intro.md)
+      - [newtype 和 类型别名](advance/into-types/custom-type.md)
+      - [Sized 和不定长类型 DST](advance/into-types/sized.md)
+      - [枚举和整数](advance/into-types/enum-int.md)
     - [智能指针](advance/smart-pointer/intro.md)
         - [Box<T>堆对象分配](advance/smart-pointer/box.md)
         - [Deref解引用](advance/smart-pointer/deref.md)
@@ -86,8 +89,7 @@
         - [实践应用：多线程Web服务器 todo](advance/concurrency-with-threads/web-server.md)
     - [全局变量](advance/global-variable.md)
     - [错误处理](advance/errors.md)
-    - [进阶类型转换 doing](advance/converse/intro.md)
-      - [枚举和整数](advance/converse/enum-int.md)
+    
     - [Unsafe Rust](advance/unsafe/intro.md)
       - [五种兵器](advance/unsafe/superpowers.md)
     - [Macro宏编程](advance/macro.md)
@@ -154,7 +156,7 @@
 
 - [易混淆概念解析](confonding/intro.md)
     - [切片和切片引用](confonding/slice.md)
-    <!-- - [String、&str 和 str](confonding/string.md) -->
+    - [String、&str 和 str](confonding/string.md)
     - [原生指针、引用和智能指针 todo](confonding/pointer.md)
     - [作用域、生命周期和 NLL todo](confonding/lifetime.md)
     - [move、Copy和Clone todo](confonding/move-copy.md)
