@@ -169,7 +169,7 @@ struct ChangeColorMessage(i32, i32, i32); // 元组结构体
 
 例如我们有一个 WEB 服务，需要接受用户的长连接，假设连接有两种：`TcpStream` 和 `TlsStream`，但是我们希望对这两个连接的处理流程相同，也就是用同一个函数来处理这两个连接，代码如下：
 ```rust
-func new (stream: TcpStream) {
+fn new (stream: TcpStream) {
   let mut s = stream;
   if tls {
     s = negotiate_tls(stream)
