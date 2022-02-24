@@ -3,7 +3,7 @@
    
 ## 开始使用
 
-_注意: 如果你在使用 MacOS，确保已经安装了 Xcode 以及相应的开发者工具 `xcode-select --install`._
+_注意: 如果你在使用 macOS，确保已经安装了 Xcode 以及相应的开发者工具 `xcode-select --install`._
 
 同时，你也需要安装Rust，具体参见<<精通Rust编程>>一书或者访问https://rustup.rs。
 
