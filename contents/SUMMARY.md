@@ -68,7 +68,7 @@
         - [迭代器iterator](advance/functional-programing/iterator.md)
     - [深入类型](advance/into-types/intro.md)
       - [newtype 和 类型别名](advance/into-types/custom-type.md)
-      - [Sized 和不定长类型](advance/into-types/sized.md)
+      - [Sized 和不定长类型 DST](advance/into-types/sized.md)
       - [枚举和整数](advance/into-types/enum-int.md)
     - [智能指针](advance/smart-pointer/intro.md)
         - [Box<T>堆对象分配](advance/smart-pointer/box.md)
