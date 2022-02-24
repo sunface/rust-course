@@ -3,7 +3,7 @@
 [进入Rust编程世界](into-rust.md)
 [AWS为何这么喜欢Rust?](usecases/aws-rust.md)
 [避免从入门到放弃](sth-you-should-not-do.md)
-<!-- [关于本书](about-book.md) -->
+[关于本书](about-book.md)
 
 [快速查询入口](index-list.md)
 

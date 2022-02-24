@@ -4,7 +4,7 @@
   - 官方： [https://course.rs](https://course.rs)
   - 国内镜像： [https://book.rust.team](https://book.rust.team)
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
-- Rust版本： Rust edition 2021
+- 配套练习题: [https://exercise.rs](https://github.com/sunface/rust-exercise)
 - QQ交流群：1009730433
 
 ### 教程简介
