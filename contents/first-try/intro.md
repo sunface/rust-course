@@ -4,7 +4,7 @@
 
 在本章中，你将学习以下内容：
 
-1. 在 MacOS、Linux、Windows 上安装 Rust 以及相关工具链
+1. 在 macOS、Linux、Windows 上安装 Rust 以及相关工具链
 2. 搭建 VSCode 所需的环境
 3. 简单介绍 Cargo
 4. 实现一个酷炫多国语言版本的“世界，你好”的程序，并且谈谈对 Rust 语言的初印象
