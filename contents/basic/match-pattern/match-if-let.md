@@ -320,9 +320,9 @@ fn main() {
 在匹配后，age是Some(30)
 ```
 
-可以看出在 `if let` 中，`=` 右边 `Some(i32)` 类型的 `age` 被左边 `i32` 类型的新 `age` 覆盖了，该覆盖一直持续到 `if let` 语句块的结束。因此第三个 `println!` 输出的 `age` 依然是 `Some(i32)` 类型。
+可以看出在 `if let Some(age) = age` 中，当 `Some(age)` 匹配到 `age` 时，也就是 `Some(age)` 匹配到 `Some(30)`，此时 `age = 30`，相当于 `=` 右边 `Some(i32)` 类型的 `age` 被左边 `i32` 类型的新 `age` 覆盖了，该覆盖一直持续到 `if let` 语句块的结束。因此第三个 `println!` 输出的 `age` 依然是 `Some(i32)` 类型。
 
-对于 `match` 类型也是如此:
+对于 `match` 类型也是如此:`
 ```rust
 fn main() {
    let age = Some(30);
