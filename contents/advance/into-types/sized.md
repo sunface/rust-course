@@ -118,5 +118,12 @@ error[E0277]: the size for values of type `str` cannot be known at compilation t
   = note: all function arguments must have a statically known size
 ```
 
-提示得很清晰，不知道 `str` 的大小，因此无法对其使用 `Box` 进行封装。
+提示得很清晰，不知道 `str` 的大小，因此无法使用这种语法进行 `Box` 进装，但是你可以这么做:
+
+```rust
+let s1: Box<str> = "Hello there!".into();
+```
+
+主动转换成 `str` 的方式不可行，但是可以让编译器来帮我们完成，只要告诉它我们需要的类型即可。
+
 
