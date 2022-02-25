@@ -207,7 +207,7 @@ fn some_function<T, U>(t: &T, u: &U) -> i32
 {
 ```
 
-#### 使用特征约束有条件的实现方法或特征
+#### 使用特征约束有条件地实现方法或特征
 特征约束，可以让我们在指定类型 + 指定特征的条件下去实现方法，例如：
 ```rust
 use std::fmt::Display;
@@ -240,7 +240,7 @@ impl<T: Display + PartialOrd> Pair<T> {
 `cmd_display` 方法，并不是所有的 `Pair<T>` 结构体对象都可以拥有，只有 `T` 同时实现了 `Display + PartialOrd` 的 `Pair<T>` 才可以拥有此方法。
 该函数可读性会更好，因为泛型参数、参数、返回值都在一起，可以快速的阅读，同时每个泛型参数的特征也在新的代码行中通过**特征约束**进行了约束。
 
-**也可以有条件的实现特征**, 例如，标准库为任何实现了 `Display` 特征的类型实现了 `ToString` 特征：
+**也可以有条件地实现特征**, 例如，标准库为任何实现了 `Display` 特征的类型实现了 `ToString` 特征：
 ```rust
 impl<T: Display> ToString for T {
     // --snip--
