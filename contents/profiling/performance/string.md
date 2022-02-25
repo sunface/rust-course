@@ -1,0 +1,1 @@
+https://www.reddit.com/r/rust/comments/t06hk7/string_concatenations_benchmarks_updated/
