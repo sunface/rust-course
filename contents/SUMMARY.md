@@ -92,6 +92,7 @@
     
     - [Unsafe Rust](advance/unsafe/intro.md)
       - [五种兵器](advance/unsafe/superpowers.md)
+      - [内联汇编 todo](advance/unsafe/inline-asm.md)
     - [Macro宏编程](advance/macro.md)
     <!-- - [SIMD todo](advance/simd.md) -->
     <!-- - [高阶特征约束(HRTB) todo](advance/hrtb.md) -->

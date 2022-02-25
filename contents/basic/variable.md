@@ -115,13 +115,22 @@ fn main() {
 ### 解构式赋值
 在 [Rust 1.59](https://course.rs/appendix/rust-versions/1.59.html) 版本后，我们可以在赋值语句的左式中使用元组、切片和结构体模式了。
 ```rust
-let (a, b, c, d, e);
+struct Struct {
+    e: i32
+}
 
-(a, b) = (1, 2);
-[c, .., d, _] = [1, 2, 3, 4, 5];
-Struct { e, .. } = Struct { e: 5, f: 3 };
+fn main() {
+    let (x, y) = (1.0, 2.0);
+    
 
-assert_eq!([1, 2, 1, 4, 5], [a, b, c, d, e]);
+    let (a, b, c, d, e);
+
+    (a, b) = (1, 2);
+    [c, .., d, _] = [1, 2, 3, 4, 5];
+    Struct { e, .. } = Struct { e: 5 };
+
+    assert_eq!([1, 2, 1, 4, 5], [a, b, c, d, e]);
+} 
 ```
 
 这种使用方式跟之前的 `let` 保持了一致性，但是 `let` 会重新绑定，而这里仅仅是对之前绑定的变量进行再赋值。
