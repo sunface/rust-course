@@ -299,6 +299,8 @@ let bar = Some(4);
 assert!(matches!(bar, Some(x) if x > 2));
 ```
 
+表达式 `Some(x) if x > 2` 中 `if` 能为分支模式提供更进一步的匹配条件，在模式匹配中简称**匹配守卫**（match guard）。
+
 ## 变量覆盖
 无论是是 `match` 还是 `if let`，他们都可以在模式匹配时覆盖掉老的值，绑定新的值:
 ```rust
