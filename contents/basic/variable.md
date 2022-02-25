@@ -120,9 +120,6 @@ struct Struct {
 }
 
 fn main() {
-    let (x, y) = (1.0, 2.0);
-    
-
     let (a, b, c, d, e);
 
     (a, b) = (1, 2);
