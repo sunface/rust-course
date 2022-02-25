@@ -91,7 +91,7 @@ fn main() {
 
 再来看一段代码，同时使用 `return` 和表达式作为返回值：
 ```rust
-fn plus_or_substract(x:i32) -> i32 {
+fn plus_or_minus(x:i32) -> i32 {
     if x > 5 {
         return x - 5
     }
@@ -100,13 +100,13 @@ fn plus_or_substract(x:i32) -> i32 {
 }
 
 fn main() {
-    let x = plus_or_substract(5);
+    let x = plus_or_minus(5);
 
     println!("The value of x is: {}", x);
 }
 ```
 
-`plus_or_substract` 函数根据传入 `x` 的大小来决定是做加法还是减法，若 `x > 5` 则通过 `return` 提前返回 `x - 5` 的值,否则返回 `x + 5` 的值。
+`plus_or_minus` 函数根据传入 `x` 的大小来决定是做加法还是减法，若 `x > 5` 则通过 `return` 提前返回 `x - 5` 的值,否则返回 `x + 5` 的值。
 
 
 #### Rust中的特殊返回类型
