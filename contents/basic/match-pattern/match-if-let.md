@@ -322,6 +322,32 @@ fn main() {
 
 可以看出在 `if let Some(age) = age` 中，当 `Some(age)` 匹配到 `age` 时，也就是 `Some(age)` 匹配到 `Some(30)`，此时 `age = 30`，相当于 `=` 右边 `Some(i32)` 类型的 `age` 被左边 `i32` 类型的新 `age` 覆盖了，该覆盖一直持续到 `if let` 语句块的结束。因此第三个 `println!` 输出的 `age` 依然是 `Some(i32)` 类型。
 
+如果上面的例子不理解，可以参考下面两个例子，从下面第一个例子过渡到第二个例子，再返回到上一个例子就可以很容易理解了：
+```rust
+ let age = Some(30);
+    println!("Before is {:?}", age);
+    if let Some(mut age2) = age {
+        age2 = 32;
+        println!("Current is {:?}", age2);
+    }
+    println!("After is {:?}", age);
+```
+```rust
+let age = Some(30);
+    println!("Before is {:?}", age);
+    if let Some(mut age) = age {
+        age = 32;
+        println!("Current is {:?}", age);
+    }
+    println!("After is {:?}", age);
+```
+`cargo run `运行后输出如下：
+```console
+Before is Some(30)
+Current is 32
+After is Some(30)
+```
+
 对于 `match` 类型也是如此:`
 ```rust
 fn main() {
