@@ -150,7 +150,7 @@ error[E0597]: `s1` does not live long enough
   | - `s1` dropped here while still borrowed
 ```
 
-原因很简单，`s1` 获得不够久，没有满足 `'static` 的生命周期要求。
+原因很简单，`s1` 活得不够久，没有满足 `'static` 的生命周期要求。
 
 ## 使用经验
 至此，相信大家对于 `'static` 和 `T: 'static` 也有了清晰的理解，那么我们应该如何使用它们呢？
