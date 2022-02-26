@@ -4,9 +4,10 @@
   - 官方： [https://course.rs](https://course.rs)
   - 国内镜像： [https://book.rust.team](https://book.rust.team)
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
-- 配套练习题: [https://exercise.rs](https://github.com/sunface/rust-exercise)
 - 最近修订： 2022-02-25 新增 [Cargo使用指南 - 依赖覆盖](https://zhuanlan.zhihu.com/p/472170018)
 - QQ交流群：1009730433
+
+> 官方练习题: [https://exercise.rs](https://github.com/sunface/rust-exercise)，质量非常高!
 
 ## 教程简介
 
