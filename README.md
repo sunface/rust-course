@@ -3,7 +3,7 @@
 - 在线阅读
   - 官方： [https://course.rs](https://course.rs)
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
-- 最近修订： 2022-02-25 新增 [Cargo使用指南 - 依赖覆盖](https://zhuanlan.zhihu.com/p/472170018)
+- 最近修订： 2022-02-26 新增 [Cargo使用指南 - Cargo.toml详解](https://zhuanlan.zhihu.com/p/472961111)
 - QQ交流群：1009730433
 
 > Rust 语法学会了，但是难上手？来试试 [Rust By Practice](https://github.com/sunface/rust-practice)，这里有精心设计的示例、练习题和应用实践。
