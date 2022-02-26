@@ -7,6 +7,8 @@
 - 配套练习题: [https://exercise.rs](https://github.com/sunface/rust-exercise)
 - QQ交流群：1009730433
 
+> Rust 语法学会了，但是难上手？来试试 [Rust By Practice](https://github.com/sunface/rust-practice)，这里有精心设计的示例、练习题和应用实践。
+
 ### 教程简介
 
 **`Rust语言圣经`**涵盖从**入门到精通**所需的 Rust 知识，目录及内容都经过深思熟虑的设计，同时语言生动幽默，行文流畅自如，摆脱技术书籍常有的机器味和晦涩感。
