@@ -1,6 +1,10 @@
 # ChangeLog
 记录一些值得注意的变更。
 
+## 2022-02-26
+
+- 对于过程宏为何要放在单独的包的原因进行了[说明](https://course.rs/advance/macro.html#用过程宏为属性标记生成代码)
+  
 ## 2022-02-25
 
 - 新增 1.59 [版本说明](https://course.rs/appendix/rust-versions/1.59.html)
