@@ -4,9 +4,10 @@
   - 官方： [https://course.rs](https://course.rs)
   - 国内镜像： [https://book.rust.team](https://book.rust.team)
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
-- 配套练习题: [https://exercise.rs](https://github.com/sunface/rust-exercise)
 - 最近修订： 2022-02-25 新增 [Cargo使用指南 - 依赖覆盖](https://zhuanlan.zhihu.com/p/472170018)
 - QQ交流群：1009730433
+
+> Rust难上手？来试试 [Rust By Practice](https://github.com/sunface/rust-practice)，这里有最好的示例、练习题和应用实践。
 
 ## 教程简介
 
@@ -35,11 +36,11 @@
 
 非常感谢本教程的所有贡献者们，正是有了你们，才有了现在的高质量 Rust 教程！
 
-- [@1132719438](https://github.com/1132719438)
-- [@JesseAtSZ](https://github.com/JesseAtSZ)
 - [@AllanDowney](https://github.com/AllanDowney)
-- [@mg-chao](https://github.com/mg-chao)
+- [@JesseAtSZ](https://github.com/JesseAtSZ)
+- [@1132719438](https://github.com/1132719438)
 - [@Mintnoii](https://github.com/Mintnoii)
+- [@mg-chao](https://github.com/mg-chao)
 - [@codemystery](https://github.com/codemystery)
 
 尤其感谢这些主要贡献者，谢谢你们花费大量时间贡献了多处`fix`和高质量的内容优化。非常感动，再次感谢～～
