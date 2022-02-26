@@ -6,7 +6,7 @@
 - 最近修订： 2022-02-26 新增 [Cargo使用指南 - Cargo.toml详解](https://zhuanlan.zhihu.com/p/472961111)
 - QQ交流群：1009730433
 
-> Rust 语法学会了，但是难上手？来试试 [Rust By Practice](https://github.com/sunface/rust-practice)，这里有精心设计的示例、练习题和应用实践。
+> Rust 语法学会了，但是难上手？来试试 [Rust By Practice](https://github.com/sunface/rust-by-practice)，这里有精心设计的示例、练习题和应用实践。
 
 ## 教程简介
 
