@@ -7,7 +7,7 @@
 - 最近修订： 2022-02-25 新增 [Cargo使用指南 - 依赖覆盖](https://zhuanlan.zhihu.com/p/472170018)
 - QQ交流群：1009730433
 
-> Rust难上手？来试试 [Rust By Practice](https://github.com/sunface/rust-practice)，这里有最好的示例、练习题和应用实践。
+> Rust 语法学会了，但是难上手？来试试 [Rust By Practice](https://github.com/sunface/rust-practice)，这里有最好的示例、练习题和应用实践。
 
 ## 教程简介
 
