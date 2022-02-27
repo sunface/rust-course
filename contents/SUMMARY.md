@@ -248,9 +248,9 @@
     - [C-表达式](appendix/expressions.md)
     - [D-派生特征derive](appendix/derive.md)
     - [E-prelude模块 todo](appendix/prelude.md)
-    - [F-难点索引](appendix/difficulties.md)
-    - [G-Rust版本说明](appendix/rust-version.md)
-    - [H-Rust更新版本列表](appendix/rust-versions/intro.md)
+    <!-- - [F-难点索引](appendix/difficulties.md) -->
+    - [F-Rust版本说明](appendix/rust-version.md)
+    - [G-Rust更新版本列表](appendix/rust-versions/intro.md)
       - [1.58](appendix/rust-versions/1.58.md)
       - [1.59](appendix/rust-versions/1.59.md)
 

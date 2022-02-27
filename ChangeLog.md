@@ -1,6 +1,12 @@
 # ChangeLog
 记录一些值得注意的变更。
 
+## 2022-02-27
+
+- 增加如何生成[测试可执行文件](https://course.rs/test/write-tests.html#生成测试二进制文件)
+- 屏蔽附录中的重点索引，未来集中放入到[快速查询入口中](https://course.rs/index-list.html)
+
+
 ## 2022-02-26
 
 - 对于过程宏为何要放在单独的包的原因进行了[说明](https://course.rs/advance/macro.html#用过程宏为属性标记生成代码)
