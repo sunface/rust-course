@@ -102,7 +102,7 @@ default-members = ["path/to/member2", "path/to/member3/foo"]
 这样一来， `cargo build` 就不会应用到虚拟清单工作空间的所有成员，而是指定的成员上。
 
 ## workspace.metadata
-与 [package.metadata](https://course.rs/cargo/reference/manifest.html#metadata) 非常类似，`workspace.metadata` 会被 `Cargo` 自动忽略，就算没有被使用也会发出警告。
+与 [package.metadata](https://course.rs/cargo/reference/manifest.html#metadata) 非常类似，`workspace.metadata` 会被 `Cargo` 自动忽略，就算没有被使用也不会发出警告。
 
 这个部分可以用于让工具在 `Cargo.toml` 中存储一些工作空间的配置元信息。例如:
 ```toml
