@@ -4,14 +4,14 @@
 ### 最小化构建时间和文件大小
 如果一些包的部分特性不再启用，就可以减少该包占用的大小以及编译时间:
 
-- [`sync`](https://crates.io/crates/syn) 包可以用来解析 Rust 代码，由于它很受欢迎，大量的项目都在引用，因此它给出了[非常清晰的文档](https://docs.rs/syn/1.0.54/syn/#optional-features)关于如何最小化使用它包含的 `features`
+- [`syn`](https://crates.io/crates/syn) 包可以用来解析 Rust 代码，由于它很受欢迎，大量的项目都在引用，因此它给出了[非常清晰的文档](https://docs.rs/syn/1.0.54/syn/#optional-features)关于如何最小化使用它包含的 `features`
 - [`regex`](https://crates.io/crates/regex) 也有关于 features 的[描述文档](https://docs.rs/regex/1.4.2/regex/#crate-features)，例如移除 Unicode 支持的 feature 可以降低最终生成可执行文件的大小
 - [`winapi`](https://crates.io/crates/winapi) 拥有[众多 features](https://github.com/retep998/winapi-rs/blob/0.3.9/Cargo.toml#L25-L431)，这些 `feature` 对用了各种 Windows API，你可以只引入代码中用到的 API 所对应的 feature.
 
 ### 行为扩展
 [`serde_json`](https://crates.io/crates/serde_json) 拥有一个 [`preserve_order` feature](https://github.com/serde-rs/json/blob/v1.0.60/Cargo.toml#L53-L56)，可以用于在序列化时保留 JSON 键值队的顺序。同时，该 feature 还会启用一个可选依赖 [indexmap](https://crates.io/crates/indexmap)。
 
-当这么做时，一定要小心不要破坏了 SemvVer 的版本兼容性，也就是说：启用 feature 后，代码依然要能正常工作。
+当这么做时，一定要小心不要破坏了 SemVer 的版本兼容性，也就是说：启用 feature 后，代码依然要能正常工作。
 
 ### no_std支持
 一些包希望能同时支持 [`no_std`](https://doc.rust-lang.org/stable/reference/names/preludes.html#the-no_std-attribute) 和 `std` 环境，例如该包希望支持嵌入式系统或资源紧张的系统，且又希望能支持其它的平台，此时这种做法是非常有用的，因为标准库 `std` 会大幅增加编译出来的文件的大小，对于资源紧张的系统来说，`no_std` 才是最合适的。

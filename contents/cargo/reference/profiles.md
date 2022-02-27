@@ -50,7 +50,7 @@ cargo build --profile release-lto
 - 默认使用 `dev` : `cargo build`, `cargo rustc`, `cargo check`, 和 `cargo run`
 - 默认使用 `test`: `cargo test`
 - 默认使用 `bench`: `cargo bench`
-- 默认使用 `release`： `cargo install`, `cargo build --release`, `cargo build --release`
+- 默认使用 `release`： `cargo install`, `cargo build --release`, `cargo run --release`
 - 使用自定义 profile: `cargo build --profile release-lto`
 
 

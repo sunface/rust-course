@@ -237,7 +237,7 @@ categories = ["command-line-utilities", "development-tools::cargo-plugins"]
 workspace = "path/to/workspace/root"
 ```
 
-需要注意的是 `Cargo.toml` 清单还有一个 `[workspace` 部分专门用于设置工作空间，若它被设置了，则 `package` 中的 `workspace` 字段将无法被指定。这是因为一个包无法同时满足两个角色：
+需要注意的是 `Cargo.toml` 清单还有一个 `[workspace]` 部分专门用于设置工作空间，若它被设置了，则 `package` 中的 `workspace` 字段将无法被指定。这是因为一个包无法同时满足两个角色：
 
 - 该包是工作空间的根包(root crate)，通过 `[workspace]` 指定)
 - 该包是另一个工作空间的成员，通过 `package.workspace` 指定
@@ -297,7 +297,7 @@ include = ["/src", "COPYRIGHT", "/examples", "!/examples/big_example"]
 - 若项目包含可执行文件或示例代码，则最小化的 `Cargo.lock` 会自动被包含
 - `license-file` 指定的协议文件
 
-> 这两个字段很强大，但是对于生产实践而言，我们还是推荐通过 `.gitignore` 来控制，因为这样协作者更容易看懂。如果大家希望更深入的了解 `include/exclue`，可以参考下官方的 `Cargo` [文档](https://doc.rust-lang.org/stable/cargo/reference/manifest.html?search=#the-exclude-and-include-fields)
+> 这两个字段很强大，但是对于生产实践而言，我们还是推荐通过 `.gitignore` 来控制，因为这样协作者更容易看懂。如果大家希望更深入的了解 `include/exclude`，可以参考下官方的 `Cargo` [文档](https://doc.rust-lang.org/stable/cargo/reference/manifest.html?search=#the-exclude-and-include-fields)
 
 
 #### publish
