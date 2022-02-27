@@ -4,7 +4,7 @@
 - 你正在同时开发一个包和一个项目，而后者依赖于前者，你希望能在能项目中对正在开发的包进行测试
 - 你引入的一个依赖包在 `master` 分支发布了新的代码，恰好修复了某个 bug，因此你希望能单独对该分支进行下测试
 - 你即将发布一个包的新版本，为了确保新版本正常工作，你需要对其进行集成测试
-- 你为项目的某个依赖包提了一个 PR 并解决了一个重要 bug，在等待合并到 `main` 分支，但是时间不等人，因此你决定先使用自己修改的版本，等未来合并后，再继续使用官方版本
+- 你为项目的某个依赖包提了一个 PR 并解决了一个重要 bug，在等待合并到 `master` 分支，但是时间不等人，因此你决定先使用自己修改的版本，等未来合并后，再继续使用官方版本
 
 下面我们来具体看看类似的问题该如何解决。
 
@@ -97,7 +97,7 @@ uuid = { git = 'https://github.com/uuid-rs/uuid' }
 #### 间接使用 `patch`
 现在假设项目 `A` 的依赖是 `B` 和 `uuid`，而 `B` 的依赖也是 `uuid`，此时我们可以让 `A` 和 `B` 都使用来自 `github` 的 `patch` 版本，配置如下:
 ```toml
-package]
+[package]
 name = "my-binary"
 version = "0.1.0"
 
@@ -164,10 +164,10 @@ uuid = { git = 'https://github.com/uuid-rs/uuid', branch = '2.0.0' }
 ```toml
 [patch.crates-io]
 serde = { git = 'https://github.com/serde-rs/serde' }
-serde2 = { git = 'https://github.com/example/serde', package = 'serde', branch = 'v2' 
+serde2 = { git = 'https://github.com/example/serde', package = 'serde', branch = 'v2' }
 ```
 
-第一行说明，第一个 `patch` 从官方仓库 `main` 分支的最新 `commit` 拉取，而第二则从我们自己的仓库拉取 `v2` 分支，同时将其重命名为 `serde2`。
+第一行说明，第一个 `patch` 从官方仓库 `main` 分支的最新 `commit` 拉取，而第二个则从我们自己的仓库拉取 `v2` 分支，同时将其重命名为 `serde2`。
 
 这样，在代码中就可以分别通过 `serde` 和 `serde2` 引用不同版本的依赖库了。
 
