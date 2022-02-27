@@ -279,7 +279,7 @@ fn main() {
 这个例子就留给读者自己解读和分析，我们就不画蛇添足了:）
 
 ## unsafe 解决循环引用
-除了使用 Rust 标准库提供的这些类型，你还可以使用 `unsafe` 里的原生指针来解决这些棘手的问题，但是由于我们还没有讲解 `unsafe`，因此这里就不进行展开，只附上[源码链接](https://codes.rs/unsafe/self-ref.html), 挺长的，需要耐心o_o
+除了使用 Rust 标准库提供的这些类型，你还可以使用 `unsafe` 里的原生指针来解决这些棘手的问题，但是由于我们还没有讲解 `unsafe`，因此这里就不进行展开，只附上[源码链接](https://github.com/sunface/rust-algos/blob/fbcdccf3e8178a9039329562c0de0fd01a3372fb/src/unsafe/self-ref.md), 挺长的，需要耐心o_o
 
 虽然 `unsafe` 不安全，但是在各种库的代码中依然很常见用它来实现自引用结构，主要优点如下:
 
