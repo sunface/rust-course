@@ -603,3 +603,26 @@ mod tests {
 在 `tests` 模块中，我们通过 `use pretty_assertions::assert_eq;` 成功的引入之前添加的包，由于 `tests` 模块明确的用于测试目的，这种引入并不会报错。 大家可以试试在正常代码(非测试代码)中引入该包，看看会发生什么。
 
 
+## 生成测试二进制文件
+在有些时候，我们可能希望将测试与别人分享，这种情况下生成一个类似 `cargo build` 的可执行二进制文件是很好的选择。
+
+事实上，在 `cargo test` 运行的时候，系统会自动为我们生成一个可运行测试的二进制可执行文件:
+```shell
+$ cargo test
+ Finished test [unoptimized + debuginfo] target(s) in 0.00s
+     Running unittests (target/debug/deps/study_cargo-0d693f72a0f49166)
+```
+
+这里的 `target/debug/deps/study_cargo-0d693f72a0f49166` 就是可执行文件的路径和名称，我们直接运行该文件来执行编译好的测试:
+```shell
+$ target/debug/deps/study_cargo-0d693f72a0f49166
+
+running 3 tests
+test tests::add_two_and_two ... ok
+test tests::add_three_and_two ... ok
+test tests::one_hundred ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+```
+
+如果你只想生成编译生成文件，不想看 `cargo test` 的输出结果，还可以使用 `cargo test --no-run`.
