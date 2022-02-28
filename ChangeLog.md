@@ -1,6 +1,11 @@
 # ChangeLog
 记录一些值得注意的变更。
 
+## 2022-02-28
+
+- 新增章节: [Cargo - 发布到crates.io](https://course.rs/cargo/reference/publishing-on-crates.io.html)
+- 新增内容：[结构体 - #[derive(Debug)]](https://course.rs/basic/compound-type/struct.html#使用-derivedebug-来打印结构体的信息)
+  
 ## 2022-02-27
 
 - 增加如何生成[测试可执行文件](https://course.rs/test/write-tests.html#生成测试二进制文件)
