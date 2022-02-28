@@ -4,10 +4,10 @@
   - 官方： [https://course.rs](https://course.rs)
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
 - 最近修订： 2022-02-28 新增 [Cargo使用指南 - 工作空间](https://zhuanlan.zhihu.com/p/473402976)
-- QQ交流群：1009730433
 
-> - 学了 Rust 语法后迷茫了？来试试 [Rust By Practice](https://github.com/sunface/rust-by-practice)，它是本书的配套练习题和实践，覆盖了 easy to hard 各个难度，满足你的所有需求
-> - [Rust 语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，这里有精选的开源项目、新闻、技术文章和 Rust 语言更新等
+> 学了 Rust 语法后迷茫了？来试试 [Rust By Practice](https://github.com/sunface/rust-by-practice)，它是本书的配套练习题和实践，覆盖了 easy to hard 各个难度，满足你的所有需求。
+> 
+> [Rust 语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，这里有精选的开源项目、新闻、技术文章和 Rust 语言更新等内容栏目。
 
 
 ## 教程简介
@@ -56,3 +56,6 @@
 - 详细清单参见 [这里](./assets/writing-material/books.md)
 
 因为它们绝大部分是支持 APACHE + MIT 双协议的，因此我们选择了遵循其中的 MIT 协议，并在这里统一对借鉴的书籍进行说明。
+
+## 一路有你
+欢迎加入QQ交流群 1009730433 进行沟通交流。
