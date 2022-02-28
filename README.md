@@ -6,7 +6,7 @@
 - 最近修订： 2022-02-28 新增 [Cargo使用指南 - 工作空间](https://zhuanlan.zhihu.com/p/473402976)
 - QQ交流群：1009730433
 
-> Rust 语法学会了，但是难上手？来试试 [Rust By Practice](https://github.com/sunface/rust-by-practice)，这里有精心设计的示例、练习题和应用实践。
+> 学了 Rust 语法后迷茫了？来试试 [Rust By Practice](https://github.com/sunface/rust-by-practice)，这里有精心设计的示例、练习题和应用实践。
 
 ## 教程简介
 
