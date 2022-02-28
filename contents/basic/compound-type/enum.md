@@ -150,7 +150,7 @@ fn main() {
 
 当然，我们也可以用结构体的方式来定义这些消息：
 ```rust
-struct QuitMessage; // 元结构体
+struct QuitMessage; // 单元结构体
 struct MoveMessage {
     x: i32,
     y: i32,
