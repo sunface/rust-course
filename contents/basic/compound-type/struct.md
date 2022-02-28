@@ -254,3 +254,138 @@ help: consider introducing a named lifetime parameter
 
 
 未来在[生命周期](../../advance/lifetime/basic.md)中会讲到如何修复这个问题以便在结构体中存储引用，不过在那之前，我们会避免在结构体中使用引用类型。
+
+## 使用 `#[derive(Debug)]` 来打印结构体的信息
+在前面的代码中我们使用 `#[derive(Debug)]` 对结构体进行了标记，这样才能使用 `println("{:?}", s)` 的方式对其进行打印输出，如果不加，看看会发生什么:
+```rust
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!("rect1 is {}", rect1);
+}
+```
+
+首先可以观察到，上面使用了 `{}` 而不是之前的 `{:}`，运行后报错：
+```shell
+error[E0277]: `Rectangle` doesn't implement `std::fmt::Display`
+```
+
+提示我们结构体 `Rectangle` 没有实现 `Display` 特征，这是因为如果我们使用 `{}` 来格式化输出，那对应的类型就必须实现 `Display` 特征，以前学习的基本类型，都默认实现了该特征:
+```rust
+fn main() {
+    let v = 1;
+    let b = true;
+
+    println!("{}, {}",v,b);
+} 
+```
+
+上面代码不会报错，那么结构体为什么不默认实现 `Display` 特征呢？原因在于结构体较为复杂，例如考虑以下问题：你想要逗号对字段进行分割吗？需要括号吗？加在什么地方？所有的字段都应该显示？类似的还有很多，由于这种复杂性，Rust 不希望猜测我们想要的是什么，而是把选择权交给我们自己来实现：如果要用 `{}` 的方式打印结构体，那就自己实现 `Display` 特征。
+
+接下来继续阅读报错：
+```shell
+= help: the trait `std::fmt::Display` is not implemented for `Rectangle`
+= note: in format strings you may be able to use `{:?}` (or {:#?} for pretty-print) instead
+```
+
+上面提示我们使用 `{:?}` 来试试，这个方式我们在本文的前面也见过，下面来试试:
+```rust
+println!("rect1 is {:?}", rect1);
+```
+
+可是依然无情报错了: 
+```shell
+error[E0277]: `Rectangle` doesn't implement `Debug`
+```
+
+好在，聪明的编译器又一次给出了提示:
+```shell
+= help: the trait `Debug` is not implemented for `Rectangle`
+= note: add `#[derive(Debug)]` to `Rectangle` or manually `impl Debug for Rectangle`
+```
+
+让我们实现 `Debug` 特征，Oh No，就是不想实现 `Display` 特征，才用的 `{:?}`，怎么又要实现 `Debug`，但是仔细看，提示中有一行： `add #[derive(Debug)] to Rectangle`， 哦？这不就是我们前文一直在使用的吗？
+
+首先，Rust 默认不会为我们实现 `Debug`，为了实现，有两种方式可以选择：
+
+- 手动实现
+- 使用 `derive` 派生实现
+
+后者简单的多，但是也有限制，具体见[附录](https://course.rs/appendix/derive.html)，这里我们就不再深入讲解，来看看该如何使用:
+```rust
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let rect1 = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!("rect1 is {:?}", rect1);
+}
+```
+
+此时运行程序，就不再有错误，输出如下:
+```shell
+$ cargo run
+rect1 is Rectangle { width: 30, height: 50 }
+```
+
+这个输出格式看上去也不赖嘛，虽然未必是最好的。这种格式是 Rust 自动为我们提供的实现，看上基本就跟结构体的定义形式一样。
+
+当结构体较大时，我们可能希望能够有更好的输出表现，此时可以使用 `{:#?}` 来替代 `{:?}`，输出如下:
+```shell
+rect1 is Rectangle {
+    width: 30,
+    height: 50,
+}
+```
+
+此时结构体的输出跟我们创建时候的代码几乎一模一样了！当然，如果大家还是不满足，那最好还是自己实现 `Display` 特征，以向用户更美的展示你的私藏结构体。关于格式化输出的更多内容，我们强烈推荐看看这个[章节](https://course.rs/basic/formatted-output.html#debug-特征)。
+
+还有一个简单的输出 debug 信息的方法，那就是使用 [`dbg!` 宏](https://doc.rust-lang.org/std/macro.dbg.html)，它会拿走表达式的所有权，然后打出相应的文件名、行号等 debug 信息，当然还有我们需要的表达式的求值结果。**除次之外，它最终还会把表达式值的所有权返回！**
+
+> `dbg!` 输出到的是标准错误输出 `stderr`，而 `println!` 输出到标准输出 `stdout`
+
+下面的例子中清晰的展示了 `dbg!` 如何在打印出信息的同时，还把表达式的值赋给了 `width`:
+```rust
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let scale = 2;
+    let rect1 = Rectangle {
+        width: dbg!(30 * scale),
+        height: 50,
+    };
+
+    dbg!(&rect1);
+}
+```
+
+最终的 debug 输出如下:
+```shell
+$ cargo run
+[src/main.rs:10] 30 * scale = 60
+[src/main.rs:14] &rect1 = Rectangle {
+    width: 60,
+    height: 50,
+}
+```
+
+可以看到，我们想要的 debug 信息几乎都有了：代码所在的文件名、行号、表达式以及表达式的值，简直完美！

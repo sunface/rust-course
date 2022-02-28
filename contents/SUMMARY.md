@@ -264,7 +264,6 @@
     - [C-表达式](appendix/expressions.md)
     - [D-派生特征 trait](appendix/derive.md)
     - [E-prelude 模块 todo](appendix/prelude.md)
-    <!-- - [F-难点索引](appendix/difficulties.md) -->
     - [F-Rust 版本说明](appendix/rust-version.md)
     - [G-Rust 更新版本列表](appendix/rust-versions/intro.md)
       - [1.58](appendix/rust-versions/1.58.md)
