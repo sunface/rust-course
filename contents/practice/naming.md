@@ -167,7 +167,7 @@ fn into_iter(self) -> IntoIter     // IntoIter implements Iterator<Item = U>
 
 上述规则主要应用于方法，但是经常对于函数也适用。例如上文提到的 `url` 包中的 [`percent_encode`] 函数，返回了一个 [`PercentEncode`] 类型。
 
-[PercentEncode]: https://docs.rs/url/1.4.0/url/percent_encoding/struct.PercentEncode.html
+[`PercentEncode`]: https://docs.rs/url/1.4.0/url/percent_encoding/struct.PercentEncode.html
 
 特别是，当这些类型跟包名前缀一起使用时，将具备非常清晰的含义，例如 [`vec::IntoIter`]。
 
