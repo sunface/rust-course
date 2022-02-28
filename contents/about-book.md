@@ -2,12 +2,12 @@
 
 - 在线阅读
   - 官方： [https://course.rs](https://course.rs)
-  - 国内镜像： [https://book.rust.team](https://book.rust.team)
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
-- 配套练习题: [https://exercise.rs](https://github.com/sunface/rust-exercise)
-- QQ交流群：1009730433
 
-> Rust 语法学会了，但是难上手？来试试 [Rust By Practice](https://github.com/sunface/rust-practice)，这里有精心设计的示例、练习题和应用实践。
+> 学了 Rust 语法后迷茫了？来试试 [Rust By Practice](https://github.com/sunface/rust-by-practice)，它是本书的配套练习题和实践，覆盖了 easy to hard 各个难度，满足你的所有需求。
+> 
+> [Rust 语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，这里有精选的开源项目、新闻、技术文章和 Rust 语言更新等内容栏目。
+
 
 ### 教程简介
 
