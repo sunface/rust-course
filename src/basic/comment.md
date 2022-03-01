@@ -309,14 +309,15 @@ struct MySpecialFormatter;
 如果遇到同名项，可以使用标示类型的方式进行跳转：
 ```rust
 /// 跳转到结构体  [`Foo`](struct@Foo)
-struct Bar;
+pub struct Bar;
 
 /// 跳转到同名函数 [`Foo`](fn@Foo)
-struct Foo {}
+pub struct Foo {}
 
 /// 跳转到同名宏 [`foo!`]
-fn Foo() {}
+pub fn Foo() {}
 
+#[macro_export]
 macro_rules! foo {
   () => {}
 }
