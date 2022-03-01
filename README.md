@@ -3,7 +3,6 @@
 - 在线阅读
   - 官方： [https://course.rs](https://course.rs)
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
-- 最近修订： 2022-02-28 新增 [Cargo使用指南 - 工作空间](https://zhuanlan.zhihu.com/p/473402976)
 
 > 学了 Rust 语法后迷茫了？来试试 [Rust By Practice](https://github.com/sunface/rust-by-practice)，它是本书的配套练习题和实践，覆盖了 easy to hard 各个难度，满足你的所有需求。
 > 
