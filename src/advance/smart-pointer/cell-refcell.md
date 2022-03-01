@@ -159,13 +159,13 @@ impl Messenger for MsgQueue {
 
 我们要在自己的代码中使用该特征实现一个异步消息队列，出于性能的考虑，消息先写到本地缓存(内存)中，然后批量发送出去，因此在 `send` 方法中，需要将消息先行插入到本地缓存 `msg_cache` 中。但是问题来了，该 `send` 方法的签名是 `&self`，因此上述代码会报错：
 ```console
-error[E0596]: cannot borrow `self.sent_messages` as mutable, as it is behind a `&` reference
+error[E0596]: cannot borrow `self.msg_cache` as mutable, as it is behind a `&` reference
   --> src/main.rs:11:9
    |
 2  |     fn send(&self, msg: String);
    |             ----- help: consider changing that to be a mutable reference: `&mut self`
 ...
-11 |         self.sent_messages.push(msg)
+11 |         self.msg_cache.push(msg)
    |         ^^^^^^^^^^^^^^^^^^ `self` is a `&` reference, so the data it refers to cannot be borrowed as mutable
 ```
 
