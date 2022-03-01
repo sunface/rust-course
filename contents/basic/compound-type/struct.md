@@ -9,6 +9,7 @@
 
 #### 定义结构体
 一个结构体有几部分组成：
+
 - 通过关键字 `struct` 定义
 - 一个清晰明确的结构体 `名称`
 - 几个有名字的结构体 `字段`
@@ -105,7 +106,7 @@ fn build_user(email: String, username: String) -> User {
 >
 > 聪明的读者肯定要发问了：明明有三个字段进行了自动赋值，为何只有 `username` 发生了所有权转移？
 >
-> 仔细回想一下[所有权](../ownership/ownership.md#拷贝(浅拷贝))那一节的内容，我们提到了 `Copy` 特征：实现了 `Copy` 特征的类型无需所有权转移，可以直接在赋值时进行
+> 仔细回想一下[所有权](../ownership/ownership.md#拷贝浅拷贝)那一节的内容，我们提到了 `Copy` 特征：实现了 `Copy` 特征的类型无需所有权转移，可以直接在赋值时进行
 > 数据拷贝，其中 `bool` 和 `u64` 类型就实现了 `Copy` 特征，因此 `active` 和 `sign_in_count` 字段在赋值给 `user2` 时，仅仅发生了拷贝，而不是所有权转移。
 >
 > 值得注意的是：`username` 所有权被转移给了 `user2`，导致了 `user1` 无法再被使用，但是并不代表 `user1` 内部的其它字段不能被继续使用，例如：
@@ -201,7 +202,7 @@ impl SomeTrait for AlwaysEqual {
 
 在之前的 `User` 结构体的定义中，有一处细节：我们使用了自身拥有所有权的 `String` 类型而不是基于引用的 `&str` 字符串切片类型。这是一个有意而为之的选择：因为我们想要这个结构体拥有它所有的数据，而不是从其它地方借用数据。
 
-你也可以让 `User` 结构体从其它对象借用数据，不过这么做，就需要引入[生命周期（lifetimes）](../../advance/lifetime/basic.md)这个新概念（也是一个复杂的概念），简而言之，生命周期能确保结构体的作用范围要比它所借用的数据的作用范围要小。
+你也可以让 `User` 结构体从其它对象借用数据，不过这么做，就需要引入[生命周期(lifetimes)](../../advance/lifetime/basic.md)这个新概念（也是一个复杂的概念），简而言之，生命周期能确保结构体的作用范围要比它所借用的数据的作用范围要小。
 
 总之，如果你想在结构体中使用一个引用，就必须加上生命周期，否则就会报错：
 
@@ -273,7 +274,7 @@ fn main() {
 }
 ```
 
-首先可以观察到，上面使用了 `{}` 而不是之前的 `{:}`，运行后报错：
+首先可以观察到，上面使用了 `{}` 而不是之前的 `{:?}`，运行后报错：
 ```shell
 error[E0277]: `Rectangle` doesn't implement `std::fmt::Display`
 ```
@@ -284,7 +285,7 @@ fn main() {
     let v = 1;
     let b = true;
 
-    println!("{}, {}",v,b);
+    println!("{}, {}", v, b);
 } 
 ```
 
@@ -319,7 +320,7 @@ error[E0277]: `Rectangle` doesn't implement `Debug`
 - 手动实现
 - 使用 `derive` 派生实现
 
-后者简单的多，但是也有限制，具体见[附录](https://course.rs/appendix/derive.html)，这里我们就不再深入讲解，来看看该如何使用:
+后者简单的多，但是也有限制，具体见[附录 D](https://course.rs/appendix/derive.html)，这里我们就不再深入讲解，来看看该如何使用:
 ```rust
 #[derive(Debug)]
 struct Rectangle {
@@ -355,9 +356,9 @@ rect1 is Rectangle {
 
 此时结构体的输出跟我们创建时候的代码几乎一模一样了！当然，如果大家还是不满足，那最好还是自己实现 `Display` 特征，以向用户更美的展示你的私藏结构体。关于格式化输出的更多内容，我们强烈推荐看看这个[章节](https://course.rs/basic/formatted-output.html#debug-特征)。
 
-还有一个简单的输出 debug 信息的方法，那就是使用 [`dbg!` 宏](https://doc.rust-lang.org/std/macro.dbg.html)，它会拿走表达式的所有权，然后打出相应的文件名、行号等 debug 信息，当然还有我们需要的表达式的求值结果。**除次之外，它最终还会把表达式值的所有权返回！**
+还有一个简单的输出 debug 信息的方法，那就是使用 [`dbg!` 宏](https://doc.rust-lang.org/std/macro.dbg.html)，它会拿走表达式的所有权，然后打印出相应的文件名、行号等 debug 信息，当然还有我们需要的表达式的求值结果。**除此之外，它最终还会把表达式值的所有权返回！**
 
-> `dbg!` 输出到的是标准错误输出 `stderr`，而 `println!` 输出到标准输出 `stdout`
+> `dbg!` 输出到标准错误输出 `stderr`，而 `println!` 输出到标准输出 `stdout`
 
 下面的例子中清晰的展示了 `dbg!` 如何在打印出信息的同时，还把表达式的值赋给了 `width`:
 ```rust
