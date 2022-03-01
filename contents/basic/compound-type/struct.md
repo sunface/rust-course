@@ -358,7 +358,7 @@ rect1 is Rectangle {
 
 还有一个简单的输出 Debug 信息的方法，那就是使用 [`dbg!` 宏](https://doc.rust-lang.org/std/macro.dbg.html)，它会拿走表达式的所有权，然后打印出相应的文件名、行号等 Debug 信息，当然还有我们需要的表达式的求值结果。**除此之外，它最终还会把表达式值的所有权返回！**
 
-> `dbg!` 输出到的是标准错误输出 `stderr`，而 `println!` 输出到的标准输出 `stdout`
+> `dbg!` 输出到标准错误输出 `stderr`，而 `println!` 输出到标准输出 `stdout`
 
 下面的例子中清晰的展示了 `dbg!` 如何在打印出信息的同时，还把表达式的值赋给了 `width`:
 ```rust
