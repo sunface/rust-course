@@ -379,7 +379,7 @@ fn main() {
 }
 ```
 
-最终的 Debug 输出如下:
+最终的 debug 输出如下:
 ```shell
 $ cargo run
 [src/main.rs:10] 30 * scale = 60
