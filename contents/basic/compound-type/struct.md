@@ -356,7 +356,7 @@ rect1 is Rectangle {
 
 此时结构体的输出跟我们创建时候的代码几乎一模一样了！当然，如果大家还是不满足，那最好还是自己实现 `Display` 特征，以向用户更美的展示你的私藏结构体。关于格式化输出的更多内容，我们强烈推荐看看这个[章节](https://course.rs/basic/formatted-output.html#debug-特征)。
 
-还有一个简单的输出 Debug 信息的方法，那就是使用 [`dbg!` 宏](https://doc.rust-lang.org/std/macro.dbg.html)，它会拿走表达式的所有权，然后打印出相应的文件名、行号等 Debug 信息，当然还有我们需要的表达式的求值结果。**除此之外，它最终还会把表达式值的所有权返回！**
+还有一个简单的输出 debug 信息的方法，那就是使用 [`dbg!` 宏](https://doc.rust-lang.org/std/macro.dbg.html)，它会拿走表达式的所有权，然后打印出相应的文件名、行号等 debug 信息，当然还有我们需要的表达式的求值结果。**除此之外，它最终还会把表达式值的所有权返回！**
 
 > `dbg!` 输出到标准错误输出 `stderr`，而 `println!` 输出到标准输出 `stdout`
 
