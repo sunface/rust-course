@@ -4,7 +4,7 @@
   - 官方： [https://course.rs](https://course.rs)
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
 
-> 学习 Rust 光看书不够，精心设计的习题和项目实践可以让你事半功倍。[Rust By Practice](https://github.com/sunface/rust-by-practice)是本书的配套习题和实践，覆盖了 easy to hard 各个难度，满足大家对 Rust 的所有期待。
+> 学习 Rust 光看书不够，精心设计的习题和项目实践可以让你事半功倍。[Rust By Practice](https://github.com/sunface/rust-by-practice) 是本书的配套习题和实践，覆盖了 easy to hard 各个难度，满足大家对 Rust 的所有期待。
 > 
 > [Rust 语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，精选过去一周的技术文章、业界新闻、开源项目和 Rust 语言动态。
 >
