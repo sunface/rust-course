@@ -152,8 +152,6 @@
         - [发布到crates.io](cargo/reference/publishing-on-crates.io.md)
         - [构建脚本 todo](cargo/reference/build-script/intro.md)
           - [构建脚本示例 todo](cargo/reference/build-script/examples.md)
-        - [Package ID说明 todo](cargo/reference/package-id.md)
-    - [附录：Git鉴权](cargo/git-auth.md)
 
 - [易混淆概念解析](confonding/intro.md)
     - [切片和切片引用](confonding/slice.md)
