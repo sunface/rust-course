@@ -4,9 +4,11 @@
   - 官方： [https://course.rs](https://course.rs)
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
 
-> 学了 Rust 语法后迷茫了？来试试 [Rust By Practice](https://github.com/sunface/rust-by-practice)，它是本书的配套练习题和实践，覆盖了 easy to hard 各个难度，满足你的所有需求。
+> 学习 Rust 光看书不够，精心设计的习题和项目实践可以让你事半功倍。[Rust By Practice](https://github.com/sunface/rust-by-practice) 是本书的配套习题和实践，覆盖了 easy to hard 各个难度，满足大家对 Rust 的所有期待。
 > 
-> [Rust 语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，这里有精选的开源项目、新闻、技术文章和 Rust 语言更新等内容栏目。
+> [Rust 语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，精选过去一周的技术文章、业界新闻、开源项目和 Rust 语言动态。
+>
+> Rust 优秀项目很多，如何在茫茫码海中与它们相遇？相比 Awesome Rust， [Fancy Rust](https://github.com/sunface/fancy-rust) 能带给你全新的体验和选择。
 
 
 ### 教程简介
