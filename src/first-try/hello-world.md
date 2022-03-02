@@ -9,6 +9,7 @@
 现在使用 VSCode 打开 [上一节](./cargo.md) 中创建的 `world_hello` 工程，然后进入 `main.rs` 文件。（此文件是当前 Rust 工程的入口文件，和其它语言几无区别。）
 
 接下来，对世界友人给予热切的问候：
+
 ```rust
 fn greet_world() {
      let southern_germany = "Grüß Gott!";
@@ -19,7 +20,7 @@ fn greet_world() {
              println!("{}", &region);
      }
  }
- 
+
  fn main() {
      greet_world();
  }
@@ -46,14 +47,17 @@ World, hello
 对于 `println` 来说，我们没有使用其它语言惯用的 `%s`、`%d` 来做输出占位符，而是使用 `{}`，因为 Rust 在底层帮我们做了大量工作，会自动识别输出数据的类型，例如当前例子，会识别为 `String` 类型。
 
 最后，和其它语言不同，Rust 的集合类型不能直接进行循环，需要变成迭代器（这里是通过 `.iter()` 方法），才能用于迭代循环。在目前来看，你会觉得这一点好像挺麻烦，不急，以后就知道这么做的好处所在。
+
 > 实际上这段代码可以简写，在 2021 edition 及以后，支持直接写 `for region in regions`，原因会在迭代器章节的开头提到，是因为 for 隐式地将 regions 转换成迭代器。
 
 至于函数声明、调用、数组的使用，和其它语言没什么区别，So Easy！
 
 ## Rust 语言初印象
+
 Rust 这门语言对于 Haskell 和 Java 开发者来说，可能会觉得很熟悉，因为它们在高阶表达方面都很优秀。简而言之，就是可以很简洁的写出原本需要一大堆代码才能表达的含义。但是，Rust 又有所不同：它的性能是底层语言级别的性能，可以跟 C/C++ 相媲美。
 
 上面的 `So Easy` 的余音仍在绕梁，我希望它能继续下去，可是… 人总是要面对现实，因此让我们来点狠活：
+
 ```rust
 fn main() {
    let penguin_data = "\
@@ -63,14 +67,14 @@ fn main() {
    Fiordland penguin,60
    Invalid,data
    ";
- 
+
    let records = penguin_data.lines();
- 
+
    for (i, record) in records.enumerate() {
      if i == 0 || record.trim().len() == 0 {
        continue;
      }
-     
+
      // 声明一个 fields 变量，类型是 Vec
      // Vec 是 vector 的缩写，是一个可伸缩的集合类型，可以认为是一个动态数组
      // <_>表示 Vec 中的元素类型由编译器自行推断，在很多场景下，都会帮我们省却不少功夫
@@ -83,7 +87,7 @@ fn main() {
        eprintln!("debug: {:?} -> {:?}",
               record, fields);
      }
- 
+
      let name = fields[0];
      // 1. 尝试把 fields[1] 的值转换为 f32 类型的浮点数，如果成功，则把 f32 值赋给 length 变量
      // 2. if let 是一个匹配表达式，用来从=右边的结果中，匹配出 length 的值：

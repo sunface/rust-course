@@ -1,13 +1,12 @@
-# Rust语言圣经 (The Course)
+# Rust 语言圣经 (The Course)
 
 - 在线阅读
   - 官方： [https://course.rs](https://course.rs)
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
 
 > 学了 Rust 语法后迷茫了？来试试 [Rust By Practice](https://github.com/sunface/rust-by-practice)，它是本书的配套练习题和实践，覆盖了 easy to hard 各个难度，满足你的所有需求。
-> 
+>
 > [Rust 语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，这里有精选的开源项目、新闻、技术文章和 Rust 语言更新等内容栏目。
-
 
 ### 教程简介
 
@@ -27,10 +26,9 @@
 
 在开源版权上，我们选择了 [No License](https://www.google.com.hk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwigkv-KtMT0AhXFdXAKHdI4BCcQFnoECAQQAw&url=https%3A%2F%2Fchoosealicense.com%2Fno-permission%2F&usg=AOvVaw3M2Q4IbdhnpJ2K71TF7SPB)，这意味着读者可以随意的 fork 和阅读，但是**不能私下修改后再包装分发**，如果有这方面的需求，请联系我们，望理解。
 
-Rust语言圣经是**完全开源**的电子书，每个章节都至少用时 4-6 个小时才能初步完稿，牺牲了大量休闲娱乐、陪伴家人的时间，还没有任何钱赚。
+Rust 语言圣经是**完全开源**的电子书，每个章节都至少用时 4-6 个小时才能初步完稿，牺牲了大量休闲娱乐、陪伴家人的时间，还没有任何钱赚。
 
 **如果大家觉得这本书作者真的用心了，希望你能帮我们点一个 🌟 `star`。感激不尽！：）**
-
 
 ### 借鉴的书籍
 
@@ -55,3 +53,4 @@ Rust语言圣经是**完全开源**的电子书，每个章节都至少用时 4-
 - [@Mintnoii](https://github.com/Mintnoii)
 
 尤其感谢这些主要贡献者，谢谢你们花费大量时间贡献了多处`fix`和高质量的内容优化。非常感动，再次感谢～～
+
