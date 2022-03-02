@@ -1,6 +1,10 @@
 # ChangeLog
 记录一些值得注意的变更。
 
+## 2022-03-02
+
+- 新增章节: [Cargo - 构建脚本](https://course.rs/cargo/reference/build-script/intro.html)
+
 ## 2022-02-28
 
 - 新增章节: [Cargo - 发布到crates.io](https://course.rs/cargo/reference/publishing-on-crates.io.html)

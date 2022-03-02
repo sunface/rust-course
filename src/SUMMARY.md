@@ -139,7 +139,7 @@
       - [测试和CI](cargo/guide/tests-ci.md)
       - [Cargo缓存](cargo/guide/cargo-cache.md)
       - [Build缓存](cargo/guide/build-cache.md)
-    - [进阶指南 doing](cargo/reference/intro.md)
+    - [进阶指南](cargo/reference/intro.md)
         - [指定依赖项](cargo/reference/specify-deps.md)
         - [依赖覆盖](cargo/reference/deps-overriding.md)
         - [Cargo.toml清单详解](cargo/reference/manifest.md)
@@ -150,7 +150,7 @@
         - [发布配置Profile](cargo/reference/profiles.md)
         - [通过config.toml对Cargo进行配置](cargo/reference/configuration.md)
         - [发布到crates.io](cargo/reference/publishing-on-crates.io.md)
-        - [构建脚本 todo](cargo/reference/build-script/intro.md)
+        - [构建脚本 build.rs](cargo/reference/build-script/intro.md)
           - [构建脚本示例 todo](cargo/reference/build-script/examples.md)
 
 - [易混淆概念解析](confonding/intro.md)
