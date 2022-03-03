@@ -151,7 +151,7 @@
         - [通过config.toml对Cargo进行配置](cargo/reference/configuration.md)
         - [发布到crates.io](cargo/reference/publishing-on-crates.io.md)
         - [构建脚本 build.rs](cargo/reference/build-script/intro.md)
-          - [构建脚本示例 todo](cargo/reference/build-script/examples.md)
+          - [构建脚本示例](cargo/reference/build-script/examples.md)
 
 - [易混淆概念解析](confonding/intro.md)
     - [切片和切片引用](confonding/slice.md)
