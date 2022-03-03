@@ -5,7 +5,7 @@
 可能也有不少人第一次听说自引用结构体，那咱们先来看看它们长啥样。
 
 ```rust
-struct RefWithinMe<'a> {
+struct SelfRef<'a> {
     value: String,
 
     // 该引用指向上面的value
