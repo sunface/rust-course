@@ -4,7 +4,7 @@
 - 前者从用户的角度出发来描述项目信息和依赖管理，因此它是由用户来编写
 - 后者包含了依赖的精确描述信息，它是由 `Cargo` 自行维护，因此不要去手动修改
 
-它们的关系跟 `package.json` 和 `package-lock.json` 非常相似，从 Javascript 过来的同学应该会比较好理解。
+它们的关系跟 `package.json` 和 `package-lock.json` 非常相似，从 JavaScript 过来的同学应该会比较好理解。
 
 ## 是否上传本地的 `Cargo.lock`
 当本地开发时，`Cargo.lock` 自然是非常重要的，但是当你要把项目上传到 `Git` 时，例如 `Github`，那是否上传 `Cargo.lock` 就成了一个问题。
