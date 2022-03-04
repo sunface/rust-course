@@ -193,7 +193,7 @@
     - [代码开发实践 todo](practice/best-pratice.md)
     - [日志记录 todo](practice/logs.md)
     - [可观测性监控 todo](practice/observability.md)
-  
+    - [面试经验 doing](practice/interview.md)
 <!-- - [如何实现一个链表 todo]() -->
   
 - [Rust性能剖析 todo](profiling/intro.md)  
