@@ -153,6 +153,8 @@
         - [构建脚本 build.rs](cargo/reference/build-script/intro.md)
           - [构建脚本示例](cargo/reference/build-script/examples.md)
 
+- [手把手带你实现链表 doing](linked-list/intro.md)
+  
 - [易混淆概念解析](confonding/intro.md)
     - [切片和切片引用](confonding/slice.md)
     - [String、&str 和 str](confonding/string.md)
