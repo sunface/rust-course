@@ -128,7 +128,7 @@ $ cargo check
 
 现在用 VSCode 打开上面创建的"世界，你好"项目，然后进入根目录的 `Cargo.toml` 文件，可以看到该文件包含不少信息：
 
-### package配置段落
+### package 配置段落
 
 `package` 中记录了项目的描述信息，典型的如下：
 

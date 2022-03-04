@@ -1,17 +1,20 @@
 # 深入生命周期
+
 其实关于生命周期的常用特性，在上一节中，我们已经概括得差不多了，本章主要讲解生命周期的一些高级或者不为人知的特性。对于新手，完全可以跳过本节内容，进行下一章节的学习。
 
 ## 不太聪明的生命周期检查
+
 在 Rust 语言学习中，一个很重要的部分就是阅读一些你可能不经常遇到，但是一旦遇到就难以理解的代码，这些代码往往最令人头疼的就是生命周期，这里我们就来看看一些本以为可以编译，但是却因为生命周期系统不够聪明导致编译失败的代码。
 
-#### 例子1
+#### 例子 1
+
 ```rust
 #[derive(Debug)]
 struct Foo;
 
 impl Foo {
     fn mutate_and_share(&mut self) -> &Self {
-        &*self 
+        &*self
     }
     fn share(&self) {}
 }
@@ -27,6 +30,7 @@ fn main() {
 上面的代码中，`foo.mutate_and_share()` 虽然借用了 `&mut self`，但是它最终返回的是一个 `&self`，然后赋值给 `loan`，因此理论上来说它最终是进行了不可变借用，同时 `foo.share` 也进行了不可变借用，那么根据 Rust 的借用规则：多个不可变借用可以同时存在，因此该代码应该编译通过。
 
 事实上，运行代码后，你将看到一个错误：
+
 ```console
 error[E0502]: cannot borrow `foo` as immutable because it is also borrowed as mutable
   --> src/main.rs:12:5
@@ -42,12 +46,13 @@ error[E0502]: cannot borrow `foo` as immutable because it is also borrowed as mu
 编译器的提示在这里其实有些难以理解，因为可变借用仅在 `mutate_and_share` 方法内部有效，出了该方法后，就只有返回的不可变借用，因此，按理来说可变借用不应该在 `main` 的作用范围内存在。
 
 对于这个反直觉的事情，让我们用生命周期来解释下，可能你就很好理解了：
+
 ```rust
 struct Foo;
 
 impl Foo {
     fn mutate_and_share<'a>(&'a mut self) -> &'a Self {
-        &'a *self 
+        &'a *self
     }
     fn share<'a>(&'a self) {}
 }
@@ -74,8 +79,10 @@ fn main() {
 
 上述代码实际上完全是正确的，但是因为生命周期系统的“粗糙实现”，导致了编译错误，目前来说，遇到这种生命周期系统不够聪明导致的编译错误，我们也没有太好的办法，只能修改代码去满足它的需求，并期待以后它会更聪明。
 
-#### 例子2
+#### 例子 2
+
 再来看一个例子：
+
 ```rust
 #![allow(unused)]
 fn main() {
@@ -121,17 +128,16 @@ error[E0499]: cannot borrow `*map` as mutable more than once at a time
    | |_________- returning this value requires that `*map` is borrowed for `'m`
 ```
 
-分析代码可知在 `match map.get_mut(&key)` 方法调用完成后，对 `map` 的可变借用就可以结束了。但从报错看来，编译器不太聪明，它认为该借用会持续到整个 `match` 语句块的结束(第16行处)，这便造成了后续借用的失败。
+分析代码可知在 `match map.get_mut(&key)` 方法调用完成后，对 `map` 的可变借用就可以结束了。但从报错看来，编译器不太聪明，它认为该借用会持续到整个 `match` 语句块的结束(第 16 行处)，这便造成了后续借用的失败。
 
-类似的例子还有很多，由于篇幅有限，就不在这里一一列举，如果大家想要阅读更多的类似代码，可以看看[<<Rust代码鉴赏>>](https://github.com/sunface/rust-codes)一书。
-
+类似的例子还有很多，由于篇幅有限，就不在这里一一列举，如果大家想要阅读更多的类似代码，可以看看[<<Rust 代码鉴赏>>](https://github.com/sunface/rust-codes)一书。
 
 ## 无界生命周期
 
-
 不安全代码(`unsafe`)经常会凭空产生引用或生命周期，这些生命周期被称为是 **无界(unbound)** 的。
 
-无界生命周期往往是在解引用一个原生指针(裸指针raw pointer)时产生的，换句话说，它是凭空产生的，因为输入参数根本就没有这个生命周期：
+无界生命周期往往是在解引用一个原生指针(裸指针 raw pointer)时产生的，换句话说，它是凭空产生的，因为输入参数根本就没有这个生命周期：
+
 ```rust
 fn f<'a, T>(x: *const T) -> &'a T {
     unsafe {
@@ -147,10 +153,13 @@ fn f<'a, T>(x: *const T) -> &'a T {
 我们在实际应用中，要尽量避免这种无界生命周期。最简单的避免无界生命周期的方式就是在函数声明中运用生命周期消除规则。**若一个输出生命周期被消除了，那么必定因为有一个输入生命周期与之对应**。
 
 ## 生命周期约束 HRTB
+
 生命周期约束跟特征约束类似，都是通过形如 `'a: 'b` 的语法，来说明两个生命周期的长短关系。
 
 #### 'a: 'b
+
 假设有两个引用 `&'a i32` 和 `&'b i32`，它们的生命周期分别是 `'a` 和 `'b`，若 `'a` >= `'b`，则可以定义 `'a:'b`，表示 `'a` 至少要活得跟 `'b` 一样久。
+
 ```rust
 struct DoubleRef<'a,'b:'a, T> {
     r: &'a T,
@@ -161,7 +170,9 @@ struct DoubleRef<'a,'b:'a, T> {
 例如上述代码定义一个结构体，它拥有两个引用字段，类型都是泛型 `T`，每个引用都拥有自己的生命周期，由于我们使用了生命周期约束 `'b: 'a`，因此 `'b` 必须活得比 `'a` 久，也就是结构体中的 `s` 字段引用的值必须要比 `r` 字段引用的值活得要久。
 
 #### T: 'a
+
 表示类型 `T` 必须比 `'a` 活得要久：
+
 ```rust
 struct Ref<'a, T: 'a> {
     r: &'a T
@@ -171,6 +182,7 @@ struct Ref<'a, T: 'a> {
 因为结构体字段 `r` 引用了 `T`，因此 `r` 的生命周期 `'a` 必须要比 `T` 的生命周期更短(被引用者的生命周期必须要比引用长)。
 
 在 Rust 1.30 版本之前，该写法是必须的，但是从 1.31 版本开始，编译器可以自动推导 `T: 'a` 类型的约束，因此我们只需这样写即可：
+
 ```rust
 struct Ref<'a, T> {
     r: &'a T
@@ -178,6 +190,7 @@ struct Ref<'a, T> {
 ```
 
 来看一个使用了生命周期约束的综合例子：
+
 ```rust
 struct ImportantExcerpt<'a> {
     part: &'a str,
@@ -193,17 +206,19 @@ impl<'a: 'b, 'b> ImportantExcerpt<'a> {
 
 上面的例子中必须添加约束 `'a: 'b` 后，才能成功编译，因为 `self.part` 的生命周期与 `self`的生命周期一致，将 `&'a` 类型的生命周期强行转换为 `&'b` 类型，会报错，只有在 `'a` >= `'b` 的情况下，`'a` 才能转换成 `'b`。
 
-
 ## 闭包函数的消除规则
+
 先来看一段简单的代码：
+
 ```rust
-fn fn_elision(x: &i32) -> &i32 { x } 
+fn fn_elision(x: &i32) -> &i32 { x }
 let closure_slision = |x: &i32| -> &i32 { x };
 ```
 
 乍一看，这段代码比古天乐还平平无奇，能有什么问题呢？来，拄拐走两圈试试：
+
 ```console
-error: lifetime may not live long enough 
+error: lifetime may not live long enough
   --> src/main.rs:39:39
    |
 39 |     let closure = |x: &i32| -> &i32 { x }; // fails
@@ -220,12 +235,15 @@ error: lifetime may not live long enough
 首先给出一个结论：**这个问题，可能很难被解决，建议大家遇到后，还是老老实实用正常的函数，不要秀闭包了**。
 
 对于函数的生命周期而言，它的消除规则之所以能生效是因为它的生命周期完全体现在签名的引用类型上，在函数体中无需任何体现：
+
 ```rust
 fn fn_elision(x: &i32) -> &i32 {..}
 ```
+
 因此编译器可以做各种编译优化，也很容易根据参数和返回值进行生命周期的分析，最终得出消除规则。
 
 可是闭包，并没有函数那么简单，它的生命周期分散在参数和闭包函数体中(主要是它没有确切的返回值签名)：
+
 ```rust
 let closure_slision = |x: &i32| -> &i32 { x };
 ```
@@ -234,29 +252,32 @@ let closure_slision = |x: &i32| -> &i32 { x };
 
 由于上述原因(当然，实际情况复杂的多)，Rust 语言开发者目前其实是有意针对函数和闭包实现了两种不同的生命周期消除规则。
 
-
 ## NLL (Non-Lexical Lifetime)
+
 之前我们在[引用与借用](../../basic/ownership/borrowing.md#NLL)那一章其实有讲到过这个概念，简单来说就是：**引用的生命周期正常来说应该从借用开始一直持续到作用域结束**，但是这种规则会让多引用共存的情况变得更复杂：
+
 ```rust
 fn main() {
    let mut s = String::from("hello");
 
-    let r1 = &s; 
-    let r2 = &s; 
+    let r1 = &s;
+    let r2 = &s;
     println!("{} and {}", r1, r2);
     // 新编译器中，r1,r2作用域在这里结束
 
-    let r3 = &mut s; 
+    let r3 = &mut s;
     println!("{}", r3);
 }
 ```
-按照上述规则，这段代码将会报错，因为 `r1` 和 `r2` 的不可变引用将持续到 `main` 函数结束，而在此范围内，我们又借用了 `r3` 的可变引用，这违反了借用的规则：要么多个不可变借用，要么一个可变借用。 
+
+按照上述规则，这段代码将会报错，因为 `r1` 和 `r2` 的不可变引用将持续到 `main` 函数结束，而在此范围内，我们又借用了 `r3` 的可变引用，这违反了借用的规则：要么多个不可变借用，要么一个可变借用。
 
 好在，该规则从 1.31 版本引入 `NLL` 后，就变成了：**引用的生命周期从借用处开始，一直持续到最后一次使用的地方**。
 
 按照最新的规则，我们再来分析一下上面的代码。`r1` 和 `r2` 不可变借用在 `println!` 后就不再使用，因此生命周期也随之结束，那么 `r3` 的借用就不再违反借用的规则，皆大欢喜。
 
 再来看一段关于 `NLL` 的代码解释：
+
 ```rust
 let mut u = 0i32;
 let mut v = 1i32;
@@ -280,13 +301,15 @@ use(a);                 //   |                            |
 
 在实际项目中，`NLL` 规则可以大幅减少引用冲突的情况，极大的便利了用户，因此广受欢迎，最终该规则甚至演化成一个独立的项目，未来可能会进一步简化我们的使用，`Polonius`：
 
-- [项目地址](https://github.com/rust-lang/polonius) 
+- [项目地址](https://github.com/rust-lang/polonius)
 - [具体介绍](http://smallcultfollowing.com/babysteps/blog/2018/04/27/an-alias-based-formulation-of-the-borrow-checker/)
 
 # Reborrow 再借用
+
 学完 `NLL` 后，我们就有了一定的基础，可以继续学习关于借用和生命周期的一个高级内容：**再借用**。
 
 先来看一段代码：
+
 ```rust
 #[derive(Debug)]
 struct Point {
@@ -315,13 +338,14 @@ fn main() {
 以上代码，大家可能会觉得可变引用 `r` 和不可变引用 `rr` 同时存在会报错吧？但是事实上并不会，原因在于 `rr` 是对 `r` 的再借用。
 
 对于再借用而言，`rr` 再借用时不会破坏借用规则，但是你不能在它的生命周期内再使用原来的借用 `r`，来看看对上段代码的分析：
+
 ```rust
 fn main() {
     let mut p = Point { x: 0, y: 0 };
     let r = &mut p;
     // reborrow! 此时对`r`的再借用不会导致跟上面的借用冲突
     let rr: &Point = &*r;
-    
+
     // 再借用`rr`最后一次使用发生在这里，在它的生命周期中，我们并没有使用原来的借用`r`，因此不会报错
     println!("{:?}", rr);
 
@@ -332,41 +356,47 @@ fn main() {
 ```
 
 再来看一个例子：
+
 ```rust
 use std::vec::Vec;
 fn read_length(strings: &mut Vec<String>) -> usize {
    strings.len()
 }
 ```
+
 如上所示，函数体内对参数的二次借用也是典型的 `Reborrow` 场景。
 
-
 那么下面让我们来做件坏事，破坏这条规则，使其报错：
+
 ```rust
 fn main() {
     let mut p = Point { x: 0, y: 0 };
     let r = &mut p;
-    let rr: &Point = &*r; 
+    let rr: &Point = &*r;
 
     r.move_to(10, 10);
-    
+
     println!("{:?}", rr);
 
     println!("{:?}", r);
 }
 ```
+
 果然，破坏永远比重建简单 :) 只需要在 `rr` 再借用的生命周期内使用一次原来的借用 `r` 即可！
 
 ## 生命周期消除规则补充
+
 在上一节中，我们介绍了三大基础生命周期消除规则，实际上，随着 Rust 的版本进化，该规则也在不断演进，这里再介绍几个常见的消除规则：
 
-#### impl块消除
+#### impl 块消除
+
 ```rust
 impl<'a> Reader for BufReader<'a> {
     // methods go here
     // impl内部实际上没有用到'a
 }
 ```
+
 如果你以前写的`impl`块长上面这样，同时在 `impl` 内部的方法中，根本就没有用到 `'a`，那就可以写成下面的代码形式。
 
 ```rust
@@ -380,6 +410,7 @@ impl Reader for BufReader<'_> {
 歪个楼，有读者估计会发问：既然用不到 `'a`，为何还要写出来？如果你仔细回忆下上一节的内容，里面有一句专门用粗体标注的文字：**生命周期参数也是类型的一部分**，因此 `BufReader<'a>` 是一个完整的类型，在实现它的时候，你不能把 `'a` 给丢了！
 
 #### 生命周期约束消除
+
 ```rust
 // Rust 2015
 struct Ref<'a, T: 'a> {
@@ -395,6 +426,7 @@ struct Ref<'a, T> {
 在本节的生命周期约束中，也提到过，新版本 Rust 中，上面情况中的 `T: 'a` 可以被消除掉，当然，你也可以显式的声明，但是会影响代码可读性。关于类似的场景，Rust 团队计划在未来提供更多的消除规则，但是，你懂的，计划未来就等于未知。
 
 ## 一个复杂的例子
+
 下面是一个关于生命周期声明过大的例子，会较为复杂，希望大家能细细阅读，它能帮你对生命周期的理解更加深入。
 
 ```rust
@@ -409,7 +441,7 @@ impl<'a> Interface<'a> {
 }
 
 struct Manager<'a> {
-    text: &'a str    
+    text: &'a str
 }
 
 struct List<'a> {
@@ -422,7 +454,7 @@ impl<'a> List<'a> {
             manager: &mut self.manager
         }
     }
-} 
+}
 
 fn main() {
     let mut list = List {
@@ -430,11 +462,11 @@ fn main() {
             text: "hello"
         }
     };
-    
+
     list.get_interface().noop();
-    
+
     println!("Interface should be dropped here and the borrow released");
-    
+
     // 下面的调用会失败，因为同时有不可变/可变借用
     // 但是Interface在之前调用完成后就应该被释放了
     use_list(&list);
@@ -444,7 +476,9 @@ fn use_list(list: &List) {
     println!("{}", list.manager.text);
 }
 ```
+
 运行后报错：
+
 ```console
 error[E0502]: cannot borrow `list` as immutable because it is also borrowed as mutable // `list`无法被借用，因为已经被可变借用
   --> src/main.rs:40:14
@@ -464,6 +498,7 @@ error[E0502]: cannot borrow `list` as immutable because it is also borrowed as m
 这是因为我们在 `get_interface` 方法中声明的 `lifetime` 有问题，该方法的参数的生命周期是 `'a`，而 `List` 的生命周期也是 `'a`，说明该方法至少活得跟 `List` 一样久，再回到 `main` 函数中，`list` 可以活到 `main` 函数的结束，因此 `list.get_interface()` 借用的可变引用也会活到 `main` 函数的结束，在此期间，自然无法再进行借用了。
 
 要解决这个问题，我们需要为 `get_interface` 方法的参数给予一个不同于 `List<'a>` 的生命周期 `'b`，最终代码如下：
+
 ```rust
 struct Interface<'b, 'a: 'b> {
     manager: &'b mut Manager<'a>
@@ -476,7 +511,7 @@ impl<'b, 'a: 'b> Interface<'b, 'a> {
 }
 
 struct Manager<'a> {
-    text: &'a str    
+    text: &'a str
 }
 
 struct List<'a> {
@@ -490,7 +525,7 @@ impl<'a> List<'a> {
             manager: &mut self.manager
         }
     }
-} 
+}
 
 fn main() {
 
@@ -499,11 +534,11 @@ fn main() {
             text: "hello"
         }
     };
-    
+
     list.get_interface().noop();
-    
+
     println!("Interface should be dropped here and the borrow released");
-    
+
     // 下面的调用可以通过，因为Interface的生命周期不需要跟list一样长
     use_list(&list);
 }

@@ -7,6 +7,7 @@
 字符，对于没有其它编程经验的新手来说可能不太好理解（没有编程经验敢来学 Rust 的绝对是好汉），但是你可以把它理解为英文中的字母，中文中的汉字。
 
 下面的代码展示了几个颇具异域风情的字符：
+
 ```
 fn main() {
     let c = 'z';
@@ -16,9 +17,10 @@ fn main() {
 }
 ```
 
-如果大家是从有年代感的编程语言过来，可能会大喊一声：这XX叫字符？是的，在 Rust 语言中这些都是字符，Rust 的字符不仅仅是 `ASCII`，所有的 `Unicode` 值都可以作为 Rust 字符，包括单个的中文、日文、韩文、emoji表情符号等等，都是合法的字符类型。`Unicode` 值的范围从 `U+0000~U+D7FF` 和 `U+E000~U+10FFFF`。不过“字符”并不是 `Unicode` 中的一个概念，所以人在直觉上对“字符”的理解和 Rust 的字符概念并不一致。
+如果大家是从有年代感的编程语言过来，可能会大喊一声：这 XX 叫字符？是的，在 Rust 语言中这些都是字符，Rust 的字符不仅仅是 `ASCII`，所有的 `Unicode` 值都可以作为 Rust 字符，包括单个的中文、日文、韩文、emoji 表情符号等等，都是合法的字符类型。`Unicode` 值的范围从 `U+0000 ~ U+D7FF` 和 `U+E000 ~ U+10FFFF`。不过“字符”并不是 `Unicode` 中的一个概念，所以人在直觉上对“字符”的理解和 Rust 的字符概念并不一致。
 
 由于 `Unicode` 都是 4 个字节编码，因此字符类型也是占用 4 个字节：
+
 ```rust
 fn main() {
     let x = '中';
@@ -31,7 +33,7 @@ fn main() {
 ```console
 $ cargo run
    Compiling ...
-    
+
 字符'中'占用了4字节的内存大小
 ```
 
@@ -71,3 +73,4 @@ fn main() {
 ## 课后练习
 
 > [Rust By Practice](https://zh.practice.rs/basic-types/char-bool-unit.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。
+

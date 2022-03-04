@@ -1,5 +1,7 @@
 # 异步跟同步共存
-一些异步程序例如 tokio指南 章节中的绝大多数例子，它们整个程序都是异步的，包括程序入口 `main` 函数：
+
+一些异步程序例如 tokio 指南 章节中的绝大多数例子，它们整个程序都是异步的，包括程序入口 `main` 函数：
+
 ```rust
 #[tokio::main]
 async fn main() {
@@ -14,9 +16,11 @@ async fn main() {
 因此本章节的目标很纯粹：如何在同步代码中使用一小部分异步代码。
 
 ## `#[tokio::main]` 的展开
-在 Rust 中， `main` 函数不能是异步的，有同学肯定不愿意了，我们在之前章节..不对，就在开头，你还用到了 `async  fn main` 的声明方式，怎么就不能异步了呢？
+
+在 Rust 中， `main` 函数不能是异步的，有同学肯定不愿意了，我们在之前章节..不对，就在开头，你还用到了 `async fn main` 的声明方式，怎么就不能异步了呢？
 
 其实，`#[tokio::main]` 该宏仅仅是提供语法糖，目的是让大家可以更简单、更一致的去写异步代码，它会将你写下的`async fn main` 函数替换为：
+
 ```rust
 fn main() {
     tokio::runtime::Builder::new_multi_thread()
@@ -31,11 +35,12 @@ fn main() {
 
 注意到上面的 `block_on` 方法了嘛？在我们自己的同步代码中，可以使用它开启一个 `async/await` 世界。
 
-## mini-redis的同步接口
+## mini-redis 的同步接口
+
 在下面，我们将一起构建一个同步的 `mini-redis` ，为了实现这一点，需要将 `Runtime` 对象存储起来，然后利用上面提到的 `block_on` 方法。
 
-
 首先，创建一个文件 `src/blocking_client.rs`，然后使用下面代码将异步的 `Client` 结构体包裹起来:
+
 ```rust
 use tokio::net::ToSocketAddrs;
 use tokio::runtime::Runtime;
@@ -73,7 +78,6 @@ pub fn connect<T: ToSocketAddrs>(addr: T) -> crate::Result<BlockingClient> {
 
 在构建 `Runtime` 的过程中还有一个 [`enable_all`](https://docs.rs/tokio/1.16.1/tokio/runtime/struct.Builder.html#method.enable_all) 方法调用，它可以开启 `Tokio` 运行时提供的 IO 和定时器服务。
 
-
 > 由于 `current_thread` 运行时并不生成新的线程，只是运行在已有的主线程上，因此只有当 `block_on` 被调用后，该运行时才能执行相应的操作。一旦 `block_on` 返回，那运行时上所有生成的任务将再次冻结，直到 `block_on` 的再次调用。
 >
 > 如果这种模式不符合使用场景的需求，那大家还是需要用 `multi_thread` 运行时来代替。事实上，在 tokio 之前的章节中，我们默认使用的就是 `multi_thread` 模式。
@@ -109,6 +113,7 @@ impl BlockingClient {
 这代码看上去挺长，实际上很简单，通过 `block_on` 将异步形式的 `Client` 的方法变成同步调用的形式。例如 `BlockingClient` 的 `get` 方法实际上是对内部的异步 `get` 方法的同步调用。
 
 与上面的平平无奇相比，下面的代码将更有趣，因为它将 `Client` 转变成一个 `Subscriber` 对象:
+
 ```rust
 /// 下面的客户端可以进入 pub/sub (发布/订阅) 模式
 ///
@@ -155,10 +160,13 @@ impl BlockingSubscriber {
 由上可知，`subscribe` 方法会使用运行时将一个异步的 `Client` 转变成一个异步的 `Subscriber`，此外，`Subscriber` 结构体有一个非异步的方法 `get_subscribed`，对于这种方法，只需直接调用即可，而无需使用运行时。
 
 ## 其它方法
+
 上面介绍的是最简单的方法，但是，如果只有这一种， tokio 也不会如此大名鼎鼎。
 
 #### runtime.spawn
+
 可以通过 `Runtime` 的 `spawn` 方法来创建一个基于该运行时的后台任务：
+
 ```rust
 use tokio::runtime::Builder;
 use tokio::time::{sleep, Duration};
@@ -197,6 +205,7 @@ async fn my_bg_task(i: u64) {
 ```
 
 运行该程序，输出如下:
+
 ```console
 Task 0 sleeping for 1000 ms.
 Task 1 sleeping for 950 ms.
@@ -221,7 +230,7 @@ Task 1 stopping.
 Task 0 stopping.
 ```
 
-在此例中，我们生成了10个后台任务在运行时中运行，然后等待它们的完成。作为一个例子，想象一下在图形渲染应用( GUI )中，有时候需要通过网络访问远程服务来获取一些数据，那上面的这种模式就非常适合，因为这些网络访问比较耗时，而且不会影响图形的主体渲染，因此可以在主线程中渲染图形，然后使用其它线程来运行 Tokio 的运行时，并通过该运行时使用异步的方式完成网络访问，最后将这些网络访问的结果发送到 GUI 进行数据渲染，例如一个进度条。
+在此例中，我们生成了 10 个后台任务在运行时中运行，然后等待它们的完成。作为一个例子，想象一下在图形渲染应用( GUI )中，有时候需要通过网络访问远程服务来获取一些数据，那上面的这种模式就非常适合，因为这些网络访问比较耗时，而且不会影响图形的主体渲染，因此可以在主线程中渲染图形，然后使用其它线程来运行 Tokio 的运行时，并通过该运行时使用异步的方式完成网络访问，最后将这些网络访问的结果发送到 GUI 进行数据渲染，例如一个进度条。
 
 还有一点很重要，在本例子中只能使用 `multi_thread` 运行时。如果我们使用了 `current_thread`，你会发现主线程的耗时任务会在后台任务开始之前就完成了。因为在 `current_thread` 模式下，生成的任务只会在 `block_on` 期间才执行。
 
@@ -231,7 +240,9 @@ Task 0 stopping.
 - 通过共享变量的方式，例如 `Mutex`，这种方式非常适合实现 GUI 的进度条: GUI 在每个渲染帧读取该变量即可。
 
 #### 发送消息
+
 在同步代码中使用异步的另一个方法就是生成一个运行时，然后使用消息传递的方式跟它进行交互。这个方法虽然更啰嗦一些，但是相对于之前的两种方法更加灵活：
+
 ```rust
 use tokio::runtime::Builder;
 use tokio::sync::mpsc;

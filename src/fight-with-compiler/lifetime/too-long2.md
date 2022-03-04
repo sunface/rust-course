@@ -1,6 +1,7 @@
 # 生命周期过大-02
 
 继上篇文章后，我们再来看一段**可能**涉及生命周期过大导致的无法编译问题:
+
 ```rust
 fn bar(writer: &mut Writer) {
     baz(writer.indent());
@@ -37,6 +38,7 @@ fn main() {}
 ```
 
 报错如下：
+
 ```console
 error[E0623]: lifetime mismatch
  --> src/main.rs:2:16
@@ -52,6 +54,7 @@ error[E0623]: lifetime mismatch
 WTF，这什么报错，之前都没有见过，而且很难理解，什么叫`writer`滑入了另一个`writer`？
 
 别急，我们先来仔细看下代码，注意这一段：
+
 ```rust
 impl<'a> Writer<'a> {
     fn indent(&'a mut self) -> &'a mut Self {
@@ -61,9 +64,11 @@ impl<'a> Writer<'a> {
         }
     }
 ```
+
 这里的生命周期定义说明`indent`方法使用的。。。等等！你的代码错了，你怎么能在一个函数中返回一个新创建实例的引用？！！最重要的是，编译器不提示这个错误，竟然提示一个莫名其妙看不懂的东东。
 
 行，那我们先解决这个问题，将该方法修改为:
+
 ```rust
 fn indent(&'a mut self) -> Writer<'a> {
     Writer {
@@ -74,6 +79,7 @@ fn indent(&'a mut self) -> Writer<'a> {
 ```
 
 怀着惴惴这心，再一次运行程序，果不其然，编译器又朝我们扔了一坨错误：
+
 ```console
 error[E0308]: mismatched types
  --> src/main.rs:2:9
@@ -86,6 +92,7 @@ error[E0308]: mismatched types
 ```
 
 哦，这次错误很明显，因为`baz`需要`&mut Writer`，但是咱们`writer.indent`返回了一个`Writer`，因此修改下即可:
+
 ```rust
 fn bar(writer: &mut Writer) {
     baz(&mut writer.indent());
@@ -94,6 +101,7 @@ fn bar(writer: &mut Writer) {
 ```
 
 这次总该成功了吧？再次心慌慌的运行编译器，哐：
+
 ```console
 error[E0623]: lifetime mismatch
  --> src/main.rs:2:21
@@ -109,6 +117,7 @@ error[E0623]: lifetime mismatch
 可恶，还是这个看不懂的错误，仔细检查了下代码，这次真的没有其他错误了，只能硬着头皮上。
 
 大概的意思可以分析，生命周期范围不匹配，说明一个大一个小，然后一个`writer`中流入到另一个`writer`说明，两个`writer`的生命周期定义错了，既然这里提到了`indent`方法调用，那么我们再去仔细看一眼：
+
 ```rust
 impl<'a> Writer<'a> {
     fn indent(&'a mut self) -> Writer<'a> {
@@ -120,11 +129,13 @@ impl<'a> Writer<'a> {
     ...
 }
 ```
+
 好像有点问题，`indent`返回的`Writer`的生命周期和外面调用者的`Writer`的生命周期一模一样，这很不合理，一眼就能看出前者远小于后者。
 
-这里稍微展开以下，为何`indent`方法返回值的生命周期不能与参数中的`self`相同。**首先，我们假设它们可以相同，也就是上面的代码可以编译通过**，由于此时在返回值中借用了`self`的可变引用，意味着**如果你在返回值被使用后，还继续使用`self` 会导致重复借用的错误，因为返回值的生命周期将持续到 `self` 结束**。 
+这里稍微展开以下，为何`indent`方法返回值的生命周期不能与参数中的`self`相同。**首先，我们假设它们可以相同，也就是上面的代码可以编译通过**，由于此时在返回值中借用了`self`的可变引用，意味着**如果你在返回值被使用后，还继续使用`self` 会导致重复借用的错误，因为返回值的生命周期将持续到 `self` 结束**。
 
 既然不能相同，那我们尝试着修改下`indent`:
+
 ```rust
  fn indent<'b>(&'b mut self) -> Writer<'b> {
     Writer {
@@ -135,6 +146,7 @@ impl<'a> Writer<'a> {
 ```
 
 Bang! 编译成功，不过稍等，回想下生命周期消除的规则，我们还可以实现的更优雅：
+
 ```rust
 fn bar(writer: &mut Writer) {
     baz(&mut writer.indent());
@@ -171,3 +183,4 @@ fn main() {}
 ```
 
 至此，问题彻底解决，太好了，我感觉我又变强了。可是默默看了眼自己的头发，只能以`哎～`一声叹息结束本章内容。
+

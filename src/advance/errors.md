@@ -1,9 +1,11 @@
 # 错误处理
+
 在之前的[返回值和错误处理](https://course.rs/basic/result-error/intro.html)章节中，我们学习了几个重要的概念，例如 `Result` 用于返回结果处理，`?` 用于错误的传播，若大家对此还较为模糊，强烈建议回头温习下。
 
 在本章节中一起来看看如何对 `Result` ( `Option` ) 做进一步的处理，以及如何定义自己的错误类型。
 
 ## 组合器
+
 在设计模式中，有一个组合器模式，相信有 Java 背景的同学对此并不陌生。
 
 > 将对象组合成树形结构以表示“部分整体”的层次结构。组合模式使得用户对单个对象和组合对象的使用具有一致性。–GoF <<设计模式>>
@@ -13,6 +15,7 @@
 下面我们来看看一些常见的组合器。
 
 #### or() 和 and()
+
 跟布尔关系的与/或很像，这两个方法会对两个表达式做逻辑组合，最终返回 `Option` / `Result`。
 
 - `or()`，表达式按照顺序求值，若任何一个表达式的结果是 `Some` 或 `Ok`，则该值会立刻返回
@@ -56,6 +59,7 @@ fn main() {
 除了 `or` 和 `and` 之外，Rust 还为我们提供了 `xor` ，但是它只能应用在 `Option` 上，其实想想也是这个理，如果能应用在 `Result` 上，那你又该如何对一个值和错误进行异或操作？
 
 #### or_else() 和 and_then()
+
 它们跟 `or()` 和 `and()` 类似，唯一的区别在于，它们的第二个表达式是一个闭包。
 
 ```rust
@@ -121,7 +125,9 @@ fn main() {
 ```
 
 #### filter
+
 `filter` 用于对 `Option` 进行过滤：
+
 ```rust
 fn main() {
     let s1 = Some(3);
@@ -137,7 +143,9 @@ fn main() {
 ```
 
 #### map() 和 map_err()
+
 `map` 可以将 `Some` 或 `Ok` 中的值映射为另一个：
+
 ```rust
 fn main() {
     let s1 = Some("abcde");
@@ -163,6 +171,7 @@ fn main() {
 ```
 
 但是如果你想要将 `Err` 中的值进行改变， `map` 就无能为力了，此时我们需要用 `map_err`：
+
 ```rust
 fn main() {
     let o1: Result<&str, &str> = Ok("abcde");
@@ -181,7 +190,9 @@ fn main() {
 通过对 `o1` 的操作可以看出，与 `map` 面对 `Err` 时的短小类似， `map_err` 面对 `Ok` 时也是相当无力的。
 
 #### map_or() 和 map_or_else()
+
 `map_or` 在 `map` 的基础上提供了一个默认值:
+
 ```rust
 fn main() {
     const V_DEFAULT: u32 = 1;
@@ -198,13 +209,14 @@ fn main() {
 如上所示，当处理 `None` 的时候，`V_DEFAULT` 作为默认值被直接返回。
 
 `map_or_else` 与 `map_or` 类似，但是它是通过一个闭包来提供默认值:
+
 ```rust
 fn main() {
     let s = Some(10);
     let n: Option<i8> = None;
 
     let fn_closure = |v: i8| v + 2;
-    let fn_default = || 1; 
+    let fn_default = || 1;
 
     assert_eq!(s.map_or_else(fn_default, fn_closure), 12);
     assert_eq!(n.map_or_else(fn_default, fn_closure), 1);
@@ -219,7 +231,9 @@ fn main() {
 ```
 
 #### ok_or() and ok_or_else()
+
 这两兄弟可以将 `Option` 类型转换为 `Result` 类型。其中 `ok_or` 接收一个默认的 `Err` 参数:
+
 ```rust
 fn main() {
     const ERR_DEFAULT: &str = "error message";
@@ -236,6 +250,7 @@ fn main() {
 ```
 
 而 `ok_or_else` 接收一个闭包作为 `Err` 参数:
+
 ```rust
 fn main() {
     let s = Some("abcde");
@@ -253,9 +268,11 @@ fn main() {
 以上列出的只是常用的一部分，强烈建议大家看看标准库中有哪些可用的 API，在实际项目中，这些 API 将会非常有用: [Option](https://doc.rust-lang.org/stable/std/option/enum.Option.html) 和 [Result](https://doc.rust-lang.org/stable/std/result/enum.Result.html)。
 
 ## 自定义错误类型
+
 虽然标准库定义了大量的错误类型，但是一个严谨的项目，光使用这些错误类型往往是不够的，例如我们可能会为暴露给用户的错误定义相应的类型。
 
 为了帮助我们更好的定义错误，Rust 在标准库中提供了一些可复用的特征，例如 `std::error::Error` 特征：
+
 ```rust
 use std::fmt::{Debug, Display};
 
@@ -269,6 +286,7 @@ pub trait Error: Debug + Display {
 > 实际上，自定义错误类型只需要实现 `Debug` 和 `Display` 特征即可，`source` 方法是可选的，而 `Debug` 特征往往也无需手动实现，可以直接通过 `derive` 来派生
 
 #### 最简单的错误
+
 ```rust
 use std::fmt;
 
@@ -291,7 +309,7 @@ fn produce_error() -> Result<(), AppError> {
 
 fn main(){
     match produce_error() {
-        Err(e) => eprintln!("{}", e), 
+        Err(e) => eprintln!("{}", e),
         _ => println!("No error"),
     }
 
@@ -307,7 +325,9 @@ fn main(){
 - 可以将自定义错误转换成 `Box<dyn std::error:Error>` 特征对象，在后面的**归一化不同错误类型**部分，我们会详细介绍
 
 #### 更详尽的错误
+
 上一个例子中定义的错误非常简单，我们无法从错误中得到更多的信息，现在再来定义一个具有错误码和信息的错误:
+
 ```rust
 use std::fmt;
 
@@ -363,9 +383,11 @@ fn main() {
 在本例中，我们除了增加了错误码和消息外，还手动实现了 `Debug` 特征，原因在于，我们希望能自定义 `Debug` 的输出内容，而不是使用派生后系统提供的默认输出形式。
 
 #### 错误转换 `From` 特征
+
 标准库、三方库、本地库，各有各的精彩，各也有各的错误。那么问题就来了，我们该如何将其它的错误类型转换成自定义的错误类型？总不能神鬼牛魔，同台共舞吧。。
 
 好在 Rust 为我们提供了 `std::convert::From` 特征:
+
 ```rust
 pub trait From<T>: Sized {
   fn from(_: T) -> Self;
@@ -373,10 +395,11 @@ pub trait From<T>: Sized {
 ```
 
 > 事实上，该特征在之前的 [`?` 操作符](https://course.rs/basic/result-error/result.html#传播界的大明星-)章节中就有所介绍。
-> 
+>
 > 大家都使用过 `String::from` 函数吧？它可以通过 `&str` 来创建一个 `String`，其实该函数就是 `From` 特征提供的
 
 下面一起来看看如何为自定义类型实现 `From` 特征:
+
 ```rust
 use std::fs::File;
 use std::io;
@@ -399,7 +422,7 @@ impl From<io::Error> for AppError {
 }
 
 fn main() -> Result<(), AppError> {
-    let _file = File::open("nonexistent_file.txt")?; 
+    let _file = File::open("nonexistent_file.txt")?;
 
     Ok(())
 }
@@ -411,6 +434,7 @@ Error: AppError { kind: "io", message: "No such file or directory (os error 2)" 
 上面的代码中除了实现 `From` 外，还有一点特别重要，那就是 `?` 可以将错误进行隐式的强制转换：`File::open` 返回的是 `std::io::Error`， 我们并没有进行任何显式的转换，它就能自动变成 `AppError` ，这就是 `?` 的强大之处！
 
 上面的例子只有一个标准库错误，再来看看多个不同的错误转换成 `AppError` 的实现：
+
 ```rust
 use std::fs::File;
 use std::io::{self, Read};
@@ -444,10 +468,10 @@ fn main() -> Result<(), AppError> {
     let mut file = File::open("hello_world.txt")?;
 
     let mut content = String::new();
-    file.read_to_string(&mut content)?; 
+    file.read_to_string(&mut content)?;
 
     let _number: usize;
-    _number = content.parse()?; 
+    _number = content.parse()?;
 
     Ok(())
 }
@@ -466,6 +490,7 @@ Error: AppError { kind: "parse", message: "invalid digit found in string" }
 ```
 
 ## 归一化不同的错误类型
+
 至此，关于 Rust 的错误处理大家已经了若指掌了，下面再来看看一些实战中的问题。
 
 在实际项目中，我们往往会为不同的错误定义不同的类型，这样做非常好，但是如果你要在一个函数中返回不同的错误呢？例如：
@@ -493,10 +518,11 @@ fn render() -> Result<String, std::io::Error> {
 - 使用特征对象 `Box<dyn Error>`
 - 自定义错误类型
 - 使用 `thiserror`
-  
+
 下面依次来看看相关的解决方式。
 
 #### Box<dyn Error>
+
 大家还记得我们之前提到的 `std::error::Error` 特征吧，当时有说：自定义类型实现 `Debug + Display` 特征的主要原因就是为了能转换成 `Error` 的特征对象，而特征对象恰恰是在同一个地方使用不同类型的关键:
 
 ```rust
@@ -518,7 +544,9 @@ fn render() -> Result<String, Box<dyn Error>> {
 这个方法很简单，在绝大多数场景中，性能也非常够用，但是有一个问题：`Result` 实际上不会限制错误的类型，也就是一个类型就算不实现 `Error` 特征，它依然可以在 `Result<T, E>` 中作为 `E` 来使用，此时这种特征对象的解决方案就无能为力了。
 
 #### 自定义错误类型
+
 与特征对象相比，自定义错误类型麻烦归麻烦，但是它非常灵活，因此也不具有上面的类似限制:
+
 ```rust
 use std::fs::read_to_string;
 
@@ -571,10 +599,13 @@ impl std::fmt::Display for MyError {
 上面的第二种方式灵活归灵活，啰嗦也是真啰嗦，好在 Rust 的社区为我们提供了 `thiserror` 解决方案，下面一起来看看该如何简化 Rust 中的错误处理。
 
 ## 简化错误处理
+
 对于开发者而言，错误处理是代码中打交道最多的部分之一，因此选择一把趁手的武器也很重要，它可以帮助我们节省大量的时间和精力，好钢应该用在代码逻辑而不是冗长的错误处理上。
 
 #### thiserror
+
 [`thiserror`](https://github.com/dtolnay/thiserror)可以帮助我们简化上面的第二种解决方案：
+
 ```rust
 use std::fs::read_to_string;
 
@@ -602,6 +633,7 @@ enum MyError {
 如上所示，只要简单写写注释，就可以实现错误处理了，惊不惊喜？
 
 #### error-chain
+
 [`error-chain`](https://github.com/rust-lang-deprecated/error-chain) 也是简单好用的库，可惜不再维护了，但是我觉得它依然可以在合适的地方大放光彩，值得大家去了解下。
 
 ```rust
@@ -629,8 +661,8 @@ fn render() -> Result<String> {
 
 喏，简单吧？使用 `error-chain` 的宏你可以获得：`Error` 结构体，错误类型 `ErrorKind` 枚举 以及一个自定义的 `Result` 类型。
 
-
 #### anyhow
+
 [`anyhow`](https://github.com/dtolnay/anyhow) 和 `thiserror` 是同一个作者开发的，这里是作者关于 `anyhow` 和 `thiserror` 的原话：
 
 > 如果你想要设计自己的错误类型，同时给调用者提供具体的信息时，就使用 `thiserror`，例如当你在开发一个三方库代码时。如果你只想要简单，就使用 `anyhow`，例如在自己的应用服务中。
@@ -638,4 +670,5 @@ fn render() -> Result<String> {
 本章的篇幅已经过长，因此就不具体介绍 `anyhow` 该如何使用，官方提供的例子已经足够详尽，这里就留给大家自己探索了 :)
 
 ## 总结
+
 Rust 一个为人津津乐道的点就是强大、易用的错误处理，对于新手来说，这个机制可能会有些复杂，但是一旦体会到了其中的好处，你将跟我一样沉醉其中不能自拔。

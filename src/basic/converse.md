@@ -3,7 +3,9 @@
 Rust 是类型安全的语言，因此在 Rust 中做类型转换不是一件简单的事，这一章节我们将对 Rust 中的类型转换进行详尽讲解。
 
 ## `as`转换
+
 先来看一段代码：
+
 ```rust
 fn main() {
   let a: i32 = 10;
@@ -22,12 +24,14 @@ fn main() {
 因为每个类型能表达的数据范围不同，如果把范围较大的类型转换成较小的类型，会造成错误，因此我们需要把范围较小的类型转换成较大的类型，来避免这些问题的发生。
 
 > 使用类型转换需要小心，因为如果执行以下操作 `300_i32 as i8`，你将获得 `44` 这个值，而不是 `300`，因为 `i8` 类型能表达的的最大值为 `2^7 - 1`，使用以下代码可以查看 `i8` 的最大值：
+
 ```rust
 let a = i8::MAX;
 println!("{}",a);
 ```
 
 下面列出了常用的转换形式：
+
 ```rust
 fn main() {
    let a = 3.1 as i8;
@@ -39,6 +43,7 @@ fn main() {
 ```
 
 #### 内存地址转换为指针
+
 ```rust
 let mut values: [i32; 2] = [1, 2];
 let p1: *mut i32 = values.as_mut_ptr();
@@ -52,7 +57,9 @@ assert_eq!(values[1], 3);
 ```
 
 #### 强制类型转换的边角知识
+
 1. 数组切片原生指针之间的转换，不会改变数组占用的内存字节数，尽管数组元素的类型发生了改变：
+
 ```rust
 fn main() {
     let a: *const [u16] = &[1, 2, 3, 4, 5];
@@ -62,20 +69,21 @@ fn main() {
 ```
 
 2. 转换不具有传递性
-就算 `e as U1 as U2` 是合法的，也不能说明 `e as U2` 是合法的（`e` 不能直接转换成 `U2`）。
+   就算 `e as U1 as U2` 是合法的，也不能说明 `e as U2` 是合法的（`e` 不能直接转换成 `U2`）。
 
-## TryInto转换
+## TryInto 转换
+
 在一些场景中，使用 `as` 关键字会有比较大的限制。如果你想要在类型转换上拥有完全的控制而不依赖内置的转换，例如处理转换错误，那么可以使用 `TryInto` ：
 
 ```rust
 use std::convert::TryInto;
- 
+
 fn main() {
    let a: u8 = 10;
    let b: u16 = 1500;
- 
+
    let b_: u8 = b.try_into().unwrap();
- 
+
    if a < b_ {
      println!("Ten is less than one hundred.");
    }
@@ -87,6 +95,7 @@ fn main() {
 `try_into` 会尝试进行一次转换，并返回一个 `Result`，此时就可以对其进行相应的错误处理。由于我们的例子只是为了快速测试，因此使用了 `unwrap` 方法，该方法在发现错误时，会直接调用 `panic` 导致程序的崩溃退出，在实际项目中，请不要这么使用，具体见[panic](./exception-error.md#panic)部分。
 
 最主要的是 `try_into` 转换会捕获大类型向小类型转换时导致的溢出错误：
+
 ```rust
 fn main() {
     let b: i16 = 1500;
@@ -100,11 +109,13 @@ fn main() {
     };
 }
 ```
+
 运行后输出如下 `"out of range integral type conversion attempted"`，在这里我们程序捕获了错误，编译器告诉我们类型范围超出的转换是不被允许的，因为我们试图把 `1500_i16` 转换为 `u8` 类型，后者明显不足以承载这么大的值。
 
 ## 通用类型转换
 
 虽然 `as` 和 `TryInto` 很强大，但是只能应用在数值类型上，可是 Rust 有如此多的类型，想要为这些类型实现转换，我们需要另谋出路，先来看看在一个笨办法，将一个结构体转换为另外一个结构体：
+
 ```rust
 struct Foo {
     x: u32,
@@ -125,9 +136,11 @@ fn reinterpret(foo: Foo) -> Bar {
 简单粗暴，但是从另外一个角度来看，也挺啰嗦的，好在 Rust 为我们提供了更通用的方式来完成这个目的。
 
 #### 强制类型转换
+
 在某些情况下，类型是可以进行隐式强制转换的，虽然这些转换弱化了 Rust 的类型系统，但是它们的存在是为了让 Rust 在大多数场景可以工作(说白了，帮助用户省事)，而不是报各种类型上的编译错误。
 
 首先，在匹配特征时，不会做任何强制转换(除了方法)。一个类型 `T` 可以强制转换为 `U`，不代表 `impl T` 可以强制转换为 `impl U`，例如下面的代码就无法通过编译检查：
+
 ```rust
 trait Trait {}
 
@@ -142,6 +155,7 @@ fn main() {
 ```
 
 报错如下：
+
 ```console
 error[E0277]: the trait bound `&mut i32: Trait` is not satisfied
 --> src/main.rs:9:9
@@ -157,6 +171,7 @@ error[E0277]: the trait bound `&mut i32: Trait` is not satisfied
 `&i32` 实现了特征 `Trait`， `&mut i32` 可以转换为 `&i32`，但是 `&mut i32` 依然无法作为 `Trait` 来使用。<!-- 这一段没读懂，代码中的例子好像和上面的文字描述关系不大 -->
 
 #### 点操作符
+
 方法调用的点操作符看起来简单，实际上非常不简单，它在调用时，会发生很多魔法般的类型转换，例如：自动引用、自动解引用，强制类型转换直到类型能匹配等。
 
 假设有一个方法 `foo`，它有一个接收器(接收器就是 `self`、`&self`、`&mut self` 参数)。如果调用 `value.foo()`，编译器在调用 `foo` 之前，需要决定到底使用哪个 `Self` 类型来调用。现在假设 `value` 拥有类型 `T`。
@@ -170,6 +185,7 @@ error[E0277]: the trait bound `&mut i32: Trait` is not satisfied
 5. 若还是不行，那...没有那了，最后编译器大喊一声：汝欺我甚，不干了！
 
 下面我们来用一个例子来解释上面的方法查找算法:
+
 ```rust
 let array: Rc<Box<[T; 3]>> = ...;
 let first_entry = array[0];
@@ -186,14 +202,17 @@ let first_entry = array[0];
 过程看起来很复杂，但是也还好，挺好理解，如果你现在不能彻底理解，也不要紧，等以后对 Rust 理解更深了，同时需要深入理解类型转换时，再来细细品读本章。
 
 再来看看以下更复杂的例子：
+
 ```rust
 fn do_stuff<T: Clone>(value: &T) {
     let cloned = value.clone();
 }
 ```
+
 上面例子中 `cloned` 的类型是什么？首先编译器检查能不能进行**值方法调用**， `value` 的类型是 `&T`，同时 `clone` 方法的签名也是 `&T` ： `fn clone(&T) -> T`，因此可以进行值方法调用，再加上编译器知道了 `T` 实现了 `Clone`，因此 `cloned` 的类型是 `T`。
 
 如果 `T: Clone` 的特征约束被移除呢？
+
 ```rust
 fn do_stuff<T>(value: &T) {
     let cloned = value.clone();
@@ -207,6 +226,7 @@ fn do_stuff<T>(value: &T) {
 最终，我们复制出一份引用指针，这很合理，因为值类型 `T` 没有实现 `Clone`，只能去复制一个指针了。
 
 下面的例子也是自动引用生效的地方：
+
 ```rust
 #[derive(Clone)]
 struct Container<T>(Arc<T>);
@@ -224,6 +244,7 @@ fn clone_containers<T>(foo: &Container<i32>, bar: &Container<T>) {
 上面代码中，`Container<i32>` 实现了 `Clone` 特征，因此编译器可以直接进行值方法调用，此时相当于直接调用 `foo.clone`，其中 `clone` 的函数签名是 `fn clone(&T) -> T`，由此可以看出 `foo_cloned` 的类型是 `Container<i32>`。
 
 然而，`bar_cloned` 的类型却是 `&Container<T>`，这个不合理啊，明明我们为 `Container<T>` 派生了 `Clone` 特征，因此它也应该是 `Container<T>` 类型才对。万事皆有因，我们先来看下 `derive` 宏最终生成的代码大概是啥样的：
+
 ```rust
 impl<T> Clone for Container<T> where T: Clone {
     fn clone(&self) -> Self {
@@ -237,6 +258,7 @@ impl<T> Clone for Container<T> where T: Clone {
 编译器接着会去尝试引用方法调用，此时 `&Container<T>` 引用实现了 `Clone`，最终可以得出 `bar_cloned` 的类型是 `&Container<T>`。
 
 当然，也可以为 `Container<T>` 手动实现 `Clone` 特征：
+
 ```rust
 impl<T> Clone for Container<T> {
     fn clone(&self) -> Self {
@@ -260,16 +282,14 @@ impl<T> Clone for Container<T> {
 1. 首先也是最重要的，转换后创建一个任意类型的实例会造成无法想象的混乱，而且根本无法预测。不要把 `3` 转换成 `bool` 类型，就算你根本不会去使用该 `bool` 类型，也不要去这样转换
 2. 变形后会有一个重载的返回类型，即使你没有指定返回类型，为了满足类型推导的需求，依然会产生千奇百怪的类型
 3. 将 `&` 变形为 `&mut` 是未定义的行为
-    - 这种转换永远都是未定义的
-    - 不，你不能这么做
-    - 不要多想，你没有那种幸运
+   - 这种转换永远都是未定义的
+   - 不，你不能这么做
+   - 不要多想，你没有那种幸运
 4. 变形为一个未指定生命周期的引用会导致[无界生命周期](../advance/lifetime/advance.md)
 5. 在复合类型之间互相变换时，你需要保证它们的排列布局是一模一样的！一旦不一样，那么字段就会得到不可预期的值，这也是未定义的行为，至于你会不会因此愤怒， **WHO CARES** ，你都用了变形了，老兄！
 
-对于第5条，你该如何知道内存的排列布局是一样的呢？对于 `repr(C)` 类型和 `repr(transparent)` 类型来说，它们的布局是有着精确定义的。但是对于你自己的"普通却自信"的 Rust 类型 `repr(Rust)` 来说，它可不是有着精确定义的。甚至同一个泛型类型的不同实例都可以有不同的内存布局。 `Vec<i32>` 和 `Vec<u32>` 它们的字段可能有着相同的顺序，也可能没有。对于数据排列布局来说，**什么能保证，什么不能保证**目前还在 Rust 开发组的[工作任务](https://rust-lang.github.io/unsafe-code-guidelines/layout.html)中呢。
+对于第 5 条，你该如何知道内存的排列布局是一样的呢？对于 `repr(C)` 类型和 `repr(transparent)` 类型来说，它们的布局是有着精确定义的。但是对于你自己的"普通却自信"的 Rust 类型 `repr(Rust)` 来说，它可不是有着精确定义的。甚至同一个泛型类型的不同实例都可以有不同的内存布局。 `Vec<i32>` 和 `Vec<u32>` 它们的字段可能有着相同的顺序，也可能没有。对于数据排列布局来说，**什么能保证，什么不能保证**目前还在 Rust 开发组的[工作任务](https://rust-lang.github.io/unsafe-code-guidelines/layout.html)中呢。
 
 你以为你之前凝视的是深渊吗？不，你凝视的只是深渊的大门。 `mem::transmute_copy<T, U>` 才是真正的深渊，它比之前的还要更加危险和不安全。它从 `T` 类型中拷贝出 `U` 类型所需的字节数，然后转换成 `U`。 `mem::transmute` 尚有大小检查，能保证两个数据的内存大小一致，现在这哥们干脆连这个也丢了，只不过 `U` 的尺寸若是比 `T` 大，会是一个未定义行为。
 
 当然，你也可以通过原生指针转换和 `unions` (todo!)获得所有的这些功能，但是你将无法获得任何编译提示或者检查。原生指针转换和 `unions` 也不是魔法，无法逃避上面说的规则。
-
-

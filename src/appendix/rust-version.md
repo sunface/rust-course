@@ -1,7 +1,8 @@
 # 附录 F：Rust 版本发布
 
 ## Rust 版本说明
-早在第一章，我们见过 `cargo new` 在 *Cargo.toml* 中增加了一些有关 `edition` 的元数据。本附录将解释其意义！
+
+早在第一章，我们见过 `cargo new` 在 _Cargo.toml_ 中增加了一些有关 `edition` 的元数据。本附录将解释其意义！
 
 与其它语言相比，Rust 的更新迭代较为频繁（得益于精心设计过的发布流程以及 Rust 语言开发者团队管理）：
 
@@ -14,10 +15,9 @@
 - 对于一般的用户，edition 的发布会告诉这些用户：Rust 语言相比上次大版本发布，有了重大的改进，值得一看
 - 对于 Rust 语言开发者，可以让他们的工作成果更快的被世人所知，不必锦衣夜行
 
-
 在本文档编写时，Rust 已经有三个版本：Rust 2015、2018、2021。本书基于 `Rust 2021 edition` 编写。
 
-*Cargo.toml* 中的 `edition` 字段表明代码应该使用哪个版本编译。如果该字段不存在，其默认为 `2021` 以提供后向兼容性。
+_Cargo.toml_ 中的 `edition` 字段表明代码应该使用哪个版本编译。如果该字段不存在，其默认为 `2021` 以提供后向兼容性。
 
 每个项目都可以选择不同于默认的 `Rust 2021 edition` 的版本。这样，版本可能会包含不兼容的修改，比如新版本中新增的关键字可能会与老代码中的标识符冲突并导致错误。不过，除非你选择应用这些修改，否则旧代码依然能够被编译，即便你升级了编译器版本。
 
@@ -26,7 +26,6 @@
 有一点需要明确：大部分功能在所有版本中都能使用。开发者使用任何 Rust 版本将能继续接收最新稳定版的改进。然而在一些情况，主要是增加了新关键字的时候，则可能出现了只能用于新版本的功能。只需切换版本即可利用新版本的功能。
 
 请查看 [Edition Guide](https://rust-lang-nursery.github.io/edition-guide/) 了解更多细节，这是一个完全介绍版本的书籍，包括如何通过 `cargo fix` 自动将代码迁移到新版本。
-
 
 ## Rust 自身开发流程
 
@@ -40,11 +39,11 @@
 
 ### Choo, Choo! ~~ 小火车发布流程启动
 
-开发 Rust 语言是基于一个**火车时刻表**来进行的：所有的开发工作在 Master 分支上完成，但是发布就像火车时刻表一样，拥有不同的时间，发布采用的软件发布列车模型，被用于思科IOS和等其它软件项目。Rust 有三个 **发布通道**（*release channel*）：
+开发 Rust 语言是基于一个**火车时刻表**来进行的：所有的开发工作在 Master 分支上完成，但是发布就像火车时刻表一样，拥有不同的时间，发布采用的软件发布列车模型，被用于思科 IOS 和等其它软件项目。Rust 有三个 **发布通道**（_release channel_）：
 
-* Nightly
-* Beta
-* Stable（稳定版）
+- Nightly
+- Beta
+- Stable（稳定版）
 
 大部分 Rust 开发者主要采用稳定版通道，不过希望实验新功能的开发者可能会使用 nightly 或 beta 版。
 
@@ -115,13 +114,14 @@ Rust 每 6 周发布一个版本，如时钟般准确。如果你知道了某个
 ### Rustup 和 Rust Nightly 的职责
 
 #### 安装 Rust Nightly 版本
+
 Rustup 使得改变不同发布通道的 Rust 更为简单，其在全局或分项目的层次工作。其默认会安装稳定版 Rust。例如为了安装 nightly：
 
 ```text
 $ rustup install nightly
 ```
 
-你会发现 `rustup` 也安装了所有的 **工具链**（*toolchains*， Rust 和其相关组件）。如下是一位作者的 Windows 计算机上的例子：
+你会发现 `rustup` 也安装了所有的 **工具链**（_toolchains_， Rust 和其相关组件）。如下是一位作者的 Windows 计算机上的例子：
 
 ```powershell
 > rustup toolchain list
@@ -130,7 +130,8 @@ beta-x86_64-pc-windows-msvc
 nightly-x86_64-pc-windows-msvc
 ```
 
-#### 在指定目录使用Rust Nightly
+#### 在指定目录使用 Rust Nightly
+
 如你所见，默认是稳定版。大部分 Rust 用户在大部分时间使用稳定版。你可能也会这么做，不过如果你关心最新的功能，可以为特定项目使用 nightly 版。为此，可以在项目目录使用 `rustup override` 来设置当前目录 `rustup` 使用 nightly 工具链：
 
 ```text
@@ -138,7 +139,7 @@ $ cd ~/projects/needs-nightly
 $ rustup override set nightly
 ```
 
-现在，每次在 *~/需要nightly的项目/*下(在项目的根目录下，也就是 `Cargo.toml` 所在的目录) 调用 `rustc` 或 `cargo`，`rustup` 会确保使用 nightly 版 Rust。在你有很多 Rust 项目时大有裨益！
+现在，每次在 *~/需要 nightly 的项目/*下(在项目的根目录下，也就是 `Cargo.toml` 所在的目录) 调用 `rustc` 或 `cargo`，`rustup` 会确保使用 nightly 版 Rust。在你有很多 Rust 项目时大有裨益！
 
 ### RFC 过程和团队
 
