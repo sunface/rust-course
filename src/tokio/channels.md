@@ -1,18 +1,22 @@
 # 消息传递
+
 迄今为止，你已经学了不少关于 Tokio 的并发编程的内容，是时候见识下真正的挑战了，接下来，我们一起来实现下客户端这块儿的功能。
 
 首先，将之前实现的 `src/main.rs `文件中的[服务器端代码](https://github.com/tokio-rs/website/blob/master/tutorial-code/shared-state/src/main.rs)放入到一个 bin 文件中，等下可以直接通过该文件来运行我们的服务器:
+
 ```console
 mkdir src/bin
 mv src/main.rs src/bin/server.rs
 ```
 
 接着创建一个新的 bin 文件，用于包含我们即将实现的客户端代码:
+
 ```console
 touch src/bin/client.rs
 ```
 
 由于不再使用 `main.rs` 作为程序入口，我们需要使用以下命令来运行指定的 bin 文件:
+
 ```rust
 cargo run --bin server
 ```
@@ -22,7 +26,9 @@ cargo run --bin server
 万事俱备，只欠代码，一起来看看客户端该如何实现。
 
 ## 错误的实现
+
 如果想要同时运行两个 redis 命令，我们可能会为每一个命令生成一个任务，例如:
+
 ```rust
 use mini_redis::client;
 
@@ -55,13 +61,15 @@ async fn main() {
 这个不行，那个也不行，是不是没有办法解决了？还记得我们上一章节提到过几次的消息传递，但是一直没有看到它的庐山真面目吗？现在可以来看看了。
 
 ## 消息传递
+
 之前章节我们提到可以创建一个专门的任务 `C1` (消费者 Consumer) 和通过消息传递来管理共享的资源，这里的共享资源就是 `client` 。若任务 `P1` (生产者 Producer) 想要发出 Redis 请求，首先需要发送信息给 `C1`，然后 `C1` 会发出请求给服务器，在获取到结果后，再将结果返回给 `P1`。
 
 在这种模式下，只需要建立一条连接，然后由一个统一的任务来管理 `client` 和该连接，这样之前的 `get` 和 `set` 请求也将不存在资源共享的问题。
 
 同时，`P1` 和 `C1` 进行通信的消息通道是有缓冲的，当大量的消息发送给 `C1` 时，首先会放入消息通道的缓冲区中，当 `C1` 处理完一条消息后，再从该缓冲区中取出下一条消息进行处理，这种方式跟消息队列( mq ) 非常类似，可以实现更高的吞吐。而且这种方式还有利于实现连接池，例如不止一个 `P` 和 `C` 时，多个 `P` 可以往消息通道中发送消息，同时多个 `C`，其中每个 `C` 都维护一条连接，并从消息通道获取消息。
 
-## Tokio的消息通道( channel )
+## Tokio 的消息通道( channel )
+
 Tokio 提供了多种消息通道，可以满足不同场景的需求:
 
 - [`mpsc`](https://docs.rs/tokio/1.15.0/tokio/sync/mpsc/index.html), 多生产者，单消费者模式
@@ -76,7 +84,9 @@ Tokio 提供了多种消息通道，可以满足不同场景的需求:
 在下面的代码中，我们将使用 `mpsc` 和 `oneshot`， 本章节完整的代码见[这里](https://github.com/tokio-rs/website/blob/master/tutorial-code/channels/src/main.rs)。
 
 ## 定义消息类型
+
 在大多数场景中使用消息传递时，都是多个发送者向一个任务发送消息，该任务在处理完后，需要将响应内容返回给相应的发送者。例如我们的例子中，任务需要将 `GET` 和 `SET` 命令处理的结果返回。首先，我们需要定一个 `Command` 枚举用于代表命令：
+
 ```rust
 use bytes::Bytes;
 
@@ -93,7 +103,9 @@ enum Command {
 ```
 
 ## 创建消息通道
+
 在 `src/bin/client.rs` 的 `main` 函数中，创建一个 `mpsc` 消息通道：
+
 ```rust
 use tokio::sync::mpsc;
 
@@ -139,7 +151,9 @@ async fn main() {
 在我们的例子中，接收者是在管理 redis 连接的任务中，当该任务发现所有发送者都关闭时，它知道它的使命可以完成了，因此它会关闭 redis 连接。
 
 ## 生成管理任务
+
 下面，我们来一起创建一个管理任务，它会管理 redis 的连接，当然，首先需要创建一条到 redis 的连接:
+
 ```rust
 use mini_redis::client;
 // 将消息通道接收者 rx 的所有权转移到管理任务中
@@ -167,6 +181,7 @@ let manager = tokio::spawn(async move {
 如上所示，当从消息通道接收到一个命令时，该管理任务会将此命令通过 redis 连接发送到服务器。
 
 现在，让两个任务发送命令到消息通道，而不是像最开始报错的那样，直接发送命令到各自的 redis 连接:
+
 ```rust
 // 由于有两个任务，因此我们需要两个发送者
 let tx2 = tx.clone();
@@ -191,6 +206,7 @@ let t2 = tokio::spawn(async move {
 ```
 
 在 `main` 函数的末尾，我们让 3 个任务，按照需要的顺序开始运行:
+
 ```rust
 t1.await.unwrap();
 t2.await.unwrap();
@@ -198,6 +214,7 @@ manager.await.unwrap();
 ```
 
 ## 接收响应消息
+
 最后一步，就是让发出命令的任务从管理任务那里获取命令执行的结果。为了完成这个目标，我们将使用 `oneshot` 消息通道，因为它针对一发一收的使用类型做过特别优化，且特别适用于此时的场景：接收一条从管理任务发送的结果消息。
 
 ```rust
@@ -209,6 +226,7 @@ let (tx, rx) = oneshot::channel();
 使用方式跟 `mpsc` 很像，但是它并没有缓存长度，因为只能发送一条，接收一条，还有一点不同：你无法对返回的两个句柄进行 `clone`。
 
 为了让管理任务将结果准确的返回到发送者手中，这个管道的发送端必须要随着命令一起发送, 然后发出命令的任务保留管道的发送端。一个比较好的实现就是将管道的发送端放入 `Command` 的数据结构中，同时使用一个别名来代表该发送端:
+
 ```rust
 use tokio::sync::oneshot;
 use bytes::Bytes;
@@ -232,6 +250,7 @@ type Responder<T> = oneshot::Sender<mini_redis::Result<T>>;
 ```
 
 下面，更新发送命令的代码：
+
 ```rust
 let t1 = tokio::spawn(async move {
     let (resp_tx, resp_rx) = oneshot::channel();
@@ -266,6 +285,7 @@ let t2 = tokio::spawn(async move {
 ```
 
 最后，更新管理任务:
+
 ```rust
 while let Some(cmd) = rx.recv().await {
     match cmd {
@@ -290,9 +310,11 @@ while let Some(cmd) = rx.recv().await {
 本章的完整代码见[这里](https://github.com/tokio-rs/website/blob/master/tutorial-code/channels/src/main.rs)。
 
 ## 对消息通道进行限制
+
 无论何时使用消息通道，我们都需要对缓存队列的长度进行限制，这样系统才能优雅的处理各种负载状况。如果不限制，假设接收端无法及时处理消息，那消息就会迅速堆积，最终可能会导致内存消耗殆尽，就算内存没有消耗完，也可能会导致整体性能的大幅下降。
 
 Tokio 在设计时就考虑了这种状况，例如 `async` 操作在 Tokio 中是惰性的:
+
 ```rust
 loop {
     async_op();
