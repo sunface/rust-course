@@ -200,14 +200,6 @@
   - [代码开发实践 todo](practice/best-pratice.md)
   - [日志记录 todo](practice/logs.md)
   - [可观测性监控 todo](practice/observability.md)
-
-- [Rust 最佳实践 doing](practice/intro.md)
-
-  - [日常开发三方库精选](practice/third-party-libs.md)
-  - [命名规范](practice/naming.md)
-  - [代码开发实践 todo](practice/best-pratice.md)
-  - [日志记录 todo](practice/logs.md)
-  - [可观测性监控 todo](practice/observability.md)
   - [面试经验 doing](practice/interview.md)
   <!-- - [如何实现一个链表 todo]() -->
 
