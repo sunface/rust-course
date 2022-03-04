@@ -1,6 +1,7 @@
 # 特征对象
 
 在上一节中有一段代码无法通过编译:
+
 ```rust
 fn returns_summarizable(switch: bool) -> impl Summary {
     if switch {
@@ -14,12 +15,13 @@ fn returns_summarizable(switch: bool) -> impl Summary {
     }
 }
 ```
-其中 `Post` 和 `Weibo` 都实现了 `Summary` 特征，因此上面的函数试图通过返回 `impl Summary` 来返回这两个类型，但是编译器却无情地报错了，原因是
- `impl Trait` 的返回值类型并不支持多种不同的类型返回，那如果我们想返回多种类型，该怎么办？
+
+其中 `Post` 和 `Weibo` 都实现了 `Summary` 特征，因此上面的函数试图通过返回 `impl Summary` 来返回这两个类型，但是编译器却无情地报错了，原因是 `impl Trait` 的返回值类型并不支持多种不同的类型返回，那如果我们想返回多种类型，该怎么办？
 
 再来考虑一个问题：现在在做一款游戏，需要将多个对象渲染在屏幕上，这些对象属于不同的类型，存储在列表中，渲染的时候，需要循环该列表并顺序渲染每个对象，在 Rust 中该怎么实现？
 
 聪明的同学可能已经能想到一个办法，利用枚举：
+
 ```rust
 #[derive(Debug)]
 enum UiObject {
@@ -46,6 +48,7 @@ fn draw(o: UiObject) {
 Bingo，这个确实是一个办法，但是问题来了，如果你的对象集合并不能事先明确地知道呢？或者别人想要实现一个 UI 组件呢？此时枚举中的类型是有些缺少的，是不是还要修改你的代码增加一个枚举成员？
 
 总之，在编写这个 UI 库时，我们无法知道所有的 UI 对象类型，只知道的是：
+
 - UI 对象的类型不同
 - 需要一个统一的类型来处理这些对象，无论是作为函数参数还是作为列表中的一员
 - 需要对每一个对象调用 `draw` 方法
@@ -53,15 +56,19 @@ Bingo，这个确实是一个办法，但是问题来了，如果你的对象集
 在拥有继承的语言中，可以定义一个名为 `Component` 的类，该类上有一个 `draw` 方法。其他的类比如 `Button`、`Image` 和 `SelectBox` 会从 `Component` 派生并因此继承 `draw` 方法。它们各自都可以覆盖 `draw` 方法来定义自己的行为，但是框架会把所有这些类型当作是 `Component` 的实例，并在其上调用 `draw`。不过 Rust 并没有继承，我们得另寻出路。
 
 ## 特征对象定义
+
 为了解决上面的所有问题，Rust 引入了一个概念 —— **特征对象**。
 
 在介绍特征对象之前，先来为之前的 UI 组件定义一个特征：
+
 ```rust
 pub trait Draw {
     fn draw(&self);
 }
 ```
+
 只要组件实现了 `Draw` 特征，就可以调用 `draw` 方法来进行渲染。假设有一个 `Button` 和 `SelectBox` 组件实现了 `Draw` 特征：
+
 ```rust
 pub struct Button {
     pub width: u32,
@@ -88,32 +95,36 @@ impl Draw for SelectBox {
 }
 
 ```
+
 此时，还需要一个动态数组来存储这些 UI 对象：
+
 ```rust
 pub struct Screen {
     pub components: Vec<?>,
 }
 ```
+
 注意到上面代码中的 `?` 吗？它的意思是：我们应该填入什么类型，可以说就之前学过的内容里，你找不到哪个类型可以填入这里，但是因为 `Button` 和 `SelectBox` 都实现了 `Draw` 特征，那我们是不是可以把 `Draw` 特征的对象作为类型，填入到数组中呢？答案是肯定的。
 
 **特征对象**指向实现了 `Draw` 特征的类型的实例，也就是指向了 `Button` 或者 `SelectBox` 的实例，这种映射关系是存储在一张表中，可以在运行时通过特征对象找到具体调用的类型方法。
 
 可以通过 `&` 引用或者 `Box<T>` 智能指针的方式来创建特征对象:
+
 ```rust
 trait Draw {
-    fn draw(&self) -> String; 
+    fn draw(&self) -> String;
 }
 
 impl Draw for u8 {
     fn draw(&self) -> String {
-        format!("u8: {}", *self) 
-    } 
+        format!("u8: {}", *self)
+    }
 }
 
 impl Draw for f64 {
     fn draw(&self) -> String {
-        format!("f64: {}", *self) 
-    } 
+        format!("f64: {}", *self)
+    }
 }
 
 fn draw1(x: Box<dyn Draw>) {
@@ -137,21 +148,25 @@ fn main() {
 ```
 
 上面代码，有几个非常重要的点：
+
 - `draw1` 函数的参数是 `Box<dyn Draw>` 形式的特征对象，该特征对象是通过 `Box::new(x)` 的方式创建的
 - `draw2` 函数的参数是 `&dyn Draw` 形式的特征对象，该特征对象是通过 `&x` 的方式创建的
 - `dyn` 关键字只用在特征对象的类型声明上，在创建时无需使用 `dyn`
 
 因此，可以使用特征对象来代表泛型或具体的类型。
 
-继续来完善之前的UI组件代码，首先来实现 `Screen`：
+继续来完善之前的 UI 组件代码，首先来实现 `Screen`：
+
 ```rust
 pub struct Screen {
     pub components: Vec<Box<dyn Draw>>,
 }
 ```
+
 其中存储了一个动态数组，里面元素的类型是 `Draw` 特征对象：`Box<dyn Draw>`，任何实现了 `Draw` 特征的类型，都可以存放其中。
 
-再来为 `Screen` 定义 `run` 方法，用于将列表中的UI组件渲染在屏幕上：
+再来为 `Screen` 定义 `run` 方法，用于将列表中的 UI 组件渲染在屏幕上：
+
 ```rust
 impl Screen {
     pub fn run(&self) {
@@ -161,9 +176,11 @@ impl Screen {
     }
 }
 ```
+
 至此，我们就完成了之前的目标：在列表中存储多种不同类型的实例，然后将它们使用同一个方法逐一渲染在屏幕上！
 
 再来看看，如果通过泛型实现，会如何：
+
 ```rust
 pub struct Screen<T: Draw> {
     pub components: Vec<T>,
@@ -178,11 +195,13 @@ impl<T> Screen<T>
     }
 }
 ```
+
 上面的 `Screen` 的列表中，存储了类型为 `T` 的元素，然后在 `Screen` 中使用特征约束让 `T` 实现了 `Draw` 特征，进而可以调用 `draw` 方法。
 
 但是这种写法限制了 `Screen` 实例的 `Vec<T>` 中的每个元素必须是 `Button` 类型或者全是 `SelectBox` 类型。如果只需要同质（相同类型）集合，更倾向于这种写法：使用泛型和 特征约束，因为实现更清晰，且性能更好(特征对象，需要在运行时从 `vtable` 动态查找需要调用的方法)。
 
 现在来运行渲染下咱们精心设计的 UI 组件列表：
+
 ```rust
 fn main() {
     let screen = Screen {
@@ -207,9 +226,10 @@ fn main() {
     screen.run();
 }
 ```
+
 上面使用 `Box::new(T)` 的方式来创建了两个 `Box<dyn Draw>` 特征对象，如果以后还需要增加一个 UI 组件，那么让该组件实现 `Draw` 特征，则可以很轻松的将其渲染在屏幕上，甚至用户可以引入我们的库作为三方库，然后在自己的库中为自己的类型实现 `Draw` 特征，然后进行渲染。
 
-在动态类型语言中，有一个很重要的概念： **鸭子类型**（*duck typing*），简单来说，就是只关心值长啥样，而不关心它实际是什么。当一个东西走起来像鸭子，叫起来像鸭子，那么它就是一只鸭子，就算它实际上是一个奥特曼，也不重要，我们就当它是鸭子。
+在动态类型语言中，有一个很重要的概念：**鸭子类型**(_duck typing_)，简单来说，就是只关心值长啥样，而不关心它实际是什么。当一个东西走起来像鸭子，叫起来像鸭子，那么它就是一只鸭子，就算它实际上是一个奥特曼，也不重要，我们就当它是鸭子。
 
 在上例中，`Screen` 在 `run` 的时候，我们并不需要知道各个组件的具体类型是什么。它也不检查组件到底是 `Button` 还是 `SelectBox` 的实例，只要它实现了 `Draw` 特征，就能通过 `Box::new` 包装成 `Box<dyn Draw>` 特征对象，然后被渲染在屏幕上。
 
@@ -226,9 +246,11 @@ fn main() {
     screen.run();
 }
 ```
+
 因为 `String` 类型没有实现 `Draw` 特征，编译器直接就会报错，不会让上述代码运行。如果想要 `String` 类型被渲染在屏幕上，那么只需要为其实现 `Draw` 特征即可，非常容易。
 
-#### &dyn和Box\<dyn\>的区别
+#### &dyn 和 Box\<dyn\>的区别
+
 前文提到， `&dyn` 和 `Box<dyn>` 都可以用于特征对象，因此在功能上 `&dyn` 和 `Box<dyn>` 几乎没有区别，唯一的区别就是：`&dyn` 减少了一次指针调用。
 
 因为 `Box<dyn>` 是一个宽指针（`fat pointer`），它需要一次额外的解引用后，才能获取到指向 `vtable` 的指针，然后再通过该指针访问 `vtable` 查询到具体的函数指针，最后进行调用。
@@ -265,8 +287,10 @@ help: function arguments must have a statically known size, borrowed types alway
 
 <img alt="" src="https://pic1.zhimg.com/80/v2-b771fe4cfc6ebd63d9aff42840eb8e67_1440w.jpg" class="center"  />
 
-## Self与self
+## Self 与 self
+
 在 Rust 中，有两个`self`，一个指代当前的实例对象，一个指代特征或者方法类型的别名：
+
 ```rust
 trait Draw {
     fn draw(&self) -> Self;
@@ -291,7 +315,9 @@ fn main() {
 当理解了 `self` 与 `Self` 的区别后，我们再来看看何为对象安全。
 
 ## 特征对象的限制
+
 不是所有特征都能拥有特征对象，只有对象安全的特征才行。当一个特征的所有方法都有如下属性时，它的对象才是安全的：
+
 - 方法的返回类型不能是 `Self`
 - 方法没有任何泛型参数
 

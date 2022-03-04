@@ -36,6 +36,7 @@ Rust 对运行环境的依赖和 Go 语言很像，几乎所有环境都可以�
 ```console
 $ xcode-select --install
 ```
+
 **Linux 下：**
 
 Linux 用户一般应按照相应发行版的文档来安装 `GCC` 或 `Clang`。
@@ -54,8 +55,8 @@ Windows 上安装 Rust 需要有 `C++` 环境，以下为安装的两种方式�
 
 在 [RUSTUP-INIT](https://www.rust-lang.org/learn/get-started) 下载系统相对应的 Rust 安装程序，一路默认即可。
 
-``` shell
-PS C:\Users\Hehongyuan> rustup-init.exe 
+```shell
+PS C:\Users\Hehongyuan> rustup-init.exe
 ......
 Current installation options:
 
@@ -149,6 +150,7 @@ rustc 1.56.1 (59eed8a2a 2021-11-01)
 $ cargo -V
 cargo 1.57.0 (b2e52d7ca 2021-10-21)
 ```
+
 > 注：若发现版本号不同，以您的版本号为准
 
 恭喜，你已成功安装 Rust！如果没看到此信息，并且你使用的是 Windows，请检查 Rust 或 `%USERPROFILE%\.cargo\bin` 是否在 `%PATH%` 系统变量中。
