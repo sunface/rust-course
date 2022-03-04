@@ -1,8 +1,9 @@
 # 生命周期声明的范围过大
 
-在大多时候，Rust的生命周期你只要标识了，即可以通过编译，但是总是存在一些情况，会导致编译无法通过，本文就讲述这样一种情况：因为生命周期声明的范围过大，导致了编译无法通过，希望大家喜欢
+在大多时候，Rust 的生命周期你只要标识了，即可以通过编译，但是总是存在一些情况，会导致编译无法通过，本文就讲述这样一种情况：因为生命周期声明的范围过大，导致了编译无法通过，希望大家喜欢
 
-## 例子1
+## 例子 1
+
 ```rust
 struct Interface<'a> {
     manager: &'a mut Manager<'a>
@@ -15,7 +16,7 @@ impl<'a> Interface<'a> {
 }
 
 struct Manager<'a> {
-    text: &'a str    
+    text: &'a str
 }
 
 struct List<'a> {
@@ -28,7 +29,7 @@ impl<'a> List<'a> {
             manager: &mut self.manager
         }
     }
-} 
+}
 
 fn main() {
     let mut list = List {
@@ -36,11 +37,11 @@ fn main() {
             text: "hello"
         }
     };
-    
+
     list.get_interface().noop();
-    
+
     println!("Interface should be dropped here and the borrow released");
-    
+
     // this fails because inmutable/mutable borrow
     // but Interface should be already dropped here and the borrow released
     use_list(&list);
@@ -50,7 +51,9 @@ fn use_list(list: &List) {
     println!("{}", list.manager.text);
 }
 ```
+
 运行后报错：
+
 ```console
 error[E0502]: cannot borrow `list` as immutable because it is also borrowed as mutable // `list`无法被借用，因为已经被可变借用
   --> src/main.rs:40:14
@@ -70,6 +73,7 @@ error[E0502]: cannot borrow `list` as immutable because it is also borrowed as m
 这是因为我们在`get_interface`方法中声明的`lifetime`有问题，该方法的参数的生明周期是`'a`，而`List`的生命周期也是`'a`，说明该方法至少活得跟`List`一样久，再回到`main`函数中，`list`可以活到`main`函数的结束，因此`list.get_interface()`借用的可变引用也会活到`main`函数的结束，在此期间，自然无法再进行借用了。
 
 要解决这个问题，我们需要为`get_interface`方法的参数给予一个不同于`List<'a>`的生命周期`'b`，最终代码如下：
+
 ```rust
 struct Interface<'b, 'a: 'b> {
     manager: &'b mut Manager<'a>
@@ -82,7 +86,7 @@ impl<'b, 'a: 'b> Interface<'b, 'a> {
 }
 
 struct Manager<'a> {
-    text: &'a str    
+    text: &'a str
 }
 
 struct List<'a> {
@@ -96,7 +100,7 @@ impl<'a> List<'a> {
             manager: &mut self.manager
         }
     }
-} 
+}
 
 fn main() {
 
@@ -105,11 +109,11 @@ fn main() {
             text: "hello"
         }
     };
-    
+
     list.get_interface().noop();
-    
+
     println!("Interface should be dropped here and the borrow released");
-    
+
     // this fails because inmutable/mutable borrow
     // but Interface should be already dropped here and the borrow released
     use_list(&list);
@@ -121,6 +125,7 @@ fn use_list(list: &List) {
 ```
 
 当然，咱还可以给生命周期给予更有意义的名称：
+
 ```rust
 struct Interface<'text, 'manager> {
     manager: &'manager mut Manager<'text>
@@ -133,7 +138,7 @@ impl<'text, 'manager> Interface<'text, 'manager> {
 }
 
 struct Manager<'text> {
-    text: &'text str    
+    text: &'text str
 }
 
 struct List<'text> {
@@ -141,13 +146,13 @@ struct List<'text> {
 }
 
 impl<'text> List<'text> {
-    pub fn get_interface<'manager>(&'manager mut self) -> Interface<'text, 'manager> 
+    pub fn get_interface<'manager>(&'manager mut self) -> Interface<'text, 'manager>
     where 'text: 'manager {
         Interface {
             manager: &mut self.manager
         }
     }
-} 
+}
 
 fn main() {
     let mut list = List {
@@ -155,11 +160,11 @@ fn main() {
             text: "hello"
         }
     };
-    
+
     list.get_interface().noop();
-    
+
     println!("Interface should be dropped here and the borrow released");
-    
+
     // this fails because inmutable/mutable borrow
     // but Interface should be already dropped here and the borrow released
     use_list(&list);
