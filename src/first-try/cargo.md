@@ -114,7 +114,7 @@ $ cargo check
     Finished dev [unoptimized + debuginfo] target(s) in 0.06s
 ```
 
-> Rust 虽然编译速度还行，但是还是不能 Go 语言相提并论，因为 Rust 需要做很多复杂的编译优化和语言特性解析，甚至连如何优化编译速度都成了一门学问 [优化编译速度](../profiling/compiler/speed-up.md)
+> Rust 虽然编译速度还行，但是还是不能 Go 语言相提并论，因为 Rust 需要做很多复杂的编译优化和语言特性解析，甚至连如何优化编译速度都成了一门学问: [优化编译速度](../profiling/compiler/speed-up.md)
 
 ## Cargo.toml 和 Cargo.lock
 
@@ -139,7 +139,7 @@ version = "0.1.0"
 edition = "2021"
 ```
 
-`name` 字段定义了项目名称，`version` 字段定义当前版本，新项目默认是 `0.1.0`，`edition` 字段定义了我们使用的 Rust 大版本。因为本书很新（不仅仅是现在新，未来也将及时修订，跟得上 Rust 的小步伐），所以使用的是 `Rust edition 2021` 大版本，详情见 [Rust 版本详解](../appendix/rust-version.md)
+`name` 字段定义了项目名称，`version` 字段定义当前版本，新项目默认是 `0.1.0`，`edition` 字段定义了我们使用的 Rust 大版本。因为本书很新（不仅仅是现在新，未来也将及时修订，跟得上 Rust 的小步伐），所以使用的是 `Rust edition 2021` 大版本，详情见 [Rust 版本详解](https://course.rs/appendix/rust-version.html)
 
 ### 定义项目依赖
 
@@ -161,10 +161,10 @@ color = { git = "https://github.com/bjz/color-rs" }
 geometry = { path = "crates/geometry" }
 ```
 
-相信聪明的读者已经能看懂该如何引入外部依赖库，这里就不再赘述。详细的说明参见此章：[Cargo 依赖管理](../cargo/dependency.md)，但是不建议大家现在去看，只要按照目录浏览，拨云见雾指日可待。
+相信聪明的读者已经能看懂该如何引入外部依赖库，这里就不再赘述。详细的说明参见此章：[Cargo 依赖管理](https://course.rs/cargo/reference/specify-deps.html)，但是不建议大家现在去看，只要按照目录浏览，拨云见雾指日可待。
 
 ## 基于 cargo 的项目组织结构
 
-前文有提到 `cargo` 默认生成的项目结构，真实的项目肯定会有所不同，但是在目前的学习阶段，还无需关注。感兴趣的同学可以移步：[Cargo 项目结构](../cargo/guide/package-layout.md)
+前文有提到 `cargo` 默认生成的项目结构，真实的项目肯定会有所不同，但是在目前的学习阶段，还无需关注。感兴趣的同学可以移步：[Cargo 项目结构](https://course.rs/cargo/guide/package-layout.html )
 
 至此，大家对 Rust 项目的创建和管理已经有了初步的了解，那么来完善刚才的`"世界，你好"`项目吧。

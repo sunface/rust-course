@@ -59,6 +59,7 @@
   - [注释和文档](basic/comment.md)
   - [格式化输出](basic/formatted-output.md)
 - [Rust 高级进阶](advance/intro.md)
+
   - [生命周期](advance/lifetime/intro.md)
     - [认识生命周期](advance/lifetime/basic.md)
     - [深入生命周期](advance/lifetime/advance.md)
@@ -155,7 +156,7 @@
     - [通过 config.toml 对 Cargo 进行配置](cargo/reference/configuration.md)
     - [发布到 crates.io](cargo/reference/publishing-on-crates.io.md)
     - [构建脚本 build.rs](cargo/reference/build-script/intro.md)
-      - [构建脚本示例 todo](cargo/reference/build-script/examples.md)
+      - [构建脚本示例](cargo/reference/build-script/examples.md)
 
 - [易混淆概念解析](confonding/intro.md)
 
