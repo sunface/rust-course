@@ -67,3 +67,9 @@ fn calculate_length(s: String) -> (String, usize) {
 在其他语言中，可以用结构体来声明一个三维空间中的点，例如 `Point(10, 20, 30)`，虽然使用 Rust 元组也可以做到：`(10, 20, 30)`，但是这样写有个非常重大的缺陷：
 
 **不具备任何清晰的含义**，在下一章节中，会提到一种与元组类似的结构体，`元组结构体`，可以解决这个问题。
+
+
+
+## 课后练习
+
+> [Rust By Practice](https://zh.practice.rs/compound-types/tuple.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。

@@ -83,3 +83,8 @@ fn main() {
 
 该语句块是表达式的原因是：它的最后一行是表达式，返回了 `x + 1` 的值，注意 `x + 1` 不能以分号结尾，否则就会从表达式变成语句， **表达式不能包含分号**。这一点非常重要，一旦你在表达式后加上分号，它就会变成一条语句，再也**不会**返回一个值，请牢记！
 
+
+## 课后练习
+
+> [Rust By Practice](https://zh.practice.rs/basic-types/statements-expressions.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。
+

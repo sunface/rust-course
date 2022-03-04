@@ -221,3 +221,8 @@ error: aborting due to previous error
 显然，Rust 对类型的要求很严格，不允许将整数类型 `usize` 赋值给字符串类型。`usize` 是一种 CPU 相关的整数类型，在[数值类型](./base-type/numbers#整数类型)中有详细介绍。
 
 万事开头难，到目前为止，都进展很顺利，那下面开始，咱们正式进入 Rust 的类型世界，看看有哪些挑战在前面等着大家。
+
+
+## 课后练习
+
+> [Rust By Practice](https://zh.practice.rs/variables.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。

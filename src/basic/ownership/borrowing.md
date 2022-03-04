@@ -301,3 +301,8 @@ fn no_dangle() -> String {
 
 - 同一时刻，你只能拥有要么一个可变引用, 要么任意多个不可变引用
 - 引用必须总是有效的
+
+
+## 课后练习
+
+> [Rust By Practice](https://zh.practice.rs/ownership/borrowing.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。

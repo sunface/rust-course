@@ -66,3 +66,8 @@ fn main() {
 例如常见的 `println!()` 的返回值也是单元类型 `()`。
 
 再比如，你可以用 `()` 作为 `map` 的值，表示我们不关注具体的值，只关注 `key`。 这种用法和 Go 语言的 ***struct{}*** 类似，可以作为一个值用来占位，但是完全**不占用**任何内存。
+
+
+## 课后练习
+
+> [Rust By Practice](https://zh.practice.rs/basic-types/char-bool-unit.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。

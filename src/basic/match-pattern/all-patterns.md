@@ -607,3 +607,8 @@ num @ (1 | 2)
 
 
 至此，模式匹配的内容已经全部完结，复杂但是详尽，想要一次性全部记住属实不易，因此读者可以先留一个印象，等未来需要时，再来翻阅寻找具体的模式实现方式。
+
+
+## 课后练习
+
+> [Rust By Practice](https://zh.practice.rs/pattern-match/patterns.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。

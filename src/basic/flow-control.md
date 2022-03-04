@@ -334,3 +334,8 @@ fn main() {
 - **break 可以单独使用，也可以带一个返回值**，有些类似 `return`
 - **loop 是一个表达式**，因此可以返回一个值
 
+
+
+## 课后练习
+
+> [Rust By Practice](https://zh.practice.rs/flow-control.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。

@@ -194,7 +194,6 @@
     - [日志记录 todo](practice/logs.md)
     - [可观测性监控 todo](practice/observability.md)
     - [面试经验 doing](practice/interview.md)
-<!-- - [如何实现一个链表 todo]() -->
   
 - [Rust性能剖析 todo](profiling/intro.md)  
   - [深入内存 todo](profiling/memory/intro.md)

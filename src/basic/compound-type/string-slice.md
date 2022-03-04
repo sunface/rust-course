@@ -379,3 +379,10 @@ for b in "中国人".bytes() {
 > 其实，在 C++ 中，也有这种概念: *Resource Acquisition Is Initialization (RAII)*。如果你使用过 RAII 模式的话应该对 Rust 的 `drop` 函数并不陌生
 
 这个模式对编写 Rust 代码的方式有着深远的影响，在后面章节我们会进行更深入的介绍。
+
+
+## 课后练习
+
+> Rust By Practice，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。
+> - [字符串](https://zh.practice.rs/compound-types/string.html)
+> - [切片](https://zh.practice.rs/compound-types/slice.html)

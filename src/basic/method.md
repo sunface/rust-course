@@ -262,3 +262,8 @@ m.call();
 ```
 
 除了结构体和枚举，我们还能为特征(trait)实现方法，这将在下一章进行讲解，在此之前，先来看看泛型。
+
+
+## 课后练习
+
+> [Rust By Practice](https://zh.practice.rs/method.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。
