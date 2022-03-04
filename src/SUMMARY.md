@@ -158,6 +158,7 @@
     - [构建脚本 build.rs](cargo/reference/build-script/intro.md)
       - [构建脚本示例](cargo/reference/build-script/examples.md)
 
+- [手把手带你实现链表 doing](linked-list/intro.md)
 - [易混淆概念解析](confonding/intro.md)
 
   - [切片和切片引用](confonding/slice.md)
@@ -193,13 +194,22 @@
   - [线程间传递消息导致主线程无法结束](pitfalls/main-with-channel-blocked.md)
 
 - [Rust 最佳实践 doing](practice/intro.md)
+
   - [日常开发三方库精选](practice/third-party-libs.md)
   - [命名规范](practice/naming.md)
   - [代码开发实践 todo](practice/best-pratice.md)
   - [日志记录 todo](practice/logs.md)
   - [可观测性监控 todo](practice/observability.md)
 
-<!-- - [如何实现一个链表 todo]() -->
+- [Rust 最佳实践 doing](practice/intro.md)
+
+  - [日常开发三方库精选](practice/third-party-libs.md)
+  - [命名规范](practice/naming.md)
+  - [代码开发实践 todo](practice/best-pratice.md)
+  - [日志记录 todo](practice/logs.md)
+  - [可观测性监控 todo](practice/observability.md)
+  - [面试经验 doing](practice/interview.md)
+  <!-- - [如何实现一个链表 todo]() -->
 
 - [Rust 性能剖析 todo](profiling/intro.md)
 

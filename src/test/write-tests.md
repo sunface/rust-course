@@ -73,7 +73,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 关于 `filtered` 和 `ignored` 的使用，在本章节的后续内容我们会讲到，这里暂且略过。
 
-还有一个很重要的点，输出中的 `Doc-tests adder` 代表了文档测试，由于我们的代码中没有任何文档测试的内容，因此这里的测试用例数为 `0`，关于文档测试的详细介绍请参见[这里](https://course.rs/advance/comment.html#文档测试doc-test)。
+还有一个很重要的点，输出中的 `Doc-tests adder` 代表了文档测试，由于我们的代码中没有任何文档测试的内容，因此这里的测试用例数为 `0`，关于文档测试的详细介绍请参见[这里](https://course.rs/basic/comment.html#文档注释)。
 
 大家还可以尝试修改下测试函数的名称，例如修改为 `exploration`，看看运行结果将如何变化。
 
