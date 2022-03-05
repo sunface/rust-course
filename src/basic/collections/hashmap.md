@@ -1,12 +1,12 @@
 # KV 存储 HashMap
 
-和动态数组一样，`HashMap` 也是 Rust 标准库中提供的集合类型，但是又与动态数组不同，`HashMap` 中存储的是一一映射的 `KV `键值对，并提供了平均复杂度为 `O(1)` 的查询方法，当我们希望通过一个 `Key` 去查询值时，该类型非常有用，以致于 Go 语言将该类型设置成了语言级别的内置特性。
+和动态数组一样，`HashMap` 也是 Rust 标准库中提供的集合类型，但是又与动态数组不同，`HashMap` 中存储的是一一映射的 `KV` 键值对，并提供了平均复杂度为 `O(1)` 的查询方法，当我们希望通过一个 `Key` 去查询值时，该类型非常有用，以致于 Go 语言将该类型设置成了语言级别的内置特性。
 
 Rust 中哈希类型（哈希映射）为 `HashMap<K,V>`，在其它语言中，也有类似的数据结构，例如 `hash map`，`map`，`object`，`hash table`，`字典` 等等，引用小品演员孙涛的一句台词：大家都是本地狐狸，别搁那装貂 :)。
 
 ## 创建 HashMap
 
-跟创建动态数组 `Vec` 的方法类似，可以使用 `new` 方法来创建` HashMap`，然后通过` insert` 方法插入键值对。
+跟创建动态数组 `Vec` 的方法类似，可以使用 `new` 方法来创建 `HashMap`，然后通过 `insert` 方法插入键值对。
 
 #### 使用 new 方法创建
 
@@ -24,7 +24,7 @@ my_gems.insert("河边捡的误以为是宝石的破石头", 18);
 
 很简单对吧？跟其它语言没有区别，聪明的同学甚至能够猜到该 `HashMap` 的类型：`HashMap<&str,i32>`。
 
-但是还有一点，你可能没有注意，那就是使用 `HashMap` 需要手动通过 `use ...` 从标准库中引入到我们当前的作用域中来，仔细回忆下，之前使用另外两个集合类型 `String` 和` Vec` 时，我们是否有手动引用过？答案是 `No`，因为 `HashMap` 并没有包含在 Rust 的 [`prelude`](../../appendix/prelude.md) 中（Rust 为了简化用户使用，提前将最常用的类型自动引入到作用域中）。
+但是还有一点，你可能没有注意，那就是使用 `HashMap` 需要手动通过 `use ...` 从标准库中引入到我们当前的作用域中来，仔细回忆下，之前使用另外两个集合类型 `String` 和 `Vec` 时，我们是否有手动引用过？答案是 `No`，因为 `HashMap` 并没有包含在 Rust 的 [`prelude`](../../appendix/prelude.md) 中（Rust 为了简化用户使用，提前将最常用的类型自动引入到作用域中）。
 
 所有的集合类型都是动态的，意味着它们没有固定的内存大小，因此它们底层的数据都存储在内存堆上，然后通过一个存储在栈中的引用类型来访问。同时，跟其它集合类型一致，`HashMap` 也是内聚性的，即所有的 `K` 必须拥有同样的类型，`V` 也是如此。
 
@@ -46,8 +46,8 @@ fn main() {
 
     let teams_list = vec![
         ("中国队".to_string(), 100),
-        ("美国队".to_string(),10),
-        ("日本队".to_string(),50),
+        ("美国队".to_string(), 10),
+        ("日本队".to_string(), 50),
     ];
 
     let mut teams_map = HashMap::new();
@@ -69,8 +69,8 @@ fn main() {
 
     let teams_list = vec![
         ("中国队".to_string(), 100),
-        ("美国队".to_string(),10),
-        ("日本队".to_string(),50),
+        ("美国队".to_string(), 10),
+        ("日本队".to_string(), 50),
     ];
 
     let teams_map: HashMap<_,_> = teams_list.into_iter().collect();
@@ -111,7 +111,7 @@ fn main() {
     handsome_boys.insert(name, age);
 
     println!("因为过于无耻，{}已经被从帅气男孩名单中除名", name);
-    println!("还有，他的真实年龄远远不止{}岁",age);
+    println!("还有，他的真实年龄远远不止{}岁", age);
 }
 ```
 
@@ -147,7 +147,7 @@ fn main() {
 
     std::mem::drop(name);
     println!("因为过于无耻，{:?}已经被除名", handsome_boys);
-    println!("还有，他的真实年龄远远不止{}岁",age);
+    println!("还有，他的真实年龄远远不止{}岁", age);
 }
 ```
 
@@ -183,7 +183,7 @@ let score: Option<&i32> = scores.get(&team_name);
 
 上面有几点需要注意：
 
-- `get` 方法返回一个 `Option<&i32> `类型：当查询不到时，会返回一个 `None`，查询到时返回 `Some(&i32)`
+- `get` 方法返回一个 `Option<&i32>` 类型：当查询不到时，会返回一个 `None`，查询到时返回 `Some(&i32)`
 - `&i32` 是对 `HashMap` 中值的借用，如果不使用借用，可能会发生所有权的转移
 
 还可以通过循环的方式依次遍历 `KV` 对：
@@ -297,6 +297,6 @@ hash.insert(42, "the answer");
 assert_eq!(hash.get(&42), Some(&"the answer"));
 ```
 
-> 目前，`HashMap` 使用的哈希函数是 `SipHash`，它的性能不是很高，但是安全性很高。`SipHash` 在中等大小的 `Key` 上，性能相当不错，但是对于小型的 `Key` (例如整数)或者大型 `Key` (例如字符串)来说，性能还是不够好。若你需要极致性能，例如实现算法，可以考虑这个库：[ahash](https://github.com/tkaitchuck/ahash)
+> 目前，`HashMap` 使用的哈希函数是 `SipHash`，它的性能不是很高，但是安全性很高。`SipHash` 在中等大小的 `Key` 上，性能相当不错，但是对于小型的 `Key` （例如整数）或者大型 `Key` （例如字符串）来说，性能还是不够好。若你需要极致性能，例如实现算法，可以考虑这个库：[ahash](https://github.com/tkaitchuck/ahash)
 
 最后，如果你想要了解 `HashMap` 更多的用法，请参见本书的标准库解析章节：[HashMap 常用方法](../../std/hashmap.md)
