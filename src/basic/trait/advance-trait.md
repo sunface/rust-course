@@ -1,11 +1,13 @@
 # 深入了解特征
 
-特征之于 Rust 更甚于接口之于其他语言，因此特征在 Rust 中很重要也相对较为复杂，我们决定把特征分为两篇进行介绍，[第一篇](./trait.md)在之前已经讲过，现在就是第二篇：关于特征的进阶篇，会讲述一些不常用到但是你该了解的特性。
+特征之于 Rust 更甚于接口之于其他语言，因此特征在 Rust 中很重要也相对较为复杂，我们决定把特征分为两篇进行介绍，[第一篇](https://course.rs/basic/trait/trait.html)在之前已经讲过，现在就是第二篇：关于特征的进阶篇，会讲述一些不常用到但是你该了解的特性。
 
 ## 关联类型
-在方法一章中，我们讲到了[关联函数](../method.md#关联函数)，但是实际上关联类型和关联函数并没有任何交集，虽然它们的名字有一半的交集。
+
+在方法一章中，我们讲到了[关联函数](https://course.rs/basic/method#关联函数)，但是实际上关联类型和关联函数并没有任何交集，虽然它们的名字有一半的交集。
 
 关联类型是在特征定义的语句块中，申明一个自定义类型，这样就可以在特征的方法签名中使用该类型：
+
 ```rust
 pub trait Iterator {
     type Item;
@@ -18,7 +20,8 @@ pub trait Iterator {
 
 同时，`next` 方法也返回了一个 `Item` 类型，不过使用 `Option` 枚举进行了包裹，假如迭代器中的值是 `i32` 类型，那么调用 `next` 方法就将获取一个 `Option<i32>` 的值。
 
-还记得 `Self` 吧？在之前的章节[提到过](./trait-object#Self与self)， `Self` 用来指代当前的特征实例，那么 `Self::Item` 就用来指代特征实例中具体的 `Item` 类型：
+还记得 `Self` 吧？在之前的章节[提到过](https://course.rs/basic/trait/trait-object#self与self)， `Self` 用来指代当前的特征实例，那么 `Self::Item` 就用来指代特征实例中具体的 `Item` 类型：
+
 ```rust
 impl Iterator for Counter {
     type Item = u32;
@@ -32,6 +35,7 @@ impl Iterator for Counter {
 在上述代码中，我们为 `Counter` 类型实现了 `Iterator` 特征，那么 `Self` 就是当前的 `Iterator` 特征对象， `Item` 就是 `u32` 类型。
 
 聪明的读者之所以聪明，是因为你们喜欢联想和举一反三，同时你们也喜欢提问：为何不用泛型，例如如下代码：
+
 ```rust
 pub trait Iterator<Item> {
     fn next(&mut self) -> Option<Item>;
@@ -39,6 +43,7 @@ pub trait Iterator<Item> {
 ```
 
 答案其实很简单，为了代码的可读性，当你使用了泛型后，你需要在所有地方都写 `Iterator<Item>`，而使用了关联类型，你只需要写 `Iterator`，当类型定义复杂时，这种写法可以极大的增加可读性：
+
 ```rust
 pub trait CacheableItem: Clone + Default + fmt::Debug + Decodable + Encodable {
   type Address: AsRef<[u8]> + Clone + fmt::Debug + Eq + Hash;
@@ -49,6 +54,7 @@ pub trait CacheableItem: Clone + Default + fmt::Debug + Decodable + Encodable {
 例如上面的代码，`Address` 的写法自然远比 `AsRef<[u8]> + Clone + fmt::Debug + Eq + Hash` 要简单的多，而且含义清晰。
 
 再例如，如果使用泛型，你将得到以下的代码：
+
 ```rust
 trait Container<A,B> {
     fn contains(&self,a: A,b: B) -> bool;
@@ -60,6 +66,7 @@ fn difference<A,B,C>(container: &C) -> i32
 ```
 
 可以看到，由于使用了泛型，导致函数头部也必须增加泛型的声明，而使用关联类型，将得到可读性好得多的代码：
+
 ```rust
 trait Container{
     type A;
@@ -73,6 +80,7 @@ fn difference<C: Container>(container: &C) {}
 ## 默认泛型类型参数
 
 当使用泛型类型参数时，可以为其指定一个默认的具体类型，例如标准库中的 `std::ops::Add` 特征：
+
 ```rust
 trait Add<RHS=Self> {
     type Output;
@@ -80,9 +88,11 @@ trait Add<RHS=Self> {
     fn add(self, rhs: RHS) -> Self::Output;
 }
 ```
+
 它有一个泛型参数 `RHS`，但是与我们以往的用法不同，这里它给 `RHS` 一个默认值，也就是当用户不指定 `RHS` 时，默认使用两个同样类型的值进行相加，然后返回一个关联类型 `Output`。
 
 可能上面那段不太好理解，下面我们用代码来举例：
+
 ```rust
 use std::ops::Add;
 
@@ -108,11 +118,13 @@ fn main() {
                Point { x: 3, y: 3 });
 }
 ```
+
 上面的代码主要干了一件事，就是为 `Point` 结构体提供 `+` 的能力，这就是**运算符重载**，不过 Rust 并不支持创建自定义运算符，你也无法为所有运算符进行重载，目前来说，只有定义在 `std::ops` 中的运算符才能进行重载。
 
 跟 `+` 对应的特征是 `std::ops::Add`，我们在之前也看过它的定义 `trait Add<RHS=Self>`，但是上面的例子中并没有为 `Point` 实现 `Add<RHS>` 特征，而是实现了 `Add` 特征（没有默认泛型类型参数），这意味着我们使用了 `RHS` 的默认类型，也就是 `Self`。换句话说，我们这里定义的是两个相同的 `Point` 类型相加，因此无需指定 `RHS`。
 
 与上面的例子相反，下面的例子，我们来创建两个不同类型的相加：
+
 ```rust
 use std::ops::Add;
 
@@ -131,6 +143,7 @@ impl Add<Meters> for Millimeters {
 这里，是进行 `Millimeters + Meters` 两种数据类型的 `+` 操作，因此此时不能再使用默认的 `RHS`，否则就会变成 `Millimeters + Millimeters` 的形式。使用 `Add<Meters>` 可以将 `RHS` 指定为 `Meters`，那么 `fn add(self, rhs: RHS)` 自然而言的变成了 `Millimeters` 和 `Meters` 的相加。
 
 默认类型参数主要用于两个方面：
+
 1. 减少实现的样板代码
 2. 扩展类型但是无需大幅修改现有的代码
 
@@ -141,7 +154,9 @@ impl Add<Meters> for Millimeters {
 归根到底，默认泛型参数，是有用的，但是大多数情况下，咱们确实用不到，当需要用到时，大家再回头来查阅本章即可，**手上有剑，心中不慌**。
 
 ## 调用同名的方法
+
 不同特征拥有同名的方法是很正常的事情，你没有任何办法阻止这一点；甚至除了特征上的同名方法外，在你的类型上，也有同名方法：
+
 ```rust
 trait Pilot {
     fn fly(&self);
@@ -177,17 +192,22 @@ impl Human {
 既然代码已经不可更改，那下面我们来讲讲该如何调用这些 `fly` 方法。
 
 #### 优先调用类型上的方法
+
 当调用 `Human` 实例的 `fly` 时，编译器默认调用该类型中定义的方法：
+
 ```rust
 fn main() {
     let person = Human;
     person.fly();
 }
 ```
+
 这段代码会打印 `*waving arms furiously*`，说明直接调用了类型上定义的方法。
 
 #### 调用特征上的方法
+
 为了能够调用两个特征的方法，需要使用显式调用的语法：
+
 ```rust
 fn main() {
     let person = Human;
@@ -198,6 +218,7 @@ fn main() {
 ```
 
 运行后依次输出：
+
 ```console
 This is your captain speaking.
 Up!
@@ -209,6 +230,7 @@ Up!
 这个时候问题又来了，如果方法没有 `self` 参数呢？稍等，估计有读者会问：还有方法没有 `self` 参数？看到这个疑问，作者的眼泪不禁流了下来，大明湖畔的[关联函数](../method.md#关联函数)，你还记得嘛？
 
 但是成年人的世界，就算再伤心，事还得做，咱们继续：
+
 ```rust
 trait Animal {
     fn baby_name() -> String;
@@ -236,6 +258,7 @@ fn main() {
 就像人类妈妈会给自己的宝宝起爱称一样，狗妈妈也会。狗妈妈称呼自己的宝宝为**Spot**，其它动物称呼狗宝宝为**puppy**，这个时候假如有动物不知道该称如何呼狗宝宝，它需要查询一下。
 
 `Dog::baby_name()` 的调用方式显然不行，因为这只是狗妈妈对宝宝的爱称，可能你会想到通过下面的方式查询其他动物对狗狗的称呼：
+
 ```rust
 fn main() {
     println!("A baby dog is called a {}", Animal::baby_name());
@@ -243,6 +266,7 @@ fn main() {
 ```
 
 铛铛，无情报错了：
+
 ```rust
 error[E0283]: type annotations needed // 需要类型注释
   --> src/main.rs:20:43
@@ -258,15 +282,19 @@ error[E0283]: type annotations needed // 需要类型注释
 此时，就需要使用**完全限定语法**。
 
 ##### 完全限定语法
+
 完全限定语法是调用函数最为明确的方式：
+
 ```rust
 fn main() {
     println!("A baby dog is called a {}", <Dog as Animal>::baby_name());
 }
 ```
+
 在尖括号中，通过 `as` 关键字，我们向 Rust 编译器提供了类型注解，也就是 `Animal` 就是 `Dog`，而不是其他动物，因此最终会调用 `impl Animal for Dog` 中的方法，获取到其它动物对狗宝宝的称呼：**puppy**。
 
 言归正题，完全限定语法定义为：
+
 ```rust
 <Type as Trait>::function(receiver_if_method, next_arg, ...);
 ```
@@ -275,12 +303,12 @@ fn main() {
 
 完全限定语法可以用于任何函数或方法调用，那么我们为何很少用到这个语法？原因是 Rust 编译器能根据上下文自动推导出调用的路径，因此大多数时候，我们都无需使用完全限定语法。只有当存在多个同名函数或方法，且 Rust 无法区分出你想调用的目标函数时，该用法才能真正有用武之地。
 
-
-
 ## 特征定义中的特征约束
-有时，我们会需要让某个特征A能使用另一个特征B的功能(另一种形式的特征约束)，这种情况下，不仅仅要为类型实现特征A，还要为类型实现特征B才行，这就是 `supertrait` (实在不知道该如何翻译，有大佬指导下嘛？)
+
+有时，我们会需要让某个特征 A 能使用另一个特征 B 的功能(另一种形式的特征约束)，这种情况下，不仅仅要为类型实现特征 A，还要为类型实现特征 B 才行，这就是 `supertrait` (实在不知道该如何翻译，有大佬指导下嘛？)
 
 例如有一个特征 `OutlinePrint`，它有一个方法，能够对当前的实现类型进行格式化输出：
+
 ```rust
 use std::fmt::Display;
 
@@ -300,6 +328,7 @@ trait OutlinePrint: Display {
 等等，这里有一个眼熟的语法: `OutlinePrint: Display`，感觉很像之前讲过的**特征约束**，只不过用在了特征定义中而不是函数的参数中，是的，在某种意义上来说，这和特征约束非常类似，都用来说明一个特征需要实现另一个特征，这里就是：如果你想要实现 `OutlinePrint` 特征，首先你需要实现 `Display` 特征。
 
 想象一下，假如没有这个特征约束，那么 `self.to_string` 还能够调用吗（ `to_string` 方法会为实现 `Display` 特征的类型自动实现）？编译器肯定是不愿意的，会报错说当前作用域中找不到用于 `&Self` 类型的方法 `to_string` ：
+
 ```rust
 struct Point {
     x: i32,
@@ -308,7 +337,9 @@ struct Point {
 
 impl OutlinePrint for Point {}
 ```
+
 因为 `Point` 没有实现 `Display` 特征，会得到下面的报错：
+
 ```console
 error[E0277]: the trait bound `Point: std::fmt::Display` is not satisfied
   --> src/main.rs:20:6
@@ -321,6 +352,7 @@ try using `:?` instead if you are using a format string
 ```
 
 既然我们有求于编译器，那只能选择满足它咯：
+
 ```rust
 use std::fmt;
 
@@ -335,16 +367,15 @@ impl fmt::Display for Point {
 
 ## 在外部类型上实现外部特征(newtype)
 
- 在[特征](./trait#特征定义与实现的位置(孤儿规则))章节中，有提到孤儿规则，简单来说，就是特征或者类型必需至少有一个是本地的，才能在此类型上定义特征。
+在[特征](https://course.rs/basic/trait/trait#特征定义与实现的位置孤儿规则)章节中，有提到孤儿规则，简单来说，就是特征或者类型必需至少有一个是本地的，才能在此类型上定义特征。
 
-这里提供一个办法来绕过孤儿规则，那就是使用**newtype模式**，简而言之：就是为一个[元组结构体](../compound-type/struct.md#元组结构体)创建新类型。该元组结构体封装有一个字段，该字段就是希望实现特征的具体类型。
+这里提供一个办法来绕过孤儿规则，那就是使用**newtype 模式**，简而言之：就是为一个[元组结构体](https://course.rs/basic/compound-type/struct#元组结构体tuple-struct)创建新类型。该元组结构体封装有一个字段，该字段就是希望实现特征的具体类型。
 
 该封装类型是本地的，因此我们可以为此类型实现外部的特征。
 
 `newtype` 不仅仅能实现以上的功能，而且它在运行时没有任何性能损耗，因为在编译期，该类型会被自动忽略。
 
 下面来看一个例子，我们有一个动态数组类型： `Vec<T>`，它定义在标准库中，还有一个特征 `Display`，它也定义在标准库中，如果没有 `newtype`，我们是无法为 `Vec<T>` 实现 `Display` 的：
-
 
 ```console
 error[E0117]: only traits defined in the current crate can be implemented for arbitrary types
@@ -384,7 +415,6 @@ fn main() {
 
 类似的，任何数组上的方法，你都无法直接调用，需要先用 `self.0` 取出数组，然后再进行调用。
 
-当然，解决办法还是有的，要不怎么说 Rust 是极其强大灵活的编程语言！Rust 提供了一个特征叫 [`Deref`](../../advance/smart-pointer/deref.md)，实现该特征后，可以自动做一层类似类型转换的操作，可以将 `Wrapper` 变成 `Vec<String>` 来使用。这样就会像直接使用数组那样去使用 `Wrapper`，而无需为每一个操作都添加上 `self.0`。
+当然，解决办法还是有的，要不怎么说 Rust 是极其强大灵活的编程语言！Rust 提供了一个特征叫 [`Deref`](https://course.rs/advance/smart-pointer/deref.html)，实现该特征后，可以自动做一层类似类型转换的操作，可以将 `Wrapper` 变成 `Vec<String>` 来使用。这样就会像直接使用数组那样去使用 `Wrapper`，而无需为每一个操作都添加上 `self.0`。
 
 同时，如果不想 `Wrapper` 暴漏底层数组的所有方法，我们还可以为 `Wrapper` 去重载这些方法，实现隐藏的目的。
-

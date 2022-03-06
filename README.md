@@ -52,7 +52,7 @@
 站在巨人的肩膀上，能帮我们看的更远，特此感谢以下巨人：
 
 - [Rust Book](https://doc.rust-lang.org/book)
-- [Rust nomicon](https://doc.rust-lang.org/nomicon/dot-operator.html)
+- [Rust nomicon](https://doc.rust-lang.org/nomicon/intro.html)
 - [Async Rust](https://rust-lang.github.io/async-book/01_getting_started/01_chapter.html)
 - 详细清单参见 [这里](./assets/writing-material/books.md)
 

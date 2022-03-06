@@ -1,8 +1,11 @@
 # 格式化输出
+
 提到格式化输出，可能很多人立刻就想到 `"{}"`，但是 Rust 能做到的远比这个多的多，本章节我们将深入讲解格式化输出的各个方面。
 
 ## 满分初印象
+
 先来一段代码，看看格式化输出的初印象：
+
 ```rust
 println!("Hello");                 // => "Hello"
 println!("Hello, {}!", "world");   // => "Hello, world!"
@@ -15,7 +18,8 @@ println!("{:04}", 42);             // => "0042" with leading zeros
 
 可以看到 `println!` 宏接受的是可变参数，第一个参数是一个字符串常量，它表示最终输出字符串的格式，包含其中形如 `{}` 的符号是**占位符**，会被 `println!` 后面的参数依次替换。
 
-##  `print!`，`println!`，`format!`
+## `print!`，`println!`，`format!`
+
 它们是 Rust 中用来格式化输出的三大金刚，用途如下：
 
 - `print!` 将格式化文本输出到标准输出，不带换行符
@@ -23,6 +27,7 @@ println!("{:04}", 42);             // => "0042" with leading zeros
 - `format!` 将格式化文本输出到 `String` 字符串
 
 在实际项目中，最常用的是 `println!` 及 `format!`，前者常用来调试输出，后者常用来生成格式化的字符串：
+
 ```rust
 fn main() {
     let s = "hello";
@@ -34,13 +39,16 @@ fn main() {
 ```
 
 其中，`s1` 是通过 `format!` 生成的 `String` 字符串，最终输出如下：
+
 ```console
 hello, wolrd
 hello, world!
 ```
 
 #### `eprint!`，`eprintln!`
+
 除了三大金刚外，还有两大护法，使用方式跟 `print!`，`println!` 很像，但是它们输出到标准错误输出：
+
 ```rust
 eprintln!("Error: Could not complete task")
 ```
@@ -48,6 +56,7 @@ eprintln!("Error: Could not complete task")
 它们仅应该被用于输出错误信息和进度信息，其它场景都应该使用 `print!` 系列。
 
 ## {} 与 {:?}
+
 与其它语言常用的 `%d`，`%s` 不同，Rust 特立独行地选择了 `{}` 作为格式化占位符（说到这个，有点想吐槽下，Rust 中自创的概念其实还挺多的，真不知道该夸奖还是该吐槽-,-），事实证明，这种选择非常正确，它帮助用户减少了很多使用成本，你无需再为特定的类型选择特定的占位符，统一用 `{}` 来替代即可，剩下的类型推导等细节只要交给 Rust 去做。
 
 与 `{}` 类似，`{:?}` 也是占位符：
@@ -58,7 +67,9 @@ eprintln!("Error: Could not complete task")
 其实两者的选择很简单，当你在写代码需要调试时，使用 `{:?}`，剩下的场景，选择 `{}`。
 
 #### `Debug` 特征
+
 事实上，为了方便我们调试，大多数 Rust 类型都实现了 `Debug` 特征或者支持派生该特征：
+
 ```rust
 #[derive(Debug)]
 struct Person {
@@ -77,9 +88,10 @@ fn main() {
 
 对于数值、字符串、数组，可以直接使用 `{:?}` 进行输出，但是对于结构体，需要[派生`Debug`](../appendix/derive.md)特征后，才能进行输出，总之很简单。
 
-
 #### `Display` 特征
+
 与大部分类型实现了 `Debug` 不同，实现了 `Display` 特征的 Rust 类型并没有那么多，往往需要我们自定义想要的格式化方式：
+
 ```rust
 let i = 3.1415926;
 let s = String::from("hello");
@@ -100,7 +112,9 @@ println!("{}, {}, {}, {}", i, s, v, p);
 下面来一一看看这三种方式。
 
 #### {:#?}
+
 `{:#?}` 与 `{:?}` 几乎一样，唯一的区别在于它能更优美地输出内容：
+
 ```console
 // {:?}
 [1, 2, 3], Person { name: "sunface", age: 18 }
@@ -118,7 +132,9 @@ println!("{}, {}, {}, {}", i, s, v, p);
 因此对于 `Display` 不支持的类型，可以考虑使用 `{:#?}` 进行格式化，虽然理论上它更适合进行调试输出。
 
 #### 为自定义类型实现 `Display` 特征
+
 如果你的类型是定义在当前作用域中的，那么可以为其实现 `Display` 特征，即可用于格式化输出：
+
 ```rust
 struct Person {
     name: String,
@@ -145,12 +161,15 @@ fn main() {
 ```
 
 如上所示，只要实现 `Display` 特征中的 `fmt` 方法，即可为自定义结构体 `Person` 添加自定义输出：
+
 ```console
 大佬在上，请受我一拜，小弟姓名sunface，年芳18，家里无田又无车，生活苦哈哈
 ```
 
 #### 为外部类型实现 `Display` 特征
+
 在 Rust 中，无法直接为外部类型实现外部特征，但是可以使用[`newtype`](./custom-type.md#newtype)解决此问题：
+
 ```rust
 struct Array(Vec<i32>);
 
@@ -167,6 +186,7 @@ fn main() {
 ```
 
 `Array` 就是我们的 `newtype`，它将想要格式化输出的 `Vec` 包裹在内，最后只要为 `Array` 实现 `Display` 特征，即可进行格式化输出：
+
 ```console
 数组是：[1, 2, 3]
 ```
@@ -174,7 +194,9 @@ fn main() {
 至此，关于 `{}` 与 `{:?}` 的内容已介绍完毕，下面让我们正式开始格式化输出的旅程。
 
 ## 指定位置参数
-除了按照依次顺序使用值去替换占位符之外，还能让指定位置的参数去替换某个占位符，例如 `{1}`，表示用第二个参数替换该占位符(索引从0开始)：
+
+除了按照依次顺序使用值去替换占位符之外，还能让指定位置的参数去替换某个占位符，例如 `{1}`，表示用第二个参数替换该占位符(索引从 0 开始)：
+
 ```rust
 fn main() {
     println!("{}{}", 1, 2); // =>"12"
@@ -186,7 +208,9 @@ fn main() {
 ```
 
 ## 带名称的变量
+
 除了像上面那样指定位置外，我们还可以为参数指定名称：
+
 ```rust
 fn main() {
     println!("{argument}", argument = "test"); // => "test"
@@ -196,6 +220,7 @@ fn main() {
 ```
 
 需要注意的是：**带名称的参数必须放在不带名称参数的后面**，例如下面代码将报错：
+
 ```rust
 println!("{abc} {1}", abc = "def", 2);
 ```
@@ -211,7 +236,9 @@ error: positional arguments cannot follow named arguments
 ```
 
 ## 格式化参数
+
 格式化输出，意味着对输出格式会有更多的要求，例如只输出浮点数的小数点后两位：
+
 ```rust
 fn main() {
     let v = 3.1415926;
@@ -227,10 +254,13 @@ fn main() {
 接下来，让我们一起来看看 Rust 中有哪些格式化参数。
 
 #### 宽度
+
 宽度用来指示输出目标的长度，如果长度不够，则进行填充和对齐：
 
 ##### 字符串填充
+
 字符串格式化默认使用空格进行填充，并且进行左对齐。
+
 ```rust
 fn main() {
     //-----------------------------------
@@ -250,8 +280,10 @@ fn main() {
 }
 ```
 
-##### 数字填充:符号和0
+##### 数字填充:符号和 0
+
 数字格式化默认也是使用空格进行填充，但与字符串左对齐不同的是，数字是右对齐。
+
 ```rust
 fn main() {
     // 宽度是5 => Hello     5!
@@ -266,6 +298,7 @@ fn main() {
 ```
 
 ##### 对齐
+
 ```rust
 fn main() {
     // 以下全部都会补齐5个字符的长度
@@ -283,7 +316,9 @@ fn main() {
 ```
 
 #### 精度
+
 精度可以用于控制浮点数的精度或者字符串的长度
+
 ```rust
 fn main() {
     let v = 3.1415926;
@@ -295,7 +330,7 @@ fn main() {
     println!("{:.0}", v);
     // 通过参数来设定精度 => 3.1416，相当于{:.4}
     println!("{:.1$}", v, 4);
-    
+
     let s = "hi我是Sunface孙飞";
     // 保留字符串前三个字符 => hi我
     println!("{:.3}", s);
@@ -305,6 +340,7 @@ fn main() {
 ```
 
 #### 进制
+
 可以使用 `#` 号来控制数字的进制输出：
 
 - `#b`, 二进制
@@ -330,11 +366,12 @@ fn main() {
     println!("{:x}!", 27);
 
     // 使用0填充二进制，宽度为10 => 0b00011011!
-    println!("{:#010b}!", 27); 
+    println!("{:#010b}!", 27);
 }
 ```
 
 #### 指数
+
 ```rust
 fn main() {
     println!("{:2e}", 1000000000); // => 1e9
@@ -343,13 +380,16 @@ fn main() {
 ```
 
 #### 指针地址
+
 ```rust
 let v= vec![1, 2, 3];
 println!("{:p}", v.as_ptr()) // => 0x600002324050
 ```
 
 #### 转义
+
 有时需要输出 `{`和`}`，但这两个字符是特殊字符，需要进行转义：
+
 ```rust
 fn main() {
     // {使用{转义，}使用} => Hello {}
@@ -363,6 +403,7 @@ fn main() {
 ## 在格式化字符串时捕获环境中的值（Rust 1.58 新增）
 
 在以前，想要输出一个函数的返回值，你需要这么做：
+
 ```rust
 fn get_person() -> String {
     String::from("sunface")
@@ -374,7 +415,9 @@ fn main() {
     println!("Hello, {person}!", person = p);
 }
 ```
+
 问题倒也不大，但是一旦格式化字符串长了后，就会非常冗余，而在 1.58 后，我们可以这么写：
+
 ```rust
 fn get_person() -> String {
     String::from("sunface")
@@ -384,15 +427,19 @@ fn main() {
     println!("Hello, {person}!");
 }
 ```
+
 是不是清晰、简洁了很多？甚至还可以将环境中的值用于格式化参数:
+
 ```rust
 let (width, precision) = get_format();
 for (name, score) in get_scores() {
   println!("{name}: {score:width$.precision$}");
 }
 ```
+
 但也有局限，它只能捕获普通的变量，对于更复杂的类型（例如表达式），可以先将它赋值给一个变量或使用以前的 `name = expression` 形式的格式化参数。
 目前除了 `panic!` 外，其它接收格式化参数的宏，都可以使用新的特性。对于 `panic!` 而言，如果还在使用 `2015版本` 或 `2018版本`，那 `panic!("{ident}")` 依然会被当成 正常的字符串来处理，同时编译器会给予 `warn` 提示。而对于 `2021版本` ，则可以正常使用:
+
 ```rust
 fn get_person() -> String {
     String::from("sunface")
@@ -404,15 +451,16 @@ fn main() {
 ```
 
 输出:
+
 ```console
 thread 'main' panicked at 'Hello, sunface!', src/main.rs:6:5
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ```
 
 ## 总结
+
 把这些格式化都牢记在脑中是不太现实的，也没必要，我们要做的就是知道 Rust 支持相应的格式化输出，在需要之时，读者再来查阅本文即可。
 
-还是那句话，[<<Rust语言圣经>>](https://github.com/sunface/rust-course)不仅仅是 Rust 学习书籍，还是一本厚重的工具书！
+还是那句话，[<<Rust 语言圣经>>](https://github.com/sunface/rust-course)不仅仅是 Rust 学习书籍，还是一本厚重的工具书！
 
 至此，Rust 的基础内容学习已经全部完成，下面我们将学习 Rust 的高级进阶内容，正式开启你的高手之路。
-

@@ -10,7 +10,7 @@
 | 模块 Modules | `snake_case` |
 | 类型 Types | `UpperCamelCase` |
 | 特征 Traits | `UpperCamelCase` |
-| 枚举 Emumerations | `UpperCamelCase` |
+| 枚举 Enumerations | `UpperCamelCase` |
 | 结构体 Structs | `UpperCamelCase` |
 | 函数 Functions | `snake_case` |
 | 方法 Methods | `snake_case` |

@@ -1,4 +1,4 @@
-# Rust语言圣经 (The Course)
+# Rust 语言圣经 (The Course)
 
 - 在线阅读
   - 官方： [https://course.rs](https://course.rs)
@@ -9,7 +9,6 @@
 > [Rust 语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，精选过去一周的技术文章、业界新闻、开源项目和 Rust 语言动态。
 >
 > Rust 优秀项目很多，如何在茫茫码海中与它们相遇？相比 Awesome Rust， [Fancy Rust](https://github.com/sunface/fancy-rust) 能带给你全新的体验和选择。
-
 
 ### 教程简介
 
@@ -29,10 +28,9 @@
 
 在开源版权上，我们选择了 [No License](https://www.google.com.hk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwigkv-KtMT0AhXFdXAKHdI4BCcQFnoECAQQAw&url=https%3A%2F%2Fchoosealicense.com%2Fno-permission%2F&usg=AOvVaw3M2Q4IbdhnpJ2K71TF7SPB)，这意味着读者可以随意的 fork 和阅读，但是**不能私下修改后再包装分发**，如果有这方面的需求，请联系我们，望理解。
 
-Rust语言圣经是**完全开源**的电子书，每个章节都至少用时 4-6 个小时才能初步完稿，牺牲了大量休闲娱乐、陪伴家人的时间，还没有任何钱赚。
+Rust 语言圣经是**完全开源**的电子书，每个章节都至少用时 4-6 个小时才能初步完稿，牺牲了大量休闲娱乐、陪伴家人的时间，还没有任何钱赚。
 
 **如果大家觉得这本书作者真的用心了，希望你能帮我们点一个 🌟 `star`。感激不尽！：）**
-
 
 ### 借鉴的书籍
 
@@ -57,3 +55,4 @@ Rust语言圣经是**完全开源**的电子书，每个章节都至少用时 4-
 - [@Mintnoii](https://github.com/Mintnoii)
 
 尤其感谢这些主要贡献者，谢谢你们花费大量时间贡献了多处`fix`和高质量的内容优化。非常感动，再次感谢～～
+

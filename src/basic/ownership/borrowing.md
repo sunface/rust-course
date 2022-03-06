@@ -2,13 +2,12 @@
 
 上节中提到，如果仅仅支持通过转移所有权的方式获取一个值，那会让程序变得复杂。 Rust 能否像其它编程语言一样，使用某个变量的指针或者引用呢？答案是可以。
 
-Rust 通过 `借用(Borrowing)` 这个概念来达成上述的目的， **获取变量的引用，称之为借用(borrowing)**。正如现实生活中，如果一个人拥有某样东西，你可以从他那里借来，当使用完毕后，也必须要物归原主。
-
-
+Rust 通过 `借用(Borrowing)` 这个概念来达成上述的目的，**获取变量的引用，称之为借用(borrowing)**。正如现实生活中，如果一个人拥有某样东西，你可以从他那里借来，当使用完毕后，也必须要物归原主。
 
 ### 引用与解引用
 
 常规引用是一个指针类型，指向了对象存储的内存地址。在下面代码中，我们创建一个 `i32` 值的引用 `y`，然后使用解引用运算符来解出 `y` 所使用的值:
+
 ```rust
 fn main() {
     let x = 5;
@@ -19,7 +18,7 @@ fn main() {
 }
 ```
 
-变量 `x` 存放了一个 `i32` 值 `5`。`y` 是 `x` 的一个引用。可以断言 `x` 等于 `5`。然而，如果希望对 `y` 的值做出断言，必须使用 `*y` 来解出引用所指向的值（也就是 **解引用**）。一旦解引用了 `y`，就可以访问 `y` 所指向的整型值并可以与 `5` 做比较。
+变量 `x` 存放了一个 `i32` 值 `5`。`y` 是 `x` 的一个引用。可以断言 `x` 等于 `5`。然而，如果希望对 `y` 的值做出断言，必须使用 `*y` 来解出引用所指向的值（也就是**解引用**）。一旦解引用了 `y`，就可以访问 `y` 所指向的整型值并可以与 `5` 做比较。
 
 相反如果尝试编写 `assert_eq!(5, y);`，则会得到如下编译错误：
 
@@ -39,6 +38,7 @@ error[E0277]: can't compare `{integer}` with `&{integer}`
 ### 不可变引用
 
 下面的代码，我们用 `s1` 的引用作为参数传递给 `calculate_length` 函数，而不是把 `s1` 的所有权转移给该函数：
+
 ```rust
 fn main() {
     let s1 = String::from("hello");
@@ -54,15 +54,17 @@ fn calculate_length(s: &String) -> usize {
 ```
 
 能注意到两点：
+
 1. 无需像上章一样：先通过函数参数传入所有权，然后再通过函数返回来传出所有权，代码更加简洁
 2. `calculate_length` 的参数 `s` 类型从 `String` 变为 `&String`
 
 这里，`&` 符号即是引用，它们允许你使用值，但是不获取所有权，如图所示：
 <img alt="&String s pointing at String s1" src="https://pic1.zhimg.com/80/v2-fc68ea4a1fe2e3fe4c5bb523a0a8247c_1440w.jpg" class="center" />
 
-通过 `&s1` 语法，我们创建了一个 **指向s1的引用**，但是并不拥有它。因为并不拥有这个值，当引用离开作用域后，其指向的值也不会被丢弃。
+通过 `&s1` 语法，我们创建了一个**指向 `s1` 的引用**，但是并不拥有它。因为并不拥有这个值，当引用离开作用域后，其指向的值也不会被丢弃。
 
 同理，函数 `calculate_length` 使用 `&` 来表明参数 `s` 的类型是一个引用：
+
 ```rust
 fn calculate_length(s: &String) -> usize { // s 是对 String 的引用
     s.len()
@@ -71,6 +73,7 @@ fn calculate_length(s: &String) -> usize { // s 是对 String 的引用
 ```
 
 人总是贪心的，可以拉女孩小手了，就想着抱抱柔软的身子（读者中的某老司机表示，这个流程完全不对），因此光借用已经满足不了我们了，如果尝试修改借用的变量呢？
+
 ```rust
 fn main() {
     let s = String::from("hello");
@@ -84,6 +87,7 @@ fn change(some_string: &String) {
 ```
 
 很不幸，妹子你没抱到，哦口误，你修改错了：
+
 ```console
 error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&` reference
  --> src/main.rs:8:5
@@ -101,6 +105,7 @@ error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&` ref
 ### 可变引用
 
 只需要一个小调整，即可修复上面代码的错误：
+
 ```rust
 fn main() {
     let mut s = String::from("hello");
@@ -118,6 +123,7 @@ fn change(some_string: &mut String) {
 ##### 可变引用同时只能存在一个
 
 不过可变引用并不是随心所欲、想用就用的，它有一个很大的限制： **同一作用域，特定数据只能有一个可变引用**：
+
 ```rust
 let mut s = String::from("hello");
 
@@ -128,6 +134,7 @@ println!("{}, {}", r1, r2);
 ```
 
 以上代码会报错：
+
 ```console
 error[E0499]: cannot borrow `s` as mutable more than once at a time 同一时间无法对 `s` 进行两次可变借用
  --> src/main.rs:5:14
@@ -136,10 +143,10 @@ error[E0499]: cannot borrow `s` as mutable more than once at a time 同一时间
   |              ------ first mutable borrow occurs here 首个可变引用在这里借用
 5 |     let r2 = &mut s;
   |              ^^^^^^ second mutable borrow occurs here 第二个可变引用在这里借用
-6 |     
+6 |
 7 |     println!("{}, {}", r1, r2);
   |                        -- first borrow later used here 第一个借用在这里使用
-  ```
+```
 
 这段代码出错的原因在于，第一个可变借用 `r1` 必须要持续到最后一次使用的位置 `println!`，在 `r1` 创建和最后一次使用之间，我们又尝试创建第二个可变引用 `r2`。
 
@@ -154,6 +161,7 @@ error[E0499]: cannot borrow `s` as mutable more than once at a time 同一时间
 数据竞争会导致未定义行为，这种行为很可能超出我们的预期，难以在运行时追踪，并且难以诊断和修复。而 Rust 避免了这种情况的发生，因为它甚至不会编译存在数据竞争的代码！
 
 很多时候，大括号可以帮我们解决一些编译不通过的问题，通过手动限制变量的作用域：
+
 ```rust
 let mut s = String::from("hello");
 
@@ -168,6 +176,7 @@ let r2 = &mut s;
 ##### 可变引用与不可变引用不能同时存在
 
 下面的代码会导致一个错误：
+
 ```rust
 let mut s = String::from("hello");
 
@@ -179,6 +188,7 @@ println!("{}, {}, and {}", r1, r2, r3);
 ```
 
 错误如下：
+
 ```console
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
         // 无法借用可变 `s` 因为它已经被借用了不可变
@@ -189,7 +199,7 @@ error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immuta
 5 |     let r2 = &s; // 没问题
 6 |     let r3 = &mut s; // 大问题
   |              ^^^^^^ mutable borrow occurs here 可变借用发生在这里
-7 |     
+7 |
 8 |     println!("{}, {}, and {}", r1, r2, r3);
   |                                -- immutable borrow later used here 不可变借用在这里使用
 ```
@@ -199,16 +209,17 @@ error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immuta
 > 注意，引用的作用域 `s` 从创建开始，一直持续到它最后一次使用的地方，这个跟变量的作用域有所不同，变量的作用域从创建持续到某一个花括号 `}`
 
 Rust 的编译器一直在优化，早期的时候，引用的作用域跟变量作用域是一致的，这对日常使用带来了很大的困扰，你必须非常小心的去安排可变、不可变变量的借用，免得无法通过编译，例如以下代码：
+
 ```rust
 fn main() {
    let mut s = String::from("hello");
 
-    let r1 = &s; 
-    let r2 = &s; 
+    let r1 = &s;
+    let r2 = &s;
     println!("{} and {}", r1, r2);
     // 新编译器中，r1,r2作用域在这里结束
 
-    let r3 = &mut s; 
+    let r3 = &mut s;
     println!("{}", r3);
 } // 老编译器中，r1、r2、r3作用域在这里结束
   // 新编译器中，r3作用域在这里结束
@@ -223,7 +234,6 @@ fn main() {
 对于这种编译器优化行为，Rust 专门起了一个名字 —— **Non-Lexical Lifetimes(NLL)**，专门用于找到某个引用在作用域(`}`)结束前就不再被使用的代码位置。
 
 虽然这种借用错误有的时候会让我们很郁闷，但是你只要想想这是 Rust 提前帮你发现了潜在的 BUG，其实就开心了，虽然减慢了开发速度，但是从长期来看，大幅减少了后续开发和运维成本。
-
 
 ### 悬垂引用(Dangling References)
 
@@ -269,7 +279,6 @@ this function's return type contains a borrowed value, but there is no value for
 
 仔细看看 `dangle` 代码的每一步到底发生了什么：
 
-
 ```rust
 fn dangle() -> &String { // dangle 返回一个字符串的引用
 
@@ -294,10 +303,14 @@ fn no_dangle() -> String {
 
 这样就没有任何错误了，最终 `String` 的 **所有权被转移给外面的调用者**。
 
-
 ## 借用规则总结
 
 总的来说，借用规则如下：
 
 - 同一时刻，你只能拥有要么一个可变引用, 要么任意多个不可变引用
 - 引用必须总是有效的
+
+
+## 课后练习
+
+> [Rust By Practice](https://zh.practice.rs/ownership/borrowing.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。

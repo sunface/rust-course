@@ -1,8 +1,11 @@
 # Weak 与循环引用
+
 Rust 的安全性是众所周知的，但是不代表它不会内存泄漏。一个典型的例子就是同时使用 `Rc<T>` 和 `RefCell<T>` 创建循环引用，最终这些引用的计数都无法被归零，因此 `Rc<T>` 拥有的值也不会被释放清理。
 
 ## 何为循环引用
+
 关于内存泄漏，如果你没有充足的 Rust 经验，可能都无法造出一份代码来再现它：
+
 ```rust
 use crate::List::{Cons, Nil};
 use std::cell::RefCell;
@@ -33,6 +36,7 @@ fn main() {}
 如上图所示，每个矩形框节点都是一个 `List` 类型，它们或者是拥有值且指向另一个 `List` 的`Cons`，或者是一个没有值的终结点 `Nil`。同时，由于 `RefCell` 的使用，每个 `List` 所指向的 `List` 还能够被修改。
 
 下面来使用一下这个复杂的 `List` 枚举：
+
 ```rust
 fn main() {
     let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
@@ -46,7 +50,7 @@ fn main() {
     println!("在b创建后，a的rc计数 = {}", Rc::strong_count(&a));
     println!("b的初始化rc计数 = {}", Rc::strong_count(&b));
     println!("b指向的节点 = {:?}", b.tail());
-    
+
     // 利用RefCell的可变性，创建了`a`到`b`的引用
     if let Some(link) = a.tail() {
         *link.borrow_mut() = Rc::clone(&b);
@@ -62,12 +66,14 @@ fn main() {
 ```
 
 这个类型定义看着复杂，使用起来更复杂！不过排除这些因素，我们可以清晰看出：
+
 1. 在创建了 `a` 后，紧接着就使用 `a` 创建了 `b`，因此 `b` 引用了 `a`
 2. 然后我们又利用 `Rc` 克隆了 `b`，然后通过 `RefCell` 的可变性，让 `a` 引用了 `b`
 
 至此我们成功创建了循环引用`a`-> `b` -> `a` -> `b` ····
 
 先来观察下引用计数：
+
 ```console
 a的初始化rc计数 = 1
 a指向的节点 = Some(RefCell { value: Nil })
@@ -84,8 +90,9 @@ b指向的节点 = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
 <img alt="" src="https://pic1.zhimg.com/80/v2-2dbfc981f05019bf70bf81c93f956c35_1440w.png" class="center"  />
 
 现在我们还需要轻轻的推一下，让塔米诺骨牌轰然倒塌。反注释最后一行代码，试着运行下：
+
 ```console
-RefCell { value: Cons(5, RefCell { value: Cons(10, RefCell { value: Cons(5, RefCell { value: Cons(10, RefCell { value: Cons(5, RefCell { value: Cons(10, RefCell { 
+RefCell { value: Cons(5, RefCell { value: Cons(10, RefCell { value: Cons(5, RefCell { value: Cons(10, RefCell { value: Cons(5, RefCell { value: Cons(10, RefCell {
 ...无穷无尽
 thread 'main' has overflowed its stack
 fatal runtime error: stack overflow
@@ -100,6 +107,7 @@ fatal runtime error: stack overflow
 那么问题来了？ 如果我们确实需要实现上面的功能，该怎么办？答案是使用 `Weak`。
 
 ## Weak
+
 `Weak` 非常类似于 `Rc`，但是与 `Rc` 持有所有权不同，`Weak` 不持有所有权，它仅仅保存一份指向数据的弱引用：如果你想要访问数据，需要通过 `Weak` 指针的 `upgrade` 方法实现，该方法返回一个类型为 `Option<Rc<T>>` 的值。
 
 看到这个返回，相信大家就懂了：何为弱引用？就是**不保证引用关系依然存在**，如果不存在，就返回一个 `None`！
@@ -107,14 +115,15 @@ fatal runtime error: stack overflow
 因为 `Weak` 引用不计入所有权，因此它**无法阻止所引用的内存值被释放掉**，而且 `Weak` 本身不对值的存在性做任何担保，引用的值还存在就返回 `Some`，不存在就返回 `None`。
 
 #### Weak 与 Rc 对比
+
 我们来将 `Weak` 与 `Rc` 进行以下简单对比：
 
-| `Weak` | `Rc`         |
-|--------|-------------|
-| 不计数            | 引用计数        |
-| 不拥有所有权      | 拥有值的所有权 |
-| 不阻止值被释放(drop) | 所有权计数归零，才能 drop |
-| 引用的值存在返回 `Some`，不存在返回 `None ` | 引用的值必定存在 |
+| `Weak`                                          | `Rc`                                      |
+| ----------------------------------------------- | ----------------------------------------- |
+| 不计数                                          | 引用计数                                  |
+| 不拥有所有权                                    | 拥有值的所有权                            |
+| 不阻止值被释放(drop)                            | 所有权计数归零，才能 drop                 |
+| 引用的值存在返回 `Some`，不存在返回 `None `     | 引用的值必定存在                          |
 | 通过 `upgrade` 取到 `Option<Rc<T>>`，然后再取值 | 通过 `Deref` 自动解引用，取值无需任何操作 |
 
 通过这个对比，可以非常清晰的看出 `Weak` 为何这么弱，而这种弱恰恰非常适合我们实现以下的场景：
@@ -125,6 +134,7 @@ fatal runtime error: stack overflow
 使用方式简单总结下：**对于父子引用关系，可以让父节点通过 `Rc` 来引用子节点，然后让子节点通过 `Weak` 来引用父节点**。
 
 #### Weak 总结
+
 因为 `Weak` 本身并不是很好理解，因此我们再来帮大家梳理总结下，然后再通过一个例子，来彻底掌握。
 
 `Weak` 通过 `use std::rc::Weak` 来引入，它具有以下特点:
@@ -135,6 +145,7 @@ fatal runtime error: stack overflow
 - 常用于解决循环引用的问题
 
 一个简单的例子：
+
 ```rust
 use std::rc::Rc;
 fn main() {
@@ -160,10 +171,13 @@ fn main() {
 需要承认的是，使用 `Weak` 让 Rust 本来就堪忧的代码可读性又下降了不少，但是。。。真香，因为可以解决循环引用了。
 
 ## 使用 Weak 解决循环引用
+
 理论知识已经足够，现在用两个例子来模拟下真实场景下可能会遇到的循环引用。
 
 #### 工具间的故事
+
 工具间里，每个工具都有其主人，且多个工具可以拥有一个主人；同时一个主人也可以拥有多个工具，在这种场景下，就很容易形成循环引用，好在我们有 `Weak`：
+
 ```rust
 use std::rc::Rc;
 use std::rc::Weak;
@@ -220,6 +234,7 @@ fn main() {
 ```
 
 #### tree 数据结构
+
 ```rust
 use std::cell::RefCell;
 use std::rc::{Rc, Weak};
@@ -279,15 +294,16 @@ fn main() {
 这个例子就留给读者自己解读和分析，我们就不画蛇添足了:）
 
 ## unsafe 解决循环引用
-除了使用 Rust 标准库提供的这些类型，你还可以使用 `unsafe` 里的原生指针来解决这些棘手的问题，但是由于我们还没有讲解 `unsafe`，因此这里就不进行展开，只附上[源码链接](https://github.com/sunface/rust-algos/blob/fbcdccf3e8178a9039329562c0de0fd01a3372fb/src/unsafe/self-ref.md), 挺长的，需要耐心o_o
+
+除了使用 Rust 标准库提供的这些类型，你还可以使用 `unsafe` 里的原生指针来解决这些棘手的问题，但是由于我们还没有讲解 `unsafe`，因此这里就不进行展开，只附上[源码链接](https://github.com/sunface/rust-algos/blob/fbcdccf3e8178a9039329562c0de0fd01a3372fb/src/unsafe/self-ref.md), 挺长的，需要耐心 o_o
 
 虽然 `unsafe` 不安全，但是在各种库的代码中依然很常见用它来实现自引用结构，主要优点如下:
 
 - 性能高，毕竟直接用原生指针操作
 - 代码更简单更符合直觉: 对比下 `Option<Rc<RefCell<Node>>>`
 
-
 ## 总结
+
 本文深入讲解了何为循环引用以及如何使用 `Weak` 来解决，同时还结合 `Rc`、`RefCell`、`Weak` 等实现了两个有实战价值的例子，让大家对智能指针的使用更加融会贯通。
 
 至此，智能指针一章即将结束（严格来说还有一个 `Mutex` 放在多线程一章讲解），而 Rust 语言本身的学习之旅也即将结束，后面我们将深入多线程、项目工程、应用实践、性能分析等特色专题，来一睹 Rust 在这些领域的风采。

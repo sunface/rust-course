@@ -1,6 +1,7 @@
 # 枚举
 
 枚举(enum 或 enumeration)允许你通过列举可能的成员来定义一个**枚举类型**，例如扑克牌花色：
+
 ```rust
 enum PokerSuit {
   Clubs,
@@ -20,13 +21,16 @@ enum PokerSuit {
 **枚举类型是一个类型，它会包含所有可能的枚举成员, 而枚举值是该类型中的具体某个成员的实例。**
 
 ## 枚举值
+
 现在来创建 `PokerSuit` 枚举类型的两个成员实例：
+
 ```rust
 let heart = PokerSuit::Hearts;
 let diamond = PokerSuit::Diamonds;
 ```
 
 我们通过 `::` 操作符来访问 `PokerSuit` 下的具体成员，从代码可以清晰看出，`heart` 和 `diamond` 都是 `PokerSuit` 枚举类型的，接着可以定义一个函数来使用它们：
+
 ```rust
 fn main() {
     let heart = PokerSuit::Hearts;
@@ -43,9 +47,10 @@ fn print_suit(card: PokerSuit) {
 
 `print_suit` 函数的参数类型是 `PokerSuit`，因此我们可以把 `heart` 和 `diamond` 传给它，虽然 `heart` 是基于 `PokerSuit` 下的 `Hearts` 成员实例化的，但是它是货真价实的 `PokerSuit` 枚举类型。
 
-接下来，我们想让扑克牌变得更加实用，那么需要给每张牌赋予一个值：`A`(1)-`K`(13)，这样再加上花色，就是一张真实的扑克牌了，例如红心A。
+接下来，我们想让扑克牌变得更加实用，那么需要给每张牌赋予一个值：`A`(1)-`K`(13)，这样再加上花色，就是一张真实的扑克牌了，例如红心 A。
 
 目前来说，枚举值还不能带有值，因此先用结构体来实现：
+
 ```rust
 enum PokerSuit {
     Clubs,
@@ -70,9 +75,11 @@ fn main() {
    };
 }
 ```
+
 这段代码很好的完成了它的使命，通过结构体 `PokerCard` 来代表一张牌，结构体的 `suit` 字段表示牌的花色，类型是 `PokerSuit` 枚举类型，`value` 字段代表扑克牌的数值。
 
 可以吗？可以！好吗？说实话，不咋地，因为还有简洁得多的方式来实现：
+
 ```rust
 enum PokerCard {
     Clubs(u8),
@@ -90,6 +97,7 @@ fn main() {
 直接将数据信息关联到枚举成员上，省去近一半的代码，这种实现是不是更优雅？
 
 不仅如此，同一个枚举类型下的不同成员还能持有不同的数据类型，例如让某些花色打印 `1-13` 的字样，另外的花色打印上 `A-K` 的字样：
+
 ```rust
 enum PokerCard {
     Clubs(u8),
@@ -106,8 +114,8 @@ fn main() {
 
 回想一下，遇到这种不同类型的情况，再用我们之前的结构体实现方式，可行吗？也许可行，但是会复杂很多。
 
-
 再来看一个来自标准库中的例子：
+
 ```rust
 struct Ipv4Addr {
     // --snip--
@@ -122,11 +130,13 @@ enum IpAddr {
     V6(Ipv6Addr),
 }
 ```
-这个例子跟我们之前的扑克牌很像，只不过枚举成员包含的类型更复杂了，变成了结构体：分别通过 `Ipv4Addr` 和 `Ipv6Addr` 来定义两种不同的IP数据。
+
+这个例子跟我们之前的扑克牌很像，只不过枚举成员包含的类型更复杂了，变成了结构体：分别通过 `Ipv4Addr` 和 `Ipv6Addr` 来定义两种不同的 IP 数据。
 
 从这些例子可以看出，**任何类型的数据都可以放入枚举成员中**: 例如字符串、数值、结构体甚至另一个枚举。
 
 增加一些挑战？先看以下代码：
+
 ```rust
 enum Message {
     Quit,
@@ -143,12 +153,14 @@ fn main() {
 ```
 
 该枚举类型代表一条消息，它包含四个不同的成员：
+
 - `Quit` 没有任何关联数据
 - `Move` 包含一个匿名结构体
 - `Write` 包含一个 `String` 字符串
 - `ChangeColor` 包含三个 `i32`
 
 当然，我们也可以用结构体的方式来定义这些消息：
+
 ```rust
 struct QuitMessage; // 单元结构体
 struct MoveMessage {
@@ -168,13 +180,14 @@ struct ChangeColorMessage(i32, i32, i32); // 元组结构体
 最后，再用一个实际项目中的简化片段，来结束枚举类型的语法学习。
 
 例如我们有一个 WEB 服务，需要接受用户的长连接，假设连接有两种：`TcpStream` 和 `TlsStream`，但是我们希望对这两个连接的处理流程相同，也就是用同一个函数来处理这两个连接，代码如下：
+
 ```rust
 fn new (stream: TcpStream) {
   let mut s = stream;
   if tls {
     s = negotiate_tls(stream)
   }
-  
+
   // websocket是一个WebSocket<TcpStream>或者
   //   WebSocket<native_tls::TlsStream<TcpStream>>类型
   websocket = WebSocket::from_raw_socket(
@@ -183,6 +196,7 @@ fn new (stream: TcpStream) {
 ```
 
 此时，枚举类型就能帮上大忙：
+
 ```rust
 enum Websocket {
   Tcp(Websocket<TcpStream>),
@@ -190,8 +204,9 @@ enum Websocket {
 }
 ```
 
-## Option枚举用于处理空值
-在其它编程语言中，往往都有一个 `null` 关键字，该关键字用于表明一个变量当前的值为空(不是零值，例如整形的零值是 0)，也就是不存在值。当你对这些 `null` 进行操作时，例如调用一个方法，就会直接抛出**null异常**，导致程序的崩溃，因此我们在编程时需要格外的小心去处理这些 `null` 空值。
+## Option 枚举用于处理空值
+
+在其它编程语言中，往往都有一个 `null` 关键字，该关键字用于表明一个变量当前的值为空（不是零值，例如整形的零值是 0），也就是不存在值。当你对这些 `null` 进行操作时，例如调用一个方法，就会直接抛出**null 异常**，导致程序的崩溃，因此我们在编程时需要格外的小心去处理这些 `null` 空值。
 
 > Tony Hoare， `null` 的发明者，曾经说过一段非常有名的话
 >
@@ -200,6 +215,7 @@ enum Websocket {
 尽管如此，空值的表达依然非常有意义，因为空值表示当前时刻变量的值是缺失的。有鉴于此，Rust 吸取了众多教训，决定抛弃 `null`，而改为使用 `Option` 枚举变量来表述这种结果。
 
 `Option` 枚举包含两个成员，一个成员表示含有值：`Some(T)`, 另一个表示没有值：`None`，定义如下：
+
 ```rust
 enum Option<T> {
     Some(T),
@@ -212,13 +228,13 @@ enum Option<T> {
 `Option<T>` 枚举是如此有用以至于它被包含在了 [`prelude`](../../appendix/prelude.md)（prelude 属于 Rust 标准库，Rust 会将最常用的类型、函数等提前引入其中，省得我们再手动引入）之中，你不需要将其显式引入作用域。另外，它的成员 `Some` 和 `None` 也是如此，无需使用 `Option::` 前缀就可直接使用 `Some` 和 `None`。总之，不能因为 `Some(T)` 和 `None` 中没有 `Option::` 的身影，就否认它们是 `Option` 下的卧龙凤雏。
 
 再来看以下代码：
+
 ```rust
 let some_number = Some(5);
 let some_string = Some("a string");
 
 let absent_number: Option<i32> = None;
 ```
-
 
 如果使用 `None` 而不是 `Some`，需要告诉 Rust `Option<T>` 是什么类型的，因为编译器只通过 `None` 值无法推断出 `Some` 成员保存的值的类型。
 
@@ -253,7 +269,6 @@ not satisfied
 
 那么当有一个 `Option<T>` 的值时，如何从 `Some` 成员中取出 `T` 的值来使用它呢？`Option<T>` 枚举拥有大量用于各种情况的方法：你可以查看[它的文档](https://doc.rust-lang.org/std/option/enum.Option.html)。熟悉 `Option<T>` 的方法将对你的 Rust 之旅非常有用。
 
-
 总的来说，为了使用 `Option<T>` 值，需要编写处理每个成员的代码。你想要一些代码只当拥有 `Some(T)` 值时运行，允许这些代码使用其中的 `T`。也希望一些代码在值为 `None` 时运行，这些代码并没有一个可用的 `T` 值。`match` 表达式就是这么一个处理枚举的控制流结构：它会根据枚举的成员运行不同的代码，这些代码可以使用匹配到的值中的数据。
 
 这里先简单看一下 `match` 的大致模样，在[模式匹配](../match-pattern/intro.md)中，我们会详细讲解：
@@ -272,3 +287,8 @@ let none = plus_one(None);
 ```
 
 `plus_one` 通过 `match` 来处理不同 `Option` 的情况。
+
+
+## 课后练习
+
+> [Rust By Practice](https://zh.practice.rs/compound-types/enum.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。

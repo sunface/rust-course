@@ -1,7 +1,9 @@
 ## 结构体自引用
+
 结构体自引用在 Rust 中是一个众所周知的难题，而且众说纷纭，也没有一篇文章能把相关的话题讲透，那本文就王婆卖瓜，来试试看能不能讲透这一块儿内容，让读者大大们舒心。
 
 ## 平平无奇的自引用
+
 可能也有不少人第一次听说自引用结构体，那咱们先来看看它们长啥样。
 
 ```rust
@@ -12,7 +14,9 @@ struct SelfRef<'a> {
     pointer_to_value: &'a str,
 }
 ```
+
 以上就是一个很简单的自引用结构体，看上去好像没什么，那来试着运行下：
+
 ```rust
 fn main(){
     let s = "aaa".to_string();
@@ -24,6 +28,7 @@ fn main(){
 ```
 
 运行后报错：
+
 ```console
  let v = SelfRef {
 12 |         value: s,
@@ -35,7 +40,9 @@ fn main(){
 因为我们试图同时使用值和值的引用，最终所有权转移和借用一起发生了。所以，这个问题貌似并没有那么好解决，不信你可以回想下自己具有的知识，是否可以解决？
 
 ## 使用 Option
+
 最简单的方式就是使用 `Opiton` 分两步来实现：
+
 ```rust
 #[derive(Debug)]
 struct WhatAboutThis<'a> {
@@ -55,6 +62,7 @@ fn main() {
 ```
 
 在某种程度上来说，`Option` 这个方法可以工作，但是这个方法的限制较多，例如从一个函数创建并返回它是不可能的：
+
 ```rust
 fn creator<'a>() -> WhatAboutThis<'a> {
     let mut tricky = WhatAboutThis {
@@ -68,6 +76,7 @@ fn creator<'a>() -> WhatAboutThis<'a> {
 ```
 
 报错如下：
+
 ```console
 error[E0515]: cannot return value referencing local data `tricky.name`
   --> src/main.rs:24:5
@@ -82,6 +91,7 @@ error[E0515]: cannot return value referencing local data `tricky.name`
 其实从函数签名就能看出来端倪，`'a` 生命周期是凭空产生的！
 
 如果是通过方法使用，你需要一个无用 `&'a self` 生命周期标识，一旦有了这个标识，代码将变得更加受限，你将很容易就获得借用错误，就连 NLL 规则都没用：
+
 ```rust
 #[derive(Debug)]
 struct WhatAboutThis<'a> {
@@ -108,7 +118,9 @@ fn main() {
 ```
 
 ## unsafe 实现
+
 既然借用规则妨碍了我们，那就一脚踢开：
+
 ```rust
 #[derive(Debug)]
 struct SelfRef {
@@ -151,6 +163,7 @@ fn main() {
 在这里，我们在 `pointer_to_value` 中直接存储原生指针，而不是 Rust 的引用，因此不再受到 Rust 借用规则和生命周期的限制，而且实现起来非常清晰、简洁。但是缺点就是，通过指针获取值时需要使用 `unsafe` 代码。
 
 当然，上面的代码你还能通过原生指针来修改 `String`，但是需要将 `*const` 修改为 `*mut`：
+
 ```rust
 #[derive(Debug)]
 struct SelfRef {
@@ -194,7 +207,9 @@ fn main() {
     println!("{}, {:p}", t.value(), t.pointer_to_value());
 }
 ```
+
 运行后输出：
+
 ```console
 hello, 0x16f3aec70
 hello, world!, 0x16f3aec70
@@ -203,9 +218,11 @@ hello, world!, 0x16f3aec70
 上面的 `unsafe` 虽然简单好用，但是它不太安全，是否还有其他选择？还真的有，那就是 `Pin`。
 
 ## 无法被移动的 Pin
+
 `Pin` 在后续章节会深入讲解，目前你只需要知道它可以固定住一个值，防止该值在内存中被移动。
 
 通过开头我们知道，自引用最麻烦的就是创建引用的同时，值的所有权会被转移，而通过 `Pin` 就可以很好的防止这一点：
+
 ```rust
 use std::marker::PhantomPinned;
 use std::pin::Pin;
@@ -257,10 +274,10 @@ fn main() {
 
 其实 `Pin` 在这里并没有魔法，它也并不是实现自引用类型的主要原因，最关键的还是里面的原生指针的使用，而 `Pin` 起到的作用就是确保我们的值不会被移走，否则指针就会指向一个错误的地址！
 
-
-
 ## 使用 ouroboros
+
 对于自引用结构体，三方库也有支持的，其中一个就是 [ouroboros](https://github.com/joshua-maros/ouroboros)，当然它也有自己的限制，我们后面会提到，先来看看该如何使用：
+
 ```rust
 use ouroboros::self_referencing;
 
@@ -292,6 +309,7 @@ fn main(){
 在使用时，通过 `borrow_value` 来借用 `value` 的值，通过 `borrow_pointer_to_value` 来借用 `pointer_to_value` 这个指针。
 
 看上去很美好对吧？但是你可以尝试着去修改 `String` 字符串的值试试，`ouroboros` 限制还是较多的，但是对于基本类型依然是支持的不错，以下例子来源于官方：
+
 ```rust
 use ouroboros::self_referencing;
 
@@ -337,6 +355,7 @@ fn main() {
 只能说，它确实帮助我们解决了问题，但是一个是破坏了原有的结构，另外就是并不是所有数据类型都支持：它需要目标值的内存地址不会改变，因此 `Vec` 动态数组就不适合，因为当内存空间不够时，Rust 会重新分配一块空间来存放该数组，这会导致内存地址的改变。
 
 类似的库还有：
+
 - [rental](https://github.com/jpernst/rental)， 这个库其实是最有名的，但是好像不再维护了，用倒是没问题
 - [owning-ref](https://github.com/Kimundi/owning-ref-rs)，将所有者和它的引用绑定到一个封装类型
 
@@ -349,14 +368,15 @@ fn main() {
 类似于循环引用的解决方式，自引用也可以用这种组合来解决，但是会导致代码的类型标识到处都是，大大的影响了可读性。
 
 ## 终极大法
+
 如果两个放在一起会报错，那就分开它们。对，终极大法就这么简单，当然思路上的简单不代表实现上的简单，最终结果就是导致代码复杂度的上升。
 
-
 ## 学习一本书：如何实现链表
-最后，推荐一本专门将如何实现链表的书（真是富有 Rust 特色，链表都能复杂到出书了o_o），[Learn Rust by writing Entirely Too Many Linked Lists](https://rust-unofficial.github.io/too-many-lists/)
 
+最后，推荐一本专门将如何实现链表的书（真是富有 Rust 特色，链表都能复杂到出书了 o_o），[Learn Rust by writing Entirely Too Many Linked Lists](https://rust-unofficial.github.io/too-many-lists/)
 
 ## 总结
+
 上面讲了这么多方法，但是我们依然无法正确的告诉你在某个场景应该使用哪个方法，这个需要你自己的判断，因为自引用实在是过于复杂。
 
 我们能做的就是告诉你，有这些办法可以解决自引用问题，而这些办法每个都有自己适用的范围，需要你未来去深入的挖掘和发现。
