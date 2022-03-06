@@ -313,7 +313,7 @@ fn returns_summarizable(switch: bool) -> impl Summary {
     if switch {
         Post {
             title: String::from(
-                "Penguins win the Stanley Cup Championship!",
+                "Penguins win the Stanley Cup Championship!"
             ),
             author: String::from("Iceburgh"),
             content: String::from(
