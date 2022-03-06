@@ -55,7 +55,7 @@ let world = &s[6..11];
 
 <img alt="" src="https://pic1.zhimg.com/80/v2-69da917741b2c610732d8526a9cc86f5_1440w.jpg" class="center" style="width: 50%;" />
 
-在使用 Rust 的 `..` [range 序列](https://course.rs/base-type/numbers.html#序列range)语法时，如果你想从索引 0 开始，可以使用如下的方式，这两个是等效的：
+在使用 Rust 的 `..` [range 序列](https://course.rs/basic/base-type/numbers.html#序列range)语法时，如果你想从索引 0 开始，可以使用如下的方式，这两个是等效的：
 
 ```rust
 let s = String::from("hello");
