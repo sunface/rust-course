@@ -11,3 +11,5 @@
 - [记一次 Rust 技术面试](https://zhuanlan.zhihu.com/p/411979704)
 - [飞书 Rust 实习](https://blog.kuangjux.top/2021/10/22/飞书Rust实习面试/)
 - [字节跳动 Rust/C++ 实习](https://www.nowcoder.com/discuss/538078)
+- [记一次面试](https://huangjj27.github.io/interview.html)
+- [字节跳动面试经历](https://blog.sbw.so/u/byte-dance-rust-cpp-interview-experience.html)
