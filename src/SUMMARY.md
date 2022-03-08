@@ -90,7 +90,6 @@
     - [实践应用：多线程 Web 服务器 todo](advance/concurrency-with-threads/web-server.md)
   - [全局变量](advance/global-variable.md)
   - [错误处理](advance/errors.md)
-
   - [Unsafe Rust](advance/unsafe/intro.md)
     - [五种兵器](advance/unsafe/superpowers.md)
     - [内联汇编 todo](advance/unsafe/inline-asm.md)
@@ -116,7 +115,6 @@
   - [一些疑难问题的解决办法](async/pain-points-and-workarounds.md)
   - [实践应用：Async Web 服务器](async/web-server.md)
 - [Tokio 使用指南](tokio/intro.md)
-
   - [tokio 概览](tokio/overview.md)
   - [使用初印象](tokio/getting-startted.md)
   - [创建异步任务](tokio/spawning.md)
@@ -131,7 +129,6 @@
   - [异步跟同步共存](tokio/bridging-with-sync.md)
 
 - [Cargo 使用指南](cargo/intro.md)
-
   - [上手使用](cargo/getting-started.md)
   - [基础指南](cargo/guide/intro.md)
     - [为何会有 Cargo](cargo/guide/why-exist.md)
@@ -156,7 +153,8 @@
     - [构建脚本 build.rs](cargo/reference/build-script/intro.md)
       - [构建脚本示例](cargo/reference/build-script/examples.md)
 
-- [手把手带你实现链表 doing](linked-list/intro.md)
+- [手把手带你实现链表 doing](too-many-lists/intro.md)
+
 - [易混淆概念解析](confonding/intro.md)
   - [切片和切片引用](confonding/slice.md)
   - [Eq 和 PartialEq](confonding/eq.md)
