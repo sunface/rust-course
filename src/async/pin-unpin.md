@@ -211,14 +211,14 @@ fn main() {
 按理来说，这样修改后，输出应该如下:
 
 ```rust
-a: test1, b: test1
+a: test2, b: test2
 a: test1, b: test1
 ```
 
 但是实际运行后，却产生了下面的输出:
 
 ```rust
-a: test1, b: test1
+a: test2, b: test1
 a: test1, b: test2
 ```
 
