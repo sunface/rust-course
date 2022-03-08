@@ -225,9 +225,9 @@ fn main() {
         println!("Gadget {} owned by {}", gadget.id, gadget.owner.name);
     }
 
-    // 在 main 函数的最后，gadget_owner，gadget1 和 daget2 都被销毁。
+    // 在 main 函数的最后，gadget_owner，gadget1 和 gadget2 都被销毁。
     // 具体是，因为这几个结构体之间没有了强引用（`Rc<T>`），所以，当他们销毁的时候。
-    // 首先 gadget1 和 gadget2 被销毁。
+    // 首先 gadget2 和 gadget1 被销毁。
     // 然后因为 gadget_owner 的引用数量为 0，所以这个对象可以被销毁了。
     // 循环引用问题也就避免了
 }
