@@ -232,3 +232,8 @@ fn main() {
 在实际使用场景中，特征对象数组要比枚举数组常见很多，主要原因在于[特征对象](../trait/trait-object.md)非常灵活，而编译器对枚举的限制较多，且无法动态增加类型。
 
 最后，如果你想要了解 `Vector` 更多的用法，请参见本书的标准库解析章节：[`Vector`常用方法](../../std/vector.md)
+
+
+## 课后练习
+
+> [Rust By Practice](https://zh.practice.rs/collections/vector.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。
