@@ -64,7 +64,7 @@ match x {
 
 ### 通过序列 `..=` 匹配值的范围
 
-在[数值类型](https://course.rs/basic/base-type/numbers.html#序列range)中我们有讲到一个序列语法，该语言不仅可以用循环中，还能用于匹配模式。
+在[数值类型](https://course.rs/basic/base-type/numbers.html#序列range)中我们有讲到一个序列语法，该语法不仅可以用循环中，还能用于匹配模式。
 
 `..=` 语法允许你匹配一个闭区间序列内的值。在如下代码中，当模式匹配任何在此序列内的值时，该分支会执行：
 

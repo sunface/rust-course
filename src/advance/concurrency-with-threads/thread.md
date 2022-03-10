@@ -164,7 +164,7 @@ fn main() {
 
 大家要记住，线程的启动时间点和结束时间点是不确定的，因此存在一种可能，当主线程执行完， `v` 被释放掉时，新的线程很可能还没有结束甚至还没有被创建成功，此时新线程对 `v` 的引用立刻就不再合法！
 
-好在报错里进行了提示：`to force the closure to take ownership of v (and any other referenced variables), use the move keyword`，让我们使用 `move` 关键字拿走 `v` 的所有权即可：
+好在报错里进行了提示：```to force the closure to take ownership of v (and any other referenced variables), use the `move` keyword```，让我们使用 `move` 关键字拿走 `v` 的所有权即可：
 
 ```rust
 use std::thread;
