@@ -155,7 +155,7 @@
 
 - [手把手带你实现链表 doing](too-many-lists/intro.md)
     - [我们到底需不需要链表](too-many-lists/do-we-need-it.md)
-    - [Bad Stack](too-many-lists/bad-stack/intro.md)
+    - [不太优秀的单向链表：栈](too-many-lists/bad-stack/intro.md)
         - [数据布局](too-many-lists/bad-stack/layout.md)
         <!-- - [New](too-many-lists/bad-stack/new.md)
         - [Ownership 101](too-many-lists/bad-stack/ownership.md)
