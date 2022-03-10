@@ -355,7 +355,7 @@ impl Counter {
 }
 ```
 
-我们为计数器 `Counter` 实现了一个关联函数 `new`，用于创建新的计数器实例。下面们继续为计数器实现 `Iterator` 特征：
+我们为计数器 `Counter` 实现了一个关联函数 `new`，用于创建新的计数器实例。下面我们继续为计数器实现 `Iterator` 特征：
 
 ```rust
 impl Iterator for Counter {

@@ -249,13 +249,13 @@ fn main() {
 
 因为 `String` 类型没有实现 `Draw` 特征，编译器直接就会报错，不会让上述代码运行。如果想要 `String` 类型被渲染在屏幕上，那么只需要为其实现 `Draw` 特征即可，非常容易。
 
-#### &dyn 和 Box\<dyn\>的区别
+<!-- #### &dyn 和 Box\<dyn\>的区别
 
 前文提到， `&dyn` 和 `Box<dyn>` 都可以用于特征对象，因此在功能上 `&dyn` 和 `Box<dyn>` 几乎没有区别，唯一的区别就是：`&dyn` 减少了一次指针调用。
 
 因为 `Box<dyn>` 是一个宽指针（`fat pointer`），它需要一次额外的解引用后，才能获取到指向 `vtable` 的指针，然后再通过该指针访问 `vtable` 查询到具体的函数指针，最后进行调用。
 
-所以，如果你在乎性能，又想使用特征对象简化代码，可以优先考虑 `&dyn`。
+所以，如果你在乎性能，又想使用特征对象简化代码，可以优先考虑 `&dyn`。 -->
 
 注意 `dyn` 不能单独作为特征对象的定义，例如下面的代码编译器会报错，原因是特征对象可以是任意实现了某个特征的类型，编译器在编译期不知道该类型的大小，不同的类型大小是不同的。
 
@@ -357,3 +357,8 @@ error[E0038]: the trait `std::clone::Clone` cannot be made into an object
 ```
 
 这意味着不能以这种方式使用此特征作为特征对象。
+
+
+## 课后练习
+
+> [Rust By Practice](https://zh.practice.rs/generics-traits/trait-object.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。

@@ -300,3 +300,8 @@ assert_eq!(hash.get(&42), Some(&"the answer"));
 > 目前，`HashMap` 使用的哈希函数是 `SipHash`，它的性能不是很高，但是安全性很高。`SipHash` 在中等大小的 `Key` 上，性能相当不错，但是对于小型的 `Key` （例如整数）或者大型 `Key` （例如字符串）来说，性能还是不够好。若你需要极致性能，例如实现算法，可以考虑这个库：[ahash](https://github.com/tkaitchuck/ahash)
 
 最后，如果你想要了解 `HashMap` 更多的用法，请参见本书的标准库解析章节：[HashMap 常用方法](../../std/hashmap.md)
+
+
+## 课后练习
+
+> [Rust By Practice](https://zh.practice.rs/collections/hashmap.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。

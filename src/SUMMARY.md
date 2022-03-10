@@ -59,7 +59,6 @@
   - [注释和文档](basic/comment.md)
   - [格式化输出](basic/formatted-output.md)
 - [Rust 高级进阶](advance/intro.md)
-
   - [生命周期](advance/lifetime/intro.md)
     - [认识生命周期](advance/lifetime/basic.md)
     - [深入生命周期](advance/lifetime/advance.md)
@@ -91,7 +90,6 @@
     - [实践应用：多线程 Web 服务器 todo](advance/concurrency-with-threads/web-server.md)
   - [全局变量](advance/global-variable.md)
   - [错误处理](advance/errors.md)
-
   - [Unsafe Rust](advance/unsafe/intro.md)
     - [五种兵器](advance/unsafe/superpowers.md)
     - [内联汇编 todo](advance/unsafe/inline-asm.md)
@@ -102,7 +100,6 @@
 ## 专题内容,每个专题都配套一个小型项目进行实践
 
 - [自动化测试](test/intro.md)
-
   - [编写测试及控制执行](test/write-tests.md)
   - [单元测试和集成测试](test/unit-integration-test.md)
   - [断言 assertion](test/assertion.md)
@@ -118,7 +115,6 @@
   - [一些疑难问题的解决办法](async/pain-points-and-workarounds.md)
   - [实践应用：Async Web 服务器](async/web-server.md)
 - [Tokio 使用指南](tokio/intro.md)
-
   - [tokio 概览](tokio/overview.md)
   - [使用初印象](tokio/getting-startted.md)
   - [创建异步任务](tokio/spawning.md)
@@ -133,7 +129,6 @@
   - [异步跟同步共存](tokio/bridging-with-sync.md)
 
 - [Cargo 使用指南](cargo/intro.md)
-
   - [上手使用](cargo/getting-started.md)
   - [基础指南](cargo/guide/intro.md)
     - [为何会有 Cargo](cargo/guide/why-exist.md)
@@ -158,17 +153,19 @@
     - [构建脚本 build.rs](cargo/reference/build-script/intro.md)
       - [构建脚本示例](cargo/reference/build-script/examples.md)
 
-- [手把手带你实现链表 doing](linked-list/intro.md)
-- [易混淆概念解析](confonding/intro.md)
+- [手把手带你实现链表 doing](too-many-lists/intro.md)
+    - [我们到底需不需要链表](too-many-lists/do-we-need-it.md)
 
+
+- [易混淆概念解析](confonding/intro.md)
   - [切片和切片引用](confonding/slice.md)
-  - [String、&str 和 str](confonding/string.md)
+  - [Eq 和 PartialEq](confonding/eq.md)
+  - [String、&str 和 str todo](confonding/string.md)
   - [原生指针、引用和智能指针 todo](confonding/pointer.md)
   - [作用域、生命周期和 NLL todo](confonding/lifetime.md)
   - [move、Copy 和 Clone todo](confonding/move-copy.md)
 
 - [对抗编译检查 doing](fight-with-compiler/intro.md)
-
   - [幽灵数据(todo)](fight-with-compiler/phantom-data.md)
   - [生命周期](fight-with-compiler/lifetime/intro.md)
     - [生命周期过大-01](fight-with-compiler/lifetime/too-long1.md)
@@ -194,7 +191,6 @@
   - [线程间传递消息导致主线程无法结束](pitfalls/main-with-channel-blocked.md)
 
 - [Rust 最佳实践 doing](practice/intro.md)
-
   - [日常开发三方库精选](practice/third-party-libs.md)
   - [命名规范](practice/naming.md)
   - [代码开发实践 todo](practice/best-pratice.md)
@@ -229,7 +225,6 @@
       - [Option 枚举 todo](profiling/compiler/optimization/option.md)
 
 - [标准库解析 todo](std/intro.md)
-
   - [标准库使用最佳时间 todo](std/search.md)
   - [Vector 常用方法 todo](std/vector.md)
   - [HashMap todo](std/hashmap.md)
