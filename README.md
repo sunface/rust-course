@@ -44,6 +44,7 @@
 - [@JesseAtSZ](https://github.com/JesseAtSZ)
 - [@1132719438](https://github.com/1132719438)
 - [@Mintnoii](https://github.com/Mintnoii)
+- [@Rustln](https://github.com/rustln)
 
 尤其感谢这些主要贡献者，谢谢你们花费大量时间贡献了多处`fix`和高质量的内容优化。非常感动，再次感谢～～
 
