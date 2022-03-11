@@ -158,11 +158,8 @@
     - [不太优秀的单向链表：栈](too-many-lists/bad-stack/intro.md)
         - [数据布局](too-many-lists/bad-stack/layout.md)
         - [基本操作](too-many-lists/bad-stack/basic-operations.md)
-        <!-- - [Ownership 101](too-many-lists/bad-stack/ownership.md)
-        - [Push](too-many-lists/bad-stack/push.md)
-        - [Pop](too-many-lists/bad-stack/pop.md)
-        - [Drop](too-many-lists/bad-stack/drop.md)
-        - [Final Code](too-many-lists/bad-stack/final-code.md) -->
+        - [最后实现](too-many-lists/bad-stack/final-code.md)
+
 
 
 - [易混淆概念解析](confonding/intro.md)

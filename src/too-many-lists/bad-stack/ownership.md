@@ -1,1 +1,0 @@
-# Ownership 101
