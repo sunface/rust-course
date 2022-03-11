@@ -3,7 +3,9 @@
 - 在线阅读
   - 官方： [https://course.rs](https://course.rs)
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
-
+  
+- Rust语言社区: QQ群 1009730433
+  
 > 学习 Rust 光看书不够，精心设计的习题和项目实践可以让你事半功倍。[Rust By Practice](https://github.com/sunface/rust-by-practice) 是本书的配套习题和实践，覆盖了 easy to hard 各个难度，满足大家对 Rust 的所有期待。
 > 
 > [Rust 语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，精选过去一周的技术文章、业界新闻、开源项目和 Rust 语言动态。
@@ -56,5 +58,5 @@
 
 因为它们绝大部分是支持 APACHE + MIT 双协议的，因此我们选择了遵循其中的 MIT 协议，并在这里统一对借鉴的书籍进行说明。
 
-## 一路有你
-欢迎加入QQ交流群 1009730433 进行沟通交流。
+## Rust语言社区
+QQ群 1009730433， 欢迎大家加入，一起 happy，一起进步。
