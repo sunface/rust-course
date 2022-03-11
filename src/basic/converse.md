@@ -58,17 +58,7 @@ assert_eq!(values[1], 3);
 
 #### 强制类型转换的边角知识
 
-1. 数组切片原生指针之间的转换，不会改变数组占用的内存字节数，尽管数组元素的类型发生了改变：
-
-```rust
-fn main() {
-    let a: *const [u16] = &[1, 2, 3, 4, 5];
-    let b = a as *const [u8];
-    assert_eq!(std::mem::size_of_val(&a), std::mem::size_of_val(&b))
-}
-```
-
-2. 转换不具有传递性
+1. 转换不具有传递性
    就算 `e as U1 as U2` 是合法的，也不能说明 `e as U2` 是合法的（`e` 不能直接转换成 `U2`）。
 
 ## TryInto 转换

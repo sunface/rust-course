@@ -14,7 +14,7 @@
 关于是否上传，有如下经验准则:
 
 - 从实践角度出发，如果你构建的是三方库类型的服务，请把 `Cargo.lock` 加入到 `.gitignore` 中。
-- 若构建的是一个面向用户终端的产品，例如可以像命令行工具、应用程一样执行，那就把 `Cargo.lock` 上传到源代码目录中。
+- 若构建的是一个面向用户终端的产品，例如可以像命令行工具、应用程序一样执行，那就把 `Cargo.lock` 上传到源代码目录中。
 
 例如 [`axum`](https://github.com/tokio-rs/axum) 是 web 开发框架，它属于三方库类型的服务，因此源码目录中不应该出现 `Cargo.lock` 的身影，它的归宿是 `.gitignore`。而 [`ripgrep`](https://github.com/BurntSushi/ripgrep) 则恰恰相反，因为它是一个面向终端的产品，可以直接运行提供服务。
 

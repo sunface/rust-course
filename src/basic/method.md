@@ -72,6 +72,7 @@ fn main() {
 
 `impl Rectangle {}` 表示为 `Rectangle` 实现方法(`impl` 是实现 _implementation_ 的缩写)，这样的写法表明 `impl` 语句块中的一切都是跟 `Rectangle` 相关联的。
 
+#### self、&self 和 &mut self
 接下里的内容非常重要，请大家仔细看。在 `area` 的签名中，我们使用 `&self` 替代 `rectangle: &Rectangle`，`&self` 其实是 `self: &Self` 的简写（注意大小写）。在一个 `impl` 块内，`Self` 指代被实现方法的结构体类型，`self` 指代此类型的实例，换句话说，`self` 指代的是 `Rectangle` 结构体实例，这样的写法会让我们的代码简洁很多，而且非常便于理解：我们为哪个结构体实现方法，那么 `self` 就是指代哪个结构体的实例。
 
 需要注意的是，`self` 依然有所有权的概念：
