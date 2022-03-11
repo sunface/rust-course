@@ -156,10 +156,11 @@
 - [手把手带你实现链表 doing](too-many-lists/intro.md)
     - [我们到底需不需要链表](too-many-lists/do-we-need-it.md)
     - [不太优秀的单向链表：栈](too-many-lists/bad-stack/intro.md)
-        - [数据布局](too-many-lists/bad-stack/layout.md)
-        - [基本操作](too-many-lists/bad-stack/basic-operations.md)
-        - [最后实现](too-many-lists/bad-stack/final-code.md)
-
+      - [数据布局](too-many-lists/bad-stack/layout.md)
+      - [基本操作](too-many-lists/bad-stack/basic-operations.md)
+      - [最后实现](too-many-lists/bad-stack/final-code.md)
+    - [还可以的单向链表](too-many-lists/ok-stack/intro.md)
+      - [优化类型定义](too-many-lists/ok-stack/type-optimizing.md)
 
 
 - [易混淆概念解析](confonding/intro.md)
