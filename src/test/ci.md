@@ -135,7 +135,7 @@ jobs:
 
 ```yml
 on:
-  schedule: -cron:'00 ***'
+  schedule: -cron:'0 0 * * *'
 ```
 
 3. 外部事件触发，例如你可以通过 `REST API` 向 Github 发送请求去触发，具体请查阅[官方文档](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#repository_dispatch)
