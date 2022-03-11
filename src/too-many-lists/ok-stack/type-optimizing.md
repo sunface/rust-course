@@ -142,6 +142,17 @@ test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured
 ## 泛型
 为了让链表支持任何类型的元素，泛型就是绕不过去的坎，首先将所有的类型定义修改为泛型实现：
 ```rust
+pub struct List<T> {
+    head: Link<T>,
+}
+
+type Link<T> = Option<Box<Node<T>>>;
+
+struct Node<T> {
+    elem: T,
+    next: Link<T>,
+}
+
 impl<T> List<T> {
     pub fn new() -> Self {
         List { head: None }
