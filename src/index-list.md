@@ -17,276 +17,236 @@
 
 ## Sym
 
-| 名称                                                                                                                                                         | 简介                       |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------- |
-| [?](https://course.rs/basic/result-error/result.html#传播界的大明星-)                                                                                        | 用于简化错误传播           |
-| [()](https://course.rs/basic/base-type/function.html#无返回值)                                                                                               | 单元类型，无返回值         |
-| `!` : [1](https://course.rs/basic/base-type/function.html#永不返回的函数) 函数，[2](https://course.rs/advance/into-types/custom-type.html#永不返回类型) 类型 | 永不返回                   |
-| [@](https://course.rs/basic/match-pattern/all-patterns.html#绑定)                                                                                            | 为一个字段绑定另外一个变量 |
-| ['a: 'b](https://course.rs/advance/lifetime/advance.html#生命周期约束-hrtb)                                                                                  | 生命周期约束               |
+| 名称                    | 关键字       | 简介                       |
+| ----------------------- | ------------ | -------------------------- |
+| [?]                     | 错误传播     | 用于简化错误传播           |
+| [()]                    | 单元类型     | 单元类型，无返回值         |
+| `!` : [1] 函数 [2] 类型 | 永不返回     | 永不返回                   |
+| [@]                     | 变量绑定     | 为一个字段绑定另外一个变量 |
+| ['a: 'b]                | 生命周期约束 |                            |
+| A                       |              | AIntroduction              |
 
 [back](#head)
 
+[?](https://course.rs/basic/result-error/result.html#传播界的大明星-)
+[()](https://course.rs/basic/base-type/function.html#无返回值)
+[1](https://course.rs/basic/base-type/function.html#永不返回的函数)
+[2](https://course.rs/advance/into-types/custom-type.html#永不返回类型)
+[@](https://course.rs/basic/match-pattern/all-patterns.html#绑定)
+['a: 'b](https://course.rs/advance/lifetime/advance.html#生命周期约束-hrtb)
+
 ## A
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-A placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| A    | KWA    | AIntroduction |
 
 [back](#head)
 
 ## B
 
-| 名称                                                                | 简介                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------ |
-| A                                                                   | A introduction                                               |
-| [变量遮蔽](https://course.rs/basic/variable.html#变量遮蔽shadowing) | 变量遮蔽 (shadowing)，允许声明相同的变量名，后者会遮蔽掉前者 |
-
-B placeholder
+| 名称       | 关键字    | 简介                                   |
+| ---------- | --------- | -------------------------------------- |
+| [变量遮蔽] | shadowing | 允许声明相同的变量名，后者会遮蔽掉前者 |
+| [常量]     | const     | const MAX_POINTS: u32 = 100_000;       |
+| B          | KWB       | BIntroduction                          |
 
 [back](#head)
+[变量遮蔽](https://course.rs/basic/variable.html#变量遮蔽shadowing)
+[常量](https://course.rs/basic/variable.html#变量与常量之间的差异)
 
 ## C
 
-| 名称                                                               | 简介                             |
-| ------------------------------------------------------------------ | -------------------------------- |
-| A                                                                  | A introduction                   |
-| [常量](https://course.rs/basic/variable.html#变量与常量之间的差异) | const MAX_POINTS: u32 = 100_000; |
-
-C placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| C    | KWC    | CIntroduction |
 
 [back](#head)
 
 ## D
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-D placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| D    | KWD    | DIntroduction |
 
 [back](#head)
 
 ## E
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-E placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| E    | KWE    | EIntroduction |
 
 [back](#head)
 
 ## F
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-F placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| F    | KWF    | FIntroduction |
 
 [back](#head)
 
 ## G
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-G placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| G    | KWG    | GIntroduction |
 
 [back](#head)
 
 ## H
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-H placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| H    | KWH    | HIntroduction |
 
 [back](#head)
 
 ## I
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-I placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| I    | KWI    | IIntroduction |
 
 [back](#head)
 
 ## J
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-J placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| J    | KWJ    | JIntroduction |
 
 [back](#head)
 
 ## K
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-K placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| K    | KWK    | KIntroduction |
 
 [back](#head)
 
 ## L
 
-| 名称                                         | 简介                            |
-| -------------------------------------------- | ------------------------------- |
-| A                                            | A introduction                  |
-| [let](HH/basic/variable.html#变量绑定)       | 变量绑定 let x : u32 = 5;       |
-| [let mut](HH/basic/variable.html#变量可变性) | 变量可变性 let mut x : u32 = 5; |
-
-L placeholder
+| 名称      | 关键字   | 简介                 |
+| --------- | -------- | -------------------- |
+| [let]     | 变量绑定 | let x : u32 = 5;     |
+| [let mut] | 可变变量 | let mut x : u32 = 5; |
+| L         | KWL      | LIntroduction        |
 
 [back](#head)
+[let](https://course.rs/basic/variable.html#变量绑定)
+[let mut](https://course.rs/basic/variable.html#变量可变性)
 
 ## M
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-M placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| M    | KWM    | MIntroduction |
 
 [back](#head)
 
 ## N
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-N placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| N    | KWN    | NIntroduction |
 
 [back](#head)
 
 ## O
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-O placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| O    | KWO    | OIntroduction |
 
 [back](#head)
 
 ## P
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-P placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| P    | KWP    | PIntroduction |
 
 [back](#head)
 
 ## Q
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-Q placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| Q    | KWQ    | QIntroduction |
 
 [back](#head)
 
 ## R
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-R placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| R    | KWR    | RIntroduction |
 
 [back](#head)
 
 ## S
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-S placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| S    | KWS    | SIntroduction |
 
 [back](#head)
 
 ## T
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-T placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| T    | KWT    | TIntroduction |
 
 [back](#head)
 
 ## U
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-U placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| U    | KWU    | UIntroduction |
 
 [back](#head)
 
 ## V
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-V placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| V    | KWV    | VIntroduction |
 
 [back](#head)
 
 ## W
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-W placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| W    | KWW    | WIntroduction |
 
 [back](#head)
 
 ## X
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-X placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| X    | KWX    | XIntroduction |
 
 [back](#head)
 
 ## Y
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-Y placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| Y    | KWY    | YIntroduction |
 
 [back](#head)
 
 ## Z
 
-| 名称 | 简介           |
-| ---- | -------------- |
-| A    | A introduction |
-
-Z placeholder
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| Z    | KWZ    | ZIntroduction |
 
 [back](#head)
