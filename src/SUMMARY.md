@@ -162,6 +162,7 @@
     - [还可以的单向链表](too-many-lists/ok-stack/intro.md)
       - [优化类型定义](too-many-lists/ok-stack/type-optimizing.md)
       - [定义 Peek 函数](too-many-lists/ok-stack/peek.md)
+      - [IntoIter、Iter 和 IterMut](too-many-lists/iter.md)
 
 - [易混淆概念解析](confonding/intro.md)
   - [切片和切片引用](confonding/slice.md)
