@@ -48,9 +48,11 @@
 | 名称       | 关键字    | 简介                                   |
 | ---------- | --------- | -------------------------------------- |
 | [变量遮蔽] | shadowing | 允许声明相同的变量名，后者会遮蔽掉前者 |
+| [布尔]     | bool      | `true` `false`，占用 1 字节            |
 | B          | KWB       | BIntroduction                          |
 
 [变量遮蔽]: https://course.rs/basic/variable.html#变量遮蔽shadowing
+[布尔]: https://course.rs/basic/base-type/char-bool.html#布尔bool
 
 [back](#head)
 
@@ -259,8 +261,11 @@
 
 ## Z
 
-| 名称 | 关键字 | 简介          |
-| ---- | ------ | ------------- |
-| Z    | KWZ    | ZIntroduction |
+| 名称       | 关键字 | 简介                              |
+| ---------- | ------ | --------------------------------- |
+| [字符类型] | char   | 使用 `''` 表示，所有的 Unicode 值 |
+| Z          | KWZ    | ZIntroduction                     |
+
+[字符类型]: https://course.rs/basic/base-type/char-bool.html#字符类型char
 
 [back](#head)
