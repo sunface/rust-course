@@ -4,7 +4,7 @@
 
 ## [features]
 
-`Featuure` 可以通过 `Cargo.toml` 中的 `[features]` 部分来定义：其中每个 `feature` 通过列表的方式指定了它所能启用的其他 `feature` 或可选依赖。
+`Feature` 可以通过 `Cargo.toml` 中的 `[features]` 部分来定义：其中每个 `feature` 通过列表的方式指定了它所能启用的其他 `feature` 或可选依赖。
 
 假设我们有一个 2D 图像处理库，然后该库所支持的图片格式可以通过以下方式启用：
 
