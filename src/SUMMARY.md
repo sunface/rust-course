@@ -185,7 +185,6 @@
   - [类型未限制(todo)](fight-with-compiler/unconstrained.md)
 
 - [Rust 常见陷阱](pitfalls/index.md)
-
   - [for 循环中使用外部数组](pitfalls/use-vec-in-for.md)
   - [线程类型导致的栈溢出](pitfalls/stack-overflow.md)
   - [算术溢出导致的 panic](pitfalls/arithmetic-overflow.md)
@@ -196,6 +195,7 @@
   - [奇怪的序列 x..y](pitfalls/weird-ranges.md)
   - [无处不在的迭代器](pitfalls/iterator-everywhere.md)
   - [线程间传递消息导致主线程无法结束](pitfalls/main-with-channel-blocked.md)
+  - [警惕 UTF-8 引发的性能隐患](pitfalls/utf8-performance.md)
 
 - [Rust 最佳实践 doing](practice/intro.md)
   - [日常开发三方库精选](practice/third-party-libs.md)
