@@ -30,7 +30,7 @@
 
 | 目录                       | 示例                                    |
 | -------------------------- | --------------------------------------- |
-| `target/<triple>/debug`    | `target/thumbv7em-none-eabihf/debug/`   |
+| `target/<triple>/debug/`    | `target/thumbv7em-none-eabihf/debug/`   |
 | `target/<triple>/release/` | `target/thumbv7em-none-eabihf/release/` |
 
 > **注意：**，当没有使用 `--target` 时，`Cargo` 会与构建脚本和过程宏一起共享你的依赖包，对于每个 `rustc` 命令调用而言，[`RUSTFLAGS`](https://course.rs/cargo/reference/configuration.html#配置文件概览) 也将被共享。
