@@ -166,7 +166,7 @@
       - [IterMut以及完整代码](too-many-lists/ok-stack/itermut.md)
     - [持久化单向链表](too-many-lists/persistent-stack/intro.md)
       - [数据布局和基本操作](too-many-lists/persistent-stack/layout.md)
-
+      - [Drop、Arc 及完整代码](too-many-lists/persistent-stack/drop-arc.md)
 
 - [易混淆概念解析](confonding/intro.md)
   - [切片和切片引用](confonding/slice.md)
