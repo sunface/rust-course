@@ -15,7 +15,7 @@
 | 目录             | 描述                                                                    |
 | ---------------- | ----------------------------------------------------------------------- |
 | `target/debug/`  | 包含了 `dev` profile 的构建输出(`cargo build` 或 `cargo build --debug`) |
-| `target/release` | `release` profile 的构建输出，`cargo build --release`                   |
+| `target/release/` | `release` profile 的构建输出，`cargo build --release`                   |
 | `target/foo/`    | 自定义 `foo` profile 的构建输出，`cargo build --profile=foo`            |
 
 出于历史原因:
