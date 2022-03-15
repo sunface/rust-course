@@ -492,6 +492,7 @@ let sql = sql!(SELECT * FROM posts WHERE id=1);
 3. [syn](https://crates.io/crates/syn) 和 [quote](https://crates.io/crates/quote) ，用于编写过程宏的包，它们的文档有很多值得学习的东西
 4. [Structuring, testing and debugging procedural macro crates](https://www.reddit.com/r/rust/comments/rjumsg/any_good_resources_for_learning_rust_macros/)，从测试、debug、结构化的角度来编写过程宏
 5. [blog.turbo.fish](https://blog.turbo.fish)，里面的过程宏系列文章值得一读
+6. [Rust 宏小册中文版](https://zjp-cn.github.io/tlborm/)，非常详细的解释了宏各种知识
 
 ## 总结
 
