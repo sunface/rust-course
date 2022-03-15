@@ -323,7 +323,7 @@ impl<T> AsyncReceiver<T> {
 除了跳转到标准库，你还可以通过指定具体的路径跳转到自己代码或者其它库的指定项，例如在 `lib.rs` 中添加以下代码：
 
 ```rust
-mod a {
+pub mod a {
     /// `add_one` 返回一个[`Option`]类型
     /// 跳转到[`crate::MySpecialFormatter`]
     pub fn add_one(x: i32) -> Option<i32> {
@@ -331,7 +331,7 @@ mod a {
     }
 }
 
-struct MySpecialFormatter;
+pub struct MySpecialFormatter;
 ```
 
 使用 `crate::MySpecialFormatter` 这种路径就可以实现跳转到 `lib.rs` 中定义的结构体上。
@@ -429,7 +429,7 @@ pub mod utils {
     /// ```rust
     /// use art::utils::mix;
     /// use art::kinds::{PrimaryColor,SecondaryColor};
-    /// assert_eq!(mix(PrimaryColor::Yellow, PrimaryColor::Blue), SecondaryColor::Green)
+    /// assert!(matches!(mix(PrimaryColor::Yellow, PrimaryColor::Blue), SecondaryColor::Green));
     /// ```
     pub fn mix(c1: PrimaryColor, c2: PrimaryColor) -> SecondaryColor {
         SecondaryColor::Green
