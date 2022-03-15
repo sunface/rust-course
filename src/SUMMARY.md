@@ -164,6 +164,10 @@
       - [定义 Peek 函数](too-many-lists/ok-stack/peek.md)
       - [IntoIter 和 Iter](too-many-lists/ok-stack/iter.md)
       - [IterMut以及完整代码](too-many-lists/ok-stack/itermut.md)
+    - [持久化单向链表](too-many-lists/persistent-stack/intro.md)
+      - [数据布局和基本操作](too-many-lists/persistent-stack/layout.md)
+      - [Drop、Arc 及完整代码](too-many-lists/persistent-stack/drop-arc.md)
+
 - [易混淆概念解析](confonding/intro.md)
   - [切片和切片引用](confonding/slice.md)
   - [Eq 和 PartialEq](confonding/eq.md)
@@ -185,7 +189,6 @@
   - [类型未限制(todo)](fight-with-compiler/unconstrained.md)
 
 - [Rust 常见陷阱](pitfalls/index.md)
-
   - [for 循环中使用外部数组](pitfalls/use-vec-in-for.md)
   - [线程类型导致的栈溢出](pitfalls/stack-overflow.md)
   - [算术溢出导致的 panic](pitfalls/arithmetic-overflow.md)
@@ -196,6 +199,7 @@
   - [奇怪的序列 x..y](pitfalls/weird-ranges.md)
   - [无处不在的迭代器](pitfalls/iterator-everywhere.md)
   - [线程间传递消息导致主线程无法结束](pitfalls/main-with-channel-blocked.md)
+  - [警惕 UTF-8 引发的性能隐患](pitfalls/utf8-performance.md)
 
 - [Rust 最佳实践 doing](practice/intro.md)
   - [日常开发三方库精选](practice/third-party-libs.md)
