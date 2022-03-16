@@ -167,7 +167,8 @@
     - [持久化单向链表](too-many-lists/persistent-stack/intro.md)
       - [数据布局和基本操作](too-many-lists/persistent-stack/layout.md)
       - [Drop、Arc 及完整代码](too-many-lists/persistent-stack/drop-arc.md)
-
+    - [不咋样的双端队列](too-many-lists/deque/intro.md)
+      - [数据布局和基本操作](too-many-lists/deque/layout.md)
 - [易混淆概念解析](confonding/intro.md)
   - [切片和切片引用](confonding/slice.md)
   - [Eq 和 PartialEq](confonding/eq.md)
@@ -241,7 +242,7 @@
   - [HashMap todo](std/hashmap.md)
   - [Iterator 常用方法 todo](std/iterator.md)
 
-- [Ctrl-C/V: 编程常用代码片段 todo](cases/intro.md)
+- [CookBook](cases/intro.md)
   - [命令行解析 todo](cases/cmd.md)
   - [配置文件解析 todo](cases/config.md)
   - [编解码 todo](cases/encoding/intro.md)
