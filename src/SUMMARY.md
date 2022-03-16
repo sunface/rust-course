@@ -1,7 +1,7 @@
 # Rust 语言圣经
 
-[关于本书](about-book.md)
 [进入 Rust 编程世界](into-rust.md)
+[关于本书](about-book.md)
 [AWS 为何这么喜欢 Rust?](usecases/aws-rust.md)
 [避免从入门到放弃](sth-you-should-not-do.md)
 
