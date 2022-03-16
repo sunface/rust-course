@@ -170,6 +170,7 @@
     - [不咋样的双端队列](too-many-lists/deque/intro.md)
       - [数据布局和基本操作](too-many-lists/deque/layout.md)
       - [Peek](too-many-lists/deque/peek.md)
+      - [基本操作的对称镜像](too-many-lists/deque/symmetric.md)
 - [易混淆概念解析](confonding/intro.md)
   - [切片和切片引用](confonding/slice.md)
   - [Eq 和 PartialEq](confonding/eq.md)
