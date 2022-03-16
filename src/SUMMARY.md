@@ -1,9 +1,9 @@
 # Rust 语言圣经
 
+[关于本书](about-book.md)
 [进入 Rust 编程世界](into-rust.md)
 [AWS 为何这么喜欢 Rust?](usecases/aws-rust.md)
 [避免从入门到放弃](sth-you-should-not-do.md)
-[关于本书](about-book.md)
 
 [快速查询入口](index-list.md)
 
@@ -169,6 +169,7 @@
       - [Drop、Arc 及完整代码](too-many-lists/persistent-stack/drop-arc.md)
     - [不咋样的双端队列](too-many-lists/deque/intro.md)
       - [数据布局和基本操作](too-many-lists/deque/layout.md)
+      - [Peek](too-many-lists/deque/peek.md)
 - [易混淆概念解析](confonding/intro.md)
   - [切片和切片引用](confonding/slice.md)
   - [Eq 和 PartialEq](confonding/eq.md)
