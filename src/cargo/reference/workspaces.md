@@ -39,7 +39,7 @@ members = [
 
 **对于没有主 `package` 的场景或你希望将所有的 `package` 组织在单独的目录中时，这种方式就非常适合。**
 
-例如 [rust-analyzer](https://github.com/rust-analyzer/rust-analyzer) 就是这样的项目，它的根目录中的 `Cargo.toml` 中并没有 `[package]`，说明该根目录不是一个 `package`，但是却有 `[workspacke]` :
+例如 [rust-analyzer](https://github.com/rust-analyzer/rust-analyzer) 就是这样的项目，它的根目录中的 `Cargo.toml` 中并没有 `[package]`，说明该根目录不是一个 `package`，但是却有 `[workspace]` :
 
 ```toml
 [workspace]
