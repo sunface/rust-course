@@ -18,6 +18,7 @@
   - [Rust 语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，精选过去一周的技术文章、业界新闻、开源项目和 Rust 语言动态
   - [Rust 酷库推荐](https://github.com/sunface/fancy-rust) Rust 优秀项目很多，如何在茫茫码海中与它们相遇？相比 Awesome Rust，它能带给你全新的体验和选择
 
+- Rust编程学院：QQ群 1009730433
 
 ## 教程简介
 
@@ -65,5 +66,5 @@
 
 因为它们绝大部分是支持 APACHE + MIT 双协议的，因此我们选择了遵循其中的 MIT 协议，并在这里统一对借鉴的书籍进行说明。
 
-## Rust语言社区
+## Rust编程学院
 QQ群 1009730433， 欢迎大家加入，一起 happy，一起进步。
