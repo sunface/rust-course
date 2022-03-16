@@ -171,6 +171,7 @@
       - [数据布局和基本操作](too-many-lists/deque/layout.md)
       - [Peek](too-many-lists/deque/peek.md)
       - [基本操作的对称镜像](too-many-lists/deque/symmetric.md)
+      - [迭代器](too-many-lists/deque/iterator.md)
 - [易混淆概念解析](confonding/intro.md)
   - [切片和切片引用](confonding/slice.md)
   - [Eq 和 PartialEq](confonding/eq.md)
