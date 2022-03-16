@@ -10,7 +10,7 @@
 </div>
 
 - 在线阅读
-  - 官方： [https://course.rs](https://course.rs)
+  - Rust编程学院： [https://course.rs](https://course.rs)
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
   
 - 本书配套项目  
