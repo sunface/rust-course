@@ -62,6 +62,24 @@ fn main() {
 
 正因为智能指针的使用，使得我们无需任何操作就能获取其中的数据。 如果释放锁，你需要做的仅仅是做好锁的作用域管理，例如上述代码的内部花括号使用，建议读者尝试下去掉内部的花括号，然后再次尝试获取第二个锁`num1`，看看会发生什么，友情提示：不会报错，但是主线程会永远阻塞，因为不幸发生了死锁。
 
+```rust
+use std::sync::Mutex;
+
+fn main() {
+    let m = Mutex::new(5);
+
+    let mut num = m.lock().unwrap();
+    *num = 6;
+    // 锁还没有被 drop 就尝试申请下一个锁，导致主线程阻塞
+    // drop(num); // 手动 drop num ，可以让 num1 申请到下个锁
+    let mut num1 = m.lock().unwrap();
+    *num1 = 7;
+    // drop(num1); // 手动 drop num1 ，观察打印结果的不同
+
+    println!("m = {:?}", m);
+}
+```
+
 #### 多线程中使用 Mutex
 
 单线程中使用锁，说实话纯粹是为了演示功能，毕竟多线程才是锁的舞台。 现在，我们再来看看，如何在多线程下使用`Mutex`来访问同一个资源.
@@ -114,14 +132,14 @@ error[E0277]: `Rc<Mutex<i32>>` cannot be sent between threads safely
                 // `Rc`无法在线程中安全的传输
    --> src/main.rs:11:22
     |
-11  |           let handle = thread::spawn(move || {
+13  |           let handle = thread::spawn(move || {
     |  ______________________^^^^^^^^^^^^^_-
     | |                      |
     | |                      `Rc<Mutex<i32>>` cannot be sent between threads safely
-12  | |             let mut num = counter.lock().unwrap();
-13  | |
-14  | |             *num += 1;
-15  | |         });
+14  | |             let mut num = counter.lock().unwrap();
+15  | |
+16  | |             *num += 1;
+17  | |         });
     | |_________- within this `[closure@src/main.rs:11:36: 15:10]`
     |
     = help: within `[closure@src/main.rs:11:36: 15:10]`, the trait `Send` is not implemented for `Rc<Mutex<i32>>`
@@ -231,22 +249,22 @@ fn main() {
             for _ in 0..1 {
                 // 线程1
                 if i_thread % 2 == 0 {
-                    // 锁住mutex1
+                    // 锁住MUTEX1
                     let guard: MutexGuard<i64> = MUTEX1.lock().unwrap();
 
-                    println!("线程 {} 锁住了mutex1，接着准备去锁mutex2 !", i_thread);
+                    println!("线程 {} 锁住了MUTEX1，接着准备去锁MUTEX2 !", i_thread);
 
-                    // 当前线程睡眠一小会儿，等待线程2锁住mutex2
+                    // 当前线程睡眠一小会儿，等待线程2锁住MUTEX2
                     sleep(Duration::from_millis(10));
 
-                    // 去锁mutex2
+                    // 去锁MUTEX2
                     let guard = MUTEX2.lock().unwrap();
                 // 线程2
                 } else {
-                    // 锁住mutex2
+                    // 锁住MUTEX2
                     let _guard = MUTEX2.lock().unwrap();
 
-                    println!("线程 {} 锁住了mutex2, 准备去锁mutex1", i_thread);
+                    println!("线程 {} 锁住了MUTEX2, 准备去锁MUTEX1", i_thread);
 
                     let _guard = MUTEX1.lock().unwrap();
                 }
@@ -265,9 +283,9 @@ fn main() {
 
 在上面的描述中，我们用了"可能"二字，原因在于死锁在这段代码中不是必然发生的，总有一次运行你能看到最后一行打印输出。这是由于子线程的初始化顺序和执行速度并不确定，我们无法确定哪个线程中的锁先被执行，因此也无法确定两个线程对锁的具体使用顺序。
 
-但是，可以简单的说明下死锁发生的必然条件：线程 1 锁住了`mutex1`并且线程`2`锁住了`mutex2`，然后线程 1 试图去访问`mutex2`，同时线程`2`试图去访问`mutex1`，就会死锁。 因为线程 2 需要等待线程 1 释放`mutex1`后，才会释放`mutex2`，而与此同时，线程 1 需要等待线程 2 释放`mutex2`后才能释放`mutex1`，这种情况造成了两个线程都无法释放对方需要的锁，最终死锁。
+但是，可以简单的说明下死锁发生的必然条件：线程 1 锁住了`MUTEX1`并且线程`2`锁住了`MUTEX2`，然后线程 1 试图去访问`MUTEX2`，同时线程`2`试图去访问`MUTEX1`，就会死锁。 因为线程 2 需要等待线程 1 释放`MUTEX1`后，才会释放`MUTEX2`，而与此同时，线程 1 需要等待线程 2 释放`MUTEX2`后才能释放`MUTEX1`，这种情况造成了两个线程都无法释放对方需要的锁，最终死锁。
 
-那么为何某些时候，死锁不会发生？原因很简单，线程 2 在线程 1 锁`mutex1`之前，就已经全部执行完了，随之线程 2 的`mutex2`和`mutex1`被全部释放，线程 1 对锁的获取将不再有竞争者。 同理，线程 1 若全部被执行完，那线程 2 也不会被锁，因此我们在线程 1 中间加一个睡眠，增加死锁发生的概率。如果你在线程 2 中同样的位置也增加一个睡眠，那死锁将必然发生!
+那么为何某些时候，死锁不会发生？原因很简单，线程 2 在线程 1 锁`MUTEX1`之前，就已经全部执行完了，随之线程 2 的`MUTEX2`和`MUTEX1`被全部释放，线程 1 对锁的获取将不再有竞争者。 同理，线程 1 若全部被执行完，那线程 2 也不会被锁，因此我们在线程 1 中间加一个睡眠，增加死锁发生的概率。如果你在线程 2 中同样的位置也增加一个睡眠，那死锁将必然发生!
 
 #### try_lock
 
@@ -292,26 +310,26 @@ fn main() {
             for _ in 0..1 {
                 // 线程1
                 if i_thread % 2 == 0 {
-                    // 锁住mutex1
+                    // 锁住MUTEX1
                     let guard: MutexGuard<i64> = MUTEX1.lock().unwrap();
 
-                    println!("线程 {} 锁住了mutex1，接着准备去锁mutex2 !", i_thread);
+                    println!("线程 {} 锁住了MUTEX1，接着准备去锁MUTEX2 !", i_thread);
 
-                    // 当前线程睡眠一小会儿，等待线程2锁住mutex2
+                    // 当前线程睡眠一小会儿，等待线程2锁住MUTEX2
                     sleep(Duration::from_millis(10));
 
-                    // 去锁mutex2
+                    // 去锁MUTEX2
                     let guard = MUTEX2.try_lock();
-                    println!("线程1获取mutex2锁的结果: {:?}",guard);
+                    println!("线程1获取MUTEX2锁的结果: {:?}",guard);
                 // 线程2
                 } else {
-                    // 锁住mutex2
+                    // 锁住MUTEX2
                     let _guard = MUTEX2.lock().unwrap();
 
-                    println!("线程 {} 锁住了mutex2, 准备去锁mutex1", i_thread);
+                    println!("线程 {} 锁住了MUTEX2, 准备去锁MUTEX1", i_thread);
                     sleep(Duration::from_millis(10));
                     let guard = MUTEX1.try_lock();
-                    println!("线程2获取mutex1锁的结果: {:?}",guard);
+                    println!("线程2获取MUTEX1锁的结果: {:?}",guard);
                 }
             }
         }));
@@ -329,10 +347,10 @@ fn main() {
 为了演示`try_lock`的作用，我们特定使用了之前必定会死锁的代码，并且将`lock`替换成`try_lock`，与之前的结果不同，这段代码将不会再有死锁发生：
 
 ```console
-线程 0 锁住了mutex1，接着准备去锁mutex2 !
-线程 1 锁住了mutex2, 准备去锁mutex1
-线程2获取mutex1锁的结果: Err("WouldBlock")
-线程1获取mutex2锁的结果: Ok(0)
+线程 0 锁住了MUTEX1，接着准备去锁MUTEX2 !
+线程 1 锁住了MUTEX2, 准备去锁MUTEX1
+线程2获取MUTEX1锁的结果: Err("WouldBlock")
+线程1获取MUTEX2锁的结果: Ok(0)
 死锁没有发生
 ```
 
