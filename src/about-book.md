@@ -1,15 +1,23 @@
-# Rust 语言圣经 (The Course)
+<h1 align="center">Rust语言圣经</h1>
+
+<div align="center">
+    <img height="150" src="https://github.com/sunface/rust-by-practice/blob/master/assets/logo.png?raw=true">
+</div>
+   
+<div align="center">
+
+[![Stars Count](https://img.shields.io/github/stars/sunface/rust-course?style=flat)](https://github.com/sunface/rust-by-practice/stargazers) [![Forks Count](https://img.shields.io/github/forks/sunface/rust-course.svg?style=flat)](https://github.com/naaive/orange/network/members)
+</div>
 
 - 在线阅读
   - 官方： [https://course.rs](https://course.rs)
   - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
 
-> 学习 Rust 光看书不够，精心设计的习题和项目实践可以让你事半功倍。[Rust By Practice](https://github.com/sunface/rust-by-practice) 是本书的配套习题和实践，覆盖了 easy to hard 各个难度，满足大家对 Rust 的所有期待。
-> 
-> [Rust 语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，精选过去一周的技术文章、业界新闻、开源项目和 Rust 语言动态。
->
-> Rust 优秀项目很多，如何在茫茫码海中与它们相遇？相比 Awesome Rust， [Fancy Rust](https://github.com/sunface/fancy-rust) 能带给你全新的体验和选择。
-
+- 本书配套项目  
+  - [Rust 实战练习](https://github.com/sunface/rust-by-practice)，它是本书的配套练习册，提供了大量有挑战性的示例、练习和实践项目，帮助大家解决 Rust 语言从学习到实战的问题 — 毕竟这之间还隔着好几个 Go 语言的难度 :D
+  - [Rust 语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，精选过去一周的技术文章、业界新闻、开源项目和 Rust 语言动态
+  - [Rust 酷库推荐](https://github.com/sunface/fancy-rust) Rust 优秀项目很多，如何在茫茫码海中与它们相遇？相比 Awesome Rust，它能带给你全新的体验和选择
+  
 ### 教程简介
 
 **`Rust语言圣经`**涵盖从**入门到精通**所需的 Rust 知识，目录及内容都经过深思熟虑的设计，同时语言生动幽默，行文流畅自如，摆脱技术书籍常有的机器味和晦涩感。

@@ -1,4 +1,13 @@
-# Rust语言圣经 (The Course)
+<h1 align="center">Rust语言圣经</h1>
+
+<div align="center">
+    <img height="150" src="https://github.com/sunface/rust-by-practice/blob/master/assets/logo.png?raw=true">
+</div>
+   
+<div align="center">
+
+[![Stars Count](https://img.shields.io/github/stars/sunface/rust-course?style=flat)](https://github.com/sunface/rust-by-practice/stargazers) [![Forks Count](https://img.shields.io/github/forks/sunface/rust-course.svg?style=flat)](https://github.com/naaive/orange/network/members)
+</div>
 
 - 在线阅读
   - 官方： [https://course.rs](https://course.rs)
