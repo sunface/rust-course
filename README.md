@@ -11,7 +11,7 @@
 
 - 在线阅读
   - Rust编程学院： [https://course.rs](https://course.rs)
-  - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
+  - 知乎专栏： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
   
 - 配套项目  
   - [Rust语言实战](https://github.com/sunface/rust-by-practice)，它是本书的配套练习册，提供了大量有挑战性的示例、练习和实践项目，帮助大家解决 Rust 语言从学习到实战的问题 — 毕竟这之间还隔着好几个 Go 语言的难度 :D
