@@ -10,7 +10,7 @@
 </div>
 
 - 在线阅读
-  - Rust编程学院： [https://course.rs](https://course.rs)
+  - 官网： [https://course.rs](https://course.rs)
   - 知乎专栏： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
   
 - 配套项目  
@@ -50,7 +50,7 @@
 
 
 ## 学习社区
-为了帮助大家更好的学习和交流 Rust，我们建立了一个社区：**Rust编程学院**。
+为了帮助大家更好的学习和交流 Rust，我们建立了一个社区：**Rust语言学习社区**。
 
 QQ群 1009730433， 欢迎大家加入，一起 happy，一起进步。
 
