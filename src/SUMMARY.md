@@ -213,8 +213,8 @@
       - [基本操作的对称镜像](too-many-lists/deque/symmetric.md)
       - [迭代器](too-many-lists/deque/iterator.md)
       - [最终代码](too-many-lists/deque/final-code.md)
-    - [不错的unsafe队列](too-may-lists/unsafe-queue/intro.md)
-      - [数据布局](too-may-lists/unsafe-queue/layout.md)
+    - [不错的unsafe队列](too-many-lists/unsafe-queue/intro.md)
+      - [数据布局](too-many-lists/unsafe-queue/layout.md)
 
 
 - [Rust 性能优化 todo](profiling/intro.md)
