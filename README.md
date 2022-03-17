@@ -10,8 +10,8 @@
 </div>
 
 - 在线阅读
-  - 官方： [https://course.rs](https://course.rs)
-  - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
+  - Rust编程学院： [https://course.rs](https://course.rs)
+  - 知乎专栏： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
   
 - 配套项目  
   - [Rust语言实战](https://github.com/sunface/rust-by-practice)，它是本书的配套练习册，提供了大量有挑战性的示例、练习和实践项目，帮助大家解决 Rust 语言从学习到实战的问题 — 毕竟这之间还隔着好几个 Go 语言的难度 :D
@@ -64,6 +64,7 @@ QQ群 1009730433， 欢迎大家加入，一起 happy，一起进步。
 - [@1132719438](https://github.com/1132719438)
 - [@Mintnoii](https://github.com/Mintnoii)
 - [@Rustln](https://github.com/rustln)
+- [@zongzi531](https://github.com/zongzi531)
 
 尤其感谢这些主要贡献者，谢谢你们花费大量时间贡献了多处`fix`和高质量的内容优化。非常感动，再次感谢～～
 
