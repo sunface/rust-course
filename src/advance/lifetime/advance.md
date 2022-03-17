@@ -136,7 +136,7 @@ error[E0499]: cannot borrow `*map` as mutable more than once at a time
 
 不安全代码(`unsafe`)经常会凭空产生引用或生命周期，这些生命周期被称为是 **无界(unbound)** 的。
 
-无界生命周期往往是在解引用一个原生指针(裸指针 raw pointer)时产生的，换句话说，它是凭空产生的，因为输入参数根本就没有这个生命周期：
+无界生命周期往往是在解引用一个裸指针(裸指针 raw pointer)时产生的，换句话说，它是凭空产生的，因为输入参数根本就没有这个生命周期：
 
 ```rust
 fn f<'a, T>(x: *const T) -> &'a T {

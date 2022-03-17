@@ -101,7 +101,7 @@
     - [切片和切片引用](advance/confonding/slice.md)
     - [Eq 和 PartialEq](advance/confonding/eq.md)
     - [String、&str 和 str todo](advance/confonding/string.md)
-    - [原生指针、引用和智能指针 todo](advance/confonding/pointer.md)
+    - [裸指针、引用和智能指针 todo](advance/confonding/pointer.md)
     - [作用域、生命周期和 NLL todo](advance/confonding/lifetime.md)
     - [move、Copy 和 Clone todo](advance/confonding/move-copy.md)
   
@@ -215,7 +215,7 @@
       - [最终代码](too-many-lists/deque/final-code.md)
     - [不错的unsafe队列](too-many-lists/unsafe-queue/intro.md)
       - [数据布局](too-many-lists/unsafe-queue/layout.md)
-
+      - [基本操作](too-many-lists/unsafe-queue/basics.md)
 
 - [Rust 性能优化 todo](profiling/intro.md)
   - [深入内存 todo](profiling/memory/intro.md)
