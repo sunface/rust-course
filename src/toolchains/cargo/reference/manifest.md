@@ -261,11 +261,11 @@ workspace = "path/to/workspace/root"
 - 该包是工作空间的根包(root crate)，通过 `[workspace]` 指定)
 - 该包是另一个工作空间的成员，通过 `package.workspace` 指定
 
-若要了解工作空间的更多信息，请参见[这里](https://course.rs/cargo/reference/workspaces.html)。
+若要了解工作空间的更多信息，请参见[这里](https://course.rs/toolchains/cargo/reference/workspaces.html)。
 
 #### build
 
-`build` 用于指定位于项目根目录中的构建脚本，关于构建脚本的更多信息，可以阅读 [构建脚本](https://course.rs/cargo/reference/build-script/intro.html) 一章。
+`build` 用于指定位于项目根目录中的构建脚本，关于构建脚本的更多信息，可以阅读 [构建脚本](https://course.rs/toolchains/cargo/reference/build-script/intro.html) 一章。
 
 ```toml
 [package]
@@ -277,7 +277,7 @@ build = "build.rs"
 
 #### links
 
-用于指定项目链接的本地库的名称，更多的信息请看构建脚本章节的 [links](https://course.rs/cargo/reference/build-script/intro.html#links)
+用于指定项目链接的本地库的名称，更多的信息请看构建脚本章节的 [links](https://course.rs/toolchains/cargo/reference/build-script/intro.html#links)
 
 ```toml
 [package]
@@ -390,9 +390,9 @@ maintenance = { status = "..." }
 
 ## [dependencies]
 
-在[之前章节](http://course.rs/cargo/reference/specify-deps.html)中，我们已经详细介绍过 `[dependencies]` 、 `[dev-dependencies]` 和 `[build-dependencies]`，这里就不再赘述。
+在[之前章节](http://course.rs/toolchains/cargo/reference/specify-deps.html)中，我们已经详细介绍过 `[dependencies]` 、 `[dev-dependencies]` 和 `[build-dependencies]`，这里就不再赘述。
 
 ## [profile.*]
 
-该部分可以对编译器进行配置，例如 debug 和优化，在后续的[编译器优化](http://course.rs/cargo/reference/profiles.html)章节有详细介绍。
+该部分可以对编译器进行配置，例如 debug 和优化，在后续的[编译器优化](http://course.rs/toolchains/cargo/reference/profiles.html)章节有详细介绍。
 
