@@ -45,5 +45,5 @@
 
 关于 Rust 中的包和模块，[之前的章节](https://course.rs/basic/crate-module/intro.html)有更详细的解释。
 
-此外，`bin`、`tests`、`examples` 等目录路径都可以通过配置文件进行配置，它们被统一称之为 [Cargo Target](https://course.rs/cargo/reference/cargo-target.html)。
+此外，`bin`、`tests`、`examples` 等目录路径都可以通过配置文件进行配置，它们被统一称之为 [Cargo Target](https://course.rs/toolchains/cargo/reference/cargo-target.html)。
 

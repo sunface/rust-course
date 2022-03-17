@@ -87,7 +87,7 @@ avif = ["ravif", "rgb"]
 
 之后，`avif` feature 一旦被启用，那这两个依赖库也将自动被引入。
 
-> 注意：我们之前也讲过条件引入依赖的方法，那就是使用[平台相关的依赖](https://course.rs/cargo/reference/specify-deps.html#根据平台引入依赖)，与基于 feature 的可选依赖不同，它们是基于特定平台的可选依赖
+> 注意：我们之前也讲过条件引入依赖的方法，那就是使用[平台相关的依赖](https://course.rs/toolchains/cargo/reference/specify-deps.html#根据平台引入依赖)，与基于 feature 的可选依赖不同，它们是基于特定平台的可选依赖
 
 ## 依赖库自身的 feature
 
@@ -249,11 +249,11 @@ V2 版本的解析器可以在某些情况下避免 feature 同一化的发生�
 
 ## 构建脚本
 
-[构建脚本](https://course.rs/cargo/reference/build-script/intro.html)可以通过 `CARGO_FEATURE_<name>` 环境变量获取启用的 `feauture` 列表，其中 `<name>` 是 feature 的名称，该名称被转换成大全写字母，且 `-` 被转换为 `_`。
+[构建脚本](https://course.rs/toolchains/cargo/reference/build-script/intro.html)可以通过 `CARGO_FEATURE_<name>` 环境变量获取启用的 `feauture` 列表，其中 `<name>` 是 feature 的名称，该名称被转换成大全写字母，且 `-` 被转换为 `_`。
 
 ## required-features
 
-该字段可以用于禁用特定的 Cargo Target：当某个 feature 没有被启用时，查看[这里](https://course.rs/cargo/reference/cargo-target.html#required-features)获取更多信息。
+该字段可以用于禁用特定的 Cargo Target：当某个 feature 没有被启用时，查看[这里](https://course.rs/toolchains/cargo/reference/cargo-target.html#required-features)获取更多信息。
 
 ## SemVer 兼容性
 
