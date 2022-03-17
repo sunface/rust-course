@@ -27,7 +27,7 @@ error[E0277]: `Rc<i32>` cannot be sent between threads safely
     = help: within `[closure@src/main.rs:5:27: 7:6]`, the trait `Send` is not implemented for `Rc<i32>`
 ```
 
-表面原因是`Rc`无法在线程间安全的转移，实际是编译器给予我们的那句帮助: `the trait Send is not implemented for Rc<i32>`(`Rc<i32>`未实现`Send`特征), 那么此处的`Send`特征又是何方神圣？
+表面原因是`Rc`无法在线程间安全的转移，实际是编译器给予我们的那句帮助: ```the trait `Send` is not implemented for `Rc<i32>` ```(`Rc<i32>`未实现`Send`特征), 那么此处的`Send`特征又是何方神圣？
 
 ## Rc 和 Arc 源码对比
 
@@ -50,7 +50,7 @@ unsafe impl<T: ?Sized + Sync + Send> Sync for Arc<T> {}
 `Send`和`Sync`是 Rust 安全并发的重中之重，但是实际上它们只是标记特征(marker trait，该特征未定义任何行为，因此非常适合用于标记), 来看看它们的作用：
 
 - 实现`Send`的类型可以在线程间安全的传递其所有权
-- 实现了`Sync`的类型可以在线程间安全的共享(通过引用)
+- 实现`Sync`的类型可以在线程间安全的共享(通过引用)
 
 这里还有一个潜在的依赖：一个类型要在线程间安全的共享的前提是，指向它的引用必须能在线程间传递。因为如果引用都不能被传递，我们就无法在多个线程间使用引用去访问同一个数据了。
 
@@ -62,7 +62,7 @@ unsafe impl<T: ?Sized + Sync + Send> Sync for Arc<T> {}
 unsafe impl<T: ?Sized + Send + Sync> Sync for RwLock<T> {}
 ```
 
-首先`RwLock`可以在线程间安全的共享，那它肯定是实现了`Sync`，但是我们的关注点不在这里。众多周知，`RwLock`可以并发的读，说明其中的值`T`必定也可以在线程间共享，那`T`必定要实现`Sync`。
+首先`RwLock`可以在线程间安全的共享，那它肯定是实现了`Sync`，但是我们的关注点不在这里。众所周知，`RwLock`可以并发的读，说明其中的值`T`必定也可以在线程间共享，那`T`必定要实现`Sync`。
 
 果不其然，上述代码中，`T`的特征约束中就有一个`Sync`特征，那问题又来了，`Mutex`是不是相反？再来看看:
 
@@ -84,7 +84,7 @@ unsafe impl<T: ?Sized + Send> Sync for Mutex<T> {}
 - `UnsafeCell`不是`Sync`，因此`Cell`和`RefCell`也不是
 - `Rc`两者都没实现(因为内部的引用计数器不是线程安全的)
 
-当然，如果是自定义的复合类型，那没实现那哥俩的就较为常见了：**只要复合类型中有一个成员不是`Send`或`Sync`，那么该符合类型也就不是`Send`或`Sync`**。
+当然，如果是自定义的复合类型，那没实现那哥俩的就较为常见了：**只要复合类型中有一个成员不是`Send`或`Sync`，那么该复合类型也就不是`Send`或`Sync`**。
 
 **手动实现 `Send` 和 `Sync` 是不安全的**，通常并不需要手动实现 Send 和 Sync trait，实现者需要使用`unsafe`小心维护并发安全保证。
 
@@ -106,7 +106,7 @@ fn main() {
 }
 ```
 
-报错跟之前无二： `*mut u8 cannot be sent between threads safely`, 但是有一个问题，我们无法为其直接实现`Send`特征，好在可以用[`newtype`类型](../custom-type.md#newtype) :`struct MyBox(*mut u8);`。
+报错跟之前无二： ``` `*mut u8` cannot be sent between threads safely```, 但是有一个问题，我们无法为其直接实现`Send`特征，好在可以用[`newtype`类型](../into-types/custom-type.md#newtype) :`struct MyBox(*mut u8);`。
 
 还记得之前的规则吗：复合类型中有一个成员没实现`Send`，该复合类型就不是`Send`，因此我们需要手动为它实现:
 
@@ -191,6 +191,6 @@ unsafe impl Sync for MyBox {}
 通过上面的两个原生指针的例子，我们了解了如何实现`Send`和`Sync`，以及如何只实现`Send`而不实现`Sync`，简单总结下：
 
 1. 实现`Send`的类型可以在线程间安全的传递其所有权, 实现`Sync`的类型可以在线程间安全的共享(通过引用)
-2. 绝大部分类型都实现了`Send`和`Sync`，常见的未实现的有：原生指针、Cell/RefCell、Rc 等
+2. 绝大部分类型都实现了`Send`和`Sync`，常见的未实现的有：原生指针、`Cell`、`RefCell`、`Rc` 等
 3. 可以为自定义类型实现`Send`和`Sync`，但是需要`unsafe`代码块
 4. 可以为部分 Rust 中的类型实现`Send`、`Sync`，但是需要使用`newtype`，例如文中的原生指针例子
