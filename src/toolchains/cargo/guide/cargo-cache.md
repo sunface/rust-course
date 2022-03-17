@@ -17,7 +17,7 @@ $ echo $HOME/.cargo/
 
 ## 文件
 
-- `config.toml` 是 Cargo 的全局配置文件，具体请查看[这里](https://course.rs/cargo/reference/configuration.html)
+- `config.toml` 是 Cargo 的全局配置文件，具体请查看[这里](https://course.rs/toolchains/cargo/reference/configuration.html)
 - `credentials.toml` 为 `cargo login` 提供私有化登录证书，用于登录 `package` 注册中心，例如 `crates.io`
 - `.crates.toml`, `.crates2.json` 这两个是隐藏文件，包含了通过 `cargo install` 安装的包的 `package` 信息，**请不要手动修改！**
 
@@ -65,7 +65,7 @@ $ echo $HOME/.cargo/
 
 解决办法很简单：
 
-- 既然下载慢，那就使用[国内的注册服务](https://course.rs/cargo/reference/specify-deps.html#从其它注册服务引入依赖包)，不再使用 crates.io
+- 既然下载慢，那就使用[国内的注册服务](https://course.rs/toolchains/cargo/reference/specify-deps.html#从其它注册服务引入依赖包)，不再使用 crates.io
 - 耐心等待持有锁的用户构建完成
 - 强行停止正在构建的进程，例如杀掉 IDE 使用的 rust-analyer 插件进程，然后删除 `$HOME/.cargo/.package_cache` 目录
 

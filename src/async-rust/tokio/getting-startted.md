@@ -209,7 +209,7 @@ fn main() {
 tokio = { version = "1", features = ["full"] }
 ```
 
-里面有个 `features = ["full"]` 可能大家会比较迷惑，当然，关于它的具体解释在本书的 [Cargo 详解专题](https://course.rs/cargo/intro.html) 有介绍，这里就简单进行说明，
+里面有个 `features = ["full"]` 可能大家会比较迷惑，当然，关于它的具体解释在本书的 [Cargo 详解专题](https://course.rs/toolchains/cargo/intro.html) 有介绍，这里就简单进行说明，
 
 `Tokio` 有很多功能和特性，例如 `TCP`，`UDP`，`Unix sockets`，同步工具，多调度类型等等，不是每个应用都需要所有的这些特性。为了优化编译时间和最终生成可执行文件大小、内存占用大小，应用可以对这些特性进行可选引入。
 

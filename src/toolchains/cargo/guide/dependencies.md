@@ -9,7 +9,7 @@
 time = "0.1.12"
 ```
 
-可以看到我们指定了 `time` 包的版本号 "0.1.12"，关于版本号，实际上还有其它的指定方式，具体参见[指定依赖项](https://course.rs/cargo/reference/specify-deps.html)章节。
+可以看到我们指定了 `time` 包的版本号 "0.1.12"，关于版本号，实际上还有其它的指定方式，具体参见[指定依赖项](https://course.rs/toolchains/cargo/reference/specify-deps.html)章节。
 
 如果想继续添加 `regexp` 包，只需在 `time` 包后面添加即可 :
 

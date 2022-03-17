@@ -1,6 +1,6 @@
 # Cargo Target
 
-**Cargo 项目中包含有一些对象，它们包含的源代码文件可以被编译成相应的包，这些对象被称之为 Cargo Target**。例如[之前章节](https://course.rs/cargo/guide/package-layout.html)提到的库对象 `Library` 、二进制对象 `Binary`、示例对象 `Examples`、测试对象 `Tests` 和 基准性能对象 `Benches` 都是 Cargo Target。
+**Cargo 项目中包含有一些对象，它们包含的源代码文件可以被编译成相应的包，这些对象被称之为 Cargo Target**。例如[之前章节](https://course.rs/toolchains/cargo/guide/package-layout.html)提到的库对象 `Library` 、二进制对象 `Binary`、示例对象 `Examples`、测试对象 `Tests` 和 基准性能对象 `Benches` 都是 Cargo Target。
 
 本章节我们一起来看看该如何在 `Cargo.toml` 清单中配置这些对象，当然，大部分时候都无需手动配置，因为默认的配置通常由项目目录的布局自动推断出来。
 
@@ -137,7 +137,7 @@ required-features = [] # 构建对象所需的 Cargo Features (N/A for lib).
 
 #### required-features
 
-该字段用于指定在构建对象时所需的 [`features`](https://course.rs/cargo/reference/features.html) 列表。
+该字段用于指定在构建对象时所需的 [`features`](https://course.rs/toolchains/cargo/reference/features.html) 列表。
 
 该字段只对 `[[bin]]`、 `[[bench]]`、 `[[test]]` 和 `[[example]]` 有效，对于 `[lib]` 没有任何效果。
 
@@ -155,7 +155,7 @@ required-features = ["postgres", "tools"]
 
 ## 对象自动发现
 
-默认情况下，`Cargo` 会基于项目的[目录文件布局](https://course.rs/cargo/guide/package-layout.html)自动发现和确定对象，而之前的配置项则允许我们对其进行手动的配置修改(若项目布局跟标准的不一样时)。
+默认情况下，`Cargo` 会基于项目的[目录文件布局](https://course.rs/toolchains/cargo/guide/package-layout.html)自动发现和确定对象，而之前的配置项则允许我们对其进行手动的配置修改(若项目布局跟标准的不一样时)。
 
 而这种自动发现对象的设定可以通过以下配置来禁用:
 
