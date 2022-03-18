@@ -301,7 +301,7 @@ RAII                             | 资源获取即初始化（一般不译）  |
 range                            | 区间，范围                    |
 range expression                 | 区间表达式                    |
 raw identifier                   | 原生标识符                    |
-raw pointer                      | 原生指针，裸指针              |
+raw pointer                      | 裸指针              |
 RC                               | 引用计数                      | reference counted
 reader                           | 读取器                        |
 reader/writer                    | 读写器                        |

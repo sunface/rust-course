@@ -1,6 +1,6 @@
 # 基于 Send 和 Sync 的线程安全
 
-为何 Rc、RefCell 和原生指针不可以在多线程间使用？如何让原生指针可以在多线程使用？我们一起来探寻下这些问题的答案。
+为何 Rc、RefCell 和裸指针不可以在多线程间使用？如何让裸指针可以在多线程使用？我们一起来探寻下这些问题的答案。
 
 ## 无法用于多线程的`Rc`
 
@@ -27,7 +27,7 @@ error[E0277]: `Rc<i32>` cannot be sent between threads safely
     = help: within `[closure@src/main.rs:5:27: 7:6]`, the trait `Send` is not implemented for `Rc<i32>`
 ```
 
-表面原因是`Rc`无法在线程间安全的转移，实际是编译器给予我们的那句帮助: `the trait Send is not implemented for Rc<i32>`(`Rc<i32>`未实现`Send`特征), 那么此处的`Send`特征又是何方神圣？
+表面原因是`Rc`无法在线程间安全的转移，实际是编译器给予我们的那句帮助: ```the trait `Send` is not implemented for `Rc<i32>` ```(`Rc<i32>`未实现`Send`特征), 那么此处的`Send`特征又是何方神圣？
 
 ## Rc 和 Arc 源码对比
 
@@ -50,7 +50,7 @@ unsafe impl<T: ?Sized + Sync + Send> Sync for Arc<T> {}
 `Send`和`Sync`是 Rust 安全并发的重中之重，但是实际上它们只是标记特征(marker trait，该特征未定义任何行为，因此非常适合用于标记), 来看看它们的作用：
 
 - 实现`Send`的类型可以在线程间安全的传递其所有权
-- 实现了`Sync`的类型可以在线程间安全的共享(通过引用)
+- 实现`Sync`的类型可以在线程间安全的共享(通过引用)
 
 这里还有一个潜在的依赖：一个类型要在线程间安全的共享的前提是，指向它的引用必须能在线程间传递。因为如果引用都不能被传递，我们就无法在多个线程间使用引用去访问同一个数据了。
 
@@ -62,7 +62,7 @@ unsafe impl<T: ?Sized + Sync + Send> Sync for Arc<T> {}
 unsafe impl<T: ?Sized + Send + Sync> Sync for RwLock<T> {}
 ```
 
-首先`RwLock`可以在线程间安全的共享，那它肯定是实现了`Sync`，但是我们的关注点不在这里。众多周知，`RwLock`可以并发的读，说明其中的值`T`必定也可以在线程间共享，那`T`必定要实现`Sync`。
+首先`RwLock`可以在线程间安全的共享，那它肯定是实现了`Sync`，但是我们的关注点不在这里。众所周知，`RwLock`可以并发的读，说明其中的值`T`必定也可以在线程间共享，那`T`必定要实现`Sync`。
 
 果不其然，上述代码中，`T`的特征约束中就有一个`Sync`特征，那问题又来了，`Mutex`是不是相反？再来看看:
 
@@ -80,19 +80,19 @@ unsafe impl<T: ?Sized + Send> Sync for Mutex<T> {}
 
 正是因为以上规则，Rust 中绝大多数类型都实现了`Send`和`Sync`，除了以下几个(事实上不止这几个，只不过它们比较常见):
 
-- 原生指针两者都没实现，因为它本身就没有任何安全保证
+- 裸指针两者都没实现，因为它本身就没有任何安全保证
 - `UnsafeCell`不是`Sync`，因此`Cell`和`RefCell`也不是
 - `Rc`两者都没实现(因为内部的引用计数器不是线程安全的)
 
-当然，如果是自定义的复合类型，那没实现那哥俩的就较为常见了：**只要复合类型中有一个成员不是`Send`或`Sync`，那么该符合类型也就不是`Send`或`Sync`**。
+当然，如果是自定义的复合类型，那没实现那哥俩的就较为常见了：**只要复合类型中有一个成员不是`Send`或`Sync`，那么该复合类型也就不是`Send`或`Sync`**。
 
 **手动实现 `Send` 和 `Sync` 是不安全的**，通常并不需要手动实现 Send 和 Sync trait，实现者需要使用`unsafe`小心维护并发安全保证。
 
-至此，相关的概念大家已经掌握，但是我敢肯定，对于这两个滑不溜秋的家伙，大家依然会非常模糊，不知道它们该如何使用。那么我们来一起看看如何让原生指针可以在线程间安全的使用。
+至此，相关的概念大家已经掌握，但是我敢肯定，对于这两个滑不溜秋的家伙，大家依然会非常模糊，不知道它们该如何使用。那么我们来一起看看如何让裸指针可以在线程间安全的使用。
 
-## 为原生指针实现`Send`
+## 为裸指针实现`Send`
 
-上面我们提到原生指针既没实现`Send`，意味着下面代码会报错:
+上面我们提到裸指针既没实现`Send`，意味着下面代码会报错:
 
 ```rust
 use std::thread;
@@ -106,7 +106,7 @@ fn main() {
 }
 ```
 
-报错跟之前无二： `*mut u8 cannot be sent between threads safely`, 但是有一个问题，我们无法为其直接实现`Send`特征，好在可以用[`newtype`类型](../custom-type.md#newtype) :`struct MyBox(*mut u8);`。
+报错跟之前无二： ``` `*mut u8` cannot be sent between threads safely```, 但是有一个问题，我们无法为其直接实现`Send`特征，好在可以用[`newtype`类型](../into-types/custom-type.md#newtype) :`struct MyBox(*mut u8);`。
 
 还记得之前的规则吗：复合类型中有一个成员没实现`Send`，该复合类型就不是`Send`，因此我们需要手动为它实现:
 
@@ -128,7 +128,7 @@ fn main() {
 
 此时，我们的指针已经可以欢快的在多线程间撒欢，以上代码很简单，但有一点需要注意：`Send`和`Sync`是`unsafe`特征，实现时需要用`unsafe`代码块包裹。
 
-## 为原生指针实现`Sync`
+## 为裸指针实现`Sync`
 
 由于`Sync`是多线程间共享一个值，大家可能会想这么实现：
 
@@ -188,9 +188,9 @@ unsafe impl Sync for MyBox {}
 
 ## 总结
 
-通过上面的两个原生指针的例子，我们了解了如何实现`Send`和`Sync`，以及如何只实现`Send`而不实现`Sync`，简单总结下：
+通过上面的两个裸指针的例子，我们了解了如何实现`Send`和`Sync`，以及如何只实现`Send`而不实现`Sync`，简单总结下：
 
 1. 实现`Send`的类型可以在线程间安全的传递其所有权, 实现`Sync`的类型可以在线程间安全的共享(通过引用)
-2. 绝大部分类型都实现了`Send`和`Sync`，常见的未实现的有：原生指针、Cell/RefCell、Rc 等
+2. 绝大部分类型都实现了`Send`和`Sync`，常见的未实现的有：裸指针、`Cell`、`RefCell`、`Rc` 等
 3. 可以为自定义类型实现`Send`和`Sync`，但是需要`unsafe`代码块
-4. 可以为部分 Rust 中的类型实现`Send`、`Sync`，但是需要使用`newtype`，例如文中的原生指针例子
+4. 可以为部分 Rust 中的类型实现`Send`、`Sync`，但是需要使用`newtype`，例如文中的裸指针例子

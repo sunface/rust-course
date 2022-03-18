@@ -25,7 +25,7 @@
 | `*`                       | `expr * expr`                                           | 算术乘法                           | `Mul`          |
 | `*=`                      | `var *= expr`                                           | 算术乘法与赋值                     | `MulAssign`    |
 | `*`                       | `*expr`                                                 | 解引用                             |                |
-| `*`                       | `*const type`, `*mut type`                              | 原生指针                           |                |
+| `*`                       | `*const type`, `*mut type`                              | 裸指针                           |                |
 | `+`                       | `trait + trait`, `'a + trait`                           | 复合类型限制                       |                |
 | `+`                       | `expr + expr`                                           | 算术加法                           | `Add`          |
 | `+=`                      | `var += expr`                                           | 算术加法与赋值                     | `AddAssign`    |
