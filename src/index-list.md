@@ -45,25 +45,27 @@
 
 ## B
 
-| 名称       | 关键字    | 简介                                   |
-| ---------- | --------- | -------------------------------------- |
-| [变量遮蔽] | shadowing | 允许声明相同的变量名，后者会遮蔽掉前者 |
-| [布尔]     | bool      | `true` `false`，占用 1 字节            |
-| B          | KWB       | BIntroduction                          |
+| 名称        | 关键字    | 简介                                   |
+| ----------- | --------- | -------------------------------------- |
+| [变量遮蔽]  | shadowing | 允许声明相同的变量名，后者会遮蔽掉前者 |
+| [bool 布尔] | 布尔类型  | `true` `false`，占用 1 字节            |
+| B           | KWB       | BIntroduction                          |
 
 [变量遮蔽]: https://course.rs/basic/variable.html#变量遮蔽shadowing
-[布尔]: https://course.rs/basic/base-type/char-bool.html#布尔bool
+[bool 布尔]: https://course.rs/basic/base-type/char-bool.html#布尔bool
 
 [back](#head)
 
 ## C
 
-| 名称   | 关键字 | 简介                             |
-| ------ | ------ | -------------------------------- |
-| [常量] | const  | const MAX_POINTS: u32 = 100_000; |
-| C      | KWC    | CIntroduction                    |
+| 名称         | 关键字   | 简介                              |
+| ------------ | -------- | --------------------------------- |
+| [const 常量] | constant | const MAX_POINTS: u32 = 100_000;  |
+| [char 字符]  | 字符类型 | 使用 `''` 表示，所有的 Unicode 值 |
+| C            | KWC      | CIntroduction                     |
 
-[常量]: https://course.rs/basic/variable.html#变量和常量之间的差异
+[const 常量]: https://course.rs/basic/variable.html#变量和常量之间的差异
+[char 字符]: https://course.rs/basic/base-type/char-bool.html#字符类型char
 
 [back](#head)
 
@@ -197,14 +199,9 @@
 
 ## S
 
-| 名称         | 关键字   | 简介                                                                                                   |
-| ------------ | -------- | ------------------------------------------------------------------------------------------------------ |
-| [整数]       | 数值类型 | 有符号整数，`i8`,`i16`,`i32`,`i64`,`i128`,`isize`<br>无符号整数，`u8`,`u16`,`u32`,`u64`,`u128`,`usize` |
-| [整形字面量] | 进制书写 | 十进制 `98_222`<br>十六进制 `0xff`<br>八进制 `0o77`<br>二进制 `0b1111_0000`<br>字节(仅限于`u8`) `b'A'` |
-| S            | KWS      | SIntroduction                                                                                          |
-
-[整数]: https://course.rs/basic/base-type/numbers.html#整数类型
-[整形字面量]: https://course.rs/basic/base-type/numbers.html#整数类型
+| 名称 | 关键字 | 简介          |
+| ---- | ------ | ------------- |
+| S    | KWS    | SIntroduction |
 
 [back](#head)
 
@@ -242,12 +239,12 @@
 
 ## X
 
-| 名称   | 关键字 | 简介                                                                               |
-| ------ | ------ | ---------------------------------------------------------------------------------- |
-| [序列] | Range  | 生成连续的数值<br> 只允许用于数字或字符类型<br> `..` 右半开区间 <br>`..=` 闭合区间 |
-| X      | KWX    | XIntroduction                                                                      |
+| 名称         | 关键字 | 简介                                                                               |
+| ------------ | ------ | ---------------------------------------------------------------------------------- |
+| [Range 序列] |        | 生成连续的数值<br> 只允许用于数字或字符类型<br> `..` 右半开区间 <br>`..=` 闭合区间 |
+| X            | KWX    | XIntroduction                                                                      |
 
-[序列]: https://course.rs/basic/base-type/numbers.html#序列range
+[range 序列]: https://course.rs/basic/base-type/numbers.html#序列range
 
 [back](#head)
 
@@ -261,11 +258,13 @@
 
 ## Z
 
-| 名称       | 关键字 | 简介                              |
-| ---------- | ------ | --------------------------------- |
-| [字符类型] | char   | 使用 `''` 表示，所有的 Unicode 值 |
-| Z          | KWZ    | ZIntroduction                     |
+| 名称         | 关键字   | 简介                                                                                                   |
+| ------------ | -------- | ------------------------------------------------------------------------------------------------------ |
+| [整数]       | 数值类型 | 有符号整数，`i8`,`i16`,`i32`,`i64`,`i128`,`isize`<br>无符号整数，`u8`,`u16`,`u32`,`u64`,`u128`,`usize` |
+| [整形字面量] | 进制书写 | 十进制 `98_222`<br>十六进制 `0xff`<br>八进制 `0o77`<br>二进制 `0b1111_0000`<br>字节(仅限于`u8`) `b'A'` |
+| Z            | KWZ      | ZIntroduction                                                                                          |
 
-[字符类型]: https://course.rs/basic/base-type/char-bool.html#字符类型char
+[整数]: https://course.rs/basic/base-type/numbers.html#整数类型
+[整形字面量]: https://course.rs/basic/base-type/numbers.html#整数类型
 
 [back](#head)
