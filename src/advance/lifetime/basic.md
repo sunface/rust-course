@@ -578,7 +578,19 @@ Bang，一个复杂的玩意儿被甩到了你面前，就问怕不怕？
 就关键点稍微解释下：
 
 - `'a: 'b`，是生命周期约束语法，跟泛型约束非常相似，用于说明 `'a` 必须比 `'b` 活得久
-- 为了实现这一点，必须把 `'a` 和 `'b` 都在同一个地方声明，你不能把 `'a` 在 `impl` 后面声明，而把 `'b` 在方法中声明
+- 可以把 `'a` 和 `'b` 都在同一个地方声明（如上），或者分开声明但通过 `where 'a: 'b` 约束生命周期关系，如下：
+
+```rust
+impl<'a> ImportantExcerpt<'a> {
+    fn announce_and_return_part<'b>(&'a self, announcement: &'b str) -> &'b str
+    where
+        'a: 'b,
+    {
+        println!("Attention please: {}", announcement);
+        self.part
+    }
+}
+```
 
 总之，实现方法比想象中简单：加一个约束，就能暗示编译器，尽管引用吧，反正我想引用的内容比我活得久，爱咋咋地，我怎么都不会引用到无效的内容！
 
