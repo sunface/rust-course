@@ -143,7 +143,7 @@ pub fn eat_at_restaurant() {
 
 ## 使用第三方包
 
-之前我们一直在引入标准库模块或者自定义模块，现在来引入下第三方包中的模块，关于如何引入外部依赖，我们在 [Cargo 入门](../../first-try/cargo.md#package配置段落)中就有讲，这里直接给出操作步骤：
+之前我们一直在引入标准库模块或者自定义模块，现在来引入下第三方包中的模块，关于如何引入外部依赖，我们在 [Cargo 入门](https://course.rs/first-try/cargo.html#package-配置段落)中就有讲，这里直接给出操作步骤：
 
 1. 修改 `Cargo.toml` 文件，在 `[dependencies]` 区域添加一行：`rand = "0.8.3"`
 2. 此时，如果你用的是 `VSCode` 和 `rust-analyzer` 插件，该插件会自动拉取该库，你可能需要等它完成后，再进行下一步（VSCode 左下角有提示）
