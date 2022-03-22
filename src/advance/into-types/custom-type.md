@@ -110,7 +110,7 @@ type Meters = u32
 **类型别名并不是一个独立的全新的类型，而是某一个类型的别名**，因此编译器依然会把 `Meters` 当 `u32` 来使用：
 
 ```rust
-type Meters = i32;
+type Meters = u32;
 
 let x: u32 = 5;
 let y: Meters = 5;
