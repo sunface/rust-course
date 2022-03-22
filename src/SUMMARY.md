@@ -218,6 +218,7 @@
       - [基本操作](too-many-lists/unsafe-queue/basics.md)
       - [Miri](too-many-lists/unsafe-queue/miri.md)
       - [栈借用](too-many-lists/unsafe-queue/stacked-borrow.md)
+      - [测试栈借用](too-many-lists/unsafe-queue/testing-stacked-borrow.md)
 - [Rust 性能优化 todo](profiling/intro.md)
   - [深入内存 todo](profiling/memory/intro.md)
     - [指针和引用 todo](profiling/memory/pointer-ref.md)
