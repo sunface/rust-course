@@ -46,14 +46,16 @@
 
 ## B
 
-| 名称        | 关键字    | 简介                                   |
-| ----------- | --------- | -------------------------------------- |
-| [变量遮蔽]  | shadowing | 允许声明相同的变量名，后者会遮蔽掉前者 |
-| [表达式]    |           | 进行求值，结尾无 `;`，有返回值         |
-| [bool 布尔] | 布尔类型  | `true` `false`，占用 1 字节            |
-| B           | KWB       | BIntroduction                          |
+| 名称         | 关键字    | 简介                                   |
+| ------------ | --------- | -------------------------------------- |
+| [变量遮蔽]   | shadowing | 允许声明相同的变量名，后者会遮蔽掉前者 |
+| [变量作用域] | 所有权    | 作用域是一个变量在程序中有效的范围     |
+| [表达式]     |           | 进行求值，结尾无 `;`，有返回值         |
+| [bool 布尔]  | 布尔类型  | `true` `false`，占用 1 字节            |
+| B            | KWB       | BIntroduction                          |
 
 [变量遮蔽]: https://course.rs/basic/variable.html#变量遮蔽shadowing
+[变量作用域]: https://course.rs/basic/ownership/ownership.html#变量作用域
 [bool 布尔]: https://course.rs/basic/base-type/char-bool.html#布尔bool
 [表达式]: https://course.rs/basic/base-type/statement-expression.html#表达式
 
@@ -61,14 +63,18 @@
 
 ## C
 
-| 名称         | 关键字   | 简介                              |
-| ------------ | -------- | --------------------------------- |
-| [char 字符]  | 字符类型 | 使用 `''` 表示，所有的 Unicode 值 |
-| [const 常量] | constant | const MAX_POINTS: u32 = 100_000;  |
-| C            | KWC      | CIntroduction                     |
+| 名称         | 关键字   | 简介                                                                                |
+| ------------ | -------- | ----------------------------------------------------------------------------------- |
+| [char 字符]  | 字符类型 | 使用 `''` 表示，所有的 Unicode 值                                                   |
+| [const 常量] | constant | const MAX_POINTS: u32 = 100_000;                                                    |
+| [Copy 拷贝]  | 浅拷贝   | 任何基本类型的组合可以 `Copy`，不需要分配内存或某种形式资源的类型是可以 `Copy` 的。 |
+| [Clone 克隆] | 深拷贝   | 需要复制堆上的数据时，可以使用 `.clone()` 方法                                      |
+| C            | KWC      | CIntroduction                                                                       |
 
 [char 字符]: https://course.rs/basic/base-type/char-bool.html#字符类型char
 [const 常量]: https://course.rs/basic/variable.html#变量和常量之间的差异
+[copy 拷贝]: https://course.rs/basic/ownership/ownership.html#拷贝浅拷贝
+[clone 克隆]: https://course.rs/basic/ownership/ownership.html#克隆深拷贝
 
 [back](#head)
 
@@ -157,9 +163,12 @@
 
 ## M
 
-| 名称 | 关键字 | 简介          |
-| ---- | ------ | ------------- |
-| M    | KWM    | MIntroduction |
+| 名称        | 关键字     | 简介                                                  |
+| ----------- | ---------- | ----------------------------------------------------- |
+| [move 移动] | 转移所有权 | `let s2 = s1;`<br>`s1` 所有权转移给了 `s2`，`s1` 失效 |
+| M           | KWM        | MIntroduction                                         |
+
+[move 移动]: https://course.rs/basic/ownership/ownership.html#转移所有权
 
 [back](#head)
 
@@ -208,9 +217,14 @@
 
 ## S
 
-| 名称 | 关键字 | 简介          |
-| ---- | ------ | ------------- |
-| S    | KWS    | SIntroduction |
+| 名称           | 关键字 | 简介                                                                                                   |
+| -------------- | ------ | ------------------------------------------------------------------------------------------------------ |
+| [所有权与堆栈] |        | Rust 所有权提供的强大保障                                                                              |
+| [所有权原则]   |        | Rust 中每一个值都 `有且只有` 一个所有者(变量)<br> 当所有者(变量)离开作用域范围时，这个值将被丢弃(drop) |
+| S              | KWS    | SIntroduction                                                                                          |
+
+[所有权与堆栈]: https://course.rs/basic/ownership/ownership.html#所有权与堆栈
+[所有权原则]: https://course.rs/basic/ownership/ownership.html#所有权原则
 
 [back](#head)
 
