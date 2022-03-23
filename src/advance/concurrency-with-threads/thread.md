@@ -516,7 +516,7 @@ fn main() {
 
 ## 总结
 
-[Rust 的线程模型](./intro.md)是 `1:1` 模型，因为 Rust 要保持尽量小的运行时。
+[Rust 的线程模型](advance/concurrency-with-threads/intro.md)是 `1:1` 模型，因为 Rust 要保持尽量小的运行时。
 
 我们可以使用 `thread::spawn` 来创建线程，创建出的多个线程之间并不存在执行顺序关系，因此代码逻辑千万不要依赖于线程间的执行顺序。
 

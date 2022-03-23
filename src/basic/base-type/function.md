@@ -168,7 +168,7 @@ error[E0308]: mismatched types // 类型不匹配
   |          - help: consider removing this semicolon
 ```
 
-还记得我们在[语句与表达式](./statement-expression.md)中讲过的吗？只有表达式能返回值，而 `;` 结尾的是语句，在 Rust 中，一定要严格区分**表达式**和**语句**的区别，这个在其它语言中往往是被忽视的点。
+还记得我们在[语句与表达式](basic/base-type/statement-expression.md)中讲过的吗？只有表达式能返回值，而 `;` 结尾的是语句，在 Rust 中，一定要严格区分**表达式**和**语句**的区别，这个在其它语言中往往是被忽视的点。
 
 ##### 永不返回的函数`!`
 

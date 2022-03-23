@@ -708,7 +708,7 @@ help: use `impl Fn(i32) -> i32` as the return type, as all return paths are of t
 
 嗯，编译器提示我们加一个 `impl` 关键字，哦，这样一说，读者可能就想起来了，`impl Trait` 可以用来返回一个实现了指定特征的类型，那么这里 `impl Fn(i32) -> i32` 的返回值形式，说明我们要返回一个闭包类型，它实现了 `Fn(i32) -> i32` 特征。
 
-完美解决，但是，在[特征](../../basic/trait/trait.md)那一章，我们提到过，`impl Trait` 的返回方式有一个非常大的局限，就是你只能返回同样的类型，例如：
+完美解决，但是，在[特征](basic/trait/trait.md)那一章，我们提到过，`impl Trait` 的返回方式有一个非常大的局限，就是你只能返回同样的类型，例如：
 
 ```rust
 fn factory(x:i32) -> impl Fn(i32) -> i32 {

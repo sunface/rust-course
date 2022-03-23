@@ -100,7 +100,7 @@ let s = "hello"
 
 #### 简单介绍 String 类型
 
-之前提到过，本章会用 `String` 作为例子，因此这里会进行一下简单的介绍，具体的 `String` 学习请参见 [String 类型](../compound-type/string-slice.md)。
+之前提到过，本章会用 `String` 作为例子，因此这里会进行一下简单的介绍，具体的 `String` 学习请参见 [String 类型](basic/compound-type/string-slice.md)。
 
 我们已经见过字符串字面值 `let s ="hello"`，`s` 是被硬编码进程序里的字符串值（类型为 `&str` ）。字符串字面值是很方便的，但是它并不适用于所有场景。原因有二：
 

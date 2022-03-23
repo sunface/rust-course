@@ -169,7 +169,7 @@ help: to force the async block to take ownership of `v` (and any other
 
 在报错的同时，Rust 编译器还给出了相当有帮助的提示：为 `async` 语句块使用 `move` 关键字，这样就能将 `v` 的所有权从 `main` 函数转移到新创建的任务中。
 
-但是 `move` 有一个问题，一个数据只能被一个任务使用，如果想要多个任务使用一个数据，就有些强人所难。不知道还有多少同学记得 [`Arc`](../advance/smart-pointer/rc-arc.md)，它可以轻松解决该问题，还是线程安全的。
+但是 `move` 有一个问题，一个数据只能被一个任务使用，如果想要多个任务使用一个数据，就有些强人所难。不知道还有多少同学记得 [`Arc`](advance/smart-pointer/rc-arc.md)，它可以轻松解决该问题，还是线程安全的。
 
 在上面的报错中，还有一句很奇怪的信息`function requires argument type to outlive 'static`， 函数要求参数类型的生命周期必须比 `'static` 长，问题是 `'static` 已经活得跟整个程序一样久了，难道函数的参数还能活得更久？大家可能会觉得编译器秀逗了，毕竟其它语言编译器也有秀逗的时候:)
 

@@ -86,7 +86,7 @@ fn main() {
 }
 ```
 
-对于数值、字符串、数组，可以直接使用 `{:?}` 进行输出，但是对于结构体，需要[派生`Debug`](../appendix/derive.md)特征后，才能进行输出，总之很简单。
+对于数值、字符串、数组，可以直接使用 `{:?}` 进行输出，但是对于结构体，需要[派生`Debug`](appendix/derive.md)特征后，才能进行输出，总之很简单。
 
 #### `Display` 特征
 
@@ -168,7 +168,7 @@ fn main() {
 
 #### 为外部类型实现 `Display` 特征
 
-在 Rust 中，无法直接为外部类型实现外部特征，但是可以使用[`newtype`](./custom-type.md#newtype)解决此问题：
+在 Rust 中，无法直接为外部类型实现外部特征，但是可以使用[`newtype`](advance/into-types/custom-type.md#newtype)解决此问题：
 
 ```rust
 struct Array(Vec<i32>);

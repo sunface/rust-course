@@ -55,7 +55,7 @@ error[E0658]: `let` expressions in this position are experimental
 
 ```
 
-以上的错误告诉我们 `let` 是语句，不是表达式，因此它不返回值，也就不能给其它变量赋值。但是该错误还透漏了一个重要的信息， `let` 作为表达式已经是试验功能了，也许不久的将来，我们在 [`stable rust`](../../appendix/rust-version.md) 下可以这样使用。
+以上的错误告诉我们 `let` 是语句，不是表达式，因此它不返回值，也就不能给其它变量赋值。但是该错误还透漏了一个重要的信息， `let` 作为表达式已经是试验功能了，也许不久的将来，我们在 [`stable rust`](appendix/rust-version.md) 下可以这样使用。
 
 ## 表达式
 
