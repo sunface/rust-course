@@ -339,7 +339,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 因此在通过索引区间来访问字符串时，**需要格外的小心**，一不注意，就会导致你程序的崩溃！
 
-## 操作 UTF8 字符串
+## 操作 UTF-8 字符串
 
 前文提到了几种使用 UTF-8 字符串的方式，下面来一一说明。
 

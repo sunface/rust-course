@@ -8,7 +8,7 @@ Rust 语言的类型可以大致分为两种：基本类型和标准库类型，
 ## str
 如上所述，`str` 是唯一定义在 Rust 语言特性中的字符串，但是也是我们几乎不会用到的字符串类型，为何？
 
-原因在于 `str` 字符串它是 [`DST` 动态大小类型](https://course.rs/advance/custom-type.html#动态大小类型)，这意味着编译器无法在编译期知道 `str` 类型的大小，只有到了运行期才能动态获知，这对于强类型、强安全的 Rust 语言来说是不可接受的。
+原因在于 `str` 字符串它是 [`DST` 动态大小类型](https://course.rs/advance/into-types/sized.html#动态大小类型-dst)，这意味着编译器无法在编译期知道 `str` 类型的大小，只有到了运行期才能动态获知，这对于强类型、强安全的 Rust 语言来说是不可接受的。
 
 ```rust
 let string: str = "banana";
@@ -28,7 +28,7 @@ error[E0277]: the size for values of type `str` cannot be known at compilation t
 
 同时还是 String 和 &str 的底层数据类型。 由于 str 是动态
 
-`str` 类型是硬编码进可执行文件，也无法被修改，但是 `String` 则是一个可增长、可改变且具有所有权的 UTF8 编码字符串，**当 Rust 用户提到字符串时，往往指的就是 `String` 类型和 `&str` 字符串切片类型，这两个类型都是 UTF8 编码**。
+`str` 类型是硬编码进可执行文件，也无法被修改，但是 `String` 则是一个可增长、可改变且具有所有权的 UTF-8 编码字符串，**当 Rust 用户提到字符串时，往往指的就是 `String` 类型和 `&str` 字符串切片类型，这两个类型都是 UTF-8 编码**。
 
 除了 `String` 类型的字符串，Rust 的标准库还提供了其他类型的字符串，例如 `OsString`， `OsStr`， `CsString` 和` CsStr` 等，注意到这些名字都以 `String` 或者 `Str` 结尾了吗？它们分别对应的是具有所有权和被借用的变量。
     
