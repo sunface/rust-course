@@ -63,3 +63,8 @@
 ::-webkit-scrollbar {
     width: 7px;
 }
+
+/* 表格靠左对齐 */
+table {
+    margin-left: 0 !important;
+}
