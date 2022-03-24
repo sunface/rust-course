@@ -21,6 +21,7 @@
         width: 200px;
         height: calc(100vh - var(--menu-bar-height) - 0.67em * 4);
         overflow: auto;
+        z-index: 1000;
     }
     .pagetoc a {
         border-left: 1px solid var(--sidebar-bg);
