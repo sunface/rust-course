@@ -18,6 +18,8 @@
   - [Rust语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，精选过去一周的技术文章、业界新闻、开源项目和 Rust 语言动态
   - [Rust酷库推荐](https://github.com/sunface/fancy-rust)，优秀项目很多，如何在茫茫码海中与它们相遇？相比 Awesome Rust，它能带给你全新的体验和选择
 
+- 创作团队: RustTT翻译组，除了这本书之外，翻译组还有大量优秀的 Rust 书籍文章，感兴趣的同学可以[点击这里查看](https://rusttt.org)
+
 
 ## 教程简介
 
@@ -67,6 +69,7 @@ QQ群 1009730433， 欢迎大家加入，一起 happy，一起进步。
 - [@zongzi531](https://github.com/zongzi531)
 
 尤其感谢这些主要贡献者，谢谢你们花费大量时间贡献了多处`fix`和高质量的内容优化。非常感动，再次感谢～～
+
 
 ## 借鉴的书籍
 
