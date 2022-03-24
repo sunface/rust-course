@@ -1,7 +1,7 @@
 <h1 align="center">Rust语言圣经</h1>
 
 <div align="center">
-    <img height="150" src="https://github.com/sunface/rust-by-practice/blob/master/assets/logo.png?raw=true">
+    <img height="150" src="https://github.com/sunface/rust-by-practice/blob/master/en/assets/logo.png?raw=true">
 </div>
    
 <div align="center">
@@ -17,6 +17,8 @@
   - [Rust语言实战](https://github.com/sunface/rust-by-practice)，它是本书的配套练习册，提供了大量有挑战性的示例、练习和实践项目，帮助大家解决 Rust 语言从学习到实战的问题 — 毕竟这之间还隔着好几个 Go 语言的难度 :D
   - [Rust语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，精选过去一周的技术文章、业界新闻、开源项目和 Rust 语言动态
   - [Rust酷库推荐](https://github.com/sunface/fancy-rust)，优秀项目很多，如何在茫茫码海中与它们相遇？相比 Awesome Rust，它能带给你全新的体验和选择
+
+- 创作团队: [RustTT 翻译组](https://rusttt.org)，目前最专业的 Rust 翻译组织，这里有 Rust 技术文章、学习教程和新闻资讯的高质量中文翻译
 
 
 ## 教程简介
@@ -67,6 +69,7 @@ QQ群 1009730433， 欢迎大家加入，一起 happy，一起进步。
 - [@zongzi531](https://github.com/zongzi531)
 
 尤其感谢这些主要贡献者，谢谢你们花费大量时间贡献了多处`fix`和高质量的内容优化。非常感动，再次感谢～～
+
 
 ## 借鉴的书籍
 
