@@ -43,52 +43,62 @@
 
 总之在写作过程中我们始终铭记初心：为中国用户打造一门**全面的、深入的、持续更新的** Rust 教程。 新手用来入门，老手用来提高，高手用来提升生产力。
 
-## 贡献者
+## 🏅 贡献者
 
 非常感谢本教程的[所有贡献者](https://github.com/sunface/rust-course/graphs/contributors)，正是有了你们，才有了现在的高质量 Rust 教程!
 
-尤其感谢以下贡献者，谢谢你们花费大量时间贡献了多处`fix`和高质量的内容优化。非常感动，再次感谢～～
-
+**🏆 贡献榜前三**(根据难易度、贡献次数、活跃度综合评定):
 <table>
     <tr>
-        <td align="center" width="30%">
+        <td align="center" width="25%">
+            <a href="https://github.com/sunface">
+                <img src="https://avatars.githubusercontent.com/u/7036754?v=4?s=100"   alt=""/>
+                <br />
+                <sub><b>Sunface 🥇</b></sub>
+            </a>
+        </td>
+        <td align="center" width="25%">
             <a href="https://github.com/AllanDowney">
                 <img src="https://avatars.githubusercontent.com/u/82752697?v=4?s=100"   alt=""/>
                 <br />
-                <sub><b>AllanDowney</b></sub>
+                <sub><b>AllanDowney 🥈</b></sub>
             </a>
         </td>
-        <td align="center" width="30%">
+        <td align="center" width="25%">
             <a href="https://github.com/JesseAtSZ">
                 <img src="https://avatars.githubusercontent.com/u/35264598?v=4?s=100"  alt=""/>
                 <br />
-                <sub><b>JesseAtSZ</b></sub>
+                <sub><b>JesseAtSZ 🥉</b></sub>
             </a>
         </td>
-        <td align="center" width="30%">
+    </tr>
+</table>
+
+🏅 核心贡献者: 
+<table>
+    <tr>
+        <td align="center" width="25%">
             <a href="https://github.com/1132719438">
                 <img src="https://avatars.githubusercontent.com/u/10138791?v=4?s=100" alt=""/>
                 <br />
                 <sub><b>1132719438</b></sub>
             </a>
         </td>
-    </tr>
-    <tr>
-        <td align="center" width="30%">
+        <td align="center" width="25%">
             <a href="https://github.com/zongzi531">
                 <img src="https://avatars.githubusercontent.com/u/22429236?v=4?s=100"  alt=""/>
                 <br />
                 <sub><b>zongzi531</b></sub>
             </a>
         </td>
-        <td align="center" width="30%">
+        <td align="center" width="25%">
             <a href="https://github.com/Mintnoii">
                 <img src="https://avatars.githubusercontent.com/u/30466018?v=4?s=100"  alt=""/>
                 <br />
                 <sub><b>Mintnoii</b></sub>
             </a>
         </td>
-        <td align="center" width="30%">
+        <td align="center" width="25%">
             <a href="https://github.com/Rustln">
                 <img src="https://avatars.githubusercontent.com/u/100085326?v=4?s=100" alt=""/>
                 <br />
