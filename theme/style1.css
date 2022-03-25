@@ -19,7 +19,7 @@
     .pagetoc {
         position: fixed;
         width: 200px;
-        height: calc(100vh - var(--menu-bar-height) - 20rem);
+        height: calc(100vh - var(--menu-bar-height) - 10rem);
         overflow: auto;
         z-index: 1000;
     }
@@ -62,7 +62,7 @@
 
 /* 修改滚动条宽度 */
 ::-webkit-scrollbar {
-    width: 7px;
+    width: 5px;
 }
 
 /* 表格靠左对齐 */
