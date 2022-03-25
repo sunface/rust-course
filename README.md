@@ -10,17 +10,13 @@
 <a href="https://www.zhihu.com/column/c_1452781034895446017">
   <img alt="Sunface | 知乎" height="20px" width="25px" src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=493147230,3096476255&amp;fm=195&amp;app=88&amp;f=JPEG?w=200&amp;h=200">
 </a>
+    
+在线阅读: [https://course.rs](https://course.rs)
+    
 </div>
 
-- 在线阅读: [https://course.rs](https://course.rs)
+
   
-- 优秀学习资源
-  - [Rust语言实战](https://github.com/sunface/rust-by-practice)，它是本书的配套练习册，提供了大量有挑战性的示例、练习和实践项目，帮助大家解决 Rust 语言从学习到实战的问题 — 毕竟这之间还隔着好几个 Go 语言的难度 :D
-  - [Rust语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，精选过去一周的技术文章、业界新闻、开源项目和 Rust 语言动态
-  - [Rust酷库推荐](https://github.com/sunface/fancy-rust)，优秀项目很多，如何在茫茫码海中与它们相遇？相比 Awesome Rust，它能带给你全新的体验和选择
-  - [RustTT 翻译组](https://rusttt.org)，目前最专业的 Rust 翻译组织，这里有 Rust 技术文章、学习教程和新闻资讯的高质量中文翻译
-
-
 ## 教程简介
 
 **`Rust语言圣经`**涵盖从**入门到精通**所需的 Rust 知识，目录及内容都经过深思熟虑的设计，同时语言生动幽默，行文流畅自如，摆脱技术书籍常有的机器味和晦涩感。
@@ -38,6 +34,13 @@
 - **配套练习题**，像学习一门大学课程一样学习 Rust 是一种什么感觉？*Rust语言圣经 + [Rust语言实战](https://github.com/sunface/rust-by-practice)* 双剑合璧，给你最极致的学习体验
 
 总之在写作过程中我们始终铭记初心：为中国用户打造一门**全面的、深入的、持续更新的** Rust 教程。 新手用来入门，老手用来提高，高手用来提升生产力。
+
+## 配套学习资源 
+
+- [Rust语言实战](https://github.com/sunface/rust-by-practice)，它是本书的配套练习册，提供了大量有挑战性的示例、练习和实践项目，帮助大家解决 Rust 语言从学习到实战的问题 — 毕竟这之间还隔着好几个 Go 语言的难度 :D
+- [Rust语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，精选过去一周的技术文章、业界新闻、开源项目和 Rust 语言动态
+- [Rust酷库推荐](https://github.com/sunface/fancy-rust)，优秀项目很多，如何在茫茫码海中与它们相遇？相比 Awesome Rust，它能带给你全新的体验和选择
+- [RustTT 翻译组](https://rusttt.org)，目前最专业的 Rust 翻译组织，这里有 Rust 技术文章、学习教程和新闻资讯的高质量中文翻译
 
 ## 🏅 贡献者
 
