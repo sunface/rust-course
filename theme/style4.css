@@ -57,7 +57,7 @@
 .chapter li.chapter-item {
     /* 没有文件时的文字颜色 */
     color: #939da3;
-    margin-top: 1.2rem;
+    margin-top: 1rem;
 }
 
 /* 修改滚动条宽度 */
@@ -69,3 +69,4 @@
 table {
     margin-left: 0 !important;
 }
+
