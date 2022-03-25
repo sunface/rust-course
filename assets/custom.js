@@ -76,6 +76,30 @@ var initAll = function () {
     // Handle active elements on scroll
     window.addEventListener("scroll", updateFunction);
 
+    document.getElementById("theme-list").addEventListener("click", function (e) {
+        var iframe = document.querySelector('.giscus-frame');
+        if (!iframe) return;
+        var theme;
+        if (e.target.className === "theme") {
+            theme = e.target.id;
+        } else {
+            return;
+        }
+
+        // 若当前 mdbook 主题不是 Light 或 Rust ，则将 giscuz 主题设置为 transparent_dark
+        var giscusTheme = "light"
+        if (theme != "light" && theme != "rust") {
+            giscusTheme = "transparent_dark";
+        }
+
+        var msg = {
+            setConfig: {
+                theme: giscusTheme
+            }
+        };
+        iframe.contentWindow.postMessage({ giscus: msg }, 'https://giscus.app');
+    });
+    
     pagePath = pagePath.replace("index.md", "");
     pagePath = pagePath.replace(".md", "");
     if (pagePath.length > 0) {
