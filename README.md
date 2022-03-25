@@ -47,6 +47,8 @@
 
 非常感谢本教程的[所有贡献者](https://github.com/sunface/rust-course/graphs/contributors)，正是有了你们，才有了现在的高质量 Rust 教程!
 
+<br />
+
 **🏆 贡献榜前三**(根据难易度、贡献次数、活跃度综合评定):
 <table>
     <tr>
@@ -74,7 +76,9 @@
     </tr>
 </table>
 
-🏅 核心贡献者: 
+<br />
+
+🏅 优秀贡献者: 
 <table>
     <tr>
         <td align="center" width="25%">
