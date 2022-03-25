@@ -76,21 +76,21 @@
     <tr>
         <td align="center" width="30%">
             <a href="https://github.com/zongzi531">
-                <img src="https://avatars.githubusercontent.com/u/24353799?v=4?s=100?s=100"  alt=""/>
+                <img src="https://avatars.githubusercontent.com/u/22429236?v=4?s=100"  alt=""/>
                 <br />
                 <sub><b>zongzi531</b></sub>
             </a>
         </td>
         <td align="center" width="30%">
             <a href="https://github.com/Mintnoii">
-                <img src="https://avatars.githubusercontent.com/u/44204137?v=4?s=100"  alt=""/>
+                <img src="https://avatars.githubusercontent.com/u/30466018?v=4?s=100"  alt=""/>
                 <br />
                 <sub><b>Mintnoii</b></sub>
             </a>
         </td>
         <td align="center" width="30%">
             <a href="https://github.com/Rustln">
-                <img src="https://avatars.githubusercontent.com/u/37741552?v=4?s=100" alt=""/>
+                <img src="https://avatars.githubusercontent.com/u/100085326?v=4?s=100" alt=""/>
                 <br />
                 <sub><b>Rustln</b></sub>
             </a>
