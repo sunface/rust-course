@@ -14,7 +14,7 @@
 
 在命名方面，和其它语言没有区别，不过当给变量命名时，需要遵循 [Rust 命名规范](https://course.rs/practice/naming.html)。
 
-> Rust 语言有一些**关键字**（_keywords_），和其他语言一样，这些关键字都是被保留给 Rust 语言使用的，因此，它们不能被用作变量或函数的名称。在 [附录 A](../appendix/keywords) 中可找到关键字列表。
+> Rust 语言有一些**关键字**（_keywords_），和其他语言一样，这些关键字都是被保留给 Rust 语言使用的，因此，它们不能被用作变量或函数的名称。在 [附录 A](https://course.rs/appendix/keywords.html) 中可找到关键字列表。
 
 ## 变量绑定
 
@@ -145,7 +145,7 @@ fn main() {
 - 常量不允许使用 `mut`。**常量不仅仅默认不可变，而且自始至终不可变**，因为常量在编译完成后，已经确定它的值。
 - 常量使用 `const` 关键字而不是 `let` 关键字来声明，并且值的类型**必须**标注。
 
-我们将在下一节[数据类型](./base-type/index.md)中介绍，因此现在暂时无需关心细节。
+我们将在下一节[数据类型](https://course.rs/basic/base-type/index.html)中介绍，因此现在暂时无需关心细节。
 
 下面是一个常量声明的例子，其常量名为 `MAX_POINTS`，值设置为 `100,000`。（Rust 常量的命名约定是全部字母都使用大写，并使用下划线分隔单词，另外对数字字面量可插入下划线以提高可读性）：
 
@@ -222,7 +222,7 @@ error[E0308]: mismatched types
 error: aborting due to previous error
 ```
 
-显然，Rust 对类型的要求很严格，不允许将整数类型 `usize` 赋值给字符串类型。`usize` 是一种 CPU 相关的整数类型，在[数值类型](./base-type/numbers#整数类型)中有详细介绍。
+显然，Rust 对类型的要求很严格，不允许将整数类型 `usize` 赋值给字符串类型。`usize` 是一种 CPU 相关的整数类型，在[数值类型](https://course.rs/basic/base-type/numbers.html#整数类型)中有详细介绍。
 
 万事开头难，到目前为止，都进展很顺利，那下面开始，咱们正式进入 Rust 的类型世界，看看有哪些挑战在前面等着大家。
 

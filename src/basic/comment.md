@@ -387,7 +387,7 @@ pub struct BigY;
 Created binary (application) `art` package
 ```
 
-系统提示我们创建了一个二进制 `Package`，根据[之前章节](./crate-module/crate.md)学过的内容，可以知道该 `Package` 包含一个同名的二进制包：包名为 `art`，包根为 `src/main.rs`，该包可以编译成二进制然后运行。
+系统提示我们创建了一个二进制 `Package`，根据[之前章节](https://course.rs/basic/crate-module/crate.html)学过的内容，可以知道该 `Package` 包含一个同名的二进制包：包名为 `art`，包根为 `src/main.rs`，该包可以编译成二进制然后运行。
 
 现在，在 `src` 目录下创建一个 `lib.rs` 文件，同样，根据之前学习的知识，创建该文件等于又创建了一个库类型的包，包名也是 `art`，包根为 `src/lib.rs`，该包是是库类型的，因此往往作为依赖库被引入。
 

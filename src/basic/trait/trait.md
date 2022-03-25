@@ -339,11 +339,11 @@ fn returns_summarizable(switch: bool) -> impl Summary {
 expected struct `Post`, found struct `Weibo`
 ```
 
-报错提示我们 `if` 和 `else` 返回了不同的类型。如果想要实现返回不同的类型，需要使用下一章节中的[特征对象](./trait-object.md)。
+报错提示我们 `if` 和 `else` 返回了不同的类型。如果想要实现返回不同的类型，需要使用下一章节中的[特征对象](https://course.rs/basic/trait/trait-object.html)。
 
 ## 修复上一节中的 `largest` 函数
 
-还记得上一节中的[例子](./generic#泛型详解)吧，当时留下一个疑问，该如何解决编译报错：
+还记得上一节中的[例子](https://course.rs/basic/trait/generic.html#泛型详解)吧，当时留下一个疑问，该如何解决编译报错：
 
 ```rust
 error[E0369]: binary operation `>` cannot be applied to type `T` // 无法在 `T` 类型上应用`>`运算符
@@ -390,7 +390,7 @@ error[E0507]: cannot move out of borrowed content
   |         cannot move out of borrowed content
 ```
 
-错误的核心是 `cannot move out of type [T], a non-copy slice`，原因是 `T` 没有[实现 `Copy` 特性](../ownership/ownership.md#拷贝浅拷贝)，因此我们只能把所有权进行转移，毕竟只有 `i32` 等基础类型才实现了 `Copy` 特性，可以存储在栈上，而 `T` 可以指代任何类型（严格来说是实现了 `PartialOrd` 特征的所有类型）。
+错误的核心是 `cannot move out of type [T], a non-copy slice`，原因是 `T` 没有[实现 `Copy` 特性](https://course.rs/basic/ownership/ownership.html#拷贝浅拷贝)，因此我们只能把所有权进行转移，毕竟只有 `i32` 等基础类型才实现了 `Copy` 特性，可以存储在栈上，而 `T` 可以指代任何类型（严格来说是实现了 `PartialOrd` 特征的所有类型）。
 
 因此，为了让 `T` 拥有 `Copy` 特性，我们可以增加特征约束：
 
@@ -420,7 +420,7 @@ fn main() {
 }
 ```
 
-如果并不希望限制 `largest` 函数只能用于实现了 `Copy` 特征的类型，我们可以在 `T` 的特征约束中指定 [`Clone` 特征](../ownership/ownership.md#克隆深拷贝) 而不是 `Copy` 特征。并克隆 `list` 中的每一个值使得 `largest` 函数拥有其所有权。使用 `clone` 函数意味着对于类似 `String` 这样拥有堆上数据的类型，会潜在地分配更多堆上空间，而堆分配在涉及大量数据时可能会相当缓慢。
+如果并不希望限制 `largest` 函数只能用于实现了 `Copy` 特征的类型，我们可以在 `T` 的特征约束中指定 [`Clone` 特征](https://course.rs/basic/ownership/ownership.html#克隆深拷贝) 而不是 `Copy` 特征。并克隆 `list` 中的每一个值使得 `largest` 函数拥有其所有权。使用 `clone` 函数意味着对于类似 `String` 这样拥有堆上数据的类型，会潜在地分配更多堆上空间，而堆分配在涉及大量数据时可能会相当缓慢。
 
 另一种 `largest` 的实现方式是返回在 `list` 中 `T` 值的引用。如果我们将函数返回值从 `T` 改为 `&T` 并改变函数体使其能够返回一个引用，我们将不需要任何 `Clone` 或 `Copy` 的特征约束而且也不会有任何的堆分配。尝试自己实现这种替代解决方式吧！
 
@@ -434,7 +434,7 @@ fn main() {
 
 总之，`derive` 派生出来的是 Rust 默认给我们提供的特征，在开发过程中极大的简化了自己手动实现相应特征的需求，当然，如果你有特殊的需求，还可以自己手动重载该实现。
 
-详细的 `derive` 列表参见[附录-派生特征](../../appendix/derive.md)。
+详细的 `derive` 列表参见[附录-派生特征](https://course.rs/appendix/derive.html)。
 
 ## 调用方法需要引入特征
 
@@ -458,13 +458,13 @@ fn main() {
 
 上面代码中引入了 `std::convert::TryInto` 特征，但是却没有使用它，可能有些同学会为此困惑，主要原因在于**如果你要使用一个特征的方法，那么你需要引入该特征到当前的作用域中**，我们在上面用到了 `try_into` 方法，因此需要引入对应的特征。
 
-但是 Rust 又提供了一个非常便利的办法，即把最常用的标准库中的特征通过 [`std::prelude`](std::convert::TryInto) 模块提前引入到当前作用域中，其中包括了 `std::convert::TryInto`，你可以尝试删除第一行的代码 `use ...`，看看是否会报错。
+但是 Rust 又提供了一个非常便利的办法，即把最常用的标准库中的特征通过 [`std::prelude`](https://course.rs/appendix/prelude.html) 模块提前引入到当前作用域中，其中包括了 `std::convert::TryInto`，你可以尝试删除第一行的代码 `use ...`，看看是否会报错。
 
 ## 几个综合例子
 
 #### 为自定义类型实现 `+` 操作
 
-在 Rust 中除了数值类型的加法，`String` 也可以做[加法](../compound-type/string-slice.md#操作字符串)，因为 Rust 为该类型实现了 `std::ops::Add` 特征，同理，如果我们为自定义类型实现了该特征，那就可以自己实现 `Point1 + Point2` 的操作:
+在 Rust 中除了数值类型的加法，`String` 也可以做[加法](https://course.rs/basic/compound-type/string-slice.html#操作字符串)，因为 Rust 为该类型实现了 `std::ops::Add` 特征，同理，如果我们为自定义类型实现了该特征，那就可以自己实现 `Point1 + Point2` 的操作:
 
 ```rust
 use std::ops::Add;

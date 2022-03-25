@@ -39,7 +39,7 @@ fn count(self) -> usize
 
 ## 迭代器回顾
 
-在[迭代器](../advance/functional-programing/iterator.md#消费者与适配器)章节中，我们曾经学习过两个概念：迭代器适配器和消费者适配器，前者用于对迭代器中的元素进行操作，最终生成一个新的迭代器，例如`map`、`filter`等方法；而后者用于消费掉迭代器，最终产生一个结果，例如`collect`方法, 一个典型的示例如下：
+在[迭代器](https://course.rs/advance/functional-programing/iterator.html#消费者与适配器)章节中，我们曾经学习过两个概念：迭代器适配器和消费者适配器，前者用于对迭代器中的元素进行操作，最终生成一个新的迭代器，例如`map`、`filter`等方法；而后者用于消费掉迭代器，最终产生一个结果，例如`collect`方法, 一个典型的示例如下：
 
 ```rust
 let v1: Vec<i32> = vec![1, 2, 3];

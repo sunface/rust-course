@@ -10,11 +10,11 @@
 
 <a id="head"></a>
 
-|     NN      |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |
-| :---------: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
-| [Sym](#Sym) | [A](#A) | [B](#B) | [C](#C) | [D](#D) | [E](#E) | [F](#F) | [G](#G) | [H](#H) | [I](#I) | [J](#J) |
-|   [K](#K)   | [L](#L) | [M](#M) | [N](#N) | [O](#O) | [P](#P) | [Q](#Q) | [R](#R) | [S](#S) | [T](#T) | [U](#U) |
-|   [V](#V)   | [W](#W) | [X](#X) | [Y](#Y) | [Z](#Z) |
+|     NN      |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |
+| :---------: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
+| [Sym](#sym) | [A](#a) | [B](#b) | [C](#c) | [D](#d) | [E](#e) | [F](#f) | [G](#g) | [H](#h) |
+|   [I](#i)   | [J](#j) | [K](#k) | [L](#l) | [M](#m) | [N](#n) | [O](#o) | [P](#p) | [Q](#q) |
+|   [R](#r)   | [S](#s) | [T](#t) | [U](#u) | [V](#v) | [W](#w) | [X](#x) | [Y](#y) | [Z](#z) |
 
 ## Sym
 
@@ -22,15 +22,15 @@
 | ----------------------- | ------------ | -------------------------- |
 | [?]                     | 错误传播     | 用于简化错误传播           |
 | [()]                    | 单元类型     | 单元类型，无返回值         |
-| `!` : [1] 函数 [2] 类型 | 永不返回     | 永不返回                   |
+| `!` : [1 函数] [2 类型] | 永不返回     | 永不返回                   |
 | [@]                     | 变量绑定     | 为一个字段绑定另外一个变量 |
 | ['a: 'b]                | 生命周期约束 |                            |
 | A                       |              | AIntroduction              |
 
 [?]: https://course.rs/basic/result-error/result.html#传播界的大明星-
 [()]: https://course.rs/basic/base-type/function.html#无返回值
-[1]: https://course.rs/basic/base-type/function.html#永不返回的函数
-[2]: https://course.rs/advance/into-types/custom-type.html#永不返回类型
+[1 函数]: https://course.rs/basic/base-type/function.html#永不返回的函数
+[2 类型]: https://course.rs/advance/into-types/custom-type.html#永不返回类型
 [@]: https://course.rs/basic/match-pattern/all-patterns.html#绑定
 ['a: 'b]: https://course.rs/advance/lifetime/advance.html#生命周期约束-hrtb
 
@@ -46,27 +46,35 @@
 
 ## B
 
-| 名称        | 关键字    | 简介                                   |
-| ----------- | --------- | -------------------------------------- |
-| [变量遮蔽]  | shadowing | 允许声明相同的变量名，后者会遮蔽掉前者 |
-| [bool 布尔] | 布尔类型  | `true` `false`，占用 1 字节            |
-| B           | KWB       | BIntroduction                          |
+| 名称         | 关键字    | 简介                                   |
+| ------------ | --------- | -------------------------------------- |
+| [变量遮蔽]   | shadowing | 允许声明相同的变量名，后者会遮蔽掉前者 |
+| [变量作用域] | 所有权    | 作用域是一个变量在程序中有效的范围     |
+| [表达式]     |           | 进行求值，结尾无 `;`，有返回值         |
+| [bool 布尔]  | 布尔类型  | `true` `false`，占用 1 字节            |
+| B            | KWB       | BIntroduction                          |
 
 [变量遮蔽]: https://course.rs/basic/variable.html#变量遮蔽shadowing
+[变量作用域]: https://course.rs/basic/ownership/ownership.html#变量作用域
 [bool 布尔]: https://course.rs/basic/base-type/char-bool.html#布尔bool
+[表达式]: https://course.rs/basic/base-type/statement-expression.html#表达式
 
 [back](#head)
 
 ## C
 
-| 名称         | 关键字   | 简介                              |
-| ------------ | -------- | --------------------------------- |
-| [const 常量] | constant | const MAX_POINTS: u32 = 100_000;  |
-| [char 字符]  | 字符类型 | 使用 `''` 表示，所有的 Unicode 值 |
-| C            | KWC      | CIntroduction                     |
+| 名称         | 关键字   | 简介                                                                                |
+| ------------ | -------- | ----------------------------------------------------------------------------------- |
+| [char 字符]  | 字符类型 | 使用 `''` 表示，所有的 Unicode 值                                                   |
+| [const 常量] | constant | const MAX_POINTS: u32 = 100_000;                                                    |
+| [Copy 拷贝]  | 浅拷贝   | 任何基本类型的组合可以 `Copy`，不需要分配内存或某种形式资源的类型是可以 `Copy` 的。 |
+| [Clone 克隆] | 深拷贝   | 需要复制堆上的数据时，可以使用 `.clone()` 方法                                      |
+| C            | KWC      | CIntroduction                                                                       |
 
-[const 常量]: https://course.rs/basic/variable.html#变量和常量之间的差异
 [char 字符]: https://course.rs/basic/base-type/char-bool.html#字符类型char
+[const 常量]: https://course.rs/basic/variable.html#变量和常量之间的差异
+[copy 拷贝]: https://course.rs/basic/ownership/ownership.html#拷贝浅拷贝
+[clone 克隆]: https://course.rs/basic/ownership/ownership.html#克隆深拷贝
 
 [back](#head)
 
@@ -107,9 +115,12 @@
 
 ## H
 
-| 名称 | 关键字 | 简介          |
-| ---- | ------ | ------------- |
-| H    | KWH    | HIntroduction |
+| 名称   | 关键字 | 简介                                                                                              |
+| ------ | ------ | ------------------------------------------------------------------------------------------------- |
+| [函数] | `fn`   | 函数名和变量名使用 `蛇形命名法(snake case)`<br>函数的位置可以随便放<br>每个函数参数都需要标注类型 |
+| H      | KWH    | HIntroduction                                                                                     |
+
+[函数]: https://course.rs/basic/base-type/function.html
 
 [back](#head)
 
@@ -152,9 +163,12 @@
 
 ## M
 
-| 名称 | 关键字 | 简介          |
-| ---- | ------ | ------------- |
-| M    | KWM    | MIntroduction |
+| 名称        | 关键字     | 简介                                                  |
+| ----------- | ---------- | ----------------------------------------------------- |
+| [move 移动] | 转移所有权 | `let s2 = s1;`<br>`s1` 所有权转移给了 `s2`，`s1` 失效 |
+| M           | KWM        | MIntroduction                                         |
+
+[move 移动]: https://course.rs/basic/ownership/ownership.html#转移所有权
 
 [back](#head)
 
@@ -203,9 +217,14 @@
 
 ## S
 
-| 名称 | 关键字 | 简介          |
-| ---- | ------ | ------------- |
-| S    | KWS    | SIntroduction |
+| 名称           | 关键字 | 简介                                                                                                   |
+| -------------- | ------ | ------------------------------------------------------------------------------------------------------ |
+| [所有权与堆栈] |        | Rust 所有权提供的强大保障                                                                              |
+| [所有权原则]   |        | Rust 中每一个值都 `有且只有` 一个所有者(变量)<br> 当所有者(变量)离开作用域范围时，这个值将被丢弃(drop) |
+| S              | KWS    | SIntroduction                                                                                          |
+
+[所有权与堆栈]: https://course.rs/basic/ownership/ownership.html#所有权与堆栈
+[所有权原则]: https://course.rs/basic/ownership/ownership.html#所有权原则
 
 [back](#head)
 
@@ -251,19 +270,22 @@
 
 ## Y
 
-| 名称 | 关键字 | 简介          |
-| ---- | ------ | ------------- |
-| Y    | KWY    | YIntroduction |
+| 名称   | 关键字 | 简介                                                 |
+| ------ | ------ | ---------------------------------------------------- |
+| [语句] |        | 完成一个操作，结尾有 `;` ，无返回值，如 `let x = 9;` |
+| Y      | KWY    | YIntroduction                                        |
+
+[语句]: https://course.rs/basic/base-type/statement-expression.html#语句
 
 [back](#head)
 
 ## Z
 
-| 名称         | 关键字   | 简介                                                                                                   |
-| ------------ | -------- | ------------------------------------------------------------------------------------------------------ |
-| [整数]       | 数值类型 | 有符号整数，`i8`,`i16`,`i32`,`i64`,`i128`,`isize`<br>无符号整数，`u8`,`u16`,`u32`,`u64`,`u128`,`usize` |
-| [整形字面量] | 进制书写 | 十进制 `98_222`<br>十六进制 `0xff`<br>八进制 `0o77`<br>二进制 `0b1111_0000`<br>字节(仅限于`u8`) `b'A'` |
-| Z            | KWZ      | ZIntroduction                                                                                          |
+| 名称         | 关键字   | 简介                                                                                                             |
+| ------------ | -------- | ---------------------------------------------------------------------------------------------------------------- |
+| [整数]       | 数值类型 | 有符号整数，`i8`，`i16`，`i32`，`i64`，`i128`，`isize`<br>无符号整数，`u8`，`u16`，`u32`，`u64`，`u128`，`usize` |
+| [整形字面量] | 进制书写 | 十进制 `98_222`<br>十六进制 `0xff`<br>八进制 `0o77`<br>二进制 `0b1111_0000`<br>字节(仅限于`u8`) `b'A'`           |
+| Z            | KWZ      | ZIntroduction                                                                                                    |
 
 [整数]: https://course.rs/basic/base-type/numbers.html#整数类型
 [整形字面量]: https://course.rs/basic/base-type/numbers.html#整数类型

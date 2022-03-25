@@ -54,8 +54,6 @@
         <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
         {{/if}}
 
-        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-        <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -69,11 +67,9 @@
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
-
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
                 }
-
                 if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
                     localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
                 }
@@ -187,7 +183,7 @@
                     <div class="sidetoc"><nav class="pagetoc"></nav></div>
                     <main>
                         {{{ content }}}
-                        <div id="gitalk-container"></div>
+                        <div id="giscus-container"></div>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
@@ -235,7 +231,6 @@
                     location.reload();
                 }
             };
-
             window.onbeforeunload = function() {
                 socket.close();
             }
@@ -246,7 +241,6 @@
         <!-- Google Analytics Tag -->
         <script type="text/javascript">
             var localAddrs = ["localhost", "127.0.0.1", ""];
-
             // make sure we don't activate google analytics if the developer is
             // inspecting the book locally...
             if (localAddrs.indexOf(document.location.hostname) === -1) {
@@ -254,7 +248,6 @@
                 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
                 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
                 ga('create', '{{google_analytics}}', 'auto');
                 ga('send', 'pageview');
             }
@@ -290,6 +283,10 @@
         <script src="{{ path_to_root }}clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="{{ path_to_root }}highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="{{ path_to_root }}book.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" charset="utf-8">
+        var pagePath = "{{ path }}"
+        </script>
+
 
         <!-- Custom JS scripts -->
         {{#each additional_js}}

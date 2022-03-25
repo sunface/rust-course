@@ -32,7 +32,7 @@
   - [`autobenches`](cargo-target.md#对象自动发现) — 禁止 bench 文件的自动发现
   - [`resolver`](resolver.md#resolver-versions) — 设置依赖解析器( dependency resolver)
 - Cargo Target 列表: (查看 [Target 配置](cargo-target.md#Target配置) 获取详细设置)
-  - [`[lib]`](./cargo-target.md#库对象library) — Library target 设置.
+  - [`[lib]`](cargo-target.md#库对象library) — Library target 设置.
   - [`[[bin]]`](cargo-target.md#二进制对象binaries) — Binary target 设置.
   - [`[[example]]`](cargo-target.md#示例对象examples) — Example target 设置.
   - [`[[test]]`](cargo-target.md#测试对象tests) — Test target 设置.

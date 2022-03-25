@@ -256,7 +256,7 @@ let closure_slision = |x: &i32| -> &i32 { x };
 
 ## NLL (Non-Lexical Lifetime)
 
-之前我们在[引用与借用](../../basic/ownership/borrowing.md#NLL)那一章其实有讲到过这个概念，简单来说就是：**引用的生命周期正常来说应该从借用开始一直持续到作用域结束**，但是这种规则会让多引用共存的情况变得更复杂：
+之前我们在[引用与借用](https://course.rs/basic/ownership/borrowing.html#NLL)那一章其实有讲到过这个概念，简单来说就是：**引用的生命周期正常来说应该从借用开始一直持续到作用域结束**，但是这种规则会让多引用共存的情况变得更复杂：
 
 ```rust
 fn main() {
