@@ -69,7 +69,7 @@ error[E0310]: the parameter type `impl Fn(&str) -> Res` may not live long enough
 callback: Option<Box<dyn Fn(&str) -> Res>>,
 ```
 
-众所周知，闭包跟哈姆雷特一样，每一个都有[自己的类型](advance/functional-programing/closure.md#闭包作为函数返回值)，因此我们无法通过类型标注的方式来声明一个闭包，那么只有一个办法，就是使用特征对象，因此上面代码中，通过`Box<dyn Trait>`的方式把闭包特征封装成一个特征对象。
+众所周知，闭包跟哈姆雷特一样，每一个都有[自己的类型](https://course.rs/advance/functional-programing/closure.html#闭包作为函数返回值)，因此我们无法通过类型标注的方式来声明一个闭包，那么只有一个办法，就是使用特征对象，因此上面代码中，通过`Box<dyn Trait>`的方式把闭包特征封装成一个特征对象。
 
 ## 深入挖掘报错原因
 
@@ -89,7 +89,7 @@ struct Foo<'a> {
 };
 ```
 
-除非`x`字段借用了`'static`的引用，否则`'a`肯定比`'static`要小，那么该结构体实例的生命周期肯定不是`'static`: `'a: 'static`的限制不会被满足([HRTB](advance/lifetime/advance.md#生命周期约束HRTB))。
+除非`x`字段借用了`'static`的引用，否则`'a`肯定比`'static`要小，那么该结构体实例的生命周期肯定不是`'static`: `'a: 'static`的限制不会被满足([HRTB](https://course.rs/advance/lifetime/advance.html#生命周期约束HRTB))。
 
 对于特征对象来说，它没有包含非`'static`的引用，因此它隐式的具有`'static`生命周期, `Box<dyn Trait>`就跟`Box<dyn Trait + 'static>`是等价的。
 

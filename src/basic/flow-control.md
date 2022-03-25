@@ -38,7 +38,7 @@ fn main() {
 以上代码有以下几点要注意：
 
 - **`if` 语句块是表达式**，这里我们使用 `if` 表达式的返回值来给 `number` 进行赋值：`number` 的值是 `5`
-- 用 `if` 来赋值时，要保证每个分支返回的类型一样(事实上，这种说法不完全准确，见[这里](appendix/expressions.md#if表达式))，此处返回的 `5` 和 `6` 就是同一个类型，如果返回类型不一致就会报错
+- 用 `if` 来赋值时，要保证每个分支返回的类型一样(事实上，这种说法不完全准确，见[这里](https://course.rs/appendix/expressions.html#if表达式))，此处返回的 `5` 和 `6` 就是同一个类型，如果返回类型不一致就会报错
 
 ```console
 error[E0308]: if and else have incompatible types

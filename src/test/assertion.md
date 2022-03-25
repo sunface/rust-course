@@ -46,7 +46,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 因为涉及到相等比较( `==` )和错误信息打印，因此两个表达式的值必须实现 `PartialEq` 和 `Debug` 特征，其中所有的原生类型和大多数标准库类型都实现了这些特征，而对于你自己定义的结构体、枚举，如果想要对其进行 `assert_eq!` 断言，则需要实现 `PartialEq` 和 `Debug` 特征:
 
 - 若希望实现个性化相等比较和错误打印，则需手动实现
-- 否则可以为自定义的结构体、枚举添加 `#[derive(PartialEq, Debug)]` 注解，来[自动派生](appendix/derive.md)对应的特征
+- 否则可以为自定义的结构体、枚举添加 `#[derive(PartialEq, Debug)]` 注解，来[自动派生](https://course.rs/appendix/derive.html)对应的特征
 
 **以上特征限制对于下面即将讲解的 `assert_ne!` 一样有效，** 就不再重复讲述。
 

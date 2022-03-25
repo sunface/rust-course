@@ -154,7 +154,7 @@ enum Recursive {
 }
 ```
 
-这是典型的[动态大小类型](advance/into-types/sized.md#动态大小类型-dst)，它的大小会无限增长，因此编译器会直接报错:
+这是典型的[动态大小类型](https://course.rs/advance/into-types/sized.html#动态大小类型-dst)，它的大小会无限增长，因此编译器会直接报错:
 
 ```shell
 error[E0733]: recursion in an `async fn` requires boxing

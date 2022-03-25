@@ -251,7 +251,7 @@ impl Rectangle {
 
 ## 为枚举实现方法
 
-枚举类型之所以强大，不仅仅在于它好用、可以[同一化类型](basic/compound-type/enum.md#同一化类型)，还在于，我们可以像结构体一样，为枚举实现方法：
+枚举类型之所以强大，不仅仅在于它好用、可以[同一化类型](https://course.rs/basic/compound-type/enum.html#同一化类型)，还在于，我们可以像结构体一样，为枚举实现方法：
 
 ```rust
 #![allow(unused)]

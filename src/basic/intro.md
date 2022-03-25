@@ -44,7 +44,7 @@ fn main() {
 ```
 
 > 注意
-> 在上面的 `add` 函数中，不要为 `i+j` 添加 `;`，这会改变语法导致函数返回 `()` 而不是 `i32`，具体参见[语句和表达式](basic/base-type/statement-expression.md)
+> 在上面的 `add` 函数中，不要为 `i+j` 添加 `;`，这会改变语法导致函数返回 `()` 而不是 `i32`，具体参见[语句和表达式](https://course.rs/basic/base-type/statement-expression.html)
 
 有几点可以留意下：
 

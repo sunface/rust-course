@@ -37,7 +37,7 @@ v.push(1);
 let v = vec![1, 2, 3];
 ```
 
-同样，此处的 `v` 也无需标注类型，编译器只需检查它内部的元素即可自动推导出 `v` 的类型是 `Vec<i32>` （Rust 中，整数默认类型是 `i32`，在[数值类型](basic/base-type/numbers.md#整数类型)中有详细介绍）。
+同样，此处的 `v` 也无需标注类型，编译器只需检查它内部的元素即可自动推导出 `v` 的类型是 `Vec<i32>` （Rust 中，整数默认类型是 `i32`，在[数值类型](https://course.rs/basic/base-type/numbers.html#整数类型)中有详细介绍）。
 
 ## 更新 Vector
 
@@ -104,7 +104,7 @@ let does_not_exist = v.get(100);
 
 ##### 同时借用多个数组元素
 
-既然涉及到借用数组元素，那么很可能会遇到同时借用多个数组元素的情况，还记得在[所有权和借用](basic/ownership/borrowing.md#借用规则总结)章节咱们讲过的借用规则嘛？如果记得，就来看看下面的代码：）
+既然涉及到借用数组元素，那么很可能会遇到同时借用多个数组元素的情况，还记得在[所有权和借用](https://course.rs/basic/ownership/borrowing.html#借用规则总结)章节咱们讲过的借用规则嘛？如果记得，就来看看下面的代码：）
 
 ```rust
 let mut v = vec![1, 2, 3, 4, 5];
@@ -116,7 +116,7 @@ v.push(6);
 println!("The first element is: {}", first);
 ```
 
-先不运行，来推断下结果，首先 `first = &v[0]` 进行了不可变借用，`v.push` 进行了可变借用，如果 `first` 在 `v.push` 之后不再使用，那么该段代码可以成功编译（原因见[引用的作用域](basic/ownership/borrowing.md#可变引用与不可变引用不能同时存在)）。
+先不运行，来推断下结果，首先 `first = &v[0]` 进行了不可变借用，`v.push` 进行了可变借用，如果 `first` 在 `v.push` 之后不再使用，那么该段代码可以成功编译（原因见[引用的作用域](https://course.rs/basic/ownership/borrowing.html#可变引用与不可变引用不能同时存在)）。
 
 可是上面的代码中，`first` 这个不可变借用在可变借用 `v.push` 后被使用了，那么妥妥的，编译器就会报错：
 
@@ -229,9 +229,9 @@ fn main() {
 
 比枚举实现要稍微复杂一些，我们为 `V4` 和 `V6` 都实现了特征 `IpAddr`，然后将它俩的实例用 `Box::new` 包裹后，存在了数组 `v` 中，需要注意的是，这里必需手动的指定类型：`Vec<Box<dyn IpAddr>>`，表示数组 `v` 存储的是特征 `IpAddr` 的对象，这样就实现了在数组中存储不同的类型。
 
-在实际使用场景中，特征对象数组要比枚举数组常见很多，主要原因在于[特征对象](basic/trait/trait-object.md)非常灵活，而编译器对枚举的限制较多，且无法动态增加类型。
+在实际使用场景中，特征对象数组要比枚举数组常见很多，主要原因在于[特征对象](https://course.rs/basic/trait/trait-object.html)非常灵活，而编译器对枚举的限制较多，且无法动态增加类型。
 
-最后，如果你想要了解 `Vector` 更多的用法，请参见本书的标准库解析章节：[`Vector`常用方法](std/vector.md)
+最后，如果你想要了解 `Vector` 更多的用法，请参见本书的标准库解析章节：[`Vector`常用方法](https://course.rs/std/vector.html)
 
 
 ## 课后练习

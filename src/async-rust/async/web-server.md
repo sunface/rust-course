@@ -300,7 +300,7 @@ impl Write for MockTcpStream {
 }
 ```
 
-最后，我们的 mock 需要实现 `Unpin` 特征，表示它可以在内存中安全的移动，具体内容在[前面章节](async-rust/async/pin-unpin.md)有讲。
+最后，我们的 mock 需要实现 `Unpin` 特征，表示它可以在内存中安全的移动，具体内容在[前面章节](https://course.rs/async-rust/async/pin-unpin.html)有讲。
 
 ```rust
 use std::marker::Unpin;

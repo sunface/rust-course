@@ -4,9 +4,9 @@
 
 ## 多国语言的"世界，你好"
 
-还记得大明湖畔等你的 [VSCode IDE](first-try/editor.md) 和通过 `Cargo` 创建的 [世界，你好](first-try/cargo.md) 工程吗？
+还记得大明湖畔等你的 [VSCode IDE](https://course.rs/first-try/editor.md) 和通过 `Cargo` 创建的 [世界，你好](first-try/cargo.html) 工程吗？
 
-现在使用 VSCode 打开 [上一节](first-try/cargo.md) 中创建的 `world_hello` 工程，然后进入 `main.rs` 文件。（此文件是当前 Rust 工程的入口文件，和其它语言几无区别。）
+现在使用 VSCode 打开 [上一节](https://course.rs/first-try/cargo.html) 中创建的 `world_hello` 工程，然后进入 `main.rs` 文件。（此文件是当前 Rust 工程的入口文件，和其它语言几无区别。）
 
 接下来，对世界友人给予热切的问候：
 
@@ -111,11 +111,11 @@ fn main() {
 - 高阶函数编程：函数可以作为参数也能作为返回值，例如 `.map(|field| field.trim())`，这里 `map` 方法中使用闭包函数作为参数，也可以称呼为 `匿名函数`、`lambda 函数`。
 - 类型标注：`if let Ok(length) = fields[1].parse::<f32>()`，通过 `::<f32>` 的使用，告诉编译器 `length` 是一个 `f32` 类型的浮点数。这种类型标注不是很常用，但是在编译器无法推断出你的数据类型时，就很有用了。
 - 条件编译：`if cfg!(debug_assertions)`，说明紧跟其后的输出（打印）只在 `debug` 模式下生效。
-- 隐式返回：Rust 提供了 `return` 关键字用于函数返回，但是在很多时候，我们可以省略它。因为 Rust 是 [**基于表达式的语言**](basic/base-type/statement-expression.md)。
+- 隐式返回：Rust 提供了 `return` 关键字用于函数返回，但是在很多时候，我们可以省略它。因为 Rust 是 [**基于表达式的语言**](https://course.rs/basic/base-type/statement-expression.html)。
 
 在终端中运行上述代码时，会看到很多 `debug: ...` 的输出，上面有讲，这些都是 `条件编译` 的输出，那么该怎么消除掉这些输出呢？
 
-读者大大普遍冰雪聪明，肯定已经想到：是的，在 [认识 Cargo](first-try/cargo.md#手动编译和运行项目)中，曾经介绍过 `--release` 参数，因为 `cargo run` 默认是运行 `debug` 模式。因此想要消灭那些 `debug:` 输出，需要更改为其它模式，其中最常用的模式就是 `--release` 也就是生产发布的模式。
+读者大大普遍冰雪聪明，肯定已经想到：是的，在 [认识 Cargo](https://course.rs/first-try/cargo.html#手动编译和运行项目)中，曾经介绍过 `--release` 参数，因为 `cargo run` 默认是运行 `debug` 模式。因此想要消灭那些 `debug:` 输出，需要更改为其它模式，其中最常用的模式就是 `--release` 也就是生产发布的模式。
 
 具体运行代码就不给了，留给大家作为一个小练习，建议亲自动手尝试下。
 
