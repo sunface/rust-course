@@ -51,21 +51,21 @@
 **🏆 贡献榜前三**(根据难易度、贡献次数、活跃度综合评定):
 <table>
     <tr>
-        <td align="center" width="30%">
+        <td align="center" width="28%">
             <a href="https://github.com/sunface">
                 <img src="https://avatars.githubusercontent.com/u/7036754?v=4?s=100" height="80" alt=""/>
                 <br />
                 <sub><b>Sunface 🥇</b></sub>
             </a>
         </td>
-        <td align="center" width="30%">
+        <td align="center" width="28%">
             <a href="https://github.com/AllanDowney">
                 <img src="https://avatars.githubusercontent.com/u/82752697?v=4?s=100" height="80" alt=""/>
                 <br />
                 <sub><b>AllanDowney 🥈</b></sub>
             </a>
         </td>
-        <td align="center" width="30%">
+        <td align="center" width="28%">
             <a href="https://github.com/JesseAtSZ">
                 <img src="https://avatars.githubusercontent.com/u/35264598?v=4?s=100" height="80" alt=""/>
                 <br />
