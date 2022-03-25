@@ -51,23 +51,23 @@
 **🏆 贡献榜前三**(根据难易度、贡献次数、活跃度综合评定):
 <table>
     <tr>
-        <td align="center" width="25%">
+        <td align="center">
             <a href="https://github.com/sunface">
-                <img src="https://avatars.githubusercontent.com/u/7036754?v=4?s=100"   alt=""/>
+                <img src="https://avatars.githubusercontent.com/u/7036754?v=4?s=100" width="160px"   alt=""/>
                 <br />
                 <sub><b>Sunface 🥇</b></sub>
             </a>
         </td>
-        <td align="center" width="25%">
+        <td align="center">
             <a href="https://github.com/AllanDowney">
-                <img src="https://avatars.githubusercontent.com/u/82752697?v=4?s=100"   alt=""/>
+                <img src="https://avatars.githubusercontent.com/u/82752697?v=4?s=100"  width="160px" alt=""/>
                 <br />
                 <sub><b>AllanDowney 🥈</b></sub>
             </a>
         </td>
-        <td align="center" width="25%">
+        <td align="center">
             <a href="https://github.com/JesseAtSZ">
-                <img src="https://avatars.githubusercontent.com/u/35264598?v=4?s=100"  alt=""/>
+                <img src="https://avatars.githubusercontent.com/u/35264598?v=4?s=100" width="160px" alt=""/>
                 <br />
                 <sub><b>JesseAtSZ 🥉</b></sub>
             </a>
@@ -80,30 +80,30 @@
 🏅 核心贡献者: 
 <table>
     <tr>
-        <td align="center" width="25%">
+        <td align="center">
             <a href="https://github.com/1132719438">
-                <img src="https://avatars.githubusercontent.com/u/10138791?v=4?s=100" alt=""/>
+                <img src="https://avatars.githubusercontent.com/u/10138791?v=4?s=100" width="100px" alt=""/>
                 <br />
                 <sub><b>1132719438</b></sub>
             </a>
         </td>
-        <td align="center" width="25%">
+        <td align="center">
             <a href="https://github.com/zongzi531">
-                <img src="https://avatars.githubusercontent.com/u/22429236?v=4?s=100"  alt=""/>
+                <img src="https://avatars.githubusercontent.com/u/22429236?v=4?s=100" width="100px" alt=""/>
                 <br />
                 <sub><b>zongzi531</b></sub>
             </a>
         </td>
-        <td align="center" width="25%">
+        <td align="center">
             <a href="https://github.com/Mintnoii">
-                <img src="https://avatars.githubusercontent.com/u/30466018?v=4?s=100"  alt=""/>
+                <img src="https://avatars.githubusercontent.com/u/30466018?v=4?s=100" width="100px" alt=""/>
                 <br />
                 <sub><b>Mintnoii</b></sub>
             </a>
         </td>
-        <td align="center" width="25%">
+        <td align="center">
             <a href="https://github.com/Rustln">
-                <img src="https://avatars.githubusercontent.com/u/100085326?v=4?s=100" alt=""/>
+                <img src="https://avatars.githubusercontent.com/u/100085326?v=4?s=100" width="100px" alt=""/>
                 <br />
                 <sub><b>Rustln</b></sub>
             </a>
