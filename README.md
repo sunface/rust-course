@@ -40,7 +40,7 @@
 - [Rust语言实战](https://github.com/sunface/rust-by-practice)，它是本书的配套练习册，提供了大量有挑战性的示例、练习和实践项目，帮助大家解决 Rust 语言从学习到实战的问题 — 毕竟这之间还隔着好几个 Go 语言的难度 :D
 - [Rust语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，精选过去一周的技术文章、业界新闻、开源项目和 Rust 语言动态
 - [Rust酷库推荐](https://github.com/sunface/fancy-rust)，优秀项目很多，如何在茫茫码海中与它们相遇？相比 Awesome Rust，它能带给你全新的体验和选择
-- [RustTT 翻译组](https://rusttt.org)，目前最专业的 Rust 翻译组织，这里有 Rust 技术文章、学习教程和新闻资讯的高质量中文翻译
+- [Rustt 翻译组](https://rustt.org)，目前最专业的 Rust 翻译组织，这里有 Rust 技术文章、学习教程和新闻资讯的高质量中文翻译
 
 ## 🏅 贡献者
 
