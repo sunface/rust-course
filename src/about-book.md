@@ -10,13 +10,15 @@
 </div>
 
 - 在线阅读
-  - 官方： [https://course.rs](https://course.rs)
-  - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
+  - 官网： [https://course.rs](https://course.rs)
+  - 知乎专栏： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
   
 - 配套项目  
   - [Rust语言实战](https://github.com/sunface/rust-by-practice)，它是本书的配套练习册，提供了大量有挑战性的示例、练习和实践项目，帮助大家解决 Rust 语言从学习到实战的问题 — 毕竟这之间还隔着好几个 Go 语言的难度 :D
   - [Rust语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，精选过去一周的技术文章、业界新闻、开源项目和 Rust 语言动态
   - [Rust酷库推荐](https://github.com/sunface/fancy-rust)，优秀项目很多，如何在茫茫码海中与它们相遇？相比 Awesome Rust，它能带给你全新的体验和选择
+
+- 创作团队: [RustTT 翻译组](https://rusttt.org)，目前最专业的 Rust 翻译组织，这里有 Rust 技术文章、学习教程和新闻资讯的高质量中文翻译
 
 
 ## 教程简介
@@ -41,6 +43,61 @@
 
 总之在写作过程中我们始终铭记初心：为中国用户打造一门**全面的、深入的、持续更新的** Rust 教程。 新手用来入门，老手用来提高，高手用来提升生产力。
 
+## 贡献者
+
+非常感谢本教程的[所有贡献者](https://github.com/sunface/rust-course/graphs/contributors)，正是有了你们，才有了现在的高质量 Rust 教程!
+
+尤其感谢以下贡献者，谢谢你们花费大量时间贡献了多处`fix`和高质量的内容优化。非常感动，再次感谢～～
+
+<table>
+    <tr>
+        <td align="center" width="30%">
+            <a href="https://github.com/AllanDowney">
+                <img src="https://avatars.githubusercontent.com/u/82752697?v=4?s=100"   alt=""/>
+                <br />
+                <sub><b>AllanDowney</b></sub>
+            </a>
+        </td>
+        <td align="center" width="30%">
+            <a href="https://github.com/JesseAtSZ">
+                <img src="https://avatars.githubusercontent.com/u/35264598?v=4?s=100"  alt=""/>
+                <br />
+                <sub><b>JesseAtSZ</b></sub>
+            </a>
+        </td>
+        <td align="center" width="30%">
+            <a href="https://github.com/1132719438">
+                <img src="https://avatars.githubusercontent.com/u/10138791?v=4?s=100" alt=""/>
+                <br />
+                <sub><b>1132719438</b></sub>
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" width="30%">
+            <a href="https://github.com/zongzi531">
+                <img src="https://avatars.githubusercontent.com/u/24353799?v=4?s=100?s=100"  alt=""/>
+                <br />
+                <sub><b>zongzi531</b></sub>
+            </a>
+        </td>
+        <td align="center" width="30%">
+            <a href="https://github.com/Mintnoii">
+                <img src="https://avatars.githubusercontent.com/u/44204137?v=4?s=100"  alt=""/>
+                <br />
+                <sub><b>Mintnoii</b></sub>
+            </a>
+        </td>
+        <td align="center" width="30%">
+            <a href="https://github.com/Rustln">
+                <img src="https://avatars.githubusercontent.com/u/37741552?v=4?s=100" alt=""/>
+                <br />
+                <sub><b>Rustln</b></sub>
+            </a>
+        </td>
+    </tr>
+</table>
+
 ## ❤️ 开源
 本书是完全开源的，但是并不意味着质量上的妥协，这里的每一个章节都花费了大量的心血和时间才能完成，为此牺牲了陪伴家人、日常娱乐的时间，虽然我们并不后悔，但是如果能得到读者您的鼓励，我们将感激不尽。
 
@@ -48,24 +105,6 @@
 
 > 在开源版权上，我们选择了 [No License](https://www.google.com.hk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwigkv-KtMT0AhXFdXAKHdI4BCcQFnoECAQQAw&url=https%3A%2F%2Fchoosealicense.com%2Fno-permission%2F&usg=AOvVaw3M2Q4IbdhnpJ2K71TF7SPB)，这意味着读者可以随意的 fork 和阅读，但是**不能私下修改后再包装分发**，如果有这方面的需求，请联系我们，望理解。
 
-
-## 学习社区
-为了帮助大家更好的学习和交流 Rust，我们建立了一个社区：**Rust学习社区**。
-
-QQ群 1009730433， 欢迎大家加入，一起 happy，一起进步。
-
-
-## 贡献者
-
-非常感谢本教程的所有贡献者们，正是有了你们，才有了现在的高质量 Rust 教程！
-
-- [@AllanDowney](https://github.com/AllanDowney)
-- [@JesseAtSZ](https://github.com/JesseAtSZ)
-- [@1132719438](https://github.com/1132719438)
-- [@Mintnoii](https://github.com/Mintnoii)
-- [@Rustln](https://github.com/rustln)
-
-尤其感谢这些主要贡献者，谢谢你们花费大量时间贡献了多处`fix`和高质量的内容优化。非常感动，再次感谢～～
 
 ## 借鉴的书籍
 
@@ -77,3 +116,9 @@ QQ群 1009730433， 欢迎大家加入，一起 happy，一起进步。
 - 详细清单参见 [这里](./assets/writing-material/books.md)
 
 因为它们绝大部分是支持 APACHE + MIT 双协议的，因此我们选择了遵循其中的 MIT 协议，并在这里统一对借鉴的书籍进行说明。
+
+
+## 学习社区
+为了帮助大家更好的学习和交流 Rust，我们建立了一个社区：**Rust语言学习社区**( Rust学社 )。
+
+QQ群 1009730433， 欢迎大家加入，一起 happy，一起进步。
