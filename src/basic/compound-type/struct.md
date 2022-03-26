@@ -278,7 +278,7 @@ help: consider introducing a named lifetime parameter
 
 ## 使用 `#[derive(Debug)]` 来打印结构体的信息
 
-在前面的代码中我们使用 `#[derive(Debug)]` 对结构体进行了标记，这样才能使用 `println("{:?}", s)` 的方式对其进行打印输出，如果不加，看看会发生什么:
+在前面的代码中我们使用 `#[derive(Debug)]` 对结构体进行了标记，这样才能使用 `println!("{:?}", s);` 的方式对其进行打印输出，如果不加，看看会发生什么:
 
 ```rust
 struct Rectangle {
@@ -424,8 +424,7 @@ $ cargo run
 
 可以看到，我们想要的 debug 信息几乎都有了：代码所在的文件名、行号、表达式以及表达式的值，简直完美！
 
-
-
 ## 课后练习
 
 > [Rust By Practice](https://zh.practice.rs/compound-types/struct.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。
+
