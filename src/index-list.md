@@ -18,19 +18,23 @@
 
 ## Sym
 
-| 名称                    | 关键字       | 简介                       |
-| ----------------------- | ------------ | -------------------------- |
-| [?]                     | 错误传播     | 用于简化错误传播           |
-| [()]                    | 单元类型     | 单元类型，无返回值         |
-| `!` : [1 函数] [2 类型] | 永不返回     | 永不返回                   |
-| [@]                     | 变量绑定     | 为一个字段绑定另外一个变量 |
-| ['a: 'b]                | 生命周期约束 |                            |
-| A                       |              | AIntroduction              |
+| 名称                    | 关键字       | 简介                                             |
+| ----------------------- | ------------ | ------------------------------------------------ |
+| [?]                     | 错误传播     | 用于简化错误传播                                 |
+| [()]                    | 单元类型     | 单元类型，无返回值                               |
+| `!` : [1 函数] [2 类型] | 永不返回     | 永不返回                                         |
+| [&]                     | 引用         | 常规引用是一个指针类型，指向了对象存储的内存地址 |
+| [\*]                    | 解引用       | 解出引用所指向的值                               |
+| [@]                     | 变量绑定     | 为一个字段绑定另外一个变量                       |
+| ['a: 'b]                | 生命周期约束 |                                                  |
+| A                       |              | AIntroduction                                    |
 
 [?]: https://course.rs/basic/result-error/result.html#传播界的大明星-
 [()]: https://course.rs/basic/base-type/function.html#无返回值
 [1 函数]: https://course.rs/basic/base-type/function.html#永不返回的函数
 [2 类型]: https://course.rs/advance/into-types/custom-type.html#永不返回类型
+[&]: https://course.rs/basic/ownership/borrowing.html#引用与解引用
+[\*]: https://course.rs/basic/ownership/borrowing.html#引用与解引用
 [@]: https://course.rs/basic/match-pattern/all-patterns.html#绑定
 ['a: 'b]: https://course.rs/advance/lifetime/advance.html#生命周期约束-hrtb
 
@@ -40,6 +44,7 @@
 
 | 名称 | 关键字 | 简介          |
 | ---- | ------ | ------------- |
+| []   |        |               |
 | A    | KWA    | AIntroduction |
 
 [back](#head)
@@ -217,22 +222,31 @@
 
 ## S
 
-| 名称           | 关键字 | 简介                                                                                                   |
-| -------------- | ------ | ------------------------------------------------------------------------------------------------------ |
-| [所有权与堆栈] |        | Rust 所有权提供的强大保障                                                                              |
-| [所有权原则]   |        | Rust 中每一个值都 `有且只有` 一个所有者(变量)<br> 当所有者(变量)离开作用域范围时，这个值将被丢弃(drop) |
-| S              | KWS    | SIntroduction                                                                                          |
+| 名称            | 关键字        | 简介                                                                                                                     |
+| --------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| [所有权与堆栈]  |               | Rust 所有权提供的强大保障                                                                                                |
+| [所有权原则]    |               | Rust 中每一个值都 `有且只有` 一个所有者(变量)<br> 当所有者(变量)离开作用域范围时，这个值将被丢弃(drop)                   |
+| [slice 切片]    | `&str`        | 允许你引用 `String` 中部分连续的元素序列，而不是引用整个 `String` <br>语法：`[开始索引..终止索引]`<br>字符串字面量是切片 |
+| [String 字符串] | `String` 类型 | Rust 中的字符串是 UTF-8 编码，也就是字符串中的字符所占的字节数是变化的(1 - 4)                                            |
+| [String 操作]   | `String` 方法 | 由于 `String` 是可变字符串，因此我们可以对它进行创建、增删操作                                                           |
+| S               | KWS           | SIntroduction                                                                                                            |
 
 [所有权与堆栈]: https://course.rs/basic/ownership/ownership.html#所有权与堆栈
 [所有权原则]: https://course.rs/basic/ownership/ownership.html#所有权原则
+[slice 切片]: https://course.rs/basic/compound-type/string-slice.html#切片slice
+[string 字符串]: https://course.rs/basic/compound-type/string-slice.html#什么是字符串
+[string 操作]: https://course.rs/basic/compound-type/string-slice.html#操作字符串
 
 [back](#head)
 
 ## T
 
-| 名称 | 关键字 | 简介          |
-| ---- | ------ | ------------- |
-| T    | KWT    | TIntroduction |
+| 名称         | 关键字 | 简介                                                                                                                                                                      |
+| ------------ | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Tuple 元组] |        | 由多种类型组合一起，元组的长度是固定的，元组中元素的顺序也是固定的<br>用模式匹配解构元组： `let (x, y, z) = (20, 19.2, 1)`<br>用 `.` 来访问元组： `tuple.0` 索引从 0 开始 |
+| T            | KWT    | TIntroduction                                                                                                                                                             |
+
+[tuple 元组]: https://course.rs/basic/compound-type/tuple.html#元组
 
 [back](#head)
 
