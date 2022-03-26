@@ -18,19 +18,23 @@
 
 ## Sym
 
-| 名称                    | 关键字       | 简介                       |
-| ----------------------- | ------------ | -------------------------- |
-| [?]                     | 错误传播     | 用于简化错误传播           |
-| [()]                    | 单元类型     | 单元类型，无返回值         |
-| `!` : [1 函数] [2 类型] | 永不返回     | 永不返回                   |
-| [@]                     | 变量绑定     | 为一个字段绑定另外一个变量 |
-| ['a: 'b]                | 生命周期约束 |                            |
-| A                       |              | AIntroduction              |
+| 名称                    | 关键字       | 简介                                             |
+| ----------------------- | ------------ | ------------------------------------------------ |
+| [?]                     | 错误传播     | 用于简化错误传播                                 |
+| [()]                    | 单元类型     | 单元类型，无返回值                               |
+| `!` : [1 函数] [2 类型] | 永不返回     | 永不返回                                         |
+| [&]                     | 引用         | 常规引用是一个指针类型，指向了对象存储的内存地址 |
+| [\*]                    | 解引用       | 解出引用所指向的值                               |
+| [@]                     | 变量绑定     | 为一个字段绑定另外一个变量                       |
+| ['a: 'b]                | 生命周期约束 |                                                  |
+| A                       |              | AIntroduction                                    |
 
 [?]: https://course.rs/basic/result-error/result.html#传播界的大明星-
 [()]: https://course.rs/basic/base-type/function.html#无返回值
 [1 函数]: https://course.rs/basic/base-type/function.html#永不返回的函数
 [2 类型]: https://course.rs/advance/into-types/custom-type.html#永不返回类型
+[&]: https://course.rs/basic/ownership/borrowing.html#引用与解引用
+[\*]: https://course.rs/basic/ownership/borrowing.html#引用与解引用
 [@]: https://course.rs/basic/match-pattern/all-patterns.html#绑定
 ['a: 'b]: https://course.rs/advance/lifetime/advance.html#生命周期约束-hrtb
 
@@ -40,6 +44,7 @@
 
 | 名称 | 关键字 | 简介          |
 | ---- | ------ | ------------- |
+| []   |        |               |
 | A    | KWA    | AIntroduction |
 
 [back](#head)
