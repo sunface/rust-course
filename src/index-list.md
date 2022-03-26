@@ -222,14 +222,20 @@
 
 ## S
 
-| 名称           | 关键字 | 简介                                                                                                   |
-| -------------- | ------ | ------------------------------------------------------------------------------------------------------ |
-| [所有权与堆栈] |        | Rust 所有权提供的强大保障                                                                              |
-| [所有权原则]   |        | Rust 中每一个值都 `有且只有` 一个所有者(变量)<br> 当所有者(变量)离开作用域范围时，这个值将被丢弃(drop) |
-| S              | KWS    | SIntroduction                                                                                          |
+| 名称            | 关键字        | 简介                                                                                                                     |
+| --------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| [所有权与堆栈]  |               | Rust 所有权提供的强大保障                                                                                                |
+| [所有权原则]    |               | Rust 中每一个值都 `有且只有` 一个所有者(变量)<br> 当所有者(变量)离开作用域范围时，这个值将被丢弃(drop)                   |
+| [slice 切片]    | `&str`        | 允许你引用 `String` 中部分连续的元素序列，而不是引用整个 `String` <br>语法：`[开始索引..终止索引]`<br>字符串字面量是切片 |
+| [String 字符串] | `String` 类型 | Rust 中的字符串是 UTF-8 编码，也就是字符串中的字符所占的字节数是变化的(1 - 4)                                            |
+| [String 操作]   | `String` 方法 | 由于 `String` 是可变字符串，因此我们可以对它进行创建、增删操作                                                           |
+| S               | KWS           | SIntroduction                                                                                                            |
 
 [所有权与堆栈]: https://course.rs/basic/ownership/ownership.html#所有权与堆栈
 [所有权原则]: https://course.rs/basic/ownership/ownership.html#所有权原则
+[slice 切片]: https://course.rs/basic/compound-type/string-slice.html#切片slice
+[string 字符串]: https://course.rs/basic/compound-type/string-slice.html#什么是字符串
+[string 操作]: https://course.rs/basic/compound-type/string-slice.html#操作字符串
 
 [back](#head)
 
