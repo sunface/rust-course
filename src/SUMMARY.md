@@ -220,8 +220,8 @@
       - [栈借用](too-many-lists/unsafe-queue/stacked-borrow.md)
       - [测试栈借用](too-many-lists/unsafe-queue/testing-stacked-borrow.md)
       - [数据布局2](too-many-lists/unsafe-queue/layout2.md)
-
-
+      - [额外的操作](too-many-lists/unsafe-queue/extra-junk.md)
+      - [最终代码](too-many-lists/unsafe-queue/final-code.md)
 - [Rust 性能优化 todo](profiling/intro.md)
   - [深入内存 todo](profiling/memory/intro.md)
     - [指针和引用 todo](profiling/memory/pointer-ref.md)
