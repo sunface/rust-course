@@ -7,16 +7,17 @@
 
 [快速查询入口](index-list.md)
 
-## Getting started
 
+# 快速开始
+---
 - [寻找牛刀，以便小试](first-try/intro.md)
   - [安装 Rust 环境](first-try/installation.md)
   - [墙推 VSCode!](first-try/editor.md)
   - [认识 Cargo](first-try/cargo.md)
   - [不仅仅是 Hello world](first-try/hello-world.md)
 
-## Rust 学习三部曲
-
+# Rust语言特性
+---
 - [Rust 基础入门](basic/intro.md)
   - [变量绑定与解构](basic/variable.md)
   - [基本类型](basic/base-type/index.md)
@@ -104,15 +105,7 @@
     - [裸指针、引用和智能指针 todo](advance/confonding/pointer.md)
     - [作用域、生命周期和 NLL todo](advance/confonding/lifetime.md)
     - [move、Copy 和 Clone todo](advance/confonding/move-copy.md)
-  
-## 专题内容,每个专题都配套一个小型项目进行实践
-- [自动化测试](test/intro.md)
-  - [编写测试及控制执行](test/write-tests.md)
-  - [单元测试和集成测试](test/unit-integration-test.md)
-  - [断言 assertion](test/assertion.md)
-  - [用 Github Actions 进行持续集成](test/ci.md)
-  - [基准测试 benchmark](test/benchmark.md)
-  
+
 - [Rust 异步编程](async-rust/intro.md)
   - [async/await 异步编程](async-rust/async/intro.md)
     - [async 编程入门](async-rust/async/getting-started.md)
@@ -135,7 +128,16 @@
     - [类似迭代器的 Stream](async-rust/tokio/stream.md))
     - [优雅的关闭](async-rust/tokio/graceful-shutdown.md)
     - [异步跟同步共存](async-rust/tokio/bridging-with-sync.md)
-
+    
+# 常用工具链
+---
+- [自动化测试](test/intro.md)
+  - [编写测试及控制执行](test/write-tests.md)
+  - [单元测试和集成测试](test/unit-integration-test.md)
+  - [断言 assertion](test/assertion.md)
+  - [用 Github Actions 进行持续集成](test/ci.md)
+  - [基准测试 benchmark](test/benchmark.md)
+  
 - [Rust 工具链指南](toolchains/intro.md)
   - [Cargo 使用指南](toolchains/cargo/intro.md)
     - [上手使用](toolchains/cargo/getting-started.md)
@@ -161,7 +163,9 @@
       - [发布到 crates.io](toolchains/cargo/reference/publishing-on-crates.io.md)
       - [构建脚本 build.rs](toolchains/cargo/reference/build-script/intro.md)
         - [构建脚本示例](toolchains/cargo/reference/build-script/examples.md)
-  
+
+# 高级专题
+---
 - [Rust 最佳实践](practice/intro.md)
   - [对抗编译检查](practice/fight-with-compiler/intro.md)
     - [生命周期](practice/fight-with-compiler/lifetime/intro.md)
@@ -222,6 +226,10 @@
       - [数据布局2](too-many-lists/unsafe-queue/layout2.md)
       - [额外的操作](too-many-lists/unsafe-queue/extra-junk.md)
       - [最终代码](too-many-lists/unsafe-queue/final-code.md)
+    - [使用高级技巧实现链表](too-many-lists/advanced-lists/intro.md)
+      - [生产级可用的双向链表](too-many-lists/advanced-lists/unsafe-deque.md)
+      - [双单向链表](too-many-lists/advanced-lists/double-singly.md)
+  
 - [Rust 性能优化 todo](profiling/intro.md)
   - [深入内存 todo](profiling/memory/intro.md)
     - [指针和引用 todo](profiling/memory/pointer-ref.md)
@@ -283,9 +291,11 @@
 - [Rust前端开发入门]()
 - [Rust和WASM]() -->
 
-## 附录
 
-- [附录](appendix/intro.md)
+# 附录
+---
+
+- [Appendix]()
   - [A-关键字](appendix/keywords.md)
   - [B-运算符与符号](appendix/operators.md)
   - [C-表达式](appendix/expressions.md)

@@ -667,8 +667,12 @@ for b in "中国人".bytes() {
 
 ## 课后练习
 
-> Rust By Practice，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。
->
-> - [字符串](https://zh.practice.rs/compound-types/string.html)
-> - [切片](https://zh.practice.rs/compound-types/slice.html)
-> - [String](https://zh.practice.rs/collections/String.html)
+- [字符串](https://zh.practice.rs/compound-types/string.html)
+- [切片](https://zh.practice.rs/compound-types/slice.html)
+- [String](https://zh.practice.rs/collections/String.html)
+
+<hr />
+
+## 引用资料
+
+1. https://blog.csdn.net/a1595901624/article/details/119294443
