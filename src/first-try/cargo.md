@@ -168,3 +168,4 @@ geometry = { path = "crates/geometry" }
 前文有提到 `cargo` 默认生成的项目结构，真实的项目肯定会有所不同，但是在目前的学习阶段，还无需关注。感兴趣的同学可以移步：[Cargo 项目结构](https://course.rs/toolchains/cargo/guide/package-layout.html)
 
 至此，大家对 Rust 项目的创建和管理已经有了初步的了解，那么来完善刚才的`"世界，你好"`项目吧。
+

@@ -110,6 +110,17 @@ var initAll = function () {
         pagePath = "index"
     }
 
+    // add vistors count
+    var ele = document.createElement("div");
+    ele.setAttribute("align","center");
+    var count = document.createElement("img")
+    count.setAttribute("src", "https://visitor-badge.glitch.me/badge?page_id=" + path);
+    ele.appendChild(count);
+    var divider =document.createElement("hr")
+
+    document.getElementById("giscus-container").appendChild(ele);
+    document.getElementById("giscus-container").appendChild(divider);
+
     // 选取浏览器默认使用的语言
     const lang = navigator.language || navigator.userLanguage
 
@@ -139,6 +150,9 @@ var initAll = function () {
     // 预先加载评论会更好，这样用户读到那边时，评论就加载好了
     // script.setAttribute("data-loading", "lazy");
     document.getElementById("giscus-container").appendChild(script);
+
+
+
 };
 
 window.addEventListener('load', initAll);

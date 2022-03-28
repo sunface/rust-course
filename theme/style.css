@@ -79,3 +79,16 @@ table {
     .sidebar-visible .nav-wide-wrapper { display: none; }
     .sidebar-visible .nav-wrapper { display: block; }
 }
+
+
+/* 修改顶部图标大小 */
+#menu-bar {
+    font-size: 17px;
+}
+/* 修改 github 样式 */
+.fa-github {
+    font-weight: 550;
+}
+.fa-github:after{
+    content: "喜欢就给个🌟吧";
+}
