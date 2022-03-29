@@ -6,14 +6,14 @@
    
 <div align="center">
 
-[![Stars Count](https://img.shields.io/github/stars/sunface/rust-course?style=flat)](https://github.com/sunface/rust-by-practice/stargazers) [![Forks Count](https://img.shields.io/github/forks/sunface/rust-course.svg?style=flat)](https://github.com/naaive/orange/network/members)
+[![Stars Count](https://img.shields.io/github/stars/sunface/rust-course?style=flat)](https://github.com/sunface/rust-course/stargazers) [![Forks Count](https://img.shields.io/github/forks/sunface/rust-course.svg?style=flat)](https://github.com/sunface/rust-course/graphs/contributors)
 <a href="https://www.zhihu.com/column/c_1452781034895446017">
-  <img alt="Sunface | 知乎" height="20px" width="25px" src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=493147230,3096476255&amp;fm=195&amp;app=88&amp;f=JPEG?w=200&amp;h=200">
+  <img alt="Sunface | 知乎" height="20px" width="20px" src="https://github.com/sunface/rust-course/blob/main/assets/zhihu.jpg">
 </a>
 </div>
 
 - 在线阅读: [https://course.rs](https://course.rs)
-  
+- 学习社区: https://studyrust.org
 - 优秀学习资源
   - [Rust语言实战](https://github.com/sunface/rust-by-practice)，它是本书的配套练习册，提供了大量有挑战性的示例、练习和实践项目，帮助大家解决 Rust 语言从学习到实战的问题 — 毕竟这之间还隔着好几个 Go 语言的难度 :D
   - [Rust语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，精选过去一周的技术文章、业界新闻、开源项目和 Rust 语言动态
