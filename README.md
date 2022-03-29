@@ -11,8 +11,9 @@
   <img alt="Sunface | 知乎" height="20px" width="25px" src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=493147230,3096476255&amp;fm=195&amp;app=88&amp;f=JPEG?w=200&amp;h=200">
 </a>
     
-在线阅读: [https://course.rs](https://course.rs)
+在线阅读: https://course.rs
     
+在线做题: https://practice.rs   
 </div>
 
 
