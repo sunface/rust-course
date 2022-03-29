@@ -8,7 +8,7 @@
 
 [![Stars Count](https://img.shields.io/github/stars/sunface/rust-course?style=flat)](https://github.com/sunface/rust-by-practice/stargazers) [![Forks Count](https://img.shields.io/github/forks/sunface/rust-course.svg?style=flat)](https://github.com/naaive/orange/network/members)
 <a href="https://www.zhihu.com/column/c_1452781034895446017">
-  <img alt="Sunface | 知乎" height="20px" width="20px" src="https://pic1.zhimg.com/v2-b5e4fe8f22096e9e84c5eb58885f448d_xs.jpg?source=78e73102">
+  <img alt="Sunface | 知乎" height="20px" width="20px" src="https://github.com/sunface/rust-course/blob/main/assets/zhihu.jpg">
 </a>
     
 在线阅读: https://course.rs
