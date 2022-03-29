@@ -11,9 +11,10 @@
   <img alt="Sunface | 知乎" height="20px" width="20px" src="https://github.com/sunface/rust-course/blob/main/assets/zhihu.jpg">
 </a>
     
+    
 在线阅读: https://course.rs
     
-在线做题: https://practice.rs   
+学习社区: https://studyrust.org
 </div>
 
 
