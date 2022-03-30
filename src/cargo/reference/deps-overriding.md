@@ -9,7 +9,7 @@
 
 下面我们来具体看看类似的问题该如何解决。
 
-> 上一章节中我们讲了如果通过[多种引用方式](https://course.rs/toolchains/cargo/reference/specify-deps/intro.html#多引用方式混合)来引入一个包，其实这也是一种依赖覆盖。
+> 上一章节中我们讲了如果通过[多种引用方式](https://course.rs/cargo/reference/specify-deps/intro.html#多引用方式混合)来引入一个包，其实这也是一种依赖覆盖。
 
 ## 测试 bugfix 版本
 
@@ -53,7 +53,7 @@ what is locked in the Cargo.lock file, run `cargo update` to use the new
 version. This may also occur with an optional dependency that is not enabled.
 ```
 
-具体原因比较复杂，但是仔细观察，会发现克隆下来的 `uuid` 的版本是 `v1.0.0-alpha.1` (在 `"../uuid/Cargo.toml"` 中可以查看)，然后我们本地引入的 `uuid` 版本是 `0.8.2`，根据之前讲过的 `crates.io` 的[版本规则](https://course.rs/toolchains/cargo/reference/specify-deps/intro.html#从-cratesio-引入依赖包)，这两者是不兼容的，`0.8.2` 只能升级到 `0.8.z`，例如 `0.8.3`。
+具体原因比较复杂，但是仔细观察，会发现克隆下来的 `uuid` 的版本是 `v1.0.0-alpha.1` (在 `"../uuid/Cargo.toml"` 中可以查看)，然后我们本地引入的 `uuid` 版本是 `0.8.2`，根据之前讲过的 `crates.io` 的[版本规则](https://course.rs/cargo/reference/specify-deps/intro.html#从-cratesio-引入依赖包)，这两者是不兼容的，`0.8.2` 只能升级到 `0.8.z`，例如 `0.8.3`。
 
 既然如此，我们先将 "../uuid/Cargo.toml" 中的 `version = "1.0.0-alpha.1"` 修改为 `version = "0.8.3"` ，然后看看结果先:
 
@@ -75,7 +75,7 @@ $ cargo build
 
 修复 bug 后，我们可以提交 pr 给 `uuid`，一旦 pr 被合并到了 `master` 分支，你可以直接通过以下方式来使用补丁:
 
-```shell
+```toml
 [patch.crates-io]
 uuid = { git = 'https://github.com/uuid-rs/uuid' }
 ```
@@ -129,7 +129,7 @@ uuid = { git = 'https://github.com/uuid-rs/uuid' }
 
 若我们想要覆盖的依赖并不是来自 `crates.io` ，就需要对 `[patch]` 做一些修改。例如依赖是 `git` 仓库，然后使用本地路径来覆盖它:
 
-```shell
+```toml
 [patch."https://github.com/your/repository"]
 my-library = { path = "../my-library/path" }
 ```
@@ -154,7 +154,7 @@ uuid = { git = "https://github.com/uuid-rs/uuid", branch = "2.0.0" }
 
 这里需要注意，**与之前的小版本不同，大版本的 `patch` 不会发生间接的传递！**，例如：
 
-```shell
+```toml
 [package]
 name = "my-binary"
 version = "0.1.0"
@@ -173,7 +173,7 @@ uuid = { git = 'https://github.com/uuid-rs/uuid', branch = '2.0.0' }
 
 ## 多版本[patch]
 
-在之前章节，我们介绍过如何使用 `package key` 来[重命名依赖包](https://course.rs/toolchains/cargo/reference/specify-deps/intro.html#在-cargotoml-中重命名依赖)，现在来看看如何使用它同时引入多个 `patch`。
+在之前章节，我们介绍过如何使用 `package key` 来[重命名依赖包](https://course.rs/cargo/reference/specify-deps/intro.html#在-cargotoml-中重命名依赖)，现在来看看如何使用它同时引入多个 `patch`。
 
 假设，我们对 `serde` 有两个新的 `patch` 需求:
 
@@ -196,7 +196,7 @@ serde2 = { git = 'https://github.com/example/serde', package = 'serde', branch =
 
 有时我们只是临时性地对一个项目进行处理，因此并不想去修改它的 `Cargo.toml`。此时可以使用 `Cargo` 提供的路径覆盖方法: **注意，这个方法限制较多，如果可以，还是要使用 [patch]**。
 
-与 `[patch]` 修改 `Cargo.toml` 不同，路径覆盖修改的是 `Cargo` 自身的[配置文件](https://course.rs/toolchains/cargo/guide/cargo-cache.html#cargo-home) `$Home/.cargo/config.toml`:
+与 `[patch]` 修改 `Cargo.toml` 不同，路径覆盖修改的是 `Cargo` 自身的[配置文件](https://course.rs/cargo/guide/cargo-cache.html#cargo-home) `$Home/.cargo/config.toml`:
 
 ```toml
 paths = ["/path/to/uuid"]

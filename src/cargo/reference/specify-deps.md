@@ -15,7 +15,7 @@
 time = "0.1.12"
 ```
 
-字符串 `"0.1.12"` 是一个 [`semver`](https://semver.org) 格式的版本号，符合 `"x.y.z"` 的形式，其中 `x` 被称为主版本(major), `y` 被称为小版本 `minor` ，而 `z` 被称为 补丁 `patch`，可以看出从左到右，版本的影响范围逐步降低，补丁的更新是无关痛痒的，并不会造成 API 的兼容性被破坏。
+字符串 `"0.1.12"` 是一个 [`semver`](https://semver.org) 格式的版本号，符合 `"x.y.z"` 的形式，其中 `x` 被称为主版本`major`, `y` 被称为小版本 `minor` ，而 `z` 被称为补丁 `patch`，可以看出从左到右，版本的影响范围逐步降低，补丁的更新是无关痛痒的，并不会造成 API 的兼容性被破坏。
 
 `"0.1.12"` 中并没有任何额外的符号，在版本语义上，它跟使用了 `^` 的 `"^0.1.12"` 是相同的，都是指定非常具体的版本进行引入。
 
@@ -145,7 +145,7 @@ regex = { git = "https://github.com/rust-lang/regex", branch = "next" }
 
 **因此不要依赖锁定来完成版本的控制，而应该老老实实的在 `Cargo.toml` 小心配置你希望使用的版本。**
 
-如果访问的是私有仓库，你可能需要授权来访问该仓库，可以查看[这里](https://course.rs/toolchains/cargo/git-auth.html)了解授权的方式。
+如果访问的是私有仓库，你可能需要授权来访问该仓库，可以查看[这里](https://course.rs/cargo/git-auth.html)了解授权的方式。
 
 #### 通过路径引入本地依赖包
 
@@ -223,7 +223,7 @@ openssl = "1.0.1"
 
 如果你想要知道 `cfg` 能够作用的目标，可以在终端中运行 `rustc --print=cfg` 进行查询。当然，你可以指定平台查询: `rustc --print=cfg --target=x86_64-pc-windows-msvc`，该命令将对 `64bit` 的 Windows 进行查询。
 
-聪明的同学已经发现，这非常类似于条件依赖引入，那我们是不是可以根据自定义的条件来决定是否引入某个依赖呢？具体答案参见后续的 [feature](https://course.rs/toolchains/cargo/reference/features.html) 章节。这里是一个简单的示例:
+聪明的同学已经发现，这非常类似于条件依赖引入，那我们是不是可以根据自定义的条件来决定是否引入某个依赖呢？具体答案参见后续的 [feature](https://course.rs/cargo/reference/features.html) 章节。这里是一个简单的示例:
 
 ```toml
 [dependencies]
@@ -310,7 +310,7 @@ default-features = false # 不要包含默认的 features，而是通过下面�
 features = ["secure-password", "civet"]
 ```
 
-更多的信息参见 [Features 章节](https://course.rs/toolchains/cargo/reference/features.html)
+更多的信息参见 [Features 章节](https://course.rs/cargo/reference/features.html)
 
 ## 在 Cargo.toml 中重命名依赖
 
