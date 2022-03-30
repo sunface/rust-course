@@ -18,25 +18,27 @@
 
 ## Sym
 
-| 名称                    | 关键字       | 简介                                             |
-| ----------------------- | ------------ | ------------------------------------------------ |
-| [?]                     | 错误传播     | 用于简化错误传播                                 |
-| [()]                    | 单元类型     | 单元类型，无返回值                               |
-| `!` : [1 函数] [2 类型] | 永不返回     | 永不返回                                         |
-| [&]                     | 引用         | 常规引用是一个指针类型，指向了对象存储的内存地址 |
-| [\*]                    | 解引用       | 解出引用所指向的值                               |
-| [@]                     | 变量绑定     | 为一个字段绑定另外一个变量                       |
-| ['a: 'b]                | 生命周期约束 |                                                  |
-| A                       |              | AIntroduction                                    |
+| 名称                    | 关键字         | 简介                                             |
+| ----------------------- | -------------- | ------------------------------------------------ |
+| [?]                     | 错误传播       | 用于简化错误传播                                 |
+| [()]                    | 单元类型       | 单元类型，无返回值                               |
+| `!` : [1 函数] [2 类型] | 永不返回       | 永不返回                                         |
+| [&]                     | 引用           | 常规引用是一个指针类型，指向了对象存储的内存地址 |
+| [\*]                    | 解引用         | 解出引用所指向的值                               |
+| [@]                     | 变量绑定       | 为一个字段绑定另外一个变量                       |
+| ['a: 'b]                | 生命周期约束   | 用来说明两个生命周期的长短                       |
+| [{:?}] {:#?}            | 打印结构体信息 | 使用 `#[derive(Debug)]` 派生实现 `Debug` 特征    |
+| A                       |                | AIntroduction                                    |
 
 [?]: https://course.rs/basic/result-error/result.html#传播界的大明星-
 [()]: https://course.rs/basic/base-type/function.html#无返回值
-[1 函数]: https://course.rs/basic/base-type/function.html#永不返回的函数
+[1 函数]: https://course.rs/basic/base-type/function.html#永不返回的发散函数-
 [2 类型]: https://course.rs/advance/into-types/custom-type.html#永不返回类型
 [&]: https://course.rs/basic/ownership/borrowing.html#引用与解引用
 [\*]: https://course.rs/basic/ownership/borrowing.html#引用与解引用
 [@]: https://course.rs/basic/match-pattern/all-patterns.html#绑定
 ['a: 'b]: https://course.rs/advance/lifetime/advance.html#生命周期约束-hrtb
+[{:?}]: https://course.rs/basic/compound-type/struct.html?search=#使用-derivedebug-来打印结构体的信息
 
 [back](#head)
 
@@ -71,7 +73,7 @@
 | 名称         | 关键字   | 简介                                                                                |
 | ------------ | -------- | ----------------------------------------------------------------------------------- |
 | [char 字符]  | 字符类型 | 使用 `''` 表示，所有的 Unicode 值                                                   |
-| [const 常量] | constant | const MAX_POINTS: u32 = 100_000;                                                    |
+| [const 常量] | constant | `const MAX_POINTS: u32 = 100_000;`                                                  |
 | [Copy 拷贝]  | 浅拷贝   | 任何基本类型的组合可以 `Copy`，不需要分配内存或某种形式资源的类型是可以 `Copy` 的。 |
 | [Clone 克隆] | 深拷贝   | 需要复制堆上的数据时，可以使用 `.clone()` 方法                                      |
 | C            | KWC      | CIntroduction                                                                       |
@@ -93,18 +95,21 @@
 
 ## E
 
-| 名称 | 关键字 | 简介          |
-| ---- | ------ | ------------- |
-| E    | KWE    | EIntroduction |
+| 名称        | 关键字   | 简介                                     |
+| ----------- | -------- | ---------------------------------------- |
+| [enum 枚举] | 枚举类型 | 允许通过列举可能的成员来定义一个枚举类型 |
+| E           | KWE      | EIntroduction                            |
+
+[enum 枚举]: https://course.rs/basic/compound-type/enum.html#枚举
 
 [back](#head)
 
 ## F
 
-| 名称     | 关键字   | 简介                       |
-| -------- | -------- | -------------------------- |
-| [浮点数] | 数值类型 | `f32` <br> `f64`(默认类型) |
-| F        | KWF      | FIntroduction              |
+| 名称     | 关键字   | 简介                     |
+| -------- | -------- | ------------------------ |
+| [浮点数] | 数值类型 | `f32`<br>`f64`(默认类型) |
+| F        | KWF      | FIntroduction            |
 
 [浮点数]: https://course.rs/basic/base-type/numbers.html#浮点类型
 
@@ -155,11 +160,11 @@
 
 ## L
 
-| 名称      | 关键字   | 简介                        |
-| --------- | -------- | --------------------------- |
-| [let]     | 变量绑定 | let x : u32 = 5;            |
-| [let mut] | 可变变量 | let mut x : u32 = 5; x = 9; |
-| L         | KWL      | LIntroduction               |
+| 名称      | 关键字   | 简介                          |
+| --------- | -------- | ----------------------------- |
+| [let]     | 变量绑定 | `let x : u32 = 5;`            |
+| [let mut] | 可变变量 | `let mut x : u32 = 5; x = 9;` |
+| L         | KWL      | LIntroduction                 |
 
 [let]: https://course.rs/basic/variable.html#变量绑定
 [let mut]: https://course.rs/basic/variable.html#变量可变性
@@ -187,9 +192,12 @@
 
 ## O
 
-| 名称 | 关键字 | 简介          |
-| ---- | ------ | ------------- |
-| O    | KWO    | OIntroduction |
+| 名称     | 关键字      | 简介          |
+| -------- | ----------- | ------------- |
+| [Option] | Option 枚举 | 用于处理空值  |
+| O        | KWO         | OIntroduction |
+
+[option]: https://course.rs/basic/compound-type/enum.html#option-枚举用于处理空值
 
 [back](#head)
 
@@ -229,6 +237,7 @@
 | [slice 切片]    | `&str`        | 允许你引用 `String` 中部分连续的元素序列，而不是引用整个 `String` <br>语法：`[开始索引..终止索引]`<br>字符串字面量是切片 |
 | [String 字符串] | `String` 类型 | Rust 中的字符串是 UTF-8 编码，也就是字符串中的字符所占的字节数是变化的(1 - 4)                                            |
 | [String 操作]   | `String` 方法 | 由于 `String` 是可变字符串，因此我们可以对它进行创建、增删操作                                                           |
+| [struct 结构体] | 结构体        | 通过关键字 `struct` 定义<br>一个清晰明确的结构体 `名称`<br>几个有名字的结构体 `字段`<br>通过 `.` 访问字段                |
 | S               | KWS           | SIntroduction                                                                                                            |
 
 [所有权与堆栈]: https://course.rs/basic/ownership/ownership.html#所有权与堆栈
@@ -236,25 +245,31 @@
 [slice 切片]: https://course.rs/basic/compound-type/string-slice.html#切片slice
 [string 字符串]: https://course.rs/basic/compound-type/string-slice.html#什么是字符串
 [string 操作]: https://course.rs/basic/compound-type/string-slice.html#操作字符串
+[struct 结构体]: https://course.rs/basic/compound-type/struct.html
 
 [back](#head)
 
 ## T
 
-| 名称         | 关键字 | 简介                                                                                                                                                                      |
-| ------------ | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Tuple 元组] |        | 由多种类型组合一起，元组的长度是固定的，元组中元素的顺序也是固定的<br>用模式匹配解构元组： `let (x, y, z) = (20, 19.2, 1)`<br>用 `.` 来访问元组： `tuple.0` 索引从 0 开始 |
-| T            | KWT    | TIntroduction                                                                                                                                                             |
+| 名称           | 关键字     | 简介                                                                                                                                                                    |
+| -------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Tuple 元组]   |            | 由多种类型组合一起，元组的长度是固定的，元组中元素的顺序也是固定的<br>用模式匹配解构元组：`let (x, y, z) = (20, 19.2, 1)`<br>用 `.` 来访问元组：`tuple.0` 索引从 0 开始 |
+| [Tuple Struct] | 元组结构体 | 结构体必须要有名称，但字段可以没有名称<br>`struct Color(i32, i32, i32);`                                                                                                |
+| T              | KWT        | TIntroduction                                                                                                                                                           |
 
 [tuple 元组]: https://course.rs/basic/compound-type/tuple.html#元组
+[tuple struct]: https://course.rs/basic/compound-type/struct.html?search=#元组结构体tuple-struct
 
 [back](#head)
 
 ## U
 
-| 名称 | 关键字 | 简介          |
-| ---- | ------ | ------------- |
-| U    | KWU    | UIntroduction |
+| 名称               | 关键字     | 简介                                        |
+| ------------------ | ---------- | ------------------------------------------- |
+| [Unit-like Struct] | 单元结构体 | 没有任何字段和属性<br>`struct AlwaysEqual;` |
+| U                  | KWU        | UIntroduction                               |
+
+[unit-like struct]: https://course.rs/basic/compound-type/struct.html?search=#单元结构体unit-like-struct
 
 [back](#head)
 
