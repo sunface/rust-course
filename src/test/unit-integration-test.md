@@ -37,7 +37,7 @@ mod tests {
 
 在 `#[cfg(test)]` 中，`cfg` 是配置 `configuration` 的缩写，它告诉 Rust ：当 `test` 配置项存在时，才运行下面的代码，而 `cargo test` 在运行时，就会将 `test` 这个配置项传入进来，因此后面的 `tests` 模块会被包含进来。
 
-大家看出来了吗？这是典型的条件编译，`Cargo` 会根据指定的配置来选择是否编译指定的代码，事实上关于条件编译 Rust 能做的不仅仅是这些，在 [`Cargo` 专题](https://course.rs/toolchains/cargo/intro.html)中我们会进行更为详细的介绍。
+大家看出来了吗？这是典型的条件编译，`Cargo` 会根据指定的配置来选择是否编译指定的代码，事实上关于条件编译 Rust 能做的不仅仅是这些，在 [`Cargo` 专题](https://course.rs/cargo/intro.html)中我们会进行更为详细的介绍。
 
 #### 测试私有函数
 

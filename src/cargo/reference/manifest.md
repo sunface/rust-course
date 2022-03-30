@@ -26,28 +26,28 @@
   - [`publish`](#the-publish-field) — 用于阻止项目的发布
   - [`metadata`](#metadata) — 额外的配置信息，用于提供给外部工具
   - [`default-run`](#default-run) — [`cargo run`] 所使用的默认可执行文件( binary )
-  - [`autobins`](cargo-target.md#对象自动发现) — 禁止可执行文件的自动发现
-  - [`autoexamples`](cargo-target.md#对象自动发现) — 禁止示例文件的自动发现
-  - [`autotests`](cargo-target.md#对象自动发现) — 禁止测试文件的自动发现
-  - [`autobenches`](cargo-target.md#对象自动发现) — 禁止 bench 文件的自动发现
+  - [`autobins`](https://course.rs/cargo/reference/cargo-target.html#对象自动发现) — 禁止可执行文件的自动发现
+  - [`autoexamples`](https://course.rs/cargo/reference/cargo-target.html#对象自动发现) — 禁止示例文件的自动发现
+  - [`autotests`](https://course.rs/cargo/reference/cargo-target.html#对象自动发现) — 禁止测试文件的自动发现
+  - [`autobenches`](https://course.rs/cargo/reference/cargo-target.html#对象自动发现) — 禁止 bench 文件的自动发现
   - [`resolver`](resolver.md#resolver-versions) — 设置依赖解析器( dependency resolver)
-- Cargo Target 列表: (查看 [Target 配置](cargo-target.md#Target配置) 获取详细设置)
-  - [`[lib]`](cargo-target.md#库对象library) — Library target 设置.
-  - [`[[bin]]`](cargo-target.md#二进制对象binaries) — Binary target 设置.
-  - [`[[example]]`](cargo-target.md#示例对象examples) — Example target 设置.
-  - [`[[test]]`](cargo-target.md#测试对象tests) — Test target 设置.
-  - [`[[bench]]`](cargo-target.md#基准性能对象benches) — Benchmark target 设置.
+- Cargo Target 列表: (查看 [Target 配置](https://course.rs/cargo/reference/cargo-target.html#Target配置) 获取详细设置)
+  - [`[lib]`](https://course.rs/cargo/reference/cargo-target.html#库对象library) — Library target 设置.
+  - [`[[bin]]`](https://course.rs/cargo/reference/cargo-target.html#二进制对象binaries) — Binary target 设置.
+  - [`[[example]]`](https://course.rs/cargo/reference/cargo-target.html#示例对象examples) — Example target 设置.
+  - [`[[test]]`](https://course.rs/cargo/reference/cargo-target.html#测试对象tests) — Test target 设置.
+  - [`[[bench]]`](https://course.rs/cargo/reference/cargo-target.html#基准性能对象benches) — Benchmark target 设置.
 - Dependency tables:
-  - [`[dependencies]`](specify-deps.md) — 项目依赖包
-  - [`[dev-dependencies]`](specify-deps.md#dev-dependencies) — 用于 examples、tests 和 benchmarks 的依赖包
-  - [`[build-dependencies]`](specify-deps.md#build-dependencies) — 用于构建脚本的依赖包
-  - [`[target]`](specify-deps.md#根据平台引入依赖) — 平台特定的依赖包
+  - [`[dependencies]`](https://course.rs/cargo/reference/specify-deps.html) — 项目依赖包
+  - [`[dev-dependencies]`](https://course.rs/cargo/reference/specify-deps.html#dev-dependencies) — 用于 examples、tests 和 benchmarks 的依赖包
+  - [`[build-dependencies]`](https://course.rs/cargo/reference/specify-deps.html#build-dependencies) — 用于构建脚本的依赖包
+  - [`[target]`](https://course.rs/cargo/reference/specify-deps.html#根据平台引入依赖) — 平台特定的依赖包
 - [`[badges]`](#badges) — 用于在注册服务(例如 crates.io ) 上显示项目的一些状态信息，例如当前的维护状态：活跃中、寻找维护者、deprecated
-- [`[features]`](features.md) — `features` 可以用于条件编译
-- [`[patch]`](deps-overriding.md) — 推荐使用的依赖覆盖方式
-- [`[replace]`](deps-overriding.md#不推荐的replace) — 不推荐使用的依赖覆盖方式 (deprecated).
-- [`[profile]`](profiles.md) — 编译器设置和优化
-- [`[workspace]`](workspaces.md) — 工作空间的定义
+- [`[features]`](https://course.rs/cargo/reference/features/intro.html) — `features` 可以用于条件编译
+- [`[patch]`](https://course.rs/cargo/reference/deps-overriding.html) — 推荐使用的依赖覆盖方式
+- [`[replace]`](https://course.rs/cargo/reference/deps-overriding.html#不推荐的replace) — 不推荐使用的依赖覆盖方式 (deprecated).
+- [`[profile]`](https://course.rs/cargo/reference/profiles.html) — 编译器设置和优化
+- [`[workspace]`](https://course.rs/cargo/reference/workspaces.html) — 工作空间的定义
 
 下面，我们将对其中一些部分进行详细讲解。
 
@@ -80,7 +80,7 @@ authors = ["Alice <a@example.com>", "Bob <b@example.com>"]
 
 #### version
 
-Cargo 使用了[语义化版本控制](https://semver.org)的概念，例如字符串 `"0.1.12"` 是一个 `semver` 格式的版本号，符合 `"x.y.z"` 的形式，其中 `x` 被称为主版本(major), `y` 被称为小版本 `minor` ，而 `z` 被称为 补丁 `patch`，可以看出从左到右，版本的影响范围逐步降低，补丁的更新是无关痛痒的，并不会造成 API 的兼容性被破坏。
+Cargo 使用了[语义化版本控制](https://semver.org)的概念，例如字符串 `"0.1.12"` 是一个 `semver` 格式的版本号，符合 `"x.y.z"` 的形式，其中 `x` 被称为主版本`major`, `y` 被称为小版本 `minor` ，而 `z` 被称为补丁 `patch`，可以看出从左到右，版本的影响范围逐步降低，补丁的更新是无关痛痒的，并不会造成 API 的兼容性被破坏。
 
 使用该规则，你还需要遵循一些基本规则:
 
@@ -160,7 +160,7 @@ documentation = "https://docs.rs/bitflags"
 
 #### readme
 
-`readme` 字段指向项目的 `Readme.md` 文件，该文件应该存在项目的根目录下(跟 `Cargo.toml` 同级)，用于向用户描述项目的详细信息，支持 `Markdown` 格式。大家看到的 `crates.io` 上的项目首页就是基于该文件的内容进行渲染的。
+`readme` 字段指向项目的 `README.md` 文件，该文件应该存在项目的根目录下(跟 `Cargo.toml` 同级)，用于向用户描述项目的详细信息，支持 `Markdown` 格式。大家看到的 `crates.io` 上的项目首页就是基于该文件的内容进行渲染的。
 
 ```toml
 [package]
@@ -261,11 +261,11 @@ workspace = "path/to/workspace/root"
 - 该包是工作空间的根包(root crate)，通过 `[workspace]` 指定)
 - 该包是另一个工作空间的成员，通过 `package.workspace` 指定
 
-若要了解工作空间的更多信息，请参见[这里](https://course.rs/toolchains/cargo/reference/workspaces.html)。
+若要了解工作空间的更多信息，请参见[这里](https://course.rs/cargo/reference/workspaces.html)。
 
 #### build
 
-`build` 用于指定位于项目根目录中的构建脚本，关于构建脚本的更多信息，可以阅读 [构建脚本](https://course.rs/toolchains/cargo/reference/build-script/intro.html) 一章。
+`build` 用于指定位于项目根目录中的构建脚本，关于构建脚本的更多信息，可以阅读 [构建脚本](https://course.rs/cargo/reference/build-script/intro.html) 一章。
 
 ```toml
 [package]
@@ -277,7 +277,7 @@ build = "build.rs"
 
 #### links
 
-用于指定项目链接的本地库的名称，更多的信息请看构建脚本章节的 [links](https://course.rs/toolchains/cargo/reference/build-script/intro.html#links)
+用于指定项目链接的本地库的名称，更多的信息请看构建脚本章节的 [links](https://course.rs/cargo/reference/build-script/intro.html#links)
 
 ```toml
 [package]
@@ -390,9 +390,9 @@ maintenance = { status = "..." }
 
 ## [dependencies]
 
-在[之前章节](http://course.rs/toolchains/cargo/reference/specify-deps.html)中，我们已经详细介绍过 `[dependencies]` 、 `[dev-dependencies]` 和 `[build-dependencies]`，这里就不再赘述。
+在[之前章节](https://course.rs/cargo/reference/specify-deps.html)中，我们已经详细介绍过 `[dependencies]` 、 `[dev-dependencies]` 和 `[build-dependencies]`，这里就不再赘述。
 
 ## [profile.*]
 
-该部分可以对编译器进行配置，例如 debug 和优化，在后续的[编译器优化](http://course.rs/toolchains/cargo/reference/profiles.html)章节有详细介绍。
+该部分可以对编译器进行配置，例如 debug 和优化，在后续的[编译器优化](https://course.rs/cargo/reference/profiles.html)章节有详细介绍。
 
