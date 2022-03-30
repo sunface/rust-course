@@ -1,10 +1,8 @@
 # Rust 语言圣经
 
+[Rust语言圣经](about-book.md)
 [进入 Rust 编程世界](into-rust.md)
-[关于本书](about-book.md)
 [AWS 为何这么喜欢 Rust?](usecases/aws-rust.md)
-[避免从入门到放弃](sth-you-should-not-do.md)
-
 [快速查询入口](index-list.md)
 
 
@@ -15,7 +13,8 @@
   - [墙推 VSCode!](first-try/editor.md)
   - [认识 Cargo](first-try/cargo.md)
   - [不仅仅是 Hello world](first-try/hello-world.md)
-
+  - [避免从入门到放弃](first-try/sth-you-should-not-do.md)
+  
 # Rust语言特性
 ---
 - [Rust 基础入门](basic/intro.md)
