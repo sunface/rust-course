@@ -2,6 +2,8 @@
     <img height="150" src="https://github.com/sunface/rust-by-practice/blob/master/en/assets/logo.png?raw=true">
 </div>
 
+<img src="https://github.com/sunface/rust-course/blob/main/assets/banner.jpg?raw=true" />
+
 Rust语言真的好：连续六年成为全世界最受欢迎的语言、没有GC也无需手动内存管理、性能比肩 C++/C 还能直接调用它们的代码、安全性极高 - 总有公司说使用 Rust 后以前的大部分 bug 都将自动消失、全世界最好的包管理工具 Cargo 等等。但...
 
 **有人说: "Rust 太难了，学了也没用"。**
@@ -22,9 +24,11 @@ Rust语言真的好：连续六年成为全世界最受欢迎的语言、没有G
 
 同时社区还提供了一个优质的公众号： `studyrust`，里面的文章是由 [Rustt](https://rustt.org)  翻译组提供，搬运自国外优秀的 Rust 技术文章、学习资料、新闻资讯等。
 
-- 社区官网：[https://studyrust.org](https://studyrust.org) (正在建设中，暂时跳转到 Github 组织首页)
-- 微信公众号：studyrust
+- 社区官网：[https://studyrust.org](https://studyrust.org)，正在建设中，暂时跳转到 Github 组织首页
+- QQ交流群: 1009730433
+- 微信公众号：`studyrust`
 
+<img src="https://github.com/sunface/rust-course/blob/main/assets/studyrust公众号.png?raw=true" />
 
 ## 🏅 贡献者
 
