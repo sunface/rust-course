@@ -320,7 +320,7 @@ hello_macro_derive = { path = "../hello_macro/hello_macro_derive" }
 # hello_macro_derive = { path = "./hello_macro_derive" }
 ```
 
-此时，`hello_macro` 项目就可以成功的引用到 `hello_macro_derive` 本地包了，对于项目依赖引入的详细介绍，可以参见 [Cargo 章节](https://course.rs/toolchains/cargo/dependency.html)。
+此时，`hello_macro` 项目就可以成功的引用到 `hello_macro_derive` 本地包了，对于项目依赖引入的详细介绍，可以参见 [Cargo 章节](https://course.rs/cargo/dependency.html)。
 
 接下来，就到了重头戏环节，一起来看看该如何定义过程宏。
 

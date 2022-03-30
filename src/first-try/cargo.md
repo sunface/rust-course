@@ -161,11 +161,11 @@ color = { git = "https://github.com/bjz/color-rs" }
 geometry = { path = "crates/geometry" }
 ```
 
-相信聪明的读者已经能看懂该如何引入外部依赖库，这里就不再赘述。详细的说明参见此章：[Cargo 依赖管理](https://course.rs/toolchains/cargo/reference/specify-deps.html)，但是不建议大家现在去看，只要按照目录浏览，拨云见雾指日可待。
+相信聪明的读者已经能看懂该如何引入外部依赖库，这里就不再赘述。详细的说明参见此章：[Cargo 依赖管理](https://course.rs/cargo/reference/specify-deps.html)，但是不建议大家现在去看，只要按照目录浏览，拨云见雾指日可待。
 
 ## 基于 cargo 的项目组织结构
 
-前文有提到 `cargo` 默认生成的项目结构，真实的项目肯定会有所不同，但是在目前的学习阶段，还无需关注。感兴趣的同学可以移步：[Cargo 项目结构](https://course.rs/toolchains/cargo/guide/package-layout.html)
+前文有提到 `cargo` 默认生成的项目结构，真实的项目肯定会有所不同，但是在目前的学习阶段，还无需关注。感兴趣的同学可以移步：[Cargo 项目结构](https://course.rs/cargo/guide/package-layout.html)
 
 至此，大家对 Rust 项目的创建和管理已经有了初步的了解，那么来完善刚才的`"世界，你好"`项目吧。
 

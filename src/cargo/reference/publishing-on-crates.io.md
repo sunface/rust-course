@@ -22,14 +22,14 @@ $ cargo login abcdefghijklmnopqrstuvwxyz012345
 
 在发布之前，**确保** `Cargo.toml` 中以下字段已经被设置:
 
-- [license 或 license-file](https://course.rs/toolchains/cargo/reference/manifest.html#license和license-file)
-- [description](https://course.rs/toolchains/cargo/reference/manifest.html#description)
-- [homepage](https://course.rs/toolchains/cargo/reference/manifest.html#homepage)
-- [documentation](https://course.rs/toolchains/cargo/reference/manifest.html#documentation)
-- [repository](https://course.rs/toolchains/cargo/reference/manifest.html#repository)
-- [readme](https://course.rs/toolchains/cargo/reference/manifest.html#readme)
+- [license 或 license-file](https://course.rs/cargo/reference/manifest.html#license和license-file)
+- [description](https://course.rs/cargo/reference/manifest.html#description)
+- [homepage](https://course.rs/cargo/reference/manifest.html#homepage)
+- [documentation](https://course.rs/cargo/reference/manifest.html#documentation)
+- [repository](https://course.rs/cargo/reference/manifest.html#repository)
+- [readme](https://course.rs/cargo/reference/manifest.html#readme)
 
-你还可以设置[关键字](https://course.rs/toolchains/cargo/reference/manifest.html#keywords)和[类别](https://course.rs/toolchains/cargo/reference/manifest.html#categories)等元信息，让包更容易被其他人搜索发现，虽然它们不是必须的。
+你还可以设置[关键字](https://course.rs/cargo/reference/manifest.html#keywords)和[类别](https://course.rs/cargo/reference/manifest.html#categories)等元信息，让包更容易被其他人搜索发现，虽然它们不是必须的。
 
 如果你发布的是一个依赖库，那么你可能需要遵循相关的[命名规范](https://course.rs/practice/naming.html)和 [API Guidlines](https://rust-lang.github.io/api-guidelines/).
 
@@ -55,7 +55,7 @@ $ cargo publish --dry-run
 $cargo package --list
 ```
 
-当打包时，Cargo 会自动根据版本控制系统的配置来忽略指定的文件，例如 `.gitignore`。除此之外，你还可以通过 [`exclude`](https://course.rs/toolchains/cargo/reference/manifest.html#exclude和include) 来排除指定的文件:
+当打包时，Cargo 会自动根据版本控制系统的配置来忽略指定的文件，例如 `.gitignore`。除此之外，你还可以通过 [`exclude`](https://course.rs/cargo/reference/manifest.html#exclude和include) 来排除指定的文件:
 
 ```toml
 [package]
@@ -91,7 +91,7 @@ $ cargo pulish
 
 绝大多数时候，我们并不是在发布新包，而是发布已经上传过的包的新版本。
 
-为了实现这一点，只需修改 `Cargo.toml` 中的 [`version`](https://course.rs/toolchains/cargo/reference/manifest.html#version) 字段 ，但需要注意：**版本号需要遵循 `semver` 规则**。
+为了实现这一点，只需修改 `Cargo.toml` 中的 [`version`](https://course.rs/cargo/reference/manifest.html#version) 字段 ，但需要注意：**版本号需要遵循 `semver` 规则**。
 
 然后再次使用 `cargo publish` 就可以上传新的版本了。
 

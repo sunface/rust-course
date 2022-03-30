@@ -1,6 +1,6 @@
 # 通过 config.toml 对 Cargo 进行配置
 
-Cargo 相关的配置有两种，第一种是对自身进行配置，第二种是对指定的项目进行配置，关于后者请查看 [Cargo.toml 清单](https://course.rs/toolchains/cargo/reference/manifest.html)。对于普通用户而言第二种才是我们最常使用的。
+Cargo 相关的配置有两种，第一种是对自身进行配置，第二种是对指定的项目进行配置，关于后者请查看 [Cargo.toml 清单](https://course.rs/cargo/reference/manifest.html)。对于普通用户而言第二种才是我们最常使用的。
 
 本文讲述的是如何对 Cargo 相关的工具进行配置，该配置中的部分内容可能会覆盖掉 `Cargo.toml` 中对应的部分，例如关于 `profile` 的内容。
 
@@ -95,7 +95,7 @@ offline = true              # 不能访问网络
 [patch.<registry>]
 # Same keys as for [patch] in Cargo.toml
 
-[profile.<name>]         # profile 配置，详情见"如何在 Cargo.toml 中配置 profile" : https://course.rs/toolchains/cargo/reference/profiles.html#profile设置
+[profile.<name>]         # profile 配置，详情见"如何在 Cargo.toml 中配置 profile" : https://course.rs/cargo/reference/profiles.html#profile设置
 opt-level = 0
 debug = true
 split-debuginfo = '...'
@@ -109,7 +109,7 @@ rpath = false
 [profile.<name>.build-override]
 [profile.<name>.package.<name>]
 
-[registries.<name>]  # 设置其它的注册服务： https://course.rs/toolchains/cargo/reference/specify-deps.html#从其它注册服务引入依赖包
+[registries.<name>]  # 设置其它的注册服务： https://course.rs/cargo/reference/specify-deps.html#从其它注册服务引入依赖包
 index = "…"          # 注册服务索引列表的 URL
 token = "…"          # 连接注册服务所需的鉴权 token
 

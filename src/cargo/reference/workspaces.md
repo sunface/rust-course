@@ -54,7 +54,7 @@ exclude = ["crates/proc_macro_test/imp"]
 工作空间的几个关键点在于:
 
 - 所有的 `package` 共享同一个 `Cargo.lock` 文件，该文件位于工作空间的根目录中
-- 所有的 `package` 共享同一个[输出目录](https://course.rs/toolchains/cargo/guide/build-cache.html)，该目录默认的名称是 `target` ，位于工作空间根目录下
+- 所有的 `package` 共享同一个[输出目录](https://course.rs/cargo/guide/build-cache.html)，该目录默认的名称是 `target` ，位于工作空间根目录下
 - 只有工作空间根目录的 `Cargo.toml` 才能包含 `[patch]`, `[replace]` 和 `[profile.*]`，而成员的 `Cargo.toml` 中的相应部分将被自动忽略
 
 ## [workspace]
@@ -67,7 +67,7 @@ members = ["member1", "path/to/member2", "crates/*"]
 exclude = ["crates/foo", "path/to/other"]
 ```
 
-若某个本地依赖包是通过 [`path`](https://course.rs/toolchains/cargo/reference/specify-deps.html#通过路径引入本地依赖包) 引入，且该包位于工作空间的目录中，则该包自动成为工作空间的成员。
+若某个本地依赖包是通过 [`path`](https://course.rs/cargo/reference/specify-deps.html#通过路径引入本地依赖包) 引入，且该包位于工作空间的目录中，则该包自动成为工作空间的成员。
 
 剩余的成员需要通过 `workspace.members` 来指定，里面包含了各个成员所在的目录(成员目录中包含了 Cargo.toml )。
 
@@ -116,7 +116,7 @@ default-members = ["path/to/member2", "path/to/member3/foo"]
 
 ## workspace.metadata
 
-与 [package.metadata](https://course.rs/toolchains/cargo/reference/manifest.html#metadata) 非常类似，`workspace.metadata` 会被 `Cargo` 自动忽略，就算没有被使用也不会发出警告。
+与 [package.metadata](https://course.rs/cargo/reference/manifest.html#metadata) 非常类似，`workspace.metadata` 会被 `Cargo` 自动忽略，就算没有被使用也不会发出警告。
 
 这个部分可以用于让工具在 `Cargo.toml` 中存储一些工作空间的配置元信息。例如:
 
