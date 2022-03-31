@@ -7,7 +7,7 @@ src = "src"
 [output.html]
 additional-css = ["theme/style2.css"]
 additional-js = ["assets/custom.js", "assets/bigPicture.js"]
-git-repository-url = "https://github.com/sunface/rust-course#创作感悟"
+git-repository-url = "https://github.com/sunface/rust-course"
 edit-url-template = "https://github.com/sunface/rust-course/edit/main/{path}"
 
 [output.html.playground]
