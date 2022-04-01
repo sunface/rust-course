@@ -303,7 +303,7 @@ where
 }
 ```
 
-上面的缓存有一个很大的问题：只支持 `u32` 类型的值，若我们想要缓存 `String` 类型，显然就行不通了，因此需要将 `u32` 替换成泛型 `E`，该练习就留给读者自己完成，具体代码可以参考[这里](http://exercise.rs/functional-programming/closure.html)
+上面的缓存有一个很大的问题：只支持 `u32` 类型的值，若我们想要缓存 `String` 类型，显然就行不通了，因此需要将 `u32` 替换成泛型 `E`，该练习就留给读者自己完成，具体代码可以参考[这里](https://practice.rs/functional-programing/cloure.html#closure-in-structs)
 
 ## 捕获作用域中的值
 
@@ -767,3 +767,6 @@ fn factory(x:i32) -> Box<dyn Fn(i32) -> i32> {
 ## 闭包的生命周期
 
 这块儿内容在进阶生命周期章节中有讲，这里就不再赘述，读者可移步[此处](https://course.rs/advance/lifetime/advance.html#闭包函数的消除规则)进行回顾。
+
+
+{{#include ../../practice.md}}
