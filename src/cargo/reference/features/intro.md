@@ -25,7 +25,7 @@ pub mod webp;
 
 在 `Cargo.toml` 中定义的 `feature` 会被 `Cargo` 通过命令行参数 `--cfg` 传给 `rustc`，最终由后者完成编译：`rustc --cfg ...`。若项目中的代码想要测试 `feature` 是否存在，可以使用 [`cfg` 属性](https://doc.rust-lang.org/stable/reference/conditional-compilation.html#the-cfg-attribute)或 [`cfg` 宏](https://doc.rust-lang.org/stable/std/macro.cfg.html)。
 
-之前我们提到了一个 `feature` 还可以开启其他 `feature`，举个例子，例如 `ICO` 图片格式包含 `BMP` 和 `PNG`，因此当 `ICO` 图片格式被启用后，它还得确保启用 `BMP` 和 `PNG` 格式：
+之前我们提到了一个 `feature` 还可以开启其他 `feature`，举个例子，例如 ICO 图片格式包含 BMP 和 PNG 格式，因此当 `ico` 被启用后，它还得确保启用 `bmp` 和 `png` ：
 
 ```toml
 [features]
@@ -70,11 +70,11 @@ webp = []
 gif = { version = "0.11.1", optional = true }
 ```
 
-**这种可选依赖的写法会自动定义一个与依赖同名的 feature，也就是 `gif` feature**，这样一来，当我们启用 `gif` feautre 时，该依赖库也会被自动引入并启用：例如通过 `--feature gif` 的方式启用 feauture。
+**这种可选依赖的写法会自动定义一个与依赖同名的 feature，也就是 `gif` feature**，这样一来，当我们启用 `gif` feature 时，该依赖库也会被自动引入并启用：例如通过 `--feature gif` 的方式启用 feature 。
 
-> 注意：目前来说，`[fetuare]` 中定义的 feature 还不能与已引入的依赖库同名。但是在 `nightly` 中已经提供了实验性的功能用于改变这一点: [namespaced features](https://doc.rust-lang.org/stable/cargo/reference/unstable.html#namespaced-features)
+> 注意：目前来说，`[feature]` 中定义的 feature 还不能与已引入的依赖库同名。但是在 `nightly` 中已经提供了实验性的功能用于改变这一点: [namespaced features](https://doc.rust-lang.org/stable/cargo/reference/unstable.html#namespaced-features)
 
-当然，**我们还可以通过显式定义 feature 的方式来启用这些可选依赖库**，例如为了支持 `AVIF` 图片格式，我们需要引入两个依赖包，由于 `AVIF` 是通过 feature 引入的可选格式，因此它依赖的两个包也必须声明为可选的:
+当然，**我们还可以通过显式定义 feature 的方式来启用这些可选依赖库**，例如为了支持 AVIF 图片格式，我们需要引入两个依赖包，由于 `avif` 是通过 feature 引入的可选格式，因此它依赖的两个包也必须声明为可选的:
 
 ```toml
 [dependencies]
@@ -91,7 +91,7 @@ avif = ["ravif", "rgb"]
 
 ## 依赖库自身的 feature
 
-就像我们的项目可以定义 `feature` 一样，依赖库也可以定义它自己的 feature、也有需要启用的 feature 列表，当引入该依赖库时，我们可以通过以下方式为其启用相关的 features :
+就像我们的项目可以定义 `feature` 一样，依赖库也可以定义它自己的 `feature`，也有需要启用的 `feature` 列表，当引入该依赖库时，我们可以通过以下方式为其启用相关的 `features` :
 
 ```toml
 [dependencies]
@@ -109,7 +109,7 @@ flate2 = { version = "1.0.3", default-features = false, features = ["zlib"] }
 
 > 注意：这种方式未必能成功禁用 `default`，原因是可能会有其它依赖也引入了 `flate2`，并且没有对 `default` 进行禁用，那此时 `default` 依然会被启用。
 >
-> 查看下文的 [feature 同一化](#feature同一化) 获取更多信息
+> 查看下文的 [feature 同一化](#feature-同一化) 获取更多信息
 
 除此之外，还能通过下面的方式来间接开启依赖库的 feature :
 
@@ -134,7 +134,7 @@ parallel = ["jpeg-decoder/rayon"]
 
 - `--features FEATURES`: 启用给出的 feature 列表，可以使用逗号或空格进行分隔，若你是在终端中使用，还需要加上双引号，例如 `--features "foo bar"`。 若在工作空间中构建多个 `package`，可以使用 `package-name/feature-name` 为特定的成员启用 features
 - `--all-features`: 启用命令行上所选择的所有包的所有 features
-- `--no-default-features`: 对选择的包禁用 `default` featue
+- `--no-default-features`: 对选择的包禁用 `default` feature
 
 ## feature 同一化
 
@@ -150,7 +150,7 @@ parallel = ["jpeg-decoder/rayon"]
 
 例如，如果我们想可选的支持 `no_std` 环境(不使用标准库)，那么有两种做法：
 
-- 默认代码使用标准库的，当该 `no_std` feature 启用时，禁用相关的标准库代码
+- 默认代码使用标准库的，当 `no_std` feature 启用时，禁用相关的标准库代码
 - 默认代码使用非标准库的，当 `std` feature 启用时，才使用标准库的代码
 
 前者就是功能削减，与之相对，后者是功能添加，根据之前的内容，我们应该选择后者的做法：
@@ -203,7 +203,7 @@ test_cargo v0.1.0 (/Users/sunfei/development/rust/demos/test_cargo)
 `cargo tree -f "{p} {f}"` 命令会提供一个更加紧凑的视图：
 
 ```shell
-% cargo tree -f "{p} {f}"
+$ cargo tree -f "{p} {f}"
 test_cargo v0.1.0 (/Users/sunfei/development/rust/demos/test_cargo)
 └── uuid v0.8.2 default,std
 ```
@@ -211,7 +211,7 @@ test_cargo v0.1.0 (/Users/sunfei/development/rust/demos/test_cargo)
 `cargo tree -e features -i foo`，该命令会显示 `features` 会如何"流入"指定的包 `foo` 中:
 
 ```shell
-cargo tree -e features -i uuid
+$ cargo tree -e features -i uuid
 uuid v0.8.2
 ├── uuid feature "default"
 │   └── test_cargo v0.1.0 (/Users/sunfei/development/rust/demos/test_cargo)
@@ -238,8 +238,8 @@ resolver = "2"
 V2 版本的解析器可以在某些情况下避免 feature 同一化的发生，具体的情况在[这里](https://doc.rust-lang.org/stable/cargo/reference/resolver.html#feature-resolver-version-2)有描述，下面做下简单的总结:
 
 - 为特定平台开启的 `features` 且此时并没有被构建，会被忽略
-- `Build-dependencies` 和 `proc-macros` 不再跟普通的依赖共享 `features`
-- `Dev-dependencies` 的 `features` 不会被启用，除非正在构建的对象需要它们(例如测试对象、示例对象等)
+- `build-dependencies` 和 `proc-macros` 不再跟普通的依赖共享 `features`
+- `dev-dependencies` 的 `features` 不会被启用，除非正在构建的对象需要它们(例如测试对象、示例对象等)
 
 对于部分场景而言，feature 同一化确实是需要避免的，例如，一个构建依赖开启了 `std` feature，而同一个依赖又被用于 `no_std` 环境，很明显，开启 `std` 将导致错误的发生。
 
@@ -249,7 +249,7 @@ V2 版本的解析器可以在某些情况下避免 feature 同一化的发生�
 
 ## 构建脚本
 
-[构建脚本](https://course.rs/cargo/reference/build-script/intro.html)可以通过 `CARGO_FEATURE_<name>` 环境变量获取启用的 `feauture` 列表，其中 `<name>` 是 feature 的名称，该名称被转换成大全写字母，且 `-` 被转换为 `_`。
+[构建脚本](https://course.rs/cargo/reference/build-script/intro.html)可以通过 `CARGO_FEATURE_<name>` 环境变量获取启用的 `feature` 列表，其中 `<name>` 是 feature 的名称，该名称被转换成大全写字母，且 `-` 被转换为 `_`。
 
 ## required-features
 
@@ -257,14 +257,14 @@ V2 版本的解析器可以在某些情况下避免 feature 同一化的发生�
 
 ## SemVer 兼容性
 
-启用一个 feautre 不应该引入一个不兼容 SemVer 的改变。例如，启用的 feature 不应该改变现有的 API，因为这会给用户造成不兼容的破坏性变更。 如果大家想知道哪些变化是兼容的，可以参见[官方文档](https://doc.rust-lang.org/stable/cargo/reference/semver.html)。
+启用一个 feature 不应该引入一个不兼容 SemVer 的改变。例如，启用的 feature 不应该改变现有的 API，因为这会给用户造成不兼容的破坏性变更。 如果大家想知道哪些变化是兼容的，可以参见[官方文档](https://doc.rust-lang.org/stable/cargo/reference/semver.html)。
 
 总之，在新增/移除 feature 或可选依赖时，你需要小心，因此这些可能会造成向后不兼容性。更多信息参见[这里](https://doc.rust-lang.org/stable/cargo/reference/semver.html#cargo)，简单总结如下：
 
 - 在发布 `minor` 版本时，以下通常是安全的:
   - [新增 feature](https://doc.rust-lang.org/stable/cargo/reference/semver.html#cargo-feature-add) 或[可选依赖](https://doc.rust-lang.org/stable/cargo/reference/semver.html#cargo-dep-add)
   - [修改某个依赖的 features](https://doc.rust-lang.org/stable/cargo/reference/semver.html#cargo-change-dep-feature)
-- 在发布 `minor` 时，以下操作应该避免：
+- 在发布 `minor` 版本时，以下操作应该避免：
   - [移除 feature](https://doc.rust-lang.org/stable/cargo/reference/semver.html#cargo-feature-remove) 或[可选依赖](https://doc.rust-lang.org/stable/cargo/reference/semver.html#cargo-remove-opt-dep)
   - [将现有的公有代码放在某个 feature 之后](https://doc.rust-lang.org/stable/cargo/reference/semver.html#cargo-remove-opt-dep)
   - [从 feature 列表中移除一个 feature](https://doc.rust-lang.org/stable/cargo/reference/semver.html#cargo-feature-remove-another)
