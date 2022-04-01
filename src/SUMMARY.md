@@ -264,7 +264,7 @@
   - [Iterator 常用方法 todo](std/iterator.md)
 
 - [CookBook doing](cookbook/intro.md)
-  - [常用算法]()
+  - [实用算法](cookbook/algos/intro.md)
     - [生成随机值](cookbook/algos/randomness.md)
     - [Vec 排序](cookbook/algos/sorting.md)
   - [命令行解析 todo](cookbook/cmd.md)
