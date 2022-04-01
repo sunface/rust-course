@@ -1,6 +1,6 @@
 # 生成随机值
 
-## 生成随机数
+### 生成随机数
 
 使用 [rand::thread_rng](https://docs.rs/rand/*/rand/fn.thread_rng.html) 可以获取一个随机数生成器 [rand::Rng](https://docs.rs/rand/0.8.5/rand/trait.Rng.html) ，该生成器需要在每个线程都初始化一个。
 
@@ -22,7 +22,7 @@ fn main() {
 }
 ```
 
-## 指定范围生成随机数
+### 指定范围生成随机数
 
 使用 [Rng::gen_range](https://rust-lang-nursery.github.io/rust-cookbook/algorithms/randomness.html) 生成 [0, 10) 区间内的随机数( 右开区间，不包括 `10` )。
 ```rust,editable
@@ -54,7 +54,7 @@ fn main() {
 }
 ```
 
-## 使用指定分布来生成随机数
+### 使用指定分布来生成随机数
 
 默认情况下，`rand` 包使用均匀分布来生成随机数，而 [rand_distr](https://docs.rs/rand_distr/*/rand_distr/index.html) 包提供了其它类型的分布方式。
 
@@ -74,7 +74,7 @@ fn main() -> Result<(), NormalError> {
 }
 ```
 
-## 在自定义类型中生成随机值
+### 在自定义类型中生成随机值
 
 
 使用 [Distribution](https://docs.rs/rand/*/rand/distributions/trait.Distribution.html) 特征包裹我们的自定义类型，并为 [Standard](https://docs.rs/rand/*/rand/distributions/struct.Standard.html) 实现该特征，可以为自定义类型的指定字段生成随机数。
@@ -113,7 +113,7 @@ fn main() {
 }
 ```
 
-## 生成随机的字符串(A-Z, a-z, 0-9)
+### 生成随机的字符串(A-Z, a-z, 0-9)
 通过 [Alphanumeric](https://docs.rs/rand/0.8.5/rand/distributions/struct.Alphanumeric.html) 采样来生成随机的 ASCII 字符串，包含从 `A-Z, a-z, 0-9` 的字符。
 
 ```rust,editble
@@ -131,7 +131,7 @@ fn main() {
 }
 ```
 
-## 生成随机的字符串( 用户指定 ASCII 字符 )
+### 生成随机的字符串( 用户指定 ASCII 字符 )
 通过 [gen_string](https://docs.rs/rand/0.8.5/rand/trait.Rng.html#method.gen_range) 生成随机的 ASCII 字符串，包含用户指定的字符。
 
 ```rust,editable

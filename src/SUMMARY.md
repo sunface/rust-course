@@ -266,6 +266,7 @@
 - [CookBook doing](cookbook/intro.md)
   - [常用算法]()
     - [生成随机值](cookbook/algos/randomness.md)
+    - [Vec 排序](cookbook/algos/sorting.md)
   - [命令行解析 todo](cookbook/cmd.md)
   - [配置文件解析 todo](cookbook/config.md)
   - [编解码 todo](cookbook/encoding/intro.md)
