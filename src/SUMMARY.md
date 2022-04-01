@@ -269,7 +269,7 @@
     - [Vec 排序](cookbook/algos/sorting.md)
   - [命令行]()
     - [参数解析](cookbook/cmd/parsing.md)
-    - [ANSI 终端](cookbook/cmd/ansi.md)
+    - [终端输出格式化](cookbook/cmd/ansi.md)
   - [配置文件解析 todo](cookbook/config.md)
   - [编解码 todo](cookbook/encoding/intro.md)
     - [JSON](cookbook/encoding/json.md)
