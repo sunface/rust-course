@@ -93,3 +93,8 @@ table {
     content: "繁星点点尽在你的指尖 🌟";
     margin-left: 4px;
 }
+
+/* Fix on mobile device */
+code {
+    word-break: break-word;
+}
