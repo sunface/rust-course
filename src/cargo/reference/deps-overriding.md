@@ -108,7 +108,7 @@ uuid = { git = 'https://github.com/uuid-rs/uuid' }
 
 #### 间接使用 `patch`
 
-现在假设项目 `A` 的依赖是 `B` 和 `uuid`，而 `B` 的依赖也是 `uuid`，此时我们可以让 `A` 和 `B` 都使用来自 `github` 的 `patch` 版本，配置如下:
+现在假设项目 `A` 的依赖是 `B` 和 `uuid`，而 `B` 的依赖也是 `uuid`，此时我们可以让 `A` 和 `B` 都使用来自 `GitHub` 的 `patch` 版本，配置如下:
 
 ```toml
 [package]

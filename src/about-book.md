@@ -11,7 +11,7 @@ Rust语言真的好：连续六年成为全世界最受欢迎的语言、没有G
 如果看到这里，大家觉得这本书的介绍并没有吸引到你，不要立即放弃，强烈建议读一下[进入 Rust 编程世界](https://course.rs/into-rust.html)，那里会有不一样的精彩。
 
 
-> 本书完全开源，所有的文档内容都在 `Github` 上，至于里面还藏有什么秘密，大家点击右上角自行发现吧 ：）
+> 本书完全开源，所有的文档内容都在 `GitHub` 上，至于里面还藏有什么秘密，大家点击右上角自行发现吧 ：）
 >
 > 小秘密一： 你们可能会好奇，这本书到底与其它 Rust 书籍有[哪些不同](https://github.com/sunface/rust-course#教程简介)
 
@@ -26,7 +26,7 @@ Rust语言真的好：连续六年成为全世界最受欢迎的语言、没有G
 
 同时社区还提供了一个优质的公众号： `studyrust`，里面的文章是由 [Rustt](https://rustt.org)  翻译组提供，搬运自国外优秀的 Rust 技术文章、学习资料、新闻资讯等。
 
-- 社区官网：[https://studyrust.org](https://studyrust.org)，正在建设中，暂时跳转到 Github 组织首页
+- 社区官网：[https://studyrust.org](https://studyrust.org)，正在建设中，暂时跳转到 GitHub 组织首页
 - QQ交流群: 1009730433
 - 微信公众号：`studyrust`
 

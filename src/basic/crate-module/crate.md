@@ -105,6 +105,6 @@ error: a bin target must be available for `cargo run`
 - 基准性能测试 `benchmark` 文件：`benches` 目录下
 - 项目示例：`examples` 目录下
 
-这种目录结构基本上是 Rust 的标准目录结构，在 `github` 的大多数项目上，你都将看到它的身影。
+这种目录结构基本上是 Rust 的标准目录结构，在 `GitHub` 的大多数项目上，你都将看到它的身影。
 
 理解了包的概念，我们再来看看构成包的基本单元：模块。
