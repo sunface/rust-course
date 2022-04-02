@@ -25,7 +25,7 @@ overflow-checks = false     # 关闭整数溢出检查
 
 需要注意的是，每一种 profile 都可以单独的进行设置，例如上面的 `[profile.dev]`。
 
-如果是工作空间的话，只有根 package 的 `Cargo.toml` 中的 `[profile` 设置才会被使用，其它成员或依赖包中的设置会被自动忽略。
+如果是工作空间的话，只有根 package 的 `Cargo.toml` 中的 `[profile]` 设置才会被使用，其它成员或依赖包中的设置会被自动忽略。
 
 另外，profile 还能在 Cargo 自身的配置文件中进行覆盖，总之，通过 `.cargo/config.toml` 或环境变量的方式所指定的 `profile` 配置会覆盖项目的 `Cargo.toml` 中相应的配置。
 
@@ -126,9 +126,9 @@ cargo build --profile release-lto
 
 支持的选项包括：
 
-- `false`: 只会对代码生成单元中的本地包进行 `thin LTO` 优化，若代码生成单元数为 1 或者 `opt-level` 为 0，则不会进行任何 LTO 优化
-- `true` 或 `fat`：对依赖图中的所有包进行 `fat LTO` 优化
-- `thin`：对依赖图的所有包进行 [`thin LTO`](http://blog.llvm.org/2016/06/thinlto-scalable-and-incremental-lto.html)，相比 `fat` 来说，它仅牺牲了一点性能，但是换来了链接时间的可观减少
+- `false`: 只会对代码生成单元中的本地包进行 `"thin" LTO` 优化，若代码生成单元数为 1 或者 `opt-level` 为 0，则不会进行任何 LTO 优化
+- `true` 或 `"fat"`：对依赖图中的所有包进行 `"fat" LTO` 优化
+- `"thin"`：对依赖图的所有包进行 [`"thin" LTO`](http://blog.llvm.org/2016/06/thinlto-scalable-and-incremental-lto.html)，相比 `"fat"` 来说，它仅牺牲了一点性能，但是换来了链接时间的可观减少
 - `off`： 禁用 LTO
 
 如果大家想了解跨语言 LTO，可以看下 [-C linker-plugin-lto](https://doc.rust-lang.org/stable/rustc/codegen-options/index.html#linker-plugin-lto) 标志。
