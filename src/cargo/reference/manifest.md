@@ -184,7 +184,7 @@ homepage = "https://serde.rs/"
 
 #### repository
 
-设置项目的源代码仓库地址，例如 `github` 链接:
+设置项目的源代码仓库地址，例如 `GitHub` 链接:
 
 ```toml
 [package]

@@ -44,10 +44,14 @@
 
 ## A
 
-| 名称 | 关键字 | 简介          |
-| ---- | ------ | ------------- |
-| []   |        |               |
-| A    | KWA    | AIntroduction |
+| 名称          | 关键字   | 简介                                                                                                                   |
+| ------------- | -------- | ---------------------------------------------------------------------------------------------------------------------- |
+| [array 数组]  | 数组     | 长度固定<br>元素必须有相同的类型<br>依次线性排列<br>可以通过索引访问其中的元素<br>`let a: [i32; 5] = [1, 2, 3, 4, 5];` |
+| [array slice] | 数组切片 | `let slice: &[i32] = &a[1..3];`                                                                                        |
+| A             | KWA      | AIntroduction                                                                                                          |
+
+[array 数组]: https://course.rs/basic/compound-type/array.html
+[array slice]: https://course.rs/basic/compound-type/array.html#数组切片
 
 [back](#head)
 

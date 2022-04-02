@@ -12,7 +12,7 @@
 
 ### 行为扩展
 
-[`serde_json`](https://crates.io/crates/serde_json) 拥有一个 [`preserve_order` feature](https://github.com/serde-rs/json/blob/v1.0.60/Cargo.toml#L53-L56)，可以用于在序列化时保留 JSON 键值队的顺序。同时，该 feature 还会启用一个可选依赖 [indexmap](https://crates.io/crates/indexmap)。
+[`serde_json`](https://crates.io/crates/serde_json) 拥有一个 [`preserve_order` feature](https://github.com/serde-rs/json/blob/v1.0.60/Cargo.toml#L53-L56)，可以用于在序列化时保留 JSON 键值对的顺序。同时，该 feature 还会启用一个可选依赖 [indexmap](https://crates.io/crates/indexmap)。
 
 当这么做时，一定要小心不要破坏了 SemVer 的版本兼容性，也就是说：启用 feature 后，代码依然要能正常工作。
 
@@ -40,7 +40,7 @@
 
 在这种情况下，将过程宏所在的包定义为可选依赖，是很不错的选择。这样做还有一个好处：有时过程宏的版本必须要跟父包进行同步，但是我们又不希望所有的用户都进行同步。
 
-其中给一个例子就是 [serde](https://crates.io/crates/serde) ，它有一个 [derive](https://github.com/serde-rs/serde/blob/v1.0.118/serde/Cargo.toml#L34-L35) feature 可以启用 [serde_derive](https://crates.io/crates/serde_derive) 过程宏。由于 `serde_derive` 包跟 `serde` 的关系非常紧密，因此它使用了[版本相同的需求](https://github.com/serde-rs/serde/blob/v1.0.118/serde/Cargo.toml#L17)来保证两者的版本同步性。
+其中一个例子就是 [serde](https://crates.io/crates/serde) ，它有一个 [derive](https://github.com/serde-rs/serde/blob/v1.0.118/serde/Cargo.toml#L34-L35) feature 可以启用 [serde_derive](https://crates.io/crates/serde_derive) 过程宏。由于 `serde_derive` 包跟 `serde` 的关系非常紧密，因此它使用了[版本相同的需求](https://github.com/serde-rs/serde/blob/v1.0.118/serde/Cargo.toml#L17)来保证两者的版本同步性。
 
 ## 只能用于 nightly 的 feature
 
@@ -52,7 +52,7 @@ Rust 有些实验性的 API 或语言特性只能在 nightly 版本下使用，�
 
 ## 实验性 feature
 
-有一些包会提前将一些实验性的 API 放出去，既然是实验性的，自然无法保证其稳定性。在这种情况下，通过会在文档中将相应的 features 标记为实验性，意味着它们在未来可能会发生大的改变(甚至 minor 版本都可能发生)。
+有一些包会提前将一些实验性的 API 放出去，既然是实验性的，自然无法保证其稳定性。在这种情况下，通常会在文档中将相应的 features 标记为实验性，意味着它们在未来可能会发生大的改变(甚至 minor 版本都可能发生)。
 
 其中一个例子是 [async-std](https://crates.io/crates/async-std) 包，它拥有一个 [unstable feature](https://github.com/async-rs/async-std/blob/v1.8.0/Cargo.toml#L38-L42)，用来[标记一些新的 API](https://github.com/async-rs/async-std/blob/v1.8.0/src/macros.rs#L46)，表示人们已经可以选择性的使用但是还没有准备好去依赖它。
 

@@ -130,7 +130,7 @@ Rust 语言表达能力更强，性能更高。同时线程安全方面 Rust 也
 - Google 除了在安卓系统的部分模块中使用 Rust 外，还在它最新的操作系统 Fuchsia 中重度使用 Rust
 - Facebook 使用 Rust 来增强自己的网页端、移动端和 API 服务的性能，同时还写了 Hack 编程语言的虚拟机
 - Microsoft 使用 Rust 为 Azure 平台提供一些组件，其中包括 IoT 的核心服务
-- Github 和 npmjs.com，使用 Rust 提供高达每天 13 亿次的 npm 包下载
+- GitHub 和 npmjs.com，使用 Rust 提供高达每天 13 亿次的 npm 包下载
 - Rust 目前已经成为全世界区块链平台的首选开发语言
 - TiDB，国内最有名的开源分布式数据库
 
