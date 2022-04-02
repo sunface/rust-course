@@ -311,7 +311,7 @@ hello_macro
 
 由于过程宏所在的包跟我们的项目紧密相连，因此将它放在项目之中。现在，问题又来了，该如何在项目的 `src/main.rs` 中引用 `hello_macro_derive` 包的内容？
 
-方法有两种，第一种是将 `hello_macro_derive` 发布到 `crates.io` 或 `github` 中，就像我们引用的其它依赖一样；另一种就是使用相对路径引入的本地化方式，修改 `hello_macro/Cargo.toml` 文件添加以下内容:
+方法有两种，第一种是将 `hello_macro_derive` 发布到 `crates.io` 或 `GitHub` 中，就像我们引用的其它依赖一样；另一种就是使用相对路径引入的本地化方式，修改 `hello_macro/Cargo.toml` 文件添加以下内容:
 
 ```toml
 [dependencies]
