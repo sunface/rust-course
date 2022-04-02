@@ -52,7 +52,7 @@ $ cargo publish --dry-run
 你可以在 `target/package` 目录下观察生成的 `.crate` 文件。例如，目前 `crates.io` 要求该文件的大小不能超过 10MB，你可以通过手动检查该文件的大小来确保不会无意间打包进一些较大的资源文件，比如测试数据、网站文档或生成的代码等。我们还可以使用以下命令来检查其中包含的文件:
 
 ```shell
-$cargo package --list
+$ cargo package --list
 ```
 
 当打包时，Cargo 会自动根据版本控制系统的配置来忽略指定的文件，例如 `.gitignore`。除此之外，你还可以通过 [`exclude`](https://course.rs/cargo/reference/manifest.html#exclude和include) 来排除指定的文件:
