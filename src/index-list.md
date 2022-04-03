@@ -222,12 +222,14 @@
 
 ## O
 
-| 名称     | 关键字      | 简介          |
-| -------- | ----------- | ------------- |
-| [Option] | Option 枚举 | 用于处理空值  |
-| O        | KWO         | OIntroduction |
+| 名称          | 关键字      | 简介                                                            |
+| ------------- | ----------- | --------------------------------------------------------------- |
+| [Option]      | Option 枚举 | 用于处理空值，**一个变量要么有值：`Some(T)`, 要么为空：`None`** |
+| [Option 解构] | 模式匹配    | 可以通过 `match` 来实现                                         |
+| O             | KWO         | OIntroduction                                                   |
 
 [option]: https://course.rs/basic/compound-type/enum.html#option-枚举用于处理空值
+[option 解构]: https://course.rs/basic/match-pattern/option.html#匹配-optiont
 
 [back](#head)
 
