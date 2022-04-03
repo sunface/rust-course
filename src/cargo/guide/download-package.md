@@ -1,13 +1,13 @@
 # 下载并构建 Package
 
-如果看中 `Github` 上的某个开源 Rust 项目，那下载并构建它将是非常简单的。
+如果看中 `GitHub` 上的某个开源 Rust 项目，那下载并构建它将是非常简单的。
 
 ```shell
 $ git clone https://github.com/rust-lang/regex.git
 $ cd regex
 ```
 
-如上所示，直接从 `github` 上克隆下来想要的项目，然后使用 `cargo build` 进行构建即可：
+如上所示，直接从 `GitHub` 上克隆下来想要的项目，然后使用 `cargo build` 进行构建即可：
 
 ```shell
 $ cargo build

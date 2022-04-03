@@ -134,7 +134,7 @@
   - [编写测试及控制执行](test/write-tests.md)
   - [单元测试和集成测试](test/unit-integration-test.md)
   - [断言 assertion](test/assertion.md)
-  - [用 Github Actions 进行持续集成](test/ci.md)
+  - [用 GitHub Actions 进行持续集成](test/ci.md)
   - [基准测试 benchmark](test/benchmark.md)
 
 - [Cargo 使用指南](cargo/intro.md)

@@ -26,6 +26,7 @@
 | [&]                     | 引用           | 常规引用是一个指针类型，指向了对象存储的内存地址 |
 | [\*]                    | 解引用         | 解出引用所指向的值                               |
 | [@]                     | 变量绑定       | 为一个字段绑定另外一个变量                       |
+| `_`                     |                | 忽略该值或者类型                                 |
 | ['a: 'b]                | 生命周期约束   | 用来说明两个生命周期的长短                       |
 | [{:?}] {:#?}            | 打印结构体信息 | 使用 `#[derive(Debug)]` 派生实现 `Debug` 特征    |
 | A                       |                | AIntroduction                                    |
@@ -44,10 +45,14 @@
 
 ## A
 
-| 名称 | 关键字 | 简介          |
-| ---- | ------ | ------------- |
-| []   |        |               |
-| A    | KWA    | AIntroduction |
+| 名称          | 关键字   | 简介                                                                                                                   |
+| ------------- | -------- | ---------------------------------------------------------------------------------------------------------------------- |
+| [array 数组]  | 数组     | 长度固定<br>元素必须有相同的类型<br>依次线性排列<br>可以通过索引访问其中的元素<br>`let a: [i32; 5] = [1, 2, 3, 4, 5];` |
+| [array slice] | 数组切片 | `let slice: &[i32] = &a[1..3];`                                                                                        |
+| A             | KWA      | AIntroduction                                                                                                          |
+
+[array 数组]: https://course.rs/basic/compound-type/array.html
+[array slice]: https://course.rs/basic/compound-type/array.html#数组切片
 
 [back](#head)
 
@@ -59,12 +64,14 @@
 | [变量作用域] | 所有权    | 作用域是一个变量在程序中有效的范围     |
 | [表达式]     |           | 进行求值，结尾无 `;`，有返回值         |
 | [bool 布尔]  | 布尔类型  | `true` `false`，占用 1 字节            |
+| [break]      | 循环控制  | 直接跳出当前整个循环                   |
 | B            | KWB       | BIntroduction                          |
 
 [变量遮蔽]: https://course.rs/basic/variable.html#变量遮蔽shadowing
 [变量作用域]: https://course.rs/basic/ownership/ownership.html#变量作用域
 [bool 布尔]: https://course.rs/basic/base-type/char-bool.html#布尔bool
 [表达式]: https://course.rs/basic/base-type/statement-expression.html#表达式
+[break]: https://course.rs/basic/flow-control.html#break
 
 [back](#head)
 
@@ -75,6 +82,7 @@
 | [char 字符]  | 字符类型 | 使用 `''` 表示，所有的 Unicode 值                                                   |
 | [const 常量] | constant | `const MAX_POINTS: u32 = 100_000;`                                                  |
 | [Copy 拷贝]  | 浅拷贝   | 任何基本类型的组合可以 `Copy`，不需要分配内存或某种形式资源的类型是可以 `Copy` 的。 |
+| [continue]   | 循环控制 | 跳过当前当次的循环，开始下次的循环                                                  |
 | [Clone 克隆] | 深拷贝   | 需要复制堆上的数据时，可以使用 `.clone()` 方法                                      |
 | C            | KWC      | CIntroduction                                                                       |
 
@@ -82,6 +90,7 @@
 [const 常量]: https://course.rs/basic/variable.html#变量和常量之间的差异
 [copy 拷贝]: https://course.rs/basic/ownership/ownership.html#拷贝浅拷贝
 [clone 克隆]: https://course.rs/basic/ownership/ownership.html#克隆深拷贝
+[continue]: https://course.rs/basic/flow-control.html#continue
 
 [back](#head)
 
@@ -106,12 +115,14 @@
 
 ## F
 
-| 名称     | 关键字   | 简介                     |
-| -------- | -------- | ------------------------ |
-| [浮点数] | 数值类型 | `f32`<br>`f64`(默认类型) |
-| F        | KWF      | FIntroduction            |
+| 名称       | 关键字   | 简介                         |
+| ---------- | -------- | ---------------------------- |
+| [浮点数]   | 数值类型 | `f32`<br>`f64`(默认类型)     |
+| [for 循环] | 循环控制 | `for item in &collection {}` |
+| F          | KWF      | FIntroduction                |
 
 [浮点数]: https://course.rs/basic/base-type/numbers.html#浮点类型
+[for 循环]: https://course.rs/basic/flow-control.html#for-循环
 
 [back](#head)
 
@@ -136,9 +147,14 @@
 
 ## I
 
-| 名称 | 关键字 | 简介          |
-| ---- | ------ | ------------- |
-| I    | KWI    | IIntroduction |
+| 名称      | 关键字   | 简介                       |
+| --------- | -------- | -------------------------- |
+| [if else] | 流程控制 | 根据条件执行不同的代码分支 |
+| [else if] | 流程控制 | 处理多重条件               |
+| I         | KWI      | IIntroduction              |
+
+[if else]: https://course.rs/basic/flow-control.html#使用-if-来做分支控制
+[else if]: https://course.rs/basic/flow-control.html#使用-else-if-来处理多重条件
 
 [back](#head)
 
@@ -160,14 +176,17 @@
 
 ## L
 
-| 名称      | 关键字   | 简介                          |
-| --------- | -------- | ----------------------------- |
-| [let]     | 变量绑定 | `let x : u32 = 5;`            |
-| [let mut] | 可变变量 | `let mut x : u32 = 5; x = 9;` |
-| L         | KWL      | LIntroduction                 |
+| 名称        | 关键字   | 简介                           |
+| ----------- | -------- | ------------------------------ |
+| [let]       | 变量绑定 | `let x : u32 = 5;`             |
+| [let mut]   | 可变变量 | `let mut x : u32 = 5; x = 9;`  |
+| [loop 循环] | 循环控制 | 无限循环，注意要配合 [`break`] |
+| L           | KWL      | LIntroduction                  |
 
 [let]: https://course.rs/basic/variable.html#变量绑定
 [let mut]: https://course.rs/basic/variable.html#变量可变性
+[`break`]: https://course.rs/basic/flow-control.html#break
+[loop 循环]: https://course.rs/basic/flow-control.html#loop-循环
 
 [back](#head)
 
@@ -283,9 +302,12 @@
 
 ## W
 
-| 名称 | 关键字 | 简介          |
-| ---- | ------ | ------------- |
-| W    | KWW    | WIntroduction |
+| 名称         | 关键字   | 简介                                                   |
+| ------------ | -------- | ------------------------------------------------------ |
+| [while 循环] | 循环控制 | 当条件为 `true` 时，继续循环，条件为 `false`，跳出循环 |
+| W            | KWW      | WIntroduction                                          |
+
+[while 循环]: https://course.rs/basic/flow-control.html#while-循环
 
 [back](#head)
 
