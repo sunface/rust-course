@@ -270,9 +270,12 @@
   - [命令行]()
     - [参数解析](cookbook/cmd/parsing.md)
     - [终端输出格式化](cookbook/cmd/ansi.md)
-  - [压缩](cookbook/compression/intro.md)
+  - [压缩]()
     - [使用.tar包](cookbook/compression/tar.md)
-  - [配置文件解析 todo](cookbook/config.md)
+  - [并发]()
+    - [线程](cookbook/cocurrency/threads.md)
+
+  <!-- - [配置文件解析 todo](cookbook/config.md)
   - [编解码 todo](cookbook/encoding/intro.md)
     - [JSON](cookbook/encoding/json.md)
     - [CSV](cookbook/encoding/csv.md)
@@ -291,7 +294,7 @@
   - [时间日期](cookbook/date.md)
   - [开发调试 todo](cookbook/dev/intro.md)
     - [日志](cookbook/dev/logs.md)
-    - [性能分析](cookbook/dev/profile.md)
+    - [性能分析](cookbook/dev/profile.md) -->
 
 <!--
 - [Rust区块链入门]()
