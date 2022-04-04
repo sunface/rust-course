@@ -1,4 +1,4 @@
-# 版本
+# 版本号
 
 ### 解析并增加版本号
 下面例子使用 [Version::parse](https://docs.rs/semver/*/semver/struct.Version.html#method.parse) 将一个字符串转换成 [semver::Version](https://docs.rs/semver/*/semver/struct.Version.html) 版本号，然后将它的 patch, minor, major 版本号都增加 1。

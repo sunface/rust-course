@@ -190,7 +190,7 @@
   - [开发者工具]()
     - [日志](cookbook/devtools/log.md)
     - [配置日志](cookbook/devtools/config-log.md)
-    - [版本](cookbook/devtools/version.md)
+    - [版本号](cookbook/devtools/version.md)
     - [构建时工具](cookbook/devtools/build-tools.md)
 
 
