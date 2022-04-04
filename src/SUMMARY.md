@@ -184,6 +184,15 @@
   - [数据库]()
     - [SQLite](cookbook/database/sqlite.md)
     - [Postgres](cookbook/database/postgres.md)
+  - [日期和时间]()
+    - [时间计算和转换](cookbook/datetime/duration.md)
+    - [解析和显示](cookbook/datetime/parsing.md)
+  - [开发者工具]()
+    - [日志](cookbook/devtools/log.md)
+    - [配置日志](cookbook/devtools/config-log.md)
+    - [版本](cookbook/devtools/version.md)
+    - [构建时工具](cookbook/devtools/build-tools.md)
+
 
 - [Rust 最佳实践](practice/intro.md)
   - [对抗编译检查](practice/fight-with-compiler/intro.md)
