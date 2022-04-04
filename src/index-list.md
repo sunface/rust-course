@@ -200,8 +200,10 @@
 | 名称          | 关键字     | 简介                                                                                                                                                               |
 | ------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | [模式绑定]    | 模式匹配   | 从模式中取出绑定的值                                                                                                                                               |
+| [全模式列表]  | 模式匹配   | 列出了所有的模式匹配                                                                                                                                               |
 | [match 匹配]  | 模式匹配   | `match` 的匹配必须要穷举出所有可能，因此这里用 `_ ` 来代表未列出的所有可能性<br>`match` 的每一个分支都必须是一个表达式，且所有分支的表达式最终返回值的类型必须相同 |
 | [matches! 宏] | 模式匹配   | 将一个表达式跟模式进行匹配，然后返回匹配的结果 `true` 或 `false`                                                                                                   |
+| [match guard] | 匹配守卫   | 位于 `match` 分支模式之后的额外 `if` 条件，它能为分支模式提供更进一步的匹配条件                                                                                    |
 | [move 移动]   | 转移所有权 | `let s2 = s1;`<br>`s1` 所有权转移给了 `s2`，`s1` 失效                                                                                                              |
 | M             | KWM        | MIntroduction                                                                                                                                                      |
 
@@ -209,6 +211,8 @@
 [match 匹配]: https://course.rs/basic/match-pattern/match-if-let.html#match-匹配
 [matches! 宏]: https://course.rs/basic/match-pattern/match-if-let.html#matches宏
 [move 移动]: https://course.rs/basic/ownership/ownership.html#转移所有权
+[全模式列表]: https://course.rs/basic/match-pattern/all-patterns.html
+[match guard]: https://course.rs/basic/match-pattern/all-patterns.html#匹配守卫提供的额外条件
 
 [back](#head)
 
