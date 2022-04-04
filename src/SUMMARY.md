@@ -274,7 +274,7 @@
     - [使用.tar包](cookbook/compression/tar.md)
   - [并发]()
     - [线程](cookbook/cocurrency/threads.md)
-
+    - [使用rayon并行处理数据](cookbook/cocurrency/parallel.md)
   <!-- - [配置文件解析 todo](cookbook/config.md)
   - [编解码 todo](cookbook/encoding/intro.md)
     - [JSON](cookbook/encoding/json.md)
