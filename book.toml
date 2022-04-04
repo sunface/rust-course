@@ -13,7 +13,7 @@ edit-url-template = "https://github.com/sunface/rust-course/edit/main/{path}"
 [output.html.playground]
 editable = true
 copy-js = true
-line-numbers = true
+# line-numbers = true
 
 [output.html.fold]
 enable = true
