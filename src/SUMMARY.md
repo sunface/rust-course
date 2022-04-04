@@ -162,9 +162,29 @@
     - [构建脚本 build.rs](cargo/reference/build-script/intro.md)
       - [构建脚本示例](cargo/reference/build-script/examples.md)  
 
-
-# 高级专题
+# 应用实战
 ---
+- [CookBook doing](cookbook/intro.md)
+  - [实用算法](cookbook/algos/intro.md)
+    - [生成随机值](cookbook/algos/randomness.md)
+    - [Vec 排序](cookbook/algos/sorting.md)
+  - [命令行]()
+    - [参数解析](cookbook/cmd/parsing.md)
+    - [终端输出格式化](cookbook/cmd/ansi.md)
+  - [压缩]()
+    - [使用.tar包](cookbook/compression/tar.md)
+  - [并发]()
+    - [线程](cookbook/cocurrency/threads.md)
+    - [使用rayon并行处理数据](cookbook/cocurrency/parallel.md)
+  - [密码学]()
+    - [哈希](cookbook/cryptography/hashing.md)
+    - [加密](cookbook/cryptography/encryption.md)
+  - [数据结构]()
+    - [位字段](cookbook/datastructures/bitfield.md)
+  - [数据库]()
+    - [SQLite](cookbook/database/sqlite.md)
+    - [Postgres](cookbook/database/postgres.md)
+
 - [Rust 最佳实践](practice/intro.md)
   - [对抗编译检查](practice/fight-with-compiler/intro.md)
     - [生命周期](practice/fight-with-compiler/lifetime/intro.md)
@@ -231,6 +251,9 @@
       - [栈上的链表](too-many-lists/advanced-lists/stack-allocated.md)
 
 
+# 高级专题
+---
+
 - [Rust 性能优化 todo](profiling/intro.md)
   - [深入内存 todo](profiling/memory/intro.md)
     - [指针和引用 todo](profiling/memory/pointer-ref.md)
@@ -263,26 +286,7 @@
   - [HashMap todo](std/hashmap.md)
   - [Iterator 常用方法 todo](std/iterator.md)
 
-- [CookBook doing](cookbook/intro.md)
-  - [实用算法](cookbook/algos/intro.md)
-    - [生成随机值](cookbook/algos/randomness.md)
-    - [Vec 排序](cookbook/algos/sorting.md)
-  - [命令行]()
-    - [参数解析](cookbook/cmd/parsing.md)
-    - [终端输出格式化](cookbook/cmd/ansi.md)
-  - [压缩]()
-    - [使用.tar包](cookbook/compression/tar.md)
-  - [并发]()
-    - [线程](cookbook/cocurrency/threads.md)
-    - [使用rayon并行处理数据](cookbook/cocurrency/parallel.md)
-  - [密码学]()
-    - [哈希](cookbook/cryptography/hashing.md)
-    - [加密](cookbook/cryptography/encryption.md)
-  - [数据结构]()
-    - [位字段](cookbook/datastructures/bitfield.md)
-  - [数据库]()
-    - [SQLite](cookbook/database/sqlite.md)
-    - [Postgres](cookbook/database/postgres.md)
+
 
   <!-- - [配置文件解析 todo](cookbook/config.md)
   - [编解码 todo](cookbook/encoding/intro.md)
