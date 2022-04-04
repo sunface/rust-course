@@ -1,7 +1,7 @@
 # 加密
 
 ### 使用  PBKDF2 对密码进行哈希和加盐( salt )
-[ring::pbkdf2]() 可以对一个加盐密码进行哈希。
+[ring::pbkdf2](https://briansmith.org/rustdoc/ring/pbkdf2/index.html) 可以对一个加盐密码进行哈希。
 
 ```rust,editable
 
