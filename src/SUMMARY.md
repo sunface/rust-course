@@ -2,9 +2,12 @@
 
 [Rust语言圣经](about-book.md)
 [进入 Rust 编程世界](into-rust.md)
-[AWS 为何这么喜欢 Rust?](usecases/aws-rust.md)
 [快速查询入口](index-list.md)
 
+---
+[Rust Cookbook](cookbook.md)
+[Rust 语言周刊](rust-weekly.md)
+[Rustt 翻译计划](rustt.md)
 
 # 快速开始
 ---
@@ -164,9 +167,9 @@
 
 # 应用实战
 ---
-- [Cookbook](cookbook.md)
-- [Rust 语言周刊](rust-weekly.md)
-- [Rustt 翻译计划](rustt.md)
+- [企业落地实践](usecases/intro.md)
+  - [AWS 为何这么喜欢 Rust?](usecases/aws-rust.md)
+
 - [Rust 最佳实践](practice/intro.md)
   - [对抗编译检查](practice/fight-with-compiler/intro.md)
     - [生命周期](practice/fight-with-compiler/lifetime/intro.md)
