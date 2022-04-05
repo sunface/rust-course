@@ -164,8 +164,9 @@
 
 # 应用实战
 ---
-- [CookBook](cookbook/intro.md)
-
+- [Cookbook](cookbook.md)
+- [Rust 语言周刊](rust-weekly.md)
+- [Rustt 翻译计划](rustt.md)
 - [Rust 最佳实践](practice/intro.md)
   - [对抗编译检查](practice/fight-with-compiler/intro.md)
     - [生命周期](practice/fight-with-compiler/lifetime/intro.md)
