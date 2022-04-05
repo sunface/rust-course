@@ -2,6 +2,12 @@
 
 对于开发者而言，CookBook 是非常实用的，几乎每一门编程语言都是如此。原因无他：聪明的开发者大部分时间不是在复制粘贴就是在复制粘贴的路上。而 CookBook 恰恰为各种实用场景提供了可供直接复制粘贴的代码，例如文件操作、随机数生成、命令行解析等等，
 
+由于这本书的章节非常多，为了不影响大家的整体阅读体验，请访问以下地址阅读。
+
+- 在线阅读: <a href="https://cookbook.rs" target="_blank">https://cookbook.rs</a>
+
+<br />
+
 > CookBook 的部分内容翻译自 [Rust CookBook](https://rust-lang-nursery.github.io/rust-cookbook/intro.html)，但是内容并不相同，因为我们对部分内容进行了整合，最重要的是增加了大量实用库和代码片段
 
 
