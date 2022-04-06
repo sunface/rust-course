@@ -5,7 +5,7 @@
 [快速查询入口](index-list.md)
 
 ---
-[Cook Rust: Awesome + Cookbook](cookbook.md)
+[锈书: Awesome + Cookbook](cookbook.md)
 [Rust 语言周刊](rust-weekly.md)
 [Rustt 翻译计划](rustt.md)
 
