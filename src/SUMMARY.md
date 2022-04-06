@@ -2,9 +2,12 @@
 
 [Rust语言圣经](about-book.md)
 [进入 Rust 编程世界](into-rust.md)
-[AWS 为何这么喜欢 Rust?](usecases/aws-rust.md)
 [快速查询入口](index-list.md)
 
+---
+[Cook Rust: Awesome + Cookbook](cookbook.md)
+[Rust 语言周刊](rust-weekly.md)
+[Rustt 翻译计划](rustt.md)
 
 # 快速开始
 ---
@@ -162,9 +165,11 @@
     - [构建脚本 build.rs](cargo/reference/build-script/intro.md)
       - [构建脚本示例](cargo/reference/build-script/examples.md)  
 
-
-# 高级专题
+# 应用实战
 ---
+- [企业落地实践](usecases/intro.md)
+  - [AWS 为何这么喜欢 Rust?](usecases/aws-rust.md)
+
 - [Rust 最佳实践](practice/intro.md)
   - [对抗编译检查](practice/fight-with-compiler/intro.md)
     - [生命周期](practice/fight-with-compiler/lifetime/intro.md)
@@ -231,6 +236,9 @@
       - [栈上的链表](too-many-lists/advanced-lists/stack-allocated.md)
 
 
+# 高级专题
+---
+
 - [Rust 性能优化 todo](profiling/intro.md)
   - [深入内存 todo](profiling/memory/intro.md)
     - [指针和引用 todo](profiling/memory/pointer-ref.md)
@@ -263,16 +271,9 @@
   - [HashMap todo](std/hashmap.md)
   - [Iterator 常用方法 todo](std/iterator.md)
 
-- [CookBook doing](cookbook/intro.md)
-  - [实用算法](cookbook/algos/intro.md)
-    - [生成随机值](cookbook/algos/randomness.md)
-    - [Vec 排序](cookbook/algos/sorting.md)
-  - [命令行]()
-    - [参数解析](cookbook/cmd/parsing.md)
-    - [终端输出格式化](cookbook/cmd/ansi.md)
-  - [压缩](cookbook/compression/intro.md)
-    - [使用.tar包](cookbook/compression/tar.md)
-  - [配置文件解析 todo](cookbook/config.md)
+
+
+  <!-- - [配置文件解析 todo](cookbook/config.md)
   - [编解码 todo](cookbook/encoding/intro.md)
     - [JSON](cookbook/encoding/json.md)
     - [CSV](cookbook/encoding/csv.md)
@@ -291,7 +292,7 @@
   - [时间日期](cookbook/date.md)
   - [开发调试 todo](cookbook/dev/intro.md)
     - [日志](cookbook/dev/logs.md)
-    - [性能分析](cookbook/dev/profile.md)
+    - [性能分析](cookbook/dev/profile.md) -->
 
 <!--
 - [Rust区块链入门]()

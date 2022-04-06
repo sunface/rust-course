@@ -98,3 +98,11 @@ table {
 code {
     word-break: break-word;
 }
+
+/* 修改书侧边目录的区域分隔行样式 */
+
+.chapter .spacer {
+    background-color: #99CCFF;
+    height: 2px;
+    margin-top: 8px;
+}

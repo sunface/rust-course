@@ -18,17 +18,18 @@
 
 ## Sym
 
-| 名称                    | 关键字         | 简介                                             |
-| ----------------------- | -------------- | ------------------------------------------------ |
-| [?]                     | 错误传播       | 用于简化错误传播                                 |
-| [()]                    | 单元类型       | 单元类型，无返回值                               |
-| `!` : [1 函数] [2 类型] | 永不返回       | 永不返回                                         |
-| [&]                     | 引用           | 常规引用是一个指针类型，指向了对象存储的内存地址 |
-| [\*]                    | 解引用         | 解出引用所指向的值                               |
-| [@]                     | 变量绑定       | 为一个字段绑定另外一个变量                       |
-| ['a: 'b]                | 生命周期约束   | 用来说明两个生命周期的长短                       |
-| [{:?}] {:#?}            | 打印结构体信息 | 使用 `#[derive(Debug)]` 派生实现 `Debug` 特征    |
-| A                       |                | AIntroduction                                    |
+| 名称                    | 关键字         | 简介                                                                                 |
+| ----------------------- | -------------- | ------------------------------------------------------------------------------------ |
+| [?]                     | 错误传播       | 用于简化错误传播                                                                     |
+| [()]                    | 单元类型       | 单元类型，无返回值                                                                   |
+| `!` : [1 函数] [2 类型] | 永不返回       | 永不返回                                                                             |
+| [&]                     | 引用           | 常规引用是一个指针类型，指向了对象存储的内存地址                                     |
+| [\*]                    | 解引用         | 解出引用所指向的值                                                                   |
+| [@]                     | 变量绑定       | 为一个字段绑定另外一个变量                                                           |
+| `_` : [2 模式匹配]      | 忽略           | 1. 忽略该值或者类型，否则编译器会给你一个 `变量未使用的` 的警告<br>2. 模式匹配通配符 |
+| ['a: 'b]                | 生命周期约束   | 用来说明两个生命周期的长短                                                           |
+| [{:?}] {:#?}            | 打印结构体信息 | 使用 `#[derive(Debug)]` 派生实现 `Debug` 特征                                        |
+| A                       |                | AIntroduction                                                                        |
 
 [?]: https://course.rs/basic/result-error/result.html#传播界的大明星-
 [()]: https://course.rs/basic/base-type/function.html#无返回值
@@ -39,6 +40,7 @@
 [@]: https://course.rs/basic/match-pattern/all-patterns.html#绑定
 ['a: 'b]: https://course.rs/advance/lifetime/advance.html#生命周期约束-hrtb
 [{:?}]: https://course.rs/basic/compound-type/struct.html?search=#使用-derivedebug-来打印结构体的信息
+[2 模式匹配]: https://course.rs/basic/match-pattern/match-if-let.html#_-通配符
 
 [back](#head)
 
@@ -57,18 +59,22 @@
 
 ## B
 
-| 名称         | 关键字    | 简介                                   |
-| ------------ | --------- | -------------------------------------- |
-| [变量遮蔽]   | shadowing | 允许声明相同的变量名，后者会遮蔽掉前者 |
-| [变量作用域] | 所有权    | 作用域是一个变量在程序中有效的范围     |
-| [表达式]     |           | 进行求值，结尾无 `;`，有返回值         |
-| [bool 布尔]  | 布尔类型  | `true` `false`，占用 1 字节            |
-| B            | KWB       | BIntroduction                          |
+| 名称         | 关键字    | 简介                                                                           |
+| ------------ | --------- | ------------------------------------------------------------------------------ |
+| [变量遮蔽]   | shadowing | 允许声明相同的变量名，后者会遮蔽掉前者                                         |
+| [变量覆盖]   | 模式匹配  | 无论是是 `match` 还是 `if let`，他们都可以在模式匹配时覆盖掉老的值，绑定新的值 |
+| [变量作用域] | 所有权    | 作用域是一个变量在程序中有效的范围                                             |
+| [表达式]     |           | 进行求值，结尾无 `;`，有返回值                                                 |
+| [bool 布尔]  | 布尔类型  | `true` `false`，占用 1 字节                                                    |
+| [break]      | 循环控制  | 直接跳出当前整个循环                                                           |
+| B            | KWB       | BIntroduction                                                                  |
 
 [变量遮蔽]: https://course.rs/basic/variable.html#变量遮蔽shadowing
+[变量覆盖]: https://course.rs/basic/match-pattern/match-if-let.html#变量覆盖
 [变量作用域]: https://course.rs/basic/ownership/ownership.html#变量作用域
 [bool 布尔]: https://course.rs/basic/base-type/char-bool.html#布尔bool
 [表达式]: https://course.rs/basic/base-type/statement-expression.html#表达式
+[break]: https://course.rs/basic/flow-control.html#break
 
 [back](#head)
 
@@ -79,6 +85,7 @@
 | [char 字符]  | 字符类型 | 使用 `''` 表示，所有的 Unicode 值                                                   |
 | [const 常量] | constant | `const MAX_POINTS: u32 = 100_000;`                                                  |
 | [Copy 拷贝]  | 浅拷贝   | 任何基本类型的组合可以 `Copy`，不需要分配内存或某种形式资源的类型是可以 `Copy` 的。 |
+| [continue]   | 循环控制 | 跳过当前当次的循环，开始下次的循环                                                  |
 | [Clone 克隆] | 深拷贝   | 需要复制堆上的数据时，可以使用 `.clone()` 方法                                      |
 | C            | KWC      | CIntroduction                                                                       |
 
@@ -86,6 +93,7 @@
 [const 常量]: https://course.rs/basic/variable.html#变量和常量之间的差异
 [copy 拷贝]: https://course.rs/basic/ownership/ownership.html#拷贝浅拷贝
 [clone 克隆]: https://course.rs/basic/ownership/ownership.html#克隆深拷贝
+[continue]: https://course.rs/basic/flow-control.html#continue
 
 [back](#head)
 
@@ -110,12 +118,14 @@
 
 ## F
 
-| 名称     | 关键字   | 简介                     |
-| -------- | -------- | ------------------------ |
-| [浮点数] | 数值类型 | `f32`<br>`f64`(默认类型) |
-| F        | KWF      | FIntroduction            |
+| 名称       | 关键字   | 简介                         |
+| ---------- | -------- | ---------------------------- |
+| [浮点数]   | 数值类型 | `f32`<br>`f64`(默认类型)     |
+| [for 循环] | 循环控制 | `for item in &collection {}` |
+| F          | KWF      | FIntroduction                |
 
 [浮点数]: https://course.rs/basic/base-type/numbers.html#浮点类型
+[for 循环]: https://course.rs/basic/flow-control.html#for-循环
 
 [back](#head)
 
@@ -140,9 +150,16 @@
 
 ## I
 
-| 名称 | 关键字 | 简介          |
-| ---- | ------ | ------------- |
-| I    | KWI    | IIntroduction |
+| 名称          | 关键字   | 简介                                                                  |
+| ------------- | -------- | --------------------------------------------------------------------- |
+| [if else]     | 流程控制 | 根据条件执行不同的代码分支                                            |
+| [else if]     | 流程控制 | 处理多重条件                                                          |
+| [if let 匹配] | 模式匹配 | 当你只要匹配一个条件，且忽略其他条件时就用 `if let`，否则都用 `match` |
+| I             | KWI      | IIntroduction                                                         |
+
+[if else]: https://course.rs/basic/flow-control.html#使用-if-来做分支控制
+[else if]: https://course.rs/basic/flow-control.html#使用-else-if-来处理多重条件
+[if let 匹配]: https://course.rs/basic/match-pattern/match-if-let.html#if-let-匹配
 
 [back](#head)
 
@@ -164,25 +181,38 @@
 
 ## L
 
-| 名称      | 关键字   | 简介                          |
-| --------- | -------- | ----------------------------- |
-| [let]     | 变量绑定 | `let x : u32 = 5;`            |
-| [let mut] | 可变变量 | `let mut x : u32 = 5; x = 9;` |
-| L         | KWL      | LIntroduction                 |
+| 名称        | 关键字   | 简介                           |
+| ----------- | -------- | ------------------------------ |
+| [let]       | 变量绑定 | `let x : u32 = 5;`             |
+| [let mut]   | 可变变量 | `let mut x : u32 = 5; x = 9;`  |
+| [loop 循环] | 循环控制 | 无限循环，注意要配合 [`break`] |
+| L           | KWL      | LIntroduction                  |
 
 [let]: https://course.rs/basic/variable.html#变量绑定
 [let mut]: https://course.rs/basic/variable.html#变量可变性
+[`break`]: https://course.rs/basic/flow-control.html#break
+[loop 循环]: https://course.rs/basic/flow-control.html#loop-循环
 
 [back](#head)
 
 ## M
 
-| 名称        | 关键字     | 简介                                                  |
-| ----------- | ---------- | ----------------------------------------------------- |
-| [move 移动] | 转移所有权 | `let s2 = s1;`<br>`s1` 所有权转移给了 `s2`，`s1` 失效 |
-| M           | KWM        | MIntroduction                                         |
+| 名称          | 关键字     | 简介                                                                                                                                                               |
+| ------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [模式绑定]    | 模式匹配   | 从模式中取出绑定的值                                                                                                                                               |
+| [全模式列表]  | 模式匹配   | 列出了所有的模式匹配                                                                                                                                               |
+| [match 匹配]  | 模式匹配   | `match` 的匹配必须要穷举出所有可能，因此这里用 `_ ` 来代表未列出的所有可能性<br>`match` 的每一个分支都必须是一个表达式，且所有分支的表达式最终返回值的类型必须相同 |
+| [matches! 宏] | 模式匹配   | 将一个表达式跟模式进行匹配，然后返回匹配的结果 `true` 或 `false`                                                                                                   |
+| [match guard] | 匹配守卫   | 位于 `match` 分支模式之后的额外 `if` 条件，它能为分支模式提供更进一步的匹配条件                                                                                    |
+| [move 移动]   | 转移所有权 | `let s2 = s1;`<br>`s1` 所有权转移给了 `s2`，`s1` 失效                                                                                                              |
+| M             | KWM        | MIntroduction                                                                                                                                                      |
 
+[模式绑定]: https://course.rs/basic/match-pattern/match-if-let.html#模式绑定
+[match 匹配]: https://course.rs/basic/match-pattern/match-if-let.html#match-匹配
+[matches! 宏]: https://course.rs/basic/match-pattern/match-if-let.html#matches宏
 [move 移动]: https://course.rs/basic/ownership/ownership.html#转移所有权
+[全模式列表]: https://course.rs/basic/match-pattern/all-patterns.html
+[match guard]: https://course.rs/basic/match-pattern/all-patterns.html#匹配守卫提供的额外条件
 
 [back](#head)
 
@@ -196,12 +226,14 @@
 
 ## O
 
-| 名称     | 关键字      | 简介          |
-| -------- | ----------- | ------------- |
-| [Option] | Option 枚举 | 用于处理空值  |
-| O        | KWO         | OIntroduction |
+| 名称          | 关键字      | 简介                                                            |
+| ------------- | ----------- | --------------------------------------------------------------- |
+| [Option]      | Option 枚举 | 用于处理空值，**一个变量要么有值：`Some(T)`, 要么为空：`None`** |
+| [Option 解构] | 模式匹配    | 可以通过 `match` 来实现                                         |
+| O             | KWO         | OIntroduction                                                   |
 
 [option]: https://course.rs/basic/compound-type/enum.html#option-枚举用于处理空值
+[option 解构]: https://course.rs/basic/match-pattern/option.html#匹配-optiont
 
 [back](#head)
 
@@ -287,9 +319,12 @@
 
 ## W
 
-| 名称 | 关键字 | 简介          |
-| ---- | ------ | ------------- |
-| W    | KWW    | WIntroduction |
+| 名称         | 关键字   | 简介                                                   |
+| ------------ | -------- | ------------------------------------------------------ |
+| [while 循环] | 循环控制 | 当条件为 `true` 时，继续循环，条件为 `false`，跳出循环 |
+| W            | KWW      | WIntroduction                                          |
+
+[while 循环]: https://course.rs/basic/flow-control.html#while-循环
 
 [back](#head)
 
