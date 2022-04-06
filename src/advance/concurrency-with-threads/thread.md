@@ -475,10 +475,10 @@ fn main() {
 
 ```rust
 use std::thread;
-use std::sync::{Once, ONCE_INIT};
+use std::sync::Once;
 
 static mut VAL: usize = 0;
-static INIT: Once = ONCE_INIT;
+static INIT: Once = Once::new();
 
 fn main() {
     let handle1 = thread::spawn(move || {
