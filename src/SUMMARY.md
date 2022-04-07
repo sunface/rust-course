@@ -174,10 +174,13 @@
 - [Rust 最佳实践](practice/intro.md)
   - [日常开发三方库精选](practice/third-party-libs.md)
   - [命名规范](practice/naming.md)
-  - [日志和监控](practice/logs/intro.md)
+  - [记录日志](practice/logs/intro.md)
     - [日志详解](practice/logs/about-log.md)
-    - [在 Rust 中输出日志 TODO](practice/logs/logging.md)
-    - [使用 tracing 输出自定义的 Rust 日志](practice/logs/tracing-logger.md)
+    - [使用 log 记录日志](practice/logs/log.md)
+    - [使用 tracing 记录日志](practice/logs/tracing.md)
+    - [自定义 tracing 的输出格式](practice/logs/tracing-logger.md)
+  - [可观测性监控 TODO](practice/observe/intro.md)
+    - [监控详解 TODO](practice/observe/about-observe.md)
   - [面试经验 doing](practice/interview.md)
   <!-- - [代码开发实践 todo](practice/best-pratice.md) -->
   
