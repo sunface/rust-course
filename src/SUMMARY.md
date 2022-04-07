@@ -181,7 +181,7 @@
     - [自定义 tracing 的输出格式](practice/logs/tracing-logger.md)
   - [可观测性监控 TODO](practice/observe/intro.md)
     - [监控详解 TODO](practice/observe/about-observe.md)
-  - [面试经验 doing](practice/interview.md)
+  - [面试经验](practice/interview.md)
   <!-- - [代码开发实践 todo](practice/best-pratice.md) -->
   
 - [手把手带你实现链表](too-many-lists/intro.md)
