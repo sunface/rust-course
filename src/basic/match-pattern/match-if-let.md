@@ -323,7 +323,7 @@ assert!(matches!(bar, Some(x) if x > 2));
 
 ## 变量覆盖
 
-无论是是 `match` 还是 `if let`，他们都可以在模式匹配时覆盖掉老的值，绑定新的值:
+无论是 `match` 还是 `if let`，他们都可以在模式匹配时覆盖掉老的值，绑定新的值:
 
 ```rust
 fn main() {
