@@ -16,6 +16,7 @@
   - [墙推 VSCode!](first-try/editor.md)
   - [认识 Cargo](first-try/cargo.md)
   - [不仅仅是 Hello world](first-try/hello-world.md)
+  - [下载依赖很慢](first-try/slowly-downloading.md)
   - [避免从入门到放弃](first-try/sth-you-should-not-do.md)
   
 # Rust语言特性

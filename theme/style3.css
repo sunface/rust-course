@@ -63,6 +63,7 @@
 /* 修改滚动条宽度 */
 ::-webkit-scrollbar {
     width: 5px;
+    height: 5px;
 }
 
 /* 表格靠左对齐 */
@@ -99,6 +100,11 @@ code {
     word-break: break-word;
 }
 
+/* 修复可编辑代码框顶部过窄的问题 */
+code.editable, .ace_scroller {
+    top: 10px;
+}
+
 /* 修改书侧边目录的区域分隔行样式 */
 
 .chapter .spacer {
@@ -106,3 +112,4 @@ code {
     height: 2px;
     margin-top: 8px;
 }
+
