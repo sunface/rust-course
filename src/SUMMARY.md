@@ -166,7 +166,7 @@
     - [构建脚本 build.rs](cargo/reference/build-script/intro.md)
       - [构建脚本示例](cargo/reference/build-script/examples.md)  
 
-# 开发实战
+# 开发实践
 ---
 - [企业落地实践](usecases/intro.md)
   - [AWS 为何这么喜欢 Rust?](usecases/aws-rust.md)
