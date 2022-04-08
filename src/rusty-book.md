@@ -20,4 +20,4 @@
 
 - 想要寻找常用操作的代码片段，用于熟悉 Rust 或者直接复制粘贴到自己的项目中，例如文件操作、数据库操作、HTTP 请求、排序算法、正则等
 
-在线阅读锈书:[https://rusty.rs](https://rusty.rs)
+在线阅读锈书:[Github地址](https://github.com/studyrs/rusty-book)
