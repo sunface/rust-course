@@ -322,3 +322,4 @@
   - [G-Rust 更新版本列表](appendix/rust-versions/intro.md)
     - [1.58](appendix/rust-versions/1.58.md)
     - [1.59](appendix/rust-versions/1.59.md)
+    - [1.60](appendix/rust-versions/1.60.md)
