@@ -166,23 +166,24 @@
     - [构建脚本 build.rs](cargo/reference/build-script/intro.md)
       - [构建脚本示例](cargo/reference/build-script/examples.md)  
 
-# 应用实战
+# 开发实战
 ---
 - [企业落地实践](usecases/intro.md)
   - [AWS 为何这么喜欢 Rust?](usecases/aws-rust.md)
 
+- [日志和监控](logs/intro.md)
+    - [日志详解](logs/about-log.md)
+    - [日志门面 log](logs/log.md)
+    - [使用 tracing 记录日志 TODO](logs/tracing.md)
+    - [自定义 tracing 的输出格式](logs/tracing-logger.md)
+    - [监控 TODO](logs/observe/intro.md)
+      - [监控详解 TODO](logs/observe/about-observe.md)
+  
 - [Rust 最佳实践](practice/intro.md)
   - [日常开发三方库精选](practice/third-party-libs.md)
   - [命名规范](practice/naming.md)
-  - [日志](practice/logs/intro.md)
-    - [日志详解](practice/logs/about-log.md)
-    - [日志门面 log](practice/logs/log.md)
-    - [使用 tracing 记录日志 TODO](practice/logs/tracing.md)
-    - [自定义 tracing 的输出格式](practice/logs/tracing-logger.md)
-  - [监控 TODO](practice/observe/intro.md)
-    - [监控详解 TODO](practice/observe/about-observe.md)
   - [面试经验](practice/interview.md)
-  <!-- - [代码开发实践 todo](practice/best-pratice.md) -->
+  - [代码开发实践 todo](practice/best-pratice.md)
   
 - [手把手带你实现链表](too-many-lists/intro.md)
     - [我们到底需不需要链表](too-many-lists/do-we-need-it.md)
