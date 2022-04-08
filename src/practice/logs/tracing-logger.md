@@ -1,6 +1,6 @@
 # 使用 tracing 输出自定义的 Rust 日志
 
-在 [tracing](https://docs.rs/crate/tracing/latest) 包出来前，Rust 的日志和监控可以说是一片鱼塘，是的，连鱼龙混杂都算不上。在大名鼎鼎的 tokio 开发团队推出 `tracing` 后，我现在坚定的认为 `tracing` 就是未来！
+在 [tracing](https://docs.rs/crate/tracing/latest) 包出来前，Rust 的日志也就 `log` 有一战之力，但是 `log` 的功能相对来说还是鸡简单一些。在大名鼎鼎的 tokio 开发团队推出 `tracing` 后，我现在坚定的认为 `tracing` 就是未来！
 
 > 截至目前，rust编译器团队、GraphQL 都在使用 tracing，而且 tokio 在密谋一件大事：基于 tracing 开发一套终端交互式 debug 工具: [console](https://github.com/tokio-rs/console)！
 
@@ -622,3 +622,6 @@ fn on_record(
 终于，在最后，我们拥有了一个功能齐全的自定义的 JSON logger，大家快去尝试下吧。当然，你也可以根据自己的需求来定制专属于你的 logger，毕竟方法是一通百通的。
 
 > 在以下 github 仓库，可以找到完整的代码: https://github.com/bryanburgers/tracing-blog-post 
+>
+> 本文由 Rustt 提供翻译
+> 原文链接: https://github.com/studyrs/Rustt/blob/main/Articles/%5B2022-04-07%5D%20在%20Rust%20中使用%20tracing%20自定义日志.md
