@@ -1,5 +1,7 @@
 # 进入 Rust 编程世界
 
+<img src="https://pica.zhimg.com/v2-2a2902b48ece874727faf221daac2178_1440w.jpg?source=172ae18b" />
+
 ## Rust 发展历程
 
 Rust 最早是 Mozilla 雇员 Graydon Hoare 的个人项目。从 2009 年开始，得到了 Mozilla 研究院的资助。2010 年项目对外公布，2010 ～ 2011 年间实现自举。自此以后，Rust 在设计变化 -> 崩溃的边缘反复横跳（历程极其艰辛）。终于，在 2015 年 5 月 15 日发布 1.0 版。
