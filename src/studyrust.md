@@ -2,7 +2,7 @@
 
 <img src="https://github.com/studyrs/.github/blob/main/assets/cover.jpg?raw=true" />
 
-<h4 align="center">跟我出来吧，学完 Rust，你的前面就是星辰大海！</h4>
+<h4 align="center">跟我来吧，学完 Rust，你的前面就是星辰大海！</h4>
 
 ---
 这个社区与其它 Rust 社区不一样，从名称上就能看得出来：我们聚焦于 Rust 语言的学习研究和实战应用上，不搞花活！

@@ -1,6 +1,7 @@
-# 进入 Rust 编程世界
-
 <img src="https://pica.zhimg.com/v2-2a2902b48ece874727faf221daac2178_1440w.jpg?source=172ae18b" />
+<div align="center">正在努力学 Rust 的 Ferris</div>
+
+<br />
 
 ## Rust 发展历程
 

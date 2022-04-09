@@ -146,10 +146,12 @@
 因为它们绝大部分是支持 APACHE + MIT 双协议的，因此我们选择了遵循其中的 MIT 协议，并在这里统一对借鉴的书籍进行说明。
 
 
-## 学习社区
-为了帮助大家更好的学习和交流 Rust，我们建立了一个**StudyRust 社区**。
+## 社区 & 读者交流
 
-- QQ群 1009730433，用于日常技术交流
-- 微信公众号 studyrust，由 Rustt 翻译组提供高质量的技术文章、学习资料、新闻资讯等
+- 知乎: [孙飞 Sunface](https://www.zhihu.com/people/iSunface)
+- StudyRust 社区
+  - QQ群 1009730433，用于日常技术交流
+  - 微信公众号: 搜索 studyrust 或扫描下面的二维码关注公众号 `Rust语言中文网`
 
-欢迎大家加入，一起 happy，一起进步。
+<img src="https://github.com/sunface/rust-course/blob/main/assets/studyrust公众号.png?raw=true" />
+
