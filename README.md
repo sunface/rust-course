@@ -14,7 +14,7 @@
     
 在线阅读: https://course.rs
     
-学习社区: https://studyrust.org
+StudyRust 社区: https://studyrust.org
 </div>
 
 
