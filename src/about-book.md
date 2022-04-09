@@ -20,19 +20,6 @@ Rust语言真的好：连续六年成为全世界最受欢迎的语言、没有G
 
 - [Rust语言实战](https://github.com/sunface/rust-by-practice), Rust语言圣经配套习题，支持中英双语，可以在右上角切换
 
-
-## Rust学习社区( StudyRust )
-我们的社区与其它 Rust 社区不一样，从名称上就能看得出来：我们聚焦于 Rust 语言的学习研究和实战应用上，不搞花活！
-
-同时社区还提供了一个优质的公众号： `studyrust`，里面的文章是由 [Rustt](https://rustt.org)  翻译组提供，搬运自国外优秀的 Rust 技术文章、学习资料、新闻资讯等。
-
-- 社区官网：[https://studyrust.org](https://studyrust.org)，正在建设中，暂时跳转到 GitHub 组织首页
-- QQ交流群: 1009730433
-- 微信公众号：`studyrust`
-
-<img src="https://github.com/sunface/rust-course/blob/main/assets/studyrust公众号.png?raw=true" />
-
-
 ## 创作感悟
 
 截至目前，Rust语言圣经已写了 170 余章，110 余万字，历经 800 多个小时，每一个章节都是手动写就，没有任何机翻和质量上的妥协( 相信深入阅读过的读者都能体会到这一点 )。

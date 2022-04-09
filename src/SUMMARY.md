@@ -5,6 +5,7 @@
 [快速查询入口](index-list.md)
 
 ---
+[StudyRust 社区](studyrust.md)
 [一本生锈的书](rusty-book.md)
 [Rust 语言周刊](rust-weekly.md)
 [Rustt 翻译计划](rustt.md)
