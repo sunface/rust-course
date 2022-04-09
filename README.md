@@ -6,21 +6,25 @@
    
 <div align="center">
 
-[![Stars Count](https://img.shields.io/github/stars/sunface/rust-course?style=flat)](https://github.com/sunface/rust-course/stargazers) [![Forks Count](https://img.shields.io/github/forks/sunface/rust-course.svg?style=flat)](https://github.com/sunface/rust-course/graphs/contributors)
-<a href="https://www.zhihu.com/column/c_1452781034895446017">
+[![studyrut](https://img.shields.io/badge/study-rust-orange)](https://github.com/studyrs)   [![Stars Count](https://img.shields.io/github/stars/sunface/rust-course?style=flat)](https://github.com/sunface/rust-course/stargazers) 
+[![](https://img.shields.io/github/issues-pr-closed-raw/sunface/rust-course.svg?style=flat)](https://github.com/sunface/rust-course/issues)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ines/spacy-course/master)
+
+    
+<!-- <a href="https://www.zhihu.com/column/c_1452781034895446017">
   <img alt="Sunface | 知乎" height="20px" width="20px" src="https://github.com/sunface/rust-course/blob/main/assets/zhihu.jpg">
-</a>
+</a> -->
     
     
-在线阅读: https://course.rs
-    
-StudyRust 社区: https://studyrust.org
+
 </div>
 
 
   
 ## 教程简介
 
+- 在线阅读: https://course.rs
+    
 **`Rust语言圣经`**涵盖从**入门到精通**所需的 Rust 知识，目录及内容都经过深思熟虑的设计，同时语言生动幽默，行文流畅自如，摆脱技术书籍常有的机器味和晦涩感。
 
 - **深入度**，在基础教学的同时，提供了深入剖析。浅尝辄止并不能让我们站上紫禁之巅
