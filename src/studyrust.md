@@ -1,6 +1,6 @@
 ## StudyRust 社区
 
-<img src="https://github.com/sunface/rust-course/blob/main/src/img/studyrust.png?raw=true" />
+<img src="https://github.com/studyrs/.github/blob/main/assets/cover.jpg?raw=true" />
 
 这个社区与其它 Rust 社区不一样，从名称上就能看得出来：我们聚焦于 Rust 语言的学习研究和实战应用上，不搞花活！
 
