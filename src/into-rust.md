@@ -1,4 +1,4 @@
-<img src="https://pica.zhimg.com/v2-2a2902b48ece874727faf221daac2178_1440w.jpg?source=172ae18b" />
+<img src="https://pic1.zhimg.com/80/v2-e9cfbd08d2ebca51b588d1beaed3c0dd_1440w.jpg" />
 <div align="center">正在努力学 Rust 的 Ferris</div>
 
 <br />
