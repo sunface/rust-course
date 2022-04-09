@@ -1,7 +1,7 @@
 <h1 align="center">Rust语言圣经</h1>
 
 <div align="center">
-    <img height="150" src="https://github.com/sunface/rust-by-practice/blob/master/en/assets/logo.png?raw=true">
+    <img src="https://github.com/sunface/rust-course/blob/main/assets/banner.jpg?raw=true">
 </div>
    
 <div align="center">
