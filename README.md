@@ -6,10 +6,11 @@
    
 <div align="center">
 
+[![studyrut](https://img.shields.io/badge/study-rust-orange)](https://github.com/studyrs)   
 [![Stars Count](https://img.shields.io/github/stars/sunface/rust-course?style=flat)](https://github.com/sunface/rust-course/stargazers) 
 [![](https://img.shields.io/github/issues-pr-closed-raw/sunface/rust-course.svg?style=flat)](https://github.com/sunface/rust-course/issues)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ines/spacy-course/master)
-[![studyrut](https://img.shields.io/badge/study-rust-orange)](https://github.com/studyrs)   
+
     
 <!-- <a href="https://www.zhihu.com/column/c_1452781034895446017">
   <img alt="Sunface | 知乎" height="20px" width="20px" src="https://github.com/sunface/rust-course/blob/main/assets/zhihu.jpg">
