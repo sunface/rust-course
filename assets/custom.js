@@ -122,7 +122,7 @@ var initAll = function () {
     document.getElementById("giscus-container").appendChild(divider);
 
     // 选取浏览器默认使用的语言
-    const lang = navigator.language || navigator.userLanguage
+    // const lang = navigator.language || navigator.userLanguage
 
     // 若当前 mdbook 主题为 Light 或 Rust ，则将 giscuz 主题设置为 light
     var theme = "transparent_dark";
@@ -146,7 +146,7 @@ var initAll = function () {
     script.setAttribute("data-emit-metadata", "0");
     script.setAttribute("data-input-position", "top");
     script.setAttribute("data-theme", theme);
-    script.setAttribute("data-lang", lang);
+    // script.setAttribute("data-lang", lang);
     // 预先加载评论会更好，这样用户读到那边时，评论就加载好了
     // script.setAttribute("data-loading", "lazy");
     document.getElementById("giscus-container").appendChild(script);
