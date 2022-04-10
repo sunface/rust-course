@@ -63,6 +63,7 @@
     - [使用 use 引入模块及受限可见性](basic/crate-module/use.md)
   - [注释和文档](basic/comment.md)
   - [格式化输出](basic/formatted-output.md)
+
 - [Rust 高级进阶](advance/intro.md)
   - [生命周期](advance/lifetime/intro.md)
     - [认识生命周期](advance/lifetime/basic.md)
@@ -177,8 +178,8 @@
     - [日志门面 log](logs/log.md)
     - [使用 tracing 记录日志](logs/tracing.md)
     - [自定义 tracing 的输出格式](logs/tracing-logger.md)
-    - [监控 TODO](logs/observe/intro.md)
-      - [监控详解 TODO](logs/observe/about-observe.md)
+    - [监控](logs/observe/intro.md)
+      - [可观测性](logs/observe/about-observe.md)
   
 - [Rust 最佳实践](practice/intro.md)
   - [日常开发三方库精选](practice/third-party-libs.md)
