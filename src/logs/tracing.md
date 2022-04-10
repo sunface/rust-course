@@ -429,11 +429,68 @@ event!(
 // 日志输出 -> DEBUG test_tracing: the answer to the ultimate question of life, the universe, and everything is 42. question.answer=42 question.tricky=true
 ```
 
-## 文件输出
+### 文件输出
 截至目前，我们上面的日志都是输出到控制台中。
 
 针对文件输出，`tracing` 提供了一个专门的库 [tracing-appender](https://github.com/tokio-rs/tracing/tree/master/tracing-appender)，大家可以查看官方文档了解更多。
 
+
+## 一个综合例子
+
+最后，再来看一个综合的例子，使用了 [color-eyre](https://github.com/yaahc/color-eyre) 和 文件输出，前者用于为输出的日志加上更易读的颜色。
+
+```rust
+use color_eyre::{eyre::eyre, Result};
+use tracing::{error, info, instrument};
+use tracing_appender::{non_blocking, rolling};
+use tracing_error::ErrorLayer;
+use tracing_subscriber::{
+    filter::EnvFilter, fmt, layer::SubscriberExt, util::SubscriberInitExt, Registry,
+};
+
+#[instrument]
+fn return_err() -> Result<()> {
+    Err(eyre!("Something went wrong"))
+}
+
+#[instrument]
+fn call_return_err() {
+    info!("going to log error");
+    if let Err(err) = return_err() {
+        // 推荐大家运行下，看看这里的输出效果
+        error!(?err, "error");
+    }
+}
+
+fn main() -> Result<()> {
+    let env_filter = EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new("info"));
+    // 输出到控制台中
+    let formatting_layer = fmt::layer().pretty().with_writer(std::io::stderr);
+    
+    // 输出到文件中
+    let file_appender = rolling::never("logs", "app.log");
+    let (non_blocking_appender, _guard) = non_blocking(file_appender);
+    let file_layer = fmt::layer()
+        .with_ansi(false)
+        .with_writer(non_blocking_appender);
+        
+    // 注册
+    Registry::default()
+        .with(env_filter)
+        // ErrorLayer 可以让 color-eyre 获取到 span 的信息
+        .with(ErrorLayer::default())
+        .with(formatting_layer)
+        .with(file_layer)
+        .init();
+    
+    // 安裝 color-eyre 的 panic 处理句柄 
+    color_eyre::install()?;
+
+    call_return_err();
+
+    Ok(())
+}
+```
 
 ## 总结 & 推荐
 至此，`tracing` 的介绍就已结束，相信大家都看得出，它比上个章节的 `log` 及兄弟们要更加复杂一些，一方面是因为它能更好的支持异步编程环境，另一方面就是它还是一个分布式追踪的库，对于后者，我们将在后续的监控章节进行讲解。
