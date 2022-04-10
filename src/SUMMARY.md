@@ -175,7 +175,7 @@
 - [日志和监控](logs/intro.md)
     - [日志详解](logs/about-log.md)
     - [日志门面 log](logs/log.md)
-    - [使用 tracing 记录日志 TODO](logs/tracing.md)
+    - [使用 tracing 记录日志](logs/tracing.md)
     - [自定义 tracing 的输出格式](logs/tracing-logger.md)
     - [监控 TODO](logs/observe/intro.md)
       - [监控详解 TODO](logs/observe/about-observe.md)
