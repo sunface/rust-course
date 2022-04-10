@@ -264,7 +264,7 @@ match some_u8_value {
 
 ```rust
     let v = Some(3u8);
-    match v{
+    match v {
         Some(3) => println!("three"),
         _ => (),
     }
