@@ -195,27 +195,27 @@ struct Config {
     a: String,
     b: String,
 }
-static mut config: Option<&mut Config> = None;
+static mut CONFIG: Option<&mut Config> = None;
 
 fn main() {
     unsafe {
-        config = Some(&mut Config {
+        CONFIG = Some(&mut Config {
             a: "A".to_string(),
             b: "B".to_string(),
         });
 
-        println!("{:?}",config)
+        println!("{:?}", CONFIG)
     }
 }
 ```
 
-以上代码我们声明了一个全局动态配置`config`，并且其值初始化为`None`，然后在程序开始运行后，给它赋予相应的值，运行后报错:
+以上代码我们声明了一个全局动态配置`CONFIG`，并且其值初始化为`None`，然后在程序开始运行后，给它赋予相应的值，运行后报错:
 
 ```console
 error[E0716]: temporary value dropped while borrowed
   --> src/main.rs:10:28
    |
-10 |            config = Some(&mut Config {
+10 |            CONFIG = Some(&mut Config {
    |   _________-__________________^
    |  |_________|
    | ||
@@ -228,9 +228,9 @@ error[E0716]: temporary value dropped while borrowed
    |            creates a temporary which is freed while still in use
 ```
 
-可以看到，Rust 的借用和生命周期规则限制了我们做到这一点，因为试图将一个局部生命周期的变量赋值给全局生命周期的`config`，这明显是不安全的。
+可以看到，Rust 的借用和生命周期规则限制了我们做到这一点，因为试图将一个局部生命周期的变量赋值给全局生命周期的`CONFIG`，这明显是不安全的。
 
-好在`Rust`为我们提供了`Box::leak`方法，它可以将一个变量从内存中泄漏(听上去怪怪的，竟然做主动内存泄漏)，然后将其变为`'static`生命周期，最终该变量将和程序活得一样久，因此可以赋值给全局静态变量`config`。
+好在`Rust`为我们提供了`Box::leak`方法，它可以将一个变量从内存中泄漏(听上去怪怪的，竟然做主动内存泄漏)，然后将其变为`'static`生命周期，最终该变量将和程序活得一样久，因此可以赋值给全局静态变量`CONFIG`。
 
 ```rust
 use std::sync::Mutex;
@@ -240,7 +240,7 @@ struct Config {
     a: String,
     b: String
 }
-static mut config: Option<&mut Config> = None;
+static mut CONFIG: Option<&mut Config> = None;
 
 fn main() {
     let c = Box::new(Config {
@@ -250,8 +250,8 @@ fn main() {
 
     unsafe {
         // 将`c`从内存中泄漏，变成`'static`生命周期
-        config = Some(Box::leak(c));
-        println!("{:?}", config);
+        CONFIG = Some(Box::leak(c));
+        println!("{:?}", CONFIG);
     }
 }
 ```
@@ -266,7 +266,7 @@ struct Config {
     a: String,
     b: String,
 }
-static mut config: Option<&mut Config> = None;
+static mut CONFIG: Option<&mut Config> = None;
 
 fn init() -> Option<&'static mut Config> {
     Some(&mut Config {
@@ -278,9 +278,9 @@ fn init() -> Option<&'static mut Config> {
 
 fn main() {
     unsafe {
-        config = init();
+        CONFIG = init();
 
-        println!("{:?}",config)
+        println!("{:?}", CONFIG)
     }
 }
 ```
@@ -293,7 +293,7 @@ struct Config {
     a: String,
     b: String,
 }
-static mut config: Option<&mut Config> = None;
+static mut CONFIG: Option<&mut Config> = None;
 
 fn init() -> Option<&'static mut Config> {
     let c = Box::new(Config {
@@ -307,9 +307,9 @@ fn init() -> Option<&'static mut Config> {
 
 fn main() {
     unsafe {
-        config = init();
+        CONFIG = init();
 
-        println!("{:?}",config)
+        println!("{:?}", CONFIG)
     }
 }
 ```
