@@ -73,7 +73,7 @@
 再说了，`grafana` 的 UI 做的好看啊，没人能拒绝美好的事物吧 :D
 
 
-好了，一篇口水文终于结束了，在后续章节我们将学习如何使用 `OpenTelemetry + Jaeger + Prometheus + Grafana` 搭建一套可用的监控服务，先来看看分布式追踪和 `OpenTelemetry`。
+好了，一篇口水文终于结束了，在后续章节我们将学习如何使用 `OpenTelemetry + Jaeger + Prometheus + Grafana` 搭建一套可用的监控服务，先来看看如何搭建和使用分布式追踪监控。
 
 > "tracing 呢？你这个监控服务怎么没有它的身影，日志章节口口声声的爱，现在就忘记了吗？"
 > 

@@ -180,7 +180,7 @@
     - [自定义 tracing 的输出格式](logs/tracing-logger.md)
     - [监控](logs/observe/intro.md)
       - [可观测性](logs/observe/about-observe.md)
-  
+      - [分布式追踪](logs/observe/trace.md)
 - [Rust 最佳实践](practice/intro.md)
   - [日常开发三方库精选](practice/third-party-libs.md)
   - [命名规范](practice/naming.md)
