@@ -314,7 +314,65 @@ fn main() {
 
 ## 标准库中的 OnceCell
 
-@todo
+在 `Rust` 标准库中提供 `lazy::OnceCell` 和 `lazy::SyncOnceCell` 两种 `Cell`，前者用于单线程，后者用于多线程，它们用来存储堆上的信息，并且具有最多只能赋值一次的特性。 如实现一个多线程的日志组件 `Logger`：
+
+```rust
+#![feature(once_cell)]
+
+use std::{lazy::SyncOnceCell, thread};
+
+fn main() {
+    // 子线程中调用
+    let handle = thread::spawn(|| {
+        let logger = Logger::global();
+        logger.log("thread message".to_string());
+    });
+
+    // 主线程调用
+    let logger = Logger::global();
+    logger.log("some message".to_string());
+
+    let logger2 = Logger::global();
+    logger2.log("other message".to_string());
+
+    handle.join().unwrap();
+}
+
+#[derive(Debug)]
+struct Logger;
+
+static LOGGER: SyncOnceCell<Logger> = SyncOnceCell::new();
+
+impl Logger {
+    fn global() -> &'static Logger {
+        // 获取或初始化 Logger
+        LOGGER.get_or_init(|| {
+            println!("Logger is being created..."); // 初始化打印
+            Logger
+        })
+    }
+
+    fn log(&self, message: String) {
+        println!("{}", message)
+    }
+}
+```
+
+以上代码我们声明了一个 `global()` 关联函数，并在其内部调用 `get_or_init` 进行初始化 `Logger`，之后在不同线程上多次调用 `Logger::global()` 获取其实例：
+
+```
+   Compiling study v0.1.0 (D:\Workplaces\Rust\study)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.63s
+     Running `target\debug\study.exe`
+Logger is being created...
+some message
+other message
+thread message
+```
+
+可以看到，`Logger is being created...` 在多个线程中使用也只被打印了一次。
+
+特别注意，目前 `OnceCell` 和 `SyncOnceCell` API 暂未稳定，需启用特性 `#![feature(once_cell)]`。
 
 ## 总结
 
