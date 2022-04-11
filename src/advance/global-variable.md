@@ -233,8 +233,6 @@ error[E0716]: temporary value dropped while borrowed
 好在`Rust`为我们提供了`Box::leak`方法，它可以将一个变量从内存中泄漏(听上去怪怪的，竟然做主动内存泄漏)，然后将其变为`'static`生命周期，最终该变量将和程序活得一样久，因此可以赋值给全局静态变量`CONFIG`。
 
 ```rust
-use std::sync::Mutex;
-
 #[derive(Debug)]
 struct Config {
     a: String,
