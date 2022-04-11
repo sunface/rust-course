@@ -360,10 +360,7 @@ impl Logger {
 
 以上代码我们声明了一个 `global()` 关联函数，并在其内部调用 `get_or_init` 进行初始化 `Logger`，之后在不同线程上多次调用 `Logger::global()` 获取其实例：
 
-```
-   Compiling study v0.1.0 (D:\Workplaces\Rust\study)
-    Finished dev [unoptimized + debuginfo] target(s) in 0.63s
-     Running `target\debug\study.exe`
+```console
 Logger is being created...
 some message
 other message
