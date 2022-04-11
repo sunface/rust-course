@@ -115,10 +115,10 @@ impl Factory{
 
 ```rust
 use std::sync::Mutex;
-static names: Mutex<String> = Mutex::new(String::from("Sunface, Jack, Allen"));
+static NAMES: Mutex<String> = Mutex::new(String::from("Sunface, Jack, Allen"));
 
 fn main() {
-    let v = names.lock().unwrap();
+    let v = NAMES.lock().unwrap();
     println!("{}",v);
 }
 ```
@@ -129,10 +129,10 @@ fn main() {
 error[E0015]: calls in statics are limited to constant functions, tuple structs and tuple variants
  --> src/main.rs:3:42
   |
-3 | static names: Mutex<String> = Mutex::new(String::from("sunface"));
+3 | static NAMES: Mutex<String> = Mutex::new(String::from("sunface"));
 ```
 
-但你又必须在声明时就对`names`进行初始化，此时就陷入了两难的境地。好在天无绝人之路，我们可以使用`lazy_static`包来解决这个问题。
+但你又必须在声明时就对`NAMES`进行初始化，此时就陷入了两难的境地。好在天无绝人之路，我们可以使用`lazy_static`包来解决这个问题。
 
 #### lazy_static
 
@@ -142,11 +142,11 @@ error[E0015]: calls in statics are limited to constant functions, tuple structs 
 use std::sync::Mutex;
 use lazy_static::lazy_static;
 lazy_static! {
-    static ref names: Mutex<String> = Mutex::new(String::from("Sunface, Jack, Allen"));
+    static ref NAMES: Mutex<String> = Mutex::new(String::from("Sunface, Jack, Allen"));
 }
 
 fn main() {
-    let mut v = names.lock().unwrap();
+    let mut v = NAMES.lock().unwrap();
     v.push_str(", Myth");
     println!("{}",v);
 }
