@@ -115,10 +115,10 @@ impl Factory{
 
 ```rust
 use std::sync::Mutex;
-static names: Mutex<String> = Mutex::new(String::from("Sunface, Jack, Allen"));
+static NAMES: Mutex<String> = Mutex::new(String::from("Sunface, Jack, Allen"));
 
 fn main() {
-    let v = names.lock().unwrap();
+    let v = NAMES.lock().unwrap();
     println!("{}",v);
 }
 ```
@@ -129,10 +129,10 @@ fn main() {
 error[E0015]: calls in statics are limited to constant functions, tuple structs and tuple variants
  --> src/main.rs:3:42
   |
-3 | static names: Mutex<String> = Mutex::new(String::from("sunface"));
+3 | static NAMES: Mutex<String> = Mutex::new(String::from("sunface"));
 ```
 
-但你又必须在声明时就对`names`进行初始化，此时就陷入了两难的境地。好在天无绝人之路，我们可以使用`lazy_static`包来解决这个问题。
+但你又必须在声明时就对`NAMES`进行初始化，此时就陷入了两难的境地。好在天无绝人之路，我们可以使用`lazy_static`包来解决这个问题。
 
 #### lazy_static
 
@@ -142,11 +142,11 @@ error[E0015]: calls in statics are limited to constant functions, tuple structs 
 use std::sync::Mutex;
 use lazy_static::lazy_static;
 lazy_static! {
-    static ref names: Mutex<String> = Mutex::new(String::from("Sunface, Jack, Allen"));
+    static ref NAMES: Mutex<String> = Mutex::new(String::from("Sunface, Jack, Allen"));
 }
 
 fn main() {
-    let mut v = names.lock().unwrap();
+    let mut v = NAMES.lock().unwrap();
     v.push_str(", Myth");
     println!("{}",v);
 }
@@ -195,27 +195,27 @@ struct Config {
     a: String,
     b: String,
 }
-static mut config: Option<&mut Config> = None;
+static mut CONFIG: Option<&mut Config> = None;
 
 fn main() {
     unsafe {
-        config = Some(&mut Config {
+        CONFIG = Some(&mut Config {
             a: "A".to_string(),
             b: "B".to_string(),
         });
 
-        println!("{:?}",config)
+        println!("{:?}", CONFIG)
     }
 }
 ```
 
-以上代码我们声明了一个全局动态配置`config`，并且其值初始化为`None`，然后在程序开始运行后，给它赋予相应的值，运行后报错:
+以上代码我们声明了一个全局动态配置`CONFIG`，并且其值初始化为`None`，然后在程序开始运行后，给它赋予相应的值，运行后报错:
 
 ```console
 error[E0716]: temporary value dropped while borrowed
   --> src/main.rs:10:28
    |
-10 |            config = Some(&mut Config {
+10 |            CONFIG = Some(&mut Config {
    |   _________-__________________^
    |  |_________|
    | ||
@@ -228,19 +228,17 @@ error[E0716]: temporary value dropped while borrowed
    |            creates a temporary which is freed while still in use
 ```
 
-可以看到，Rust 的借用和生命周期规则限制了我们做到这一点，因为试图将一个局部生命周期的变量赋值给全局生命周期的`config`，这明显是不安全的。
+可以看到，Rust 的借用和生命周期规则限制了我们做到这一点，因为试图将一个局部生命周期的变量赋值给全局生命周期的`CONFIG`，这明显是不安全的。
 
-好在`Rust`为我们提供了`Box::leak`方法，它可以将一个变量从内存中泄漏(听上去怪怪的，竟然做主动内存泄漏)，然后将其变为`'static`生命周期，最终该变量将和程序活得一样久，因此可以赋值给全局静态变量`config`。
+好在`Rust`为我们提供了`Box::leak`方法，它可以将一个变量从内存中泄漏(听上去怪怪的，竟然做主动内存泄漏)，然后将其变为`'static`生命周期，最终该变量将和程序活得一样久，因此可以赋值给全局静态变量`CONFIG`。
 
 ```rust
-use std::sync::Mutex;
-
 #[derive(Debug)]
 struct Config {
     a: String,
     b: String
 }
-static mut config: Option<&mut Config> = None;
+static mut CONFIG: Option<&mut Config> = None;
 
 fn main() {
     let c = Box::new(Config {
@@ -250,8 +248,8 @@ fn main() {
 
     unsafe {
         // 将`c`从内存中泄漏，变成`'static`生命周期
-        config = Some(Box::leak(c));
-        println!("{:?}", config);
+        CONFIG = Some(Box::leak(c));
+        println!("{:?}", CONFIG);
     }
 }
 ```
@@ -266,7 +264,7 @@ struct Config {
     a: String,
     b: String,
 }
-static mut config: Option<&mut Config> = None;
+static mut CONFIG: Option<&mut Config> = None;
 
 fn init() -> Option<&'static mut Config> {
     Some(&mut Config {
@@ -278,9 +276,9 @@ fn init() -> Option<&'static mut Config> {
 
 fn main() {
     unsafe {
-        config = init();
+        CONFIG = init();
 
-        println!("{:?}",config)
+        println!("{:?}", CONFIG)
     }
 }
 ```
@@ -293,7 +291,7 @@ struct Config {
     a: String,
     b: String,
 }
-static mut config: Option<&mut Config> = None;
+static mut CONFIG: Option<&mut Config> = None;
 
 fn init() -> Option<&'static mut Config> {
     let c = Box::new(Config {
@@ -307,16 +305,71 @@ fn init() -> Option<&'static mut Config> {
 
 fn main() {
     unsafe {
-        config = init();
+        CONFIG = init();
 
-        println!("{:?}",config)
+        println!("{:?}", CONFIG)
     }
 }
 ```
 
 ## 标准库中的 OnceCell
 
-@todo
+在 `Rust` 标准库中提供 `lazy::OnceCell` 和 `lazy::SyncOnceCell` 两种 `Cell`，前者用于单线程，后者用于多线程，它们用来存储堆上的信息，并且具有最多只能赋值一次的特性。 如实现一个多线程的日志组件 `Logger`：
+
+```rust
+#![feature(once_cell)]
+
+use std::{lazy::SyncOnceCell, thread};
+
+fn main() {
+    // 子线程中调用
+    let handle = thread::spawn(|| {
+        let logger = Logger::global();
+        logger.log("thread message".to_string());
+    });
+
+    // 主线程调用
+    let logger = Logger::global();
+    logger.log("some message".to_string());
+
+    let logger2 = Logger::global();
+    logger2.log("other message".to_string());
+
+    handle.join().unwrap();
+}
+
+#[derive(Debug)]
+struct Logger;
+
+static LOGGER: SyncOnceCell<Logger> = SyncOnceCell::new();
+
+impl Logger {
+    fn global() -> &'static Logger {
+        // 获取或初始化 Logger
+        LOGGER.get_or_init(|| {
+            println!("Logger is being created..."); // 初始化打印
+            Logger
+        })
+    }
+
+    fn log(&self, message: String) {
+        println!("{}", message)
+    }
+}
+```
+
+以上代码我们声明了一个 `global()` 关联函数，并在其内部调用 `get_or_init` 进行初始化 `Logger`，之后在不同线程上多次调用 `Logger::global()` 获取其实例：
+
+```console
+Logger is being created...
+some message
+other message
+thread message
+```
+
+可以看到，`Logger is being created...` 在多个线程中使用也只被打印了一次。
+
+特别注意，目前 `OnceCell` 和 `SyncOnceCell` API 暂未稳定，需启用特性 `#![feature(once_cell)]`。
 
 ## 总结
 
