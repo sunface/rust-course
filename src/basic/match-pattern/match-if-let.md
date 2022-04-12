@@ -145,7 +145,7 @@ fn value_in_cents(coin: Coin) -> u8 {
 
 上面代码中，在匹配 `Coin::Quarter(state)` 模式时，我们把它内部存储的值绑定到了 `state` 变量上，因此 `state` 变量就是对应的 `UsState` 枚举类型。
 
-例如有一个印了阿拉斯加州标记的 25 分硬币：`Coin::Quarter(UsState::Alaska))`, 它在匹配时，`state` 变量将被绑定 `UsState::Alaska` 的枚举值。
+例如有一个印了阿拉斯加州标记的 25 分硬币：`Coin::Quarter(UsState::Alaska)`, 它在匹配时，`state` 变量将被绑定 `UsState::Alaska` 的枚举值。
 
 再来看一个更复杂的例子：
 
