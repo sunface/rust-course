@@ -75,7 +75,7 @@ $ cargo build
 
 修复 bug 后，我们可以提交 pr 给 `uuid`，一旦 pr 被合并到了 `master` 分支，你可以直接通过以下方式来使用补丁:
 
-```shell
+```toml
 [patch.crates-io]
 uuid = { git = 'https://github.com/uuid-rs/uuid' }
 ```
@@ -108,7 +108,7 @@ uuid = { git = 'https://github.com/uuid-rs/uuid' }
 
 #### 间接使用 `patch`
 
-现在假设项目 `A` 的依赖是 `B` 和 `uuid`，而 `B` 的依赖也是 `uuid`，此时我们可以让 `A` 和 `B` 都使用来自 `github` 的 `patch` 版本，配置如下:
+现在假设项目 `A` 的依赖是 `B` 和 `uuid`，而 `B` 的依赖也是 `uuid`，此时我们可以让 `A` 和 `B` 都使用来自 `GitHub` 的 `patch` 版本，配置如下:
 
 ```toml
 [package]
@@ -129,7 +129,7 @@ uuid = { git = 'https://github.com/uuid-rs/uuid' }
 
 若我们想要覆盖的依赖并不是来自 `crates.io` ，就需要对 `[patch]` 做一些修改。例如依赖是 `git` 仓库，然后使用本地路径来覆盖它:
 
-```shell
+```toml
 [patch."https://github.com/your/repository"]
 my-library = { path = "../my-library/path" }
 ```
@@ -154,7 +154,7 @@ uuid = { git = "https://github.com/uuid-rs/uuid", branch = "2.0.0" }
 
 这里需要注意，**与之前的小版本不同，大版本的 `patch` 不会发生间接的传递！**，例如：
 
-```shell
+```toml
 [package]
 name = "my-binary"
 version = "0.1.0"

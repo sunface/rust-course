@@ -1,4 +1,4 @@
-# 语句和表达式
+# 语句和表达式 
 
 Rust 的函数体是由一系列语句组成，最后由一个表达式来返回值，例如：
 
@@ -55,7 +55,7 @@ error[E0658]: `let` expressions in this position are experimental
 
 ```
 
-以上的错误告诉我们 `let` 是语句，不是表达式，因此它不返回值，也就不能给其它变量赋值。但是该错误还透漏了一个重要的信息， `let` 作为表达式已经是试验功能了，也许不久的将来，我们在 [`stable rust`](../../appendix/rust-version.md) 下可以这样使用。
+以上的错误告诉我们 `let` 是语句，不是表达式，因此它不返回值，也就不能给其它变量赋值。但是该错误还透漏了一个重要的信息， `let` 作为表达式已经是试验功能了，也许不久的将来，我们在 [`stable rust`](https://course.rs/appendix/rust-version.html) 下可以这样使用。
 
 ## 表达式
 
@@ -91,5 +91,4 @@ fn main() {
 ## 课后练习
 
 > [Rust By Practice](https://zh.practice.rs/basic-types/statements-expressions.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。
-
 

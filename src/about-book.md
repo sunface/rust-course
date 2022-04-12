@@ -1,58 +1,106 @@
-# Rust 语言圣经 (The Course)
+<img src="https://github.com/sunface/rust-course/blob/main/assets/banner.jpg?raw=true" />
 
-- 在线阅读
-  - 官方： [https://course.rs](https://course.rs)
-  - 知乎： [支持章节内目录跳转，很好用!](https://www.zhihu.com/column/c_1452781034895446017)
+Rust语言真的好：连续六年成为全世界最受欢迎的语言、没有GC也无需手动内存管理、性能比肩 C++/C 还能直接调用它们的代码、安全性极高 - 总有公司说使用 Rust 后以前的大部分 bug 都将自动消失、全世界最好的包管理工具 Cargo 等等。但...
 
-> 学习 Rust 光看书不够，精心设计的习题和项目实践可以让你事半功倍。[Rust By Practice](https://github.com/sunface/rust-by-practice) 是本书的配套习题和实践，覆盖了 easy to hard 各个难度，满足大家对 Rust 的所有期待。
-> 
-> [Rust 语言周刊](https://github.com/sunface/rust-weekly)，每周一发布，精选过去一周的技术文章、业界新闻、开源项目和 Rust 语言动态。
+**有人说: "Rust 太难了，学了也没用"。**
+
+对于后面一句话我们持保留意见，如果以找工作为标准，那国内环境确实还不好，但如果你想成为更优秀的程序员或者是玩转开源，那 Rust 还真是不错的选择，具体原因见[下一章](https://course.rs/into-rust.html)。
+
+至于 Rust 难学，那正是本书要解决的问题，如果看完后，你觉得没有学会 Rust，可以找我们退款，哦抱歉，这是开源书，那就退 🌟 吧：）
+
+如果看到这里，大家觉得这本书的介绍并没有吸引到你，不要立即放弃，强烈建议读一下[进入 Rust 编程世界](https://course.rs/into-rust.html)，那里会有不一样的精彩。
+
+
+> 本书完全开源，所有的文档内容都在 `GitHub` 上，至于里面还藏有什么秘密，大家点击右上角自行发现吧 ：）
 >
-> Rust 优秀项目很多，如何在茫茫码海中与它们相遇？相比 Awesome Rust， [Fancy Rust](https://github.com/sunface/fancy-rust) 能带给你全新的体验和选择。
+> 小秘密一： 你们可能会好奇，这本书到底与其它 Rust 书籍有[哪些不同](https://github.com/sunface/rust-course#教程简介)
 
-### 教程简介
+## 配套练习题
+对于学习编程而言，读一篇文章不如做几道练习题，此话虽然夸张，但是也不无道理。既然如此，即读书又做练习题，效果会不会更好？再加上练习题是书本的配套呢？ :P
 
-**`Rust语言圣经`**涵盖从**入门到精通**所需的 Rust 知识，目录及内容都经过深思熟虑的设计，同时语言生动幽默，行文流畅自如，摆脱技术书籍常有的机器味和晦涩感。
+- [Rust语言实战](https://github.com/sunface/rust-by-practice), Rust语言圣经配套习题，支持中英双语，可以在右上角切换
 
-在 Rust 基础教学的同时，我们还提供了（部分）：
+## 创作感悟
 
-- **深入度**，在基础教学的同时，提供了深入剖析。浅尝辄止并不能让我们站上紫禁之巅
-- **性能优化**，选择 Rust，意味着就要追求性能，因此你需要体系化的了解性能优化
-- **专题**，将 Rust 高级内容通过专题的方式一一呈现，内容内聚性极强
-- **难点和错误索引**，作为一本工具书，优秀的索引能力非常重要，遗忘不可怕，找不到才可怕
-- **场景化模版**，程序员上网查询如何操作文件是常事，没有人能记住所有代码，场景化模版可解君忧
+截至目前，Rust语言圣经已写了 170 余章，110 余万字，历经 800 多个小时，每一个章节都是手动写就，没有任何机翻和质量上的妥协( 相信深入阅读过的读者都能体会到这一点 )。
 
-总之在写作过程中我们始终铭记初心：为中国用户打造一门**全面的、深入的、持续更新的** Rust 教程。 新手用来入门，老手用来提高，高手用来提升生产力。
+曾经有读者问过 "这么好的书为何要开源，而不是出版?"，原因很简单：**只有完全开源才能完美地呈现出我想要的教学效果**。
 
-### 开源说明
+总之，Rust 要在国内真正发展起来，必须得有一些追逐梦想的人在做着不计付出的事情，而我希望自己能贡献一份微薄之力。
 
-在开源版权上，我们选择了 [No License](https://www.google.com.hk/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwigkv-KtMT0AhXFdXAKHdI4BCcQFnoECAQQAw&url=https%3A%2F%2Fchoosealicense.com%2Fno-permission%2F&usg=AOvVaw3M2Q4IbdhnpJ2K71TF7SPB)，这意味着读者可以随意的 fork 和阅读，但是**不能私下修改后再包装分发**，如果有这方面的需求，请联系我们，望理解。
+但是要说完全无欲无求，那也是不可能的，看到项目多了一颗 🌟，那感觉...棒极了，因为它代表了读者的认可和称赞。
 
-Rust 语言圣经是**完全开源**的电子书，每个章节都至少用时 4-6 个小时才能初步完稿，牺牲了大量休闲娱乐、陪伴家人的时间，还没有任何钱赚。
+你们用指尖绘制的星空，那里繁星点点，每一颗都在鼓励着怀揣着开源梦想的程序员披荆斩棘、不断前行，不夸张的说，没有你们，开源世界就没有星光，自然也就不会有今天的开源盛世。
 
-**如果大家觉得这本书作者真的用心了，希望你能帮我们点一个 🌟 `star`。感激不尽！：）**
+因此，**我恳请大家，如果觉得书还可以，就在你的指尖星空绘制一颗新的 🌟，指引我们继续砥砺前行**。这个人世间，因善意而美好。
 
-### 借鉴的书籍
+最后，能通过开源在茫茫人海中与大家相识，这感觉真好 :D
 
-站在巨人的肩膀上，能帮我们看的更远，特此感谢以下巨人：
+## 🏅 贡献者
 
-- [Rust Book](https://doc.rust-lang.org/book)
-- [Rust nomicon](https://doc.rust-lang.org/nomicon/dot-operator.html)
-- [Async Rust](https://rust-lang.github.io/async-book/01_getting_started/01_chapter.html)
-- 详细清单参见 [这里](https://github.com/sunface/rust-course/blob/main/assets/writing-material/books.md)
+非常感谢本教程的[所有贡献者](https://github.com/sunface/rust-course/graphs/contributors)，正是有了你们，才有了现在的高质量 Rust 教程!
 
-因为它们绝大部分是支持 APACHE + MIT 双协议的，因此我们选择了遵循其中的 MIT 协议，并在这里统一对借鉴的书籍进行说明。
+<br />
 
-### 贡献者
+**🏆 贡献榜前三**(根据难易度、贡献次数、活跃度综合评定):
+<table>
+    <tr>
+        <td align="center" width="25%">
+            <a href="https://github.com/sunface">
+                <img src="https://avatars.githubusercontent.com/u/7036754?v=4?s=100"   alt=""/>
+                <br />
+                <sub><b>Sunface 🥇</b></sub>
+            </a>
+        </td>
+        <td align="center" width="25%">
+            <a href="https://github.com/AllanDowney">
+                <img src="https://avatars.githubusercontent.com/u/82752697?v=4?s=100"   alt=""/>
+                <br />
+                <sub><b>AllanDowney 🥈</b></sub>
+            </a>
+        </td>
+        <td align="center" width="25%">
+            <a href="https://github.com/JesseAtSZ">
+                <img src="https://avatars.githubusercontent.com/u/35264598?v=4?s=100"  alt=""/>
+                <br />
+                <sub><b>JesseAtSZ 🥉</b></sub>
+            </a>
+        </td>
+    </tr>
+</table>
 
-非常感谢本教程的所有贡献者们，正是有了你们，才有了现在的高质量 Rust 教程！
+<br />
 
-- [@JesseAtSZ](https://github.com/JesseAtSZ)
-- [@mg-chao](https://github.com/mg-chao)
-- [@1132719438](https://github.com/1132719438)
-- [@codemystery](https://github.com/codemystery)
-- [@AllanDowney](https://github.com/AllanDowney)
-- [@Mintnoii](https://github.com/Mintnoii)
-
-尤其感谢这些主要贡献者，谢谢你们花费大量时间贡献了多处`fix`和高质量的内容优化。非常感动，再次感谢～～
-
+🏅 核心贡献者: 
+<table>
+    <tr>
+        <td align="center" width="25%">
+            <a href="https://github.com/1132719438">
+                <img src="https://avatars.githubusercontent.com/u/10138791?v=4?s=100" alt=""/>
+                <br />
+                <sub><b>1132719438</b></sub>
+            </a>
+        </td>
+        <td align="center" width="25%">
+            <a href="https://github.com/zongzi531">
+                <img src="https://avatars.githubusercontent.com/u/22429236?v=4?s=100"  alt=""/>
+                <br />
+                <sub><b>zongzi531</b></sub>
+            </a>
+        </td>
+        <td align="center" width="25%">
+            <a href="https://github.com/Mintnoii">
+                <img src="https://avatars.githubusercontent.com/u/30466018?v=4?s=100"  alt=""/>
+                <br />
+                <sub><b>Mintnoii</b></sub>
+            </a>
+        </td>
+        <td align="center" width="25%">
+            <a href="https://github.com/Rustln">
+                <img src="https://avatars.githubusercontent.com/u/100085326?v=4?s=100" alt=""/>
+                <br />
+                <sub><b>Rustln</b></sub>
+            </a>
+        </td>
+    </tr>
+</table>

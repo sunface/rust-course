@@ -57,7 +57,7 @@ fn get_memory_location() -> (usize, usize) {
 }
 
 fn get_str_at_location(pointer: usize, length: usize) -> &'static str {
-  // 使用原生指针需要 `unsafe{}` 语句块
+  // 使用裸指针需要 `unsafe{}` 语句块
   unsafe { from_utf8_unchecked(from_raw_parts(pointer as *const u8, length)) }
 }
 
@@ -68,7 +68,7 @@ fn main() {
     "The {} bytes at 0x{:X} stored: {}",
     length, pointer, message
   );
-  // 如果大家想知道为何处理原生指针需要 `unsafe`，可以试着反注释以下代码
+  // 如果大家想知道为何处理裸指针需要 `unsafe`，可以试着反注释以下代码
   // let message = get_str_at_location(1000, 10);
 }
 ```
@@ -80,7 +80,51 @@ fn main() {
 
 ## `T: 'static`
 
-相比起来，我们的生命周期约束就弱得多了，它只能试图向编译器表达：如果可以的话，我想要一个可以一直存活的变量， see ? 跟 `&'static` 表达的强度完全不一样，下面用例子来说明:
+相比起来，这种形式的约束就有些复杂了。
+
+首先，在以下两种情况下，`T: 'static` 与 `&'static` 有相同的约束：`T` 必须活得和程序一样久。
+
+```rust
+use std::fmt::Debug;
+
+fn print_it<T: Debug + 'static>( input: T) {
+    println!( "'static value passed in is: {:?}", input );
+}
+
+fn print_it1( input: impl Debug + 'static ) {
+    println!( "'static value passed in is: {:?}", input );
+}
+
+
+
+fn main() {
+    let i = 5;
+
+    print_it(&i);
+    print_it1(&i);
+}
+```
+
+以上代码会报错，原因很简单: `&i` 的生命周期无法满足 `'static` 的约束，如果大家将 `i` 修改为常量，那自然一切 OK。
+
+见证奇迹的时候，请不要眨眼，现在我们来稍微修改下 `print_it` 函数:
+```rust
+use std::fmt::Debug;
+
+fn print_it<T: Debug + 'static>( input: &T) {
+    println!( "'static value passed in is: {:?}", input );
+}
+
+fn main() {
+    let i = 5;
+
+    print_it(&i);
+}
+```
+
+这段代码竟然不报错了！原因在于我们约束的是 `T`，但是使用的却是它的引用 `&T`，换而言之，我们根本没有直接使用 `T`，因此编译器就没有去检查 `T` 的生命周期约束！它只要确保 `&T` 的生命周期符合规则即可，在上面代码中，它自然是符合的。
+
+再来看一个例子:
 
 ```rust
 use std::fmt::Display;
@@ -121,49 +165,29 @@ fn static_bound<T: Display + 'static>(t: &T) {
 }
 ```
 
-以上代码充分说明了两个问题：
+## static 到底针对谁？
+大家有没有想过，到底是 `&'static` 这个引用还是该引用指向的数据活得跟程序一样久呢？
 
-- `'static` 生命周期的数据可以一直存活，因此 `r1` 和 `r2` 才能在语句块内部被赋值
-- `T: 'static` 的约束真的很弱，`s1` 明明生命周期只在内部语句块内有效，但是该约束依然可以满足，`static_bound` 成功被调用
-
-## 两者的区别
-
-总之， `&'static` != `T: 'static` ，虽然它们看起来真的非常像。
-
-为了进一步验证，我们修改下 `static_bound` 的签名 :
-
+**答案是引用指向的数据**，而引用本身是要遵循其作用域范围的，我们来简单验证下：
 ```rust
-use std::fmt::Display;
-
 fn main() {
-    let s1 = "String".to_string();
+    {
+        let static_string = "I'm in read-only memory";
+        println!("static_string: {}", static_string);
 
-    static_bound(&s1);
-}
+        // 当 `static_string` 超出作用域时，该引用不能再被使用，但是数据依然会存在于 binary 所占用的内存中
+    }
 
-fn static_bound<T: Display>(t: &'static T) {
-    println!("{}", t);
+    println!("static_string reference remains alive: {}", static_string);
 }
 ```
 
-在这里，不再使用生命周期约束来限制 `T`，而直接指定 `T` 的生命周期是 `&'static` ，不出所料，代码报错了：
+以上代码不出所料会报错，原因在于虽然字符串字面量 "I'm in read-only memory" 的生命周期是 `'static`，但是持有它的引用并不是，它的作用域在内部花括号 `}` 处就结束了。
 
-```console
-error[E0597]: `s1` does not live long enough
- --> src/main.rs:8:18
-  |
-8 |     static_bound(&s1);
-  |     -------------^^^-
-  |     |            |
-  |     |            borrowed value does not live long enough
-  |     argument requires that `s1` is borrowed for `'static`
-9 | }
-  | - `s1` dropped here while still borrowed
-```
 
-原因很简单，`s1` 活得不够久，没有满足 `'static` 的生命周期要求。
+## 总结
 
-## 使用经验
+总之， `&'static` 和 `T: 'static` 大体上相似，相比起来，后者的使用形式会更加复杂一些。
 
 至此，相信大家对于 `'static` 和 `T: 'static` 也有了清晰的理解，那么我们应该如何使用它们呢？
 
@@ -173,3 +197,4 @@ error[E0597]: `s1` does not live long enough
 - 如果你希望满足和取悦编译器，那就使用 `T: 'static`，很多时候它都能解决问题
 
 > 一个小知识，在 Rust 标准库中，有 48 处用到了 &'static ，112 处用到了 `T: 'static` ，看来取悦编译器不仅仅是菜鸟需要的，高手也经常用到 :)
+

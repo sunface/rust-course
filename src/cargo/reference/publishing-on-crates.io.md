@@ -1,12 +1,12 @@
 # 发布到 crates.io
 
-如果你想要把自己的开源项目分享给全世界，那最好的办法自然是 github。但如果是 Rust 的库，那除了发布到 github 外，我们还可以将其发布到 [crates.io](https://crates.io) 上，然后其它用户就可以很简单的对其进行引用。
+如果你想要把自己的开源项目分享给全世界，那最好的办法自然是 GitHub。但如果是 Rust 的库，那除了发布到 GitHub 外，我们还可以将其发布到 [crates.io](https://crates.io) 上，然后其它用户就可以很简单的对其进行引用。
 
 > 注意：发布包到 `crates.io` 后，特定的版本无法被覆盖，要发布就必须使用新的版本号，代码也无法被删除!
 
 ## 首次发布之前
 
-**首先，我们需要一个账号**：访问 crates.io 的[主页](https://crates.io)，然后在右上角使用 Github 账户登陆，接着访问你的[账户设置](https://crates.io/settings/profile)页面，进入到 API Tokens 标签页下，生成新的 Token，并使用该 Token 在终端中进行登录:
+**首先，我们需要一个账号**：访问 crates.io 的[主页](https://crates.io)，然后在右上角使用 GitHub 账户登陆，接着访问你的[账户设置](https://crates.io/settings/profile)页面，进入到 API Tokens 标签页下，生成新的 Token，并使用该 Token 在终端中进行登录:
 
 ```shell
 $ cargo login abcdefghijklmnopqrstuvwxyz012345
@@ -52,7 +52,7 @@ $ cargo publish --dry-run
 你可以在 `target/package` 目录下观察生成的 `.crate` 文件。例如，目前 `crates.io` 要求该文件的大小不能超过 10MB，你可以通过手动检查该文件的大小来确保不会无意间打包进一些较大的资源文件，比如测试数据、网站文档或生成的代码等。我们还可以使用以下命令来检查其中包含的文件:
 
 ```shell
-$cargo package --list
+$ cargo package --list
 ```
 
 当打包时，Cargo 会自动根据版本控制系统的配置来忽略指定的文件，例如 `.gitignore`。除此之外，你还可以通过 [`exclude`](https://course.rs/cargo/reference/manifest.html#exclude和include) 来排除指定的文件:
@@ -123,12 +123,12 @@ $ cargo owner --add github:rust-lang:owners
 $ cargo owner --remove github:rust-lang:owners
 ```
 
-命令中使用的 ownerID 必须是 Github 用户名或 Team 名。
+命令中使用的 ownerID 必须是 GitHub 用户名或 Team 名。
 
 一旦一个用户 `B` 通过 `--add` 被加入到 `owner` 列表中，他将拥有该包相关的所有权利。例如发布新版本、yank 一个版本，还能增加和移除 owner，包含添加 `B` 为 owner 的 `A` 都可以被移除！
 
 因此，我们必须严肃的指出：**不要将你不信任的人添加为 owner !** 免得哪天反目成仇后，他把你移除了 - , -
 
-但是对于 Team 又有所不同，通过 `-add` 添加的 Github Team owner，只拥有受限的权利。它们可以发布或 yank 某个版本，但是他们**不能添加或移除** owner！总之，Team 除了可以很方便的管理所有者分组的同时，还能防止一些未知的恶意。
+但是对于 Team 又有所不同，通过 `-add` 添加的 GitHub Team owner，只拥有受限的权利。它们可以发布或 yank 某个版本，但是他们**不能添加或移除** owner！总之，Team 除了可以很方便的管理所有者分组的同时，还能防止一些未知的恶意。
 
 如果大家在添加 team 时遇到问题，可以看看官方的[相关文档](https://doc.rust-lang.org/stable/cargo/reference/publishing.html#github-permissions)，由于绝大多数人都无需此功能，因此这里不再详细展开。

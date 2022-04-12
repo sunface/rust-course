@@ -1,6 +1,6 @@
 # 字符串
 
-在其他语言，字符串往往是送分题，因为实在是太简单了，例如 `"hello, world"` 就是字符串章节的几乎全部内容了，但是如果你带着同样的想法来学 Rust，我保证，绝对会栽跟头， **因此这一章大家一定要重视，仔细阅读，这里有很多其它 Rust 书籍中没有的内容**。
+在其他语言，字符串往往是送分题，因为实在是太简单了，例如 `"hello, world"` 就是字符串章节的几乎全部内容了，但是如果你带着同样的想法来学 Rust，我保证，绝对会栽跟头，**因此这一章大家一定要重视，仔细阅读，这里有很多其它 Rust 书籍中没有的内容**。
 
 首先来看段很简单的代码：
 
@@ -49,7 +49,7 @@ let world = &s[6..11];
 
 `hello` 没有引用整个 `String s`，而是引用了 `s` 的一部分内容，通过 `[0..5]` 的方式来指定。
 
-这就是创建切片的语法，使用方括号包括的一个序列: **[开始索引..终止索引]**，其中开始索引是切片中第一个元素的索引位置，而终止索引是最后一个元素后面的索引位置，也就是这是一个 `右半开区间`。在切片数据结构内部会保存开始的位置和切片的长度，其中长度是通过 `终止索引` - `开始索引` 的方式计算得来的。
+这就是创建切片的语法，使用方括号包括的一个序列：**[开始索引..终止索引]**，其中开始索引是切片中第一个元素的索引位置，而终止索引是最后一个元素后面的索引位置，也就是这是一个 `右半开区间`。在切片数据结构内部会保存开始的位置和切片的长度，其中长度是通过 `终止索引` - `开始索引` 的方式计算得来的。
 
 对于 `let world = &s[6..11];` 来说，`world` 是一个切片，该切片的指针指向 `s` 的第 7 个字节(索引从 0 开始, 6 是第 7 个字节)，且该切片的长度是 `5` 个字节。
 
@@ -95,7 +95,7 @@ let slice = &s[..];
 > ```
 >
 > 因为我们只取 `s` 字符串的前两个字节，但是本例中每个汉字占用三个字节，因此没有落在边界处，也就是连 `中` 字都取不完整，此时程序会直接崩溃退出，如果改成 `&s[0..3]`，则可以正常通过编译。
-> 因此，当你需要对字符串做切片索引操作时，需要格外小心这一点, 关于该如何操作 UTF-8 字符串，参见[这里](#操作-utf8-字符串)
+> 因此，当你需要对字符串做切片索引操作时，需要格外小心这一点, 关于该如何操作 UTF-8 字符串，参见[这里](#操作-utf-8-字符串)
 
 字符串切片的类型标识是 `&str`，因此我们可以这样声明一个函数，输入 `String` 类型，返回它的切片: `fn first_word(s: &String) -> &str `。
 
@@ -178,69 +178,6 @@ Rust 在语言级别，只有一种字符串类型： `str`，它通常是以引
 
 除了 `String` 类型的字符串，Rust 的标准库还提供了其他类型的字符串，例如 `OsString`， `OsStr`， `CsString` 和` CsStr` 等，注意到这些名字都以 `String` 或者 `Str` 结尾了吗？它们分别对应的是具有所有权和被借用的变量。
 
-#### 操作字符串
-
-由于 `String` 是可变字符串，因此我们可以对它进行创建、增删操作，下面的代码汇总了相关的操作方式：
-
-```rust
-fn main() {
-    // 创建一个空String
-    let mut s = String::new();
-    // 将&str类型的"hello,world"添加到s中
-    s.push_str("hello,world");
-    // 将字符'!'推入s中
-    s.push('!');
-    // 最后s的内容是"hello,world!"
-    assert_eq!(s,"hello,world!");
-
-    // 从现有的&str切片创建String类型
-    let mut s = "hello,world".to_string();
-    // 将字符'!'推入s中
-    s.push('!');
-    // 最后s的内容是"hello,world!"
-    assert_eq!(s,"hello,world!");
-
-    // 从现有的&str切片创建String类型
-    // String与&str都是UTF-8编码，因此支持中文
-    let mut s = String::from("你好,世界");
-    // 将字符'!'推入s中
-    s.push('!');
-    // 最后s的内容是"你好,世界!"
-    assert_eq!(s,"你好,世界!");
-
-    let s1 = String::from("hello,");
-    let s2 = String::from("world!");
-    // 在下句中，s1的所有权被转移走了，因此后面不能再使用s1
-    let s3 = s1 + &s2;
-    assert_eq!(s3,"hello,world!");
-    // 下面的语句如果去掉注释，就会报错
-    // println!("{}",s1);
-}
-```
-
-在上面代码中，有一处需要解释的地方，就是使用 `+` 来对字符串进行相加操作， 这里之所以使用 `s1 + &s2` 的形式，是因为 `+` 使用了 `add` 方法，该方法的定义类似：
-
-```rust
-fn add(self, s: &str) -> String {
-```
-
-因为该方法涉及到更复杂的特征功能，因此我们这里简单说明下， `self` 是 `String` 类型的字符串 `s1`，该函数说明，只能将 `&str` 类型的字符串切片添加到 `String` 类型的 `s1` 上，然后返回一个新的 `String` 类型，所以 `let s3 = s1 + &s2;` 就很好解释了，将 `String` 类型的 `s1` 与 `&str` 类型的 `s2` 进行相加，最终得到 `String` 类型的 `s3`。
-
-由此可推，以下代码也是合法的：
-
-```rust
-let s1 = String::from("tic");
-let s2 = String::from("tac");
-let s3 = String::from("toe");
-
-// String = String + &str + &str + &str + &str
-let s = s1 + "-" + &s2 + "-" + &s3;
-```
-
-`String + &str`返回一个 `String`，然后再继续跟一个 `&str` 进行 `+` 操作，返回一个 `String` 类型，不断循环，最终生成一个 `s`，也是 `String` 类型。
-
-在上面代码中，我们做了一个有些难以理解的 `&String` 操作，下面来展开讲讲。
-
 ## String 与 &str 的转换
 
 在之前的代码中，已经见到好几种从 `&str` 类型生成 `String` 类型的操作：
@@ -285,7 +222,7 @@ fn say_hello(s: &str) {
 
 #### 深入字符串内部
 
-字符串的底层的数据存储格式实际上是[ `u8` ]，一个字节数组。对于 `let hello = String::from("Hola");` 这行代码来说， `hello` 的长度是 `4` 个字节，因为 `"hola"` 中的每个字母在 UTF-8 编码中仅占用 1 个字节，但是对于下面的代码呢？
+字符串的底层的数据存储格式实际上是[ `u8` ]，一个字节数组。对于 `let hello = String::from("Hola");` 这行代码来说，`hello` 的长度是 `4` 个字节，因为 `"hola"` 中的每个字母在 UTF-8 编码中仅占用 1 个字节，但是对于下面的代码呢？
 
 ```rust
 let hello = String::from("中国人");
@@ -339,7 +276,355 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 因此在通过索引区间来访问字符串时，**需要格外的小心**，一不注意，就会导致你程序的崩溃！
 
-## 操作 UTF8 字符串
+## 操作字符串
+
+由于 `String` 是可变字符串，下面介绍 Rust 字符串的修改，添加，删除等常用方法：
+
+#### 追加 (Push)
+
+在字符串尾部可以使用 `push()` 方法追加字符 `char`，也可以使用 `push_str()` 方法追加字符串字面量。这两个方法都是**在原有的字符串上追加，并不会返回新的字符串**。由于字符串追加操作要修改原来的字符串，则该字符串必须是可变的，即**字符串变量必须由 `mut` 关键字修饰**。
+
+示例代码如下：
+
+```rust
+fn main() {
+    let mut s = String::from("Hello ");
+    s.push('r');
+    println!("追加字符 push() -> {}", s);
+
+    s.push_str("ust!");
+    println!("追加字符串 push_str() -> {}", s);
+}
+```
+
+代码运行结果：
+
+```console
+追加字符 push() -> Hello r
+追加字符串 push_str() -> Hello rust!
+```
+
+#### 插入 (Insert)
+
+可以使用 `insert()` 方法插入单个字符 `char`，也可以使用 `insert_str()` 方法插入字符串字面量，与 `push()` 方法不同，这俩方法需要传入两个参数，第一个参数是字符（串）插入插入位置的索引，第二个参数是要插入的字符（串），索引从 0 开始计数，如果越界则会发生错误。由于字符串插入操作要**修改原来的字符串**，则该字符串必须是可变的，即**字符串变量必须由 `mut` 关键字修饰**。
+
+示例代码如下：
+
+```rust
+fn main() {
+    let mut s = String::from("Hello rust!");
+    s.insert(5, ',');
+    println!("插入字符 insert() -> {}", s);
+    s.insert_str(6, " I like");
+    println!("插入字符串 insert_str() -> {}", s);
+}
+```
+
+代码运行结果：
+
+```console
+插入字符 insert() -> Hello, rust!
+插入字符串 insert_str() -> Hello, I like rust!
+```
+
+#### 替换 (Replace)
+
+如果想要把字符串中的某个字符串替换成其它的字符串，那可以使用 `replace()` 方法。与替换有关的方法有三个。
+
+1、`replace`
+
+该方法可适用于 `String` 和 `&str` 类型。`replace()` 方法接收两个参数，第一个参数是要被替换的字符串，第二个参数是新的字符串。该方法会替换所有匹配到的字符串。**该方法是返回一个新的字符串，而不是操作原来的字符串**。
+
+示例代码如下：
+
+```rust
+fn main() {
+    let string_replace = String::from("I like rust. Learning rust is my favorite!");
+    let new_string_replace = string_replace.replace("rust", "RUST");
+    dbg!(new_string_replace);
+}
+```
+
+代码运行结果：
+
+```console
+new_string_replace = "I like RUST. Learning RUST is my favorite!"
+```
+
+2、`replacen`
+
+该方法可适用于 `String` 和 `&str` 类型。`replacen()` 方法接收三个参数，前两个参数与 `replace()` 方法一样，第三个参数则表示替换的个数。**该方法是返回一个新的字符串，而不是操作原来的字符串**。
+
+示例代码如下：
+
+```rust
+fn main() {
+    let string_replace = "I like rust. Learning rust is my favorite!";
+    let new_string_replacen = string_replace.replacen("rust", "RUST", 1);
+    dbg!(new_string_replacen);
+}
+```
+
+代码运行结果：
+
+```console
+new_string_replacen = "I like RUST. Learning rust is my favorite!"
+```
+
+3、`replace_range`
+
+该方法仅适用于 `String` 类型。`replace_range` 接收两个参数，第一个参数是要替换字符串的范围（Range），第二个参数是新的字符串。**该方法是直接操作原来的字符串，不会返回新的字符串。该方法需要使用 `mut` 关键字修饰**。
+
+示例代码如下：
+
+```rust
+fn main() {
+    let mut string_replace_range = String::from("I like rust!");
+    string_replace_range.replace_range(7..8, "R");
+    dbg!(string_replace_range);
+}
+```
+
+代码运行结果：
+
+```console
+string_replace_range = "I like Rust!"
+```
+
+#### 删除 (Delete)
+
+与字符串删除相关的方法有 4 个，他们分别是 `pop()`，`remove()`，`truncate()`，`clear()`。这四个方法仅适用于 `String` 类型。
+
+1、 `pop` —— 删除并返回字符串的最后一个字符
+
+**该方法是直接操作原来的字符串**。但是存在返回值，其返回值是一个 `Option` 类型，如果字符串为空，则返回 `None`。
+示例代码如下：
+
+```rust
+fn main() {
+    let mut string_pop = String::from("rust pop 中文!");
+    let p1 = string_pop.pop();
+    let p2 = string_pop.pop();
+    dbg!(p1);
+    dbg!(p2);
+    dbg!(string_pop);
+}
+```
+
+代码运行结果：
+
+```console
+p1 = Some(
+   '!',
+)
+p2 = Some(
+   '文',
+)
+string_pop = "rust pop 中"
+```
+
+2、 `remove` —— 删除并返回字符串中指定位置的字符
+
+**该方法是直接操作原来的字符串**。但是存在返回值，其返回值是删除位置的字符串，只接收一个参数，表示该字符起始索引位置。`remove()` 方法是按照字节来处理字符串的，如果参数所给的位置不是合法的字符边界，则会发生错误。
+
+示例代码如下：
+
+```rust
+fn main() {
+    let mut string_remove = String::from("测试remove方法");
+    println!(
+        "string_remove 占 {} 个字节",
+        std::mem::size_of_val(string_remove.as_str())
+    );
+    // 删除第一个汉字
+    string_remove.remove(0);
+    // 下面代码会发生错误
+    // string_remove.remove(1);
+    // 直接删除第二个汉字
+    // string_remove.remove(3);
+    dbg!(string_remove);
+}
+```
+
+代码运行结果：
+
+```console
+string_remove 占 18 个字节
+string_remove = "试remove方法"
+```
+
+3、`truncate` —— 删除字符串中从指定位置开始到结尾的全部字符
+
+**该方法是直接操作原来的字符串**。无返回值。该方法 `truncate()` 方法是按照字节来处理字符串的，如果参数所给的位置不是合法的字符边界，则会发生错误。
+
+示例代码如下：
+
+```rust
+fn main() {
+    let mut string_truncate = String::from("测试truncate");
+    string_truncate.truncate(3);
+    dbg!(string_truncate);
+}
+```
+
+代码运行结果：
+
+```console
+string_truncate = "测"
+```
+
+4、`clear` —— 清空字符串
+
+**该方法是直接操作原来的字符串**。调用后，删除字符串中的所有字符，相当于 `truncate()` 方法参数为 0 的时候。
+
+示例代码如下：
+
+```rust
+fn main() {
+    let mut string_clear = String::from("string clear");
+    string_clear.clear();
+    dbg!(string_clear);
+}
+```
+
+代码运行结果：
+
+```console
+string_clear = ""
+```
+
+#### 连接 (Catenate)
+
+1、使用 `+` 或者 `+=` 连接字符串
+
+使用 `+` 或者 `+=` 连接字符串，要求右边的参数必须为字符串的切片引用（Slice)类型。其实当调用 `+` 的操作符时，相当于调用了 `std::string` 标准库中的 [`add()`](https://doc.rust-lang.org/std/string/struct.String.html#method.add) 方法，这里 `add()` 方法的第二个参数是一个引用的类型。因此我们在使用 `+`， 必须传递切片引用类型。不能直接传递 `String` 类型。**`+` 和 `+=` 都是返回一个新的字符串。所以变量声明可以不需要 `mut` 关键字修饰**。
+
+示例代码如下：
+
+```rust
+fn main() {
+    let string_append = String::from("hello ");
+    let string_rust = String::from("rust");
+    // &string_rust会自动解引用为&str
+    let result = string_append + &string_rust;
+    let mut result = result + "!";
+    result += "!!!";
+
+    println!("连接字符串 + -> {}", result);
+}
+```
+
+代码运行结果：
+
+```console
+连接字符串 + -> hello rust!!!!
+```
+
+`add()` 方法的定义：
+
+```rust
+fn add(self, s: &str) -> String
+```
+
+因为该方法涉及到更复杂的特征功能，因此我们这里简单说明下：
+
+```rust
+fn main() {
+    let s1 = String::from("hello,");
+    let s2 = String::from("world!");
+    // 在下句中，s1的所有权被转移走了，因此后面不能再使用s1
+    let s3 = s1 + &s2;
+    assert_eq!(s3,"hello,world!");
+    // 下面的语句如果去掉注释，就会报错
+    // println!("{}",s1);
+}
+```
+
+`self` 是 `String` 类型的字符串 `s1`，该函数说明，只能将 `&str` 类型的字符串切片添加到 `String` 类型的 `s1` 上，然后返回一个新的 `String` 类型，所以 `let s3 = s1 + &s2;` 就很好解释了，将 `String` 类型的 `s1` 与 `&str` 类型的 `s2` 进行相加，最终得到 `String` 类型的 `s3`。
+
+由此可推，以下代码也是合法的：
+
+```rust
+let s1 = String::from("tic");
+let s2 = String::from("tac");
+let s3 = String::from("toe");
+
+// String = String + &str + &str + &str + &str
+let s = s1 + "-" + &s2 + "-" + &s3;
+```
+
+`String + &str`返回一个 `String`，然后再继续跟一个 `&str` 进行 `+` 操作，返回一个 `String` 类型，不断循环，最终生成一个 `s`，也是 `String` 类型。
+
+`s1` 这个变量通过调用 `add()` 方法后，所有权被转移到 `add()` 方法里面， `add()` 方法调用后就被释放了，同时 `s1` 也被释放了。再使用 `s1` 就会发生错误。这里涉及到[所有权转移（Move）](https://course.rs/basic/ownership/ownership.html#转移所有权)的相关知识。
+
+2、使用 `format!` 连接字符串
+
+`format!` 这种方式适用于 `String` 和 `&str` 。`format!` 的用法与 `print!` 的用法类似，详见[格式化输出](https://course.rs/basic/formatted-output.html#printprintlnformat)。
+
+示例代码如下：
+
+```rust
+fn main() {
+    let s1 = "hello";
+    let s2 = String::from("rust");
+    let s = format!("{} {}!", s1, s2);
+    println!("{}", s);
+}
+
+```
+
+代码运行结果：
+
+```console
+hello rust!
+```
+
+## 字符串转义
+
+我们可以通过转义的方式 `\` 输出 ASCII 和 Unicode 字符。
+
+```rust
+fn main() {
+    // 通过 \ + 字符的十六进制表示，转义输出一个字符
+    let byte_escape = "I'm writing \x52\x75\x73\x74!";
+    println!("What are you doing\x3F (\\x3F means ?) {}", byte_escape);
+
+    // \u 可以输出一个 unicode 字符
+    let unicode_codepoint = "\u{211D}";
+    let character_name = "\"DOUBLE-STRUCK CAPITAL R\"";
+
+    println!(
+        "Unicode character {} (U+211D) is called {}",
+        unicode_codepoint, character_name
+    );
+
+    // 换行了也会保持之前的字符串格式
+    let long_string = "String literals
+                        can span multiple lines.
+                        The linebreak and indentation here ->\
+                        <- can be escaped too!";
+    println!("{}", long_string);
+}
+```
+
+当然，在某些情况下，可能你会希望保持字符串的原样，不要转义:
+```rust
+fn main() {
+    println!("{}", "hello \\x52\\x75\\x73\\x74");
+    let raw_str = r"Escapes don't work here: \x3F \u{211D}";
+    println!("{}", raw_str);
+
+    // 如果字符串包含双引号，可以在开头和结尾加 #
+    let quotes = r#"And then I said: "There is no escape!""#;
+    println!("{}", quotes);
+
+    // 如果还是有歧义，可以继续增加，没有限制
+    let longer_delimiter = r###"A string with "# in it. And even "##!"###;
+    println!("{}", longer_delimiter);
+}
+```
+
+## 操作 UTF-8 字符串
 
 前文提到了几种使用 UTF-8 字符串的方式，下面来一一说明。
 
@@ -424,10 +709,14 @@ for b in "中国人".bytes() {
 
 这个模式对编写 Rust 代码的方式有着深远的影响，在后面章节我们会进行更深入的介绍。
 
-
 ## 课后练习
 
-> Rust By Practice，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。
-> - [字符串](https://zh.practice.rs/compound-types/string.html)
-> - [切片](https://zh.practice.rs/compound-types/slice.html)
-> - [String](https://zh.practice.rs/collections/String.html)
+- [字符串](https://zh.practice.rs/compound-types/string.html)
+- [切片](https://zh.practice.rs/compound-types/slice.html)
+- [String](https://zh.practice.rs/collections/String.html)
+
+<hr />
+
+## 引用资料
+
+1. https://blog.csdn.net/a1595901624/article/details/119294443

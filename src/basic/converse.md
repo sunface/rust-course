@@ -80,9 +80,9 @@ fn main() {
 }
 ```
 
-上面代码中引入了 `std::convert::TryInto` 特征，但是却没有使用它，可能有些同学会为此困惑，主要原因在于**如果你要使用一个特征的方法，那么你需要引入该特征到当前的作用域中**，我们在上面用到了 `try_into` 方法，因此需要引入对应的特征。但是 Rust 又提供了一个非常便利的办法，把最常用的标准库中的特征通过[`std::prelude`](std::convert::TryInto)模块提前引入到当前作用域中，其中包括了 `std::convert::TryInto`，你可以尝试删除第一行的代码 `use ...`，看看是否会报错。
+上面代码中引入了 `std::convert::TryInto` 特征，但是却没有使用它，可能有些同学会为此困惑，主要原因在于**如果你要使用一个特征的方法，那么你需要引入该特征到当前的作用域中**，我们在上面用到了 `try_into` 方法，因此需要引入对应的特征。但是 Rust 又提供了一个非常便利的办法，把最常用的标准库中的特征通过[`std::prelude`](https://course.rs/appendix/prelude.html)模块提前引入到当前作用域中，其中包括了 `std::convert::TryInto`，你可以尝试删除第一行的代码 `use ...`，看看是否会报错。
 
-`try_into` 会尝试进行一次转换，并返回一个 `Result`，此时就可以对其进行相应的错误处理。由于我们的例子只是为了快速测试，因此使用了 `unwrap` 方法，该方法在发现错误时，会直接调用 `panic` 导致程序的崩溃退出，在实际项目中，请不要这么使用，具体见[panic](./exception-error.md#panic)部分。
+`try_into` 会尝试进行一次转换，并返回一个 `Result`，此时就可以对其进行相应的错误处理。由于我们的例子只是为了快速测试，因此使用了 `unwrap` 方法，该方法在发现错误时，会直接调用 `panic` 导致程序的崩溃退出，在实际项目中，请不要这么使用，具体见[panic](https://course.rs/basic/result-error/panic.html#调用-panic)部分。
 
 最主要的是 `try_into` 转换会捕获大类型向小类型转换时导致的溢出错误：
 
@@ -275,11 +275,46 @@ impl<T> Clone for Container<T> {
    - 这种转换永远都是未定义的
    - 不，你不能这么做
    - 不要多想，你没有那种幸运
-4. 变形为一个未指定生命周期的引用会导致[无界生命周期](../advance/lifetime/advance.md)
+4. 变形为一个未指定生命周期的引用会导致[无界生命周期](https://course.rs/advance/lifetime/advance.html)
 5. 在复合类型之间互相变换时，你需要保证它们的排列布局是一模一样的！一旦不一样，那么字段就会得到不可预期的值，这也是未定义的行为，至于你会不会因此愤怒， **WHO CARES** ，你都用了变形了，老兄！
 
 对于第 5 条，你该如何知道内存的排列布局是一样的呢？对于 `repr(C)` 类型和 `repr(transparent)` 类型来说，它们的布局是有着精确定义的。但是对于你自己的"普通却自信"的 Rust 类型 `repr(Rust)` 来说，它可不是有着精确定义的。甚至同一个泛型类型的不同实例都可以有不同的内存布局。 `Vec<i32>` 和 `Vec<u32>` 它们的字段可能有着相同的顺序，也可能没有。对于数据排列布局来说，**什么能保证，什么不能保证**目前还在 Rust 开发组的[工作任务](https://rust-lang.github.io/unsafe-code-guidelines/layout.html)中呢。
 
 你以为你之前凝视的是深渊吗？不，你凝视的只是深渊的大门。 `mem::transmute_copy<T, U>` 才是真正的深渊，它比之前的还要更加危险和不安全。它从 `T` 类型中拷贝出 `U` 类型所需的字节数，然后转换成 `U`。 `mem::transmute` 尚有大小检查，能保证两个数据的内存大小一致，现在这哥们干脆连这个也丢了，只不过 `U` 的尺寸若是比 `T` 大，会是一个未定义行为。
 
-当然，你也可以通过原生指针转换和 `unions` (todo!)获得所有的这些功能，但是你将无法获得任何编译提示或者检查。原生指针转换和 `unions` 也不是魔法，无法逃避上面说的规则。
+当然，你也可以通过裸指针转换和 `unions` (todo!)获得所有的这些功能，但是你将无法获得任何编译提示或者检查。裸指针转换和 `unions` 也不是魔法，无法逃避上面说的规则。
+
+`transmute` 虽然危险，但作为一本工具书，知识当然要全面，下面列举两个有用的 `transmute` 应用场景 :)。
+
+- 将裸指针变成函数指针：
+
+```rust
+fn foo() -> i32 {
+    0
+}
+
+let pointer = foo as *const ();
+let function = unsafe { 
+    // 将裸指针转换为函数指针
+    std::mem::transmute::<*const (), fn() -> i32>(pointer) 
+};
+assert_eq!(function(), 0);
+```
+
+- 延长生命周期，或者缩短一个静态生命周期寿命：
+
+```rust
+struct R<'a>(&'a i32);
+
+// 将 'b 生命周期延长至 'static 生命周期
+unsafe fn extend_lifetime<'b>(r: R<'b>) -> R<'static> {
+    std::mem::transmute::<R<'b>, R<'static>>(r)
+}
+
+// 将 'static 生命周期缩短至 'c 生命周期
+unsafe fn shorten_invariant_lifetime<'b, 'c>(r: &'b mut R<'static>) -> &'b mut R<'c> {
+    std::mem::transmute::<&'b mut R<'static>, &'b mut R<'c>>(r)
+}
+```
+
+以上例子非常先进！但是是非常不安全的 Rust 行为！

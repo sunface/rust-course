@@ -6,7 +6,7 @@
 
 ## 使用 if 来做分支控制
 
-> if else 无处不在 - 鲁迅
+> if else 无处不在 -- 鲁迅
 
 但凡你能找到一门编程语言没有 `if else`，那么一定更要反馈给鲁迅，反正不是我说的:) 总之，只要你拥有其它语言的编程经验，就一定会有以下认知：`if else` **表达式**根据条件执行不同的代码分支：
 
@@ -38,7 +38,7 @@ fn main() {
 以上代码有以下几点要注意：
 
 - **`if` 语句块是表达式**，这里我们使用 `if` 表达式的返回值来给 `number` 进行赋值：`number` 的值是 `5`
-- 用 `if` 来赋值时，要保证每个分支返回的类型一样(事实上，这种说法不完全准确，见[这里](../appendix/expressions.md#if表达式))，此处返回的 `5` 和 `6` 就是同一个类型，如果返回类型不一致就会报错
+- 用 `if` 来赋值时，要保证每个分支返回的类型一样(事实上，这种说法不完全准确，见[这里](https://course.rs/appendix/expressions.html#if表达式))，此处返回的 `5` 和 `6` 就是同一个类型，如果返回类型不一致就会报错
 
 ```console
 error[E0308]: if and else have incompatible types
@@ -56,7 +56,7 @@ error[E0308]: if and else have incompatible types
              found type `&str`
 ```
 
-#### 使用 else if 来处理多重条件
+## 使用 else if 来处理多重条件
 
 可以将 `else if` 与 `if`、`else` 组合在一起实现更复杂的条件分支判断：
 
@@ -82,20 +82,20 @@ fn main() {
 
 如果代码中有大量的 `else if ` 会让代码变得极其丑陋，不过不用担心，下一章的 `match` 专门用以解决多分支模式匹配的问题。
 
-## 循环控制
+# 循环控制
 
 循环无处不在，上到数钱，下到数年，你能想象的很多场景都存在循环，因此它也是流程控制中最重要的组成部分之一。
 
 在 Rust 语言中有三种循环方式：`for`、`while` 和 `loop`，其中 `for` 循环是 Rust 循环王冠上的明珠。
 
-#### for 循环
+## for 循环
 
 `for` 循环是 Rust 的大杀器：
 
 ```rust
 fn main() {
     for i in 1..=5 {
-        println!("{}",i);
+        println!("{}", i);
     }
 }
 ```
@@ -140,10 +140,10 @@ for item in &mut collection {
 
 ```rust
 fn main() {
-    let a = [4,3,2,1];
+    let a = [4, 3, 2, 1];
     // `.iter()` 方法把 `a` 数组变成一个迭代器
-    for (i,v) in a.iter().enumerate() {
-        println!("第{}个元素是{}",i+1,v);
+    for (i, v) in a.iter().enumerate() {
+        println!("第{}个元素是{}", i + 1, v);
     }
 }
 ```
@@ -183,7 +183,7 @@ for item in collection {
 
 由于 `for` 循环无需任何条件限制，也不需要通过索引来访问，因此是最安全也是最常用的，通过与下面的 `while` 的对比，我们能看到为什么 `for` 会更加安全。
 
-#### `continue`
+## `continue`
 
 使用 `continue` 可以跳过当前当次的循环，开始下次的循环：
 
@@ -192,7 +192,7 @@ for item in collection {
      if i == 2 {
          continue;
      }
-     println!("{}",i);
+     println!("{}", i);
  }
 ```
 
@@ -203,7 +203,7 @@ for item in collection {
 3
 ```
 
-#### `break`
+## `break`
 
 使用 `break` 可以直接跳出当前整个循环：
 
@@ -212,17 +212,17 @@ for item in collection {
      if i == 2 {
          break;
      }
-     println!("{}",i);
+     println!("{}", i);
  }
 ```
 
-上面代码对 1 到 3 的序列进行迭代，在遇到值为 2 时的跳出整个循环，后面的循环不在执行，输出如下：
+上面代码对 1 到 3 的序列进行迭代，在遇到值为 2 时的跳出整个循环，后面的循环不再执行，输出如下：
 
 ```console
 1
 ```
 
-#### while 循环
+## while 循环
 
 如果你需要一个条件来循环，当该条件为 `true` 时，继续循环，条件为 `false`，跳出循环，那么 `while` 就非常适用：
 
@@ -262,7 +262,7 @@ fn main() {
         if n > 5 {
             break
         }
-        println!("{}",n);
+        println!("{}", n);
         n+=1;
     }
 
@@ -317,7 +317,7 @@ fn main() {
 
 可以看出，`for` 并不会使用索引去访问数组，因此更安全也更简洁，同时避免 `运行时的边界检查`，性能更高。
 
-#### loop 循环
+## loop 循环
 
 对于循环而言，`loop` 循环毋庸置疑，是适用面最高的，它可以适用于所有循环场景（虽然能用，但是在很多场景下， `for` 和 `while` 才是最优选择），因为 `loop` 就是一个简单的无限循环，你可以在内部实现逻辑通过 `break` 关键字来控制循环何时结束。
 
@@ -368,8 +368,6 @@ fn main() {
 - **break 可以单独使用，也可以带一个返回值**，有些类似 `return`
 - **loop 是一个表达式**，因此可以返回一个值
 
-
 ## 课后练习
 
 > [Rust By Practice](https://zh.practice.rs/flow-control.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。
-

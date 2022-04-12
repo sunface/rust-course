@@ -311,7 +311,7 @@ hello_macro
 
 由于过程宏所在的包跟我们的项目紧密相连，因此将它放在项目之中。现在，问题又来了，该如何在项目的 `src/main.rs` 中引用 `hello_macro_derive` 包的内容？
 
-方法有两种，第一种是将 `hello_macro_derive` 发布到 `crates.io` 或 `github` 中，就像我们引用的其它依赖一样；另一种就是使用相对路径引入的本地化方式，修改 `hello_macro/Cargo.toml` 文件添加以下内容:
+方法有两种，第一种是将 `hello_macro_derive` 发布到 `crates.io` 或 `GitHub` 中，就像我们引用的其它依赖一样；另一种就是使用相对路径引入的本地化方式，修改 `hello_macro/Cargo.toml` 文件添加以下内容:
 
 ```toml
 [dependencies]
@@ -492,6 +492,7 @@ let sql = sql!(SELECT * FROM posts WHERE id=1);
 3. [syn](https://crates.io/crates/syn) 和 [quote](https://crates.io/crates/quote) ，用于编写过程宏的包，它们的文档有很多值得学习的东西
 4. [Structuring, testing and debugging procedural macro crates](https://www.reddit.com/r/rust/comments/rjumsg/any_good_resources_for_learning_rust_macros/)，从测试、debug、结构化的角度来编写过程宏
 5. [blog.turbo.fish](https://blog.turbo.fish)，里面的过程宏系列文章值得一读
+6. [Rust 宏小册中文版](https://zjp-cn.github.io/tlborm/)，非常详细的解释了宏各种知识
 
 ## 总结
 

@@ -20,7 +20,7 @@ pub trait Iterator {
 
 同时，`next` 方法也返回了一个 `Item` 类型，不过使用 `Option` 枚举进行了包裹，假如迭代器中的值是 `i32` 类型，那么调用 `next` 方法就将获取一个 `Option<i32>` 的值。
 
-还记得 `Self` 吧？在之前的章节[提到过](https://course.rs/basic/trait/trait-object#self与self)， `Self` 用来指代当前的特征实例，那么 `Self::Item` 就用来指代特征实例中具体的 `Item` 类型：
+还记得 `Self` 吧？在之前的章节[提到过](https://course.rs/basic/trait/trait-object#self-与-self)， **`Self` 用来指代当前调用者的具体类型，那么 `Self::Item` 就用来指代该类型实现中定义的 `Item` 类型**：
 
 ```rust
 impl Iterator for Counter {
@@ -30,9 +30,14 @@ impl Iterator for Counter {
         // --snip--
     }
 }
+
+fn main() {
+    let c = Counter{..}
+    c.next()
+}
 ```
 
-在上述代码中，我们为 `Counter` 类型实现了 `Iterator` 特征，那么 `Self` 就是当前的 `Iterator` 特征对象， `Item` 就是 `u32` 类型。
+在上述代码中，我们为 `Counter` 类型实现了 `Iterator` 特征，变量 `c` 是特征 `Iterator` 的实例，也是 `next` 方法的调用者。 结合之前的黑体内容可以得出：对于 `next` 方法而言，`Self` 是调用者 `c` 的具体类型： `Counter`，而 `Self::Item` 是 `Counter` 中定义的 `Item` 类型: `u32`。
 
 聪明的读者之所以聪明，是因为你们喜欢联想和举一反三，同时你们也喜欢提问：为何不用泛型，例如如下代码：
 
@@ -227,7 +232,7 @@ Up!
 
 因为 `fly` 方法的参数是 `self`，当显式调用时，编译器就可以根据调用的类型( `self` 的类型)决定具体调用哪个方法。
 
-这个时候问题又来了，如果方法没有 `self` 参数呢？稍等，估计有读者会问：还有方法没有 `self` 参数？看到这个疑问，作者的眼泪不禁流了下来，大明湖畔的[关联函数](../method.md#关联函数)，你还记得嘛？
+这个时候问题又来了，如果方法没有 `self` 参数呢？稍等，估计有读者会问：还有方法没有 `self` 参数？看到这个疑问，作者的眼泪不禁流了下来，大明湖畔的[关联函数](https://course.rs/basic/method.html#关联函数)，你还记得嘛？
 
 但是成年人的世界，就算再伤心，事还得做，咱们继续：
 

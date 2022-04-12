@@ -27,9 +27,9 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 在有了持续集成后，只要编写好相应的编译、测试、发布配置文件，那持续集成平台会自动帮助我们完成整个相关的流程，期间无需任何人介入，高效且可靠。
 
-#### Github Actions
+#### GitHub Actions
 
-关于如何使用 `Github Actions` 进行持续集成，在[之前的章节](https://course.rs/test/ci.html)已经有过详细的介绍，这里就不再赘述。
+关于如何使用 `GitHub Actions` 进行持续集成，在[之前的章节](https://course.rs/test/ci.html)已经有过详细的介绍，这里就不再赘述。
 
 #### Travis CI
 

@@ -323,7 +323,7 @@ impl<T> AsyncReceiver<T> {
 除了跳转到标准库，你还可以通过指定具体的路径跳转到自己代码或者其它库的指定项，例如在 `lib.rs` 中添加以下代码：
 
 ```rust
-mod a {
+pub mod a {
     /// `add_one` 返回一个[`Option`]类型
     /// 跳转到[`crate::MySpecialFormatter`]
     pub fn add_one(x: i32) -> Option<i32> {
@@ -331,7 +331,7 @@ mod a {
     }
 }
 
-struct MySpecialFormatter;
+pub struct MySpecialFormatter;
 ```
 
 使用 `crate::MySpecialFormatter` 这种路径就可以实现跳转到 `lib.rs` 中定义的结构体上。
@@ -387,7 +387,7 @@ pub struct BigY;
 Created binary (application) `art` package
 ```
 
-系统提示我们创建了一个二进制 `Package`，根据[之前章节](./crate-module/crate.md)学过的内容，可以知道该 `Package` 包含一个同名的二进制包：包名为 `art`，包根为 `src/main.rs`，该包可以编译成二进制然后运行。
+系统提示我们创建了一个二进制 `Package`，根据[之前章节](https://course.rs/basic/crate-module/crate.html)学过的内容，可以知道该 `Package` 包含一个同名的二进制包：包名为 `art`，包根为 `src/main.rs`，该包可以编译成二进制然后运行。
 
 现在，在 `src` 目录下创建一个 `lib.rs` 文件，同样，根据之前学习的知识，创建该文件等于又创建了一个库类型的包，包名也是 `art`，包根为 `src/lib.rs`，该包是是库类型的，因此往往作为依赖库被引入。
 
@@ -429,7 +429,7 @@ pub mod utils {
     /// ```rust
     /// use art::utils::mix;
     /// use art::kinds::{PrimaryColor,SecondaryColor};
-    /// assert_eq!(mix(PrimaryColor::Yellow, PrimaryColor::Blue), SecondaryColor::Green)
+    /// assert!(matches!(mix(PrimaryColor::Yellow, PrimaryColor::Blue), SecondaryColor::Green));
     /// ```
     pub fn mix(c1: PrimaryColor, c2: PrimaryColor) -> SecondaryColor {
         SecondaryColor::Green

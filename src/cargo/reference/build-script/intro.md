@@ -32,7 +32,7 @@ fn main() {
 
 > Note: [`package.build`](https://course.rs/cargo/reference/manifest.html#build) 可以用于改变构建脚本的名称，或者直接禁用该功能
 
-#### 构建脚本的生命期
+#### 构建脚本的生命周期
 
 在项目被构建之前，Cargo 会将构建脚本编译成一个可执行文件，然后运行该文件并执行相应的任务。
 
@@ -40,7 +40,7 @@ fn main() {
 
 需要注意的是，Cargo 也不是每次都会重新编译构建脚本，只有当脚本的内容或依赖发生变化时才会。默认情况下，任何文件变化都会触发重新编译，如果你希望对其进行定制，可以使用 `rerun-if`命令，后文会讲。
 
-在构建成本成功执行后，我们的项目就会开始进行编译。如果构建脚本的运行过程中发生错误，脚本应该通过返回一个非 0 码来立刻退出，在这种情况下，构建脚本的输出会被打印到终端中。
+在构建脚本成功执行后，我们的项目就会开始进行编译。如果构建脚本的运行过程中发生错误，脚本应该通过返回一个非 0 码来立刻退出，在这种情况下，构建脚本的输出会被打印到终端中。
 
 #### 构建脚本的输入
 
@@ -72,8 +72,8 @@ $ cargo run -vv
 以下是 Cargo 能识别的通信指令以及简介，如果大家希望深入了解每个命令，可以点击具体的链接查看官方文档的说明。
 
 - [`cargo:rerun-if-changed=PATH`](https://doc.rust-lang.org/stable/cargo/reference/build-scripts.html#rerun-if-changed) — 当指定路径的文件发生变化时，Cargo 会重新运行脚本
-- [`cargo:rerun-if-env-changed=VAR`](https://doc.rust-lang.org/stable/cargo/reference/build-scripts.html#rerun-if-env-changed) — 当指定的环境变量发生变化时，Cargo 会重新运行脚本告诉
-- [`cargo:rustc-link-arg=FLAG`](https://doc.rust-lang.org/stable/cargo/reference/build-scripts.html#rustc-link-arg) – 将自定义的 flags 传给 linker，用于后续的基准性能测试 benchmark、 可执行文件 binary,、`cdylib` 包、示例 和测试。
+- [`cargo:rerun-if-env-changed=VAR`](https://doc.rust-lang.org/stable/cargo/reference/build-scripts.html#rerun-if-env-changed) — 当指定的环境变量发生变化时，Cargo 会重新运行脚本
+- [`cargo:rustc-link-arg=FLAG`](https://doc.rust-lang.org/stable/cargo/reference/build-scripts.html#rustc-link-arg) – 将自定义的 flags 传给 linker，用于后续的基准性能测试 benchmark、 可执行文件 binary,、`cdylib` 包、示例和测试
 - [`cargo:rustc-link-arg-bin=BIN=FLAG`](https://doc.rust-lang.org/stable/cargo/reference/build-scripts.html#rustc-link-arg-bin) – 自定义的 flags 传给 linker，用于可执行文件 `BIN`
 - [`cargo:rustc-link-arg-bins=FLAG`](https://doc.rust-lang.org/stable/cargo/reference/build-scripts.html#rustc-link-arg-bins) – 自定义的 flags 传给 linker，用于可执行文件
 - [`cargo:rustc-link-arg-tests=FLAG`](https://doc.rust-lang.org/stable/cargo/reference/build-scripts.html#rustc-link-arg-tests) – 自定义的 flags 传给 linker，用于测试
@@ -90,7 +90,7 @@ $ cargo run -vv
 
 ## 构建脚本的依赖
 
-构建脚本也可以引入其它基于 Cargo 的依赖包，只需要修改在 `Cargo.toml` 中添加以下内容:
+构建脚本也可以引入其它基于 Cargo 的依赖包，只需要在 `Cargo.toml` 中添加或修改以下内容:
 
 ```toml
 [build-dependencies]
@@ -115,7 +115,7 @@ links = "foo"
 
 Cargo 要求一个本地库最多只能被一个项目所链接，换而言之，你无法让两个项目链接到同一个本地库，但是有一种方法可以降低这种限制，感兴趣的同学可以看看[官方文档](https://doc.rust-lang.org/stable/cargo/reference/build-scripts.html#-sys-packages)。
 
-假设 A 项目的构建脚本生成任意数量的 kv 形式的元数据，那这些元数据传递给将 A 用作依赖包的项目的构建脚本。例如，如果包 `bar` 依赖于 `foo`，当 `foo` 生成 `key==value` 形式的构建脚本元数据时，那么 `bar` 的构建脚本就可以通过环境变量的形式使用该元数据：`DEP_FOO_KEY=value`。
+假设 A 项目的构建脚本生成任意数量的 kv 形式的元数据，那这些元数据将传递给 A 用作依赖包的项目的构建脚本。例如，如果包 `bar` 依赖于 `foo`，当 `foo` 生成 `key=value` 形式的构建脚本元数据时，那么 `bar` 的构建脚本就可以通过环境变量的形式使用该元数据：`DEP_FOO_KEY=value`。
 
 需要注意的是，该元数据只能传给直接相关者，对于间接的，例如依赖的依赖，就无能为力了。
 

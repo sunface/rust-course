@@ -263,7 +263,7 @@ for handle in handles {
 }
 ```
 
-按理来说，既然是无锁实现了，那么锁的开销应该几乎没有，性能会随着线程数的增加几近线程增长，但是真的是这样吗？
+按理来说，既然是无锁实现了，那么锁的开销应该几乎没有，性能会随着线程数的增加接近线性增长，但是真的是这样吗？
 
 下图是该代码在 `48` 核机器上的运行结果：
 
@@ -475,10 +475,10 @@ fn main() {
 
 ```rust
 use std::thread;
-use std::sync::{Once, ONCE_INIT};
+use std::sync::Once;
 
 static mut VAL: usize = 0;
-static INIT: Once = ONCE_INIT;
+static INIT: Once = Once::new();
 
 fn main() {
     let handle1 = thread::spawn(move || {
@@ -516,7 +516,7 @@ fn main() {
 
 ## 总结
 
-[Rust 的线程模型](./intro.md)是 `1:1` 模型，因为 Rust 要保持尽量小的运行时。
+[Rust 的线程模型](https://course.rs/advance/concurrency-with-threads/intro.html)是 `1:1` 模型，因为 Rust 要保持尽量小的运行时。
 
 我们可以使用 `thread::spawn` 来创建线程，创建出的多个线程之间并不存在执行顺序关系，因此代码逻辑千万不要依赖于线程间的执行顺序。
 

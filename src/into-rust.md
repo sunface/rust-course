@@ -1,4 +1,7 @@
-# 进入 Rust 编程世界
+<img src="https://pic1.zhimg.com/80/v2-e9cfbd08d2ebca51b588d1beaed3c0dd_1440w.jpg" />
+<div align="center">正在努力学 Rust 的 Ferris</div>
+
+<br />
 
 ## Rust 发展历程
 
@@ -130,7 +133,7 @@ Rust 语言表达能力更强，性能更高。同时线程安全方面 Rust 也
 - Google 除了在安卓系统的部分模块中使用 Rust 外，还在它最新的操作系统 Fuchsia 中重度使用 Rust
 - Facebook 使用 Rust 来增强自己的网页端、移动端和 API 服务的性能，同时还写了 Hack 编程语言的虚拟机
 - Microsoft 使用 Rust 为 Azure 平台提供一些组件，其中包括 IoT 的核心服务
-- Github 和 npmjs.com，使用 Rust 提供高达每天 13 亿次的 npm 包下载
+- GitHub 和 npmjs.com，使用 Rust 提供高达每天 13 亿次的 npm 包下载
 - Rust 目前已经成为全世界区块链平台的首选开发语言
 - TiDB，国内最有名的开源分布式数据库
 
@@ -159,4 +162,5 @@ Rust 语言表达能力更强，性能更高。同时线程安全方面 Rust 也
 
 > 本书是完全开源的，但是并不意味着质量上的妥协，这里的每一个章节都花费了大量的心血和时间才能完成，为此牺牲了陪伴家人、日常娱乐的时间，虽然我们并不后悔，但是如果能得到读者您的鼓励，我们将感激不尽。
 >
-> 既然是开源，那最大的鼓励不是 money，而是 star:) **如果大家觉得这本书作者真的用心了，就帮我们[点一个 🌟 ](https;//github.com/sunface/rust-course)吧，这将是我们继续前行最大的动力**
+> 既然是开源，那最大的鼓励不是 money，而是 star:) **如果大家觉得这本书作者真的用心了，就帮我们[点一个 🌟 ](https://github.com/sunface/rust-course)吧，这将是我们继续前行最大的动力**
+

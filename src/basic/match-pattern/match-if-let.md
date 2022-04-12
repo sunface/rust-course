@@ -145,7 +145,7 @@ fn value_in_cents(coin: Coin) -> u8 {
 
 上面代码中，在匹配 `Coin::Quarter(state)` 模式时，我们把它内部存储的值绑定到了 `state` 变量上，因此 `state` 变量就是对应的 `UsState` 枚举类型。
 
-例如有一个印了阿拉斯加州标记的 25 分硬币：`Coin::Quarter(UsState::Alaska))`, 它在匹配时，`state` 变量将被绑定 `UsState::Alaska` 的枚举值。
+例如有一个印了阿拉斯加州标记的 25 分硬币：`Coin::Quarter(UsState::Alaska)`, 它在匹配时，`state` 变量将被绑定 `UsState::Alaska` 的枚举值。
 
 再来看一个更复杂的例子：
 
@@ -241,7 +241,7 @@ error[E0004]: non-exhaustive patterns: `West` not covered // 非穷尽匹配，`
 
 #### `_` 通配符
 
-当我们不想在匹配的时候列出所有值的时候，可以使用 Rust 提供的一个特殊**模式**，例如，`u8` 可以拥有 0 到 255 的有效的值，但是我们只关心 `1、3、5 和 7` 这几个值，不想列出其它的 `0、2、4、6、8、9 一直到 255` 的值。那么, 我们不必一个一个列出所有值, 因为可以使用使用特殊的模式 `_` 替代：
+当我们不想在匹配的时候列出所有值的时候，可以使用 Rust 提供的一个特殊**模式**，例如，`u8` 可以拥有 0 到 255 的有效的值，但是我们只关心 `1、3、5 和 7` 这几个值，不想列出其它的 `0、2、4、6、8、9 一直到 255` 的值。那么, 我们不必一个一个列出所有值, 因为可以使用特殊的模式 `_` 替代：
 
 ```rust
 let some_u8_value = 0u8;
@@ -264,7 +264,7 @@ match some_u8_value {
 
 ```rust
     let v = Some(3u8);
-    match v{
+    match v {
         Some(3) => println!("three"),
         _ => (),
     }
@@ -323,7 +323,7 @@ assert!(matches!(bar, Some(x) if x > 2));
 
 ## 变量覆盖
 
-无论是是 `match` 还是 `if let`，他们都可以在模式匹配时覆盖掉老的值，绑定新的值:
+无论是 `match` 还是 `if let`，他们都可以在模式匹配时覆盖掉老的值，绑定新的值:
 
 ```rust
 fn main() {
