@@ -18,18 +18,18 @@
 
 ## Sym
 
-| 名称                    | 关键字         | 简介                                                                                 |
-| ----------------------- | -------------- | ------------------------------------------------------------------------------------ |
-| [?]                     | 错误传播       | 用于简化错误传播                                                                     |
-| [()]                    | 单元类型       | 单元类型，无返回值                                                                   |
-| `!` : [1 函数] [2 类型] | 永不返回       | 永不返回                                                                             |
-| [&]                     | 引用           | 常规引用是一个指针类型，指向了对象存储的内存地址                                     |
-| [\*]                    | 解引用         | 解出引用所指向的值                                                                   |
-| [@]                     | 变量绑定       | 为一个字段绑定另外一个变量                                                           |
-| `_` : [2 模式匹配]      | 忽略           | 1. 忽略该值或者类型，否则编译器会给你一个 `变量未使用的` 的警告<br>2. 模式匹配通配符 |
-| ['a: 'b]                | 生命周期约束   | 用来说明两个生命周期的长短                                                           |
-| [{:?}] {:#?}            | 打印结构体信息 | 使用 `#[derive(Debug)]` 派生实现 `Debug` 特征                                        |
-| A                       |                | AIntroduction                                                                        |
+| 名称                            | 关键字         | 简介                                                                                 |
+| ------------------------------- | -------------- | ------------------------------------------------------------------------------------ |
+| [?]                             | 错误传播       | 用于简化错误传播                                                                     |
+| [()]                            | 单元类型       | 单元类型，无返回值                                                                   |
+| `!` : [1 函数] [2 类型]         | 永不返回       | 永不返回                                                                             |
+| [&]                             | 引用           | 常规引用是一个指针类型，指向了对象存储的内存地址                                     |
+| [\*]                            | 解引用         | 解出引用所指向的值                                                                   |
+| [@]                             | 变量绑定       | 为一个字段绑定另外一个变量                                                           |
+| `_` : [1 忽略变量] [2 模式匹配] | 忽略           | 1. 忽略该值或者类型，否则编译器会给你一个 `变量未使用的` 的警告<br>2. 模式匹配通配符 |
+| ['a: 'b]                        | 生命周期约束   | 用来说明两个生命周期的长短                                                           |
+| [{:?}] {:#?}                    | 打印结构体信息 | 使用 `#[derive(Debug)]` 派生实现 `Debug` 特征                                        |
+| A                               |                | AIntroduction                                                                        |
 
 [?]: https://course.rs/basic/result-error/result.html#传播界的大明星-
 [()]: https://course.rs/basic/base-type/function.html#无返回值
@@ -40,6 +40,7 @@
 [@]: https://course.rs/basic/match-pattern/all-patterns.html#绑定
 ['a: 'b]: https://course.rs/advance/lifetime/advance.html#生命周期约束-hrtb
 [{:?}]: https://course.rs/basic/compound-type/struct.html?search=#使用-derivedebug-来打印结构体的信息
+[1 忽略变量]: https://course.rs/basic/variable.html#使用下划线开头忽略未使用的变量
 [2 模式匹配]: https://course.rs/basic/match-pattern/match-if-let.html#_-通配符
 
 [back](#head)
@@ -273,6 +274,7 @@
 | [slice 切片]    | `&str`        | 允许你引用 `String` 中部分连续的元素序列，而不是引用整个 `String` <br>语法：`[开始索引..终止索引]`<br>字符串字面量是切片 |
 | [String 字符串] | `String` 类型 | Rust 中的字符串是 UTF-8 编码，也就是字符串中的字符所占的字节数是变化的(1 - 4)                                            |
 | [String 操作]   | `String` 方法 | 由于 `String` 是可变字符串，因此我们可以对它进行创建、增删操作                                                           |
+| [String 转义]   | `String` 方法 | 通过转义的方式 `\` 输出 ASCII 和 Unicode 字符                                                                            |
 | [struct 结构体] | 结构体        | 通过关键字 `struct` 定义<br>一个清晰明确的结构体 `名称`<br>几个有名字的结构体 `字段`<br>通过 `.` 访问字段                |
 | S               | KWS           | SIntroduction                                                                                                            |
 
@@ -281,6 +283,7 @@
 [slice 切片]: https://course.rs/basic/compound-type/string-slice.html#切片slice
 [string 字符串]: https://course.rs/basic/compound-type/string-slice.html#什么是字符串
 [string 操作]: https://course.rs/basic/compound-type/string-slice.html#操作字符串
+[string 转义]: https://course.rs/basic/compound-type/string-slice.html#字符串转义
 [struct 结构体]: https://course.rs/basic/compound-type/struct.html
 
 [back](#head)
