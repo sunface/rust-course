@@ -2,7 +2,9 @@
 
 在 [tracing](https://docs.rs/crate/tracing/latest) 包出来前，Rust 的日志也就 `log` 有一战之力，但是 `log` 的功能相对来说还是鸡简单一些。在大名鼎鼎的 tokio 开发团队推出 `tracing` 后，我现在坚定的认为 `tracing` 就是未来！
 
+
 > 截至目前，rust编译器团队、GraphQL 都在使用 tracing，而且 tokio 在密谋一件大事：基于 tracing 开发一套终端交互式 debug 工具: [console](https://github.com/tokio-rs/console)！
+
 
 基于这种坚定的信仰，我们决定将公司之前使用的 `log` 包替换成 `tracing` ，但是有一个问题：后者提供的 JSON logger 总感觉不是那个味儿。这意味着，对于程序员来说，最快乐的时光又要到来了：定制自己的开发工具。
 
