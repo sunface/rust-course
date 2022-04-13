@@ -6,9 +6,8 @@
 ## 「Rust 语言周刊」 第 7 期 · 2022-04-08
 Rust 语言周刊精选过去一周的优秀文章、新闻、开源项目和 Rust 语言动态。
 
-本周刊由 StudyRust 社区倾情打造，其中的 [Zh] 中文资料由 Rustt 进行翻译，原始 Markdown 文档已全部开源，欢迎大家阅读和订阅。
+本周刊由 Rust 语言中文网倾情打造，其中的 [Zh] 中文资料由 Rustt 进行翻译，原始 Markdown 文档已全部开源，欢迎大家阅读和订阅。
 
-> StudyRust 官网：https://studyrust.org , 公众号 studyrust
 
 <img src="https://pic1.zhimg.com/v2-23a24b00623e46297ea9146e648a1126_1440w.jpg?source=172ae18b">
 <h5 align="center">题图: 一本生锈的书</h5>

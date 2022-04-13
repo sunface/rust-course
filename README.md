@@ -6,7 +6,7 @@
    
 <div align="center">
 
-[![studyrut](https://img.shields.io/badge/study-rust-orange)](https://github.com/studyrs)   [![Stars Count](https://img.shields.io/github/stars/sunface/rust-course?style=flat)](https://github.com/sunface/rust-course/stargazers) 
+[![studyrut](https://img.shields.io/badge/Rust语言中文网-orange)](https://github.com/rustlang-cn)   [![Stars Count](https://img.shields.io/github/stars/sunface/rust-course?style=flat)](https://github.com/sunface/rust-course/stargazers) 
 [![](https://img.shields.io/github/issues-pr-closed-raw/sunface/rust-course.svg?style=flat)](https://github.com/sunface/rust-course/issues)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ines/spacy-course/master)
 
@@ -149,10 +149,8 @@
 ## 社区 & 读者交流
 
 - 知乎: [孙飞 Sunface](https://www.zhihu.com/people/iSunface)
-
-- **StudyRust** 社区
-  - QQ群 `1009730433`，用于日常技术交流
-  - 微信公众号: 搜索 `studyrust` 或扫描下面的二维码关注公众号 `Rust语言中文网`
+- QQ群 `1009730433`，用于日常技术交流
+- 微信公众号: 搜索 `studyrust` 或扫描下面的二维码关注公众号 `Rust语言中文网`
 
 <img src="https://github.com/sunface/rust-course/blob/main/assets/studyrust公众号.png?raw=true" />
 
