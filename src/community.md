@@ -7,7 +7,7 @@
 ---
 这个社区与其它 Rust 社区有点不一样: 我们聚焦于 Rust 语言的学习研究和实战应用上，不搞花活！
 
-- 社区官网：[Rust语言中文网](https://rustl.cn)，正在建设中，暂时跳转到 GitHub 组织首页
+- 官方网址：[https://rustl.cn](https://rustl.cn)，正在建设中，暂时跳转到 GitHub 组织首页
 - QQ交流群: 1009730433
 
 以下是社区的部分 Rust 项目：

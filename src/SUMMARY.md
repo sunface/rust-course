@@ -1,14 +1,14 @@
 # Rust 语言圣经
 
-[Rust语言圣经](about-book.md)
+[Rust 语言圣经](about-book.md)
 [进入 Rust 编程世界](into-rust.md)
 [快速查询入口](index-list.md)
 
 ---
-[一个社区](studyrust.md)
+[Rust 语言中文网](community.md)
 [一本生锈的书](rusty-book.md)
 [Rust 语言周刊](rust-weekly.md)
-[Rustt 翻译计划](rustt.md)
+[Rust 翻译计划( 代号 Rustt )](rustt.md)
 
 # 快速开始
 ---
