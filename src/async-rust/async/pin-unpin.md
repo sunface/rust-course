@@ -466,7 +466,7 @@ execute_unpin_future(fut); // OK
 
 相信大家看到这里，脑袋里已经快被 `Pin` 、 `Unpin` 、 `!Unpin` 整爆炸了，没事，我们再来火上浇油下:)
 
-- 若 `T: Unpin` ( Rust 类型的默认实现)，那么 `Pin<'a, T>` 跟 `&'a mut T` 完全相同，也就是 `Pin` 将没有任何效果, 该移动还是照常移动
+- 若 `T: Unpin` ( Rust 类型的默认实现)，那么 `Pin<'a, &mut T>` 跟 `&'a mut T` 完全相同，也就是 `Pin` 将没有任何效果, 该移动还是照常移动
 - 绝大多数标准库类型都实现了 `Unpin` ，事实上，对于 Rust 中你能遇到的绝大多数类型，该结论依然成立
   ，其中一个例外就是：`async/await` 生成的 `Future` 没有实现 `Unpin`
 - 你可以通过以下方法为自己的类型添加 `!Unpin` 约束：
