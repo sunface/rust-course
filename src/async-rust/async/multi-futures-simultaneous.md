@@ -142,7 +142,7 @@ pub fn main() {
 
 以上代码 `default` 分支由于最后一个运行，而在它之前 `complete` 分支已经通过 `break` 跳出了循环，因此`default`永远不会被执行。
 
-如果你希望 `default` 也有机会漏下脸，可以将 `complete` 的 `break` 修改为其它的，例如`println!("completed!")`，然后再观察下运行结果。
+如果你希望 `default` 也有机会露下脸，可以将 `complete` 的 `break` 修改为其它的，例如`println!("completed!")`，然后再观察下运行结果。
 
 再回到 `select` 的第一个例子中，里面有一段代码长这样：
 
