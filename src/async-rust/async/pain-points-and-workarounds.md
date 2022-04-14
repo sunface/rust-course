@@ -35,7 +35,7 @@ error[E0282]: type annotations needed
    |         ^^ cannot infer type for type parameter `E` declared on the enum `Result`
 ```
 
-原因在于编译器无法推断出 `Result<T, E>`中的 `E` 的类型， 而且编译器的提示`consider giving fut a type`你也别傻乎乎的相信，然后尝试半天，最后无奈放弃：目前还没有办法为 `async` 语句块指定返回类型。
+原因在于编译器无法推断出 `Result<T, E>`中的 `E` 的类型， 而且编译器的提示```consider giving `fut` a type```你也别傻乎乎的相信，然后尝试半天，最后无奈放弃：目前还没有办法为 `async` 语句块指定返回类型。
 
 既然编译器无法推断出类型，那咱就给它更多提示，可以使用 `::< ... >` 的方式来增加类型注释：
 
@@ -112,7 +112,7 @@ note: future is not `Send` as this value is used across an await
 
 其中一个可能的解决方法是在 `.await` 之前就使用 `std::mem::drop` 释放掉 `Rc`，但是很可惜，截止今天，该方法依然不能解决这种问题。
 
-不知道有多少同学还记得语句块 `{ ... }` 在 Rust 中其实具有非常重要的作用(特别是相比其它大多数语言来说时)：可以将变量声明在语句块内，当语句块结束时，变量会自动被 `drop`，这个规则可以帮助我们解决很多借用冲突问题，特别是在 `NLL` 出来之前。
+不知道有多少同学还记得语句块 `{ ... }` 在 Rust 中其实具有非常重要的作用(特别是相比其它大多数语言来说时)：可以将变量声明在语句块内，当语句块结束时，变量会自动被 Drop，这个规则可以帮助我们解决很多借用冲突问题，特别是在 `NLL` 出来之前。
 
 ```rust
 async fn foo() {
@@ -123,7 +123,7 @@ async fn foo() {
 }
 ```
 
-是不是很简单？最终我们还是通过 `Drop` 的方式解决了这个问题，当然，还是期待未来 `std::mem::drop` 也能派上用场。
+是不是很简单？最终我们还是通过 Drop 的方式解决了这个问题，当然，还是期待未来 `std::mem::drop` 也能派上用场。
 
 ## 递归使用 async fn
 
@@ -166,7 +166,7 @@ error[E0733]: recursion in an `async fn` requires boxing
   = note: a recursive `async fn` must be rewritten to return a boxed future.
 ```
 
-如果认真学过之前的章节，大家应该知道只要将其使用 `Box` 放到堆上而不是栈上，就可以解决，在这里还是要称赞下 Rust 的编译器，给出的提示总是这么精确`recursion in an async fn requires boxing`。
+如果认真学过之前的章节，大家应该知道只要将其使用 `Box` 放到堆上而不是栈上，就可以解决，在这里还是要称赞下 Rust 的编译器，给出的提示总是这么精确```recursion in an `async fn` requires boxing```。
 
 就算是使用 `Box`，这里也大有讲究。如果我们试图使用 `Box::pin` 这种方式去包裹是不行的，因为编译器自身的限制限制了我们(刚夸过它。。。)。为了解决这种问题，我们只能将 `recursive` 转变成一个正常的函数，该函数返回一个使用 `Box` 包裹的 `async` 语句块：
 
