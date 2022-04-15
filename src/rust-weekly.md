@@ -1,16 +1,12 @@
-# Rust 语言周刊
+# 「Rust 语言周刊」 第 8 期 · 2022-04-15
+Rust语言周刊精选全世界过去一周的优秀文章、新闻、开源项目和语言动态。
 
-精选过去一周的文章、新闻、开源项目和 Rust 语言动态( 中文内容用 🇨🇳 进行标识 )，欢迎大家[订阅及查看往期回顾](https://github.com/studyrs/rust-weekly)。
+本周刊由 Rust 语言中文网倾情打造，其中的 `[Zh]` 标识的中文资料由 Rust 翻译计划提供，并且原始的 Markdown 文档已[全部开源](https://github.com/rustlang-cn/rustt)，欢迎大家阅读和订阅。
 
+> 官方网址：https://cnru.st, 公众号: Rust语言中文网
 
-## 「Rust 语言周刊」 第 7 期 · 2022-04-08
-Rust 语言周刊精选过去一周的优秀文章、新闻、开源项目和 Rust 语言动态。
-
-本周刊由 Rust 语言中文网倾情打造，其中的 [Zh] 中文资料由 Rustt 进行翻译，原始 Markdown 文档已全部开源，欢迎大家阅读和订阅。
-
-
-<img src="https://pic1.zhimg.com/v2-23a24b00623e46297ea9146e648a1126_1440w.jpg?source=172ae18b">
-<h5 align="center">题图: 一本生锈的书</h5>
+<img src="https://pic3.zhimg.com/80/v2-c0bc94b659686e9aa955363c492f9951_1440w.png">
+<h5 align="center">题图: 开发 DNS 客户端过程中的笑与泪</h5>
 
 #### Rust新闻
 
@@ -18,65 +14,63 @@ Rust 语言周刊精选过去一周的优秀文章、新闻、开源项目和 Ru
 
 在新版中，我们可以查看 Cargo 构建时的详细耗时了，有助于分析和改善编译时间，还有就是条件编译和依赖引入了新的期待已久的功能。
 
-1、[Zh] [Rust 2024 官方路线图公布](https://www.163.com/dy/article/H4CMGAF50511CUMI.html)
-这篇文章从比较宏观的角度讲解了 Rust 2024 的路线图。
+2、[rust-analyzer 正式加入官方组织](https://www.reddit.com/r/rust/comments/u2nm0y/rustanalyzer_is_now_official_github_repo_moved_to/)
 
-2、[Zh] [Rust 2024：敢于要求更多](https://github.com/studyrs/Rustt/blob/main/Articles/%5B2022-03-28%5D%20Rust%202024：敢于要求更多.md)
+优秀的产品很难被埋没，`rust-analyzer` 就是如此，这不，现在已经正式成为了官方项目，并且很快会替代 `rls` 成为 VSCode上的默认首选插件，新人有福了。
 
-本文是从更细节的角度出发讲解 Rust 2024 的路线图，喜欢技术细节的同学不容错过。
-
-3、[Rust 基金会激励计划](https://foundation.rust-lang.org/news/2022-03-31-cgp-is-open-announcement/)
-
-基金会筹划已久的开源项目激励计划终于开始实施了，里面包含了基金会合作伙伴、开源项目等一系列举措，大家快去申请了！
-
-#### 开源项目
-
-1、[一本生锈的书](https://github.com/studyrs/rusty-book)
-
-这本书主要关于如何打造一个 “有锈” 的 Rust 项目。
-
-2、[StarfishQL](https://www.sea-ql.org/SeaORM/blog/2022-04-04-introducing-starfish-ql/)
-
-一个图数据库和查询引擎，目前主要的目的是绘制和探索 crates.io 上的包依赖网络。
-
-3、[Coppers](https://github.com/ThijsRay/coppers)
-
-一套测试工具，用于测量 Rust 项目的能耗情况。
 
 #### 精选文章
 
-1、[虚弱之塔: 每个人都应该懂的内存模型](https://gankra.github.io/blah/tower-of-weakenings/)
+1、[Zh] [Rust 的 unsafe 指针，到底怎么了？](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-04-07%5D%20Rust%20的%20unsafe%20指针类型需要大修.md)
 
-干货作者又出手了，这次为我们带来了内存模型的分析和改进。他甚至基于这种改进修改了 Rust 代码，并且应用在自己的部分项目上，crazy!
+本文由 `Nomicon` 和 `Too Many Lists` 作者编写，大佬对 Rust 现有的裸指针进行了深入剖析，并给出了相应的解决方案，干货满满!
 
-2、[Rust 的 Mutex 为何这样设计?](https://cliffle.com/blog/rust-mutexes/)
+2、[Zh] [理解 Rust 的借用检查器](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-04-07%5D%20理解%20Rust%20的借用检查器.md)
 
-已经有不少人抱怨为何 Rust 的 Mutex 跟别的语言不一样，例如它可以持有数据。作者针对这些疑问给出了自己的分析，总之他站队 Rust 的设计。
+每当你心潮澎湃想要写一些 Rust 代码时，可能最后都会败给借用检查器。
 
-3、[Zh] [在 Rust 中使用 epoll 实现非阻塞 IO](https://github.com/studyrs/Rustt/blob/main/Articles/%5B2022-03-29%5D%20在%20Rust%20中使用%20epoll%20实现基本的非阻塞%20IO.md)
+3、[Zh] [使用 Rust 构建自己的区块链平台](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-04-07%5D%20使用%20Rust%20和%20Substrate%20构建自己的区块链平台.md)
 
-本文试图解释清楚 epoll 和非阻塞 IO 背后的原理
+本文将基于著名的 [Substrate](https://substrate.io) 区块链框架来构建一个区块链平台：一个博客后端，用户可以在此提交博客文章、发表评论等。
 
-4、[Zh] [用 Rust 写 Devops 工具](https://github.com/studyrs/Rustt/blob/main/Articles/%5B2022-04-02%5D%20用%20Rust%20写%20DevOps%20工具.md)
+4、[Zh] [由 Java/C#/C/C++ 开发者转为 Rustacean](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-04-02%5D%20由%20Java:C%23:C:C%2B%2B%20开发者转为%20Rustacean.md)
 
-文章中会介绍几个 Rust 用在 DevOps 领域的案例，以及为什么使用 Rust。其中我们还会介绍一些在 AWS 上基于 Rust 的 DevOps 工具常用的库。
+从题目能看出，作者是一个爱秀肌肉的多面手，对了，他还在写一本生命周期的书，值得期待！
 
-5、[Zh] [Rust 背后不是公司](https://github.com/studyrs/Rustt/blob/main/Articles/%5B2022-04-01%5D%20Rust%20背后并不是公司.md)
-Rust 大佬带来的对 Rust 组织架构的分析。
+5、[开发 DNS 客户端过程中的笑与泪](https://blog.adamchalmers.com/making-a-dns-client/)
 
-6、[使用 Rust 改善 Python S3 客户端的性能](https://joshua-robinson.medium.com/improving-python-s3-client-performance-with-rust-e9639359072f)
+看看下面这张图，你是否被勾引起开发一个 DNS 客户端的兴趣？反正作者是的。
 
-Python 是数据科学的主力军语言，但是性能有的时候会成为平静下来。例如现在亚马逊 S3 存储非常火热，如果大家使用 S3 作为数据集的存储，那么 Pyhton 去读取这些数据可能就是一个很大的性能瓶颈。
+<img src="https://pic3.zhimg.com/80/v2-c0bc94b659686e9aa955363c492f9951_1440w.png" />
 
-7、[Qiskit 使用 Rust 来获取更好的性能](https://medium.com/qiskit/new-weve-started-using-rust-in-qiskit-for-better-performance-a3676433ca8c)
+6、[生命苦短，我选择与编译检查搏斗？](https://kerkour.com/life-is-short-rust-borrow-checker)
 
-Qiskit 是一家从事量子计算的公司，最近他们 在 Python 之外还引入了 Rust 语言，事实证明，这个举措带来了显著的性能提升。
+本文很短，短到令人震惊，但是确实很好的吐槽了为了对付 Rust 编译检查，我们需要付出的努力。
 
-8、[ScyllaDB 将数据库驱动使用异步 Rust 重新实现](https://thenewstack.io/why-were-porting-our-database-drivers-to-async-rust/)
+7、[默认值和类型推断：使用表达式来替代类型](https://gankra.github.io/blah/defaults-affect-inference/)
 
-ScyllaDB 是这几年很火的开源分布式 KV 数据库，兼容 Cassandra 的 CQL 协议，性能非常非常高。这不，为了性能和安全性，他们又出手了，这次是使用 Rust 将客户端的驱动进行了重写( 使用 tokio )。
+你是否注意过 Rust 中的集合类型存在一些奇怪的约束条件？这种奇怪已经存在很久了，甚至在 1.0 版本前就有，本文试图解释下相关的问题并且尝试使用一种新的方法去解决。
 
-9、[在 2022 年使用 axum 和 yew 打造一个全栈 Rust web 服务](https://robert.kra.hn/posts/2022-04-03_rust-web-wasm/)
+8、[隐性约束和完美派生](https://smallcultfollowing.com/babysteps/blog/2022/04/12/implied-bounds-and-perfect-derive/)
 
-在过去两年，WebAssembly 在 Rust 这里发展的非常快，而且构建和打包也变得更加简单。因此，是时候使用 Rust 写一套前后端服务了。
+在 Rust 社区中，有两个问题已经被讨论很久了：完美派生以及可扩展的隐性约束，但是最近，Rust 团队在实现它们时遇到了一些问题，一起来看看。
 
+
+9、[系列] [指针很复杂 III](https://www.ralfj.de/blog/2022/04/11/provenance-exposed.html)
+
+作者目前的工作需要处理 Rust/MIR 的内存模型，因此会触及到普通开发不太熟悉的领域，系列的文章第一篇见[这里](https://www.ralfj.de/blog/2018/07/24/pointers-and-bytes.html)。
+
+10、[使用 Rust 构建爬虫](https://kerkour.com/rust-crawler-associated-types)
+
+本文节选自 `Black Hat Rust`，在文中，作者清晰的解释了 `scraper` 和 `crawler` 的区别，以及介绍了 Rust 为何非常适合爬虫的原因。
+
+
+#### 开源项目
+
+1、[fdb - 基于 Tokio 的 FoundationDB 客户端驱动](https://github.com/fdb-rs/fdb)
+
+FoundationDB 于数年前被苹果收购，并且服务于生产环境多年，是一个非常可靠、非常非常有特色的分布式数据库。
+
+2、[ogma - 用于处理表格化数据的脚本语言](https://github.com/kdr-aus/ogma)
+
+<img src="https://github.com/kdr-aus/ogma/raw/main/docs/assets/common-cmds.filter.gif?raw=true" />
