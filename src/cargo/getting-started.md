@@ -73,7 +73,7 @@ Hello, world!
 
 `cargo run` 会帮我们自动完成编译、运行的过程，当然，该命令也支持 `Release` 模式: `cargo run --release`。
 
-> 如果你的程序在跑性能测试 benchmark，一定要使用 `Relase` 模式，因为该模式下，程序会做大量性能优化
+> 如果你的程序在跑性能测试 benchmark，一定要使用 `Release` 模式，因为该模式下，程序会做大量性能优化
 
 在快速了解 `Cargo` 的使用方式后，下面，我们将正式进入 Cargo 的学习之旅。
 
