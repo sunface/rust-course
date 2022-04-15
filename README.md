@@ -6,7 +6,7 @@
    
 <div align="center">
 
-[![studyrut](https://img.shields.io/badge/Rust语言中文网-orange)](https://github.com/rustlang-cn)   [![Stars Count](https://img.shields.io/github/stars/sunface/rust-course?style=flat)](https://github.com/sunface/rust-course/stargazers) 
+[![studyrut](https://img.shields.io/badge/RustCn-orange)](https://github.com/rustlang-cn)   [![Stars Count](https://img.shields.io/github/stars/sunface/rust-course?style=flat)](https://github.com/sunface/rust-course/stargazers) 
 [![](https://img.shields.io/github/issues-pr-closed-raw/sunface/rust-course.svg?style=flat)](https://github.com/sunface/rust-course/issues)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ines/spacy-course/master)
 
