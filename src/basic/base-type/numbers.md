@@ -200,6 +200,47 @@ note: run with `RUST_BACKTRACE=1` environment variable to display
 
 是不是**blow your mind away**? 没关系，在本书的后续章节中类似的直击灵魂的地方还很多，这就是敢号称 `Rust语言圣经（Rust Course）` 的底气！
 
+#### 位运算
+
+Rust的运算基本上和其他语言一样
+
+| 运算符  | 说明                                   |
+| ------- | -------------------------------------- |
+| & 位与  | 相同位置均为1时则为1，否则             |
+| \| 位或 | 相同位置只要有1时则为1，否则为0        |
+| ^ 异或  | 相同位置不相同则为1，相同则为0         |
+| ! 位非  | 把位中的0和1相互取反，即0置为1，1置为0 |
+| << 左移 | 所有位向左移动指定位数，右位补零       |
+| >> 右移 | 所有位向右移动指定位数，左位补零       |
+
+
+
+```rust
+fn main() {
+    // 二进制为00000010
+    let a:i32 = 2;
+    // 二进制为00000011
+    let b:i32 = 3;
+
+    println!("(a & b) value is {}", a & b);
+
+    println!("(a | b) value is {}", a | b);
+
+    println!("(a ^ b) value is {}", a ^ b);
+
+    println!("(!b) value is {} ", !b);
+
+    println!("(a << b) value is {}", a << b);
+
+    println!("(a >> b) value is {}", a >> b);
+
+    let mut a = a;
+    // 注意这些计算符除了!之外都可以加上=进行赋值 (因为!=要用来判断不等于)
+    a <<= b;
+    println!("(a << b) value is {}", a);
+}
+```
+
 #### NaN
 
 对于数学上未定义的结果，例如对负数取平方根 `-42.1.sqrt()` ，会产生一个特殊的结果：Rust 的浮点数类型使用 `NaN` (not a number)来处理这些情况。
