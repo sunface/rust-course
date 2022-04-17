@@ -16,7 +16,7 @@ fn print_author(author: &'static str) {
 }
 ```
 
-除此之外，特征对象的生命周期也是 `'static`，例如[这里](https://course.rs/fight-with-compiler/lifetime/closure-with-static.html#特征对象的生命周期)所提到的。
+除此之外，特征对象的生命周期也是 `'static`，例如[这里](https://course.rs/compiler/fight-with-compiler/lifetime/closure-with-static.html#特征对象的生命周期)所提到的。
 
 除了 `&'static` 的用法外，我们在另外一种场景中也可以见到 `'static` 的使用:
 
