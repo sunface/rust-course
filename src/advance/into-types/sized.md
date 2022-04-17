@@ -31,7 +31,7 @@ fn my_function(n: usize) {
 
 #### 切片
 
-切片也是一个典型的 DST 类型，具体详情参见另一篇文章: [易混淆的切片和切片引用](https://course.rs/confonding/slice.html)。
+切片也是一个典型的 DST 类型，具体详情参见另一篇文章: [易混淆的切片和切片引用](https://course.rs/difficulties/slice.html)。
 
 #### str
 
