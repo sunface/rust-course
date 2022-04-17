@@ -278,9 +278,30 @@ hello, world!
 考虑一个载歌载舞的例子，如果不用`.await`，我们可能会有如下实现：
 
 ```rust
-async fn learn_song() -> Song { /* ... */ }
-async fn sing_song(song: Song) { /* ... */ }
-async fn dance() { /* ... */ }
+use futures::executor::block_on;
+
+struct Song {
+    author: String,
+    name: String,
+}
+
+async fn learn_song() -> Song {
+    Song {
+        author: "曲婉婷".to_string(),
+        name: String::from("《我的歌声里》"),
+    }
+}
+
+async fn sing_song(song: Song) {
+    println!(
+        "给大家献上一首{}的{} ~ {}",
+        song.author, song.name, "你存在我深深的脑海里~ ~"
+    );
+}
+
+async fn dance() {
+    println!("唱到情深处，身体不由自主的动了起来~ ~");
+}
 
 fn main() {
     let song = block_on(learn_song());
@@ -292,7 +313,31 @@ fn main() {
 当然，以上代码运行结果无疑是正确的，但。。。它的性能何在？需要通过连续三次阻塞去等待三个任务的完成，一次只能做一件事，实际上我们完全可以载歌载舞啊:
 
 ```rust
-async fn sing_song(song: Song) { /* ... */ }
+use futures::executor::block_on;
+
+struct Song {
+    author: String,
+    name: String,
+}
+
+async fn learn_song() -> Song {
+    Song {
+        author: "曲婉婷".to_string(),
+        name: String::from("《我的歌声里》"),
+    }
+}
+
+async fn sing_song(song: Song) {
+    println!(
+        "给大家献上一首{}的{} ~ {}",
+        song.author, song.name, "你存在我深深的脑海里~ ~"
+    );
+}
+
+async fn dance() {
+    println!("唱到情深处，身体不由自主的动了起来~ ~");
+}
+
 async fn learn_and_sing() {
     // 这里使用`.await`来等待学歌的完成，但是并不会阻塞当前线程，该线程在学歌的任务`.await`后，完全可以去执行跳舞的任务
     let song = learn_song().await;
