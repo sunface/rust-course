@@ -10,11 +10,13 @@
 
 <a id="head"></a>
 
-|     NN      |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |
-| :---------: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
-| [Sym](#sym) | [A](#a) | [B](#b) | [C](#c) | [D](#d) | [E](#e) | [F](#f) | [G](#g) | [H](#h) |
-|   [I](#i)   | [J](#j) | [K](#k) | [L](#l) | [M](#m) | [N](#n) | [O](#o) | [P](#p) | [Q](#q) |
-|   [R](#r)   | [S](#s) | [T](#t) | [U](#u) | [V](#v) | [W](#w) | [X](#x) | [Y](#y) | [Z](#z) |
+|       NN        |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |
+| :-------------: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
+|   [Sym](#sym)   | [A](#a) | [B](#b) | [C](#c) | [D](#d) | [E](#e) | [F](#f) | [G](#g) | [H](#h) | [I](#i) | [J](#j) | [K](#k) |
+| [Cargo](#cargo) | [L](#l) | [M](#m) | [N](#n) | [O](#o) | [P](#p) | [Q](#q) | [R](#r) | [S](#s) | [T](#t) | [U](#u) | [V](#v) |
+|     [W](#w)     | [X](#x) | [Y](#y) | [Z](#z) |
+
+[bottom](#bottom)
 
 ## Sym
 
@@ -29,6 +31,7 @@
 | `_` : [1 忽略变量] [2 模式匹配] | 忽略           | 1. 忽略该值或者类型，否则编译器会给你一个 `变量未使用的` 的警告<br>2. 模式匹配通配符 |
 | ['a: 'b]                        | 生命周期约束   | 用来说明两个生命周期的长短                                                           |
 | [{:?}] {:#?}                    | 打印结构体信息 | 使用 `#[derive(Debug)]` 派生实现 `Debug` 特征                                        |
+| [::]                            | 关联函数       | 定义在 `impl` 中且没有 `self` 的函数                                                 |
 | A                               |                | AIntroduction                                                                        |
 
 [?]: https://course.rs/basic/result-error/result.html#传播界的大明星-
@@ -42,6 +45,7 @@
 [{:?}]: https://course.rs/basic/compound-type/struct.html?search=#使用-derivedebug-来打印结构体的信息
 [1 忽略变量]: https://course.rs/basic/variable.html#使用下划线开头忽略未使用的变量
 [2 模式匹配]: https://course.rs/basic/match-pattern/match-if-let.html#_-通配符
+[::]: https://course.rs/basic/method.html#关联函数
 
 [back](#head)
 
@@ -108,12 +112,14 @@
 
 ## E
 
-| 名称        | 关键字   | 简介                                     |
-| ----------- | -------- | ---------------------------------------- |
-| [enum 枚举] | 枚举类型 | 允许通过列举可能的成员来定义一个枚举类型 |
-| E           | KWE      | EIntroduction                            |
+| 名称              | 关键字   | 简介                                     |
+| ----------------- | -------- | ---------------------------------------- |
+| [enum 枚举]       | 枚举类型 | 允许通过列举可能的成员来定义一个枚举类型 |
+| [enum 同一化类型] | 枚举方法 | 枚举实现方法                             |
+| E                 | KWE      | EIntroduction                            |
 
 [enum 枚举]: https://course.rs/basic/compound-type/enum.html#枚举
+[enum 同一化类型]: https://course.rs/basic/compound-type/enum.html#同一化类型
 
 [back](#head)
 
@@ -198,15 +204,17 @@
 
 ## M
 
-| 名称          | 关键字     | 简介                                                                                                                                                               |
-| ------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [模式绑定]    | 模式匹配   | 从模式中取出绑定的值                                                                                                                                               |
-| [全模式列表]  | 模式匹配   | 列出了所有的模式匹配                                                                                                                                               |
-| [match 匹配]  | 模式匹配   | `match` 的匹配必须要穷举出所有可能，因此这里用 `_ ` 来代表未列出的所有可能性<br>`match` 的每一个分支都必须是一个表达式，且所有分支的表达式最终返回值的类型必须相同 |
-| [matches! 宏] | 模式匹配   | 将一个表达式跟模式进行匹配，然后返回匹配的结果 `true` 或 `false`                                                                                                   |
-| [match guard] | 匹配守卫   | 位于 `match` 分支模式之后的额外 `if` 条件，它能为分支模式提供更进一步的匹配条件                                                                                    |
-| [move 移动]   | 转移所有权 | `let s2 = s1;`<br>`s1` 所有权转移给了 `s2`，`s1` 失效                                                                                                              |
-| M             | KWM        | MIntroduction                                                                                                                                                      |
+| 名称            | 关键字     | 简介                                                                                                                                                               |
+| --------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [模式绑定]      | 模式匹配   | 从模式中取出绑定的值                                                                                                                                               |
+| [全模式列表]    | 模式匹配   | 列出了所有的模式匹配                                                                                                                                               |
+| [Method 方法]   | `impl`     | Rust 的方法往往跟结构体、枚举、特征一起使用                                                                                                                        |
+| [Method getter] | `getter`   | 方法名跟结构体的字段名相同                                                                                                                                         |
+| [match 匹配]    | 模式匹配   | `match` 的匹配必须要穷举出所有可能，因此这里用 `_ ` 来代表未列出的所有可能性<br>`match` 的每一个分支都必须是一个表达式，且所有分支的表达式最终返回值的类型必须相同 |
+| [matches! 宏]   | 模式匹配   | 将一个表达式跟模式进行匹配，然后返回匹配的结果 `true` 或 `false`                                                                                                   |
+| [match guard]   | 匹配守卫   | 位于 `match` 分支模式之后的额外 `if` 条件，它能为分支模式提供更进一步的匹配条件                                                                                    |
+| [move 移动]     | 转移所有权 | `let s2 = s1;`<br>`s1` 所有权转移给了 `s2`，`s1` 失效                                                                                                              |
+| M               | KWM        | MIntroduction                                                                                                                                                      |
 
 [模式绑定]: https://course.rs/basic/match-pattern/match-if-let.html#模式绑定
 [match 匹配]: https://course.rs/basic/match-pattern/match-if-let.html#match-匹配
@@ -214,6 +222,8 @@
 [move 移动]: https://course.rs/basic/ownership/ownership.html#转移所有权
 [全模式列表]: https://course.rs/basic/match-pattern/all-patterns.html
 [match guard]: https://course.rs/basic/match-pattern/all-patterns.html#匹配守卫提供的额外条件
+[method 方法]: https://course.rs/basic/method.html#定义方法
+[method getter]: https://course.rs/basic/method.html#方法名跟结构体字段名相同
 
 [back](#head)
 
@@ -267,16 +277,17 @@
 
 ## S
 
-| 名称            | 关键字        | 简介                                                                                                                     |
-| --------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| [所有权与堆栈]  |               | Rust 所有权提供的强大保障                                                                                                |
-| [所有权原则]    |               | Rust 中每一个值都 `有且只有` 一个所有者(变量)<br> 当所有者(变量)离开作用域范围时，这个值将被丢弃(drop)                   |
-| [slice 切片]    | `&str`        | 允许你引用 `String` 中部分连续的元素序列，而不是引用整个 `String` <br>语法：`[开始索引..终止索引]`<br>字符串字面量是切片 |
-| [String 字符串] | `String` 类型 | Rust 中的字符串是 UTF-8 编码，也就是字符串中的字符所占的字节数是变化的(1 - 4)                                            |
-| [String 操作]   | `String` 方法 | 由于 `String` 是可变字符串，因此我们可以对它进行创建、增删操作                                                           |
-| [String 转义]   | `String` 方法 | 通过转义的方式 `\` 输出 ASCII 和 Unicode 字符                                                                            |
-| [struct 结构体] | 结构体        | 通过关键字 `struct` 定义<br>一个清晰明确的结构体 `名称`<br>几个有名字的结构体 `字段`<br>通过 `.` 访问字段                |
-| S               | KWS           | SIntroduction                                                                                                            |
+| 名称                   | 关键字        | 简介                                                                                                                     |
+| ---------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| [所有权与堆栈]         |               | Rust 所有权提供的强大保障                                                                                                |
+| [所有权原则]           |               | Rust 中每一个值都 `有且只有` 一个所有者(变量)<br> 当所有者(变量)离开作用域范围时，这个值将被丢弃(drop)                   |
+| [slice 切片]           | `&str`        | 允许你引用 `String` 中部分连续的元素序列，而不是引用整个 `String` <br>语法：`[开始索引..终止索引]`<br>字符串字面量是切片 |
+| [String 字符串]        | `String` 类型 | Rust 中的字符串是 UTF-8 编码，也就是字符串中的字符所占的字节数是变化的(1 - 4)                                            |
+| [String 操作]          | `String` 方法 | 由于 `String` 是可变字符串，因此我们可以对它进行创建、增删操作                                                           |
+| [String 转义]          | `String` 方法 | 通过转义的方式 `\` 输出 ASCII 和 Unicode 字符                                                                            |
+| [struct 结构体]        | 结构体        | 通过关键字 `struct` 定义<br>一个清晰明确的结构体 `名称`<br>几个有名字的结构体 `字段`<br>通过 `.` 访问字段                |
+| [self &self &mut self] | Method 方法   | `self` 指代类型的实例                                                                                                    |
+| S                      | KWS           | SIntroduction                                                                                                            |
 
 [所有权与堆栈]: https://course.rs/basic/ownership/ownership.html#所有权与堆栈
 [所有权原则]: https://course.rs/basic/ownership/ownership.html#所有权原则
@@ -285,6 +296,7 @@
 [string 操作]: https://course.rs/basic/compound-type/string-slice.html#操作字符串
 [string 转义]: https://course.rs/basic/compound-type/string-slice.html#字符串转义
 [struct 结构体]: https://course.rs/basic/compound-type/struct.html
+[self &self &mut self]: https://course.rs/basic/method.html#selfself-和-mut-self
 
 [back](#head)
 
@@ -363,3 +375,12 @@
 
 [back](#head)
 
+## Cargo
+
+| 名称  | 关键字 | 简介           |
+| ----- | ------ | -------------- |
+| Cargo | KWCG   | CGIntroduction |
+
+[back](#head)
+
+<a id="bottom"></a>
