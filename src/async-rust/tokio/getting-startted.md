@@ -10,7 +10,7 @@
 
 #### mini-redis
 
-`redis` 的项目源码可以在[这里访问](https://github.com/sunface/rust-course/tree/main/pratice/mini-redis)，本项目是从[官方地址](https://github.com/tokio-rs/mini-redis) `fork` 而来，在未来会提供注释和文档汉化。
+`redis` 的项目源码可以在[这里访问](https://github.com/sunface/rust-by-practice/tree/master/zh-CN/assets/mini-redis)，本项目是从[官方地址](https://github.com/tokio-rs/mini-redis) `fork` 而来，在未来会提供注释和文档汉化。
 
 再次声明：该项目仅仅用于学习目的，因此它的文档注释非常全，但是它完全无法作为 `redis` 的替代品。
 
@@ -29,7 +29,7 @@ rustc 1.58.0 (02072b482 2022-01-11)
 $ cargo install mini-redis
 ```
 
-> 如果下载失败，也可以通过[这个地址](https://github.com/sunface/rust-course/tree/main/pratice/mini-redis)下载源码，然后在本地通过 `cargo run`运行。
+> 如果下载失败，也可以通过[这个地址](https://github.com/sunface/rust-by-practice/tree/master/zh-CN/assets/mini-redis)下载源码，然后在本地通过 `cargo run`运行。
 
 下载成功后，启动服务端:
 
