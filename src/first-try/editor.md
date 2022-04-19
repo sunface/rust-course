@@ -40,7 +40,7 @@
 
 在此，再推荐大家几个好用的插件：
 
-1. `Better TOML`，用于更好的展示 .toml 文件
+1. `Even Better TOML`，支持 .toml 文件完整特性
 2. `Error Lens`, 更好的获得错误展示
 3. `One Dark Pro`, 非常好看的 VSCode 主题
 4. `CodeLLDB`, Debugger 程序
