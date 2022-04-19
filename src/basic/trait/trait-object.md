@@ -110,7 +110,7 @@ pub struct Screen {
 
 可以通过 `&` 引用或者 `Box<T>` 智能指针的方式来创建特征对象。
 
-> `Boxt<T>` 在后面章节会[详细讲解](https://course.rs/advance/smart-pointer/box.html)，大家现在把它当成一个引用即可，只不过它包裹的值会被强制分配在堆上
+> `Box<T>` 在后面章节会[详细讲解](https://course.rs/advance/smart-pointer/box.html)，大家现在把它当成一个引用即可，只不过它包裹的值会被强制分配在堆上
 
 
 ```rust
