@@ -45,17 +45,15 @@
   * [rbatis/rbatis](https://github.com/rbatis/rbatis)  国内团队开发的ORM，异步、性能高、简单易上手
   * [diesel-rs/diesel](https://github.com/diesel-rs/diesel)  安全、扩展性强的Rust ORM库，支持`Mysql`、`Postgre`、`SqlLite`
 
-
-* Mysql
+* MySQL
   * [blackbeam/rust-mysql-simple](https://github.com/blackbeam/rust-mysql-simple)  纯Rust实现的Mysql驱动,提供连接池
   * [blackbeam/mysql_async](https://github.com/blackbeam/mysql_async)  基于Tokio实现的异步Mysql驱动
   * 上面两个都是一个团队出品，前者文档更全、star更多，建议使用前者
 
-
-* Postgre
+* PostgreSQL
   * [sfackler/rust-postgres](https://github.com/sfackler/rust-postgres) 纯Rust实现的Postgre客户端
 
-* Sqlite
+* SQLite
   * [rusqlite](https://github.com/rusqlite/rusqlite) 用于[Sqlite3](https://www.sqlite.org/index.html)的Rust客户端
 
 ### NoSql客户端
@@ -66,7 +64,6 @@
 * Canssandra
   * [krojew/cdrs-tokio](https://github.com/krojew/cdrs-tokio) [[cdrs-tokio](https://crates.io/crates/cdrs-tokio)] 生产可用的Cassandra客户端，异步、纯Rust实现，就是个人项目 + star较少，未来不确定会不会不维护
   * [scylla-rust-driver](https://github.com/scylladb/scylla-rust-driver)  ScyllaDB提供的官方库，支持cql协议，由于背靠大山，未来非常可期
-
 
 * MongoDB
   * [mongodb/mongo-rust-driver](https://github.com/mongodb/mongo-rust-driver) 官方MongoDB客户端，闭着眼睛选就对了
@@ -83,17 +80,20 @@
   * [nats-io/nats.rs](https://github.com/nats-io/nats.rs) Nats官方提供的客户端
 
 ### 网络、通信协议
-* Websocket
+* WebSocket
   * [snapview/tokio-tungstenite](https://github.com/snapview/tokio-tungstenite) 更适合Web应用使用的生产级Websocket库，它是异步非阻塞的，基于下面的`tungstenite-rs`库和tokio实现
   * [rust-websocket](https://github.com/websockets-rs/rust-websocket)  老牌Websocket库，提供了客户端和服务器端实现，但是。。。很久没更新了
   * [snapview/tungstenite-rs](https://github.com/snapview/tungstenite-rs) 轻量级的Websocket流实现，该库更偏底层，例如，你可以用来构建其它网络库
+
 * gRPC
   * [hyperium/tonic](https://github.com/hyperium/tonic) 纯Rust实现的gRPC客户端和服务器端，支持async/await异步调用，文档和示例较为清晰
   * [tikv/grpc-rs](https://github.com/tikv/grpc-rs) 国产开源之光Tidb团队出品的gRPC框架, 基于C的代码实现, 就是最近好像不是很活跃
   * 其实这两个实现都很优秀，把`tonic`放在第一位，主要是因为它是纯Rust实现，同时社区也更为活跃，但是并不代表它比`tikv`的更好！
+
 * QUIC
   * [cloudflare/quiche](https://github.com/cloudflare/quiche) 大名鼎鼎`cloudflare`提供的QUIC实现，据说在公司内部重度使用，有了大规模生产级别的验证，非常值得信任，同时该库还实现了HTTP/3
   * [quinn-rs/quinn](https://github.com/quinn-rs/quinn) 提供异步API调用，纯Rust实现，同时提供了几个有用的网络库
+
 * MQTT
   * [bytebeamio/rumqtt](https://github.com/bytebeamio/rumqtt)  MQTT3.1.1/5协议库，同时实现了客户端与服务器端broker
   * [ntex-rs/ntex-mqtt](https://github.com/ntex-rs/ntex-mqtt)  客户端与服务端框架，支持MQTT3.1.1与5协议
@@ -123,6 +123,7 @@
 ### 代码Debug
 * GDB
   * [gdbgui](https://github.com/cs01/gdbgui)  提供浏览器支持的gdb debug工具，支持C，C++，Rust和Go.
+
 * LLDB
   * [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) — 专门为VSCode设计的LLDB Debug扩展
 
@@ -137,17 +138,23 @@
 * [Serde](https://github.com/serde-rs/serde) 一个超高性能的通用序列化/反序列化框架，可以跟多种协议的库联合使用，实现统一编解码格式
 * CSV
   * [BurntSushi/rust-csv](https://github.com/BurntSushi/rust-csv) 高性能CSV读写库，支持[Serde](https://github.com/serde-rs/serde)
+
 * JSON
   * [serde-rs/json](https://github.com/serde-rs/json) 快到上天的JSON库，也是Rust事实上的标准JSON库，你也可以使用它的大哥[serde](https://github.com/serde-rs/serde)，一个更通用的序列化/反序列化库
+
 * MsgPack
   * [3Hren/msgpack-rust](https://github.com/3Hren/msgpack-rust) 纯Rust实现的MessagePack编解码协议
-* ProtocolBuffers
+
+* Protocol Buffers
   * [tokio-rs/prost](https://github.com/tokio-rs/prost) tokio出品，基本都属精品，此库也不例外，简单易用，文档详细
   * [stepancheg/rust-protobuf](https://github.com/stepancheg/rust-protobuf) 纯Rust实现
+
 * TOML
   * [alexcrichton/toml-rs](https://github.com/alexcrichton/toml-rs) TOML编码/解码，可以配合`serde`使用
+
 * XML
   * [tafia/quick-xml](https://github.com/tafia/quick-xml) 高性能XML库，可以配合`serde`使用，文档较为详细
+
 * YAML
   * [dtolnay/serde-yaml](https://github.com/dtolnay/serde-yaml) 使用`serde`编解码`YAML`格式的数据
 
@@ -155,6 +162,3 @@
 * [lettre/lettre](https://github.com/lettre/lettre) — Rust SMTP库
 
 ### 常用正则模版
-
-
-

@@ -20,7 +20,7 @@
   - [下载依赖太慢了？](first-try/slowly-downloading.md)
   - [避免从入门到放弃](first-try/sth-you-should-not-do.md)
   
-# Rust语言特性
+# Rust语言学习
 ---
 - [Rust 基础入门](basic/intro.md)
   - [变量绑定与解构](basic/variable.md)
@@ -103,14 +103,6 @@
     <!-- - [SIMD todo](advance/simd.md) -->
     <!-- - [高阶特征约束(HRTB) todo](advance/hrtb.md) -->
  
-  - [易混淆概念解析](advance/confonding/intro.md)
-    - [切片和切片引用](advance/confonding/slice.md)
-    - [Eq 和 PartialEq](advance/confonding/eq.md)
-    - [String、&str 和 str todo](advance/confonding/string.md)
-    - [裸指针、引用和智能指针 todo](advance/confonding/pointer.md)
-    - [作用域、生命周期和 NLL todo](advance/confonding/lifetime.md)
-    - [move、Copy 和 Clone todo](advance/confonding/move-copy.md)
-
 - [Rust 异步编程](async-rust/intro.md)
   - [async/await 异步编程](async-rust/async/intro.md)
     - [async 编程入门](async-rust/async/getting-started.md)
@@ -133,7 +125,18 @@
     - [类似迭代器的 Stream](async-rust/tokio/stream.md))
     - [优雅的关闭](async-rust/tokio/graceful-shutdown.md)
     - [异步跟同步共存](async-rust/tokio/bridging-with-sync.md)
-    
+
+
+- [Rust 难点攻关](difficulties/intro.md)
+  - [切片和切片引用](difficulties/slice.md)
+  - [Eq 和 PartialEq](difficulties/eq.md)
+  - [String、&str 和 str TODO](difficulties/string.md)
+  - [作用域、生命周期和 NLL TODO](difficulties/lifetime.md)
+  - [move、Copy 和 Clone TODO](difficulties/move-copy.md)
+  - [裸指针、引用和智能指针 TODO](advance/difficulties/pointer.md)
+
+  
+
 # 常用工具链
 ---
 - [自动化测试](test/intro.md)
