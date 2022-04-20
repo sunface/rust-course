@@ -75,13 +75,6 @@ Rust语言真的好：连续六年成为全世界最受欢迎的语言、没有G
 <table>
     <tr>
         <td align="center" width="25%">
-            <a href="https://github.com/1132719438">
-                <img src="https://avatars.githubusercontent.com/u/10138791?v=4?s=100" alt=""/>
-                <br />
-                <sub><b>1132719438</b></sub>
-            </a>
-        </td>
-        <td align="center" width="25%">
             <a href="https://github.com/zongzi531">
                 <img src="https://avatars.githubusercontent.com/u/22429236?v=4?s=100"  alt=""/>
                 <br />
@@ -89,17 +82,24 @@ Rust语言真的好：连续六年成为全世界最受欢迎的语言、没有G
             </a>
         </td>
         <td align="center" width="25%">
-            <a href="https://github.com/Mintnoii">
-                <img src="https://avatars.githubusercontent.com/u/30466018?v=4?s=100"  alt=""/>
-                <br />
-                <sub><b>Mintnoii</b></sub>
-            </a>
-        </td>
-        <td align="center" width="25%">
             <a href="https://github.com/Rustln">
                 <img src="https://avatars.githubusercontent.com/u/100085326?v=4?s=100" alt=""/>
                 <br />
                 <sub><b>Rustln</b></sub>
+            </a>
+        </td>
+        <td align="center" width="25%">
+            <a href="https://github.com/1132719438">
+                <img src="https://avatars.githubusercontent.com/u/10138791?v=4?s=100" alt=""/>
+                <br />
+                <sub><b>1132719438</b></sub>
+            </a>
+        </td>
+        <td align="center" width="25%">
+            <a href="https://github.com/Mintnoii">
+                <img src="https://avatars.githubusercontent.com/u/30466018?v=4?s=100"  alt=""/>
+                <br />
+                <sub><b>Mintnoii</b></sub>
             </a>
         </td>
     </tr>
