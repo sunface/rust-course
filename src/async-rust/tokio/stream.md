@@ -275,3 +275,6 @@ stream! {
 ```
 
 嗯，看上去还是相当不错的，代码可读性大幅提升！
+
+<!-- todo generators -->
+是不是发现了一个关键字 `yield` ，他是用来配合生成器使用的。详见[原文](https://doc.rust-lang.org/beta/unstable-book/language-features/generators.html)
