@@ -180,6 +180,16 @@ got = b"6"
 
 还有一点可以改进的地方：当 `filter` 和 `map` 一起使用时，你往往可以用一个统一的方法来实现 [`filter_map`](https://docs.rs/tokio-stream/0.1.8/tokio_stream/trait.StreamExt.html#method.filter_map)。
 
+```rust
+let messages = subscriber
+    .into_stream()
+    .filter_map(|msg| match msg {
+        Ok(msg) if msg.content.len() == 1 => msg.unwrap().content,
+        _ => None,
+    })
+    .take(3);
+```
+
 想要学习更多的适配器，可以看看 [`StreamExt`](https://docs.rs/tokio-stream/0.1.8/tokio_stream/trait.StreamExt.html) 特征。
 
 ## 实现 Stream 特征
@@ -265,3 +275,6 @@ stream! {
 ```
 
 嗯，看上去还是相当不错的，代码可读性大幅提升！
+
+<!-- todo generators -->
+是不是发现了一个关键字 `yield` ，他是用来配合生成器使用的。详见[原文](https://doc.rust-lang.org/beta/unstable-book/language-features/generators.html)

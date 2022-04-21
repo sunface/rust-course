@@ -495,7 +495,7 @@ error[E0599]: no method named `poll` found for struct
 
 #### 修改一个分支
 
-下面一起来看看一个稍微复杂一些的 `loop` 循环，首先，我们拥有：
+下面一起来看一个稍微复杂一些的 `loop` 循环，首先，我们拥有：
 
 - 一个消息通道可以传递 `i32` 类型的值
 - 定义在 `i32` 值上的一个异步操作
@@ -566,7 +566,7 @@ thread 'main' panicked at '`async fn` resumed after completion', src/main.rs:1:5
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ```
 
-`async fn resumed after completion'` 错误的含义是：`async fn` 异步函数在完成后，依然被恢复了(继续使用)。
+```'`async fn` resumed after completion'``` 错误的含义是：`async fn` 异步函数在完成后，依然被恢复了(继续使用)。
 
 回到例子中来，这个错误是由于 `operation` 在它已经调用完成后依然被使用。通常来说，当使用 `.await` 后，调用 `.await` 的值会被消耗掉，因此并不存在这个问题。但是在这例子中，我们在引用上调用 `.await`，因此之后该引用依然可以被使用。
 
