@@ -92,7 +92,6 @@ enum IpAddr {
 }
 
 fn main() {
-    // let d_panic = Direction::South;
     let ip1 = IpAddr::Ipv6;
     let ip_str = match ip1 {
         IpAddr::Ipv4 => "127.0.0.1",
