@@ -43,23 +43,23 @@
 
 * ORM
   * [rbatis/rbatis](https://github.com/rbatis/rbatis)  国内团队开发的ORM，异步、性能高、简单易上手
-  * [diesel-rs/diesel](https://github.com/diesel-rs/diesel)  安全、扩展性强的Rust ORM库，支持`Mysql`、`Postgre`、`SqlLite`
+  * [diesel-rs/diesel](https://github.com/diesel-rs/diesel)  安全、扩展性强的Rust ORM库，支持`MySQL`、`PostgreSQL`、`SQLLite`
 
 * MySQL
-  * [blackbeam/rust-mysql-simple](https://github.com/blackbeam/rust-mysql-simple)  纯Rust实现的Mysql驱动,提供连接池
-  * [blackbeam/mysql_async](https://github.com/blackbeam/mysql_async)  基于Tokio实现的异步Mysql驱动
+  * [blackbeam/rust-mysql-simple](https://github.com/blackbeam/rust-mysql-simple)  纯Rust实现的MySQL驱动,提供连接池
+  * [blackbeam/mysql_async](https://github.com/blackbeam/mysql_async)  基于Tokio实现的异步MySQL驱动
   * 上面两个都是一个团队出品，前者文档更全、star更多，建议使用前者
 
 * PostgreSQL
-  * [sfackler/rust-postgres](https://github.com/sfackler/rust-postgres) 纯Rust实现的Postgre客户端
+  * [sfackler/rust-postgres](https://github.com/sfackler/rust-postgres) 纯Rust实现的PostgreSQL客户端
 
 * SQLite
   * [rusqlite](https://github.com/rusqlite/rusqlite) 用于[Sqlite3](https://www.sqlite.org/index.html)的Rust客户端
 
-### NoSql客户端
+### NoSQL客户端
 
 * Redis
-  * [mitsuhiko/redis-rs](https://github.com/mitsuhiko/redis-rs) 虽然最近更新不太活跃，但是它依然是最好的redis客户端，说实话，我期待更好的，可能这也是Rust生态的未来可期之处吧
+  * [mitsuhiko/redis-rs](https://github.com/mitsuhiko/redis-rs) 虽然最近更新不太活跃，但是它依然是最好的Redis客户端，说实话，我期待更好的，可能这也是Rust生态的未来可期之处吧
 
 * Canssandra
   * [krojew/cdrs-tokio](https://github.com/krojew/cdrs-tokio) [[cdrs-tokio](https://crates.io/crates/cdrs-tokio)] 生产可用的Cassandra客户端，异步、纯Rust实现，就是个人项目 + star较少，未来不确定会不会不维护
@@ -70,12 +70,14 @@
 
 ### 分布式
 #### 服务发现
-- [luncj/etcd-rs](https://github.com/luncj/etcd-rs) 异步实现的Rust etcd客户端，优点是有一定的文档、作者较为活跃,意味着你提问题他可能会回答，不过，如果你不放心，还是考虑使用HTTP的方式访问ETCD
+- [luncj/etcd-rs](https://github.com/luncj/etcd-rs) 异步实现的Rust etcd客户端，优点是有一定的文档、作者较为活跃,意味着你提问题他可能会回答，不过，如果你不放心，还是考虑使用HTTP的方式访问etcd
 
 #### 消息队列
+
 * Kafka
   * [fede1024/rust-rdkafka](https://github.com/fede1024/rust-rdkafka)  Rust Kafka客户端，基于C版本的Kafka库[librdkafka]实现，文档较全、功能较为全面
   * [kafka-rust/kafka-rust](https://github.com/kafka-rust/kafka-rust)  相比上一个库，它算是纯Rust实现，文档还行，支持Kafka0.8.2及以后的版本，但是对于部分0.9版本的特性还不支持。同时有一个问题：最初的作者不维护了，转给了现在的作者，但是感觉好像也不是很活跃
+
 * Nats
   * [nats-io/nats.rs](https://github.com/nats-io/nats.rs) Nats官方提供的客户端
 
