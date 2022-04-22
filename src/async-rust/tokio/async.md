@@ -420,7 +420,7 @@ impl ArcWake for Task {
 
 ```rust
 impl MiniTokio {
-    // 从消息通道中接收任务，然后通过 poll 来执行
+    /// 从消息通道中接收任务，然后通过 poll 来执行
     fn run(&self) {
         while let Ok(task) = self.scheduled.recv() {
             task.poll();
@@ -582,7 +582,8 @@ impl Future for Delay {
         } else {
             // 计时尚未结束，Future 还未完成，因此返回 `Poll::Pending`.
             //
-            // `Future` 特征要求当 `Pending` 被返回时，那我们要确保当资源准备好时，必须调用 `waker` 以通/// 知执行器。 在我们的例子中，会通过生成的计时线程来保证
+            // `Future` 特征要求当 `Pending` 被返回时，那我们要确保当资源准备好时，必须调用 `waker` 以通
+            // 知执行器。 在我们的例子中，会通过生成的计时线程来保证
             //
             // 如果忘记调用 waker， 那等待我们的将是深渊：该任务将被永远的挂起，无法再执行
             Poll::Pending

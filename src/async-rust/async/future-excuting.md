@@ -116,9 +116,9 @@ where
 
 ```rust
 /// 一个SimpleFuture, 它使用顺序的方式，一个接一个地运行两个Future
-//
-// 注意: 由于本例子用于演示，因此功能简单，`AndThenFut` 会假设两个 Future 在创建时就可用了.
-// 而真实的`Andthen`允许根据第一个`Future`的输出来创建第二个`Future`，因此复杂的多。
+///
+/// 注意: 由于本例子用于演示，因此功能简单，`AndThenFut` 会假设两个 Future 在创建时就可用了.
+/// 而真实的`Andthen`允许根据第一个`Future`的输出来创建第二个`Future`，因此复杂的多。
 pub struct AndThenFut<FutureA, FutureB> {
     first: Option<FutureA>,
     second: FutureB,
