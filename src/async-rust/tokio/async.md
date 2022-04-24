@@ -420,7 +420,7 @@ impl ArcWake for Task {
 
 ```rust
 impl MiniTokio {
-    /// 从消息通道中接收任务，然后通过 poll 来执行
+    // 从消息通道中接收任务，然后通过 poll 来执行
     fn run(&self) {
         while let Ok(task) = self.scheduled.recv() {
             task.poll();
