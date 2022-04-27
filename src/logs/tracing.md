@@ -65,9 +65,9 @@ fn main() {
 
 ## 核心概念
 
-`tracing` 中最重要的三个概念是 `span`、`event` 和 `collector`，下面我们来一一简单介绍下。
+`tracing` 中最重要的三个概念是 `Span`、`Event` 和 `Collector`，下面我们来一一简单介绍下。
 
-### span 
+### Span
 相比起日志只能记录在某个时间点发生的事件，`span` 最大的意义就在于它可以记录一个过程，也就是在某一段时间内发生的事件流。既然是记录时间段，那自然有开始和结束:
 
 ```rust
@@ -214,7 +214,7 @@ my_future
 ```
 
 
-### spans 嵌套
+### span 嵌套
 `tracing` 的 span 不仅仅是上面展示的基本用法，它们还可以进行嵌套！
 ```rust
 use tracing::{debug, info, span, Level};
@@ -248,7 +248,6 @@ DEBUG foo: log_test: end bar scope
 ```
 
 在上面的日志中，`foo:bar` 不仅包含了 `foo` 和 `bar` span 名，还显示了它们之间的嵌套关系。
-
 
 ## 对宏进行配置
 
