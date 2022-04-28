@@ -86,4 +86,4 @@ $ cargo build
 
 - 增加下载速度，见前面内容
 - 耐心等待持有锁的用户构建完成
-- 强行停止正在构建的进程，例如杀掉 IDE 使用的 rust-analyer 插件进程，然后删除 `$HOME/.cargo/.package_cache` 目录
+- 强行停止正在构建的进程，例如杀掉 IDE 使用的 rust-analyzer 插件进程，然后删除 `$HOME/.cargo/.package_cache` 目录
