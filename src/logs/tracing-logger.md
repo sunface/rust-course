@@ -1,6 +1,6 @@
 # 使用 tracing 输出自定义的 Rust 日志
 
-在 [tracing](https://docs.rs/crate/tracing/latest) 包出来前，Rust 的日志也就 `log` 有一战之力，但是 `log` 的功能相对来说还是鸡简单一些。在大名鼎鼎的 tokio 开发团队推出 `tracing` 后，我现在坚定的认为 `tracing` 就是未来！
+在 [tracing](https://docs.rs/crate/tracing/latest) 包出来前，Rust 的日志也就 `log` 有一战之力，但是 `log` 的功能相对来说还是简单一些。在大名鼎鼎的 tokio 开发团队推出 `tracing` 后，我现在坚定的认为 `tracing` 就是未来！
 
 
 > 截至目前，rust编译器团队、GraphQL 都在使用 tracing，而且 tokio 在密谋一件大事：基于 tracing 开发一套终端交互式 debug 工具: [console](https://github.com/tokio-rs/console)！
@@ -91,7 +91,7 @@ where
 
 从代码中可以看出，我们打印了事件中包含的事件名、日志等级以及事件发生的代码路径。运行后，可以看到以下输出:
 
-```properties
+```shell
 $ cargo run --example figure_1
 
 Got event!
@@ -175,7 +175,7 @@ fn on_event(
 ```
 
 这段代码看起来有模有样，来运行下试试：
-```properties
+```shell
 $ cargo run --example figure_2
 
 Got event!
@@ -267,7 +267,7 @@ fn on_event(
 ```
 
 继续运行:
-```properties
+```shell
 $ cargo run --example figure_3
 
 {
@@ -292,7 +292,7 @@ $ cargo run --example figure_3
 
 不知道大家知道分布式追踪不？在分布式系统中每一个请求从开始到返回，会经过多个服务，这条请求路径被称为请求跟踪链路( trace )，可以看出，一条链路是由多个部分组成，我们可以简单的把其中一个部分认为是一个 span。
 
-跟 log 是对某个时间点的记录不同，span 记录的是一个时间段。当程序开始执行一系列任务时，span 就会开始，当这个系列任务结束后，span 也随之结束。
+跟 log 是对某个时间点的记录不同，span 记录的是一个时间段。当程序开始执行一系列任务时，span 就会开始，当这一系列任务结束后，span 也随之结束。
 
 由此可见，tracing 其实不仅仅是一个日志库，它还是一个分布式追踪的库，可以帮助我们采集信息，然后上传给 jaeger 等分布式追踪平台，最终实现对指定应用程序的监控。
 
@@ -373,7 +373,7 @@ where
 ```
 
 运行下看看效果:
-```properties
+```shell
 $ cargo run --example figure_5
 
 parent span
@@ -425,7 +425,7 @@ where
 }
 ```
 
-```properties
+```shell
 $ cargo run --example figure_6
 Got on_new_span!
   level=Level(Info)
@@ -545,7 +545,7 @@ fn on_event(&self, event: &tracing::Event<'_>, ctx: tracing_subscriber::layer::C
 }
 ```
 
-```properties
+```shell
 $ cargo run --example figure_9
 
 {
