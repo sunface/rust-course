@@ -22,6 +22,7 @@ Go 语言在 1.10 版本之前，所有的包都是在 `github.com` 下存放，
 
 ```console
 $ cargo new world_hello
+$ cd world_hello
 ```
 
 上面的命令使用 `cargo new` 创建一个项目，项目名是 `world_hello` （向读者势力低头的项目名称，泪奔），该项目的结构和配置文件都是由 `cargo` 生成，意味着**我们的项目被 `cargo` 所管理**。
@@ -32,6 +33,7 @@ $ cargo new world_hello
 
 ```console
 $ cargo new world_hello --bin
+$ cd world_hello
 ```
 
 现在的版本，已经无需此参数，`cargo` 默认就创建 `bin` 类型的项目，顺便说一句，Rust 项目主要分为两个类型：`bin` 和 `lib`，前者是一个可运行的项目，后者是一个依赖库项目。
@@ -39,6 +41,7 @@ $ cargo new world_hello --bin
 下面来看看创建的项目结构：
 
 ```console
+$ tree
 .
 ├── .git
 ├── .gitignore
@@ -58,7 +61,7 @@ $ cargo new world_hello --bin
 
 2. 手动编译和运行项目
 
-首先来看看`cargo run`，一码胜似千言：
+首先来看看第一种方式，一码胜似千言，在之前创建的 `world_hello` 目录下运行：
 
 ```console
 $ cargo run
