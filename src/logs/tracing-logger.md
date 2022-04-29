@@ -91,7 +91,7 @@ where
 
 从代码中可以看出，我们打印了事件中包含的事件名、日志等级以及事件发生的代码路径。运行后，可以看到以下输出:
 
-```shell
+```properties
 $ cargo run --example figure_1
 
 Got event!
@@ -175,7 +175,7 @@ fn on_event(
 ```
 
 这段代码看起来有模有样，来运行下试试：
-```shell
+```properties
 $ cargo run --example figure_2
 
 Got event!
@@ -267,7 +267,7 @@ fn on_event(
 ```
 
 继续运行:
-```shell
+```properties
 $ cargo run --example figure_3
 
 {
@@ -373,7 +373,7 @@ where
 ```
 
 运行下看看效果:
-```shell
+```properties
 $ cargo run --example figure_5
 
 parent span
@@ -425,7 +425,7 @@ where
 }
 ```
 
-```shell
+```properties
 $ cargo run --example figure_6
 Got on_new_span!
   level=Level(Info)
@@ -545,7 +545,7 @@ fn on_event(&self, event: &tracing::Event<'_>, ctx: tracing_subscriber::layer::C
 }
 ```
 
-```shell
+```properties
 $ cargo run --example figure_9
 
 {
