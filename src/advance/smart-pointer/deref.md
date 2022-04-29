@@ -162,7 +162,7 @@ fn display(s: &str) {
 
 以上代码有几点值得注意：
 
-- `String` 实现了 `Deref` 特征，它的 `Target` 类型是 `str`
+- `String` 实现了 `Deref` 特征，可以在需要时自动被转换为 `&str` 类型
 - `&s` 是一个 `&String` 类型，当它被传给 `display` 函数时，自动通过 `Deref` 转换成了 `&str`
 - 必须使用 `&s` 的方式来触发 `Deref`(仅引用类型的实参才会触发自动解引用)
 
