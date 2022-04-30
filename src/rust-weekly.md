@@ -1,85 +1,81 @@
-# 「Rust 语言周刊」 第 9 期 · 2022-04-24
+# 「Rust 语言周刊」 第 10 期 · 2022-04-29
 Rust语言周刊精选全世界过去一周的优秀文章、新闻、开源项目和语言动态。
 
-本周刊由 RustCn 倾情打造，其中， `[Zh]` 标识的中文资料由 Rust 翻译计划提供，并且原始的 Markdown 文档已[全部开源](https://github.com/rustlang-cn/rustt)，欢迎大家阅读和订阅。
+本周刊由 RustCn 社区倾情打造，其中， `[Zh]` 标识的中文资料由 Rust 翻译计划提供，并且原始的 Markdown 文档已[全部开源](https://github.com/rustlang-cn/rustt)，欢迎大家阅读和订阅。
 
 > RustCn：https://hirust.cn, 公众号: Rust语言中文网
 
-<img src="https://pic3.zhimg.com/80/v2-ba5c1b119916224a45041b157f46f26c_1440w.jpeg">
-<h5 align="center">题图: MnemOS</h5>
+<img src="https://pica.zhimg.com/80/v2-03ba9143032c8bcef9fd38b195dfaa21_1440w.png">
+<h5 align="center">题图: Robyn</h5>
 
+#### Rust新闻
+
+1、[Rust 库团队的愿景](https://blog.rust-lang.org/inside-rust/2022/04/20/libs-aspirations.html)
+
+最近，Rust 语言发布了 [2024 年展望](https://zhuanlan.zhihu.com/p/490221490)，编译器团队也发布了 [2022年 野望](https://blog.rust-lang.org/inside-rust/2022/02/22/compiler-team-ambitions-2022.html)，现在库团队也不甘落后，为我们带了了未来的库规划和生态发展愿景。
 
 #### 开源项目
 
-1、[一个新的小型操作系统: MnemOS](https://jamesmunns.com/blog/mnemos-initial-release/)
+1、[Robyn: 一个全新的 Python Web 框架](https://www.sanskar.me/hello_robyn.html)
 
-该操作系统使用 Rust 开发，适用于受限的硬件环境，例如微控制器。但是目前它的状态还比较玩具，大家想要用它来 make money ，还是洗洗睡了吧，用来学习下新的领域倒是很不错，毕竟互联网的未来..懂的都懂。
+大家会不会以为自己走错片场了？:D 其实没有，因为这个框架是基于 Rust 运行时实现的，在提供了高性能、高吞吐的同时，又能使用 Python 来愉快地写逻辑代码。
 
-2、[著名 Rust 游戏引擎 Bevy 发布 0.7 版本](https://bevyengine.org/news/bevy-0-7/)
- 
-Bevy 的游戏引擎理念可谓是非常先进，因此得到了一大票忠实的粉丝和贡献者的喜爱，发展也极为迅速，这次的新版本带来了大量的新特性，包括骨骼动画、场景中的无限制点光源、集群渲染、材质压缩、着色器优化、ECS优化等等。
 
-但。。。离生产可用，依然有很长的距离，大家在业余爱好上玩玩即可，毕竟哪个男孩子没有一个游戏梦呢 :P
+|Total Time(seconds) |	Slowest(seconds) |	Fastest(seconds)|	Average(seconds)	 |Requests/sec |
+| --- | --- | --- | --- | --- |
+| Flask(Gunicorn) |	5.5254 |	0.0784 |	0.0028 |	0.0275 |	1809.8082
+|FastAPI(API) |	4.1314 |	0.0733 |	0.0027 |	0.0206 |	2420.4851
+|Django(Gunicorn)	| 13.5070 |	0.3635 |	0.0249 |	0.0674 |	740.3558
+|Robyn(1 process and 1 worker) |	1.8324 |	0.0269 |	0.0024 |	0.0091 |	5457.2339
+|Robyn(5 processes and 5 workers)	| 1.5592 |	0.0211 |	0.0017 |	0.0078 |	6413.6480
 
-<img src="https://pica.zhimg.com/80/v2-c9a1040d81119cf412559774cb411e51_1440w.png" />
+2、[Gitoxide: 一个使用 Rust 实现的 Git 命令](https://github.com/Byron/gitoxide/discussions/398)
 
-3、[systeroid: Rust 版本的 sysctl](https://systeroid.cli.rs)
+它不仅拥有丰富的仓库信息展示，还能在 1 秒内克隆下来 linux 内核代码，它的作者还是一个生活在西安的外国人，它...名字好难记。
 
-`sysctl` 大家应该都很熟悉了，但是再辉煌的英雄也终将老去，而我们的 Rust 替代者 `systeroid` 更快、更强、更安全，值得一试！
+3、[czkawka: 从计算机中移除无需的文件](https://github.com/qarmin/czkawka)
 
-<img src="https://pic2.zhimg.com/80/v2-95002dd3324691764cb727bedb34308d_1440w.gif" />
+大家不要问我项目名该怎么读，我也不会。但是这个项目还是挺有用的，可以在你的计算机中找出重复的文件、空目录、相似的图片等等。
 
 
 #### 精选文章
 
-1、[Zh] [用 Rust 加速你的 Python 代码](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-04-13%5D%20从python调用rust-使用rust加速你的python代码.md)
+1、[Zh] [基于 RocksDB 使用 Rust 构建关系型数据库](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-04-15%5D%20基于RocksDB使用Rust构建关系型数据库.md)
 
-Python 的广袤天空只存在一个限制，那就是性能，以往都是通过 C/C++ 来增强，现在我们还能使用 Rust 来实现。
+现在很多新的数据库底层都是基于 RocksDB 来实现的，作者的 `rrrdb` 亦是如此，从名称也能看出，这个项目不是一个很正式的关系型数据库，但是不妨碍我们去了解下作者的一些构思和实现。
 
-2、[Zh] [异步 Rust: 协作与抢占式调度](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-04-12%5D%20异步%20Rust：协作与抢占式调度.md)
+2、[Zh] [使用 Tokio 处理 CPU 密集型任务](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-04-20%5D%20使用%20Tokio%20处理%20CPU%20密集型任务.md)
 
-多线程往往用来并行执行计算密集型任务，但是时代变了，现在，越来越多的程序是I/O 密集型，此时就需要 `async` 来大展身手了。
+众所周知，tokio 是一个异步 IO 库，众所周知知，异步 IO 特别适合网络编程，并不是很适合 CPU 密集的场景，且看作者如何化腐朽为神奇。
 
-3、[Zh] [如何用 Rust 实现朴素贝叶斯分类器](https://zhuanlan.zhihu.com/p/501337745)
+3、[假设 Rust 目前还是一门相当不完美的语言，我们该怎么改进它？](https://kerkour.com/what-a-better-rust-would-look-like)
 
-难度高能预警，实力干货满满！
+最近，又双叒叕出了一门新的编程语言：[Hare](https://harelang.org)，语法看上去很像 Rust，作者不禁开始思考，人们为啥去创建一门像是 Rust 的新语言，答案可能就藏在文章的标题中。
 
-4、[Zh] [Ruby 的新 YJIT 编译器已完成，使用 Rust 重新实现](https://zhuanlan.zhihu.com/p/502298810)
+4、[间接所有权、浅借用和自引用数据结构](https://yoyo-code.com/indirect-ownership-and-self-borrow/)
 
-去年 12 月时，Ruby 开始将 YJIT 代码库从 C99 移植到 Rust 上，这周，负责此项目的开发者表示已经完成新编译器的实现，等待合并。
+什么？有读者震惊了，为啥这几个概念我都没有听说过？不要慌，其实就是一篇讲解自引用数据结构的文章，例如下面这个结构体：
+```rust
+struct ParsedFile {
+  contents: Vec<u8>,
+  // words中包含的项引用了 `contents` 中的数据
+  words: Vec<&'self:contents:indirect [u8]>
+}
+```
 
-难道说，使用 Rust 重写各个语言的基础层和工具已经成为了新的潮流？
+5、[Rust 中的特征和依赖注入](https://jmmv.dev/2022/04/rust-traits-and-dependency-injection.html)
 
-5、[危! C/C++ 的嵌入式！](https://apollolabsblog.hashnode.dev/why-you-should-be-worried-about-the-future-of-cc-in-embedded-a-case-for-rust)
+在现代化编程中，依赖注入不说是 superstar，至少也是一颗 star，它可以大幅简化模块化编程和代码可测试性的难度。本文将从特征出发，来看看在 Rust 中该如何实现 DI(dependency injection)。
 
-对于嵌入式环境而言，软件的错误和失败太正常不过了，你问我罪魁祸首是谁？嗯，我不知道 🤪，但是我知道未来的救世主可能会是谁。
+6、[Rust 中的原生标识符](https://inspektor.cloud/blog/raw-identifier-in-rust/)
 
-6、[连续性和包级别的 Where 语句](https://smallcultfollowing.com/babysteps/blog/2022/04/17/coherence-and-crate-level-where-clauses/)
+不要被标题误导，这篇文章简而言之，就是教大家如果使用 Rust 的预留关键字作为自己的变量或字段名。
 
-大佬的硬核文章又来了。这次带来的是对 Rust 中[孤儿原则](https://course.rs/basic/trait/trait.html#特征定义与实现的位置孤儿规则)的深入分析，曾经大放异彩的它随着时间的逐步推移，却成了包组合的障碍( 通过组合的方式来使用多个包 )。
+7、[AsRef 中藏有的魔法](https://swatinem.de/blog/magic-asref/)
 
-7、[Hack rustc: 为特征实现异步函数](https://blog.theincredibleholk.org/blog/2022/04/18/how-async-functions-in-traits-could-work-in-rustc/)
+一般的开发场景中，不太用得到 AsRef，但是如果你和作者一样，从事词法分析相关的开发(或其它类型的数据场景)，就值得深入了解下了。
 
-目前 Rust 异步工作组的一个重要工作就是让 `async fn` 能在所有 `fn` 出现的地方使用，当然，最受大家关注的，应该就是在特征中使用异步函数了。本文将从 Rustc 的角度出发，来讲解异步函数该如何在特征中实现。
+8、[在四周内构建一个无服务架构平台](https://www.shuttle.rs/blog/2022/04/22/dev-log-0)
 
-8、[该如何选择合适的整数类型？](https://www.thecodedmessage.com/posts/programming-integers/)
+假如你发现了一个潜在的商机，想要给投资人证明这一点，时间很紧迫，只有四周，你会怎么办？
 
-> i8 - i64, u8 - u64，天，我该如何选择？
-
-这个问题在国内外各个论坛屡见不鲜，事实上，要正确的回答它，是想当困难的，而本文就是从实践的角度出发，给出该如何选择的建议。
-
-9、[使用 MacOS 下的 MetaAPI 来构建一个全新的终端](https://console.dev/interviews/warp-zach-lloyd/)
-
-聪明的同学可能已经想到，使用 Rust 开发的、MacOS 下的新终端？这会不会是刚融资了几千万美元的 Warp ? Bingo，你猜对了，本文正式对 Warp 的独家采访
-
-10、[为何 Rust 在嵌入式这么受欢迎?](https://tweedegolf.nl/en/blog/70/we-asked-5-people-why-they-like-embedded-rust)
-
-文章采访了 5 位不同的大佬，通过他们的观点，我们可以看出 Rust 为啥在嵌入式领域越来越火了。
-
-11、[编译期的求值： Nim, Zig, Rust and C++](https://castillodel.github.io/compile-time-evaluation/)
-
-编译期求值，对于计算性能优化来说是非常重要的，本文将从多门语言的角度出发，看看编译期求值到底是个什么东东。
-
-12、[在 10 分钟之内构建并部署一个短域名服务](https://www.shuttle.rs/blog/2022/03/13/url-shortener)
-
-大佬的世界总是与众不同的，这不，作者发现自己失眠后，出于对睡眠不足的恐惧，决定要挑战下自己...
