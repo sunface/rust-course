@@ -385,3 +385,7 @@ let x = try!(function_with_error());
 可以看出 `?` 的优势非常明显，何况 `?` 还能做链式调用。
 
 总之，`try!` 作为前浪已经死在了沙滩上，**在当前版本中，我们要尽量避免使用 try!**。
+
+## 课后练习
+
+> [Rust By Practice](https://zh.practice.rs/result-panic/result.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。
