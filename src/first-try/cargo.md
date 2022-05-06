@@ -73,6 +73,8 @@ Hello, world!
 
 好了，你已经看到程序的输出：`"Hello, world"`。
 
+如果你安装的 rust 的`host triple`是 `x86_64-pc-windows-msvc`并确认 rust 已经正确安装，但在终端上运行上述命令时，出现类似如下的错误摘要`` linking with `link.exe` failed: exit code: 1181 ``，请使用 Visual Studio Installer 安装`Windows SDK`。
+
 可能有读者不愿意了，说好了"世界，你好"呢？别急，在下一节，我们再对代码进行修改。（认真想来，"你好，世界“强调的是我对世界说你好，而"世界，你好“是世界对我说你好，明显是后者更有包容性和国际范儿，读者真·好眼光。）
 
 上述代码，`cargo run` 首先对项目进行编译，然后再运行，因此它实际上等同于运行了两个指令，下面我们手动试一下编译和运行项目：
@@ -171,4 +173,3 @@ geometry = { path = "crates/geometry" }
 前文有提到 `cargo` 默认生成的项目结构，真实的项目肯定会有所不同，但是在目前的学习阶段，还无需关注。感兴趣的同学可以移步：[Cargo 项目结构](https://course.rs/cargo/guide/package-layout.html)
 
 至此，大家对 Rust 项目的创建和管理已经有了初步的了解，那么来完善刚才的`"世界，你好"`项目吧。
-
