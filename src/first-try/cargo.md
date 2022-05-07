@@ -73,7 +73,7 @@ Hello, world!
 
 好了，你已经看到程序的输出：`"Hello, world"`。
 
-如果你安装的 rust 的`host triple`是 `x86_64-pc-windows-msvc`并确认 rust 已经正确安装，但在终端上运行上述命令时，出现类似如下的错误摘要`` linking with `link.exe` failed: exit code: 1181 ``，请使用 Visual Studio Installer 安装`Windows SDK`。
+如果你安装的 Rust 的 `host triple` 是 `x86_64-pc-windows-msvc` 并确认 Rust 已经正确安装，但在终端上运行上述命令时，出现类似如下的错误摘要 `` linking with `link.exe` failed: exit code: 1181 ``，请使用 Visual Studio Installer 安装 `Windows SDK`。
 
 可能有读者不愿意了，说好了"世界，你好"呢？别急，在下一节，我们再对代码进行修改。（认真想来，"你好，世界“强调的是我对世界说你好，而"世界，你好“是世界对我说你好，明显是后者更有包容性和国际范儿，读者真·好眼光。）
 
