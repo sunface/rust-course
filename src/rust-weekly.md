@@ -1,81 +1,116 @@
-# 「Rust 语言周刊」 第 10 期 · 2022-04-29
+# Rust语言周刊
 Rust语言周刊精选全世界过去一周的优秀文章、新闻、开源项目和语言动态。
 
-本周刊由 RustCn 社区倾情打造，其中， `[Zh]` 标识的中文资料由 Rust 翻译计划提供，并且原始的 Markdown 文档已[全部开源](https://github.com/rustlang-cn/rustt)，欢迎大家阅读和订阅。
+本周刊由 RustCn 倾情打造，其中， `[Zh]` 标识的中文资料由 Rust 翻译计划提供，并且原始的 Markdown 文档已[全部开源](https://github.com/rustlang-cn/rustt)，欢迎大家阅读和订阅。
 
 > RustCn：https://hirust.cn, 公众号: Rust语言中文网
 
-<img src="https://pica.zhimg.com/80/v2-03ba9143032c8bcef9fd38b195dfaa21_1440w.png">
-<h5 align="center">题图: Robyn</h5>
+# 「Rust 语言周刊」 第 11 期 · 2022-05-07
 
-#### Rust新闻
+<img src="https://pic2.zhimg.com/80/v2-6243e39368f24d4193564a701942413f_1440w.png">
+<h5 align="center">题图: 可视化 Rust 数据类型的内存布局</h5>
 
-1、[Rust 库团队的愿景](https://blog.rust-lang.org/inside-rust/2022/04/20/libs-aspirations.html)
+#### 本期明星
 
-最近，Rust 语言发布了 [2024 年展望](https://zhuanlan.zhihu.com/p/490221490)，编译器团队也发布了 [2022年 野望](https://blog.rust-lang.org/inside-rust/2022/02/22/compiler-team-ambitions-2022.html)，现在库团队也不甘落后，为我们带了了未来的库规划和生态发展愿景。
+1、[Zh] [可视化 Rust 数据类型的内存布局](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-05-04%5D%20可视化%20Rust%20各数据类型的内存布局.md)
+
+了解 Rust 中每个数据类型的内存布局有助于锻炼我们的编程直觉，可以提前规避一些编译错误和性能问题。
+
+原文是以视频形式呈现，译文是由 Rustt 翻译组的明星译者 trdthg (third thing) 倾情翻译，内容巨多、工作量巨大，如果大家喜欢，在[这里]((https://github.com/trdthg))给他点个赞吧 :D
+
+
 
 #### 开源项目
+1、[shuttle: 使用 Cargo 部署你的 Rust 应用](https://www.shuttle.rs)
 
-1、[Robyn: 一个全新的 Python Web 框架](https://www.sanskar.me/hello_robyn.html)
+说实话，这个库真的很酷很 rusty，它完成了从源代码到云部署的全过程覆盖，支持通过派生特征的方式去自定义你的部署流程，甚至还提供了短域名服务！
 
-大家会不会以为自己走错片场了？:D 其实没有，因为这个框架是基于 Rust 运行时实现的，在提供了高性能、高吞吐的同时，又能使用 Python 来愉快地写逻辑代码。
+哦对了，我特别喜欢 shuttle 的 slogan：
 
+> **Let's make Rust the next language of cloud-native**
+>
+> We love you Go, but Rust is just better.
 
-|Total Time(seconds) |	Slowest(seconds) |	Fastest(seconds)|	Average(seconds)	 |Requests/sec |
-| --- | --- | --- | --- | --- |
-| Flask(Gunicorn) |	5.5254 |	0.0784 |	0.0028 |	0.0275 |	1809.8082
-|FastAPI(API) |	4.1314 |	0.0733 |	0.0027 |	0.0206 |	2420.4851
-|Django(Gunicorn)	| 13.5070 |	0.3635 |	0.0249 |	0.0674 |	740.3558
-|Robyn(1 process and 1 worker) |	1.8324 |	0.0269 |	0.0024 |	0.0091 |	5457.2339
-|Robyn(5 processes and 5 workers)	| 1.5592 |	0.0211 |	0.0017 |	0.0078 |	6413.6480
+你们喜欢不？😆
 
-2、[Gitoxide: 一个使用 Rust 实现的 Git 命令](https://github.com/Byron/gitoxide/discussions/398)
+2、[Redox发布0.7.0: 一个完全用 Rust 编写，专注于稳定性和安全性的全新微内核操作系统](https://www.redox-os.org/news/release-0.7.0/)
 
-它不仅拥有丰富的仓库信息展示，还能在 1 秒内克隆下来 linux 内核代码，它的作者还是一个生活在西安的外国人，它...名字好难记。
+Redox 不是一个新项目，已开发多年，但仍达不到成熟可用的状态，毕竟操作系统不是一个小工程。
 
-3、[czkawka: 从计算机中移除无需的文件](https://github.com/qarmin/czkawka)
+不过这次的新版本改动还是挺大的：对硬件扩展的支持、改进的文件系统、重写的引导程序、微内核的更新，甚至它还改进了rustc 和 reibc(基于 Rust 的 C 库)。
 
-大家不要问我项目名该怎么读，我也不会。但是这个项目还是挺有用的，可以在你的计算机中找出重复的文件、空目录、相似的图片等等。
+> 求大佬告知：国内在做操作系统的厂商是否有在跟进这个项目，基于它来做一个国产操作系统，不知道有没有搞头
+
+3、[重生之路之 Plotters ](https://github.com/plotters-rs/plotters)
+
+Plotters 是一个非常棒的纯 Rust 编写的绘图库( charts )，除了支持位图、向量图等传统方式外，还支持 WebAssembly。
+
+但..这个库之前很长一段时间内都没怎么维护，而且还是个人项目，其它贡献者只能望洋兴叹，作为一门有志于 GUI、前端领域的语言，这个库还是非常重要的。
+
+好在，现在作者宣布了自己已经归来，并重新建立了一个组织用于维护该项目。
+
+<img src="https://pic2.zhimg.com/80/v2-494d0f57300cb3c7950b19b838430dbf_1440w.jpeg" />
+
 
 
 #### 精选文章
 
-1、[Zh] [基于 RocksDB 使用 Rust 构建关系型数据库](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-04-15%5D%20基于RocksDB使用Rust构建关系型数据库.md)
+1、[Zh] [Rust类型系统图灵完备的证明](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-05-04%5D%20Rust类型系统图灵完备的证明.md)
 
-现在很多新的数据库底层都是基于 RocksDB 来实现的，作者的 `rrrdb` 亦是如此，从名称也能看出，这个项目不是一个很正式的关系型数据库，但是不妨碍我们去了解下作者的一些构思和实现。
+一门编程语言要进入科研等严肃领域，必须要经过九九之关的检验，其中图灵完备的证明就是其中一环。本文作者通过实现 Smallfuck 的方式(一门已知的图灵完备语言)，证明了 Rust 的类型系统是图灵完备的。
 
-2、[Zh] [使用 Tokio 处理 CPU 密集型任务](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-04-20%5D%20使用%20Tokio%20处理%20CPU%20密集型任务.md)
+2、 [Zh] [使用 Rust 和 WebAssembly 在 48 小时内制作游戏](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-04-27%5D%20使用%20Rust%20和%20WebAssembly%20在%2048%20小时内制作游戏.md)
 
-众所周知，tokio 是一个异步 IO 库，众所周知知，异步 IO 特别适合网络编程，并不是很适合 CPU 密集的场景，且看作者如何化腐朽为神奇。
+[Ludum Dare] 是一个 48 小时个人游戏开发挑战赛，作者之前已经使用 Unity 参加过几次了，这次，他决定尝试点不一样的。
 
-3、[假设 Rust 目前还是一门相当不完美的语言，我们该怎么改进它？](https://kerkour.com/what-a-better-rust-would-look-like)
+3、[Zh] [半小时快速了解 Rust](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-04-28%5D%20半小时快速了解%20Rust.md)
 
-最近，又双叒叕出了一门新的编程语言：[Hare](https://harelang.org)，语法看上去很像 Rust，作者不禁开始思考，人们为啥去创建一门像是 Rust 的新语言，答案可能就藏在文章的标题中。
+21天？7天？3天？都弱爆了好吗！这里，只要半个小时！
 
-4、[间接所有权、浅借用和自引用数据结构](https://yoyo-code.com/indirect-ownership-and-self-borrow/)
+4、[GAT的美好未来](https://jackh726.github.io/rust/2022/05/04/a-shiny-future-with-gats.html)
 
-什么？有读者震惊了，为啥这几个概念我都没有听说过？不要慌，其实就是一篇讲解自引用数据结构的文章，例如下面这个结构体：
-```rust
-struct ParsedFile {
-  contents: Vec<u8>,
-  // words中包含的项引用了 `contents` 中的数据
-  words: Vec<&'self:contents:indirect [u8]>
-}
-```
+GAT 是 Generic Associated Types (泛型关联类型) 的简写，大家可以在[这里](https://blog.rust-lang.org/2021/08/03/GATs-stabilization-push.html)对其进行深入了解。
 
-5、[Rust 中的特征和依赖注入](https://jmmv.dev/2022/04/rust-traits-and-dependency-injection.html)
+GAT 计划是在1年多之前就开始了，本身计划在去年 10 月稳定化的，但是其中遇到了不少问题，导致了计划的延期，然后就是 12 月、2月( 这种感觉好熟悉:P )。
 
-在现代化编程中，依赖注入不说是 superstar，至少也是一颗 star，它可以大幅简化模块化编程和代码可测试性的难度。本文将从特征出发，来看看在 Rust 中该如何实现 DI(dependency injection)。
+现在，作者终于可以骄傲的写出这篇文章，来告诉我们 GAT 到底可以用来做什么，质量很高，值得一看！
 
-6、[Rust 中的原生标识符](https://inspektor.cloud/blog/raw-identifier-in-rust/)
+> 关于 GAT 还有另一篇文章值得一读：[生命周期 GAT 的更好替代品](https://sabrinajewson.org/blog/the-better-alternative-to-lifetime-gats)
 
-不要被标题误导，这篇文章简而言之，就是教大家如果使用 Rust 的预留关键字作为自己的变量或字段名。
 
-7、[AsRef 中藏有的魔法](https://swatinem.de/blog/magic-asref/)
+5、[C++ & Rust: 泛型和特性化](https://www.tangramvision.com/blog/c-rust-generics-and-specialization)
 
-一般的开发场景中，不太用得到 AsRef，但是如果你和作者一样，从事词法分析相关的开发(或其它类型的数据场景)，就值得深入了解下了。
+一周一次、喜闻乐见的 C++ Pk Rust 环节又来了，作者所在的公司原本是做 C++ 的，但是在遇到 Rust 后，变心了，甚至还加入了 Rust 基金会，一起来欣赏下他们的一些看法吧。
 
-8、[在四周内构建一个无服务架构平台](https://www.shuttle.rs/blog/2022/04/22/dev-log-0)
 
-假如你发现了一个潜在的商机，想要给投资人证明这一点，时间很紧迫，只有四周，你会怎么办？
+6、[这些年 Rust 编译器帮你捕获的 Bug 们](https://kerkour.com/bugs-rust-compiler-helps-prevent)
 
+在过去几十年内，随着程序员水平的越来越高，我们终于证明了自己 —— 没办法写出 Bug Free 的软件。因此，新编程语言的编译器越来越强大，也越来越复杂，Rust 就是其中的翘楚。
+
+7、[自引用结构体和其替代品](https://swatinem.de/blog/self-reference-alternatives/)
+
+文章讲解了该如何更好的理解和使用自引用结构体，以及在一些场景下，该如何使用其它方式来替代自引用结构题。
+
+
+
+
+
+
+## 往期回顾
+
+目前所有的周刊都按照 `年/月/日期` 的方式归纳在 [docs](./docs) 目录下，大家可以按需查看。
+
+- [第 10 期](./docs/2022/5月/07.md)
+- [第 9 期](./docs/2022/4月/24.md)
+- [第 8 期](./docs/2022/4月/15.md)
+- [第 7 期](./docs/2022/4月/08.md)
+- [第 6 期](./docs/2022/4月/02.md)
+- [第 5 期](./docs/2022/3月/25.md)
+- [第 4 期](./docs/2022/3月/18.md)
+- [第 3 期](./docs/2022/3月/11.md)
+- [第 2 期](./docs/2022/3月/04.md)
+- [第 1 期](./docs/2022/2月/28.md)
+
+
+## 怀揣劲爆消息或优质内容？
+欢迎提交 `issue` 或 `PR`，我们欢迎一切有价值的内容，并且你提供的每条消息都将标注上你的 github 用户名和链接。
