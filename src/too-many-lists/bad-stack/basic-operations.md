@@ -108,7 +108,7 @@ impl List {
 }
 ```
 
-`clone` 用起来简单难，且可解万愁，但是。。。既然是链表，性能那自然是很重要的，特别是要封装成库给其他代码使用时，那性能更是重中之重。
+`clone` 用起来简单，且可解万愁，但是。。。既然是链表，性能那自然是很重要的，特别是要封装成库给其他代码使用时，那性能更是重中之重。
 
 没办法了，我们只能向大名鼎鼎的 Rust 黑客 Indiana Jones求助了:
 <img src="https://rust-unofficial.github.io/too-many-lists/img/indy.gif" />
@@ -219,7 +219,7 @@ pub fn pop(&mut self) -> Option<i32> {
 }
 ```
 
-当链表为 `Empty` 时，返回一个 `None`,表示我们没有 `pop` 到任何元素；若不为空，则返回第一个元素，并将 `head` 指向下一个节点 `node.next`。但是这段代码又报错了：
+当链表为 `Empty` 时，返回一个 `None`，表示我们没有 `pop` 到任何元素；若不为空，则返回第一个元素，并将 `head` 指向下一个节点 `node.next`。但是这段代码又报错了：
 ```shell
 error[E0507]: cannot move out of `node.next` which is behind a shared reference
   --> src/first.rs:37:29
