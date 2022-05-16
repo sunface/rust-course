@@ -5,94 +5,141 @@ Rust语言周刊精选全世界过去一周的优秀文章、新闻、开源项�
 
 > RustCn：https://hirust.cn, 公众号: Rust语言中文网
 
-# 「Rust 语言周刊」 第 11 期 · 2022-05-07
+# 「Rust 语言周刊」 第 12 期 · 2022-05-16
+Rust语言周刊精选全世界过去一周的优秀文章、新闻、开源项目和语言动态。
 
-<img src="https://pic2.zhimg.com/80/v2-6243e39368f24d4193564a701942413f_1440w.png">
-<h5 align="center">题图: 可视化 Rust 数据类型的内存布局</h5>
+本周刊由 RustCn 社区倾情打造，其中， `[Zh]` 标识的中文资料由 Rust 翻译计划提供，并且原始的 Markdown 文档已[全部开源](https://github.com/rustlang-cn/rustt)，欢迎大家阅读和订阅。
 
-#### 本期明星
+> RustCn：https://hirust.cn, 公众号: Rust语言中文网
 
-1、[Zh] [可视化 Rust 数据类型的内存布局](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-05-04%5D%20可视化%20Rust%20各数据类型的内存布局.md)
+<img src="https://pica.zhimg.com/80/v2-61f557bd623557b6872c99c09cb4fc4c_1440w.png">
+<h5 align="center">题图: Kani - Rust 代码检查工具</h5>
 
-了解 Rust 中每个数据类型的内存布局有助于锻炼我们的编程直觉，可以提前规避一些编译错误和性能问题。
+#### 官方新闻
 
-原文是以视频形式呈现，译文是由 Rustt 翻译组的明星译者 trdthg (third thing) 倾情翻译，内容巨多、工作量巨大，如果大家喜欢，在[这里](https://github.com/trdthg)给他点个赞吧 :D
+1、[cc 正式成为官方库: 将 C/C++ 代码编译成 Rust 代码](https://github.com/rust-lang/cc-rs)
 
+Rust 的生态环境正在快速发展中，但是就目前而言，我们依然需要经常去调用 C/C++ 代码，此时 cc 就成了必不可少的构建工具( 配合 build.rs )。
 
+在之前的某期中，我们有提到该库的作者已经[无力继续维护](https://github.com/rust-lang/cc-rs/issues/663)，原因是各种平台兼容的 PR 搞得他焦头烂额，因此希望找一个接盘侠，如果是普通的库就罢了，偏偏是这么重要的库、维护复杂度这么高的库，因此这件事变得异常棘手。
+
+好在，在官方的协调和支持下，cc 最终转入了官方组织，并且在多个月后，重写开始合并 PR ！
 
 #### 开源项目
-1、[shuttle: 使用 Cargo 部署你的 Rust 应用](https://www.shuttle.rs)
 
-说实话，这个库真的很酷很 rusty，它完成了从源代码到云部署的全过程覆盖，支持通过派生特征的方式去自定义你的部署流程，甚至还提供了短域名服务！
+1、[Fornjot 发布 0.6 版本：一个使用 Rust 编写的 CAD 应用](https://www.fornjot.app/blog/fornjot-0.6/)
 
-哦对了，我特别喜欢 shuttle 的 slogan：
+这个世界需要一个新的 CAD，嗯，不是我说的，是作者说的，虽然我对此表示怀疑 :D 
 
-> **Let's make Rust the next language of cloud-native**
->
-> We love you Go, but Rust is just better.
+总之，这个库是一个基于代码扩展的 CAD 应用，但是大家一定不要被 0.6 这个版本号所忽悠，它还很早期！例如它终于在新版本中支持 Z 轴非垂直方向的建模了：
 
-你们喜欢不？😆
+<img src="https://pic3.zhimg.com/80/v2-d563fdd0d5d5c562e087e0c0f0863445_1440w.png" />
 
-2、[Redox发布0.7.0: 一个完全用 Rust 编写，专注于稳定性和安全性的全新微内核操作系统](https://www.redox-os.org/news/release-0.7.0/)
+2、[Kani: 一个全新的 Rust 代码检查工具](https://github.com/model-checking/kani)
 
-Redox 不是一个新项目，已开发多年，但仍达不到成熟可用的状态，毕竟操作系统不是一个小工程。
+Rust 的编译器这么强大，我们为什么还需要另一个非官方的编译检查工具？岂不是没事找事嘛？其实不然，毕竟，面对 unsafe 代码，传统的编译器依然有些有心无力，即使已经有了 mio。
 
-不过这次的新版本改动还是挺大的：对硬件扩展的支持、改进的文件系统、重写的引导程序、微内核的更新，甚至它还改进了rustc 和 reibc(基于 Rust 的 C 库)。
+而 kami 可以帮助我们检查代码的内存安全、用户定义的危险断言、panics、算术溢出等非预期行为，而且 kami 可以和我们的测试代码紧密结合，例如下面的一使用示例:
 
-> 求大佬告知：国内在做操作系统的厂商是否有在跟进这个项目，基于它来做一个国产操作系统，不知道有没有搞头
+```rust
+use my_crate::{function_under_test, meets_specification, precondition};
 
-3、[重生之路之 Plotters ](https://github.com/plotters-rs/plotters)
+#[kani::proof]
+fn check_my_property() {
+   // 创建一个非确定性的输入
+   let input = kani::any();
 
-Plotters 是一个非常棒的纯 Rust 编写的绘图库( charts )，除了支持位图、向量图等传统方式外，还支持 WebAssembly。
+   //根据函数的先决条件来限制它
+   kani::assume(precondition(input));
 
-但..这个库之前很长一段时间内都没怎么维护，而且还是个人项目，其它贡献者只能望洋兴叹，作为一门有志于 GUI、前端领域的语言，这个库还是非常重要的。
+   // 调用需要被验证的函数
+   let output = function_under_test(input);
 
-好在，现在作者宣布了自己已经归来，并重新建立了一个组织用于维护该项目。
+   // 检查它是否满足特性需求
+   assert!(meets_specification(input, output));
+}
+```
 
-<img src="https://pic2.zhimg.com/80/v2-494d0f57300cb3c7950b19b838430dbf_1440w.jpeg" />
+3、[RepliByte: 一个开源的数据库同步服务](https://github.com/Qovery/replibyte)
+
+作为开发者而言，在测试环境伪造数据用于测试是一件头疼的事，而且还不能反映出真实世界的复杂性，出于自身的这个痛点，作者创建了 RepliByte。
+
+它支持 Pg、Mysql、MongoDB 的数据备份和还原，还支持敏感数据替换、数据子集、传输过程中的数据压缩和加密等，最重要的：它是 Rust 写的，每次想起公司那个占用大量资源、基于 Java 的数据库同步中间件，我就...
+
+```shell
+### 列出所有备份
+$ replibyte -c conf.yaml dump list
+
+type          name                  size    when                    compressed  encrypted
+PostgreSQL    dump-1647706359405    154MB   Yesterday at 03:00 am   true        true
+PostgreSQL    dump-1647731334517    152MB   2 days ago at 03:00 am  true        true
+PostgreSQL    dump-1647734369306    149MB   3 days ago at 03:00 am  true        true
+```
+
+```shell
+### 还原最新的备份到本地数据库中
+$ replibyte -c conf.yaml dump restore local -v latest -i postgres -p 5432
+
+### 还原最新的备份到远程数据库中
+$ replibyte -c conf.yaml dump restore remote -v latest
+```
+
+
+4、[Stretch: 一个高性能的基于 flexbox 的 UI 布局库](https://github.com/DioxusLabs/stretch)
+
+严格来说，该库是一个 fork 项目，之前的项目已经很久不再维护了，现在 [Dioxus]() 扛起了大旗，目标是为跨平台的布局提供一个坚定的基石，尤其是移动端，未来还会提供除了 `flexbox` 外更多的布局方式。
+
+项目目前处于初期阶段，主要是 Dioxus 和 BevyEngine 在参与，如果大家感兴趣，可以看看里面的 `good first issue`。
+
+> 感谢 [Asura](https://github.com/asur4s) 同学提供的[消息源](https://github.com/rustlang-cn/rust-weekly/issues/6)
 
 
 
 #### 精选文章
 
-1、[Zh] [Rust类型系统图灵完备的证明](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-05-04%5D%20Rust类型系统图灵完备的证明.md)
+1、[Zh] [Rust 与 OpenCV](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-05-08%5D%20Rust%20与%20OpenCV.md)
 
-一门编程语言要进入科研等严肃领域，必须要经过九九之关的检验，其中图灵完备的证明就是其中一环。本文作者通过实现 Smallfuck 的方式(一门已知的图灵完备语言)，证明了 Rust 的类型系统是图灵完备的。
+Rust非常优秀，但是与 C/C++ 等巨头相比，它在社区生态上还只是一头初生牛犊，因此我们经常需要去使用 C/C++ 编写的库。友情提示：在 Rust 中使用 OpenCV 是可行的，但是首先，你可能需要拥有足够的意志力来克服遇到的各种问题，毕竟，这是一条未知之路。
 
-2、 [Zh] [使用 Rust 和 WebAssembly 在 48 小时内制作游戏](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-04-27%5D%20使用%20Rust%20和%20WebAssembly%20在%2048%20小时内制作游戏.md)
+2、[编程语言是平台，而不是产品](https://kerkour.com/programming-languages-are-platforms)
 
-[Ludum Dare] 是一个 48 小时个人游戏开发挑战赛，作者之前已经使用 Unity 参加过几次了，这次，他决定尝试点不一样的。
+现代社会，每个大公司都想做一个大而全的产品，这样就可以行成更强的护城河，让竞争对手无路可走，然而这种产品会牺牲稳定性和可靠性。那么问题来了，对于编程语言而言，适合吗？
 
-3、[Zh] [半小时快速了解 Rust](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-04-28%5D%20半小时快速了解%20Rust.md)
+3、[Xilem: 一个 Rust UI 架构](https://raphlinus.github.io/rust/gui/2022/05/07/ui-architecture.html)
 
-21天？7天？3天？都弱爆了好吗！这里，只要半个小时！
+对于用户界面领域来说，Rust 语言提供了足够的吸引力，原因很简单，它能够同时交付安全性和性能。但是，如何找到一个好的 UI 架构，成为了相当大的挑战。
 
-4、[GAT的美好未来](https://jackh726.github.io/rust/2022/05/04/a-shiny-future-with-gats.html)
+在其它语言适用的架构设计未必能很好的应用在 Rust 上，毕竟 Rust 的一些语言特性，学过的人都懂，一个自引用结构体都能整的人快乐无边  :P 基于此原因，一些人并不看好 Rust 在用户界面的未来，但是作者依然坚定的认为 Rust 就是未来。
 
-GAT 是 Generic Associated Types (泛型关联类型) 的简写，大家可以在[这里](https://blog.rust-lang.org/2021/08/03/GATs-stabilization-push.html)对其进行深入了解。
+他之前的尝试( 包括当前的 [Druid](https://github.com/linebender/druid) 架构 !) 都存在或多或少的缺陷，因此在这篇文章中，他提出了一个全新的架构，非常值得一读！
 
-GAT 计划是在1年多之前就开始了，本身计划在去年 10 月稳定化的，但是其中遇到了不少问题，导致了计划的延期，然后就是 12 月、2月( 这种感觉好熟悉:P )。
+4、[使用 Rust 进行有限状态机的建模](https://www.ramnivas.com/blog/2022/05/09/fsm-model-rust)
 
-现在，作者终于可以骄傲的写出这篇文章，来告诉我们 GAT 到底可以用来做什么，质量很高，值得一看！
-
-> 关于 GAT 还有另一篇文章值得一读：[生命周期 GAT 的更好替代品](https://sabrinajewson.org/blog/the-better-alternative-to-lifetime-gats)
+在文章中，作者介绍了如何运用 Rust 的所有权机制和静态编译的特点实现一个有限状态机( FSM )。
 
 
-5、[C++ & Rust: 泛型和特性化](https://www.tangramvision.com/blog/c-rust-generics-and-specialization)
+5、[算法面试很卷？](https://ada-x64.github.io/over-engineering/)
 
-一周一次、喜闻乐见的 C++ Pk Rust 环节又来了，作者所在的公司原本是做 C++ 的，但是在遇到 Rust 后，变心了，甚至还加入了 Rust 基金会，一起来欣赏下他们的一些看法吧。
+作者在找工作中，现在的大环境意味着算法成了绕不过去的坎。那到底是用更高级的代码卷起来，还是躺平使用简单的实现，文中给出了他的选择。
 
+6、[挑战：在 wifi 路由器上运行 Rust](https://blog.dend.ro/building-rust-for-routers/)
 
-6、[这些年 Rust 编译器帮你捕获的 Bug 们](https://kerkour.com/bugs-rust-compiler-helps-prevent)
-
-在过去几十年内，随着程序员水平的越来越高，我们终于证明了自己 —— 没办法写出 Bug Free 的软件。因此，新编程语言的编译器越来越强大，也越来越复杂，Rust 就是其中的翘楚。
-
-7、[自引用结构体和其替代品](https://swatinem.de/blog/self-reference-alternatives/)
-
-文章讲解了该如何更好的理解和使用自引用结构体，以及在一些场景下，该如何使用其它方式来替代自引用结构题。
+作者有一个 OpenWrt wifi 路由器，某一天无聊至极，盯着这个老朋友发呆ing，结果突发奇想，嘿，也许我可以在这上面运行个 Rust 项目。`hello world` 显然跟路由器八字不合，那就写一个 DNS 客户端吧。
 
 
+7、[Rust 中的 O(1) 泛型](https://peterkos.me/rust-const-generics/)
 
+众所周知，Rust 的泛型是零开销的，原因在于编译器会把泛型展开为一个个具体的类型，以二进制文件膨胀的代价来换取性能，这个做法没有任何问题。但是如果我们想要更加强大的泛型特性呢？文中针对这一点，给出了一些有价值的观点，值得一看！
+
+8、[创业公司是否应该使用 Rust ?](https://www.shuttle.rs/blog/2021/10/08/building-a-startup-with-rust)
+
+可以说，每一个优秀的工程师，内心都有这样的梦想：使用技术创业，然后改变世界。就目前来看，Rust 拥有足够的吸引力，那我们是否可以选择 Rust 来作为初创公司的主要语言呢？
+
+9、[使用 Rust 实现去中心化的集群管理](https://quickwit.io/blog/chitchat/)
+
+大家可能在想，分布式集群？难道不是在前面做一层负载均衡( nginx )，后面的集群就随便搞嘛？其实不是，你说的是无状态的分布式集群，这种集群的状态都存储在 redis、mysql 等数据库中，因此分布式很简单。
+
+但是对于有状态的集群来说，分布式就变成了一个相当棘手且有挑战的问题，最基本的：如果让集群中的节点感知到其它节点，在本文中，你能获取到一些灵感和解决方案。
 
 
 
@@ -100,6 +147,7 @@ GAT 计划是在1年多之前就开始了，本身计划在去年 10 月稳定�
 
 目前所有的周刊都按照 `年/月/日期` 的方式归纳在 [docs](./docs) 目录下，大家可以按需查看。
 
+- [第 11 期](./docs/2022/5月/07.md)
 - [第 10 期](./docs/2022/5月/07.md)
 - [第 9 期](./docs/2022/4月/24.md)
 - [第 8 期](./docs/2022/4月/15.md)
