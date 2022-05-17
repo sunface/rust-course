@@ -41,7 +41,7 @@ fn main(){
 
 ## 使用 Option
 
-最简单的方式就是使用 `Opiton` 分两步来实现：
+最简单的方式就是使用 `Option` 分两步来实现：
 
 ```rust
 #[derive(Debug)]
