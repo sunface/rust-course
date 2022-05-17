@@ -217,7 +217,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
 
 现在，我们也许可以自信的编译下试试了：
 ```shell
-cargo build
+> cargo build
 
 error[E0308]: mismatched types
   --> src/second.rs:77:22
@@ -260,7 +260,8 @@ impl<'a, T> Iterator for Iter<'a, T> {
 ```
 
 ```shell
-cargo build
+> cargo build
+
    Compiling lists v0.1.0 (/Users/ABeingessner/dev/temp/lists)
 error[E0515]: cannot return reference to local data `*node`
   --> src/second.rs:77:43
@@ -314,7 +315,8 @@ impl<'a, T> Iterator for Iter<'a, T> {
 ```
 
 ```shell
-cargo build
+> cargo build
+
    Compiling lists v0.1.0 (/Users/ABeingessner/dev/temp/lists)
 error[E0308]: mismatched types
   --> src/second.rs:77:22
@@ -362,7 +364,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
 ```
 
 ```shell
-cargo build
+> cargo build
 ```
 
 🎉 🎉 🎉
