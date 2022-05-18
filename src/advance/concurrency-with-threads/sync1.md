@@ -149,7 +149,7 @@ error[E0277]: `Rc<Mutex<i32>>` cannot be sent between threads safely
 
 错误中提到了一个关键点：`Rc<T>`无法在线程中传输，因为它没有实现`Send`特征(在下一节将详细介绍)，而该特征可以确保数据在线程中安全的传输。
 
-##### 多线程安全的 Arc<T>
+##### 多线程安全的 `Arc<T>`
 
 好在，我们有`Arc<T>`，得益于它的[内部计数器](https://course.rs/advance/smart-pointer/rc-arc.html#多线程无力的rc)是多线程安全的，因此可以在多线程环境中使用:
 

@@ -210,7 +210,7 @@ pub fn notify<T: Summary>(item1: &T, item2: &T) {}
 除了单个约束条件，我们还可以指定多个约束条件，例如除了让参数实现 `Summary` 特征外，还可以让参数实现 `Display` 特征以控制它的格式化输出：
 
 ```rust
-pub fn notify(item: &(impl Summary + Display)) {
+pub fn notify(item: &(impl Summary + Display)) {}
 ```
 
 除了上述的语法糖形式，还能使用特征约束的形式：
@@ -226,7 +226,7 @@ pub fn notify<T: Summary + Display>(item: &T) {}
 当特征约束变得很多时，函数的签名将变得很复杂：
 
 ```rust
-fn some_function<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) -> i32 {
+fn some_function<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) -> i32 {}
 ```
 
 严格来说，上面的例子还是不够复杂，但是我们还是能对其做一些形式上的改进，通过 `where`：
@@ -235,7 +235,7 @@ fn some_function<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) -> i32 {
 fn some_function<T, U>(t: &T, u: &U) -> i32
     where T: Display + Clone,
           U: Clone + Debug
-{
+{}
 ```
 
 #### 使用特征约束有条件地实现方法或特征
@@ -365,7 +365,7 @@ help: consider restricting type parameter `T` // 考虑使用以下的特征来�
 由于 `PartialOrd` 位于 `prelude` 中所以并不需要通过 `std::cmp` 手动将其引入作用域。所以可以将 `largest` 的签名修改为如下：
 
 ```rust
-fn largest<T: PartialOrd>(list: &[T]) -> T {
+fn largest<T: PartialOrd>(list: &[T]) -> T {}
 ```
 
 但是此时编译，又会出现新的错误：
