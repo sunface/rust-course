@@ -256,7 +256,6 @@ impl Rectangle {
 
 ```rust
 #![allow(unused)]
-fn main() {
 enum Message {
     Quit,
     Move { x: i32, y: i32 },
@@ -270,8 +269,9 @@ impl Message {
     }
 }
 
-let m = Message::Write(String::from("hello"));
-m.call();
+fn main() {
+    let m = Message::Write(String::from("hello"));
+    m.call();
 }
 ```
 
