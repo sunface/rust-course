@@ -20,7 +20,7 @@ struct Circle {
 }
 
 impl Circle {
-    // new是Circle的关联函数，因为它的第一个参数不是self
+    // new是Circle的关联函数，因此它的第一个参数不是self
     // 这种方法往往用于初始化当前结构体的实例
     fn new(x: f64, y: f64, radius: f64) -> Circle {
         Circle {
