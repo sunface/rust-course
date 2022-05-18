@@ -58,6 +58,7 @@ impl<'a, T> Iterator for IterMut<'a, T> {
 
 ```shell
 > cargo build
+
 error[E0596]: cannot borrow `self.head` as mutable, as it is behind a `&` reference
   --> src/second.rs:95:25
    |

@@ -46,7 +46,7 @@ pub fn peek(&self) -> Option<&T> {
 ```
 
 ```shell
-cargo build
+> cargo build
 
     Finished dev [unoptimized + debuginfo] target(s) in 0.32s
 ```
@@ -124,7 +124,7 @@ fn peek() {
 这次我们直接匹配出来可变引用 `value`，然后对其修改即可。
 
 ```shell
-cargo test
+> cargo test
 
      Running target/debug/lists-5c71138492ad4b4a
 
