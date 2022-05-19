@@ -191,7 +191,7 @@ pub fn notify<T: Summary>(item: &T) {
 
 真正的完整书写形式如上所述，形如 `T: Summary` 被称为**特征约束**。
 
-在简单的场景下 `impl Trait` 的语法就足够使用，但是对于复杂的场景，特征约束可以让我们拥有更大的灵活性和语法表现能力，例如一个函数接受两个 `impl Summary` 的参数：
+在简单的场景下 `impl Trait` 这种语法糖就足够使用，但是对于复杂的场景，特征约束可以让我们拥有更大的灵活性和语法表现能力，例如一个函数接受两个 `impl Summary` 的参数：
 
 ```rust
 pub fn notify(item1: &impl Summary, item2: &impl Summary) {}
