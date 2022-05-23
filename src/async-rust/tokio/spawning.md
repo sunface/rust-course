@@ -2,14 +2,23 @@
 
 同志们，抓稳了，我们即将换挡提速，通向 `mini-redis` 服务端的高速之路已经开启。
 
-不过在开始之前，先来做点收尾工作：上一章节中，我们实现了一个简易的 `mini-redis` 客户端并支持了 `SET`/`GET` 操作, 现在将该[代码](https://course.rs/tokio/getting-startted.html#分析未到代码先行)移动到 `example` 文件夹下，因为我们这个章节要实现的是服务器，后面可以用之前客户端示例对我们的服务器端进行测试:
+不过在开始之前，先来做点收尾工作：上一章节中，我们实现了一个简易的 `mini-redis` 客户端并支持了 `SET`/`GET` 操作, 现在将该[代码](https://course.rs/async-rust/tokio/getting-startted.html#分析未到代码先行)移动到 `examples` 文件夹下，因为我们这个章节要实现的是服务器，后面可以通过运行 `example` 的方式，用之前客户端示例对我们的服务器端进行测试:
 
 ```shell
 $ mkdir -p examples
 $ mv src/main.rs examples/hello-redis.rs
 ```
 
-然后再重新创建一个空的 `src/main.rs` 文件，至此换挡已经完成，提速正式开始。
+并在 `Cargo.toml` 里添加 `[[example]]` 说明。关于 `example` 的详细说明，可以在[Cargo使用指南](https://course.rs/cargo/reference/cargo-target.html#示例对象examples)里进一步了解。
+
+```toml
+[[example]]
+name = "hello-redis"
+path = "examples/hello-redis.rs"
+```
+
+
+然后再重新创建一个空的 `src/main.rs` 文件，至此替换文档已经完成，提速正式开始。
 
 ## 接收 sockets
 
@@ -57,7 +66,7 @@ async fn process(socket: TcpStream) {
 cargo run
 ```
 
-此时服务器会处于循环等待以接收连接的状态，接下来在一个新的终端窗口中启动上一章节中的 `redis` 客户端，由于相关代码已经放入 `examples` 文件夹下，因此我们可以使用 `-- example` 来指定运行该客户端示例:
+此时服务器会处于循环等待以接收连接的状态，接下来在一个新的终端窗口中启动上一章节中的 `redis` 客户端，由于相关代码已经放入 `examples` 文件夹下，因此我们可以使用 `--example` 来指定运行该客户端示例:
 
 ```shell
 $ cargo run --example hello-redis
@@ -314,6 +323,6 @@ async fn process(socket: TcpStream) {
 
 使用 `cargo run` 运行服务器，然后再打开另一个终端窗口，运行 `hello-redis` 客户端示例: `cargo run --example hello-redis`。
 
-Bingo，在看了这么多原理后，我们终于迈出了小小的第一步，并获取到了存在 `HashMap` 中的值: `got value from the server; result=Some(b"world")`。
+Bingo，在看了这么多原理后，我们终于迈出了小小的第一步，并获取到了存在 `HashMap` 中的值: `从服务器端获取到结果=Some(b"world")`。
 
 但是问题又来了：这些值无法在 TCP 连接中共享，如果另外一个用户连接上来并试图同时获取 `hello` 这个 `key`，他将一无所获。
