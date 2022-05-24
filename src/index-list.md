@@ -165,9 +165,20 @@
 
 ## H
 
-| 名称 | 关键字 | 简介 |
-| ---- | ------ | ---- |
-|      | KWH    |      |
+| 名称                  | 关键字   | 简介                                                                                                |
+| --------------------- | -------- | --------------------------------------------------------------------------------------------------- |
+| [HashMap]             | 哈希类型 | `HashMap<K, V>`，存储的是一一映射的 `KV` 键值对，并提供了平均复杂度为 `O(1)` 的查询方法             |
+| [HashMap::new()]      |          | 创建 HashMap，需要手动通过 `use std::collections::HashMap;` 引入到我们当前的作用域中来              |
+| `hash.insert(K, V)`   |          | 插入键值对，必须声明为 `mut`                                                                        |
+| [元组创建 HashMap]    |          | 使用迭代器和 collect 方法创建<br>`let teams_map: HashMap<_, _> = teams_list.into_iter().collect();` |
+| [查询 HashMap]        |          | 通过 `get` 方法可以获取元素，返回一个 `Option<&T>` 类型                                             |
+| [更新 HashMap 中的值] |          |                                                                                                     |
+|                       | KWH      |                                                                                                     |
+
+[hashmap::new()]: https://course.rs/basic/collections/hashmap.html#使用-new-方法创建
+[元组创建 hashmap]: https://course.rs/basic/collections/hashmap.html#使用迭代器和-collect-方法创建
+[查询 hashmap]: https://course.rs/basic/collections/hashmap.html#查询-hashmap
+[更新 hashmap 中的值]: https://course.rs/basic/collections/hashmap.html#更新-hashmap-中的值
 
 [back](#head)
 
@@ -362,15 +373,25 @@
 
 ## V
 
-| 名称              | 关键字   | 简介                                                                                           |
-| ----------------- | -------- | ---------------------------------------------------------------------------------------------- |
-| [Vector 动态数组] | 动态数组 | `Vec<T>`，动态数组允许你存储多个值，这些值在内存中一个紧挨着另一个排列。只能存储相同类型的元素 |
-| `Vec::new`        |          | 创建动态数组                                                                                   |
-| `vec![]`          |          | 创建动态数组，能在创建时给予初始化值                                                           |
-| `Vec::push`       |          | 向数组尾部添加元素，必须声明为 `mut`                                                           |
-|                   | KWV      |                                                                                                |
+| 名称                       | 关键字   | 简介                                                                                           |
+| -------------------------- | -------- | ---------------------------------------------------------------------------------------------- |
+| [Vector 动态数组]          | 动态数组 | `Vec<T>`，动态数组允许你存储多个值，这些值在内存中一个紧挨着另一个排列。只能存储相同类型的元素 |
+| [Vec::new]                 |          | 创建动态数组                                                                                   |
+| [vec!\[\]]                 |          | 创建动态数组，能在创建时给予初始化值                                                           |
+| [vec.push]                 |          | 向数组尾部添加元素，必须声明为 `mut`                                                           |
+| [vec.get]                  |          | 从 Vector 中读取元素，返回 `Option<&T>`                                                        |
+| `&vec[index]`              |          | 从 Vector 中读取元素，使用下标索引访问，从 0 开始                                              |
+| [迭代遍历 Vector 中的元素] |          | 如果想要依次访问数组中的元素，可以使用迭代的方式去遍历数组                                     |
+| [存储不同类型的元素]       |          | 通过使用枚举类型和特征对象来实现不同类型元素的存储                                             |
+|                            | KWV      |                                                                                                |
 
 [vector 动态数组]: https://course.rs/basic/collections/vector.html
+[vec::new]: https://course.rs/basic/collections/vector.html#vecnew
+[vec!\[\]]: https://course.rs/basic/collections/vector.html#vec
+[vec.push]: https://course.rs/basic/collections/vector.html#更新-vector
+[vec.get]: https://course.rs/basic/collections/vector.html#从-vector-中读取元素
+[迭代遍历 vector 中的元素]: https://course.rs/basic/collections/vector.html#迭代遍历-vector-中的元素
+[存储不同类型的元素]: https://course.rs/basic/collections/vector.html#存储不同类型的元素
 
 [back](#head)
 
