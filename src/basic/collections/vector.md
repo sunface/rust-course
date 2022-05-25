@@ -104,7 +104,7 @@ let does_not_exist = v.get(100);
 
 ##### 同时借用多个数组元素
 
-既然涉及到借用数组元素，那么很可能会遇到同时借用多个数组元素的情况，还记得在[所有权和借用](https://course.rs/basic/ownership/borrowing.html#借用规则总结)章节咱们讲过的借用规则嘛？如果记得，就来看看下面的代码：）
+既然涉及到借用数组元素，那么很可能会遇到同时借用多个数组元素的情况，还记得在[所有权和借用](https://course.rs/basic/ownership/borrowing.html#借用规则总结)章节咱们讲过的借用规则嘛？如果记得，就来看看下面的代码 :)
 
 ```rust
 let mut v = vec![1, 2, 3, 4, 5];
