@@ -317,12 +317,16 @@
 
 ## R
 
-| 名称         | 关键字 | 简介                                                                               |
-| ------------ | ------ | ---------------------------------------------------------------------------------- |
-| [Range 序列] |        | 生成连续的数值<br> 只允许用于数字或字符类型<br> `..` 右半开区间 <br>`..=` 闭合区间 |
-|              | KWR    |                                                                                    |
+| 名称                   | 关键字     | 简介                                                                               |
+| ---------------------- | ---------- | ---------------------------------------------------------------------------------- |
+| [Range 序列]           |            | 生成连续的数值<br> 只允许用于数字或字符类型<br> `..` 右半开区间 <br>`..=` 闭合区间 |
+| [Result 可恢复的错误]  | 可恢复错误 | `enum Result<T, E> { Ok(T), Err(E), }`                                             |
+| [对返回的错误进行处理] | 可恢复错误 | 对返回的错误进行处理                                                               |
+|                        | KWR        |                                                                                    |
 
 [range 序列]: https://course.rs/basic/base-type/numbers.html#序列range
+[result 可恢复的错误]: https://course.rs/basic/result-error/result.html#可恢复的错误-result
+[对返回的错误进行处理]: https://course.rs/basic/result-error/result.html#对返回的错误进行处理
 
 [back](#head)
 
@@ -381,12 +385,14 @@
 
 ## U
 
-| 名称               | 关键字     | 简介                                        |
-| ------------------ | ---------- | ------------------------------------------- |
-| [Unit-like Struct] | 单元结构体 | 没有任何字段和属性<br>`struct AlwaysEqual;` |
-|                    | KWU        |                                             |
+| 名称               | 关键字     | 简介                                                              |
+| ------------------ | ---------- | ----------------------------------------------------------------- |
+| [Unit-like Struct] | 单元结构体 | 没有任何字段和属性<br>`struct AlwaysEqual;`                       |
+| [unwrap & expect]  | 可恢复错误 | 如果返回成功，就将 `Ok(T)` 中的值取出来，如果失败，就直接 `panic` |
+|                    | KWU        |                                                                   |
 
 [unit-like struct]: https://course.rs/basic/compound-type/struct.html#单元结构体unit-like-struct
+[unwrap & expect]: https://course.rs/basic/result-error/result.html#失败就-panic-unwrap-和-expect
 
 [back](#head)
 
