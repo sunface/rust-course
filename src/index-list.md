@@ -10,14 +10,20 @@
 
 <a id="head"></a>
 
-|       NN        |    NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |
-| :-------------: | :------: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
-|    [#](#sym)    | [A](#a)  | [B](#b) | [C](#c) | [D](#d) | [E](#e) | [F](#f) | [G](#g) | [H](#h) | [I](#i) | [J](#j) |
-|     [K](#k)     | [L](#l)  | [M](#m) | [N](#n) | [O](#o) | [P](#p) | [Q](#q) | [R](#r) | [S](#s) | [T](#t) | [U](#u) |
-|     [V](#v)     | [W](#w)  | [X](#x) | [Y](#y) | [Z](#z) |
-| [Cargo](#cargo) | [Naming] |
+|    NN     |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |
+| :-------: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
+| [#](#sym) | [A](#a) | [B](#b) | [C](#c) | [D](#d) | [E](#e) | [F](#f) | [G](#g) | [H](#h) |
+|  [I](#i)  | [J](#j) | [K](#k) | [L](#l) | [M](#m) | [N](#n) | [O](#o) | [P](#p) | [Q](#q) |
+|  [R](#r)  | [S](#s) | [T](#t) | [U](#u) | [V](#v) | [W](#w) | [X](#x) | [Y](#y) | [Z](#z) |
+
+</br>
+
+|       NN        |    NN    |     NN     |
+| :-------------: | :------: | :--------: |
+| [Cargo](#cargo) | [Naming] | [Keywords] |
 
 [naming]: https://course.rs/practice/naming.html
+[keywords]: https://course.rs/appendix/keywords.html
 
 [bottom](#bottom)
 
