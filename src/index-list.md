@@ -64,10 +64,12 @@
 | ------------- | -------- | ---------------------------------------------------------------------------------------------------------------------- |
 | [array 数组]  | 数组     | 长度固定<br>元素必须有相同的类型<br>依次线性排列<br>可以通过索引访问其中的元素<br>`let a: [i32; 5] = [1, 2, 3, 4, 5];` |
 | [array slice] | 数组切片 | `let slice: &[i32] = &a[1..3];`                                                                                        |
+| [as 转换]     | 类型转换 | `(x as T)`                                                                                                             |
 |               | KWA      |                                                                                                                        |
 
 [array 数组]: https://course.rs/basic/compound-type/array.html
 [array slice]: https://course.rs/basic/compound-type/array.html#数组切片
+[as转换]: https://course.rs/basic/converse.html#as转换
 
 [back](#head)
 
@@ -117,13 +119,15 @@
 
 ## D
 
-| 名称     | 关键字   | 简介                                                                                |
-| -------- | -------- | ----------------------------------------------------------------------------------- |
-| [derive] | 派生特征 | `#[derive(Trait)]`，被标记的对象自动实现对应的默认特征代码<br>详见：[附录-派生特征] |
-|          | KWD      |                                                                                     |
+| 名称       | 关键字   | 简介                                                                                                             |
+| ---------- | -------- | ---------------------------------------------------------------------------------------------------------------- |
+| [derive]   | 派生特征 | `#[derive(Trait)]`，被标记的对象自动实现对应的默认特征代码<br>详见：[附录-派生特征]                              |
+| [点操作符] | 类型转换 | 方法调用的点操作符，在调用时，会发生很多魔法般的类型转换，例如：自动引用、自动解引用，强制类型转换直到类型能匹配 |
+|            | KWD      |                                                                                                                  |
 
 [derive]: https://course.rs/basic/trait/trait.html#通过-derive-派生特征
 [附录-派生特征]: https://course.rs/appendix/derive.html
+[点操作符]: https://course.rs/basic/converse.html#点操作符
 
 [back](#head)
 
@@ -353,6 +357,7 @@
 | [Trait Object]                             | 特征对象   | 特征对象指向实现了 `Trait` 特征的类型的实例，可以在运行时通过特征对象找到具体调用的类型方法                                                                                                 |
 | `type` 1. [关联类型] 2. [默认泛型类型参数] |            | 1. `type Item;`<br>`Self` 用来指代当前调用者的具体类型，那么 `Self::em` 就用来指代该类型实现中定义的 `Item` 类型<br>2. `type Output = Struct;`<br>指定一个默认值，返回一个关联类型 `Output` |
 | [特征定义中的特征约束]                     | 特征       | 用来说明一个特征需要实现另一个特征                                                                                                                                                          |
+| [TryInto 转换]                             | 类型转换   | 尝试进行一次转换，并返回一个 `Result`，可以对其进行相应的错误处理                                                                                                                           |
 |                                            | KWT        |                                                                                                                                                                                             |
 
 [tuple 元组]: https://course.rs/basic/compound-type/tuple.html#元组
@@ -363,6 +368,7 @@
 [关联类型]: https://course.rs/basic/trait/advance-trait.html#关联类型
 [默认泛型类型参数]: https://course.rs/basic/trait/advance-trait.html#默认泛型类型参数
 [特征定义中的特征约束]: https://course.rs/basic/trait/advance-trait.html#特征定义中的特征约束
+[tryinto 转换]: https://course.rs/basic/converse.html#tryinto-转换
 
 [back](#head)
 
