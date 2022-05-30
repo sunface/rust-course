@@ -10,14 +10,20 @@
 
 <a id="head"></a>
 
-|       NN        |    NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |
-| :-------------: | :------: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
-|    [#](#sym)    | [A](#a)  | [B](#b) | [C](#c) | [D](#d) | [E](#e) | [F](#f) | [G](#g) | [H](#h) | [I](#i) | [J](#j) |
-|     [K](#k)     | [L](#l)  | [M](#m) | [N](#n) | [O](#o) | [P](#p) | [Q](#q) | [R](#r) | [S](#s) | [T](#t) | [U](#u) |
-|     [V](#v)     | [W](#w)  | [X](#x) | [Y](#y) | [Z](#z) |
-| [Cargo](#cargo) | [Naming] |
+|    NN     |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |   NN    |
+| :-------: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: | :-----: |
+| [#](#sym) | [A](#a) | [B](#b) | [C](#c) | [D](#d) | [E](#e) | [F](#f) | [G](#g) | [H](#h) |
+|  [I](#i)  | [J](#j) | [K](#k) | [L](#l) | [M](#m) | [N](#n) | [O](#o) | [P](#p) | [Q](#q) |
+|  [R](#r)  | [S](#s) | [T](#t) | [U](#u) | [V](#v) | [W](#w) | [X](#x) | [Y](#y) | [Z](#z) |
+
+</br>
+
+|       NN        |    NN    |     NN     |
+| :-------------: | :------: | :--------: |
+| [Cargo](#cargo) | [Naming] | [Keywords] |
 
 [naming]: https://course.rs/practice/naming.html
+[keywords]: https://course.rs/appendix/keywords.html
 
 [bottom](#bottom)
 
@@ -58,24 +64,27 @@
 | ------------- | -------- | ---------------------------------------------------------------------------------------------------------------------- |
 | [array 数组]  | 数组     | 长度固定<br>元素必须有相同的类型<br>依次线性排列<br>可以通过索引访问其中的元素<br>`let a: [i32; 5] = [1, 2, 3, 4, 5];` |
 | [array slice] | 数组切片 | `let slice: &[i32] = &a[1..3];`                                                                                        |
+| [as 转换]     | 类型转换 | `(x as T)`                                                                                                             |
 |               | KWA      |                                                                                                                        |
 
 [array 数组]: https://course.rs/basic/compound-type/array.html
 [array slice]: https://course.rs/basic/compound-type/array.html#数组切片
+[as转换]: https://course.rs/basic/converse.html#as转换
 
 [back](#head)
 
 ## B
 
-| 名称         | 关键字    | 简介                                                                           |
-| ------------ | --------- | ------------------------------------------------------------------------------ |
-| [变量遮蔽]   | shadowing | 允许声明相同的变量名，后者会遮蔽掉前者                                         |
-| [变量覆盖]   | 模式匹配  | 无论是是 `match` 还是 `if let`，他们都可以在模式匹配时覆盖掉老的值，绑定新的值 |
-| [变量作用域] | 所有权    | 作用域是一个变量在程序中有效的范围                                             |
-| [表达式]     |           | 进行求值，结尾无 `;`，有返回值                                                 |
-| [bool 布尔]  | 布尔类型  | `true` `false`，占用 1 字节                                                    |
-| [break]      | 循环控制  | 直接跳出当前整个循环                                                           |
-|              | KWB       |                                                                                |
+| 名称               | 关键字       | 简介                                                                           |
+| ------------------ | ------------ | ------------------------------------------------------------------------------ |
+| [变量遮蔽]         | shadowing    | 允许声明相同的变量名，后者会遮蔽掉前者                                         |
+| [变量覆盖]         | 模式匹配     | 无论是是 `match` 还是 `if let`，他们都可以在模式匹配时覆盖掉老的值，绑定新的值 |
+| [变量作用域]       | 所有权       | 作用域是一个变量在程序中有效的范围                                             |
+| [表达式]           |              | 进行求值，结尾无 `;`，有返回值                                                 |
+| [bool 布尔]        | 布尔类型     | `true` `false`，占用 1 字节                                                    |
+| [break]            | 循环控制     | 直接跳出当前整个循环                                                           |
+| [backtrace 栈展开] | 不可恢复错误 | `RUST_BACKTRACE=1 cargo run`                                                   |
+|                    | KWB          |                                                                                |
 
 [变量遮蔽]: https://course.rs/basic/variable.html#变量遮蔽shadowing
 [变量覆盖]: https://course.rs/basic/match-pattern/match-if-let.html#变量覆盖
@@ -83,6 +92,7 @@
 [bool 布尔]: https://course.rs/basic/base-type/char-bool.html#布尔bool
 [表达式]: https://course.rs/basic/base-type/statement-expression.html#表达式
 [break]: https://course.rs/basic/flow-control.html#break
+[backtrace 栈展开]: https://course.rs/basic/result-error/panic.html#backtrace-栈展开
 
 [back](#head)
 
@@ -111,13 +121,15 @@
 
 ## D
 
-| 名称     | 关键字   | 简介                                                                                |
-| -------- | -------- | ----------------------------------------------------------------------------------- |
-| [derive] | 派生特征 | `#[derive(Trait)]`，被标记的对象自动实现对应的默认特征代码<br>详见：[附录-派生特征] |
-|          | KWD      |                                                                                     |
+| 名称       | 关键字   | 简介                                                                                                             |
+| ---------- | -------- | ---------------------------------------------------------------------------------------------------------------- |
+| [derive]   | 派生特征 | `#[derive(Trait)]`，被标记的对象自动实现对应的默认特征代码<br>详见：[附录-派生特征]                              |
+| [点操作符] | 类型转换 | 方法调用的点操作符，在调用时，会发生很多魔法般的类型转换，例如：自动引用、自动解引用，强制类型转换直到类型能匹配 |
+|            | KWD      |                                                                                                                  |
 
 [derive]: https://course.rs/basic/trait/trait.html#通过-derive-派生特征
 [附录-派生特征]: https://course.rs/appendix/derive.html
+[点操作符]: https://course.rs/basic/converse.html#点操作符
 
 [back](#head)
 
@@ -284,9 +296,14 @@
 
 ## P
 
-| 名称 | 关键字 | 简介 |
-| ---- | ------ | ---- |
-|      | KWP    |      |
+| 名称                  | 关键字       | 简介                                                                 |
+| --------------------- | ------------ | -------------------------------------------------------------------- |
+| [panic! 不可恢复错误] | 不可恢复错误 | 程序会打印出一个错误信息，展开报错点往前的函数调用堆栈，最后退出程序 |
+| [panic 原理剖析]      | 不可恢复错误 |                                                                      |
+|                       | KWP          |                                                                      |
+
+[panic! 不可恢复错误]: https://course.rs/basic/result-error/panic.html#panic-与不可恢复错误
+[panic 原理剖析]: https://course.rs/basic/result-error/panic.html#panic-原理剖析
 
 [back](#head)
 
@@ -300,12 +317,16 @@
 
 ## R
 
-| 名称         | 关键字 | 简介                                                                               |
-| ------------ | ------ | ---------------------------------------------------------------------------------- |
-| [Range 序列] |        | 生成连续的数值<br> 只允许用于数字或字符类型<br> `..` 右半开区间 <br>`..=` 闭合区间 |
-|              | KWR    |                                                                                    |
+| 名称                   | 关键字     | 简介                                                                               |
+| ---------------------- | ---------- | ---------------------------------------------------------------------------------- |
+| [Range 序列]           |            | 生成连续的数值<br> 只允许用于数字或字符类型<br> `..` 右半开区间 <br>`..=` 闭合区间 |
+| [Result 可恢复的错误]  | 可恢复错误 | `enum Result<T, E> { Ok(T), Err(E), }`                                             |
+| [对返回的错误进行处理] | 可恢复错误 | 对返回的错误进行处理                                                               |
+|                        | KWR        |                                                                                    |
 
 [range 序列]: https://course.rs/basic/base-type/numbers.html#序列range
+[result 可恢复的错误]: https://course.rs/basic/result-error/result.html#可恢复的错误-result
+[对返回的错误进行处理]: https://course.rs/basic/result-error/result.html#对返回的错误进行处理
 
 [back](#head)
 
@@ -347,6 +368,7 @@
 | [Trait Object]                             | 特征对象   | 特征对象指向实现了 `Trait` 特征的类型的实例，可以在运行时通过特征对象找到具体调用的类型方法                                                                                                 |
 | `type` 1. [关联类型] 2. [默认泛型类型参数] |            | 1. `type Item;`<br>`Self` 用来指代当前调用者的具体类型，那么 `Self::em` 就用来指代该类型实现中定义的 `Item` 类型<br>2. `type Output = Struct;`<br>指定一个默认值，返回一个关联类型 `Output` |
 | [特征定义中的特征约束]                     | 特征       | 用来说明一个特征需要实现另一个特征                                                                                                                                                          |
+| [TryInto 转换]                             | 类型转换   | 尝试进行一次转换，并返回一个 `Result`，可以对其进行相应的错误处理                                                                                                                           |
 |                                            | KWT        |                                                                                                                                                                                             |
 
 [tuple 元组]: https://course.rs/basic/compound-type/tuple.html#元组
@@ -357,17 +379,20 @@
 [关联类型]: https://course.rs/basic/trait/advance-trait.html#关联类型
 [默认泛型类型参数]: https://course.rs/basic/trait/advance-trait.html#默认泛型类型参数
 [特征定义中的特征约束]: https://course.rs/basic/trait/advance-trait.html#特征定义中的特征约束
+[tryinto 转换]: https://course.rs/basic/converse.html#tryinto-转换
 
 [back](#head)
 
 ## U
 
-| 名称               | 关键字     | 简介                                        |
-| ------------------ | ---------- | ------------------------------------------- |
-| [Unit-like Struct] | 单元结构体 | 没有任何字段和属性<br>`struct AlwaysEqual;` |
-|                    | KWU        |                                             |
+| 名称               | 关键字     | 简介                                                              |
+| ------------------ | ---------- | ----------------------------------------------------------------- |
+| [Unit-like Struct] | 单元结构体 | 没有任何字段和属性<br>`struct AlwaysEqual;`                       |
+| [unwrap & expect]  | 可恢复错误 | 如果返回成功，就将 `Ok(T)` 中的值取出来，如果失败，就直接 `panic` |
+|                    | KWU        |                                                                   |
 
 [unit-like struct]: https://course.rs/basic/compound-type/struct.html#单元结构体unit-like-struct
+[unwrap & expect]: https://course.rs/basic/result-error/result.html#失败就-panic-unwrap-和-expect
 
 [back](#head)
 
