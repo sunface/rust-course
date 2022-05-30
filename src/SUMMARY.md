@@ -5,13 +5,16 @@
 [快速查询入口](index-list.md)
 
 ---
+
 [Rust 语言中文网](community.md)
 [一本生锈的书](rusty-book.md)
 [Rust 语言周刊](rust-weekly.md)
 [Rust 翻译计划( 代号 Rustt )](rustt.md)
 
 # 快速开始
+
 ---
+
 - [寻找牛刀，以便小试](first-try/intro.md)
   - [安装 Rust 环境](first-try/installation.md)
   - [墙推 VSCode!](first-try/editor.md)
@@ -19,10 +22,13 @@
   - [不仅仅是 Hello world](first-try/hello-world.md)
   - [下载依赖太慢了？](first-try/slowly-downloading.md)
   - [避免从入门到放弃](first-try/sth-you-should-not-do.md)
-  
-# Rust语言学习
+
+# Rust 语言学习
+
 ---
+
 - [Rust 基础入门](basic/intro.md)
+
   - [变量绑定与解构](basic/variable.md)
   - [基本类型](basic/base-type/index.md)
     - [数值类型](basic/base-type/numbers.md)
@@ -65,6 +71,7 @@
   - [格式化输出](basic/formatted-output.md)
 
 - [Rust 高级进阶](advance/intro.md)
+
   - [生命周期](advance/lifetime/intro.md)
     - [认识生命周期](advance/lifetime/basic.md)
     - [深入生命周期](advance/lifetime/advance.md)
@@ -102,8 +109,9 @@
   - [Macro 宏编程](advance/macro.md)
     <!-- - [SIMD todo](advance/simd.md) -->
     <!-- - [高阶特征约束(HRTB) todo](advance/hrtb.md) -->
- 
+
 - [Rust 异步编程](async-rust/intro.md)
+
   - [async/await 异步编程](async-rust/async/intro.md)
     - [async 编程入门](async-rust/async/getting-started.md)
     - [底层探秘: Future 执行与任务调度](async-rust/async/future-excuting.md)
@@ -126,7 +134,6 @@
     - [优雅的关闭](async-rust/tokio/graceful-shutdown.md)
     - [异步跟同步共存](async-rust/tokio/bridging-with-sync.md)
 
-
 - [Rust 难点攻关](difficulties/intro.md)
   - [切片和切片引用](difficulties/slice.md)
   - [Eq 和 PartialEq](difficulties/eq.md)
@@ -135,11 +142,12 @@
   - [move、Copy 和 Clone TODO](difficulties/move-copy.md)
   - [裸指针、引用和智能指针 TODO](advance/difficulties/pointer.md)
 
-  
-
 # 常用工具链
+
 ---
+
 - [自动化测试](test/intro.md)
+
   - [编写测试及控制执行](test/write-tests.md)
   - [单元测试和集成测试](test/unit-integration-test.md)
   - [断言 assertion](test/assertion.md)
@@ -169,66 +177,69 @@
     - [通过 config.toml 对 Cargo 进行配置](cargo/reference/configuration.md)
     - [发布到 crates.io](cargo/reference/publishing-on-crates.io.md)
     - [构建脚本 build.rs](cargo/reference/build-script/intro.md)
-      - [构建脚本示例](cargo/reference/build-script/examples.md)  
+      - [构建脚本示例](cargo/reference/build-script/examples.md)
 
 # 开发实践
+
 ---
+
 - [企业落地实践](usecases/intro.md)
+
   - [AWS 为何这么喜欢 Rust?](usecases/aws-rust.md)
 
 - [日志和监控](logs/intro.md)
-    - [日志详解](logs/about-log.md)
-    - [日志门面 log](logs/log.md)
-    - [使用 tracing 记录日志](logs/tracing.md)
-    - [自定义 tracing 的输出格式](logs/tracing-logger.md)
-    - [监控](logs/observe/intro.md)
-      - [可观测性](logs/observe/about-observe.md)
-      - [分布式追踪](logs/observe/trace.md)
+  - [日志详解](logs/about-log.md)
+  - [日志门面 log](logs/log.md)
+  - [使用 tracing 记录日志](logs/tracing.md)
+  - [自定义 tracing 的输出格式](logs/tracing-logger.md)
+  - [监控](logs/observe/intro.md)
+    - [可观测性](logs/observe/about-observe.md)
+    - [分布式追踪](logs/observe/trace.md)
 - [Rust 最佳实践](practice/intro.md)
   - [日常开发三方库精选](practice/third-party-libs.md)
   - [命名规范](practice/naming.md)
   - [面试经验](practice/interview.md)
   - [代码开发实践 todo](practice/best-pratice.md)
-  
 - [手把手带你实现链表](too-many-lists/intro.md)
-    - [我们到底需不需要链表](too-many-lists/do-we-need-it.md)
-    - [不太优秀的单向链表：栈](too-many-lists/bad-stack/intro.md)
-      - [数据布局](too-many-lists/bad-stack/layout.md)
-      - [基本操作](too-many-lists/bad-stack/basic-operations.md)
-      - [最后实现](too-many-lists/bad-stack/final-code.md)
-    - [还可以的单向链表](too-many-lists/ok-stack/intro.md)
-      - [优化类型定义](too-many-lists/ok-stack/type-optimizing.md)
-      - [定义 Peek 函数](too-many-lists/ok-stack/peek.md)
-      - [IntoIter 和 Iter](too-many-lists/ok-stack/iter.md)
-      - [IterMut以及完整代码](too-many-lists/ok-stack/itermut.md)
-    - [持久化单向链表](too-many-lists/persistent-stack/intro.md)
-      - [数据布局和基本操作](too-many-lists/persistent-stack/layout.md)
-      - [Drop、Arc 及完整代码](too-many-lists/persistent-stack/drop-arc.md)
-    - [不咋样的双端队列](too-many-lists/deque/intro.md)
-      - [数据布局和基本操作](too-many-lists/deque/layout.md)
-      - [Peek](too-many-lists/deque/peek.md)
-      - [基本操作的对称镜像](too-many-lists/deque/symmetric.md)
-      - [迭代器](too-many-lists/deque/iterator.md)
-      - [最终代码](too-many-lists/deque/final-code.md)
-    - [不错的unsafe队列](too-many-lists/unsafe-queue/intro.md)
-      - [数据布局](too-many-lists/unsafe-queue/layout.md)
-      - [基本操作](too-many-lists/unsafe-queue/basics.md)
-      - [Miri](too-many-lists/unsafe-queue/miri.md)
-      - [栈借用](too-many-lists/unsafe-queue/stacked-borrow.md)
-      - [测试栈借用](too-many-lists/unsafe-queue/testing-stacked-borrow.md)
-      - [数据布局2](too-many-lists/unsafe-queue/layout2.md)
-      - [额外的操作](too-many-lists/unsafe-queue/extra-junk.md)
-      - [最终代码](too-many-lists/unsafe-queue/final-code.md)
-    - [使用高级技巧实现链表](too-many-lists/advanced-lists/intro.md)
-      - [生产级可用的双向链表](too-many-lists/advanced-lists/unsafe-deque.md)
-      - [双单向链表](too-many-lists/advanced-lists/double-singly.md)
-      - [栈上的链表](too-many-lists/advanced-lists/stack-allocated.md)
-
+  - [我们到底需不需要链表](too-many-lists/do-we-need-it.md)
+  - [不太优秀的单向链表：栈](too-many-lists/bad-stack/intro.md)
+    - [数据布局](too-many-lists/bad-stack/layout.md)
+    - [基本操作](too-many-lists/bad-stack/basic-operations.md)
+    - [最后实现](too-many-lists/bad-stack/final-code.md)
+  - [还可以的单向链表](too-many-lists/ok-stack/intro.md)
+    - [优化类型定义](too-many-lists/ok-stack/type-optimizing.md)
+    - [定义 Peek 函数](too-many-lists/ok-stack/peek.md)
+    - [IntoIter 和 Iter](too-many-lists/ok-stack/iter.md)
+    - [IterMut 以及完整代码](too-many-lists/ok-stack/itermut.md)
+  - [持久化单向链表](too-many-lists/persistent-stack/intro.md)
+    - [数据布局和基本操作](too-many-lists/persistent-stack/layout.md)
+    - [Drop、Arc 及完整代码](too-many-lists/persistent-stack/drop-arc.md)
+  - [不咋样的双端队列](too-many-lists/deque/intro.md)
+    - [数据布局和基本操作](too-many-lists/deque/layout.md)
+    - [Peek](too-many-lists/deque/peek.md)
+    - [基本操作的对称镜像](too-many-lists/deque/symmetric.md)
+    - [迭代器](too-many-lists/deque/iterator.md)
+    - [最终代码](too-many-lists/deque/final-code.md)
+  - [不错的 unsafe 队列](too-many-lists/unsafe-queue/intro.md)
+    - [数据布局](too-many-lists/unsafe-queue/layout.md)
+    - [基本操作](too-many-lists/unsafe-queue/basics.md)
+    - [Miri](too-many-lists/unsafe-queue/miri.md)
+    - [栈借用](too-many-lists/unsafe-queue/stacked-borrow.md)
+    - [测试栈借用](too-many-lists/unsafe-queue/testing-stacked-borrow.md)
+    - [数据布局 2](too-many-lists/unsafe-queue/layout2.md)
+    - [额外的操作](too-many-lists/unsafe-queue/extra-junk.md)
+    - [最终代码](too-many-lists/unsafe-queue/final-code.md)
+  - [使用高级技巧实现链表](too-many-lists/advanced-lists/intro.md)
+    - [生产级可用的双向链表](too-many-lists/advanced-lists/unsafe-deque.md)
+    - [双单向链表](too-many-lists/advanced-lists/double-singly.md)
+    - [栈上的链表](too-many-lists/advanced-lists/stack-allocated.md)
 
 # 高级专题
+
 ---
 
 - [征服编译错误](compiler/intro.md)
+
   - [对抗编译检查](compiler/fight-with-compiler/intro.md)
     - [生命周期](compiler/fight-with-compiler/lifetime/intro.md)
       - [生命周期过大-01](compiler/fight-with-compiler/lifetime/too-long1.md)
@@ -254,6 +265,7 @@
     - [警惕 UTF-8 引发的性能隐患](compiler/pitfalls/utf8-performance.md)
 
 - [Rust 性能优化 todo](profiling/intro.md)
+
   - [深入内存 todo](profiling/memory/intro.md)
     - [指针和引用 todo](profiling/memory/pointer-ref.md)
     - [未初始化内存 todo](profiling/memory/uninit.md)
@@ -280,12 +292,11 @@
       - [Option 枚举 todo](profiling/compiler/optimization/option.md)
 
 - [标准库解析 todo](std/intro.md)
+
   - [标准库使用最佳时间 todo](std/search.md)
   - [Vector 常用方法 todo](std/vector.md)
   - [HashMap todo](std/hashmap.md)
   - [Iterator 常用方法 todo](std/iterator.md)
-
-
 
   <!-- - [配置文件解析 todo](cookbook/config.md)
   - [编解码 todo](cookbook/encoding/intro.md)
@@ -314,8 +325,8 @@
 - [Rust前端开发入门]()
 - [Rust和WASM]() -->
 
-
 # 附录
+
 ---
 
 - [Appendix]()
@@ -329,3 +340,5 @@
     - [1.58](appendix/rust-versions/1.58.md)
     - [1.59](appendix/rust-versions/1.59.md)
     - [1.60](appendix/rust-versions/1.60.md)
+    - [1.61](appendix/rust-versions/1.61.md)
+
