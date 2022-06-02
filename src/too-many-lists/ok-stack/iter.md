@@ -194,7 +194,7 @@ pub struct Iter<'a, T> {
 
 // 这里无需生命周期，因为 List 没有使用生命周期的关联项
 impl<T> List<T> {
-    // 这里我们为 `iter` 生命一个生命周期 'a , 此时 `&self` 需要至少和 `Iter` 活得一样久
+    // 这里我们为 `iter` 声明一个生命周期 'a , 此时 `&self` 需要至少和 `Iter` 活得一样久
     pub fn iter<'a>(&'a self) -> Iter<'a, T> {
         Iter { next: self.head.map(|node| &node) }
     }
