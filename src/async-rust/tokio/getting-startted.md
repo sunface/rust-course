@@ -141,7 +141,7 @@ pub async fn connect<T: ToSocketAddrs>(addr: T) -> Result<Client> {
 在上例中，`redis` 的连接函数 `connect` 实现如上，它看上去很像是一个同步函数，但是 `async fn` 出卖了它。
 `async fn` 异步函数并不会直接返回值，而是返回一个 `Future`，顾名思义，该 `Future` 会在未来某个时间点被执行，然后最终获取到真实的返回值 `Result<Client>`。
 
-> async/await 的原理就算大家不理解，也不妨碍使用 `tokio` 写出能用的服务，但是如果想要更深入的用好，强烈建议认真读下本书的 [`async/await` 异步编程章节](https://course.rs/async/intro.html)，你会对 Rust 的异步编程有一个全新且深刻的认识。
+> async/await 的原理就算大家不理解，也不妨碍使用 `tokio` 写出能用的服务，但是如果想要更深入的用好，强烈建议认真读下本书的 [`async/await` 异步编程章节](https://course.rs/async-rust/async/intro.html)，你会对 Rust 的异步编程有一个全新且深刻的认识。
 
 由于 `async` 会返回一个 `Future`，因此我们还需要配合使用 `.await` 来让该 `Future` 运行起来，最终获得返回值:
 
