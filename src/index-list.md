@@ -99,16 +99,17 @@
 
 ## C
 
-| 名称               | 关键字   | 简介                                                                                |
-| ------------------ | -------- | ----------------------------------------------------------------------------------- |
-| [char 字符]        | 字符类型 | 使用 `''` 表示，所有的 Unicode 值                                                   |
-| [const 常量]       | constant | `const MAX_POINTS: u32 = 100_000;`                                                  |
-| [const 泛型]       | 泛型     | `const N: usize` 针对值的泛型，适合处理数组长度的问题                               |
-| [const 泛型表达式] | 泛型     |                                                                                     |
-| [Copy 拷贝]        | 浅拷贝   | 任何基本类型的组合可以 `Copy`，不需要分配内存或某种形式资源的类型是可以 `Copy` 的。 |
-| [continue]         | 循环控制 | 跳过当前当次的循环，开始下次的循环                                                  |
-| [Clone 克隆]       | 深拷贝   | 需要复制堆上的数据时，可以使用 `.clone()` 方法                                      |
-|                    | KWC      |                                                                                     |
+| 名称               | 关键字   | 简介                                                                                                             |
+| ------------------ | -------- | ---------------------------------------------------------------------------------------------------------------- |
+| [char 字符]        | 字符类型 | 使用 `''` 表示，所有的 Unicode 值                                                                                |
+| [const 常量]       | constant | `const MAX_POINTS: u32 = 100_000;`                                                                               |
+| [const 泛型]       | 泛型     | `const N: usize` 针对值的泛型，适合处理数组长度的问题                                                            |
+| [const 泛型表达式] | 泛型     |                                                                                                                  |
+| [Copy 拷贝]        | 浅拷贝   | 任何基本类型的组合可以 `Copy`，不需要分配内存或某种形式资源的类型是可以 `Copy` 的。                              |
+| [continue]         | 循环控制 | 跳过当前当次的循环，开始下次的循环                                                                               |
+| [Clone 克隆]       | 深拷贝   | 需要复制堆上的数据时，可以使用 `.clone()` 方法                                                                   |
+| [Closure]          | 闭包     | 闭包是一种匿名函数，它可以赋值给变量也可以作为参数传递给其它函数，不同于函数的是，它允许[捕获调用者作用域中的值] |
+|                    | KWC      |                                                                                                                  |
 
 [char 字符]: https://course.rs/basic/base-type/char-bool.html#字符类型char
 [const 常量]: https://course.rs/basic/variable.html#变量和常量之间的差异
@@ -117,6 +118,8 @@
 [continue]: https://course.rs/basic/flow-control.html#continue
 [const 泛型]: https://course.rs/basic/trait/generic.html#const-泛型rust-151-版本引入的重要特性
 [const 泛型表达式]: https://course.rs/basic/trait/generic.html#const-泛型表达式
+[closure]: https://course.rs/advance/functional-programing/closure.html
+[捕获调用者作用域中的值]: https://course.rs/advance/functional-programing/closure.html#捕获作用域中的值
 
 [back](#head)
 
@@ -155,6 +158,8 @@
 | [for 循环]       | 循环控制 | `for item in &collection {}`                                                                                                                                                                                                                                 |
 | ['fn' 函数]      |          | 函数名和变量名使用 `蛇形命名法(snake case)`<br>函数的位置可以随便放<br>每个函数参数都需要标注类型                                                                                                                                                            |
 | [调用同名的方法] |          | 1. 默认调用类型上的方法<br>`Struct.function(receiver_if_method, next_arg, ...);`<br>2. 显式调用特征上的方法<br>`Trait::function(receiver_if_method, next_arg, ...);`<br>3. [完全限定语法]<br>`<Type as Trait>::function(receiver_if_method, next_arg, ...);` |
+| [三种 Fn 特征]   | 闭包     | 闭包[捕获变量]有三种途径，恰好对应函数参数的三种传入方式：转移所有权、可变借用、不可变借用                                                                                                                                                                   |
+| [三种 Fn 的关系] | 闭包     |                                                                                                                                                                                                                                                              |
 |                  | KWF      |                                                                                                                                                                                                                                                              |
 
 [浮点数]: https://course.rs/basic/base-type/numbers.html#浮点类型
@@ -162,6 +167,9 @@
 ['fn' 函数]: https://course.rs/basic/base-type/function.html
 [调用同名的方法]: https://course.rs/basic/trait/advance-trait.html#调用同名的方法
 [完全限定语法]: https://course.rs/basic/trait/advance-trait.html#完全限定语法
+[三种 fn 特征]: https://course.rs/advance/functional-programing/closure.html#三种-fn-特征
+[捕获变量]: https://course.rs/advance/functional-programing/closure.html#捕获作用域中的值
+[三种 fn 的关系]: https://course.rs/advance/functional-programing/closure.html#三种-fn-的关系
 
 [back](#head)
 
