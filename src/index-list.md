@@ -39,7 +39,7 @@
 | [@]                               | 变量绑定       | 为一个字段绑定另外一个变量                                                           |
 | `_` : 1. [忽略变量] 2. [模式匹配] | 忽略           | 1. 忽略该值或者类型，否则编译器会给你一个 `变量未使用的` 的警告<br>2. 模式匹配通配符 |
 | ['a: 'b]                          | 生命周期约束   | 用来说明两个生命周期的长短                                                           |
-| [{:?}] {:#?}                      | 打印结构体信息 | 使用 `#[derive(Debug)]` 派生实现 `Debug` 特征                                        |
+| [{:?}] {:#?}                      | 打印结构体信息 | 使用 `#[derive(Debug)]` 派生实现 `Debug` 特征，另见 [格式化输出]                     |
 | [::]                              | 关联函数       | 定义在 `impl` 中且没有 `self` 的函数                                                 |
 |                                   |                |
 
@@ -55,6 +55,7 @@
 [忽略变量]: https://course.rs/basic/variable.html#使用下划线开头忽略未使用的变量
 [模式匹配]: https://course.rs/basic/match-pattern/match-if-let.html#_-通配符
 [::]: https://course.rs/basic/method.html#关联函数
+[格式化输出]: https://course.rs/basic/formatted-output.html#-与-
 
 [back](#head)
 
@@ -300,10 +301,12 @@
 | --------------------- | ------------ | -------------------------------------------------------------------- |
 | [panic! 不可恢复错误] | 不可恢复错误 | 程序会打印出一个错误信息，展开报错点往前的函数调用堆栈，最后退出程序 |
 | [panic 原理剖析]      | 不可恢复错误 |                                                                      |
+| [println!]            | 格式化参数   | 对输出内容格式有更多要求                                             |
 |                       | KWP          |                                                                      |
 
 [panic! 不可恢复错误]: https://course.rs/basic/result-error/panic.html#panic-与不可恢复错误
 [panic 原理剖析]: https://course.rs/basic/result-error/panic.html#panic-原理剖析
+[println!]: https://course.rs/basic/formatted-output.html#格式化参数
 
 [back](#head)
 
