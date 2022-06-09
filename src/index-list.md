@@ -346,6 +346,13 @@
 | [struct 结构体]        | 结构体        | 通过关键字 `struct` 定义<br>一个清晰明确的结构体 `名称`<br>几个有名字的结构体 `字段`<br>通过 `.` 访问字段                |
 | [self &self &mut self] | Method 方法   | `self` 指代类型的实例                                                                                                    |
 | [Self 与 self]         |               | `self` 指代当前的实例对象，`Self` 指代特征或者方法类型的别名                                                             |
+| [生命周期标注语法]     | 生命周期      | `&'a i32`                                                                                                                |
+| [生命周期消除]         | 生命周期      |                                                                                                                          |
+| [生命周期消除规则补充] | 生命周期      |                                                                                                                          |
+| [函数中的生命周期]     | 生命周期      |                                                                                                                          |
+| [结构体中的生命周期]   | 生命周期      |                                                                                                                          |
+| [方法中的生命周期]     | 生命周期      |                                                                                                                          |
+| [静态生命周期]         | 生命周期      | `&'static` 拥有该生命周期的引用可以和整个程序活得一样久，另见 [&'static 和 T: 'static]                                   |
 |                        | KWS           |                                                                                                                          |
 
 [所有权与堆栈]: https://course.rs/basic/ownership/ownership.html#所有权与堆栈
@@ -357,6 +364,14 @@
 [struct 结构体]: https://course.rs/basic/compound-type/struct.html
 [self &self &mut self]: https://course.rs/basic/method.html#selfself-和-mut-self
 [self 与 self]: https://course.rs/basic/trait/trait-object#self-与-self
+[生命周期标注语法]: https://course.rs/advance/lifetime/basic.html#生命周期标注语法
+[生命周期消除]: https://course.rs/advance/lifetime/basic.html#生命周期消除
+[生命周期消除规则补充]: https://course.rs/advance/lifetime/advance.html#生命周期消除规则补充
+[函数中的生命周期]: https://course.rs/advance/lifetime/basic.html#函数中的生命周期
+[结构体中的生命周期]: https://course.rs/advance/lifetime/basic.html#结构体中的生命周期
+[方法中的生命周期]: https://course.rs/advance/lifetime/basic.html#方法中的生命周期
+[静态生命周期]: https://course.rs/advance/lifetime/basic.html#静态生命周期
+[&'static 和 t: 'static]: https://course.rs/advance/lifetime/static.html
 
 [back](#head)
 
