@@ -5,59 +5,54 @@ Rust语言周刊精选全世界过去一周的优秀文章、新闻、开源项�
 
 > RustCn：https://hirust.cn, 公众号: Rust语言中文网
 
-# 「Rust 语言周刊」 第 14 期 · 2022-05-29
-Rust语言周刊精选全世界过去一周的优秀文章、新闻、开源项目和语言动态。
+# 「Rust 语言周刊」 第 15 期 · 2022-06-10
 
-本周刊由 RustCn 社区倾情打造，其中， `[Zh]` 标识的中文资料由 Rust 翻译计划提供，并且原始的 Markdown 文档已[全部开源](https://github.com/rustlang-cn/rustt)，欢迎大家阅读和订阅。
-
-> RustCn：https://hirust.cn, 公众号: Rust语言中文网
-
-<img src="https://pic1.zhimg.com/80/v2-cd8fc37f15c5547a0853a92a9e06c528_1440w.webp">
-<h5 align="center">题图: 将 Ruby 的编译器移植到 Rust 上</h5>
-
-#### Rust 项目
-
-1、[IntelliJ 的 Rust 插件发布新版本](https://blog.jetbrains.com/rust/2022/05/19/what-s-new-in-intellij-rust-for-2022-1/)
-
-Vscode 的 Rust 插件 `rust-analyzer` 已经相当牛了，但是跟 IntelliJ 依然有一定的差距。告诉大家一个小秘密，ra 之前的的核心作者其实也是 IntelliJ Rust 插件的核心开发，当然，现在 ra 在合并到官方组织后，跟以前又有所不同了。
-
-#### 精选文章
-
-1、[为了开发一个操作系统，我学习了 Rust 并写下 10 万行代码](https://www.bunniestudios.com/blog/?p=6375)
-
-对于作者所在的公司来说，他们希望能清晰地掌控 OS 的每一个细节，虽说 linux 是开源的，但是它实在太大了，而其他的开源系统或多或少页无法满足他们的需求，因此需要重新手撸一个 OS。那么，在这个时间点，对于这种需求，除了 Rust 之外，还有更好的选择吗？显然没有。
-
-2、[从零构建一个云数据库：我们为何从 C++ 迁移到 Rust](https://singularity-data.com/blog/building-a-cloud-database-from-scratch-why-we-moved-from-cpp-to-rust/)
-
-就我个人而言，真的很羡慕国外的技术人生存环境，你能想象，国内创业公司在开发 7 个月后删除了所有的 C++ 代码，然后从零开始，使用 Rust 从头开始吗？作者所在的公司就是这样一(yi)股(duo)清(qi)流(pa)。
-
-3、[修复 Rust 中的内存泄漏问题](https://onesignal.com/blog/solving-memory-leaks-in-rust/)
-
-OneSignal 是一个消息服务公司，在之前将其中的一些核心服务[迁移到了 Rust 上](https://onesignal.com/blog/rust-at-onesignal/)，在此过程中，他们遇到并解决了不少问题，其中一个就是内存泄漏。
-
-这篇文章干货多多，非常值得深入阅读！
-
-4、[Rust 中的崩溃处理](https://jake-shadle.github.io/crash-reporting/)
-
-不知道大家学过 Erlang 没，这门语言不仅是现代化并发编程的引路者，还是崩溃哲学的提倡者：错误不应该被隐藏，而是直接抛出来，任其崩溃，若有需要，自动重启任务协程即可(通过 gen_supervisor 统一管理)。
-
-当然，这种特立独行的方式并不适合于所有的语言和开发者，因此 Rust 中并没有内置这套崩溃自动处理系统，而是需要我们根据自己的需求来手动处理，这篇文章就介绍了一些不错的崩溃处理方式。
-
-5、[从 BonsaiDb 的性能问题引发的文件同步性能探究](https://bonsaidb.io/blog/durable-writes/)
-
-数据库是非常复杂的领域，作者本来想要同时搞定中上层数据库服务和底层数据存储服务，但是在遇到了一系列问题后，现在不禁怀疑，自己实现底层数据存储服务是否是一个正确的抉择。
-
-6、[优化 Rust 二进制文件的大小](https://kerkour.com/optimize-rust-binary-size)
-
-这篇文章很短，只介绍了优化大小的一些途径( 其实不是很全 )，并没有对此进行深入展开，我个人其实并不想把文章列到周刊中，但是鉴于本期的内容素材并不多，只能向现实屈服了 :(
-
-7、[使用 Github Actions 来测试和构建你的 Rust 应用](https://kerkour.com/rust-github-actions-ci-cd)
-
-这篇文章的推荐程度同上，如果大家想要全面了解 Github Actions，可以看看 Rust 语言圣经中的[这篇章节](https://course.rs/test/ci.html)。
+<img src="https://pic3.zhimg.com/80/v2-c7576bc34d1da15c96032aa39a6a1796_1440w.jpeg">
+<h5 align="center">题图: Rust 好难啊</h5>
 
 
+## 精选文章
+
+1、[简单的 Rust 面试问题](https://flakm.github.io/posts/rust_interview_questions/)
+
+当年(2015)我搜索 Go 语言工作时有多绝望，你现在搜索 Rust 工作就有多绝望，再优秀的语言，要在行业里流行开来，总需要时间的沉淀，不管如何，Rust 现在正在走在一条正确的快行道上。
+
+因此，无论是面试官还是面试者，提前储备一些 Rust 的面试题，都是不错的选择。
+
+2、[来自强类型的诅咒](https://fasterthanli.me/articles/the-curse-of-strong-typing)
+
+我骑着马儿，穿过了雪山，来到了草原，遇到了美丽的...错误？！大家写 Rust 有没有这种感觉，从题目可以看出，作者是绝对有这种感觉的，特别是在他的 Boss 宣称：从今以后，我们的一切都要使用 Rust 后...
+
+3、[测量 Rust 中的堆内存分配](https://flakm.github.io/posts/heap_allocation/)
+
+如果问程序员，为何要节省内存，他会说这是技术的体现；如果问老板，为何要节省内存，他会说这是因为穷。总是，在节省硬件成本这件事上，大家的目标出奇的一致。那么现在的问题就是：该如何衡量应用的内存使用情况？
+
+4、[Arc 和 Mutex](https://itsallaboutthebit.com/arc-mutex/)
+
+这篇文章讲解了一个很有趣的点：`Arc` 为何要求其包裹的类型实现 `Sync` 特征，值得一看！
+
+5、[使用 Github Actions 让 Rust 构建提速 30 倍](https://ectobit.com/blog/speed-up-github-actions-rust-pipelines/)
+
+Rust 什么都好，就是编译太慢了，特别是你同时写 Go 和 Rust 时，那种对比体验更是明显。原因在于，在编译过程中，为了安全性和性能 Rust 会检查很多很多东西，何况 Rust 提供的语言特性也远比 Go 要更加丰富。
+
+当然，这个过程是可以提速的，例如在 `Cargo.toml` 中设置编译优化选项，再比如本文中的构建缓存。
 
 
+6、[Rust 好难啊](https://hirrolot.github.io/posts/rust-is-hard-or-the-misery-of-mainstream-programming.html)
+
+Rust 之所以给很多人难学的印象，很重要的一点就在于：某些其它语言很轻松就能处理的问题，在 Rust 中，你需要兼具美貌、智慧与勇气，才能搞定。
+
+大家可能以为这篇文章是一个新手写的，其实不然，作者已经浸淫 Rust 数年，还在某次大会上分享过 Rust，但是他依然会遇到一些意料之外的棘手错误，一起来看看吧。
+
+7、[爆发和挑战并存](https://thestack.technology/rust-language-explosive-growth-challenges-rust-governance/)
+
+在过去 24 个月中，Rust 开发者的数量增加了 3 倍，可以说从 Rust 基金会成立后，Rust 一直在爆发式增长，但是其所面临的挑战也越来越大。
+
+8、[使用 Rust 来爬取网页](https://www.scrapingbee.com/blog/web-scraping-rust/)
+
+想从某些网站获取信息，一般有两个途径：首先就是调用网站提供的 API，这也是最安全、最合法的方式(特别是国内！)，例如 Github 就提供了异常丰富的 API；其次，就是使用爬虫来爬取到网页后，再对内容进行解析，以提取出有用的信息。
+
+9、[Video][使用 Rust 来编写 WGPU 程序](https://www.youtube.com/playlist?list=PL_UrKDEhALdJS0VrLPn7dqC5A4W1vCAUT)
 
 
 
@@ -65,6 +60,7 @@ OneSignal 是一个消息服务公司，在之前将其中的一些核心服务[
 
 目前所有的周刊都按照 `年/月/日期` 的方式归纳在 [docs](./docs) 目录下，大家可以按需查看。
 
+- [第 14 期](./docs/2022/5月/29.md)
 - [第 13 期](./docs/2022/5月/22.md)
 - [第 12 期](./docs/2022/5月/16.md)
 - [第 11 期](./docs/2022/5月/07.md)
