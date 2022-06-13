@@ -28,7 +28,7 @@ export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_pr
 #### 增加新的镜像地址
 
 
-**首先是在 `crates.io` 之外添加新的注册服务**，在 `$HOME/.cargo/config.toml` 中添加以下内容：
+**首先是在 `crates.io` 之外添加新的注册服务**，在 `$HOME/.cargo/config.toml` （如果文件不存在则手动创建一个）中添加以下内容：
 
 ```toml
 [registries]
@@ -48,6 +48,8 @@ time = {  registry = "ustc" }
 事实上，我们更推荐第二种方式，因为第一种方式在项目大了后，实在是很麻烦，全部修改后，万一以后不用这个镜像了，你又要全部修改成其它的。
 
 而第二种方式，则不需要修改 `Cargo.toml` 文件，**因为它是直接使用新注册服务来替代默认的 `crates.io`**。
+
+在 `$HOME/.cargo/config.toml` 添加以下内容：
 
 ```toml
 [source.crates-io]
