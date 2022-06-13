@@ -39,7 +39,7 @@
 | [@]                               | 变量绑定       | 为一个字段绑定另外一个变量                                                           |
 | `_` : 1. [忽略变量] 2. [模式匹配] | 忽略           | 1. 忽略该值或者类型，否则编译器会给你一个 `变量未使用的` 的警告<br>2. 模式匹配通配符 |
 | ['a: 'b]                          | 生命周期约束   | 用来说明两个生命周期的长短                                                           |
-| [{:?}] {:#?}                      | 打印结构体信息 | 使用 `#[derive(Debug)]` 派生实现 `Debug` 特征                                        |
+| [{:?}] {:#?}                      | 打印结构体信息 | 使用 `#[derive(Debug)]` 派生实现 `Debug` 特征，另见 [格式化输出]                     |
 | [::]                              | 关联函数       | 定义在 `impl` 中且没有 `self` 的函数                                                 |
 |                                   |                |
 
@@ -55,6 +55,7 @@
 [忽略变量]: https://course.rs/basic/variable.html#使用下划线开头忽略未使用的变量
 [模式匹配]: https://course.rs/basic/match-pattern/match-if-let.html#_-通配符
 [::]: https://course.rs/basic/method.html#关联函数
+[格式化输出]: https://course.rs/basic/formatted-output.html#-与-
 
 [back](#head)
 
@@ -98,16 +99,17 @@
 
 ## C
 
-| 名称               | 关键字   | 简介                                                                                |
-| ------------------ | -------- | ----------------------------------------------------------------------------------- |
-| [char 字符]        | 字符类型 | 使用 `''` 表示，所有的 Unicode 值                                                   |
-| [const 常量]       | constant | `const MAX_POINTS: u32 = 100_000;`                                                  |
-| [const 泛型]       | 泛型     | `const N: usize` 针对值的泛型，适合处理数组长度的问题                               |
-| [const 泛型表达式] | 泛型     |                                                                                     |
-| [Copy 拷贝]        | 浅拷贝   | 任何基本类型的组合可以 `Copy`，不需要分配内存或某种形式资源的类型是可以 `Copy` 的。 |
-| [continue]         | 循环控制 | 跳过当前当次的循环，开始下次的循环                                                  |
-| [Clone 克隆]       | 深拷贝   | 需要复制堆上的数据时，可以使用 `.clone()` 方法                                      |
-|                    | KWC      |                                                                                     |
+| 名称               | 关键字   | 简介                                                                                                             |
+| ------------------ | -------- | ---------------------------------------------------------------------------------------------------------------- |
+| [char 字符]        | 字符类型 | 使用 `''` 表示，所有的 Unicode 值                                                                                |
+| [const 常量]       | constant | `const MAX_POINTS: u32 = 100_000;`                                                                               |
+| [const 泛型]       | 泛型     | `const N: usize` 针对值的泛型，适合处理数组长度的问题                                                            |
+| [const 泛型表达式] | 泛型     |                                                                                                                  |
+| [Copy 拷贝]        | 浅拷贝   | 任何基本类型的组合可以 `Copy`，不需要分配内存或某种形式资源的类型是可以 `Copy` 的。                              |
+| [continue]         | 循环控制 | 跳过当前当次的循环，开始下次的循环                                                                               |
+| [Clone 克隆]       | 深拷贝   | 需要复制堆上的数据时，可以使用 `.clone()` 方法                                                                   |
+| [Closure]          | 闭包     | 闭包是一种匿名函数，它可以赋值给变量也可以作为参数传递给其它函数，不同于函数的是，它允许[捕获调用者作用域中的值] |
+|                    | KWC      |                                                                                                                  |
 
 [char 字符]: https://course.rs/basic/base-type/char-bool.html#字符类型char
 [const 常量]: https://course.rs/basic/variable.html#变量和常量之间的差异
@@ -116,6 +118,8 @@
 [continue]: https://course.rs/basic/flow-control.html#continue
 [const 泛型]: https://course.rs/basic/trait/generic.html#const-泛型rust-151-版本引入的重要特性
 [const 泛型表达式]: https://course.rs/basic/trait/generic.html#const-泛型表达式
+[closure]: https://course.rs/advance/functional-programing/closure.html
+[捕获调用者作用域中的值]: https://course.rs/advance/functional-programing/closure.html#捕获作用域中的值
 
 [back](#head)
 
@@ -154,6 +158,8 @@
 | [for 循环]       | 循环控制 | `for item in &collection {}`                                                                                                                                                                                                                                 |
 | ['fn' 函数]      |          | 函数名和变量名使用 `蛇形命名法(snake case)`<br>函数的位置可以随便放<br>每个函数参数都需要标注类型                                                                                                                                                            |
 | [调用同名的方法] |          | 1. 默认调用类型上的方法<br>`Struct.function(receiver_if_method, next_arg, ...);`<br>2. 显式调用特征上的方法<br>`Trait::function(receiver_if_method, next_arg, ...);`<br>3. [完全限定语法]<br>`<Type as Trait>::function(receiver_if_method, next_arg, ...);` |
+| [三种 Fn 特征]   | 闭包     | 闭包[捕获变量]有三种途径，恰好对应函数参数的三种传入方式：转移所有权、可变借用、不可变借用                                                                                                                                                                   |
+| [三种 Fn 的关系] | 闭包     |                                                                                                                                                                                                                                                              |
 |                  | KWF      |                                                                                                                                                                                                                                                              |
 
 [浮点数]: https://course.rs/basic/base-type/numbers.html#浮点类型
@@ -161,6 +167,9 @@
 ['fn' 函数]: https://course.rs/basic/base-type/function.html
 [调用同名的方法]: https://course.rs/basic/trait/advance-trait.html#调用同名的方法
 [完全限定语法]: https://course.rs/basic/trait/advance-trait.html#完全限定语法
+[三种 fn 特征]: https://course.rs/advance/functional-programing/closure.html#三种-fn-特征
+[捕获变量]: https://course.rs/advance/functional-programing/closure.html#捕获作用域中的值
+[三种 fn 的关系]: https://course.rs/advance/functional-programing/closure.html#三种-fn-的关系
 
 [back](#head)
 
@@ -300,10 +309,12 @@
 | --------------------- | ------------ | -------------------------------------------------------------------- |
 | [panic! 不可恢复错误] | 不可恢复错误 | 程序会打印出一个错误信息，展开报错点往前的函数调用堆栈，最后退出程序 |
 | [panic 原理剖析]      | 不可恢复错误 |                                                                      |
+| [println!]            | 格式化参数   | 对输出内容格式有更多要求                                             |
 |                       | KWP          |                                                                      |
 
 [panic! 不可恢复错误]: https://course.rs/basic/result-error/panic.html#panic-与不可恢复错误
 [panic 原理剖析]: https://course.rs/basic/result-error/panic.html#panic-原理剖析
+[println!]: https://course.rs/basic/formatted-output.html#格式化参数
 
 [back](#head)
 
@@ -343,6 +354,13 @@
 | [struct 结构体]        | 结构体        | 通过关键字 `struct` 定义<br>一个清晰明确的结构体 `名称`<br>几个有名字的结构体 `字段`<br>通过 `.` 访问字段                |
 | [self &self &mut self] | Method 方法   | `self` 指代类型的实例                                                                                                    |
 | [Self 与 self]         |               | `self` 指代当前的实例对象，`Self` 指代特征或者方法类型的别名                                                             |
+| [生命周期标注语法]     | 生命周期      | `&'a i32`                                                                                                                |
+| [生命周期消除]         | 生命周期      |                                                                                                                          |
+| [生命周期消除规则补充] | 生命周期      |                                                                                                                          |
+| [函数中的生命周期]     | 生命周期      |                                                                                                                          |
+| [结构体中的生命周期]   | 生命周期      |                                                                                                                          |
+| [方法中的生命周期]     | 生命周期      |                                                                                                                          |
+| [静态生命周期]         | 生命周期      | `&'static` 拥有该生命周期的引用可以和整个程序活得一样久，另见 [&'static 和 T: 'static]                                   |
 |                        | KWS           |                                                                                                                          |
 
 [所有权与堆栈]: https://course.rs/basic/ownership/ownership.html#所有权与堆栈
@@ -354,6 +372,14 @@
 [struct 结构体]: https://course.rs/basic/compound-type/struct.html
 [self &self &mut self]: https://course.rs/basic/method.html#selfself-和-mut-self
 [self 与 self]: https://course.rs/basic/trait/trait-object#self-与-self
+[生命周期标注语法]: https://course.rs/advance/lifetime/basic.html#生命周期标注语法
+[生命周期消除]: https://course.rs/advance/lifetime/basic.html#生命周期消除
+[生命周期消除规则补充]: https://course.rs/advance/lifetime/advance.html#生命周期消除规则补充
+[函数中的生命周期]: https://course.rs/advance/lifetime/basic.html#函数中的生命周期
+[结构体中的生命周期]: https://course.rs/advance/lifetime/basic.html#结构体中的生命周期
+[方法中的生命周期]: https://course.rs/advance/lifetime/basic.html#方法中的生命周期
+[静态生命周期]: https://course.rs/advance/lifetime/basic.html#静态生命周期
+[&'static 和 t: 'static]: https://course.rs/advance/lifetime/static.html
 
 [back](#head)
 
