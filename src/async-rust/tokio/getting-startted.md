@@ -97,7 +97,7 @@ async fn main() -> Result<()> {
 
 ```shell
 $ cargo run
-从服务器端获取到结果=Some("world")
+从服务器端获取到结果=Some(b"world")
 ```
 
 Perfect, 代码成功运行，是时候来解释下其中蕴藏的至高奥秘了。
