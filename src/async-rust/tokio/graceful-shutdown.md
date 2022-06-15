@@ -95,4 +95,4 @@ async fn some_operation(i: u64, _sender: Sender<()>) {
 }
 ```
 
-关于忘记 `drop` 本身持有的发送端进而导致 bug 的问题，大家可以看看[这篇文章](https://course.rs/pitfalls/main-with-channel-blocked.html)。
+关于忘记 `drop` 本身持有的发送端进而导致 bug 的问题，大家可以看看[这篇文章](https://course.rs/compiler/pitfalls/main-with-channel-blocked.html)。
