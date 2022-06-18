@@ -262,7 +262,7 @@ fn main() {
     tracing_subscriber::registry().with(fmt::layer()).init();
 
     let s = span!(Level::TRACE, "my span");
-    // 没进入 span，因此输出日志将不回带上 span 的信息
+    // 没进入 span，因此输出日志将不会带上 span 的信息
     event!(target: "app_events", Level::INFO, "something has happened 1!");
 
     // 进入 span ( 开始 )
