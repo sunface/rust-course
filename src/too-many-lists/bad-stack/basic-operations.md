@@ -170,7 +170,7 @@ pub fn pop(&mut self) -> Option<i32> {
 
 以上代码果不其然又报错了:
 ```shell
-> cargo build
+$ cargo build
 
 error[E0507]: cannot move out of borrowed content
   --> src/first.rs:28:15

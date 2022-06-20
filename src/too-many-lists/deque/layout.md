@@ -57,7 +57,7 @@ impl<T> List<T> {
 
 除此之外，我们还需要处理一些关于空链表的边界问题：对于绝大部分操作而言，可能只需要使用 `head` 或 `tail` 指针，但是对于空链表，则需要同时使用它们。
 
-一个验证方法 `methods` 是否有效的办法就是看它是否能保持不变性, 每个节点都应该有两个指针指向它: 中间的节点被它前后的节点所指向，而头部的端节点除了被它后面的节点所指向外，还会被链表本身所指向，尾部的端节点亦是如此。
+一个验证方法 `methods` 是否有效的办法就是看它是否能保持不变性, 每个节点都应该有两个指针指向它: 中间的节点被它前后的节点所指向，而头部的节点除了被它后面的节点所指向外，还会被链表本身所指向，尾部的节点亦是如此。
 
 ```rust
 pub fn push_front(&mut self, elem: T) {
@@ -79,7 +79,7 @@ pub fn push_front(&mut self, elem: T) {
 ```
 
 ```rust
-cargo build
+> cargo build
 
 error[E0609]: no field `prev` on type `std::rc::Rc<std::cell::RefCell<fourth::Node<T>>>`
   --> src/fourth.rs:39:26
@@ -115,7 +115,7 @@ pub fn push_front(&mut self, elem: T) {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 
 warning: field is never used: `elem`
   --> src/fourth.rs:12:5
@@ -152,7 +152,7 @@ pub fn pop_front(&mut self) -> Option<T> {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 
 error[E0609]: no field `elem` on type `std::rc::Rc<std::cell::RefCell<fourth::Node<T>>>`
   --> src/fourth.rs:64:22
@@ -180,7 +180,7 @@ pub fn pop_front(&mut self) -> Option<T> {
 ```
 
 ```shell
-cargo build
+$ cargo build
 
 error[E0507]: cannot move out of borrowed content
   --> src/fourth.rs:64:13
@@ -203,7 +203,7 @@ old_head.into_inner().elem
 ```
 
 ```shell
-> cargo build
+$ cargo build
 
 error[E0507]: cannot move out of an `Rc`
   --> src/fourth.rs:64:13
@@ -222,7 +222,7 @@ Rc::try_unwrap(old_head).unwrap().into_inner().elem
 `Rc::try_unwrap` 返回一个 `Result`，由于我们不关心 `Err` 的情况( 如果代码合理，这里不会是 `Err` )，直接使用 `unwrap` 即可。
 
 ```shell
-> cargo build
+$ cargo build
 
 error[E0599]: no method named `unwrap` found for type `std::result::Result<std::cell::RefCell<fourth::Node<T>>, std::rc::Rc<std::cell::RefCell<fourth::Node<T>>>>` in the current scope
   --> src/fourth.rs:64:38
@@ -242,7 +242,7 @@ Rc::try_unwrap(old_head).ok().unwrap().into_inner().elem
 ```
 
 ```shell
-cargo build
+$ cargo build
 ```
 
 终于成功的运行了，下面依然是惯例 - 写几个测试用例 :
@@ -283,7 +283,7 @@ mod test {
 ```
 
 ```shell
-cargo test
+$ cargo test
 
      Running target/debug/lists-5c71138492ad4b4a
 
@@ -302,7 +302,7 @@ test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured
 ```
 
 ## Drop
-在[循环引用章节]()，我们介绍过 `Rc` 最怕的就是引用形成循环，而双向链表恰恰如此。因此，当使用默认的实现来 `drop` 我们的链表时，两个端节点会将各自的引用计数减少到 1， 然后就不会继续减少，最终造成内存泄漏。
+在[循环引用章节]()，我们介绍过 `Rc` 最怕的就是引用形成循环，而双向链表恰恰如此。因此，当使用默认的实现来 `drop` 我们的链表时，两个节点会将各自的引用计数减少到 1， 然后就不会继续减少，最终造成内存泄漏。
 
 所以，这里最好的实现就是将每个节点 `pop` 出去，直到获得 `None`:
 ```rust

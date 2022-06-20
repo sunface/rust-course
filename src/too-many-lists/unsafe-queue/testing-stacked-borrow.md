@@ -50,7 +50,8 @@ unsafe {
 ```
 
 ```shell
-cargo run
+$ cargo run
+
    Compiling miri-sandbox v0.1.0
     Finished dev [unoptimized + debuginfo] target(s) in 0.71s
      Running `target\debug\miri-sandbox.exe`
@@ -101,7 +102,8 @@ unsafe {
 ```
 
 ```shell
-cargo run
+$ cargo run
+
 22
 ```
 
@@ -141,7 +143,8 @@ unsafe {
 ```
 
 ```shell
-cargo run
+$ cargo run
+
 20
 
 MIRIFLAGS="-Zmiri-tag-raw-pointers" cargo +nightly-2022-01-21 miri run
@@ -172,7 +175,8 @@ unsafe {
 ```
 
 ```shell
-cargo run
+$ cargo run
+
 [3, 3, 0, 0, 0, 0, 0, 0, 0, 0]
 ```
 
@@ -206,7 +210,8 @@ unsafe {
 ```
 
 ```shell
-cargo run
+$ cargo run
+
 [6, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 MIRIFLAGS="-Zmiri-tag-raw-pointers" cargo +nightly-2022-01-21 miri run
@@ -238,7 +243,7 @@ unsafe {
 ```
 
 ```shell
-cargo run
+$ cargo run
 [20, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 MIRIFLAGS="-Zmiri-tag-raw-pointers" cargo +nightly-2022-01-21 miri run
@@ -310,7 +315,7 @@ unsafe {
 ```
 
 ```shell
-cargo run
+$ cargo run
 [10, 12, 0, 0, 0, 0, 0, 0, 0, 0]
 
 MIRIFLAGS="-Zmiri-tag-raw-pointers" cargo +nightly-2022-01-21 miri run
@@ -353,7 +358,7 @@ unsafe {
 ```
 
 ```shell
-cargo run
+$ cargo run
 [8, 12, 4, 6, 8, 10, 12, 14, 16, 18]
 
 MIRIFLAGS="-Zmiri-tag-raw-pointers" cargo +nightly-2022-01-21 miri run
@@ -393,7 +398,7 @@ unsafe {
 ```
 
 ```shell
-cargo run
+$ cargo run
 
 warning: unnecessary `unsafe` block
  --> src\main.rs:6:1
@@ -436,7 +441,7 @@ unsafe {
 ```
 
 ```shell
-cargo run
+$ cargo run
 
 error[E0606]: casting `&i32` as `*mut i32` is invalid
   --> src/main.rs:11:20
@@ -454,7 +459,7 @@ let ptr4 = sref3 as *const i32 as *mut i32;
 如上，先将不可变引用转换成不可变的裸指针，然后再转换成可变的裸指针。
 
 ```shell
-cargo run
+$ cargo run
 
 14
 17
@@ -502,7 +507,8 @@ unsafe {
 可以看到，我们其实可以创建一个可变的裸指针，只要不去使用写操作，而是只使用读操作。
 
 ```shell
-cargo run
+$ cargo run
+
 10
 10
 13
@@ -534,7 +540,8 @@ unsafe {
 ```
 
 ```shell
-cargo run
+$ cargo run
+
 12
 13
 
@@ -578,7 +585,8 @@ unsafe {
 地狱一般的代码，就等着 miri 来优化你吧。
 
 ```shell
-cargo run
+$ cargo run
+
 16
 
 MIRIFLAGS="-Zmiri-tag-raw-pointers" cargo +nightly-2022-01-21 miri run
@@ -624,7 +632,8 @@ unsafe {
 ```
 
 ```shell
-cargo run
+$ cargo run
+
 12
 16
 
@@ -666,7 +675,8 @@ unsafe {
 ```
 
 ```shell
-cargo run
+$ cargo run
+
 13
 16
 
@@ -694,7 +704,8 @@ unsafe {
 ```
 
 ```shell
-cargo run
+$ cargo run
+
 21
 
 MIRIFLAGS="-Zmiri-tag-raw-pointers" cargo +nightly-2022-01-21 miri run
@@ -726,7 +737,8 @@ unsafe {
 ```
 
 ```shell
-cargo run
+$ cargo run
+
 21
 
 MIRIFLAGS="-Zmiri-tag-raw-pointers" cargo +nightly-2022-01-21 miri run

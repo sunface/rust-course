@@ -139,7 +139,7 @@ fn peek() {
 什么？你问我这里的测试用例全吗？只能说如果测试全部的组合情况，这一章节会被撑爆。至于现在，能不出错就谢天谢地了 :(
 
 ```shell
-> cargo test
+$ cargo test
 
      Running target/debug/lists-5c71138492ad4b4a
 

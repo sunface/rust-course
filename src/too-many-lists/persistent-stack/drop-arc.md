@@ -49,7 +49,8 @@ list3 -> X ---+
 
 测试下新的代码:
 ```shell
-cargo test
+$ cargo test
+
    Compiling lists v0.1.0 (/Users/ABeingessner/dev/too-many-lists/lists)
     Finished dev [unoptimized + debuginfo] target(s) in 1.10s
      Running /Users/ABeingessner/dev/too-many-lists/lists/target/debug/deps/lists-86544f1d97438f1f

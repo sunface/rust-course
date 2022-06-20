@@ -13,7 +13,7 @@ impl<T> List<T> {
 
 但是我们不再在 `tail` 中使用 `Option`:
 ```shell
-> cargo build
+$ cargo build
 
 error[E0308]: mismatched types
   --> src/fifth.rs:15:34
@@ -73,7 +73,7 @@ pub fn push(&mut self, elem: T) {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 
 error[E0609]: no field `next` on type `*mut fifth::Node<T>`
   --> src/fifth.rs:31:23
@@ -91,7 +91,7 @@ error[E0609]: no field `next` on type `*mut fifth::Node<T>`
 ```
 
 ```shell
-> cargo build
+$ cargo build
 
 error[E0609]: no field `next` on type `*mut fifth::Node<T>`
   --> src/fifth.rs:31:23
@@ -109,7 +109,7 @@ error[E0609]: no field `next` on type `*mut fifth::Node<T>`
 ```
 
 ```shell
-> cargo build
+$ cargo build
 
 error[E0133]: dereference of raw pointer is unsafe and requires 
               unsafe function or block
@@ -149,7 +149,7 @@ pub fn push(&mut self, elem: T) {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 warning: field is never used: `elem`
   --> src/fifth.rs:11:5
    |
@@ -225,7 +225,7 @@ mod test {
 摊牌了，我们偷懒了，这些测试就是从之前的栈链表赋值过来的，但是依然做了些改变，例如在末尾增加了几个步骤以确保在 `pop` 中不会发生尾指针损坏( tail-pointer corruption  )的情况。
 
 ```shell
-cargo test
+$ cargo test
 
 running 12 tests
 test fifth::test::basics ... ok

@@ -46,7 +46,7 @@ lto = true
 然后在构建时使用 `--profile` 来指定想要选择的自定义 profile ：
 
 ```shell
-cargo build --profile release-lto
+$ cargo build --profile release-lto
 ```
 
 与默认的 profile 相同，自定义 profile 的编译结果也存放在 [`target/`](https://course.rs/cargo/guide/build-cache.html) 下的同名目录中，例如 `--profile release-lto` 的输出结果存储在 `target/release-lto` 中。

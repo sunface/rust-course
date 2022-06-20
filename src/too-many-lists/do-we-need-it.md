@@ -18,8 +18,8 @@
 #### 创建一个项目
 在开始前，先来创建一个项目专门用于链表学习：
 ```shell
-> cargo new --lib lists
-> cd lists
+$ cargo new --lib lists
+$ cd lists
 ```
 
 之后，我们会将每个一个链表放入单独的文件中，需要注意的是我们会尽量模拟真实的 Rust 开发场景：你写了一段代码，然后编译器开始跳出试图教你做事，只有这样才能真正学会 Rust，温室环境是无法培养出强大的 Rustacean 的。
