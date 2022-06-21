@@ -57,7 +57,7 @@ impl<'a, T> Iterator for IterMut<'a, T> {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 
 error[E0596]: cannot borrow `self.head` as mutable, as it is behind a `&` reference
   --> src/second.rs:95:25
@@ -96,7 +96,7 @@ fn next(&mut self) -> Option<Self::Item> {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 ```
 
 老规矩，来测试下:
@@ -114,7 +114,7 @@ fn iter_mut() {
 ```
 
 ```shell
-> cargo test
+$ cargo test
 
      Running target/debug/lists-5c71138492ad4b4a
 

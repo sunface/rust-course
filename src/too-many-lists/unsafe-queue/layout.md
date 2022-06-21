@@ -82,7 +82,7 @@ impl<T> List<T> {
 
 但是如果你担心不再能看到错误，那就纯属多余了:
 ```shell
-> cargo build
+$ cargo build
 
 error[E0382]: use of moved value: `new_tail`
   --> src/fifth.rs:38:38
@@ -139,7 +139,7 @@ impl<T> List<T> {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 
 error[E0106]: missing lifetime specifier
  --> src/fifth.rs:3:18
@@ -190,7 +190,7 @@ impl<'a, T> List<'a, T> {
 ```
 
 ```shell
-cargo build
+$ cargo build
 
 error[E0495]: cannot infer an appropriate lifetime for autoref due to conflicting requirements
   --> src/fifth.rs:35:27
@@ -235,7 +235,7 @@ pub fn push(&'a mut self, elem: T) {
 
 当当当当，成功通过编译:
 ```shell
-cargo build
+$ cargo build
 
 warning: field is never used: `elem`
  --> src/fifth.rs:9:5
@@ -297,7 +297,7 @@ mod test {
 }
 ```
 ```shell
-cargo test
+$ cargo test
 
 error[E0499]: cannot borrow `list` as mutable more than once at a time
   --> src/fifth.rs:68:9

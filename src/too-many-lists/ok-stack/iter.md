@@ -55,7 +55,7 @@ fn into_iter() {
 ```
 
 ```shell
-> cargo test
+$ cargo test
 
      Running target/debug/lists-5c71138492ad4b4a
 
@@ -97,7 +97,7 @@ impl<T> Iterator for Iter<T> {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 
 error[E0106]: missing lifetime specifier
   --> src/second.rs:72:18
@@ -122,7 +122,7 @@ pub struct Iter<'a, T> {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 
 error[E0106]: missing lifetime specifier
   --> src/second.rs:83:22
@@ -163,7 +163,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 
 error: expected `:`, found `node`
   --> src/second.rs:77:47
@@ -217,7 +217,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
 
 现在，我们也许可以自信的编译下试试了：
 ```shell
-> cargo build
+$ cargo build
 
 error[E0308]: mismatched types
   --> src/second.rs:77:22
@@ -260,7 +260,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 
    Compiling lists v0.1.0 (/Users/ABeingessner/dev/temp/lists)
 error[E0515]: cannot return reference to local data `*node`
@@ -315,7 +315,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 
    Compiling lists v0.1.0 (/Users/ABeingessner/dev/temp/lists)
 error[E0308]: mismatched types
@@ -364,7 +364,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 ```
 
 🎉 🎉 🎉
@@ -402,7 +402,7 @@ fn iter() {
 ```
 
 ```shell
-> cargo test
+$ cargo test
 
      Running target/debug/lists-5c71138492ad4b4a
 

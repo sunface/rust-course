@@ -196,7 +196,7 @@ mod test {
 ```
 
 ```shell
-cargo test
+$ cargo test
 
 running 12 tests
 test fifth::test::basics ... ok

@@ -20,7 +20,7 @@ pub fn peek_front(&self) -> Option<&T> {
 ```
 
 ```shell
-cargo build
+$ cargo build
 
 error[E0515]: cannot return value referencing temporary value
   --> src/fourth.rs:66:13
@@ -58,7 +58,7 @@ pub fn peek_front(&self) -> Option<Ref<T>> {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 
 error[E0308]: mismatched types
   --> src/fourth.rs:64:9
@@ -94,7 +94,7 @@ pub fn peek_front(&self) -> Option<Ref<T>> {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 ```
 
 Gooood! 本章节的编译错误可以说是多个链表中最难解决的之一，依然被我们成功搞定了！
@@ -114,7 +114,7 @@ fn peek() {
 ```
 
 ```shell
-> cargo test
+$ cargo test
 
      Running target/debug/lists-5c71138492ad4b4a
 

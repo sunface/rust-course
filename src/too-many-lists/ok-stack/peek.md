@@ -12,7 +12,7 @@ pub fn peek(&self) -> Option<&T> {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 
 error[E0515]: cannot return reference to local data `node.elem`
   --> src/second.rs:37:13
@@ -46,7 +46,7 @@ pub fn peek(&self) -> Option<&T> {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 
     Finished dev [unoptimized + debuginfo] target(s) in 0.32s
 ```
@@ -81,7 +81,7 @@ fn peek() {
 ```
 
 ```shell
-> cargo test
+$ cargo test
 
 error[E0384]: cannot assign twice to immutable variable `value`
    --> src/second.rs:100:13
@@ -124,7 +124,7 @@ fn peek() {
 这次我们直接匹配出来可变引用 `value`，然后对其修改即可。
 
 ```shell
-> cargo test
+$ cargo test
 
      Running target/debug/lists-5c71138492ad4b4a
 

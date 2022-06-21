@@ -432,6 +432,7 @@ fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
 
 ```shell
 $ cargo run
+
      Running `target/debug/hello_macro`
 Hello, Macro! My name is Sunfei!
 Hello, Macro! My name is Sunface!

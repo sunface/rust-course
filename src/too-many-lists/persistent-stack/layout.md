@@ -74,7 +74,7 @@ pub fn prepend(&self, elem: T) -> List<T> {
 
 运行下试试：
 ```shell
-> cargo build
+$ cargo build
 
 warning: field is never used: `elem`
   --> src/third.rs:10:5
@@ -101,7 +101,7 @@ pub fn tail(&self) -> List<T> {
 ```
 
 ```shell
-cargo build
+$ cargo build
 
 error[E0308]: mismatched types
   --> src/third.rs:27:22
@@ -159,7 +159,7 @@ mod test {
 ```
 
 ```shell
-> cargo test
+$ cargo test
 
      Running target/debug/lists-5c71138492ad4b4a
 
@@ -211,7 +211,7 @@ fn iter() {
 ```
 
 ```shell
-cargo test
+$ cargo test
 
      Running target/debug/lists-5c71138492ad4b4a
 

@@ -126,7 +126,7 @@ pub fn pop(&mut self) -> Option<i32> {
 
 不错，看上去简洁了很多，下面运行下测试代码确保链表依然可以正常运行(这就是 TDD 的优点！) :
 ```shell
-> cargo test
+$ cargo test
 
      Running target/debug/lists-5c71138492ad4b4a
 
@@ -188,7 +188,7 @@ impl<T> Drop for List<T> {
 大家在修改了 `List` 的定义后，别忘了将 `impl` 中的 `List` 修改为 `List<T>`，切记**泛型参数也是类型定义的一部分**。
 
 ```shell
-> cargo test
+$ cargo test
 
      Running target/debug/lists-5c71138492ad4b4a
 

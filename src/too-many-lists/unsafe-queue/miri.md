@@ -36,7 +36,7 @@ info: installing component 'miri'
 > + 是一种临时性的规则运用，如果你不想每次都使用 `+nightly-2022-01-21`，可以使用 [`rustup override set`](https://course.rs/appendix/rust-version.html#rustup-和-rust-nightly-的职责) 命令对当前项目的 Rust 版本进行覆盖
 
 ```shell
-> cargo +nightly-2022-01-21 miri test
+$ cargo +nightly-2022-01-21 miri test
 
 I will run `"cargo.exe" "install" "xargo"` to install
 a recent enough xargo. Proceed? [Y/n]
@@ -146,7 +146,7 @@ UB 检测是必须的，因为它发生在运行时，因此很难发现，如�
 
 总之，`miri` 的使用很简单:
 ```shell
-> cargo +nightly-2022-01-21 miri test
+$ cargo +nightly-2022-01-21 miri test
 ```
 
 下面来看看具体的错误：
