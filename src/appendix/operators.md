@@ -36,7 +36,7 @@
 | `->`                      | `fn(...) -> type`, <code>&vert;...&vert; -> type</code> | 函数与闭包，返回类型               |                |
 | `.`                       | `expr.ident`                                            | 成员访问                           |                |
 | `..`                      | `..`, `expr..`, `..expr`, `expr..expr`                  | 右半开区间                         | PartialOrd     |
-| `..=`                     | `..`, `expr..`, `..expr`, `expr..expr`                  | 闭合区间                           | PartialOrd     |
+| `..=`                     | `..=expr`, `expr..=expr`                                | 闭合区间                           | PartialOrd     |
 | `..`                      | `..expr`                                                | 结构体更新语法                     |                |
 | `..`                      | `variant(x, ..)`, `struct_type { x, .. }`               | “代表剩余部分”的模式绑定           |                |
 | `...`                     | `expr...expr`                                           | (不推荐使用，用`..=`替代) 闭合区间 |                |
