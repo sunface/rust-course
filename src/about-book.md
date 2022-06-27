@@ -1,6 +1,6 @@
 <img src="https://github.com/sunface/rust-course/blob/main/assets/banner.jpg?raw=true" />
 
-Rust语言真的好：连续六年成为全世界最受欢迎的语言、没有GC也无需手动内存管理、性能比肩 C++/C 还能直接调用它们的代码、安全性极高 - 总有公司说使用 Rust 后以前的大部分 bug 都将自动消失、全世界最好的包管理工具 Cargo 等等。但...
+Rust语言真的好：连续七年成为全世界最受欢迎的语言、没有GC也无需手动内存管理、性能比肩 C++/C 还能直接调用它们的代码、安全性极高 - 总有公司说使用 Rust 后以前的大部分 bug 都将自动消失、全世界最好的包管理工具 Cargo 等等。但...
 
 **有人说: "Rust 太难了，学了也没用"。**
 
