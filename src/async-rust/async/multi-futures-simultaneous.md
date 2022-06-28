@@ -45,6 +45,8 @@ async fn enjoy_book_and_music() -> (Book, Music) {
 
 `Duang`，目标顺利达成。同时`join!`会返回一个元组，里面的值是对应的`Future`执行结束后输出的值。
 
+> 如果希望同时运行一个数组里的多个异步任务，可以使用 `futures::future::join_all` 方法
+
 ## try_join!
 
 由于`join!`必须等待它管理的所有 `Future` 完成后才能完成，如果你希望在某一个 `Future` 报错后就立即停止所有 `Future` 的执行，可以使用 `try_join!`，特别是当 `Future` 返回 `Result` 时:
