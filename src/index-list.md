@@ -70,7 +70,7 @@
 
 [array 数组]: https://course.rs/basic/compound-type/array.html
 [array slice]: https://course.rs/basic/compound-type/array.html#数组切片
-[as转换]: https://course.rs/basic/converse.html#as转换
+[as 转换]: https://course.rs/basic/converse.html#as转换
 
 [back](#head)
 
@@ -282,13 +282,15 @@
 
 ## N
 
-| 名称      | 关键字 | 简介                                                                                       |
-| --------- | ------ | ------------------------------------------------------------------------------------------ |
-| [newtype] |        | 为一个[元组结构体]创建新类型。该元组结构体封装有一个字段，该字段就是希望实现特征的具体类型 |
-|           | KWN    |                                                                                            |
+| 名称                | 关键字  | 简介                                                                                       |
+| ------------------- | ------- | ------------------------------------------------------------------------------------------ |
+| [newtype for Trait] | newtype | 为一个[元组结构体]创建新类型。该元组结构体封装有一个字段，该字段就是希望实现特征的具体类型 |
+| [newtype ]          | newtype | 深入 Rust 类型                                                                             |
+|                     | KWN     |                                                                                            |
 
-[newtype]: https://course.rs/basic/trait/advance-trait.html#在外部类型上实现外部特征newtype
+[newtype for trait]: https://course.rs/basic/trait/advance-trait.html#在外部类型上实现外部特征newtype
 [元组结构体]: https://course.rs/basic/compound-type/struct.html#元组结构体tuple-struct
+[newtype ]: http://localhost:8080/advance/into-types/custom-type.html#newtype
 
 [back](#head)
 
@@ -387,17 +389,17 @@
 
 ## T
 
-| 名称                                       | 关键字     | 简介                                                                                                                                                                                        |
-| ------------------------------------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Tuple 元组]                               |            | 由多种类型组合一起，元组的长度是固定的，元组中元素的顺序也是固定的<br>用模式匹配解构元组：`let (x, y, z) = (20, 19.2, 1)`<br>用 `.` 来访问元组：`tuple.0` 索引从 0 开始                     |
-| [Tuple Struct]                             | 元组结构体 | 结构体必须要有名称，但字段可以没有名称<br>`struct Color(i32, i32, i32);`                                                                                                                    |
-| [Trait 特征]                               | 特征       | 一个可以被共享的行为，只要实现了特征，你就能使用该行为                                                                                                                                      |
-| [T: Trait]                                 | 特征约束   | 还可以有多重约束，`T: Trait1 + Trait2`<br>另见：[where 约束]                                                                                                                                |
-| [Trait Object]                             | 特征对象   | 特征对象指向实现了 `Trait` 特征的类型的实例，可以在运行时通过特征对象找到具体调用的类型方法                                                                                                 |
-| `type` 1. [关联类型] 2. [默认泛型类型参数] |            | 1. `type Item;`<br>`Self` 用来指代当前调用者的具体类型，那么 `Self::em` 就用来指代该类型实现中定义的 `Item` 类型<br>2. `type Output = Struct;`<br>指定一个默认值，返回一个关联类型 `Output` |
-| [特征定义中的特征约束]                     | 特征       | 用来说明一个特征需要实现另一个特征                                                                                                                                                          |
-| [TryInto 转换]                             | 类型转换   | 尝试进行一次转换，并返回一个 `Result`，可以对其进行相应的错误处理                                                                                                                           |
-|                                            | KWT        |                                                                                                                                                                                             |
+| 名称                                                     | 关键字     | 简介                                                                                                                                                                                        |
+| -------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Tuple 元组]                                             |            | 由多种类型组合一起，元组的长度是固定的，元组中元素的顺序也是固定的<br>用模式匹配解构元组：`let (x, y, z) = (20, 19.2, 1)`<br>用 `.` 来访问元组：`tuple.0` 索引从 0 开始                     |
+| [Tuple Struct]                                           | 元组结构体 | 结构体必须要有名称，但字段可以没有名称<br>`struct Color(i32, i32, i32);`                                                                                                                    |
+| [Trait 特征]                                             | 特征       | 一个可以被共享的行为，只要实现了特征，你就能使用该行为                                                                                                                                      |
+| [T: Trait]                                               | 特征约束   | 还可以有多重约束，`T: Trait1 + Trait2`<br>另见：[where 约束]                                                                                                                                |
+| [Trait Object]                                           | 特征对象   | 特征对象指向实现了 `Trait` 特征的类型的实例，可以在运行时通过特征对象找到具体调用的类型方法                                                                                                 |
+| `type` 1. [关联类型] 2. [默认泛型类型参数] 3. [类型别名] |            | 1. `type Item;`<br>`Self` 用来指代当前调用者的具体类型，那么 `Self::em` 就用来指代该类型实现中定义的 `Item` 类型<br>2. `type Output = Struct;`<br>指定一个默认值，返回一个关联类型 `Output` |
+| [特征定义中的特征约束]                                   | 特征       | 用来说明一个特征需要实现另一个特征                                                                                                                                                          |
+| [TryInto 转换]                                           | 类型转换   | 尝试进行一次转换，并返回一个 `Result`，可以对其进行相应的错误处理                                                                                                                           |
+|                                                          | KWT        |                                                                                                                                                                                             |
 
 [tuple 元组]: https://course.rs/basic/compound-type/tuple.html#元组
 [tuple struct]: https://course.rs/basic/compound-type/struct.html#元组结构体tuple-struct
@@ -408,6 +410,7 @@
 [默认泛型类型参数]: https://course.rs/basic/trait/advance-trait.html#默认泛型类型参数
 [特征定义中的特征约束]: https://course.rs/basic/trait/advance-trait.html#特征定义中的特征约束
 [tryinto 转换]: https://course.rs/basic/converse.html#tryinto-转换
+[类型别名]: https://course.rs/advance/into-types/custom-type.html#类型别名type-alias
 
 [back](#head)
 
