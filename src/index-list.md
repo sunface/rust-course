@@ -76,22 +76,24 @@
 
 ## B
 
-| 名称               | 关键字       | 简介                                                                           |
-| ------------------ | ------------ | ------------------------------------------------------------------------------ |
-| [变量遮蔽]         | shadowing    | 允许声明相同的变量名，后者会遮蔽掉前者                                         |
-| [变量覆盖]         | 模式匹配     | 无论是是 `match` 还是 `if let`，他们都可以在模式匹配时覆盖掉老的值，绑定新的值 |
-| [变量作用域]       | 所有权       | 作用域是一个变量在程序中有效的范围                                             |
-| [表达式]           |              | 进行求值，结尾无 `;`，有返回值                                                 |
-| [bool 布尔]        | 布尔类型     | `true` `false`，占用 1 字节                                                    |
-| [break]            | 循环控制     | 直接跳出当前整个循环                                                           |
-| [backtrace 栈展开] | 不可恢复错误 | `RUST_BACKTRACE=1 cargo run`                                                   |
-|                    | KWB          |                                                                                |
+| 名称               | 关键字       | 简介                                                                                                                            |
+| ------------------ | ------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| [变量遮蔽]         | shadowing    | 允许声明相同的变量名，后者会遮蔽掉前者                                                                                          |
+| [变量覆盖]         | 模式匹配     | 无论是是 `match` 还是 `if let`，他们都可以在模式匹配时覆盖掉老的值，绑定新的值                                                  |
+| [变量作用域]       | 所有权       | 作用域是一个变量在程序中有效的范围                                                                                              |
+| [表达式]与[语句]   |              | 表达式：进行求值，结尾无 `;`，有返回值，如 `x + 9` 另见 [附录 C]</br>语句：完成一个操作，结尾有 `;` ，无返回值，如 `let x = 9;` |
+| [bool 布尔]        | 布尔类型     | `true` `false`，占用 1 字节                                                                                                     |
+| [break]            | 循环控制     | 直接跳出当前整个循环                                                                                                            |
+| [backtrace 栈展开] | 不可恢复错误 | `RUST_BACKTRACE=1 cargo run`                                                                                                    |
+|                    | KWB          |                                                                                                                                 |
 
 [变量遮蔽]: https://course.rs/basic/variable.html#变量遮蔽shadowing
 [变量覆盖]: https://course.rs/basic/match-pattern/match-if-let.html#变量覆盖
 [变量作用域]: https://course.rs/basic/ownership/ownership.html#变量作用域
 [bool 布尔]: https://course.rs/basic/base-type/char-bool.html#布尔bool
 [表达式]: https://course.rs/basic/base-type/statement-expression.html#表达式
+[语句]: https://course.rs/basic/base-type/statement-expression.html#语句
+[附录 c]: https://course.rs/appendix/expressions.html
 [break]: https://course.rs/basic/flow-control.html#break
 [backtrace 栈展开]: https://course.rs/basic/result-error/panic.html#backtrace-栈展开
 
@@ -469,12 +471,9 @@
 
 ## Y
 
-| 名称   | 关键字 | 简介                                                 |
-| ------ | ------ | ---------------------------------------------------- |
-| [语句] |        | 完成一个操作，结尾有 `;` ，无返回值，如 `let x = 9;` |
-|        | KWY    |                                                      |
-
-[语句]: https://course.rs/basic/base-type/statement-expression.html#语句
+| 名称 | 关键字 | 简介 |
+| ---- | ------ | ---- |
+|      | KWY    |      |
 
 [back](#head)
 
