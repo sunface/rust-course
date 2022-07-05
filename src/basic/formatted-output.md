@@ -304,7 +304,7 @@ fn main() {
     // 以下全部都会补齐5个字符的长度
     // 左对齐 => Hello x    !
     println!("Hello {:<5}!", "x");
-    // 右对齐 => Hello     x
+    // 右对齐 => Hello     x!
     println!("Hello {:>5}!", "x");
     // 居中对齐 => Hello   x  !
     println!("Hello {:^5}!", "x");
