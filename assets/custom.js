@@ -110,7 +110,7 @@ var initAll = function () {
         pagePath = "index"
     }
 
-    // add vistors count
+    // add visitors count
     var ele = document.createElement("div");
     ele.setAttribute("align","center");
     var count = document.createElement("img")
