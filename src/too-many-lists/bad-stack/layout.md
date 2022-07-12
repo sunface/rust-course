@@ -48,7 +48,7 @@ pub enum List {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 
    Finished dev [unoptimized + debuginfo] target(s) in 0.22s
 ```

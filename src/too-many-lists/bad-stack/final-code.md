@@ -43,7 +43,7 @@ mod test {
 
 在 `src/first.rs` 中添加以上测试模块，然后使用 `cargo test` 运行相关的测试用例：
 ```shell
-> cargo test
+$ cargo test
 
 error[E0433]: failed to resolve: use of undeclared type or module `List`
   --> src/first.rs:43:24
@@ -150,7 +150,7 @@ impl Drop for List {
 
 测试下上面的实现以及之前的长链表例子:
 ```shell
-> cargo test
+$ cargo test
 
      Running target/debug/lists-5c71138492ad4b4a
 

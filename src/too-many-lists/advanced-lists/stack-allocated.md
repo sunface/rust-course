@@ -85,7 +85,7 @@ mod test {
 }
 ```
 ```shell
-> cargo test
+$ cargo test
 
 running 18 tests
 test fifth::test::into_iter ... ok
@@ -149,7 +149,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
 ```
 
 ```shell
-> cargo test
+$ cargo test
 
 error[E0521]: borrowed data escapes outside of closure
   --> src\silly2.rs:47:32
@@ -194,7 +194,7 @@ fn elegance() {
 ```
 
 ```shell
-> cargo test
+$ cargo test
 
 error[E0521]: borrowed data escapes outside of closure
   --> src\silly2.rs:46:17
@@ -296,7 +296,7 @@ fn cell() {
 ```
 
 ```shell
-> cargo test
+$ cargo test
 
 running 19 tests
 test fifth::test::into_iter ... ok

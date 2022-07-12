@@ -501,7 +501,8 @@ test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; fini
 其中还有一点值得注意，那就是测试模块 `tests` 的名称也出现在了最终结果中：`tests::add_two_and_two`，这是非常贴心的细节，也意味着我们可以通过**模块名称来过滤测试**：
 
 ```shell
-cargo test tests
+$ cargo test tests
+
 running 3 tests
 test tests::add_two_and_two ... ok
 test tests::add_three_and_two ... ok

@@ -51,7 +51,7 @@ fn into_iter() {
 ```
 
 ```shell
-cargo test
+$ cargo test
 
      Running target/debug/lists-5c71138492ad4b4a
 
@@ -84,7 +84,7 @@ impl<T> List<T> {
 ```
 
 ```shell
-> cargo build
+$ cargo build
 ```
 
 迄今为止一切运行正常，接下来的 `next` 实现起来会有些麻烦:
@@ -101,7 +101,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
 ```
 
 ```shell
-cargo build
+$ cargo build
 
 error[E0521]: borrowed data escapes outside of closure
    --> src/fourth.rs:155:13
@@ -157,7 +157,8 @@ fn next(&mut self) -> Option<Self::Item> {
 ```
 
 ```shell
-cargo build
+$ cargo build
+
    Compiling lists v0.1.0 (/Users/ABeingessner/dev/temp/lists)
 error[E0521]: borrowed data escapes outside of closure
    --> src/fourth.rs:159:13
