@@ -66,10 +66,10 @@
             </a>
         </td>
         <td align="center">
-            <a href="https://github.com/JesseAtSZ">
-                <img src="https://avatars.githubusercontent.com/u/35264598?v=4?s=100" width="160px" alt=""/>
+            <a href="https://github.com/zongzi531">
+                <img src="https://avatars.githubusercontent.com/u/22429236?v=4?s=100" width="100px" alt=""/>
                 <br />
-                <sub><b>JesseAtSZ 🥉</b></sub>
+                <sub><b>zongzi531</b></sub>
             </a>
         </td>
     </tr>
@@ -81,10 +81,10 @@
 <table>
     <tr>
         <td align="center">
-            <a href="https://github.com/zongzi531">
-                <img src="https://avatars.githubusercontent.com/u/22429236?v=4?s=100" width="100px" alt=""/>
+            <a href="https://github.com/JesseAtSZ">
+                <img src="https://avatars.githubusercontent.com/u/35264598?v=4?s=100" width="160px" alt=""/>
                 <br />
-                <sub><b>zongzi531</b></sub>
+                <sub><b>JesseAtSZ 🥉</b></sub>
             </a>
         </td>
         <td align="center">
