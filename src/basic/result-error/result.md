@@ -192,7 +192,7 @@ fn read_username_from_file() -> Result<String, io::Error> {
 
 ### 传播界的大明星: ?
 
-大明星出场，必需得有排面，来看看 `?` 的排面：
+大明星出场，必须得有排面，来看看 `?` 的排面：
 
 ```rust
 use std::fs::File;
