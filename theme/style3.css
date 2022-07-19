@@ -113,3 +113,6 @@ code.editable, .ace_scroller {
     margin-top: 8px;
 }
 
+.chapter li .md-viewed {
+    color: #777;
+}
