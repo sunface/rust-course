@@ -1,6 +1,6 @@
 <img src="https://github.com/sunface/rust-course/blob/main/assets/banner.jpg?raw=true" />
 
-Rust语言真的好：连续七年成为全世界最受欢迎的语言、没有GC也无需手动内存管理、性能比肩 C++/C 还能直接调用它们的代码、安全性极高 - 总有公司说使用 Rust 后以前的大部分 bug 都将自动消失、全世界最好的包管理工具 Cargo 等等。但...
+Rust 语言真的好：连续七年成为全世界最受欢迎的语言、没有 GC 也无需手动内存管理、性能比肩 C++/C 还能直接调用它们的代码、安全性极高 - 总有公司说使用 Rust 后以前的大部分 bug 都将自动消失、全世界最好的包管理工具 Cargo 等等。但...
 
 **有人说: "Rust 太难了，学了也没用"。**
 
@@ -10,19 +10,19 @@ Rust语言真的好：连续七年成为全世界最受欢迎的语言、没有G
 
 如果看到这里，大家觉得这本书的介绍并没有吸引到你，不要立即放弃，强烈建议读一下[进入 Rust 编程世界](https://course.rs/into-rust.html)，那里会有不一样的精彩。
 
-
 > 本书完全开源，所有的文档内容都在 `GitHub` 上，至于里面还藏有什么秘密，大家点击右上角自行发现吧 ：）
 >
 > 小秘密一： 你们可能会好奇，这本书到底与其它 Rust 书籍有[哪些不同](https://github.com/sunface/rust-course#教程简介)
 
 ## 配套练习题
+
 对于学习编程而言，读一篇文章不如做几道练习题，此话虽然夸张，但是也不无道理。既然如此，即读书又做练习题，效果会不会更好？再加上练习题是书本的配套呢？ :P
 
-- [Rust语言实战](https://github.com/sunface/rust-by-practice), Rust语言圣经配套习题，支持中英双语，可以在右上角切换
+- [Rust 语言实战](https://github.com/sunface/rust-by-practice), Rust 语言圣经配套习题，支持中英双语，可以在右上角切换
 
 ## 创作感悟
 
-截至目前，Rust语言圣经已写了 170 余章，110 余万字，历经 800 多个小时，每一个章节都是手动写就，没有任何机翻和质量上的妥协( 相信深入阅读过的读者都能体会到这一点 )。
+截至目前，Rust 语言圣经已写了 170 余章，110 余万字，历经 800 多个小时，每一个章节都是手动写就，没有任何机翻和质量上的妥协( 相信深入阅读过的读者都能体会到这一点 )。
 
 曾经有读者问过 "这么好的书为何要开源，而不是出版?"，原因很简单：**只有完全开源才能完美地呈现出我想要的教学效果**。
 
@@ -43,6 +43,7 @@ Rust语言真的好：连续七年成为全世界最受欢迎的语言、没有G
 <br />
 
 **🏆 贡献榜前三**(根据难易度、贡献次数、活跃度综合评定):
+
 <table>
     <tr>
         <td align="center" width="25%">
@@ -63,7 +64,7 @@ Rust语言真的好：连续七年成为全世界最受欢迎的语言、没有G
             <a href="https://github.com/zongzi531">
                 <img src="https://avatars.githubusercontent.com/u/22429236?v=4?s=100"  alt=""/>
                 <br />
-                <sub><b>zongzi531</b></sub>
+                <sub><b>zongzi531 🥉</b></sub>
             </a>
         </td>
     </tr>
@@ -71,14 +72,15 @@ Rust语言真的好：连续七年成为全世界最受欢迎的语言、没有G
 
 <br />
 
-🏅 核心贡献者: 
+🏅 核心贡献者:
+
 <table>
     <tr>
         <td align="center" width="25%">
             <a href="https://github.com/JesseAtSZ">
                 <img src="https://avatars.githubusercontent.com/u/35264598?v=4?s=100"  alt=""/>
                 <br />
-                <sub><b>JesseAtSZ 🥉</b></sub>
+                <sub><b>JesseAtSZ</b></sub>
             </a>
         </td>
         <td align="center" width="25%">
