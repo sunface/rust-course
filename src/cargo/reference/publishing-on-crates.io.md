@@ -82,7 +82,7 @@ include = [
 准备好后，我们就可以正式来上传指定的包了，在根目录中运行：
 
 ```shell
-$ cargo pulish
+$ cargo publish
 ```
 
 就是这么简单，恭喜你，完成了第一个包的发布！
