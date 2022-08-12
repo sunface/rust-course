@@ -81,8 +81,9 @@
 | [变量遮蔽]         | shadowing    | 允许声明相同的变量名，后者会遮蔽掉前者                                                                                          |
 | [变量覆盖]         | 模式匹配     | 无论是是 `match` 还是 `if let`，他们都可以在模式匹配时覆盖掉老的值，绑定新的值                                                  |
 | [变量作用域]       | 所有权       | 作用域是一个变量在程序中有效的范围                                                                                              |
-| [表达式]与[语句]   |              | 表达式：进行求值，结尾无 `;`，有返回值，如 `x + 9` 另见 [附录 C]</br>语句：完成一个操作，结尾有 `;` ，无返回值，如 `let x = 9;` |
+| [表达式] 与 [语句] |              | 表达式：进行求值，结尾无 `;`，有返回值，如 `x + 9` 另见 [附录 C]</br>语句：完成一个操作，结尾有 `;` ，无返回值，如 `let x = 9;` |
 | [bool 布尔]        | 布尔类型     | `true` `false`，占用 1 字节                                                                                                     |
+| [Box\<T\>]         | 智能指针     | 允许你将一个值分配到堆上，然后在栈上保留一个智能指针指向堆上的数据                                                              |
 | [break]            | 循环控制     | 直接跳出当前整个循环                                                                                                            |
 | [backtrace 栈展开] | 不可恢复错误 | `RUST_BACKTRACE=1 cargo run`                                                                                                    |
 |                    | KWB          |                                                                                                                                 |
@@ -96,6 +97,7 @@
 [附录 c]: https://course.rs/appendix/expressions.html
 [break]: https://course.rs/basic/flow-control.html#break
 [backtrace 栈展开]: https://course.rs/basic/result-error/panic.html#backtrace-栈展开
+[box\<t\>]: https://course.rs/advance/smart-pointer/box.html#使用-boxt-将数据存储在堆上
 
 [back](#head)
 
@@ -127,15 +129,21 @@
 
 ## D
 
-| 名称       | 关键字   | 简介                                                                                                             |
-| ---------- | -------- | ---------------------------------------------------------------------------------------------------------------- |
-| [derive]   | 派生特征 | `#[derive(Trait)]`，被标记的对象自动实现对应的默认特征代码<br>详见：[附录-派生特征]                              |
-| [点操作符] | 类型转换 | 方法调用的点操作符，在调用时，会发生很多魔法般的类型转换，例如：自动引用、自动解引用，强制类型转换直到类型能匹配 |
-|            | KWD      |                                                                                                                  |
+| 名称              | 关键字   | 简介                                                                                                               |
+| ----------------- | -------- | ------------------------------------------------------------------------------------------------------------------ |
+| [derive]          | 派生特征 | `#[derive(Trait)]`，被标记的对象自动实现对应的默认特征<br>详见：[附录-派生特征]                                    |
+| [点操作符]        | 类型转换 | 方法调用的点操作符，在调用时，会发生很多魔法般的类型转换<br>例如：自动引用、自动解引用，强制类型转换直到类型能匹配 |
+| [Deref 解引用]    | 智能指针 |                                                                                                                    |
+| [三种 Deref 转换] | 智能指针 |                                                                                                                    |
+| [Drop 释放资源]   | 智能指针 |                                                                                                                    |
+|                   | KWD      |                                                                                                                    |
 
 [derive]: https://course.rs/basic/trait/trait.html#通过-derive-派生特征
 [附录-派生特征]: https://course.rs/appendix/derive.html
 [点操作符]: https://course.rs/basic/converse.html#点操作符
+[deref 解引用]: https://course.rs/advance/smart-pointer/deref.html#deref-解引用
+[三种 deref 转换]: https://course.rs/advance/smart-pointer/deref.html#三种-deref-转换
+[drop 释放资源]: https://course.rs/advance/smart-pointer/drop.html#drop-释放资源
 
 [back](#head)
 
