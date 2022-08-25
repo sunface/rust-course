@@ -240,7 +240,7 @@ error[E0004]: non-exhaustive patterns: `West` not covered // 非穷尽匹配，`
 
 #### `_` 通配符
 
-当我们不想在匹配的时候列出所有值的时候，可以使用 Rust 提供的一个特殊**模式**，例如，`u8` 可以拥有 0 到 255 的有效的值，但是我们只关心 `1、3、5 和 7` 这几个值，不想列出其它的 `0、2、4、6、8、9 一直到 255` 的值。那么, 我们不必一个一个列出所有值, 因为可以使用特殊的模式 `_` 替代：
+当我们不想在匹配时列出所有值的时候，可以使用 Rust 提供的一个特殊**模式**，例如，`u8` 可以拥有 0 到 255 的有效的值，但是我们只关心 `1、3、5 和 7` 这几个值，不想列出其它的 `0、2、4、6、8、9 一直到 255` 的值。那么, 我们不必一个一个列出所有值, 因为可以使用特殊的模式 `_` 替代：
 
 ```rust
 let some_u8_value = 0u8;
@@ -255,7 +255,7 @@ match some_u8_value {
 
 通过将 `_` 其放置于其他分支后，`_` 将会匹配所有遗漏的值。`()` 表示返回**单元类型**与所有分支返回值的类型相同，所以当匹配到 `_` 后，什么也不会发生。
 
-然后，在某些场景下，我们其实只关心**某一个值是否存在**，此时 `match` 就显得过于啰嗦。
+然而，在某些场景下，我们其实只关心**某一个值是否存在**，此时 `match` 就显得过于啰嗦。
 
 ## `if let` 匹配
 
@@ -271,7 +271,7 @@ match some_u8_value {
 
 我们只想要对 `Some(3)` 模式进行匹配, 不想处理任何其他 `Some<u8>` 值或 `None` 值。但是为了满足 `match` 表达式（穷尽性）的要求，写代码时必须在处理完这唯一的成员后加上 `_ => ()`，这样会增加不少无用的代码。
 
-杀鸡焉用牛刀，可以用 `if let` 的方式来实现：
+俗话说“杀鸡焉用牛刀”，我们完全可以用 `if let` 的方式来实现：
 
 ```rust
 if let Some(3) = v {
@@ -365,4 +365,4 @@ fn main() {
 
 ## 课后练习
 
-> [Rust By Practice](https://zh.practice.rs/pattern-match/match-iflet.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。
+> [Rust By Practice](https://zh.practice.rs/pattern-match/match-iflet.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/pattern-match/match.md)。

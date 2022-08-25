@@ -457,6 +457,10 @@ thread 'main' panicked at 'Hello, sunface!', src/main.rs:6:5
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ```
 
+## 课后练习
+
+> [Rust By Practice](https://zh.practice.rs/formatted-output.html)，支持代码在线编辑和运行，并提供详细的习题解答。（本节暂无习题解答）
+
 ## 总结
 
 把这些格式化都牢记在脑中是不太现实的，也没必要，我们要做的就是知道 Rust 支持相应的格式化输出，在需要之时，读者再来查阅本文即可。

@@ -427,4 +427,4 @@ fn main() {
 
 ## 课后练习
 
-> [Rust By Practice](https://zh.practice.rs/generics-traits/advanced-traits.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。
+> [Rust By Practice](https://zh.practice.rs/generics-traits/advanced-traits.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/generics-traits/advanced-trait.md)。
