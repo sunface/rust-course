@@ -41,7 +41,7 @@ fn main() {
 其中，`s1` 是通过 `format!` 生成的 `String` 字符串，最终输出如下：
 
 ```console
-hello, wolrd
+hello, world
 hello, world!
 ```
 
