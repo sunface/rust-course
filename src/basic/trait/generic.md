@@ -180,7 +180,7 @@ error[E0308]: mismatched types //类型不匹配
 
 当把 `1` 赋值给 `x` 时，变量 `p` 的 `T` 类型就被确定为整数类型，因此 `y` 也必须是整数类型，但是我们却给它赋予了浮点数，因此导致报错。
 
-如果想让 `x` 和 `y` 即能类型相同，又能类型不同，需要使用不同的泛型参数：
+如果想让 `x` 和 `y` 既能类型相同，又能类型不同，就需要使用不同的泛型参数：
 
 ```rust
 struct Point<T,U> {
@@ -466,6 +466,8 @@ fn main() {
 
 ## 课后练习
 
-> Rust By Practice，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。
+> Rust By Practice，支持代码在线编辑和运行，并提供详细的习题解答。
 > - [泛型](https://zh.practice.rs/generics-traits/generics.html)
+>     - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/generics-traits/generics.md)
 > - [const 泛型](https://zh.practice.rs/generics-traits/const-generics.html)
+>     - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/generics-traits/const-generics.md)

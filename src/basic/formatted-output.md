@@ -41,7 +41,7 @@ fn main() {
 其中，`s1` 是通过 `format!` 生成的 `String` 字符串，最终输出如下：
 
 ```console
-hello, wolrd
+hello, world
 hello, world!
 ```
 
@@ -456,6 +456,10 @@ fn main() {
 thread 'main' panicked at 'Hello, sunface!', src/main.rs:6:5
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ```
+
+## 课后练习
+
+> [Rust By Practice](https://zh.practice.rs/formatted-output.html)，支持代码在线编辑和运行，并提供详细的习题解答。（本节暂无习题解答）
 
 ## 总结
 

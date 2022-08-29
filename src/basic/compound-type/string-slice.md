@@ -710,10 +710,13 @@ for b in "中国人".bytes() {
 这个模式对编写 Rust 代码的方式有着深远的影响，在后面章节我们会进行更深入的介绍。
 
 ## 课后练习
-
-- [字符串](https://zh.practice.rs/compound-types/string.html)
-- [切片](https://zh.practice.rs/compound-types/slice.html)
-- [String](https://zh.practice.rs/collections/String.html)
+> Rust By Practice，支持代码在线编辑和运行，并提供详细的习题解答。
+> - [字符串](https://zh.practice.rs/compound-types/string.html)
+>     - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/compound-types/string.md)
+> - [切片](https://zh.practice.rs/compound-types/slice.html)
+>     - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/compound-types/slice.md)
+> - [String](https://zh.practice.rs/collections/String.html)
+>     - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/collections/String.md)
 
 <hr />
 

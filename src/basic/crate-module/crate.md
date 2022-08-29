@@ -108,3 +108,7 @@ error: a bin target must be available for `cargo run`
 这种目录结构基本上是 Rust 的标准目录结构，在 `GitHub` 的大多数项目上，你都将看到它的身影。
 
 理解了包的概念，我们再来看看构成包的基本单元：模块。
+
+## 课后练习
+
+> [Rust By Practice](https://zh.practice.rs/crate-module/crate.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/crate-module/crate.md)。

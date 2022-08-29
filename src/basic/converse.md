@@ -318,3 +318,9 @@ unsafe fn shorten_invariant_lifetime<'b, 'c>(r: &'b mut R<'static>) -> &'b mut R
 ```
 
 以上例子非常先进！但是是非常不安全的 Rust 行为！
+
+## 课后练习
+> Rust By Practice，支持代码在线编辑和运行，并提供详细的习题解答。（本节暂无习题解答）
+> - [as](https://zh.practice.rs/type-conversions/as.html)
+> - [From/Into](https://zh.practice.rs/type-conversions/from-into.html)
+> - [其它转换](https://zh.practice.rs/type-conversions/others.html)
