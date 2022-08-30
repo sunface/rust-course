@@ -12,33 +12,76 @@
 
 ## 使用 Atomic 作为全局变量
 
-原子类型的一个常用场景，就是作为全局变量来使用:
+我们先看看下面的代码
+
+```rust
+use std::{sync::Mutex, thread, time::Instant, ops::Sub};
+
+use lazy_static::lazy_static;
+lazy_static! {
+    static ref R: Mutex<u64> = Mutex::new(0);
+}
+
+const N_TIMES: u64 = 10000000;
+const N_THREADS: usize = 10;
+
+fn main() {
+    let s = Instant::now(); // 用于记录开始时间
+
+    let mut threads = Vec::with_capacity(N_THREADS); // 创建一个容量为 N_THREADS(10) 长度的 Vector
+
+    // 循环创建线程，并添加到threads中
+    for _ in 0..N_THREADS {
+        let handle = thread::spawn(move || {
+            let mut r = R.lock().unwrap();
+            // 对共享变量R + 1 N_TIMES次(10000000)
+            for _ in 0..N_TIMES {
+                *r += 1;
+            }
+        });
+        threads.push(handle);
+    }
+
+    // 等待所有线程结束
+    for thread in threads {
+        thread.join().unwrap();
+    }
+
+    let r = R.lock().unwrap();
+
+    // 断言R的结果是否是 N_TIMES * N_THREADS
+    assert_eq!(N_TIMES * N_THREADS as u64, *r);
+
+    // 打印从开始到结束消耗的时间
+    println!("{:?}", Instant::now().sub(s));
+}
+```
+以上代码启动了数个线程，每个线程都在疯狂对全局变量进行加 1 操作, 最后将它与`线程数 * 加1次数`进行比较，如果发生了因为多个线程同时修改导致了脏数据，那么这两个必将不相等。好在，它没有让我们失望，不仅快速的完成了任务，而且保证了 100%的并发安全性。
+
+现在让我们来看看用`Atomic`来实现这个程序
 
 ```rust
 use std::ops::Sub;
 use std::sync::atomic::{AtomicU64, Ordering};
-use std::thread::{self, JoinHandle};
+use std::thread;
 use std::time::Instant;
 
 const N_TIMES: u64 = 10000000;
 const N_THREADS: usize = 10;
 
-static R: AtomicU64 = AtomicU64::new(0);
-
-fn add_n_times(n: u64) -> JoinHandle<()> {
-    thread::spawn(move || {
-        for _ in 0..n {
-            R.fetch_add(1, Ordering::Relaxed);
-        }
-    })
-}
+static R: AtomicU64 = AtomicU64::new(0); // u64类型的原子类型
 
 fn main() {
     let s = Instant::now();
     let mut threads = Vec::with_capacity(N_THREADS);
 
     for _ in 0..N_THREADS {
-        threads.push(add_n_times(N_TIMES));
+        let handle = thread::spawn(move || {
+            for _ in 0..N_TIMES {
+                R.fetch_add(1, Ordering::Relaxed); // +1 操作 
+            }
+        });
+        threads.push(handle);
     }
 
     for thread in threads {
@@ -47,20 +90,19 @@ fn main() {
 
     assert_eq!(N_TIMES * N_THREADS as u64, R.load(Ordering::Relaxed));
 
-    println!("{:?}",Instant::now().sub(s));
+    println!("{:?}", Instant::now().sub(s));
 }
 ```
 
-以上代码启动了数个线程，每个线程都在疯狂对全局变量进行加 1 操作, 最后将它与`线程数 * 加1次数`进行比较，如果发生了因为多个线程同时修改导致了脏数据，那么这两个必将不相等。好在，它没有让我们失望，不仅快速的完成了任务，而且保证了 100%的并发安全性。
-
-当然以上代码的功能其实也可以通过`Mutex`来实现，但是后者的强大功能是建立在额外的性能损耗基础上的，因此性能会逊色不少:
-
+运行这两段代码
 ```console
 Atomic实现：673ms
 Mutex实现: 1136ms
 ```
 
 可以看到`Atomic`实现会比`Mutex`快**41%**，实际上在复杂场景下还能更快(甚至达到 4 倍的性能差距)！
+
+因此，可以看出，虽然`Mutex`也能轻松实现上诉功能，但它的强大功能是建立在额外的性能损耗基础上的，因此性能会逊色不少
 
 还有一点值得注意: **和`Mutex`一样，`Atomic`的值具有内部可变性**，你无需将其声明为`mut`：
 
