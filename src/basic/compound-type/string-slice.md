@@ -675,7 +675,7 @@ for b in "中国人".bytes() {
 想要准确的从 UTF-8 字符串中获取子串是较为复杂的事情，例如想要从 `holla中国人नमस्ते` 这种变长的字符串中取出某一个子串，使用标准库你是做不到的。
 你需要在 `crates.io` 上搜索 `utf8` 来寻找想要的功能。
 
-可以考虑尝试下这个库:[utf8_slice](https://crates.io/crates/utf8_slice)。
+可以考虑尝试下这个库：[utf8_slice](https://crates.io/crates/utf8_slice)。
 
 ## 字符串深度剖析
 
