@@ -136,7 +136,7 @@ error[E0015]: calls in statics are limited to constant functions, tuple structs 
 
 #### lazy_static
 
-[`lazy_static`](https://github.com/rust-lang-nursery/lazy-static.rs)是社区提供的非常强大的宏，用于懒初始化静态变量，之前的静态变量都是在编译器初始化的，因此无法使用函数调用进行赋值，而`lazy_static`允许我们在运行期初始化静态变量！
+[`lazy_static`](https://github.com/rust-lang-nursery/lazy-static.rs)是社区提供的非常强大的宏，用于懒初始化静态变量，之前的静态变量都是在编译期初始化的，因此无法使用函数调用进行赋值，而`lazy_static`允许我们在运行期初始化静态变量！
 
 ```rust
 use std::sync::Mutex;
