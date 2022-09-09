@@ -61,7 +61,7 @@
     - [KV 存储 HashMap](basic/collections/hashmap.md)
   - [类型转换](basic/converse.md)
   - [返回值和错误处理](basic/result-error/intro.md)
-    - [panic 深入剖析!](basic/result-error/panic.md)
+    - [panic! 深入剖析](basic/result-error/panic.md)
     - [返回值 Result 和?](basic/result-error/result.md)
   - [包和模块](basic/crate-module/intro.md)
     - [包 Crate](basic/crate-module/crate.md)
