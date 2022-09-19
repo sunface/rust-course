@@ -71,7 +71,7 @@ fn main() {
    let records = penguin_data.lines();
 
    for (i, record) in records.enumerate() {
-     if i == 0 || record.trim().len() == 0 {
+     if i == 0 || record.trim().is_empty() {
        continue;
      }
 
