@@ -42,7 +42,7 @@ fn borrow_mut<'a>(&'a self) -> RefMut<'a, T>
 这里返回的并不是 `&T` 或 `&mut T`，而是一个 [`Ref`](https://doc.rust-lang.org/std/cell/struct.Ref.html) 和 [`RefMut`](https://doc.rust-lang.org/std/cell/struct.RefMut.html)，那么它们是什么？说白了，它们就是在借用到的引用外包裹了一层。而且 `Ref` 和 `RefMut` 分别实现了 `Deref` 和 `DerefMut`，在绝大多数场景中，我们都可以像使用 `&T` 一样去使用它们。
 
 
-只能说是成是败都赖萧何，恰恰就因为这一层包裹，导致生命周期改变了，也就是 `Ref` 和内部引用的生命周期不再和 `RefCell` 相同，而 `Ref` 的生命周期是什么，相信大家都能看得出来，因此就造成了局部引用的问题。
+只能说是成是败都赖萧何，恰恰就因为这一层包裹，导致生命周期改变了，也就是 `Ref` 和内部引用的生命周期不再和 `RefCell` 相同，而 `Ref` 的生命周期是map所包含的闭包，因此就造成了局部引用的问题。
 
 事实上，这是必须的，如果内部的引用和外部的 `Ref` 生命周期不一致，那该如何管理？当 `Ref` 因超出作用域被 `drop` 时，内部的引用怎么办？
 
