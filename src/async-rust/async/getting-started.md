@@ -287,15 +287,15 @@ struct Song {
 
 async fn learn_song() -> Song {
     Song {
-        author: "曲婉婷".to_string(),
-        name: String::from("《我的歌声里》"),
+        author: "周杰伦".to_string(),
+        name: String::from("《菊花台》"),
     }
 }
 
 async fn sing_song(song: Song) {
     println!(
         "给大家献上一首{}的{} ~ {}",
-        song.author, song.name, "你存在我深深的脑海里~ ~"
+        song.author, song.name, "菊花残，满地伤~ ~"
     );
 }
 
