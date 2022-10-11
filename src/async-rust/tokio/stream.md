@@ -184,7 +184,7 @@ got = b"6"
 let messages = subscriber
     .into_stream()
     .filter_map(|msg| match msg {
-        Ok(msg) if msg.content.len() == 1 => msg.unwrap().content,
+        Ok(msg) if msg.content.len() == 1 => Some(msg.content),
         _ => None,
     })
     .take(3);
