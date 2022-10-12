@@ -111,6 +111,48 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 这种就是 Rust 的安全特性之一。在很多系统编程语言中，并不会检查数组越界问题，你会访问到无效的内存地址获取到一个风马牛不相及的值，最终导致在程序逻辑上出现大问题，而且这种问题会非常难以检查。
 
+#### 数组元素为非基础类型
+
+学习了上面的知识，很多大聪明肯定觉得已经学会了Rust的数组类型，但现实会给我们一个响亮的大耳光，实际开发中还会碰到一种情况，就是**数组元素是非基本类型**的，这时候大聪明一定会这样写。
+
+```rust
+let array = [String::from("rust is good!"); 8];
+
+println!("{:#?}", array);
+```
+
+然后你会惊喜的得到编译错误。
+
+```console
+error[E0277]: the trait bound `String: std::marker::Copy` is not satisfied
+ --> src/main.rs:7:18
+  |
+7 |     let array = [String::from("rust is good!"); 8];
+  |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `std::marker::Copy` is not implemented for `String`
+  |
+  = note: the `Copy` trait is required because this value will be copied for each element of the array
+```
+
+有些还没有看过特征的小伙伴，有可能不太明白这个报错，不过这个目前可以不提，我们就拿之前所学的[所有权](https://course.rs/basic/ownership/ownership.html)知识，就可以思考明白，前面几个例子都是Rust的基本类型，而**基本类型在Rust中赋值是以Copy的形式**，这时候你就懂了吧，`let array=[3;5]`底层就是不断的Copy出来的，但很可惜复杂类型都没有深拷贝，只能一个个创建。
+
+接着就会有大聪明这样写。
+
+```rust
+let array = [String::from("rust is good!"),String::from("rust is good!"),String::from("rust is good!")];
+
+println!("{:#?}", array);
+```
+
+写成这样的朋友，请出去以后请别说看过Rust语言圣经这本书。作为一个追求极致完美的Rust开发者，怎么能容忍这么愚蠢的代码存在！
+
+**正确的写法**，应该调用`std::array::from_fn`
+
+```rust
+let array: [String; 8] = core::array::from_fn(|i| String::from("rust is good!"));
+
+println!("{:#?}", array);
+```
+
 ## 数组切片
 
 在之前的[章节](https://course.rs/basic/compound-type/string-slice.html#切片slice)，我们有讲到 `切片` 这个概念，它允许你引用集合中的部分连续片段，而不是整个集合，对于数组也是，数组切片允许我们引用数组的一部分：
