@@ -137,9 +137,8 @@ impl Drop for Node {
 ```rust
 impl Drop for List {
     fn drop(&mut self) {
-        let mut cur_link = mem::replace(&mut self.head, Link::Empty);
-        while let Link::More(mut boxed_node) = cur_link {
-            cur_link = mem::replace(&mut boxed_node.next, Link::Empty);
+        while let Link::More(box_node) = mem::replace(&mut self.head, Link::Empty) {
+            self.head = box_node.next;
             // boxed_node 在这里超出作用域并被 drop,
             // 由于它的 `next` 字段拥有的 `Node` 被设置为 Link::Empty,
             // 因此这里并不会有无边界的递归发生
@@ -222,10 +221,8 @@ impl List {
 
 impl Drop for List {
     fn drop(&mut self) {
-        let mut cur_link = mem::replace(&mut self.head, Link::Empty);
-
-        while let Link::More(mut boxed_node) = cur_link {
-            cur_link = mem::replace(&mut boxed_node.next, Link::Empty);
+        while let Link::More(box_node) = mem::replace(&mut self.head, Link::Empty) {
+            self.head = box_node.next;
         }
     }
 }

@@ -53,9 +53,8 @@ impl List {
 
 impl Drop for List {
     fn drop(&mut self) {
-        let mut cur_link = mem::replace(&mut self.head, None);
-        while let Some(mut boxed_node) = cur_link {
-            cur_link = mem::replace(&mut boxed_node.next, None);
+        while let Some(box_node) = mem::replace(&mut self.head, None) {
+            self.head = box_node.next;
         }
     }
 }
@@ -103,9 +102,8 @@ impl List {
 
 impl Drop for List {
     fn drop(&mut self) {
-        let mut cur_link = self.head.take();
-        while let Some(mut boxed_node) = cur_link {
-            cur_link = boxed_node.next.take();
+        while let Some(box_node) = self.head.take() {
+            self.head = box_node.next;
         }
     }
 }
@@ -177,9 +175,8 @@ impl<T> List<T> {
 
 impl<T> Drop for List<T> {
     fn drop(&mut self) {
-        let mut cur_link = self.head.take();
-        while let Some(mut boxed_node) = cur_link {
-            cur_link = boxed_node.next.take();
+        while let Some(box_node) = self.head.take() {
+            self.head = box_node.next;
         }
     }
 }
