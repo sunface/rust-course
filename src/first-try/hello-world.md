@@ -12,18 +12,18 @@
 
 ```rust
 fn greet_world() {
-     let southern_germany = "Grüß Gott!";
-     let chinese = "世界，你好";
-     let english = "World, hello";
-     let regions = [southern_germany, chinese, english];
-     for region in regions.iter() {
-             println!("{}", &region);
-     }
- }
+    let southern_germany = "Grüß Gott!";
+    let chinese = "世界，你好";
+    let english = "World, hello";
+    let regions = [southern_germany, chinese, english];
+    for region in regions.iter() {
+        println!("{}", &region);
+    }
+}
 
- fn main() {
-     greet_world();
- }
+fn main() {
+    greet_world();
+}
 ```
 
 打开终端，进入 `world_hello` 工程根目录，运行该程序。（你也可以在 VSCode 中打开终端，方法是点击 VSCode 上方菜单栏中的终端->新建终端，或者直接使用快捷键打开。）
