@@ -113,7 +113,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 #### 数组元素为非基础类型
 
-学习了上面的知识，很多大聪明肯定觉得已经学会了Rust的数组类型，但现实会给我们一个响亮的大耳光，实际开发中还会碰到一种情况，就是**数组元素是非基本类型**的，这时候大聪明一定会这样写。
+学习了上面的知识，很多朋友肯定觉得已经学会了Rust的数组类型，但现实会给我们一记重锤，实际开发中还会碰到一种情况，就是**数组元素是非基本类型**的，这时候大家一定会这样写。
 
 ```rust
 let array = [String::from("rust is good!"); 8];
@@ -135,7 +135,7 @@ error[E0277]: the trait bound `String: std::marker::Copy` is not satisfied
 
 有些还没有看过特征的小伙伴，有可能不太明白这个报错，不过这个目前可以不提，我们就拿之前所学的[所有权](https://course.rs/basic/ownership/ownership.html)知识，就可以思考明白，前面几个例子都是Rust的基本类型，而**基本类型在Rust中赋值是以Copy的形式**，这时候你就懂了吧，`let array=[3;5]`底层就是不断的Copy出来的，但很可惜复杂类型都没有深拷贝，只能一个个创建。
 
-接着就会有大聪明这样写。
+接着就有小伙伴会这样写。
 
 ```rust
 let array = [String::from("rust is good!"),String::from("rust is good!"),String::from("rust is good!")];
@@ -143,7 +143,7 @@ let array = [String::from("rust is good!"),String::from("rust is good!"),String:
 println!("{:#?}", array);
 ```
 
-写成这样的朋友，请出去以后请别说看过Rust语言圣经这本书。作为一个追求极致完美的Rust开发者，怎么能容忍这么愚蠢的代码存在！
+作为一个追求极致完美的Rust开发者，怎么能容忍上面这么难看的代码存在！
 
 **正确的写法**，应该调用`std::array::from_fn`
 
