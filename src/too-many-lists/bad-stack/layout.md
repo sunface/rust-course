@@ -23,7 +23,7 @@ pub enum List {
 
 喔，看上去人模狗样，来，运行下看看：
 ```shell
-$ cargo run
+$ cargo build
 error[E0072]: recursive type `List` has infinite size
  --> src/first.rs:1:1
   |
