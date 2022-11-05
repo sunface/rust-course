@@ -65,6 +65,35 @@ while let Some(top) = stack.pop() {
 
 你也可以用 `loop` + `if let` 或者 `match` 来实现这个功能，但是会更加啰嗦。
 
+<details>
+  <summary>loop + if let</summary>
+    
+  ```rust
+    loop {
+        if let Some(top) = stack.pop() {
+            println!("{}", top);
+        } else {
+            break;
+        }
+    }
+  ```
+</details>
+
+<details>
+  <summary>loop + match</summary>
+    
+  ```rust
+    loop {
+        match stack.pop() {
+            None => break,
+            Some(x) => println!("{}", x),
+            // _ => println!("Default Switch"), 
+            // 注：这里不需要处理默认分支，因为 Option 只有 None Some(x)  这两种情况
+        }
+    }
+  ```
+</details>
+
 #### for 循环
 
 ```rust
