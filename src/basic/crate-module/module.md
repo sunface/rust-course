@@ -38,7 +38,7 @@ mod front_of_house {
 
 ## 模块树
 
-在[上一节](https://course.rs/basic/crate-module/crate.html)中，我们提到过 `src/main.rs` 和 `src/lib.rs` 被称为包根(crate root)，这个奇葩名称的来源(我不想承认是自己翻译水平太烂-,-)是由于这两个文件的内容形成了一个模块 `crate`，该模块位于包的树形结构(由模块组成的树形结构)的根部：
+在[上一节](https://course.rs/basic/crate-module/crate.html)中，我们提到过 `src/main.rs` 和 `src/lib.rs` 被称为默认包入口（crate root），这个~~奇葩~~名称的来源~~(我不想承认是自己翻译水平太烂-,-)~~是由于这两个文件的内容形成了一个模块 `crate`，该模块位于包的树形结构(由模块组成的树形结构)的根部：
 
 ```console
 crate
@@ -52,7 +52,7 @@ crate
          └── take_payment
 ```
 
-这颗树展示了模块之间**彼此的嵌套**关系，因此被称为**模块树**。其中 `crate` 包根是 `src/lib.rs` 文件，包根文件中的三个模块分别形成了模块树的剩余部分。
+这颗树展示了模块之间**彼此的嵌套**关系，因此被称为**模块树**。其中 `crate` 是 `src/lib.rs` 中定义的包，`src/lib.rs` 文件中的三个模块分别形成了模块树的剩余部分。
 
 #### 父子模块
 
@@ -64,7 +64,7 @@ crate
 
 想要调用一个函数，就需要知道它的路径，在 Rust 中，这种路径有两种形式：
 
-- **绝对路径**，从包根开始，路径名以包名或者 `crate` 作为开头
+- **绝对路径**，从顶层包开始，路径名以顶层包名（本例中为 `crate` ）作为开头
 - **相对路径**，从当前模块开始，以 `self`，`super` 或当前模块的标识符作为开头
 
 让我们继续经营那个惨淡的小餐馆，这次为它实现一个小功能：
@@ -86,7 +86,7 @@ pub fn eat_at_restaurant() {
 }
 ```
 
-上面的代码为了简化实现，省去了其余模块和函数，这样可以把关注点放在函数调用上。`eat_at_restaurant` 是一个定义在包根中的函数，在该函数中使用了两种方式对 `add_to_waitlist` 进行调用。
+上面的代码为了简化实现，省去了其余模块和函数，这样可以把关注点放在函数调用上。`eat_at_restaurant` 是一个定义在顶层包 `crate` 中的函数，在该函数中使用了两种方式对 `add_to_waitlist` 进行调用。
 
 #### 绝对路径引用
 
@@ -115,7 +115,7 @@ crate
 
 #### 相对路径引用
 
-再回到模块树中，因为 `eat_at_restaurant` 和 `front_of_house` 都处于包根 `crate` 中，因此相对路径可以使用 `front_of_house` 作为开头：
+再回到模块树中，因为 `eat_at_restaurant` 和 `front_of_house` 都处于顶层包 `crate` 中，因此相对路径可以使用 `front_of_house` 作为开头：
 
 ```rust
 front_of_house::hosting::add_to_waitlist();
@@ -156,7 +156,7 @@ crate
 
 ## 代码可见性
 
-让我们运行下面(之前)的代码：
+让我们运行下面（之前）的代码：
 
 ```rust
 mod front_of_house {
@@ -184,7 +184,7 @@ error[E0603]: module `hosting` is private
   |                            ^^^^^^^ private module
 ```
 
-错误信息很清晰：`hosting` 模块是私有的，无法在包根进行访问，那么为何 `front_of_house` 模块就可以访问？因为它和 `eat_at_restaurant` 同属于一个包根作用域内，同一个模块内的代码自然不存在私有化问题(所以我们之前章节的代码都没有报过这个错误！)。
+错误信息很清晰：`hosting` 模块是私有的，无法在顶层包 `crate` 中进行访问，那么为何 `front_of_house` 模块就可以访问？因为它和 `eat_at_restaurant` 同属于一个顶层包的作用域内，同一个模块内的代码自然不存在私有化问题（所以我们之前章节的代码都没有报过这个错误！）。
 
 模块不仅仅对于组织代码很有用，它还能定义代码的私有化边界：在这个边界内，什么内容能让外界看到，什么内容不能，都有很明确的定义。因此，如果希望让函数或者结构体等类型变成私有化的，可以使用模块。
 
@@ -239,7 +239,8 @@ Bang，顺利通过编译，感觉自己又变强了。
 在[用路径引用模块](#用路径引用模块)中，我们提到了相对路径有三种方式开始：`self`、`super`和 `crate` 或者模块名，其中第三种在前面已经讲到过，现在来看看通过 `super` 的方式引用模块项。
 
 `super` 代表的是父模块为开始的引用方式，非常类似于文件系统中的 `..` 语法：`../a/b`
-<span class="filename">文件名：src/lib.rs</span>
+
+<span class="filename">文件名：`src/lib.rs`</span>
 
 ```rust
 fn serve_order() {}
@@ -255,9 +256,9 @@ mod back_of_house {
 }
 ```
 
-嗯，我们的小餐馆又完善了，终于有厨房了！看来第一个客人也快可以有了。。。在厨房模块中，使用 `super::serve_order` 语法，调用了父模块(包根)中的 `serve_order` 函数。
+嗯，我们的小餐馆又完善了，终于有厨房了！看来第一个客人也快可以有了。。。在厨房模块中，使用 `super::serve_order` 语法，调用了父模块 `crate` 中的 `serve_order` 函数。
 
-那么你可能会问，为何不使用 `crate::serve_order` 的方式？额，其实也可以，不过如果你确定未来这种层级关系不会改变，那么 `super::serve_order` 的方式会更稳定，未来就算它们都不在包根了，依然无需修改引用路径。所以路径的选用，往往还是取决于场景，以及未来代码的可能走向。
+那么你可能会问，为何不使用 `crate::serve_order` 的方式？额，其实也可以，不过如果你确定未来这种层级关系不会改变，那么 `super::serve_order` 的方式会更稳定，未来就算它们都不在顶层包 `crate` 了，依然无需修改引用路径。所以路径的选用，往往还是取决于场景，以及未来代码的可能走向。
 
 ## 使用 `self` 引用模块
 
@@ -295,7 +296,7 @@ mod back_of_house {
 
 在之前的例子中，我们所有的模块都定义在 `src/lib.rs` 中，但是当模块变多或者变大时，需要将模块放入一个单独的文件中，让代码更好维护。
 
-现在，把 `front_of_house` 前厅分离出来，放入一个单独的文件中 `src/front_of_house.rs`：
+现在，把 `front_of_house` 前厅分离出来，放入一个单独的文件 `src/front_of_house.rs` 中：
 
 ```rust
 pub mod hosting {
