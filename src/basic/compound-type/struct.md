@@ -188,6 +188,17 @@ println!("{:?}", user1);
 
 该图片也侧面印证了：**把结构体中具有所有权的字段转移出去后，将无法再访问该字段，但是可以正常访问其它的字段**。
 
+例如：将上述代码中获取名字和数据长度的部分，改为不使用借用引用，则无法再访问该字段。
+
+```rust
+   let f1_name = f1.name;
+   // let f1_length = f1.data.len(); 注：此处不访问 f1 的 data 部分
+   ...   
+   println!("{:?}", f1); // 可以正常访问
+   println!("filename is {}", f1.name); // f1.name 不可以访问
+   println!("there are {} bytes long", f1.data.len()); // f1.data 可以访问
+```
+
 ## 元组结构体(Tuple Struct)
 
 结构体必须要有名称，但是结构体的字段可以没有名称，这种结构体长得很像元组，因此被称为元组结构体，例如：
