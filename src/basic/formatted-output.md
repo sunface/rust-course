@@ -392,11 +392,14 @@ println!("{:p}", v.as_ptr()) // => 0x600002324050
 
 ```rust
 fn main() {
-    // {使用{转义，}使用} => Hello {}
-    println!("Hello {{}}");
+    // "{{" 转义为 '{'   "}}" 转义为 '}'   "\"" 转义为 '"'
+    // => Hello "{World}" 
+    println!(" Hello \"{{World}}\" ");
 
     // 下面代码会报错，因为占位符{}只有一个右括号}，左括号被转义成字符串的内容
-    // println!("{{ Hello }");
+    // println!(" {{ Hello } ");
+    // 也不可使用 '\' 来转义 "{}"
+    // println!(" \{ Hello \} ")
 }
 ```
 
