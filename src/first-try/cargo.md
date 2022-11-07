@@ -1,6 +1,6 @@
 ## 认识 Cargo
 
-但凡经历过 C/C++ 或 Go 语言 1.10 版本之前的用户都知道，一个好的包管理工具有多么的重要！！我那个时候是如此的渴望类似 `nodejs` 的 `npm `包管理工具，但是却求而不得。
+但凡经历过 C/C++ 或 Go 语言 1.10 版本之前的用户都知道，一个好的包管理工具有多么的重要！！我那个时候是如此的渴望类似 `nodejs` 的 `npm` 包管理工具，但是却求而不得。
 
 包管理工具最重要的意义就是**任何用户拿到你的代码，都能运行起来**，而不会因为各种包版本依赖焦头烂额。
 
@@ -119,7 +119,7 @@ $ cargo check
     Finished dev [unoptimized + debuginfo] target(s) in 0.06s
 ```
 
-> Rust 虽然编译速度还行，但是还是不能 Go 语言相提并论，因为 Rust 需要做很多复杂的编译优化和语言特性解析，甚至连如何优化编译速度都成了一门学问: [优化编译速度](https://course.rs/profiling/compiler/speed-up.html)
+> Rust 虽然编译速度还行，但是还是不能与 Go 语言相提并论，因为 Rust 需要做很多复杂的编译优化和语言特性解析，甚至连如何优化编译速度都成了一门学问: [优化编译速度](https://course.rs/profiling/compiler/speed-up.html)
 
 ## Cargo.toml 和 Cargo.lock
 
