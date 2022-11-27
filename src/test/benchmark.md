@@ -100,7 +100,7 @@ test result: ok. 0 passed; 0 failed; 1 ignored; 1 measured; 0 filtered out; fini
 - 最好让 `iter` 之外的代码也具有幂等性，因为它也可能被 `benchmark` 运行多次
 - 循环内的代码应该尽量的短小快速，因为这样循环才能被尽可能多的执行，结果也会更加准确
 
-#### 迷一般的性能结果
+#### 谜一般的性能结果
 
 在写 `benchmark` 时，你可能会遇到一些很纳闷的棘手问题，例如以下代码:
 
