@@ -145,7 +145,7 @@ println!("{:#?}", array);
 
 作为一个追求极致完美的Rust开发者，怎么能容忍上面这么难看的代码存在！
 
-**正确的写法**，应该调用`std::array::from_fn`
+**正确的写法**，应该调用`core::array::from_fn`
 
 ```rust
 let array: [String; 8] = core::array::from_fn(|i| String::from("rust is good!"));
