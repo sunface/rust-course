@@ -13,7 +13,7 @@ enum Result<T, E> {
 }
 ```
 
-泛型参数 `T` 代表成功时存入的正确值的类型，存放方式是 `Ok(T)`，`E` 代表错误是存入的错误值，存放方式是 `Err(E)`，枯燥的讲解永远不及代码生动准确，因此先来看下打开文件的例子：
+泛型参数 `T` 代表成功时存入的正确值的类型，存放方式是 `Ok(T)`，`E` 代表错误时存入的错误值，存放方式是 `Err(E)`，枯燥的讲解永远不及代码生动准确，因此先来看下打开文件的例子：
 
 ```rust
 use std::fs::File;
@@ -388,4 +388,4 @@ let x = try!(function_with_error());
 
 ## 课后练习
 
-> [Rust By Practice](https://zh.practice.rs/result-panic/result.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice)。
+> [Rust By Practice](https://zh.practice.rs/result-panic/result.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/result-panic/result.md)。

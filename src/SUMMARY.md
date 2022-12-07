@@ -293,7 +293,7 @@
 
 - [标准库解析 todo](std/intro.md)
 
-  - [标准库使用最佳时间 todo](std/search.md)
+  - [标准库使用最佳实践 todo](std/search.md)
   - [Vector 常用方法 todo](std/vector.md)
   - [HashMap todo](std/hashmap.md)
   - [Iterator 常用方法 todo](std/iterator.md)

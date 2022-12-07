@@ -113,7 +113,7 @@ let resolvers: HashMap<_, _> = accounts
 
 ```rust
 let resolvers = account.into_iter().fold(HashMap::new(), |mut resolvers, a|{
-    resolvers.entry(a.id).or_insert(Vec::new).push(a);
+    resolvers.entry(a.id).or_insert(Vec::new()).push(a);
     resolvers
 });
 ```
