@@ -45,7 +45,7 @@ fn main() {
         S
         u
         n
-        ... 淦，好长!
+        ... 哎，好长!
     */
     let name = "sunface";
     let age = "???"; // 今年其实。。。挺大了
