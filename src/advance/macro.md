@@ -322,6 +322,11 @@ hello_macro_derive = { path = "../hello_macro/hello_macro_derive" }
 
 此时，`hello_macro` 项目就可以成功的引用到 `hello_macro_derive` 本地包了，对于项目依赖引入的详细介绍，可以参见 [Cargo 章节](https://course.rs/cargo/dependency.html)。
 
+另外，学习过程更好的办法是通过展开宏来阅读和调试自己写的宏，这里需要用到一个 cargo-expand 的工具，可以通过下面的命令安装
+```bash
+cargo install cargo-expand
+```
+
 接下来，就到了重头戏环节，一起来看看该如何定义过程宏。
 
 #### 定义过程宏
@@ -347,11 +352,12 @@ extern crate proc_macro;
 use proc_macro::TokenStream;
 use quote::quote;
 use syn;
+use syn::DeriveInput;
 
 #[proc_macro_derive(HelloMacro)]
 pub fn hello_macro_derive(input: TokenStream) -> TokenStream {
     // 基于 input 构建 AST 语法树
-    let ast = syn::parse(input).unwrap();
+    let ast:DeriveInput = syn::parse(input).unwrap();
 
     // 构建特征实现代码
     impl_hello_macro(&ast)
@@ -368,20 +374,35 @@ pub fn hello_macro_derive(input: TokenStream) -> TokenStream {
 
 `syn` 将字符串形式的 Rust 代码解析为一个 AST 树的数据结构，该数据结构可以在随后的 `impl_hello_macro` 函数中进行操作。最后，操作的结果又会被 `quote` 包转换回 Rust 代码。这些包非常关键，可以帮我们节省大量的精力，否则你需要自己去编写支持代码解析和还原的解析器，这可不是一件简单的任务！
 
+derive过程宏只能用在struct/enum/union上，多数用在结构体上，我们先来看一下一个结构体由哪些部分组成:
+```rust
+// vis，可视范围             ident，标识符     generic，范型    fields: 结构体的字段
+pub              struct    User            <'a, T>          {
+   
+// vis   ident   type
+   pub   name:   &'a T,
+   
+}
+```
+
+其中type还可以细分，具体请阅读syn文档或源码
+
 `syn::parse` 调用会返回一个 `DeriveInput` 结构体来代表解析后的 Rust 代码:
 
 ```rust
 DeriveInput {
     // --snip--
-
+    vis: Visibility,
+    generics: Generics
     ident: Ident {
         ident: "Sunfei",
         span: #0 bytes(95..103)
     },
-    data: Struct(
+    // Data是一个枚举，分别是DataStruct，DataEnum，DataUnion，这里以 DataStruct 为例
+    data: Data(
         DataStruct {
             struct_token: Struct,
-            fields: Unit,
+            fields: Fields,
             semi_token: Some(
                 Semi
             )
@@ -392,7 +413,7 @@ DeriveInput {
 
 以上就是源代码 `struct Sunfei;` 解析后的结果，里面有几点值得注意:
 
-- `fields: Unit` 说明源代码是一个单元结构体
+- `fields: Fields` 是一个枚举类型，FieldsNamed，FieldsUnnamed，FieldsUnnamed， 分别表示显示命名结构（如例子所示），匿名字段的结构（例如 struct A(u8);），和无字段定义的结构（例如 struct A;）
 - `ident: "Sunfei"` 说明类型名称为 `Sunfei`， `ident` 是标识符 `identifier` 的简写
 
 如果想要了解更多的信息，可以查看 [`syn` 文档](https://docs.rs/syn/1.0/syn/struct.DeriveInput.html)。
@@ -428,6 +449,46 @@ fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
 - `#name` 可能是一个表达式，我们需要它的字面值形式
 - 可以减少一次 `String` 带来的内存分配
 
+在运行之前，可以显示用 expand 展开宏，观察是否有错误或是否符合预期:
+```shell
+$ cargo expand
+```
+```rust
+struct Sunfei;
+impl HelloMacro for Sunfei {
+    fn hello_macro() {
+        {
+            ::std::io::_print(
+                ::core::fmt::Arguments::new_v1(
+                    &["Hello, Macro! My name is ", "!\n"],
+                    &[::core::fmt::ArgumentV1::new_display(&"Sunfei")],
+                ),
+            );
+        };
+    }
+}
+struct Sunface;
+impl HelloMacro for Sunface {
+    fn hello_macro() {
+        {
+            ::std::io::_print(
+                ::core::fmt::Arguments::new_v1(
+                    &["Hello, Macro! My name is ", "!\n"],
+                    &[::core::fmt::ArgumentV1::new_display(&"Sunface")],
+                ),
+            );
+        };
+    }
+}
+fn main() {
+    Sunfei::hello_macro();
+    Sunface::hello_macro();
+}
+```
+
+从展开的代码也能看出derive宏的特性，struct Sunfei; 和 struct Sunface; 都被保留了，也就是说最后 impl_hello_macro() 返回的token被加到结构体后面，这和类属性宏可以修改输入
+的token是不一样的，input的token并不能被修改
+
 至此，过程宏的定义、特征定义、主体代码都已经完成，运行下试试:
 
 ```shell
@@ -439,6 +500,124 @@ Hello, Macro! My name is Sunface!
 ```
 
 Bingo，虽然过程有些复杂，但是结果还是很喜人，我们终于完成了自己的第一个过程宏！
+
+下面来实现一个更实用的例子，实现官方的#[derive(Default)]宏，废话不说直接开干:
+
+```rust
+#[proc_macro_derive(MyDefault)]
+pub fn MyDefault(input: TokenStream) -> TokenStream {
+    let ast: DeriveInput = syn::parse(input).unwrap();
+    let id = ast.ident;
+
+    let Data::Struct(s) = ast.data else{
+        panic!("MyDefault derive macro must use in struct");
+    };
+
+    // 声明一个新的ast，用于动态构建字段赋值的token
+    let mut field_ast = quote!();
+
+    // 这里就是要动态添加token的地方了，需要动态完成Self的字段赋值
+    for (idx,f) in s.fields.iter().enumerate() {
+        let (field_id, field_ty) = (&f.ident, &f.ty);
+
+
+        if field_id.is_none(){
+            //没有ident表示是匿名字段，对于匿名字段，都需要添加 `#idx: #field_type::default(),` 这样的代码
+            field_ast.extend(quote! {
+                #idx: #field_ty::default(),
+            });
+        }else{
+            //对于命名字段，都需要添加 `#field_name: #field_type::default(),` 这样的代码
+            field_ast.extend(quote! {
+                #field_id: #field_ty::default(),
+            });
+        }
+    }
+
+    quote! {
+        impl Default for # id {
+            fn default() -> Self {
+
+                Self {
+                    #field_ast
+                }
+            }
+        }
+    }.into()
+}
+```
+
+然后来写使用代码:
+
+```rust
+#[derive(MyDefault)]
+struct SomeData (u32,String);
+
+#[derive(MyDefault)]
+struct User {
+    name: String,
+    data: SomeData,
+}
+
+fn main() {
+ 
+}
+```
+
+然后我们先展开代码看一看
+
+```rust
+struct SomeData(u32, String);
+impl Default for SomeData {
+    fn default() -> Self {
+        Self {
+            0: u32::default(),
+            1: String::default(),
+        }
+    }
+}
+struct User {
+    name: String,
+    data: SomeData,
+}
+impl Default for User {
+    fn default() -> Self {
+        Self {
+            name: String::default(),
+            data: SomeData::default(),
+        }
+    }
+}
+fn main() {}
+```
+
+展开的代码符合预期，然后我们修改一下使用代码并测试结果
+
+```rust
+#[derive(MyDefault, Debug)]
+struct SomeData (u32,String);
+
+#[derive(MyDefault, Debug)]
+struct User {
+    name: String,
+    data: SomeData,
+}
+
+fn main() {
+    println!("{:?}", User::default());
+}
+```
+
+执行
+
+```shell
+$ cargo run
+
+    Running `target/debug/aaa`
+User { name: "", data: SomeData(0, "") }
+```
+
+
 
 接下来，再来看看过程宏的另外两种类型跟 `derive` 类型有何区别。
 
