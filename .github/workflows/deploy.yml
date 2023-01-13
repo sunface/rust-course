@@ -1,0 +1,58 @@
+# This is a  workflow to build and deploy mdbook to github pages
+
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  # Build mdBook
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE
+      - uses: actions/checkout@v3
+      # Install mdBook
+      - name: Setup mdBook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: 'latest'
+      # Build mdBook
+      - name: Build mdBook
+        run: mdbook build
+      - name: Copy some Files
+        run: |
+          cp ./assets/CNAME ./book/
+          cp ./assets/*.html ./book/
+          cp ./assets/sitemap.xml ./book/
+      # Upload artifact
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Artifact name
+          name: book
+          # Path of the directory containing the static assets.
+          path: book/
+
+  # Deploy to github pages
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
+        with:
+          # Name of the artifact to deploy
+          artifact_name: book
