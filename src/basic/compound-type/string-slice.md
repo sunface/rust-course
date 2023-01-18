@@ -289,19 +289,20 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ```rust
 fn main() {
     let mut s = String::from("Hello ");
-    s.push('r');
-    println!("追加字符 push() -> {}", s);
 
-    s.push_str("ust!");
+    s.push_str("rust");
     println!("追加字符串 push_str() -> {}", s);
+
+    s.push('!');
+    println!("追加字符 push() -> {}", s);
 }
 ```
 
 代码运行结果：
 
 ```console
-追加字符 push() -> Hello r
-追加字符串 push_str() -> Hello rust!
+追加字符串 push_str() -> Hello rust
+追加字符 push() -> Hello rust!
 ```
 
 #### 插入 (Insert)
