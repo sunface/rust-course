@@ -53,6 +53,7 @@ fn main() {
 
 ```rust
 fn largest<T>(list: &[T]) -> T {
+}
 ```
 
 该泛型函数的作用是从列表中找出最大的值，其中列表中的元素类型为 T。首先 `largest<T>` 对泛型参数 `T` 进行了声明，然后才在函数参数中进行使用该泛型参数 `list: &[T]` （还记得 `&[T]` 类型吧？这是[数组切片](https://course.rs/basic/compound-type/array.html#数组切片)）。
