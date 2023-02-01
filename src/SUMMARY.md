@@ -342,3 +342,4 @@
     - [1.60](appendix/rust-versions/1.60.md)
     - [1.61](appendix/rust-versions/1.61.md)
     - [1.62](appendix/rust-versions/1.62.md)
+    - [1.63](appendix/rust-versions/1.63.md)
