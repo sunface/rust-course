@@ -196,7 +196,7 @@ repository = "https://github.com/rust-lang/cargo/"
 
 `license` 字段用于描述项目所遵循的开源协议。而 `license-file` 则用于指定包含开源协议的文件所在的路径(相对于 `Cargo.toml`)。
 
-如果要发布到 `crates.io` ，则该协议必须是 [SPDX2.1 协议表达式](https://doc.rust-lang.org/stable/cargo/reference/manifest.html#the-badges-section)。同时 `license` 名称必须是来自于 [SPDX 协议列表 3.11](https://github.com/spdx/license-list-data/tree/v3.11)。
+如果要发布到 `crates.io` ，则该协议必须是 [SPDX2.1 协议表达式](https://spdx.dev/spdx-specification-21-web-version/#h.jxpfx0ykyb60)。同时 `license` 名称必须是来自于 [SPDX 协议列表 3.11](https://github.com/spdx/license-list-data/tree/v3.11)。
 
 SPDX 只支持使用 `AND` 、`OR` 来组合多个开源协议:
 
