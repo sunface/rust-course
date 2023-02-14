@@ -504,8 +504,14 @@ Bingo，虽然过程有些复杂，但是结果还是很喜人，我们终于完
 下面来实现一个更实用的例子，实现官方的#[derive(Default)]宏，废话不说直接开干:
 
 ```rust
+extern crate proc_macro;
+use proc_macro::TokenStream;
+use quote::quote;
+use syn::{self, Data};
+use syn::DeriveInput;
+
 #[proc_macro_derive(MyDefault)]
-pub fn MyDefault(input: TokenStream) -> TokenStream {
+pub fn my_default(input: TokenStream) -> TokenStream {
     let ast: DeriveInput = syn::parse(input).unwrap();
     let id = ast.ident;
 
@@ -522,14 +528,15 @@ pub fn MyDefault(input: TokenStream) -> TokenStream {
 
 
         if field_id.is_none(){
-            //没有ident表示是匿名字段，对于匿名字段，都需要添加 `#idx: #field_type::default(),` 这样的代码
+             //没有ident表示是匿名字段，对于匿名字段，都需要添加 `#field_idx: #field_type::default(),` 这样的代码
+            let field_idx  = syn::Index::from(idx);
             field_ast.extend(quote! {
-                #idx: #field_ty::default(),
+                # field_idx: # field_ty::default(),
             });
         }else{
             //对于命名字段，都需要添加 `#field_name: #field_type::default(),` 这样的代码
             field_ast.extend(quote! {
-                #field_id: #field_ty::default(),
+                # field_id: # field_ty::default(),
             });
         }
     }
@@ -537,9 +544,8 @@ pub fn MyDefault(input: TokenStream) -> TokenStream {
     quote! {
         impl Default for # id {
             fn default() -> Self {
-
                 Self {
-                    #field_ast
+                    # field_ast
                 }
             }
         }
