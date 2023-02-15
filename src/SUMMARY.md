@@ -2,6 +2,7 @@
 
 [Rust 语言圣经](about-book.md)
 [进入 Rust 编程世界](into-rust.md)
+[避免从入门到放弃](first-try/sth-you-should-not-do.md)
 <!-- [快速查询入口](index-list.md) 暂时屏蔽-->
 
 ---
@@ -21,7 +22,7 @@
   - [认识 Cargo](first-try/cargo.md)
   - [不仅仅是 Hello world](first-try/hello-world.md)
   - [下载依赖太慢了？](first-try/slowly-downloading.md)
-  - [避免从入门到放弃](first-try/sth-you-should-not-do.md)
+
 
 # Rust 语言学习
 
