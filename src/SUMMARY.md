@@ -1,7 +1,7 @@
 # Rust 语言圣经
 
-[进入 Rust 编程世界](into-rust.md)
 [Rust 语言圣经](about-book.md)
+[进入 Rust 编程世界](into-rust.md)
 <!-- [快速查询入口](index-list.md) 暂时屏蔽-->
 
 ---
