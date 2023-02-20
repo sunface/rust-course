@@ -274,8 +274,8 @@ match some_u8_value {
 俗话说“杀鸡焉用牛刀”，我们完全可以用 `if let` 的方式来实现：
 
 ```rust
-if let Some(3) = v {
-    println!("three");
+if let Some(num) = v {
+    println!("{}", num);
 }
 ```
 
