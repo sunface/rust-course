@@ -78,12 +78,15 @@ let third: &i32 = &v[2];
 println!("第三个元素是 {}", third);
 
 match v.get(2) {
-    Some(third) => println!("第三个元素是 {}", third),
+    Some(third) => println!("第三个元素是 {third}"),
     None => println!("去你的第三个元素，根本没有！"),
 }
 ```
 
 和其它语言一样，集合类型的索引下标都是从 `0` 开始，`&v[2]` 表示借用 `v` 中的第三个元素，最终会获得该元素的引用。而 `v.get(2)` 也是访问第三个元素，但是有所不同的是，它返回了 `Option<&T>`，因此还需要额外的 `match` 来匹配解构出具体的值。
+
+> 细心的同学会注意到这里使用了两种格式化输出的方式，其中第一种我们在之前已经见过，而第二种是后续新版本中引入的写法，也是更推荐的用法，具体介绍请参见[格式化输出章节](https://course.rs/basic/formatted-output.html)
+
 
 ### 下标索引与 `.get` 的区别
 
@@ -113,7 +116,7 @@ let first = &v[0];
 
 v.push(6);
 
-println!("The first element is: {}", first);
+println!("The first element is: {first}");
 ```
 
 先不运行，来推断下结果，首先 `first = &v[0]` 进行了不可变借用，`v.push` 进行了可变借用，如果 `first` 在 `v.push` 之后不再使用，那么该段代码可以成功编译（原因见[引用的作用域](https://course.rs/basic/ownership/borrowing.html#可变引用与不可变引用不能同时存在)）。
@@ -154,7 +157,7 @@ error: could not compile `collections` due to previous error
 ```rust
 let v = vec![1, 2, 3];
 for i in &v {
-    println!("{}", i);
+    println!("{i}");
 }
 ```
 
