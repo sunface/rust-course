@@ -60,6 +60,7 @@
   - [集合类型](basic/collections/intro.md)
     - [动态数组 Vector](basic/collections/vector.md)
     - [KV 存储 HashMap](basic/collections/hashmap.md)
+  - [认识生命周期](basic/lifetime.md)
   - [类型转换](basic/converse.md)
   - [返回值和错误处理](basic/result-error/intro.md)
     - [panic! 深入剖析](basic/result-error/panic.md)
@@ -72,9 +73,7 @@
   - [格式化输出](basic/formatted-output.md)
 
 - [Rust 高级进阶](advance/intro.md)
-
   - [生命周期](advance/lifetime/intro.md)
-    - [认识生命周期](advance/lifetime/basic.md)
     - [深入生命周期](advance/lifetime/advance.md)
     - [&'static 和 T: 'static](advance/lifetime/static.md)
     <!-- - [一些关于生命周期的误解 todo](advance/lifetime/misconceptions.md) -->
