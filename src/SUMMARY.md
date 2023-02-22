@@ -61,7 +61,6 @@
     - [动态数组 Vector](basic/collections/vector.md)
     - [KV 存储 HashMap](basic/collections/hashmap.md)
   - [认识生命周期](basic/lifetime.md)
-  - [类型转换](basic/converse.md)
   - [返回值和错误处理](basic/result-error/intro.md)
     - [panic! 深入剖析](basic/result-error/panic.md)
     - [返回值 Result 和?](basic/result-error/result.md)
@@ -70,8 +69,9 @@
     - [模块 Module](basic/crate-module/module.md)
     - [使用 use 引入模块及受限可见性](basic/crate-module/use.md)
   - [注释和文档](basic/comment.md)
+  - [类型转换](basic/converse.md)
   - [格式化输出](basic/formatted-output.md)
-
+<!-- - [入门实战：构建一个简单命令行程序 Doing](basic-practice/intro.md) -->
 - [Rust 高级进阶](advance/intro.md)
   - [生命周期](advance/lifetime/intro.md)
     - [深入生命周期](advance/lifetime/advance.md)
