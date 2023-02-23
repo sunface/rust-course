@@ -384,13 +384,13 @@
 [struct 结构体]: https://course.rs/basic/compound-type/struct.html
 [self &self &mut self]: https://course.rs/basic/method.html#selfself-和-mut-self
 [self 与 self]: https://course.rs/basic/trait/trait-object#self-与-self
-[生命周期标注语法]: https://course.rs/advance/lifetime/basic.html#生命周期标注语法
-[生命周期消除]: https://course.rs/advance/lifetime/basic.html#生命周期消除
+[生命周期标注语法]: https://course.rs/basic/lifetime.html#生命周期标注语法
+[生命周期消除]: https://course.rs/basic/lifetime.html#生命周期消除
 [生命周期消除规则补充]: https://course.rs/advance/lifetime/advance.html#生命周期消除规则补充
-[函数中的生命周期]: https://course.rs/advance/lifetime/basic.html#函数中的生命周期
-[结构体中的生命周期]: https://course.rs/advance/lifetime/basic.html#结构体中的生命周期
-[方法中的生命周期]: https://course.rs/advance/lifetime/basic.html#方法中的生命周期
-[静态生命周期]: https://course.rs/advance/lifetime/basic.html#静态生命周期
+[函数中的生命周期]: https://course.rs/basic/lifetime.html#函数中的生命周期
+[结构体中的生命周期]: https://course.rs/basic/lifetime.html#结构体中的生命周期
+[方法中的生命周期]: https://course.rs/basic/lifetime.html#方法中的生命周期
+[静态生命周期]: https://course.rs/basic/lifetime.html#静态生命周期
 [&'static 和 t: 'static]: https://course.rs/advance/lifetime/static.html
 
 [back](#head)

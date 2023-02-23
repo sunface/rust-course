@@ -270,7 +270,7 @@ help: consider using the `'static` lifetime
 
 ```
 
-错误信息引用了一个我们还未介绍的功能：[生命周期(lifetimes)](https://course.rs/advance/lifetime/basic.html)。不过，即使你不理解生命周期，也可以通过错误信息知道这段代码错误的关键信息：
+错误信息引用了一个我们还未介绍的功能：[生命周期(lifetimes)](https://course.rs/basic/lifetime.html)。不过，即使你不理解生命周期，也可以通过错误信息知道这段代码错误的关键信息：
 
 ```text
 this function's return type contains a borrowed value, but there is no value for it to be borrowed from.
