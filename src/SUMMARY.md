@@ -71,7 +71,8 @@
   - [注释和文档](basic/comment.md)
   - [类型转换](basic/converse.md)
   - [格式化输出](basic/formatted-output.md)
-<!-- - [入门实战：构建一个简单命令行程序 Doing](basic-practice/intro.md) -->
+- [入门实战：构建一个简单命令行程序](basic-practice/intro.md)
+  - [基本功能](basic-practice/base-features.md)
 - [Rust 高级进阶](advance/intro.md)
   - [生命周期](advance/lifetime/intro.md)
     - [深入生命周期](advance/lifetime/advance.md)
