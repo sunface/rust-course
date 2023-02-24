@@ -274,7 +274,7 @@ help: consider introducing a named lifetime parameter
   |
 ```
 
-未来在[生命周期](https://course.rs/advance/lifetime/advance.html)中会讲到如何修复这个问题以便在结构体中存储引用，不过在那之前，我们会避免在结构体中使用引用类型。
+未来在[生命周期](https://course.rs/basic/lifetime.html)中会讲到如何修复这个问题以便在结构体中存储引用，不过在那之前，我们会避免在结构体中使用引用类型。
 
 ## 使用 `#[derive(Debug)]` 来打印结构体的信息
 
