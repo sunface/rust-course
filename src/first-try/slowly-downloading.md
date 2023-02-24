@@ -23,7 +23,7 @@ export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_pr
 
 为了使用 `crates.io` 之外的注册服务，我们需要对 `$HOME/.cargo/config.toml` ($CARGO_HOME 下) 文件进行配置，添加新的服务提供商，有两种方式可以实现：增加新的镜像地址和覆盖默认的镜像地址。
 
-> 这里推荐使用[科大的注册服务](http://mirrors.ustc.edu.cn/help/crates.io-index.html)来提升下载速度，以下注册服务的链接都是科大的
+> 这里推荐使用[科大的注册服务](http://mirrors.ustc.edu.cn/help/crates.io-index.html)来提升下载速度，以下注册服务的链接都是科大的。
 
 #### 增加新的镜像地址
 
