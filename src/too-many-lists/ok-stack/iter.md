@@ -416,7 +416,7 @@ test second::test::peek ... ok
 test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured
 ```
 
-最后，还有一点值得注意，之前的代码事实上可以应用[生命周期消除原则](https://course.rs/advance/lifetime/basic.html#生命周期消除):
+最后，还有一点值得注意，之前的代码事实上可以应用[生命周期消除原则](https://course.rs/basic/lifetime.html#生命周期消除):
 ```rust
 impl<T> List<T> {
     pub fn iter<'a>(&'a self) -> Iter<'a, T> {

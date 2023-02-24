@@ -223,7 +223,7 @@ impl SomeTrait for AlwaysEqual {
 
 在之前的 `User` 结构体的定义中，有一处细节：我们使用了自身拥有所有权的 `String` 类型而不是基于引用的 `&str` 字符串切片类型。这是一个有意而为之的选择：因为我们想要这个结构体拥有它所有的数据，而不是从其它地方借用数据。
 
-你也可以让 `User` 结构体从其它对象借用数据，不过这么做，就需要引入[生命周期(lifetimes)](https://course.rs/advance/lifetime/basic.html)这个新概念（也是一个复杂的概念），简而言之，生命周期能确保结构体的作用范围要比它所借用的数据的作用范围要小。
+你也可以让 `User` 结构体从其它对象借用数据，不过这么做，就需要引入[生命周期(lifetimes)](https://course.rs/basic/lifetime.html)这个新概念（也是一个复杂的概念），简而言之，生命周期能确保结构体的作用范围要比它所借用的数据的作用范围要小。
 
 总之，如果你想在结构体中使用一个引用，就必须加上生命周期，否则就会报错：
 
@@ -274,7 +274,7 @@ help: consider introducing a named lifetime parameter
   |
 ```
 
-未来在[生命周期](https://course.rs/advance/lifetime/basic.html)中会讲到如何修复这个问题以便在结构体中存储引用，不过在那之前，我们会避免在结构体中使用引用类型。
+未来在[生命周期](https://course.rs/basic/lifetime.html)中会讲到如何修复这个问题以便在结构体中存储引用，不过在那之前，我们会避免在结构体中使用引用类型。
 
 ## 使用 `#[derive(Debug)]` 来打印结构体的信息
 
