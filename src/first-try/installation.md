@@ -5,7 +5,7 @@
 
 > haha，开个玩笑。读者乃大大，怎么能弃之不顾。
 >
-> 注意：如果你不想用或者不能用 rustup，请参见 [Rust 其它安装方法](https://forge.rust-lang.org/infra/other-installation-methods.html#other-rust-installation-methods)
+> 注意：如果你不想用或者不能用 rustup，请参见 [Rust 其它安装方法](https://forge.rust-lang.org/infra/other-installation-methods.html#other-rust-installation-methods)。
 
 至于版本，现在 Rust 稳定版特性越来越全了，因此下载最新稳定版本即可。由于你用的 Rust 版本可能跟本书写作时不一样，一些编译错误和警告可能也会有所不同。
 
