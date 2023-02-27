@@ -76,6 +76,7 @@
   - [增加模块化和错误处理](basic-practice/refactoring.md)
   - [测试驱动开发](basic-practice/tests.md)
   - [使用环境变量](basic-practice/envs.md)
+  - [重定向错误信息的输出](basic-practice/stderr.md)
   - [使用迭代器来改进程序(可选)](basic-practice/iterators.md)
 - [Rust 高级进阶](advance/intro.md)
   - [生命周期](advance/lifetime/intro.md)
