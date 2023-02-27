@@ -106,7 +106,7 @@
     - [线程同步：锁、Condvar 和信号量](advance/concurrency-with-threads/sync1.md)
     - [线程同步：Atomic 原子操作与内存顺序](advance/concurrency-with-threads/sync2.md)
     - [基于 Send 和 Sync 的线程安全](advance/concurrency-with-threads/send-sync.md)
-    - [实践应用：多线程 Web 服务器 todo](advance/concurrency-with-threads/web-server.md)
+    - [实践应用：多线程 Web 服务器](advance/concurrency-with-threads/web-server.md)
   - [全局变量](advance/global-variable.md)
   - [错误处理](advance/errors.md)
   - [Unsafe Rust](advance/unsafe/intro.md)
