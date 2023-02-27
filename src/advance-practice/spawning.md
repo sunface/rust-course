@@ -2,7 +2,7 @@
 
 同志们，抓稳了，我们即将换挡提速，通向 `mini-redis` 服务端的高速之路已经开启。
 
-不过在开始之前，先来做点收尾工作：上一章节中，我们实现了一个简易的 `mini-redis` 客户端并支持了 `SET`/`GET` 操作, 现在将该[代码](https://course.rs/async-rust/tokio/getting-startted.html#分析未到代码先行)移动到 `examples` 文件夹下，因为我们这个章节要实现的是服务器，后面可以通过运行 `example` 的方式，用之前客户端示例对我们的服务器端进行测试:
+不过在开始之前，先来做点收尾工作：上一章节中，我们实现了一个简易的 `mini-redis` 客户端并支持了 `SET`/`GET` 操作, 现在将该[代码](https://course.rs/advance-practice/getting-startted.html#分析未到代码先行)移动到 `examples` 文件夹下，因为我们这个章节要实现的是服务器，后面可以通过运行 `example` 的方式，用之前客户端示例对我们的服务器端进行测试:
 
 ```shell
 $ mkdir -p examples

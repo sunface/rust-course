@@ -22,7 +22,7 @@ fn bar() -> impl Future<Output = u8> {
 
 `async` 是懒惰的，直到被执行器 `poll` 或者 `.await` 后才会开始运行，其中后者是最常用的运行 `Future` 的方法。 当 `.await` 被调用时，它会尝试运行 `Future` 直到完成，但是若该 `Future` 进入阻塞，那就会让出当前线程的控制权。当 `Future` 后面准备再一次被运行时(例如从 `socket` 中读取到了数据)，执行器会得到通知，并再次运行该 `Future` ，如此循环，直到完成。
 
-以上过程只是一个简述，详细内容在[底层探秘](https://course.rs/async-rust/async/future-excuting.html)中已经被深入讲解过，因此这里不再赘述。
+以上过程只是一个简述，详细内容在[底层探秘](https://course.rs/advance/async/future-excuting.html)中已经被深入讲解过，因此这里不再赘述。
 
 ## `async` 的生命周期
 
