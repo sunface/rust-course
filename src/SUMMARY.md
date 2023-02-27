@@ -124,7 +124,7 @@
     - [一些疑难问题的解决办法](advance/async/pain-points-and-workarounds.md)
     - [实践应用：Async Web 服务器](advance/async/web-server.md)
 
-- [进阶实战: 实现一个简单 redis](advance-practice/intro.md)
+- [进阶实战: 实现一个简单 Redis](advance-practice/intro.md)
   - [tokio 概览](advance-practice/overview.md)
   - [使用初印象](advance-practice/getting-startted.md)
   - [创建异步任务](advance-practice/spawning.md)

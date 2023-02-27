@@ -17,7 +17,7 @@ copy-js = true
 
 [output.html.fold]
 enable = true
-level = 1
+level = 0
 
 [rust]
 edition = "2021"   #在线运行用2021版本的
