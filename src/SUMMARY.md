@@ -12,7 +12,10 @@
 <!-- [Rust 语言周刊](rust-weekly.md) -->
 <!-- [Rust 翻译计划( 代号 Rustt )](rustt.md) -->
 
-# 快速开始
+
+
+
+# Rust 语言基础学习
 
 ---
 
@@ -23,10 +26,6 @@
   - [不仅仅是 Hello world](first-try/hello-world.md)
   - [下载依赖太慢了？](first-try/slowly-downloading.md)
 
-
-# Rust 语言学习
-
----
 
 - [Rust 基础入门](basic/intro.md)
 
@@ -78,6 +77,11 @@
   - [使用环境变量](basic-practice/envs.md)
   - [重定向错误信息的输出](basic-practice/stderr.md)
   - [使用迭代器来改进程序(可选)](basic-practice/iterators.md)
+
+# Rust 语言进阶学习
+
+---
+
 - [Rust 高级进阶](advance/intro.md)
   - [生命周期](advance/lifetime/intro.md)
     - [深入生命周期](advance/lifetime/advance.md)
@@ -106,7 +110,6 @@
     - [线程同步：锁、Condvar 和信号量](advance/concurrency-with-threads/sync1.md)
     - [线程同步：Atomic 原子操作与内存顺序](advance/concurrency-with-threads/sync2.md)
     - [基于 Send 和 Sync 的线程安全](advance/concurrency-with-threads/send-sync.md)
-    - [实践应用：多线程 Web 服务器](advance/concurrency-with-threads/web-server.md)
   - [全局变量](advance/global-variable.md)
   - [错误处理](advance/errors.md)
   - [Unsafe Rust](advance/unsafe/intro.md)
@@ -124,7 +127,10 @@
     - [一些疑难问题的解决办法](advance/async/pain-points-and-workarounds.md)
     - [实践应用：Async Web 服务器](advance/async/web-server.md)
 
-- [进阶实战: 实现一个简单 Redis](advance-practice/intro.md)
+- [进阶实战1: 实现一个 web 服务器](advance-practice1/intro.md)
+  - [构建单线程 Web 服务器](advance-practice1/web-server.md)
+  
+- [进阶实战2: 实现一个简单 Redis](advance-practice/intro.md)
   - [tokio 概览](advance-practice/overview.md)
   - [使用初印象](advance-practice/getting-startted.md)
   - [创建异步任务](advance-practice/spawning.md)
@@ -239,7 +245,7 @@
     - [双单向链表](too-many-lists/advanced-lists/double-singly.md)
     - [栈上的链表](too-many-lists/advanced-lists/stack-allocated.md)
 
-# 高级专题
+# 攻克编译错误
 
 ---
 
@@ -269,6 +275,10 @@
     - [线程间传递消息导致主线程无法结束](compiler/pitfalls/main-with-channel-blocked.md)
     - [警惕 UTF-8 引发的性能隐患](compiler/pitfalls/utf8-performance.md)
 
+# 性能优化
+
+---
+
 - [Rust 性能优化 todo](profiling/intro.md)
 
   - [深入内存 todo](profiling/memory/intro.md)
@@ -296,12 +306,14 @@
     - [编译器优化 todo](profiling/compiler/optimization/intro.md)
       - [Option 枚举 todo](profiling/compiler/optimization/option.md)
 
-- [标准库解析 todo](std/intro.md)
+
+
+<!-- - [标准库解析 todo](std/intro.md)
 
   - [标准库使用最佳实践 todo](std/search.md)
   - [Vector 常用方法 todo](std/vector.md)
   - [HashMap todo](std/hashmap.md)
-  - [Iterator 常用方法 todo](std/iterator.md)
+  - [Iterator 常用方法 todo](std/iterator.md) -->
 
   <!-- - [配置文件解析 todo](cookbook/config.md)
   - [编解码 todo](cookbook/encoding/intro.md)
