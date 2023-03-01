@@ -128,8 +128,8 @@
     - [实践应用：Async Web 服务器](advance/async/web-server.md)
 
 - [进阶实战1: 实现一个 web 服务器](advance-practice1/intro.md)
-  - [构建单线程 Web 服务器](advance-practice1/web-server.md)
-  
+  - [单线程版本](advance-practice1/web-server.md)
+  - [多线程版本](advance-practice1/multi-threads.md)
 - [进阶实战2: 实现一个简单 Redis](advance-practice/intro.md)
   - [tokio 概览](advance-practice/overview.md)
   - [使用初印象](advance-practice/getting-startted.md)
