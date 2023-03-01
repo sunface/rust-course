@@ -100,7 +100,7 @@ unsafe {
 assert_eq!(y, 8);
 ```
 
-## 延迟输出操作符
+## 延迟输出操作数
 
 Rust 编译器对于操作数分配是较为保守的，它会假设 `out` 可以在任何时间被写入，因此 `out` 不会跟其它参数共享它的位置。然而为了保证最佳性能，使用尽量少的寄存器是有必要的，这样它们不必在内联汇编的代码块内保存和重加载。
 
@@ -149,4 +149,46 @@ assert_eq!(a, 8);
 
 ## 显式指定寄存器
 
+一些指令会要求操作数只能存在特定的寄存器中，因此 Rust 的内联汇编提供了一些限制操作符。
+
+大家应该记得之前出现过的 `reg` 是适用于任何架构的通用寄存器，意味着编译器可以自己选择合适的寄存器，但是当你需要显式地指定寄存器时，很可能会变成平台相关的代码，适用移植性会差很多。例如 `x86` 下的寄存器：`eax`, `ebx`, `ecx`, `ebp`, `esi` 等等。
+
+```rust
+use std::arch::asm;
+
+let cmd = 0xd1;
+unsafe {
+    asm!("out 0x64, eax", in("eax") cmd);
+}
+```
+
+上面的例子调用 `out` 指令将 `cmd` 变量的值输出到 `0x64` 内存地址中。由于 `out` 指令只接收 `eax` 和它的子寄存器，因此我们需要使用 `eax` 来指定特定的寄存器。
+
+> 显式寄存器操作数无法用于格式化字符串中，例如我们之前使用的 {}，只能直接在字符串中使用 `eax`。同时，该操作数只能出现在最后，也就是在其它操作数后面出现
+
+```rust
+use std::arch::asm;
+
+fn mul(a: u64, b: u64) -> u128 {
+    let lo: u64;
+    let hi: u64;
+
+    unsafe {
+        asm!(
+            // The x86 mul instruction takes rax as an implicit input and writes
+            // the 128-bit result of the multiplication to rax:rdx.
+            "mul {}",
+            in(reg) a,
+            inlateout("rax") b => lo,
+            lateout("rdx") hi
+        );
+    }
+
+    ((hi as u128) << 64) + lo as u128
+}
+```
+
+这段代码使用了 `mul` 指令，将两个 64 位的输入相乘，生成一个 128 位的结果。
+
+首先将变量 `a` 的值存到寄存器 `reg` 中，其次显式使用寄存器 `rax`，它的值来源于变量 `b`。结果的低 64 位存储在 `rax` 中，然后赋给变量 `lo` ，而结果的高 64 位则存在 `rdx` 中，最后赋给 `hi`。
 
