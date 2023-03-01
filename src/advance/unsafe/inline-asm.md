@@ -192,3 +192,83 @@ fn mul(a: u64, b: u64) -> u128 {
 
 首先将变量 `a` 的值存到寄存器 `reg` 中，其次显式使用寄存器 `rax`，它的值来源于变量 `b`。结果的低 64 位存储在 `rax` 中，然后赋给变量 `lo` ，而结果的高 64 位则存在 `rdx` 中，最后赋给 `hi`。
 
+## Clobbered 寄存器
+
+在很多情况下，无需作为输出的状态都会被内联汇编修改，这个状态被称之为 "clobbered"。
+
+我们需要告诉编译器相关的情况，因为编译器需要在内联汇编语句块的附近存储和恢复这种状态。
+
+```rust
+use std::arch::asm;
+
+fn main() {
+    // three entries of four bytes each
+    let mut name_buf = [0_u8; 12];
+    // String is stored as ascii in ebx, edx, ecx in order
+    // Because ebx is reserved, the asm needs to preserve the value of it.
+    // So we push and pop it around the main asm.
+    // (in 64 bit mode for 64 bit processors, 32 bit processors would use ebx)
+
+    unsafe {
+        asm!(
+            "push rbx",
+            "cpuid",
+            "mov [rdi], ebx",
+            "mov [rdi + 4], edx",
+            "mov [rdi + 8], ecx",
+            "pop rbx",
+            // We use a pointer to an array for storing the values to simplify
+            // the Rust code at the cost of a couple more asm instructions
+            // This is more explicit with how the asm works however, as opposed
+            // to explicit register outputs such as `out("ecx") val`
+            // The *pointer itself* is only an input even though it's written behind
+            in("rdi") name_buf.as_mut_ptr(),
+            // select cpuid 0, also specify eax as clobbered
+            inout("eax") 0 => _,
+            // cpuid clobbers these registers too
+            out("ecx") _,
+            out("edx") _,
+        );
+    }
+
+    let name = core::str::from_utf8(&name_buf).unwrap();
+    println!("CPU Manufacturer ID: {}", name);
+}
+```
+
+例子中，我们使用 `cpuid` 指令来读取 CPU ID，该指令会将值写入到 `eax` 、`edx` 和 `ecx` 中。
+
+即使 `eax` 从没有被读取，我们依然需要告知编译器这个寄存器被修改过，这样编译器就可以在汇编代码之前存储寄存器中的值。这个需要通过将输出声明为 `_` 而不是一个具体的变量名，代表着该输出值被丢弃。
+
+这段代码也会绕过一个限制： `ebx` 是一个 LLVM 保留寄存器，意味着 LLVM 会假设它拥有寄存器的全部控制权，并在汇编代码块结束时将寄存器的状态恢复到最开始的状态。由于这个限制，该寄存器无法被用于输入或者输出，除非编译器使用该寄存器的满足一个通用寄存器的需求(例如 `in(reg)` )。 但这样使用后， `reg` 操作数就在使用保留寄存器时变得危险起来，原因是我们可能会无意识的破坏输入或者输出，毕竟它们共享同一个寄存器。
+
+为了解决这个问题，我们使用 `rdi` 来存储指向输出数组的指针，通过 `push` 的方式存储 `ebx`：在汇编代码块的内部读取 `ebx` 的值，然后写入到输出数组。后面再可以通过 `pop` 的方式来回复 `ebx` 到初始的状态。
+
+`push` 和 `pop` 使用完成的 64 位 `rbx` 寄存器，来确保整个寄存器的内容都被保存。如果是在 32 位机器上，代码将使用 `ebx` 替代。
+
+还还可以在汇编代码内部使用通用寄存器:
+
+```rust
+use std::arch::asm;
+
+// Multiply x by 6 using shifts and adds
+let mut x: u64 = 4;
+unsafe {
+    asm!(
+        "mov {tmp}, {x}",
+        "shl {tmp}, 1",
+        "shl {x}, 2",
+        "add {x}, {tmp}",
+        x = inout(reg) x,
+        tmp = out(reg) _,
+    );
+}
+assert_eq!(x, 4 * 6);
+```
+
+
+## 总结
+
+由于这块儿内容过于专业，本书毕竟是通用的 Rust 学习书籍，因此关于内联汇编就不再赘述。事实上，如果你要真的写出可用的汇编代码，要学习的还很多...
+
+感兴趣的同学可以看看如下英文资料: [Rust Reference](https://doc.rust-lang.org/reference/inline-assembly.html) 和 [Rust By Example](https://doc.rust-lang.org/rust-by-example/unsafe/asm.html#clobbered-registers)。
