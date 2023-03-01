@@ -70,7 +70,7 @@
 
 [array 数组]: https://course.rs/basic/compound-type/array.html
 [array slice]: https://course.rs/basic/compound-type/array.html#数组切片
-[as 转换]: https://course.rs/basic/converse.html#as转换
+[as 转换]: https://course.rs/advance/into-types/converse.html#as转换
 
 [back](#head)
 
@@ -417,7 +417,7 @@
 [关联类型]: https://course.rs/basic/trait/advance-trait.html#关联类型
 [默认泛型类型参数]: https://course.rs/basic/trait/advance-trait.html#默认泛型类型参数
 [特征定义中的特征约束]: https://course.rs/basic/trait/advance-trait.html#特征定义中的特征约束
-[tryinto 转换]: https://course.rs/basic/converse.html#tryinto-转换
+[tryinto 转换]: https://course.rs/advance/into-types/converse.html#tryinto-转换
 [类型别名]: https://course.rs/advance/into-types/custom-type.html#类型别名type-alias
 
 [back](#head)

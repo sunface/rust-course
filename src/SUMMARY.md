@@ -4,10 +4,10 @@
 [进入 Rust 编程世界](into-rust.md)
 [避免从入门到放弃](first-try/sth-you-should-not-do.md)
 <!-- [快速查询入口](index-list.md) 暂时屏蔽-->
-
----
-
 [社区和锈书](community.md)
+
+
+
 <!-- [一本生锈的书](rusty-book.md) -->
 <!-- [Rust 语言周刊](rust-weekly.md) -->
 <!-- [Rust 翻译计划( 代号 Rustt )](rustt.md) -->
@@ -68,9 +68,8 @@
     - [模块 Module](basic/crate-module/module.md)
     - [使用 use 引入模块及受限可见性](basic/crate-module/use.md)
   - [注释和文档](basic/comment.md)
-  - [类型转换](basic/converse.md)
   - [格式化输出](basic/formatted-output.md)
-- [入门实战：构建一个简单命令行程序](basic-practice/intro.md)
+- [入门实战：文件搜索工具](basic-practice/intro.md)
   - [基本功能](basic-practice/base-features.md)
   - [增加模块化和错误处理](basic-practice/refactoring.md)
   - [测试驱动开发](basic-practice/tests.md)
@@ -91,6 +90,7 @@
     - [闭包 Closure](advance/functional-programing/closure.md)
     - [迭代器 Iterator](advance/functional-programing/iterator.md)
   - [深入类型](advance/into-types/intro.md)
+    - [类型转换](advance/into-types/converse.md)
     - [newtype 和 类型别名](advance/into-types/custom-type.md)
     - [Sized 和不定长类型 DST](advance/into-types/sized.md)
     - [枚举和整数](advance/into-types/enum-int.md)
