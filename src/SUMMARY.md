@@ -1,6 +1,6 @@
 # Rust 语言圣经
 
-[Rust 语言圣经](about-book.md)
+[关于本书](about-book.md)
 [进入 Rust 编程世界](into-rust.md)
 [避免从入门到放弃](first-try/sth-you-should-not-do.md)
 <!-- [快速查询入口](index-list.md) 暂时屏蔽-->
@@ -130,6 +130,9 @@
 - [进阶实战1: 实现一个 web 服务器](advance-practice1/intro.md)
   - [单线程版本](advance-practice1/web-server.md)
   - [多线程版本](advance-practice1/multi-threads.md)
+  - [优雅关闭和资源清理](advance-practice1/graceful-shutdown.md)
+
+
 - [进阶实战2: 实现一个简单 Redis](advance-practice/intro.md)
   - [tokio 概览](advance-practice/overview.md)
   - [使用初印象](advance-practice/getting-startted.md)
