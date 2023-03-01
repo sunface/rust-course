@@ -7,8 +7,8 @@
 
 ---
 
-[Rust 语言中文网](community.md)
-[一本生锈的书](rusty-book.md)
+[社区和锈书](community.md)
+<!-- [一本生锈的书](rusty-book.md) -->
 <!-- [Rust 语言周刊](rust-weekly.md) -->
 <!-- [Rust 翻译计划( 代号 Rustt )](rustt.md) -->
 
