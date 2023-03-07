@@ -80,7 +80,6 @@ list -> A -> B -> C
 
 例如以下的测试代码会试图创建一个很长的链表，然后会导致栈溢出错误:
 ```rust
-```rust, ignore
 #[test]
 fn long_list() {
     let mut list = List::new();
@@ -165,7 +164,7 @@ test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured
 
 <span style="float:left"><img src="https://rust-unofficial.github.io/too-many-lists/img/profbee.gif" /></span>
 
-#### 提前优化的好处!
+#### 为什么要提前优化？
 
 事实上，我们在这里做了提前优化，否则可以使用 `while let Some(_) = self.pop() { }`, 这种实现显然更加简单. 那么问题来了：它们的区别是什么，有哪些性能上的好处？特别是在链表不仅仅支持 `i32` 时。
 
