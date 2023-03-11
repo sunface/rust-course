@@ -103,7 +103,7 @@ Hello, world!
 试着运行一下我们高性能的 `release` 程序：
 
 ```console
-$ ./target/release/world_hello
+$ ./target/debug/world_hello
 Hello, world!
 ```
 
