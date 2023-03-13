@@ -98,7 +98,7 @@ fn handle_connection(mut stream: TcpStream) {
 - 引入 `std::io::prelude` 和 `std::io::BufReader` 是引入相应的特征和类型，帮助我们读取和写入数据
 - `BufReader` 可以实现缓冲区读取，底层其实是基于 `std::io::Read` 实现
 - 可以使用 `lines` 方法来获取一个迭代器，可以对传输的内容流进行按行迭代读取，要使用该方法，必须先引入 `std::io::BufRead`
-- 最后使用 `collecto` 消费掉迭代器，最终客户端发来的请求数据被存到 `http_request` 这个动态数组中
+- 最后使用 `collect` 消费掉迭代器，最终客户端发来的请求数据被存到 `http_request` 这个动态数组中
 
 大家可能会比较好奇，该如何判断客户端发来的 HTTP 数据是否读取完成，答案就在于客户端会在请求数据的结尾附上两个换行符，当我们检测到某一行字符串为空时，就意味着请求数据已经传输完毕，可以 `collect` 了。
 
