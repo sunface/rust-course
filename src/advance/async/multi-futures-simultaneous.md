@@ -1,10 +1,10 @@
-# 使用`join!`和`select!`同时运行多个 Future
+# 使用 `join!` 和 `select!` 同时运行多个 Future
 
-招数单一，杀伤力惊人，说的就是 `.await` ，但是光用它，还真做不到一招鲜吃遍天。比如我们该如何同时运行多个任务，而不是使用`.await`慢悠悠地排队完成。
+招数单一，杀伤力惊人，说的就是 `.await` ，但是光用它，还真做不到一招鲜吃遍天。比如我们该如何同时运行多个任务，而不是使用 `.await` 慢悠悠地排队完成。
 
 ## join!
 
-`futures` 包中提供了很多实用的工具，其中一个就是 `join!`宏， 它允许我们同时等待多个不同 `Future` 的完成，且可以并发地运行这些 `Future`。
+`futures` 包中提供了很多实用的工具，其中一个就是 `join!` 宏， 它允许我们同时等待多个不同 `Future` 的完成，且可以并发地运行这些 `Future`。
 
 先来看一个不是很给力的、使用`.await`的版本:
 
@@ -43,13 +43,13 @@ async fn enjoy_book_and_music() -> (Book, Music) {
 }
 ```
 
-`Duang`，目标顺利达成。同时`join!`会返回一个元组，里面的值是对应的`Future`执行结束后输出的值。
+`Duang`，目标顺利达成。同时 `join!` 会返回一个元组，里面的值是对应的 `Future` 执行结束后输出的值。
 
 > 如果希望同时运行一个数组里的多个异步任务，可以使用 `futures::future::join_all` 方法
 
 ## try_join!
 
-由于`join!`必须等待它管理的所有 `Future` 完成后才能完成，如果你希望在某一个 `Future` 报错后就立即停止所有 `Future` 的执行，可以使用 `try_join!`，特别是当 `Future` 返回 `Result` 时:
+由于 `join!` 必须等待它管理的所有 `Future` 完成后才能完成，如果你希望在某一个 `Future` 报错后就立即停止所有 `Future` 的执行，可以使用 `try_join!`，特别是当 `Future` 返回 `Result` 时:
 
 ```rust
 use futures::try_join;
@@ -64,7 +64,7 @@ async fn get_book_and_music() -> Result<(Book, Music), String> {
 }
 ```
 
-有一点需要注意，传给 `try_join!` 的所有 `Future` 都必须拥有相同的错误类型。如果错误类型不同，可以考虑使用来自 `futures::future::TryFutureExt` 模块的 `map_err`和`err_info`方法将错误进行转换:
+有一点需要注意，传给 `try_join!` 的所有 `Future` 都必须拥有相同的错误类型。如果错误类型不同，可以考虑使用来自 `futures::future::TryFutureExt` 模块的 `map_err` 和 `err_info` 方法将错误进行转换:
 
 ```rust
 use futures::{
@@ -82,11 +82,11 @@ async fn get_book_and_music() -> Result<(Book, Music), String> {
 }
 ```
 
-`join!`很好很强大，但是人无完人，J 无完 J, 它有一个很大的问题。
+`join!` 很好很强大，但是人无完人，J 无完 J, 它有一个很大的问题。
 
 ## select!
 
-`join!`只有等所有 `Future` 结束后，才能集中处理结果，如果你想同时等待多个 `Future` ，且任何一个 `Future` 结束后，都可以立即被处理，可以考虑使用 `futures::select!`:
+`join!` 只有等所有 `Future` 结束后，才能集中处理结果，如果你想同时等待多个 `Future` ，且任何一个 `Future` 结束后，都可以立即被处理，可以考虑使用 `futures::select!`:
 
 ```rust
 use futures::{
@@ -119,8 +119,8 @@ async fn race_tasks() {
 
 `select!`还支持 `default` 和 `complete` 分支:
 
-- `complete` 分支当所有的 `Future` 和 `Stream` 完成后才会被执行，它往往配合`loop`使用，`loop`用于循环完成所有的 `Future`
-- `default`分支，若没有任何 `Future` 或 `Stream` 处于 `Ready` 状态， 则该分支会被立即执行
+- `complete` 分支当所有的 `Future` 和 `Stream` 完成后才会被执行，它往往配合 `loop` 使用，`loop` 用于循环完成所有的 `Future`
+- `default` 分支，若没有任何 `Future` 或 `Stream` 处于 `Ready` 状态， 则该分支会被立即执行
 
 ```rust
 use futures::future;
@@ -135,16 +135,16 @@ pub fn main() {
             a = a_fut => total += a,
             b = b_fut => total += b,
             complete => break,
-            default => panic!(), // 该分支永远不会运行，因为`Future`会先运行，然后是`complete`
+            default => panic!(), // 该分支永远不会运行，因为 `Future` 会先运行，然后是 `complete`
         };
     }
     assert_eq!(total, 10);
 }
 ```
 
-以上代码 `default` 分支由于最后一个运行，而在它之前 `complete` 分支已经通过 `break` 跳出了循环，因此`default`永远不会被执行。
+以上代码 `default` 分支由于最后一个运行，而在它之前 `complete` 分支已经通过 `break` 跳出了循环，因此 `default` 永远不会被执行。
 
-如果你希望 `default` 也有机会露下脸，可以将 `complete` 的 `break` 修改为其它的，例如`println!("completed!")`，然后再观察下运行结果。
+如果你希望 `default` 也有机会露下脸，可以将 `complete` 的 `break` 修改为其它的，例如 `println!("completed!")`，然后再观察下运行结果。
 
 再回到 `select` 的第一个例子中，里面有一段代码长这样：
 
@@ -159,14 +159,14 @@ pin_mut!(t1, t2);
 
 #### 跟 `Unpin` 和 `FusedFuture` 进行交互
 
-首先，`.fuse()`方法可以让 `Future` 实现 `FusedFuture` 特征， 而 `pin_mut!` 宏会为 `Future` 实现 `Unpin`特征，这两个特征恰恰是使用 `select` 所必须的:
+首先，`.fuse()` 方法可以让 `Future` 实现 `FusedFuture` 特征， 而 `pin_mut!` 宏会为 `Future` 实现 `Unpin` 特征，这两个特征恰恰是使用 `select` 所必须的:
 
-- `Unpin`，由于 `select` 不会通过拿走所有权的方式使用`Future`，而是通过可变引用的方式去使用，这样当 `select` 结束后，该 `Future` 若没有被完成，它的所有权还可以继续被其它代码使用。
-- `FusedFuture`的原因跟上面类似，当 `Future` 一旦完成后，那 `select` 就不能再对其进行轮询使用。`Fuse`意味着熔断，相当于 `Future` 一旦完成，再次调用`poll`会直接返回`Poll::Pending`。
+- `Unpin`，由于 `select` 不会通过拿走所有权的方式使用 `Future`，而是通过可变引用的方式去使用，这样当 `select` 结束后，该 `Future` 若没有被完成，它的所有权还可以继续被其它代码使用。
+- `FusedFuture` 的原因跟上面类似，当 `Future` 一旦完成后，那 `select` 就不能再对其进行轮询使用。`Fuse` 意味着熔断，相当于 `Future` 一旦完成，再次调用 `poll` 会直接返回 `Poll::Pending`。
 
-只有实现了`FusedFuture`，`select` 才能配合 `loop` 一起使用。假如没有实现，就算一个 `Future` 已经完成了，它依然会被 `select` 不停的轮询执行。
+只有实现了 `FusedFuture`，`select` 才能配合 `loop` 一起使用。假如没有实现，就算一个 `Future` 已经完成了，它依然会被 `select` 不停的轮询执行。
 
-`Stream` 稍有不同，它们使用的特征是 `FusedStream`。 通过`.fuse()`(也可以手动实现)实现了该特征的 `Stream`，对其调用`.next()` 或 `.try_next()`方法可以获取实现了`FusedFuture`特征的`Future`:
+`Stream` 稍有不同，它们使用的特征是 `FusedStream`。 通过 `.fuse()`(也可以手动实现)实现了该特征的 `Stream`，对其调用 `.next()` 或 `.try_next()` 方法可以获取实现了 `FusedFuture` 特征的`Future`:
 
 ```rust
 use futures::{
@@ -199,7 +199,7 @@ async fn add_two_streams(
 
 一个很实用但又鲜为人知的函数是 `Fuse::terminated()` ，可以使用它构建一个空的 `Future` ，空自然没啥用，但是如果它能在后面再被填充呢？
 
-考虑以下场景：当你要在`select`循环中运行一个任务，但是该任务却是在`select`循环内部创建时，上面的函数就非常好用了。
+考虑以下场景：当你要在 `select` 循环中运行一个任务，但是该任务却是在 `select` 循环内部创建时，上面的函数就非常好用了。
 
 ```rust
 use futures::{
@@ -272,13 +272,13 @@ async fn run_loop(
     loop {
         select! {
             () = interval_timer.select_next_some() => {
-                 // 定时器已结束，若`get_new_num_fut`没有在运行，就创建一个新的
+                 // 定时器已结束，若 `get_new_num_fut` 没有在运行，就创建一个新的
                 if get_new_num_fut.is_terminated() {
                     get_new_num_fut.set(get_new_num().fuse());
                 }
             },
             new_num = get_new_num_fut => {
-                 // 收到新的数字 -- 创建一个新的`run_on_new_num_fut` (并没有像之前的例子那样丢弃掉旧值)
+                 // 收到新的数字 -- 创建一个新的 `run_on_new_num_fut` (并没有像之前的例子那样丢弃掉旧值)
                 run_on_new_num_futs.push(run_on_new_num(new_num));
             },
             // 运行 `run_on_new_num_futs`, 并检查是否有已经完成的
