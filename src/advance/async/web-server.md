@@ -34,7 +34,7 @@ fn handle_connection(mut stream: TcpStream) {
     let get = b"GET / HTTP/1.1\r\n";
 
 
-    // 处理HTTP协议头，若不符合则返回404和对应的`html`文件
+    // 处理HTTP协议头，若不符合则返回404和对应的 `html` 文件
     let (status_line, filename) = if buffer.starts_with(get) {
         ("HTTP/1.1 200 OK\r\n\r\n", "hello.html")
     } else {
@@ -45,7 +45,7 @@ fn handle_connection(mut stream: TcpStream) {
     // 将回复内容写入连接缓存中
     let response = format!("{status_line}{contents}");
     stream.write_all(response.as_bytes()).unwrap();
-    // 使用flush将缓存中的内容发送到客户端
+    // 使用 flush 将缓存中的内容发送到客户端
     stream.flush().unwrap();
 }
 ```
@@ -98,13 +98,13 @@ async fn handle_connection(mut stream: TcpStream) {
 }
 ```
 
-该修改会将函数的返回值从 `()` 变成 `Future<Output=()>` ，因此直接运行将不再有任何效果，只用通过`.await`或执行器的`poll`调用后才能获取 `Future` 的结果。
+该修改会将函数的返回值从 `()` 变成 `Future<Output=()>` ，因此直接运行将不再有任何效果，只用通过 `.await` 或执行器的 `poll` 调用后才能获取 `Future` 的结果。
 
-在之前的代码中，我们使用了自己实现的简单的执行器来进行`.await` 或 `poll` ，实际上这只是为了学习原理，**在实际项目中，需要选择一个三方的 `async` 运行时来实现相关的功能**。 具体的选择我们将在下一章节进行讲解，现在先选择 `async-std` ，该包的最大优点就是跟标准库的 API 类似，相对来说更简单易用。
+在之前的代码中，我们使用了自己实现的简单的执行器来进行 `.await` 或 `poll` ，实际上这只是为了学习原理，**在实际项目中，需要选择一个三方的 `async` 运行时来实现相关的功能**。 具体的选择我们将在下一章节进行讲解，现在先选择 `async-std` ，该包的最大优点就是跟标准库的 API 类似，相对来说更简单易用。
 
-#### 使用 async-std 作为异步运行时
+#### 使用 `async-std` 作为异步运行时
 
-下面的例子将演示如何使用一个异步运行时`async-std`来让之前的 `async fn` 函数运行起来，该运行时允许使用属性 `#[async_std::main]` 将我们的 `fn main` 函数变成 `async fn main` ，这样就可以在 `main` 函数中直接调用其它 `async` 函数，否则你得用之前章节的 `block_on` 方法来让 `main` 去阻塞等待异步函数的完成，但是这种简单粗暴的阻塞等待方式并不灵活。
+下面的例子将演示如何使用一个异步运行时 `async-std` 来让之前的 `async fn` 函数运行起来，该运行时允许使用属性 `#[async_std::main]` 将我们的 `fn main` 函数变成 `async fn main` ，这样就可以在 `main` 函数中直接调用其它 `async` 函数，否则你得用之前章节的 `block_on` 方法来让 `main` 去阻塞等待异步函数的完成，但是这种简单粗暴的阻塞等待方式并不灵活。
 
 修改 `Cargo.toml` 添加 `async-std` 包并开启相应的属性:
 
@@ -167,7 +167,7 @@ async fn handle_connection(mut stream: TcpStream) {
 
 ## 并发地处理连接
 
-上面代码最大的问题是 `listener.incoming()` 是阻塞的迭代器。当 `listener` 在等待连接时，执行器是无法执行其它`Future`的，而且只有在我们处理完已有的连接后，才能接收新的连接。
+上面代码最大的问题是 `listener.incoming()` 是阻塞的迭代器。当 `listener` 在等待连接时，执行器是无法执行其它 `Future` 的，而且只有在我们处理完已有的连接后，才能接收新的连接。
 
 解决方法是将 `listener.incoming()` 从一个阻塞的迭代器变成一个非阻塞的 `Stream`， 后者在前面章节有过专门介绍：
 
@@ -235,7 +235,7 @@ async fn main() {
 
 至此，我们实现了同时使用并行(多线程)和并发( `async` )来同时处理多个请求！
 
-## 测试 handle_connection 函数
+## 测试 `handle_connection` 函数
 
 对于测试 Web 服务器，使用集成测试往往是最简单的，但是在本例子中，将使用单元测试来测试连接处理函数的正确性。
 
