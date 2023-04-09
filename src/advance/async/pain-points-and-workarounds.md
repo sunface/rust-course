@@ -35,7 +35,7 @@ error[E0282]: type annotations needed
    |         ^^ cannot infer type for type parameter `E` declared on the enum `Result`
 ```
 
-原因在于编译器无法推断出 `Result<T, E>`中的 `E` 的类型， 而且编译器的提示```consider giving `fut` a type```你也别傻乎乎的相信，然后尝试半天，最后无奈放弃：目前还没有办法为 `async` 语句块指定返回类型。
+原因在于编译器无法推断出 `Result<T, E>` 中的 `E` 的类型， 而且编译器的提示 ```consider giving `fut` a type``` 你也别傻乎乎的相信，然后尝试半天，最后无奈放弃：目前还没有办法为 `async` 语句块指定返回类型。
 
 既然编译器无法推断出类型，那咱就给它更多提示，可以使用 `::< ... >` 的方式来增加类型注释：
 
@@ -47,13 +47,13 @@ let fut = async {
 };
 ```
 
-给予类型注释后此时编译器就知道`Result<T, E>`中的 `E` 的类型是`String`，进而成功通过编译。
+给予类型注释后此时编译器就知道 `Result<T, E>` 中的 `E` 的类型是 `String`，进而成功通过编译。
 
 ## async 函数和 Send 特征
 
 在多线程章节我们深入讲过 `Send` 特征对于多线程间数据传递的重要性，对于 `async fn` 也是如此，它返回的 `Future` 能否在线程间传递的关键在于 `.await` 运行过程中，作用域中的变量类型是否是 `Send`。
 
-学到这里，相信大家已经很清楚`Rc`无法在多线程环境使用，原因就在于它并未实现 `Send` 特征，那咱就用它来做例子:
+学到这里，相信大家已经很清楚 `Rc` 无法在多线程环境使用，原因就在于它并未实现 `Send` 特征，那咱就用它来做例子:
 
 ```rust
 use std::rc::Rc;
@@ -78,7 +78,7 @@ fn main() {
 }
 ```
 
-即使上面的 `foo` 返回的 `Future` 是 `Send`， 但是在它内部短暂的使用 `NotSend` 依然是安全的，原因在于它的作用域并没有影响到 `.await`，下面来试试声明一个变量，然后让 `.await`的调用处于变量的作用域中试试:
+即使上面的 `foo` 返回的 `Future` 是 `Send`， 但是在它内部短暂的使用 `NotSend` 依然是安全的，原因在于它的作用域并没有影响到 `.await`，下面来试试声明一个变量，然后让 `.await` 的调用处于变量的作用域中试试:
 
 ```rust
 async fn foo() {
@@ -127,7 +127,7 @@ async fn foo() {
 
 ## 递归使用 async fn
 
-在内部实现中，`async fn`被编译成一个状态机，这会导致递归使用 `async fn` 变得较为复杂， 因为编译后的状态机还需要包含自身。
+在内部实现中，`async fn` 被编译成一个状态机，这会导致递归使用 `async fn` 变得较为复杂， 因为编译后的状态机还需要包含自身。
 
 ```rust
 // foo函数:
@@ -141,7 +141,7 @@ enum Foo {
     Second(StepTwo),
 }
 
-// 因此recursive函数
+// 因此 recursive 函数
 async fn recursive() {
     recursive().await;
     recursive().await;
@@ -166,7 +166,7 @@ error[E0733]: recursion in an `async fn` requires boxing
   = note: a recursive `async fn` must be rewritten to return a boxed future.
 ```
 
-如果认真学过之前的章节，大家应该知道只要将其使用 `Box` 放到堆上而不是栈上，就可以解决，在这里还是要称赞下 Rust 的编译器，给出的提示总是这么精确```recursion in an `async fn` requires boxing```。
+如果认真学过之前的章节，大家应该知道只要将其使用 `Box` 放到堆上而不是栈上，就可以解决，在这里还是要称赞下 Rust 的编译器，给出的提示总是这么精确 ```recursion in an `async fn` requires boxing```。
 
 就算是使用 `Box`，这里也大有讲究。如果我们试图使用 `Box::pin` 这种方式去包裹是不行的，因为编译器自身的限制限制了我们(刚夸过它。。。)。为了解决这种问题，我们只能将 `recursive` 转变成一个正常的函数，该函数返回一个使用 `Box` 包裹的 `async` 语句块：
 
@@ -245,5 +245,5 @@ impl Advertisement for AutoplayingVideo {
 }
 ```
 
-不过使用该包并不是免费的，每一次特征中的`async`函数被调用时，都会产生一次堆内存分配。对于大多数场景，这个性能开销都可以接受，但是当函数一秒调用几十万、几百万次时，就得小心这块儿代码的性能了！
+不过使用该包并不是免费的，每一次特征中的 `async` 函数被调用时，都会产生一次堆内存分配。对于大多数场景，这个性能开销都可以接受，但是当函数一秒调用几十万、几百万次时，就得小心这块儿代码的性能了！
 
