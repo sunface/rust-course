@@ -447,14 +447,14 @@ fn main() {
     let pair2 = pair.clone();
 
     thread::spawn(move|| {
-        let &(ref lock, ref cvar) = &*pair2;
+        let (lock, cvar) = &*pair2;
         let mut started = lock.lock().unwrap();
         println!("changing started");
         *started = true;
         cvar.notify_one();
     });
 
-    let &(ref lock, ref cvar) = &*pair;
+    let (lock, cvar) = &*pair;
     let mut started = lock.lock().unwrap();
     while !*started {
         started = cvar.wait(started).unwrap();
