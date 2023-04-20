@@ -255,6 +255,26 @@ match some_u8_value {
 
 通过将 `_` 其放置于其他分支后，`_` 将会匹配所有遗漏的值。`()` 表示返回**单元类型**与所有分支返回值的类型相同，所以当匹配到 `_` 后，什么也不会发生。
 
+除了`_`通配符，用一个变量来承载其他情况也是可以的。
+
+```rust
+#[derive(Debug)]
+enum Direction {
+    East,
+    West,
+    North,
+    South,
+}
+
+fn main() {
+    let dire = Direction::South;
+    match dire {
+        Direction::East => println!("East"),
+        other => println!("other direction: {:?}", other),
+    };
+}
+```
+
 然而，在某些场景下，我们其实只关心**某一个值是否存在**，此时 `match` 就显得过于啰嗦。
 
 ## `if let` 匹配
