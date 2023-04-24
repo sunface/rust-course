@@ -368,3 +368,4 @@
     - [1.66](appendix/rust-versions/1.66.md)
     - [1.67](appendix/rust-versions/1.67.md)
     - [1.68](appendix/rust-versions/1.68.md)
+    - [1.69](appendix/rust-versions/1.69.md)
