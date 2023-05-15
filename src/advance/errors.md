@@ -685,7 +685,7 @@ fn render() -> Result<String> {
 }
 ```
 
-关于如何选用 `thiserror` 和 `anyhow` 只需要遵循一个原则即可：**是否关注自定义错误消息**，关注则使用 `thiserror`（常见业务代码），否则使用 `anyhow`（编写第三方库代码）。
+关于如何选用 `thiserror` 和 `anyhow` 只需要遵循一个原则即可：**是否关注自定义错误消息**，关注则使用 `thiserror`（编写第三方库代码），否则使用 `anyhow`（常见业务代码）。
 
 ## 总结
 
