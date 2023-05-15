@@ -498,7 +498,7 @@ string_clear = ""
 
 1、使用 `+` 或者 `+=` 连接字符串
 
-使用 `+` 或者 `+=` 连接字符串，要求右边的参数必须为字符串的切片引用（Slice）类型。其实当调用 `+` 的操作符时，相当于调用了 `std::string` 标准库中的 [`add()`](https://doc.rust-lang.org/std/string/struct.String.html#method.add) 方法，这里 `add()` 方法的第二个参数是一个引用的类型。因此我们在使用 `+`， 必须传递切片引用类型。不能直接传递 `String` 类型。**`+` 和 `+=` 都是返回一个新的字符串。所以变量声明可以不需要 `mut` 关键字修饰**。
+使用 `+` 或者 `+=` 连接字符串，要求右边的参数必须为字符串的切片引用（Slice）类型。其实当调用 `+` 的操作符时，相当于调用了 `std::string` 标准库中的 [`add()`](https://doc.rust-lang.org/std/string/struct.String.html#method.add) 方法，这里 `add()` 方法的第二个参数是一个引用的类型。因此我们在使用 `+`， 必须传递切片引用类型。不能直接传递 `String` 类型。**`+` 是返回一个新的字符串，所以变量声明可以不需要 `mut` 关键字修饰**。
 
 示例代码如下：
 
@@ -508,7 +508,7 @@ fn main() {
     let string_rust = String::from("rust");
     // &string_rust会自动解引用为&str
     let result = string_append + &string_rust;
-    let mut result = result + "!";
+    let mut result = result + "!"; // `result + "!"` 中的 `result` 是不可变的
     result += "!!!";
 
     println!("连接字符串 + -> {}", result);
