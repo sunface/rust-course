@@ -28,6 +28,13 @@ $ cd world_hello
 上面的命令使用 `cargo new` 创建一个项目，项目名是 `world_hello` （向读者势力低头的项目名称，泪奔），该项目的结构和配置文件都是由 `cargo` 生成，意味着**我们的项目被 `cargo` 所管理**。
 
 > 如果你在终端无法使用这个命令，考虑一下 `环境变量` 是否正确的设置：把 `cargo` 可执行文件所在的目录添加到环境变量中。
+>
+> 如果是在 Windows 的 WLS2 子系统下，出现以下错误：
+>
+> `error: command failed: 'rustc'`
+> `error: caused by: Permission denied (os error 13)`
+>
+> 可尝试先卸载，再使用`sudo`命令进行安装：`$ sudo curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh`
 
 早期的 `cargo` 在创建项目时，必须添加 `--bin` 的参数，如下所示：
 
