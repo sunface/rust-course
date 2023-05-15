@@ -290,7 +290,7 @@ error[E0507]: cannot move out of borrowed content
 
 又怎么了! (ﾉಥ益ಥ）ﾉ﻿ ┻━┻
 
-大家还记得之前章节的内容吗？原因是这里我们忘记了 `as_ref` ，然后值的所有权被转移到了 `map` 中，结果我们在内部引用了一个局部值，造成一个垂悬引用：
+大家还记得之前章节的内容吗？原因是这里我们忘记了 `as_ref` ，然后值的所有权被转移到了 `map` 中，结果我们在内部引用了一个局部值，造成一个悬垂引用：
 ```rust
 pub struct Iter<'a, T> {
     next: Option<&'a Node<T>>,
