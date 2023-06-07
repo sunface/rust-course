@@ -320,7 +320,7 @@ fn main() {
 
                     // 去锁MUTEX2
                     let guard = MUTEX2.try_lock();
-                    println!("线程 {} 获取MUTEX2锁的结果: {:?}", i_thread, guard);
+                    println!("线程 {} 获取 MUTEX2 锁的结果: {:?}", i_thread, guard);
                 // 线程2
                 } else {
                     // 锁住MUTEX2
