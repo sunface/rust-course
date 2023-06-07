@@ -349,7 +349,7 @@ fn main() {
 ```console
 线程 0 锁住了MUTEX1，接着准备去锁MUTEX2 !
 线程 1 锁住了MUTEX2, 准备去锁MUTEX1
-线程 1 获取MUTEX1锁的结果: Err("WouldBlock")
+线程 1 获取 MUTEX1 锁的结果: Err("WouldBlock")
 线程 0 获取MUTEX2锁的结果: Ok(0)
 死锁没有发生
 ```
