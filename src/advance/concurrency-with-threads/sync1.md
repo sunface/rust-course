@@ -329,7 +329,7 @@ fn main() {
                     println!("线程 {} 锁住了MUTEX2, 准备去锁MUTEX1", i_thread);
                     sleep(Duration::from_millis(10));
                     let guard = MUTEX1.try_lock();
-                    println!("线程 {} 获取MUTEX1锁的结果: {:?}", i_thread, guard);
+                    println!("线程 {} 获取 MUTEX1 锁的结果: {:?}", i_thread, guard);
                 }
             }
         }));
