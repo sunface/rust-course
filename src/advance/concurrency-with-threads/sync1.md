@@ -320,7 +320,7 @@ fn main() {
 
                     // 去锁MUTEX2
                     let guard = MUTEX2.try_lock();
-                    println!("线程1获取MUTEX2锁的结果: {:?}",guard);
+                    println!("线程 {} 获取 MUTEX2 锁的结果: {:?}", i_thread, guard);
                 // 线程2
                 } else {
                     // 锁住MUTEX2
@@ -329,7 +329,7 @@ fn main() {
                     println!("线程 {} 锁住了MUTEX2, 准备去锁MUTEX1", i_thread);
                     sleep(Duration::from_millis(10));
                     let guard = MUTEX1.try_lock();
-                    println!("线程2获取MUTEX1锁的结果: {:?}",guard);
+                    println!("线程 {} 获取 MUTEX1 锁的结果: {:?}", i_thread, guard);
                 }
             }
         }));
@@ -349,8 +349,8 @@ fn main() {
 ```console
 线程 0 锁住了MUTEX1，接着准备去锁MUTEX2 !
 线程 1 锁住了MUTEX2, 准备去锁MUTEX1
-线程2获取MUTEX1锁的结果: Err("WouldBlock")
-线程1获取MUTEX2锁的结果: Ok(0)
+线程 1 获取 MUTEX1 锁的结果: Err("WouldBlock")
+线程 0 获取 MUTEX2 锁的结果: Ok(0)
 死锁没有发生
 ```
 
