@@ -600,6 +600,7 @@ fn main() {
     );
 
     // 换行了也会保持之前的字符串格式
+    // 使用\忽略换行符
     let long_string = "String literals
                         can span multiple lines.
                         The linebreak and indentation here ->\
