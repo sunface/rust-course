@@ -95,7 +95,7 @@ registry = "git://mirrors.ustc.edu.cn/crates.io-index"
 
 根据经验来看，卡住不动往往发生在更新索引时。毕竟 Rust 的包越来越多，索引也越来越大，如果不使用国内镜像，卡住还蛮正常的，好在，我们也无需经常更新索引 :P
 
-#### Blocking waiting for file lock on package cache
+### Blocking waiting for file lock on package cache
 不过这里有一个坑，需要大家注意，如果你同时打开了 VSCODE 和命令行，然后修改了 `Cargo.toml`，此时 VSCODE 的 rust-analyzer 插件会自动检测到依赖的变更，去下载新的依赖。
 
 在 VSCODE 下载的过程中( 特别是更新索引，可能会耗时很久)，假如你又在命令行中运行类似 `cargo run` 或者 `cargo build` 的命令，就会提示一行有些看不太懂的内容：
