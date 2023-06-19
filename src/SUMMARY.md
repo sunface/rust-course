@@ -147,6 +147,7 @@
   - [优雅的关闭](advance-practice/graceful-shutdown.md)
   - [异步跟同步共存](advance-practice/bridging-with-sync.md)
 
+<!-- -  [Rust 设计模式](advance-practice/design-pattern.md) -->
 
 - [Rust 难点攻关](difficulties/intro.md)
   - [切片和切片引用](difficulties/slice.md)
