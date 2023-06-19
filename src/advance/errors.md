@@ -684,6 +684,24 @@ fn render() -> Result<String> {
     Ok(source)
 }
 ```
+`anyhow`还可以利用``context``和`with_context`来给错误加上上下文（context）, 比如说
+```rust
+    let file = std::env::var("MARKDOWN")
+      .with_context(|| "environment variable not found", )?;
+```
+这样报错时样式如下
+```
+Error: environment variable not found
+
+Caused by:
+    environment variable not found
+```
+借助于`with_context`, 也可以将报错与实际的环境结合起来.
+```rust
+    let varname: &str = "MARKDOWN";
+    let file = std::env::var(varname)
+        .with_context(|| format!("environment variable {} not found", varname) )?;
+```
 
 关于如何选用 `thiserror` 和 `anyhow` 只需要遵循一个原则即可：**是否关注自定义错误消息**，关注则使用 `thiserror`（常见业务代码），否则使用 `anyhow`（编写第三方库代码）。
 
