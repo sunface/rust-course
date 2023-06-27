@@ -387,7 +387,7 @@ fn main() {
 [Person { age: 1, name: "John" }, Person { age: 25, name: "John" }, Person { age: 25, name: "Zoe" }, Person { age: 30, name: "Al" }, Person { age: 60, name: "Al" }]
 ```
 
-需要 `derive` `Ord` 相关特性，需要确保你的结构体中所有的属性均实现了 `Ord` 相关特性，否则则会发生编译错误。`derive` 的默认实现会依据属性的顺序依次进行比较，如上述例子中，当 `Person` 的 `name` 值相同，则会使用 `age` 进行比较。
+需要 `derive` `Ord` 相关特性，需要确保你的结构体中所有的属性均实现了 `Ord` 相关特性，否则会发生编译错误。`derive` 的默认实现会依据属性的顺序依次进行比较，如上述例子中，当 `Person` 的 `name` 值相同，则会使用 `age` 进行比较。
 
 
 ## 课后练习
