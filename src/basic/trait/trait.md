@@ -137,7 +137,7 @@ impl Summary for Weibo {
 sunface发表了微博好像微博没Tweet好用
 ```
 
-默认实现允许调用相同特征中的其他方法，哪怕这些方法没有默认实现。如此，特征可以提供很多有用的功能而只需要实现指定的一小部分内容。例如，我们可以定义 `Summary` 特征，使其具有一个需要实现的 `summarize_author` 方法，然后定义一个 `summarize` 方法，此方法的默认实现调用 `summarize_author` 方法：
+默认实现允许调用相同特征中的其他方法，哪怕这些方法没有默认实现（但我们必须在为类型实现特征时定义方法的具体行为）。如此，特征可以提供很多有用的功能而只需要实现指定的一小部分内容。例如，我们可以定义 `Summary` 特征，使其具有一个需要实现的 `summarize_author` 方法，然后定义一个 `summarize` 方法，此方法的默认实现调用 `summarize_author` 方法：
 
 ```rust
 pub trait Summary {
