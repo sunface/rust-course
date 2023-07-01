@@ -29,7 +29,7 @@ $ cd world_hello
 
 > 如果你在终端无法使用这个命令，考虑一下 `环境变量` 是否正确的设置：把 `cargo` 可执行文件所在的目录添加到环境变量中。
 >
-> 如果是在 Windows 的 WLS2 子系统下，出现以下错误：
+> 如果是在 Windows 的 WSL2 子系统下，出现以下错误：
 >
 > `error: command failed: 'rustc'`
 > `error: caused by: Permission denied (os error 13)`
