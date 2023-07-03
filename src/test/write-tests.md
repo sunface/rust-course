@@ -337,7 +337,7 @@ mod tests {
 
 解决办法也有，我们可以让每个测试写入自己独立的文件中，当然，也可以让所有测试一个接着一个顺序运行:
 
-```rust
+```shell
 $ cargo test -- --test-threads=1
 ```
 
@@ -396,7 +396,7 @@ test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; 
 
 大家注意看，`I got the value 4` 并没有被输出，因为该测试顺利通过了，如果就是想要看所有的输出，该怎么办呢？
 
-```rust
+```shell
 $ cargo test -- --show-output
 ```
 
