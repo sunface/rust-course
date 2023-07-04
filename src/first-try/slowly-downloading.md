@@ -44,7 +44,18 @@ ustc = { index = "https://mirrors.ustc.edu.cn/crates.io-index/" }
 time = {  registry = "ustc" }
 ```
 
-**在重新配置后，初次构建可能要较久的时间**，因为要下载更新 `ustc` 注册服务的索引文件，还挺大的...
+**在重新配置后，初次构建可能要较久的时间**，因为要下载更新 `ustc` 注册服务的索引文件，由于文件比较大，需要等待较长的时间。
+
+此处有两点需要注意：
+
+1. cargo 1.68 版本开始支持稀疏索引，不再需要完整克隆 crates.io-index 仓库，可以加快获取包的速度，如：
+
+```toml
+[source.ustc]
+registry = "sparse+https://mirrors.ustc.edu.cn/crates.io-index/"
+```
+
+2. cargo search 无法使用镜像
 
 #### 科大镜像
 上面使用的是科大提供的注册服务，也是 Rust 最早期的注册服务，感谢大大们的贡献。除此之外，大家还可以选择下面的镜像服务：
@@ -59,6 +70,10 @@ replace-with = 'rsproxy'
 
 [source.rsproxy]
 registry = "https://rsproxy.cn/crates.io-index"
+
+# 稀疏索引，要求 cargo >= 1.68
+[source.rsproxy-sparse]
+registry = "sparse+https://rsproxy.cn/index/"
 
 [registries.rsproxy]
 index = "https://rsproxy.cn/crates.io-index"
