@@ -456,18 +456,15 @@ fn main() {
     let ccond = cond.clone();
 
     let hdl = spawn(move || {
-        let mut m = { *cflag.lock().unwrap() };
+        let mut lock = cflag.lock().unwrap();
         let mut counter = 0;
 
         while counter < 3 {
-            while !m {
-                m = *ccond.wait(cflag.lock().unwrap()).unwrap();
+            while !*lock {
+                lock = ccond.wait(lock).unwrap();
             }
-
-            {
-                m = false;
-                *cflag.lock().unwrap() = false;
-            }
+            
+            *lock = false;
 
             counter += 1;
             println!("inner counter: {}", counter);
