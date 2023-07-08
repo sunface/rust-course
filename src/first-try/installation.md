@@ -133,6 +133,13 @@ Current installation options:
 
 再之后，按下 1，等待。完成后，您就已经安装了 Rust 和 `rustup`。
 
+## 更新
+要更新 Rust，在终端执行以下命令即可更新：
+
+```bash
+$ rustup update
+```
+
 ## 卸载
 
 要卸载 Rust 和 `rustup`，在终端执行以下命令即可卸载：
