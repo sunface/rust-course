@@ -490,7 +490,49 @@ fn exec<'a, F: FnMut(&'a str)>(mut f: F)  {
 }
 ```
 
-这段代码非常清晰的说明了 `update_string` 实现了 `FnMut` 特征
+我们注意到这段代码中`update_string`没有使用mut关键字修饰，而上文我们提到想要在闭包内部捕获可变借用，需要用关键词把该闭包声明为可变类型。我们确实这么做了————`exec(mut f: F)`表明我们的`exec`接收的是一个可变类型的闭包。看似这段代码中`update_string`声明为不可变闭包，但是`exec(mut f: F)`函数接收的又是可变参数，为什么可以正常执行呢？
+
+是的，rust不可能接受类型不匹配的形参和实参通过编译，这说明`update_string`一定是一个可变类型的闭包，我们不妨看看rust-analyzer给出的类型标注：
+
+```rust
+    let mut s: String = String::new();
+
+    let update_string: impl FnMut(&str) =  |str| s.push_str(str);
+```
+
+这段代码非常清晰的说明了 `update_string` 实现了 `FnMut` 特征。
+
+不是说需要用mut关键词修饰才能将闭包声明为可变类型吗？事实上，`FnMut`只是trait的名字，声明`FnMut`的变量和要不要mut没啥关系，`FnMut`是推导出的trait类型，`mut`是rust语言层面的一个修饰符，用于声明一个绑定是可变的。Rust从trait类型系统和语言修饰符两方面保障了我们的程序正确运行。
+
+我们在使用`FnMut`类型闭包时需要捕获外界的可变借用，因此我们常常用搭配`mut`修饰符使用。但我们要始终记住，二者是相互独立的。
+
+因此，让我们再回头分析一下这段代码：在`main`函数中，首先创建了一个可变的字符串`s`，然后定义了一个可变类型闭包`update_string`，该闭包接受一个字符串参数并将其追加到`s`中。接下来调用了`exec`函数，并将`update_string`闭包的所有权移交给它。最后打印出了字符串`s`的内容。
+
+细心的读者可能已经注意到了，在我们对代码的分析中提到`update_string`闭包的所有权被移交给了`exec`函数。这说明`update_string`没有实现copy trait，但并不是所有闭包都没有实现copy trait，闭包是否会实现copy trait，总结一下就是，只要闭包捕获的类型都实现`Copy`的话，这个闭包就默认实现了`Copy`。
+
+我们来看一个例子：
+
+```rust
+let s = String::new();
+let update_string =  || println!("{}",s);
+```
+
+这里拿到的是`s`的不可变引用，所以是能`Copy`的。而如果拿到的是`s`的所有权或可变引用，都是不能`Copy`的。我们刚刚的代码就属于第二类，拿到的是`s`的可变引用，是没有实现`Copy`的。
+
+```rust
+// 拿所有权
+let s = String::new();
+let update_string = move || println!("{}", s);
+
+exec(update_string);
+// exec2(update_string); // 不能再用了
+
+// 可变引用
+let mut s = String::new();
+let mut update_string = || s.push_str("hello");
+exec(update_string);
+// exec1(update_string); // 不能再用了
+```
 
 3. `Fn` 特征，它以不可变借用的方式捕获环境中的值
    让我们把上面的代码中 `exec` 的 `F` 泛型参数类型修改为 `Fn(&'a str)`：
