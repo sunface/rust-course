@@ -461,6 +461,8 @@ fn main() {
 
         while counter < 3 {
             while !*lock {
+                // wait方法会接收一个MutexGuard<'a, T>，且它会自动地暂时释放这个锁，使其他线程可以拿到锁并进行数据更新。
+                // 同时当前线程在此处会被阻塞，直到被其他地方notify后，它会将原本的MutexGuard<'a, T>还给我们，即重新获取到了锁，同时唤醒了此线程。
                 lock = ccond.wait(lock).unwrap();
             }
             
