@@ -148,7 +148,7 @@ println!("{:#?}", array);
 **正确的写法**，应该调用`std::array::from_fn`
 
 ```rust
-let array: [String; 8] = std::array::from_fn(|i| String::from("rust is good!"));
+let array: [String; 8] = std::array::from_fn(|_i| String::from("rust is good!"));
 
 println!("{:#?}", array);
 ```
