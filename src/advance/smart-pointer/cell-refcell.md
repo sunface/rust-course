@@ -223,7 +223,7 @@ fn main() {
     let s1 = s.clone();
     let s2 = s.clone();
     // let mut s2 = s.borrow_mut();
-    s2.borrow_mut().push_str(", on yeah!");
+    s2.borrow_mut().push_str(", oh yeah!");
 
     println!("{:?}\n{:?}\n{:?}", s, s1, s2);
 }
@@ -237,9 +237,9 @@ fn main() {
 程序的运行结果也在预料之中：
 
 ```console
-RefCell { value: "我很善变，还拥有多个主人, on yeah!" }
-RefCell { value: "我很善变，还拥有多个主人, on yeah!" }
-RefCell { value: "我很善变，还拥有多个主人, on yeah!" }
+RefCell { value: "我很善变，还拥有多个主人, oh yeah!" }
+RefCell { value: "我很善变，还拥有多个主人, oh yeah!" }
+RefCell { value: "我很善变，还拥有多个主人, oh yeah!" }
 ```
 
 #### 性能损耗
