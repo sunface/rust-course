@@ -382,7 +382,7 @@ fn main() {
         *w += 1;
         assert_eq!(*w, 6);
 
-        // 以下代码会panic，因为读和写不允许同时存在
+        // 以下代码会阻塞发生死锁，因为读和写不允许同时存在
         // 写锁w直到该语句块结束才被释放，因此下面的读锁依然处于`w`的作用域中
         // let r1 = lock.read();
         // println!("{:?}",r1);
@@ -390,14 +390,9 @@ fn main() {
 }
 ```
 
-`RwLock`在使用上和`Mutex`区别不大，需要注意的是，当读写同时发生时，程序会直接`panic`(本例是单线程，实际上多个线程中也是如此)，因为会发生死锁：
+`RwLock`在使用上和`Mutex`区别不大，只有在多个读的情况下不阻塞程序，其他如读写、写读、读读情况下均会对后获取锁的操作进行阻塞。
 
-```console
-thread 'main' panicked at 'rwlock read lock would result in deadlock', /rustc/efec545293b9263be9edfb283a7aa66350b3acbf/library/std/src/sys/unix/rwlock.rs:49:13
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
-```
-
-好在我们可以使用`try_write`和`try_read`来尝试进行一次写/读，若失败则返回错误:
+我们也可以使用`try_write`和`try_read`来尝试进行一次写/读，若失败则返回错误:
 
 ```console
 Err("WouldBlock")
