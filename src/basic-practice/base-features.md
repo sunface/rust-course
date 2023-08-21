@@ -45,7 +45,7 @@ fn main() {
 
 
 
-`collect` 方法其实并不是`std::env`包提供的，而是迭代器自带的方法(`env::args()` 会返回一个迭代器)，它会将迭代器消费后转换成我们想要的集合类型，关于迭代器和 `collect` 的具体介绍，请参加[这里](https://course.rs/advance/functional-programing/iterator.html)。
+`collect` 方法其实并不是`std::env`包提供的，而是迭代器自带的方法(`env::args()` 会返回一个迭代器)，它会将迭代器消费后转换成我们想要的集合类型，关于迭代器和 `collect` 的具体介绍，请参考[这里](https://course.rs/advance/functional-programing/iterator.html)。
 
 最后，代码中使用 `dbg!` 宏来输出读取到的数组内容，来看看长啥样：
 ```shell
