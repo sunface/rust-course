@@ -98,10 +98,10 @@
             </a>
         </td>
         <td align="center">
-            <a href="https://github.com/EluvK">
-                <img src=https://avatars.githubusercontent.com/u/36977935?v=4" width="100px" alt=""/>
+            <a href="https://github.com/zongzi531">
+                <img src="https://avatars.githubusercontent.com/u/22429236?v=4?s=100" width="160px" alt=""/>
                 <br />
-                <sub><b>Eucalypt</b></sub>
+                <sub><b>zongzi531 🥉</b></sub>
             </a>
         </td>
     </tr>
