@@ -57,7 +57,7 @@ pub trait Future {
 代码中有几个关键点：
 
 - [关联类型](https://course.rs/basic/trait/advance-trait.html#关联类型) `Output` 是 `Future` 执行完成后返回的值的类型
-- `Pin` 类型是在异步函数中进行借用的关键，在[这里](https://course.rs/async/pin-unpin.html)有非常详细的介绍
+- `Pin` 类型是在异步函数中进行借用的关键，在[这里](https://course.rs/advance/async/pin-unpin.html)有非常详细的介绍
 
 和其它语言不同，Rust 中的 `Future` 不代表一个发生在后台的计算，而是 `Future` 就代表了计算本身，因此
 `Future` 的所有者有责任去推进该计算过程的执行，例如通过 `Future::poll` 函数。听上去好像还挺复杂？但是大家不必担心，因为这些都在 Tokio 中帮你自动完成了 :)
