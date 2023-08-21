@@ -42,7 +42,7 @@
 
 <br />
 
-**🏆 贡献榜前三**(根据难易度、贡献次数、活跃度综合评定):
+**🏆 **:
 
 <table>
     <tr>
@@ -61,10 +61,10 @@
             </a>
         </td>
         <td align="center">
-            <a href="https://github.com/zongzi531">
-                <img src="https://avatars.githubusercontent.com/u/22429236?v=4?s=100" width="160px" alt=""/>
+            <a href="https://github.com/EluvK">
+                <img src="https://avatars.githubusercontent.com/u/36977935?v=4" width="160px" alt=""/>
                 <br />
-                <sub><b>zongzi531 🥉</b></sub>
+                <sub><b>EluvK 🥉</b></sub>
             </a>
         </td>
     </tr>
