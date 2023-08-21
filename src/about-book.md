@@ -32,35 +32,72 @@ Rust 语言真的好：连续七年成为全世界最受欢迎的语言、没有
 
 最后，能通过开源在茫茫人海中与大家相识，这感觉真好 :D
 
-## 🏅 贡献者
+## 🏆 贡献者
 
 非常感谢本教程的[所有贡献者](https://github.com/sunface/rust-course/graphs/contributors)，正是有了你们，才有了现在的高质量 Rust 教程!
 
 <br />
 
-**🏆 贡献榜前三**(根据难易度、贡献次数、活跃度综合评定):
+🏆
 
 <table>
     <tr>
-        <td align="center" width="25%">
+        <td align="center">
             <a href="https://github.com/sunface">
-                <img src="https://avatars.githubusercontent.com/u/7036754?v=4?s=100"   alt=""/>
+                <img src="https://avatars.githubusercontent.com/u/7036754?v=4?s=100" width="160px"   alt=""/>
                 <br />
                 <sub><b>Sunface 🥇</b></sub>
             </a>
         </td>
-        <td align="center" width="25%">
+        <td align="center">
             <a href="https://github.com/AllanDowney">
-                <img src="https://avatars.githubusercontent.com/u/82752697?v=4?s=100"   alt=""/>
+                <img src="https://avatars.githubusercontent.com/u/82752697?v=4?s=100"  width="160px" alt=""/>
                 <br />
                 <sub><b>AllanDowney 🥈</b></sub>
             </a>
         </td>
-        <td align="center" width="25%">
+        <td align="center">
+            <a href="https://github.com/EluvK">
+                <img src="https://avatars.githubusercontent.com/u/36977935?v=4" width="160px" alt=""/>
+                <br />
+                <sub><b>EluvK 🥉</b></sub>
+            </a>
+        </td>
+    </tr>
+</table>
+
+<br />
+
+🏅
+
+<table>
+    <tr>
+        <td align="center">
+            <a href="https://github.com/JesseAtSZ">
+                <img src="https://avatars.githubusercontent.com/u/35264598?v=4?s=100" width="100px" alt=""/>
+                <br />
+                <sub><b>JesseAtSZ</b></sub>
+            </a>
+        </td>
+        <td align="center">
             <a href="https://github.com/Rustln">
-                <img src="https://avatars.githubusercontent.com/u/100085326?v=4?s=100" alt=""/>
+                <img src="https://avatars.githubusercontent.com/u/100085326?v=4?s=100" width="100px" alt=""/>
                 <br />
                 <sub><b>Rustln</b></sub>
+            </a>
+        </td>
+        <td align="center">
+            <a href="https://github.com/1132719438">
+                <img src="https://avatars.githubusercontent.com/u/10138791?v=4?s=100" width="100px" alt=""/>
+                <br />
+                <sub><b>1132719438</b></sub>
+            </a>
+        </td>
+        <td align="center">
+            <a href="https://github.com/zongzi531">
+                <img src="https://avatars.githubusercontent.com/u/22429236?v=4?s=100" width="100px" alt=""/>
+                <br />
+                <sub><b>zongzi531</b></sub>
             </a>
         </td>
     </tr>
