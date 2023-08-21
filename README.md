@@ -99,9 +99,9 @@
         </td>
         <td align="center">
             <a href="https://github.com/zongzi531">
-                <img src="https://avatars.githubusercontent.com/u/22429236?v=4?s=100" width="160px" alt=""/>
+                <img src="https://avatars.githubusercontent.com/u/22429236?v=4?s=100" width="100px" alt=""/>
                 <br />
-                <sub><b>zongzi531 🥉</b></sub>
+                <sub><b>zongzi531</b></sub>
             </a>
         </td>
     </tr>
