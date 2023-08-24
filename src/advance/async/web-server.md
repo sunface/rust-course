@@ -134,6 +134,7 @@ async fn main() {
 **上面的代码虽然已经是异步的，实际上它还无法并发**，原因我们后面会解释，先来模拟一下慢请求:
 
 ```rust
+use std::time::Duration;
 use async_std::task;
 
 async fn handle_connection(mut stream: TcpStream) {
