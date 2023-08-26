@@ -315,19 +315,19 @@ fn main() {
 
 ## 标准库中的 OnceCell
 
-在 `Rust` 标准库中提供 `lazy::OnceCell` 和 `lazy::SyncOnceCell` (在 `Rust`
-1.70.0版本及以上的标准库中，更改为 `cell::OnceCell` 和 `sync::OnceLock` )两种
+在 `Rust` 标准库中提供了实验性的 `lazy::OnceCell` 和 `lazy::SyncOnceCell` (在 `Rust`
+1.70.0版本及以上的标准库中，替换为稳定的 `cell::OnceCell` 和 `sync::OnceLock` )两种
 `Cell` ，前者用于单线程，后者用于多线程，它们用来存储堆上的信息，并且具有最
 多只能赋值一次的特性。 如实现一个多线程的日志组件 `Logger`：
 
 
 ```rust
-// 低于Rust 1.70版本
+// 低于Rust 1.70版本中， OnceCell 和 SyncOnceCell 的API为实验性的 ，
+// 需启用特性 `#![feature(once_cell)]`。
 #![feature(once_cell)]
-
 use std::{lazy::SyncOnceCell, thread};
 
-// Rust 1.70版本以上
+// Rust 1.70版本以上,
 // use std::{sync::OnceLock, thread};
 
 fn main() {
