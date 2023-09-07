@@ -393,11 +393,11 @@ pub              struct    User            <'a, T>          {
 DeriveInput {
     // --snip--
     vis: Visibility,
-    generics: Generics
     ident: Ident {
         ident: "Sunfei",
         span: #0 bytes(95..103)
     },
+    generics: Generics,
     // Data是一个枚举，分别是DataStruct，DataEnum，DataUnion，这里以 DataStruct 为例
     data: Data(
         DataStruct {
