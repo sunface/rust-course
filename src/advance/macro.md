@@ -366,7 +366,7 @@ pub fn hello_macro_derive(input: TokenStream) -> TokenStream {
 
 这个函数的签名我们在之前已经介绍过，总之，这种形式的过程宏定义是相当通用的，下面来分析下这段代码。
 
-首先有一点，对于绝大多数过程宏而言，这段代码往往只在 `impl_hello_macro(&ast)` 中的实现有所区别，对于其它部分基本都是一致的，例如包的引入、宏函数的签名、语法树构建等。
+首先有一点，对于绝大多数过程宏而言，这段代码往往只在 `impl_hello_macro(&ast)` 中的实现有所区别，对于其它部分基本都是一致的，如包的引入、宏函数的签名、语法树构建等。
 
 `proc_macro` 包是 Rust 自带的，因此无需在 `Cargo.toml` 中引入依赖，它包含了相关的编译器 `API`，可以用于读取和操作 Rust 源代码。
 
@@ -378,10 +378,10 @@ derive过程宏只能用在struct/enum/union上，多数用在结构体上，我
 ```rust
 // vis，可视范围             ident，标识符     generic，范型    fields: 结构体的字段
 pub              struct    User            <'a, T>          {
-   
+
 // vis   ident   type
    pub   name:   &'a T,
-   
+
 }
 ```
 
@@ -413,7 +413,7 @@ DeriveInput {
 
 以上就是源代码 `struct Sunfei;` 解析后的结果，里面有几点值得注意:
 
-- `fields: Fields` 是一个枚举类型，`Fields::Named`, `Fields::Unnamed`, `Fields::Unit` 分别表示结构体中的显式命名字段（如例子所示），元组结构或元组变体中的匿名字段(例如`Some(T)`)，单元类型或单元变体（例如`None` ）。
+- `fields: Fields` 是一个枚举类型，`Fields::Named`, `Fields::Unnamed`, `Fields::Unit` 分别表示结构体中的显式命名字段（如例子所示），元组或元组变体中的匿名字段(例如`Some(T)`)，单元类型或单元变体字段（例如`None` ）。
 - `ident: "Sunfei"` 说明类型名称为 `Sunfei`， `ident` 是标识符 `identifier` 的简写
 
 如果想要了解更多的信息，可以查看 [`syn` 文档](https://docs.rs/syn/1.0/syn/struct.DeriveInput.html)。
@@ -451,7 +451,7 @@ fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
 
 在运行之前，可以显示用 expand 展开宏，观察是否有错误或是否符合预期:
 ```shell
-$ cargo expand
+$ cargo expand --lib hello_macro
 ```
 ```rust
 struct Sunfei;
@@ -486,8 +486,8 @@ fn main() {
 }
 ```
 
-从展开的代码也能看出derive宏的特性，struct Sunfei; 和 struct Sunface; 都被保留了，也就是说最后 impl_hello_macro() 返回的token被加到结构体后面，这和类属性宏可以修改输入
-的token是不一样的，input的token并不能被修改
+从展开的代码也能看出derive宏的特性，`struct Sunfei;` 和 `struct Sunface;` 都被保留了，也就是说最后 `impl_hello_macro()` 返回的token被加到结构体后面，这和类属性宏可以修改输入
+的token是不一样的，input的token并不能被修改。
 
 至此，过程宏的定义、特征定义、主体代码都已经完成，运行下试试:
 
@@ -566,7 +566,7 @@ struct User {
 }
 
 fn main() {
- 
+
 }
 ```
 
