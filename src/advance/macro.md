@@ -413,7 +413,7 @@ DeriveInput {
 
 以上就是源代码 `struct Sunfei;` 解析后的结果，里面有几点值得注意:
 
-- `fields: Fields` 是一个枚举类型，FieldsNamed，FieldsUnnamed，FieldsUnnamed， 分别表示显示命名结构（如例子所示），匿名字段的结构（例如 struct A(u8);），和无字段定义的结构（例如 struct A;）
+- `fields: Fields` 是一个枚举类型，`Fields::Named`, `Fields::Unnamed`, `Fields::Unit` 分别表示结构体中的显式命名字段（如例子所示），元组结构或元组变体中的匿名字段(例如`Some(T)`)，单元类型或单元变体（例如`None` ）。
 - `ident: "Sunfei"` 说明类型名称为 `Sunfei`， `ident` 是标识符 `identifier` 的简写
 
 如果想要了解更多的信息，可以查看 [`syn` 文档](https://docs.rs/syn/1.0/syn/struct.DeriveInput.html)。
