@@ -3,7 +3,7 @@
 > 本章节是可选内容，请大家在看完[迭代器章节](https://course.rs/advance/functional-programing/iterator.html)后，再来阅读
 
 
-在之前的 `minigrep` 中，功能虽然已经 ok，但是一些细节上还值得打磨下，下面一起看看如何使用迭代器来改进 `Config::build` 和 `serach` 的实现。
+在之前的 `minigrep` 中，功能虽然已经 ok，但是一些细节上还值得打磨下，下面一起看看如何使用迭代器来改进 `Config::build` 和 `search` 的实现。
 
 ## 移除 `clone` 的使用
 
