@@ -20,13 +20,14 @@ paper-height = 12
 margin-top = 1
 margin-bottom = 1
 margin-left = 1
+[output.pdf-outline]
 EOF
 fi
 echo "===>>> Start build pdf..."
 mdbook build
 today=$(date +%Y%m%d)
 echo "===>>> PDF rename to rust-curse-$today.pdf"
-mv book/pdf/output.pdf rust-curse-"$today".pdf
+mv book/pdf/output.pdf rust-course.pdf
 if [ -f book.toml.bak ]; then
     echo "===>>> Reverse book.toml file..."
     mv book.toml.bak book.toml

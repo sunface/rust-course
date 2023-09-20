@@ -5,7 +5,7 @@
 [避免从入门到放弃](first-try/sth-you-should-not-do.md)
 <!-- [快速查询入口](index-list.md) 暂时屏蔽-->
 [社区和锈书](community.md)
-
+[开源 2 周年感悟](some-thoughts.md)
 
 
 <!-- [一本生锈的书](rusty-book.md) -->
