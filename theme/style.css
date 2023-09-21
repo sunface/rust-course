@@ -74,11 +74,20 @@ table {
 /* 只使用底部的页面跳转，因为左右两边的宽跳转会被 page-toc 遮盖 */
 @media only screen and (max-width: 2560px) {
     .nav-wide-wrapper { display: none; }
-    .nav-wrapper { display: block; }
+    .nav-wrapper { 
+        display: block;
+        position: fixed;
+        bottom: 50px;
+        left: var(--page-padding);
+        right: var(--page-padding); 
+    }
 }
 @media only screen and (max-width: 2560px) {
     .sidebar-visible .nav-wide-wrapper { display: none; }
-    .sidebar-visible .nav-wrapper { display: block; }
+    .sidebar-visible .nav-wrapper { 
+        display: block;
+        left: calc(var(--sidebar-width) + var(--page-padding));
+    }
 }
 
 
