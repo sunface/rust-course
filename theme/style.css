@@ -90,6 +90,10 @@ table {
     }
 }
 
+.mobile-nav-chapters {
+    width: 40px;
+    font-size: 2.5rem
+}
 
 /* 修改顶部图标大小 */
 /* #menu-bar {
