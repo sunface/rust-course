@@ -32,7 +32,7 @@ impl Test {
 
 如果你还不知道 RefCell，可以看看[这篇文章](https://course.rs/advance/smart-pointer/cell-refcell.html)，当然不看也行，简而言之，RefCell 能够实现：
 
-- 将借用规则从编译期推迟到运行期，但是并不会饶过借用规则，当不符合时，程序直接`panic`
+- 将借用规则从编译期推迟到运行期，但是并不会绕过借用规则，当不符合时，程序直接`panic`
 - 实现内部可变性：简单来说，对一个不可变的值进行可变借用，然后修改内部的值
 
 ## 被 RefCell 包裹的结构体
