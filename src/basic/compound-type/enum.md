@@ -41,6 +41,7 @@ fn main() {
 }
 
 fn print_suit(card: PokerSuit) {
+    // 需要在定义 enum PokerSuit 的上面添加上 #[derive(Debug)]，否则会报 card 没有实现 Debug
     println!("{:?}",card);
 }
 ```
