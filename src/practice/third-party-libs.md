@@ -43,7 +43,7 @@
 
 * ORM
   * [rbatis/rbatis](https://github.com/rbatis/rbatis) 国内团队开发的ORM，异步、性能高、简单易上手
-  * [diesel-rs/diesel](https://github.com/diesel-rs/diesel) 安全、扩展性强的Rust ORM库，支持`MySQL`、`PostgreSQL`、`SQLLite`
+  * [diesel-rs/diesel](https://github.com/diesel-rs/diesel) 安全、扩展性强的Rust ORM库，支持`MySQL`、`PostgreSQL`、`SQLite`
 
 * MySQL
   * [blackbeam/rust-mysql-simple](https://github.com/blackbeam/rust-mysql-simple) 纯Rust实现的MySQL驱动,提供连接池
