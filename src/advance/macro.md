@@ -451,7 +451,7 @@ fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
 
 在运行之前，可以显示用 expand 展开宏，观察是否有错误或是否符合预期:
 ```shell
-$ cargo expand --lib hello_macro
+$ cargo expand --bin hello_macro
 ```
 ```rust
 struct Sunfei;
