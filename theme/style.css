@@ -65,6 +65,10 @@
     width: 5px;
     height: 5px;
 }
+::-webkit-scrollbar-thumb {
+    background: #99ccff;
+    border-radius: 3px;
+}
 
 /* 表格靠左对齐 */
 table {

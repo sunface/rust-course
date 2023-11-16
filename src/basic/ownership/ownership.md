@@ -98,7 +98,7 @@ let s = "hello";
 }                      // 此作用域已结束，s不再有效
 ```
 
-简而言之，`s` 从创建伊始就开始有效，然后有效期持续到它离开作用域为止，可以看出，就作用域来说，Rust 语言跟其他编程语言没有区别。
+简而言之，`s` 从创建开始就有效，然后有效期持续到它离开作用域为止，可以看出，就作用域来说，Rust 语言跟其他编程语言没有区别。
 
 #### 简单介绍 String 类型
 
@@ -181,17 +181,24 @@ println!("{}, world!", s1);
 由于 Rust 禁止你使用无效的引用，你会看到以下的错误：
 
 ```console
-error[E0382]: use of moved value: `s1`
+error[E0382]: borrow of moved value: `s1`
  --> src/main.rs:5:28
   |
+2 |     let s1 = String::from("hello");
+  |         -- move occurs because `s1` has type `String`, which does not implement the `Copy` trait
 3 |     let s2 = s1;
-  |         -- value moved here
+  |              -- value moved here
 4 |
 5 |     println!("{}, world!", s1);
-  |                            ^^ value used here after move
+  |                            ^^ value borrowed here after move
   |
-  = note: move occurs because `s1` has type `std::string::String`, which does
-  not implement the `Copy` trait
+  = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: consider cloning the value if the performance cost is acceptable
+  |
+3 |     let s2 = s1.clone();
+  |                ++++++++
+
+For more information about this error, try `rustc --explain E0382`.
 ```
 
 现在再回头看看之前的规则，相信大家已经有了更深刻的理解：

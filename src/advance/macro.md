@@ -449,9 +449,9 @@ fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
 - `#name` 可能是一个表达式，我们需要它的字面值形式
 - 可以减少一次 `String` 带来的内存分配
 
-在运行之前，可以显示用 expand 展开宏，观察是否有错误或是否符合预期:
+在运行之前，可以先用 expand 展开宏，观察是否有错误或符合预期:
 ```shell
-$ cargo expand --lib hello_macro
+$ cargo expand --bin hello_macro
 ```
 ```rust
 struct Sunfei;
