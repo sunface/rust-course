@@ -234,8 +234,68 @@ fn main() {
 
 在实际使用场景中，**特征对象数组要比枚举数组常见很多**，主要原因在于[特征对象](https://course.rs/basic/trait/trait-object.html)非常灵活，而编译器对枚举的限制较多，且无法动态增加类型。
 
-最后，如果你想要了解 `Vector` 更多的用法，请参见本书的标准库解析章节：[`Vector`常用方法](https://course.rs/std/vector.html)
 
+## Vector 常用方法
+
+初始化 vec 的更多方式：
+```rust
+fn main() {
+    let v = vec![0; 3];   // 默认值为 0，初始长度为 3
+    let v_from = Vec::from([0, 0, 0]);
+    assert_eq!(v, v_from);
+}
+```
+
+动态数组意味着我们增加元素时，如果**容量不足就会导致 vector 扩容**（目前的策略是重新申请一块 2 倍大小的内存，再将所有元素拷贝到新的内存位置，同时更新指针数据），显然，当频繁扩容或者当元素数量较多且需要扩容时，大量的内存拷贝会降低程序的性能。
+
+可以考虑在初始化时就指定一个实际的预估容量，尽量减少可能的内存拷贝：
+```rust
+fn main() {
+    let mut v = Vec::with_capacity(10);
+    v.extend([1, 2, 3]);    // 附加数据到 v
+    println!("Vector 长度是: {}, 容量是: {}", v.len(), v.capacity());
+
+    v.reserve(100);        // 调整 v 的容量，至少要有 100 的容量
+    println!("Vector（reserve） 长度是: {}, 容量是: {}", v.len(), v.capacity());
+
+    v.shrink_to_fit();     // 释放剩余的容量，一般情况下，不会主动去释放容量
+    println!("Vector（shrink_to_fit） 长度是: {}, 容量是: {}", v.len(), v.capacity());
+}
+```
+Vector 常见的一些方法示例：
+```rust
+let mut v =  vec![1, 2];
+assert!(!v.is_empty());         // 检查 v 是否为空
+
+v.insert(2, 3);                 // 在指定索引插入数据，索引值不能大于 v 的长度， v: [1, 2, 3] 
+assert_eq!(v.remove(1), 2);     // 移除指定位置的元素并返回, v: [1, 3]
+assert_eq!(v.pop(), Some(3));   // 删除并返回 v 尾部的元素，v: [1]
+assert_eq!(v.pop(), Some(1));   // v: []
+assert_eq!(v.pop(), None);      // 记得 pop 方法返回的是 Option 枚举值
+v.clear();                      // 清空 v, v: []
+
+let mut v1 = [11, 22].to_vec(); // append 操作会导致 v1 清空数据，增加可变声明
+v.append(&mut v1);              // 将 v1 中的所有元素附加到 v 中, v1: []
+v.truncate(1);                  // 截断到指定长度，多余的元素被删除, v: [11]
+v.retain(|x| *x > 10);          // 保留满足条件的元素，即删除不满足条件的元素
+
+let mut v = vec![11, 22, 33, 44, 55];
+// 删除指定范围的元素，同时获取被删除元素的迭代器, v: [11, 55], m: [22, 33, 44]
+let mut m: Vec<_> = v.drain(1..=3).collect();    
+
+let v2 = m.split_off(1);        // 指定索引处切分成两个 vec, m: [22], v2: [33, 44]
+```
+
+当然也可以像[数组切片](/basic/compound-type/array.html#数组切片)的方式获取 vec 的部分元素：
+```rust
+fn main() {
+    let v = vec![11, 22, 33, 44, 55];
+    let slice = &v[1..=3];
+    assert_eq!(slice, &[22, 33, 44]);
+}
+```
+
+更多细节，阅读 Vector 的[标准库文档](https://doc.rust-lang.org/std/vec/struct.Vec.html#)。
 
 ## Vector 的排序
 
