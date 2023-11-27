@@ -93,6 +93,12 @@ table {
         left: calc(var(--sidebar-width) + var(--page-padding));
     }
 }
+@media only screen and (min-width: 620px) {
+    .sidebar-visible .page-wrapper {
+        transform: none;
+        margin-left: var(--sidebar-width);
+    }
+}
 
 .mobile-nav-chapters {
     width: 40px;
