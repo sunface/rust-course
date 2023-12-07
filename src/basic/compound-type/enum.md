@@ -192,7 +192,7 @@ fn new (stream: TcpStream) {
   // websocket是一个WebSocket<TcpStream>或者
   //   WebSocket<native_tls::TlsStream<TcpStream>>类型
   websocket = WebSocket::from_raw_socket(
-    stream, ......)
+    s, ......)
 }
 ```
 
