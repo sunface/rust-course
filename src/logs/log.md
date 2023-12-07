@@ -231,5 +231,5 @@ pub fn init() -> Result<(), SetLoggerError> {
 
 
 ## 更多示例
-关于 `log` 门面库和具体的日志库还有更多的使用方式，详情请参见锈书的[开发者工具](https://rusty.rs/devtools/log.html)一章。
+关于 `log` 门面库和具体的日志库还有更多的使用方式，详情请参见锈书的[开发者工具](https://rusty.course.rs/devtools/log.html)一章。
 
