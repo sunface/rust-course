@@ -32,7 +32,7 @@ fn main() {
 
 > Note: [`package.build`](https://course.rs/cargo/reference/manifest.html#build) 可以用于改变构建脚本的名称，或者直接禁用该功能
 
-#### 构建脚本的生命周期
+## 构建脚本的生命周期
 
 在项目被构建之前，Cargo 会将构建脚本编译成一个可执行文件，然后运行该文件并执行相应的任务。
 
@@ -42,7 +42,7 @@ fn main() {
 
 在构建脚本成功执行后，我们的项目就会开始进行编译。如果构建脚本的运行过程中发生错误，脚本应该通过返回一个非 0 码来立刻退出，在这种情况下，构建脚本的输出会被打印到终端中。
 
-#### 构建脚本的输入
+## 构建脚本的输入
 
 我们可以通过[环境变量](https://doc.rust-lang.org/stable/cargo/reference/environment-variables.html#environment-variables-cargo-sets-for-build-scripts)的方式给构建脚本提供一些输入值，除此之外，构建脚本所在的当前目录也可以。
 
