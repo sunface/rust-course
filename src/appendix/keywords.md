@@ -7,6 +7,8 @@
 如下关键字目前有对应其描述的功能。
 
 - `as` - 强制类型转换，或`use` 和 `extern crate`包和模块引入语句中的重命名
+- `async` - 返回一个 Future 而不是阻塞当前线程
+- `await` - 暂停执行直到 Future 的结果就绪
 - `break` - 立刻退出循环
 - `const` - 定义常量或原生常量指针（constant raw pointer）
 - `continue` - 继续进入下一次循环迭代
@@ -48,8 +50,6 @@
 如下关键字没有任何功能，不过由 Rust 保留以备将来的应用。
 
 - `abstract`
-- `async`
-- `await`
 - `become`
 - `box`
 - `do`
