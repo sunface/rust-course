@@ -379,4 +379,4 @@
     - [1.72](appendix/rust-versions/1.72.md)
     - [1.73](appendix/rust-versions/1.73.md)
     - [1.74](appendix/rust-versions/1.74.md)
-- [原始类型](appendix/primitive-types.md)
+  - [原始类型](appendix/primitive-types.md)
