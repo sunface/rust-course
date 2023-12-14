@@ -355,7 +355,7 @@
 
 - [Appendix]()
   - [关键字](appendix/keywords.md)
-  - [原始类型](appendix/primitive-types.md)
+
   - [运算符与符号](appendix/operators.md)
   - [表达式](appendix/expressions.md)
   - [派生特征 trait](appendix/derive.md)
@@ -379,3 +379,4 @@
     - [1.72](appendix/rust-versions/1.72.md)
     - [1.73](appendix/rust-versions/1.73.md)
     - [1.74](appendix/rust-versions/1.74.md)
+- [原始类型](appendix/primitive-types.md)
