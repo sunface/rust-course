@@ -355,6 +355,7 @@
 
 - [Appendix]()
   - [关键字](appendix/keywords.md)
+  - [原始类型](appendix/primitive-types.md)
   - [运算符与符号](appendix/operators.md)
   - [表达式](appendix/expressions.md)
   - [派生特征 trait](appendix/derive.md)
