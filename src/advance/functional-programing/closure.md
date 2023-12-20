@@ -810,5 +810,6 @@ fn factory(x:i32) -> Box<dyn Fn(i32) -> i32> {
 
 这块儿内容在进阶生命周期章节中有讲，这里就不再赘述，读者可移步[此处](https://course.rs/advance/lifetime/advance.html#闭包函数的消除规则)进行回顾。
 
+## 课后习题
 
-{{#include ../../practice.md}}
+> [Rust By Practice](https://practice.rs/functional-programing/closure.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/functional-programing/closure.md)。
