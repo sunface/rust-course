@@ -6,17 +6,12 @@
 <!-- [快速查询入口](index-list.md) 暂时屏蔽-->
 [社区和锈书](community.md)
 
-
 ---
 [Datav: 可编程的数据可视化平台和可观测性平台](some-thoughts.md)
-
 
 <!-- [一本生锈的书](rusty-book.md) -->
 <!-- [Rust 语言周刊](rust-weekly.md) -->
 <!-- [Rust 翻译计划( 代号 Rustt )](rustt.md) -->
-
-
-
 
 # Rust 语言基础学习
 
@@ -28,7 +23,6 @@
   - [认识 Cargo](first-try/cargo.md)
   - [不仅仅是 Hello world](first-try/hello-world.md)
   - [下载依赖太慢了？](first-try/slowly-downloading.md)
-
 
 - [Rust 基础入门](basic/intro.md)
 
@@ -134,7 +128,6 @@
   - [单线程版本](advance-practice1/web-server.md)
   - [多线程版本](advance-practice1/multi-threads.md)
   - [优雅关闭和资源清理](advance-practice1/graceful-shutdown.md)
-
 
 - [进阶实战2: 实现一个简单 Redis](advance-practice/intro.md)
   - [tokio 概览](advance-practice/overview.md)
@@ -247,8 +240,19 @@
     - [数据布局 2](too-many-lists/unsafe-queue/layout2.md)
     - [额外的操作](too-many-lists/unsafe-queue/extra-junk.md)
     - [最终代码](too-many-lists/unsafe-queue/final-code.md)
+  - [生产级的双向 unsafe 队列](too-many-lists/production-unsafe-deque/intro.md)
+    - [数据布局](too-many-lists/production-unsafe-deque/layout.md)
+    - [型变与子类型](too-many-lists/production-unsafe-deque/variance-and-phantomData.md)
+    - [基础结构](too-many-lists/production-unsafe-deque/basics.md)
+    - [恐慌与安全](too-many-lists/production-unsafe-deque/drop-and-panic-safety.md)
+    - [无聊的组合](too-many-lists/production-unsafe-deque/boring-combinatorics.md)
+    - [其它特征](too-many-lists/production-unsafe-deque/filling-in-random-bits.md)
+    - [测试](too-many-lists/production-unsafe-deque/testing.md)
+    - [Send,Sync和编译测试](too-many-lists/production-unsafe-deque/send-sync-and-compile-tests.md)
+    - [实现游标](too-many-lists/production-unsafe-deque/implementing-cursors.md)
+    - [测试游标](too-many-lists/production-unsafe-deque/testing-cursors.md)
+    - [最终代码](too-many-lists/production-unsafe-deque/final-code.md)
   - [使用高级技巧实现链表](too-many-lists/advanced-lists/intro.md)
-    - [生产级可用的双向链表](too-many-lists/advanced-lists/unsafe-deque.md)
     - [双单向链表](too-many-lists/advanced-lists/double-singly.md)
     - [栈上的链表](too-many-lists/advanced-lists/stack-allocated.md)
 
@@ -312,8 +316,6 @@
     - [提升编译速度 todo](profiling/compiler/speed-up.md)
     - [编译器优化 todo](profiling/compiler/optimization/intro.md)
       - [Option 枚举 todo](profiling/compiler/optimization/option.md)
-
-
 
 <!-- - [标准库解析 todo](std/intro.md)
 
