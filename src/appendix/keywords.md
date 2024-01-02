@@ -5,8 +5,10 @@
 ### 目前正在使用的关键字
 
 如下关键字目前有对应其描述的功能。
-
+- `SelfTy` - `trait` 或 `impl` 块中的实现类型，或类型定义中的当前类型。
 - `as` - 强制类型转换，或`use` 和 `extern crate`包和模块引入语句中的重命名
+- `async` - 返回一个 Future 而不是阻塞当前线程
+- `await` - 暂停执行直到 Future 的结果就绪
 - `break` - 立刻退出循环
 - `const` - 定义常量或原生常量指针（constant raw pointer）
 - `continue` - 继续进入下一次循环迭代
@@ -38,6 +40,7 @@
 - `trait` - 定义一个特征
 - `true` - 布尔值 `true`
 - `type` - 定义一个类型别名或关联类型
+- `union` - Rust 等价于 c 风格的 union
 - `unsafe` - 表示不安全的代码、函数、特征或实现
 - `use` - 在当前代码范围内(模块或者花括号对)引入外部的包、模块等
 - `where` - 表示一个约束类型的从句
@@ -48,8 +51,6 @@
 如下关键字没有任何功能，不过由 Rust 保留以备将来的应用。
 
 - `abstract`
-- `async`
-- `await`
 - `become`
 - `box`
 - `do`
