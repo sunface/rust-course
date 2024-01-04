@@ -351,6 +351,22 @@ error[E0583]: file not found for module `front_of_house`
 - 在 `front_of_house` 目录里创建一个 `mod.rs`，如果你使用的 `rustc` 版本 `1.30` 之前，这是唯一的方法。
 - 在 `front_of_house` **同级**目录里创建一个与模块（目录）**同名**的 rs 文件 `front_of_house.rs`，在新版本里，更建议使用这样的命名方式来避免项目中存在大量同名的 `mod.rs` 文件（ Python 点了个 `踩`）。
 
+两种方法的目录结构示例如下：
+
+```
+// 第一种方法
+crate
+└── front_of_house
+    └── mod.rs        // crate::front_of_house
+    └── other.rs      // crate::front_of_house::other
+
+// 第二种方法
+crate
+├── front_of_house
+│   └── other.rs       // crate::front_of_house::other
+└── front_of_house.rs  // crate::front_of_house
+```
+
 而无论是上述哪个方式创建的文件，其内容都是一样的，你需要定义你的子模块（子模块名与文件名相同）：
 
 ```rust
