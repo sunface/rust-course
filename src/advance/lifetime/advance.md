@@ -132,7 +132,7 @@ error[E0499]: cannot borrow `*map` as mutable more than once at a time
 
 分析代码可知在 `match map.get_mut(&key)` 方法调用完成后，对 `map` 的可变借用就可以结束了。但从报错看来，编译器不太聪明，它认为该借用会持续到整个 `match` 语句块的结束(第 16 行处)，这便造成了后续借用的失败。
 
-类似的例子还有很多，由于篇幅有限，就不在这里一一列举，如果大家想要阅读更多的类似代码，可以看看[<<Rust 代码鉴赏>>](https://github.com/sunface/rust-codes)一书。
+类似的例子还有很多，由于篇幅有限，就不在这里一一列举，如果大家想要阅读更多的类似代码，可以看看[《Rust 代码鉴赏》](https://github.com/sunface/rust-codes)一书。
 
 ## 无界生命周期
 
