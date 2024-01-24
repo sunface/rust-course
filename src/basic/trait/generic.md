@@ -467,7 +467,7 @@ fn main() {
 ## 课后练习
 
 > Rust By Practice，支持代码在线编辑和运行，并提供详细的习题解答。
-> - [泛型](https://zh.practice.rs/generics-traits/generics.html)
+> - [泛型](https://zh-practice.course.rs/generics-traits/generics.html)
 >     - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/generics-traits/generics.md)
-> - [const 泛型](https://zh.practice.rs/generics-traits/const-generics.html)
+> - [const 泛型](https://zh-practice.course.rs/generics-traits/const-generics.html)
 >     - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/generics-traits/const-generics.md)

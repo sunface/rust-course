@@ -245,13 +245,13 @@ fn main() {
 
 Rust的位运算基本上和其他语言一样
 
-| 运算符  | 说明                                   |
-| ------- | -------------------------------------- |
-| & 位与  | 相同位置均为1时则为1，否则为0            |
-| \| 位或 | 相同位置只要有1时则为1，否则为0        |
-| ^ 异或  | 相同位置不相同则为1，相同则为0         |
-| ! 位非  | 把位中的0和1相互取反，即0置为1，1置为0 |
-| << 左移 | 所有位向左移动指定位数，右位补0      |
+| 运算符  | 说明                                                   |
+| ------- | ------------------------------------------------------ |
+| & 位与  | 相同位置均为1时则为1，否则为0                          |
+| \| 位或 | 相同位置只要有1时则为1，否则为0                        |
+| ^ 异或  | 相同位置不相同则为1，相同则为0                         |
+| ! 位非  | 把位中的0和1相互取反，即0置为1，1置为0                 |
+| << 左移 | 所有位向左移动指定位数，右位补0                        |
 | >> 右移 | 所有位向右移动指定位数，带符号移动（正数补0，负数补1） |
 
 
@@ -356,7 +356,7 @@ use num::complex::Complex;
 
 ## 课后练习
 
-> [Rust By Practice](https://zh.practice.rs/basic-types/numbers.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/basic-types/numbers.md)。
+> [Rust By Practice](https://zh-practice.course.rs/basic-types/numbers.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/basic-types/numbers.md)。
 
 
 

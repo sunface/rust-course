@@ -426,5 +426,5 @@ $ cargo run
 
 ## 课后练习
 
-> [Rust By Practice](https://zh.practice.rs/compound-types/struct.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/compound-types/struct.md)。
+> [Rust By Practice](https://zh-practice.course.rs/compound-types/struct.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/compound-types/struct.md)。
 

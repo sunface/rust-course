@@ -324,9 +324,9 @@ unsafe fn shorten_invariant_lifetime<'b, 'c>(r: &'b mut R<'static>) -> &'b mut R
 
 ## 课后练习
 > Rust By Practice，支持代码在线编辑和运行，并提供详细的习题解答。
-> - [as](https://zh.practice.rs/type-conversions/as.html)
+> - [as](https://zh-practice.course.rs/type-conversions/as.html)
 >    - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/type-conversions/as.md)
-> - [From/Into](https://zh.practice.rs/type-conversions/from-into.html)
+> - [From/Into](https://zh-practice.course.rs/type-conversions/from-into.html)
 >    - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/type-conversions/from-into.md)
-> - [其它转换](https://zh.practice.rs/type-conversions/others.html)
+> - [其它转换](https://zh-practice.course.rs/type-conversions/others.html)
 >    - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/type-conversions/others.md)
