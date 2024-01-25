@@ -77,6 +77,13 @@
 <table>
     <tr>
         <td align="center">
+            <a href="https://github.com/SUN-LG">
+                <img src="https://avatars.githubusercontent.com/u/15073915?v=4" width="100px" alt=""/>
+                <br />
+                <sub><b>孙立刚</b></sub>
+            </a>
+        </td>
+        <td align="center">
             <a href="https://github.com/JesseAtSZ">
                 <img src="https://avatars.githubusercontent.com/u/35264598?v=4?s=100" width="100px" alt=""/>
                 <br />
@@ -95,13 +102,6 @@
                 <img src="https://avatars.githubusercontent.com/u/10138791?v=4?s=100" width="100px" alt=""/>
                 <br />
                 <sub><b>1132719438</b></sub>
-            </a>
-        </td>
-        <td align="center">
-            <a href="https://github.com/zongzi531">
-                <img src="https://avatars.githubusercontent.com/u/22429236?v=4?s=100" width="100px" alt=""/>
-                <br />
-                <sub><b>zongzi531</b></sub>
             </a>
         </td>
     </tr>

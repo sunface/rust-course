@@ -476,7 +476,7 @@ help: consider using one of the available lifetimes here
   |                                                +++++++++
 ```
 
-不得不说，Rust 编译器真的很强大，还贴心的给我们提示了该如何修改，虽然。。。好像。。。。它的提示貌似不太准确。这里我们更希望参数和返回值都是 `'a` 生命周期。
+不得不说，Rust 编译器真的很强大，还贴心的给我们提示了该如何修改，虽然……好像……。它的提示貌似不太准确。这里我们更希望参数和返回值都是 `'a` 生命周期。
 
 ## 方法中的生命周期
 
@@ -649,7 +649,7 @@ where
 
 ## 课后练习
 
-> [Rust By Practice](https://zh.practice.rs/lifetime/basic.html)，支持代码在线编辑和运行，并提供详细的习题解答。（本节暂无习题解答）
+> [Rust By Practice](https://zh-practice.course.rs/lifetime/basic.html)，支持代码在线编辑和运行，并提供详细的习题解答。（本节暂无习题解答）
 
 ## 总结
 

@@ -53,7 +53,12 @@ Rust 使用一个相对传统的语法来创建整数（`1`，`2`，...）和浮
 - 使用 `wrapping_*` 方法在所有模式下都按照补码循环溢出规则处理，例如 `wrapping_add`
 - 如果使用 `checked_*` 方法时发生溢出，则返回 `None` 值
 - 使用 `overflowing_*` 方法返回该值和一个指示是否存在溢出的布尔值
-- 使用 `saturating_*` 方法使值达到最小值或最大值
+- 使用 `saturating_*` 方法，可以限定计算后的结果不超过目标类型的最大值或低于最小值，例如:
+
+```rust
+assert_eq!(100u8.saturating_add(1), 101);
+assert_eq!(u8::MAX.saturating_add(127), u8::MAX);
+```
 
 下面是一个演示`wrapping_*`方法的示例：
 
@@ -240,13 +245,13 @@ fn main() {
 
 Rust的位运算基本上和其他语言一样
 
-| 运算符  | 说明                                   |
-| ------- | -------------------------------------- |
-| & 位与  | 相同位置均为1时则为1，否则为0            |
-| \| 位或 | 相同位置只要有1时则为1，否则为0        |
-| ^ 异或  | 相同位置不相同则为1，相同则为0         |
-| ! 位非  | 把位中的0和1相互取反，即0置为1，1置为0 |
-| << 左移 | 所有位向左移动指定位数，右位补0      |
+| 运算符  | 说明                                                   |
+| ------- | ------------------------------------------------------ |
+| & 位与  | 相同位置均为1时则为1，否则为0                          |
+| \| 位或 | 相同位置只要有1时则为1，否则为0                        |
+| ^ 异或  | 相同位置不相同则为1，相同则为0                         |
+| ! 位非  | 把位中的0和1相互取反，即0置为1，1置为0                 |
+| << 左移 | 所有位向左移动指定位数，右位补0                        |
 | >> 右移 | 所有位向右移动指定位数，带符号移动（正数补0，负数补1） |
 
 
@@ -351,7 +356,7 @@ use num::complex::Complex;
 
 ## 课后练习
 
-> [Rust By Practice](https://zh.practice.rs/basic-types/numbers.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/basic-types/numbers.md)。
+> [Rust By Practice](https://zh-practice.course.rs/basic-types/numbers.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/basic-types/numbers.md)。
 
 
 
