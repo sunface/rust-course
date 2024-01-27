@@ -141,7 +141,10 @@
 ## 社区 & 读者交流
 
 - 知乎: [孙飞 Sunface](https://www.zhihu.com/people/iSunface)
-- QQ 群 `1009730433`，用于日常技术交流
+- RustCn 微信交流群：<img src="https://github.com/sunface/rust-course/assets/7036754/e621932a-944b-4674-a491-64731622da06" width="200" /> 
+
+
+
 - 微信公众号: 扫描下面的二维码关注公众号 `Rust语言中文网`
 
 <img src="https://github.com/sunface/rust-course/blob/main/assets/studyrust公众号.png?raw=true" />
