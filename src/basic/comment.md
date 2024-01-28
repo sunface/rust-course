@@ -472,4 +472,4 @@ Green
 
 ## 课后练习
 
-> [Rust By Practice](https://zh-practice.course.rs/comments-docs.html)，支持代码在线编辑和运行，并提供详细的习题解答。（本节暂无习题解答）
+> [Rust By Practice](https://practice-zh.course.rs/comments-docs.html)，支持代码在线编辑和运行，并提供详细的习题解答。（本节暂无习题解答）

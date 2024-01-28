@@ -381,4 +381,4 @@ error[E0038]: the trait `std::clone::Clone` cannot be made into an object
 
 ## 课后练习
 
-> [Rust By Practice](https://zh-practice.course.rs/generics-traits/trait-object.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/generics-traits/trait-object.md)。
+> [Rust By Practice](https://practice-zh.course.rs/generics-traits/trait-object.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/generics-traits/trait-object.md)。

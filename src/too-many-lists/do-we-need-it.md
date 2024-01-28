@@ -49,7 +49,7 @@ $ cd lists
 
 
 #### 我无法接受内存重新分配的代价
-是的，`Vec` 当 [`capacity`](https://zh-practice.course.rs/collections/vector.html#capacity) 不够时，会重新分配一块内存，然后将之前的 `Vec` 全部拷贝过去，但是对于绝大多数使用场景，要么 `Vec` 不在热点路径中，要么 `Vec` 的容量可以提前预测。
+是的，`Vec` 当 [`capacity`](https://practice-zh.course.rs/collections/vector.html#capacity) 不够时，会重新分配一块内存，然后将之前的 `Vec` 全部拷贝过去，但是对于绝大多数使用场景，要么 `Vec` 不在热点路径中，要么 `Vec` 的容量可以提前预测。
 
 对于前者，那性能如何自然无关紧要。而对于后者，我们只需要使用 `Vec::with_capacity` 提前分配足够的空间即可，同时，Rust 中所有的迭代器还提供了 `size_hint` 也可以解决这种问题。
 
