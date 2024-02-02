@@ -93,7 +93,7 @@ fn generate_id()->usize{
     if current_val > MAX_ID{
         panic!("Factory ids overflowed");
     }
-    GLOBAL_ID_COUNTER.fetch_add(1, Ordering::Relaxed)
+    GLOBAL_ID_COUNTER.fetch_add(1, Ordering::Relaxed);
     let next_id = GLOBAL_ID_COUNTER.load(Ordering::Relaxed);
     if next_id > MAX_ID{
         panic!("Factory ids overflowed");
