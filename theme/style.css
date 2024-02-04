@@ -5,20 +5,23 @@
 }
 
 @media only screen and (min-width:1080px) {
+    :root {
+        --sidebar-width: 200px;
+    }
     main {
         position: relative;
-        padding-right: 170px;
+        padding-right: var(--sidebar-width);
     }
     .sidetoc {
         margin-left: auto;
         margin-right: auto;
         /*left: calc(100% + (var(--content-max-width))/4 - 180px);*/
-        left: calc(100% - 200px);
+        left: calc(100% - var(--sidebar-width));
         position: absolute;
     }
     .pagetoc {
         position: fixed;
-        width: 200px;
+        width: var(--sidebar-width);
         height: calc(100vh - var(--menu-bar-height) - 10rem);
         overflow: auto;
         z-index: 1000;
