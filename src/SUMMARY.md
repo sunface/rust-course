@@ -381,3 +381,4 @@
     - [1.73](appendix/rust-versions/1.73.md)
     - [1.74](appendix/rust-versions/1.74.md)
     - [1.75](appendix/rust-versions/1.75.md)
+    - [1.76](appendix/rust-versions/1.76.md)
