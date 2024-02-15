@@ -50,14 +50,14 @@
             <a href="https://github.com/EluvK">
                 <img src="https://avatars.githubusercontent.com/u/36977935?v=4" width="160px" alt=""/>
                 <br />
-                <sub><b>EluvK 🥉</b></sub>
+                <sub><b>EluvK</b></sub>
             </a>
         </td>
         <td align="center">
             <a href="https://github.com/AllanDowney">
                 <img src="https://avatars.githubusercontent.com/u/82752697?v=4?s=100"  width="160px" alt=""/>
                 <br />
-                <sub><b>AllanDowney 🥈</b></sub>
+                <sub><b>AllanDowney</b></sub>
             </a>
         </td>
     </tr>
