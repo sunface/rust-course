@@ -182,7 +182,7 @@ error[E0596]: cannot borrow `self.msg_cache` as mutable, as it is behind a `&` r
    |         ^^^^^^^^^^^^^^^^^^ `self` is a `&` reference, so the data it refers to cannot be borrowed as mutable
 ```
 
-在报错的同时，编译器大聪明还善意地给出了提示：将 `&self` 修改为 `&mut self`，但是。。。我们实现的特征是定义在外部库中，因此该签名根本不能修改。值此危急关头， `RefCell` 闪亮登场：
+在报错的同时，编译器大聪明还善意地给出了提示：将 `&self` 修改为 `&mut self`，但是。。。我们实现的特征是定义在外部库中，因此该签名根本不能修改。至此危急关头， `RefCell` 闪亮登场：
 
 ```rust
 use std::cell::RefCell;
