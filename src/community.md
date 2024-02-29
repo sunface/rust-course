@@ -8,7 +8,7 @@
 这个社区与其它 Rust 社区有点不一样: 我们聚焦于 Rust 语言的学习研究和实战应用上，不搞花活！
 
 - RustCn 微信交流群
-<img src="https://github.com/sunface/rust-course/assets/7036754/abe9f6ab-58ee-4052-99b5-3ac6b4c44677" width="200" />
+<img src="https://github.com/sunface/rust-course/assets/7036754/d1d749e4-b931-43b4-8808-26ad8eda6142" width="200" />
 
 
 - 公众号: `Rust语言中文网`
