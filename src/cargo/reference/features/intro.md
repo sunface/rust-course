@@ -70,7 +70,7 @@ webp = []
 gif = { version = "0.11.1", optional = true }
 ```
 
-**这种可选依赖的写法会自动定义一个与依赖同名的 feature，也就是 `gif` feature**，这样一来，当我们启用 `gif` feature 时，该依赖库也会被自动引入并启用：例如通过 `--feature gif` 的方式启用 feature 。
+**这种可选依赖的写法会自动定义一个与依赖同名的 feature，也就是 `gif` feature**，这样一来，当我们启用 `gif` feature 时，该依赖库也会被自动引入并启用：例如通过 `--features gif` 的方式启用 feature 。
 
 > 注意：目前来说，`[feature]` 中定义的 feature 还不能与已引入的依赖库同名。但是在 `nightly` 中已经提供了实验性的功能用于改变这一点: [namespaced features](https://doc.rust-lang.org/stable/cargo/reference/unstable.html#namespaced-features)
 
