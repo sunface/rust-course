@@ -143,7 +143,48 @@ impl<T> Deref for MyBox<T> {
 
 至于 Rust 为何要使用这个有点啰嗦的方式实现，原因在于所有权系统的存在。如果 `deref` 方法直接返回一个值，而不是引用，那么该值的所有权将被转移给调用者，而我们不希望调用者仅仅只是 `*T` 一下，就拿走了智能指针中包含的值。
 
-需要注意的是，`*` 不会无限递归替换，从 `*y` 到 `*(y.deref())` 只会发生一次，而不会继续进行替换然后产生形如 `*((y.deref()).deref())` 的怪物。
+需要注意的是，`*` 不会无限递归替换，从 `*y` 到 `*(y.deref())` 只会发生一次，而不会继续进行替换然后产生形如 `*((y.deref()).deref())` 的怪物，例如：
+
+```rust
+fn main() {
+    let value = 1;
+    let inner = MyBox::new(value);
+    let outer = MyBox::new(inner);
+    let a = *outer + 1;
+}
+```
+
+这里`value`被`MyBox`包裹两次，如果只对`outer`进行一次解引用，编译器会抛出如下错误：
+
+```shell
+error[E0369]: cannot add `{integer}` to `MyBox<{integer}>`
+  --> src\main.rs:22:20
+   |
+22 |     let a = *outer + 1;
+   |             ------ ^ - {integer}
+   |             |
+   |             MyBox<{integer}>
+   |
+note: an implementation of `Add<{integer}>` might be missing for `MyBox<{integer}>`
+  --> src\main.rs:2:1
+   |
+2  | struct MyBox<T>(T);
+   | ^^^^^^^^^^^^^^^ must implement `Add<{integer}>`
+note: the trait `Add` must be implemented
+  --> \path\to\.rustup\toolchains\stable-x86_64-pc-windows-msvc\lib/rustlib/src/rust\library\core\src\ops\arith.rs:76:1
+   |
+76 | pub trait Add<Rhs = Self> {
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+```
+
+大意是`*outer`类型是`MyBox<{integer}>`，没有实现`Add<{integer}>`特征，无法进行`+`操作，可见`*outer`确实只调用了一次`deref`方法。如果改成下面两种的方式，则可以通过编译：
+
+```rust
+let a = **outer + 1;
+let a = *(outer.deref().deref()) + 1;
+```
+
+**拓展**：读者大大如果联系4.3.1中关于点操作符中自动解引用的知识，就会发现上述相加操作最简单的写法是`let a = outer.add(1);`。
 
 ## 函数和方法中的隐式 Deref 转换
 
