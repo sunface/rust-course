@@ -343,7 +343,7 @@ impl Worker {
 
 在上面的代码中， `thread::spawn(|| {})` 还没有给予实质性的内容，现在一起来完善下。
 
-首先 `Worker` 结构体需要从线程池 `TreadPool` 的队列中获取待执行的代码，对于这类场景，消息传递非常适合：我们将使用消息通道( channel )作为任务队列。
+首先 `Worker` 结构体需要从线程池 `ThreadPool` 的队列中获取待执行的代码，对于这类场景，消息传递非常适合：我们将使用消息通道( channel )作为任务队列。
 
 ```rust
 use std::{sync::mpsc, thread};
