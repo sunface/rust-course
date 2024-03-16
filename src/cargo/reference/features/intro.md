@@ -23,7 +23,7 @@ pub mod webp;
 
 `#[cfg(feature = "webp")]` 的含义是：只有在 `webp` feature 被定义后，以下的 `webp` 模块才能被引入进来。由于我们之前在 `[features]` 里定义了 `webp`，因此以上代码的 `webp` 模块会被成功引入。
 
-在 `Cargo.toml` 中定义的 `feature` 会被 `Cargo` 通过命令行参数 `--cfg` 传给 `rustc`，最终由后者完成编译：例如，定义"hello"和"hi"两个feature，等价于`rustc --cfg 'feature="hello"' --cfg 'feature="hi" ...'`。若项目中的代码想要测试 `feature` 是否存在，可以使用 [`cfg` 属性](https://doc.rust-lang.org/stable/reference/conditional-compilation.html#the-cfg-attribute)或 [`cfg` 宏](https://doc.rust-lang.org/stable/std/macro.cfg.html)。
+在 `Cargo.toml` 中定义的 `feature` 会被 `Cargo` 通过命令行参数 `--cfg` 传给 `rustc`，最终由后者完成编译：例如，定义 "hello" 和 "hi" 两个 `feature`，等价于 `rustc --cfg 'feature="hello"' --cfg 'feature="hi" ...'`。若项目中的代码想要测试 `feature` 是否存在，可以使用 [`cfg` 属性](https://doc.rust-lang.org/stable/reference/conditional-compilation.html#the-cfg-attribute)或 [`cfg` 宏](https://doc.rust-lang.org/stable/std/macro.cfg.html)。
 
 之前我们提到了一个 `feature` 还可以开启其他 `feature`，举个例子，例如 ICO 图片格式包含 BMP 和 PNG 格式，因此当 `ico` 被启用后，它还得确保启用 `bmp` 和 `png` ：
 
