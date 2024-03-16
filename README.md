@@ -134,7 +134,7 @@
 ## 社区 & 读者交流
 
 - 知乎: [孙飞 Sunface](https://www.zhihu.com/people/iSunface)
-- RustCn 微信交流 2 群：<img src="https://github.com/sunface/rust-course/assets/7036754/b3aa4028-cad3-4041-a608-c65604228c49" width="200" /> 
+- RustCn 微信交流 2 群：<img src="https://github.com/sunface/rust-course/assets/7036754/a84ec7e5-30b1-48da-9352-95503aa61a8f" width="200" /> 
 
 
 
