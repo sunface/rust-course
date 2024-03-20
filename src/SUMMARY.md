@@ -7,7 +7,8 @@
 [社区和锈书](community.md)
 
 ---
-[Datav: 可编程的数据可视化平台和可观测性平台](some-thoughts.md)
+[Xobserve: 一切皆可观测](some-thoughts.md)
+[BeatAI: 工程师 AI 入门圣经](beat-ai.md)
 
 <!-- [一本生锈的书](rusty-book.md) -->
 <!-- [Rust 语言周刊](rust-weekly.md) -->
