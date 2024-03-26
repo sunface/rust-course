@@ -292,9 +292,9 @@ fn get_mut(&mut self, name: &String) -> &mut Symbol {
 
 其中的关键就在于返回的时候，新建一个引用，而不是使用中间状态的引用。
 
-## 新编译器 Polonius
+## 新借用检查器 Polonius
 
-针对现有编译器存在的各种问题，Rust 团队正在研发一个全新的编译器，名曰[`polonius`](https://github.com/rust-lang/polonius),但是目前它仍然处在开发阶段，如果想在自己项目中使用，需要在`rustc/RUSTFLAGS`中增加标志`-Zpolonius`，但是可能会导致编译速度变慢，或者引入一些新的编译错误。
+针对现有借用检查器存在的各种问题，Rust 团队正在研发一个全新的借用检查器，名曰[`polonius`](https://github.com/rust-lang/polonius),但是目前它仍然处在开发阶段，如果想在自己项目中使用，需要在`rustc/RUSTFLAGS`中增加标志`-Zpolonius`，但是可能会导致编译速度变慢，或者引入一些新的编译错误。
 
 ## 总结
 
