@@ -174,7 +174,7 @@ pub fn eat_at_restaurant() {
 }
 ```
 
-意料之外的报错了，毕竟看上去确实很简单且没有任何问题：
+运行 `cargo build` 编译此库类型的 `Package`，意料之外的报错了，毕竟看上去确实很简单且没有任何问题：
 
 ```console
 error[E0603]: module `hosting` is private
