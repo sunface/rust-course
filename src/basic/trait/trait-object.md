@@ -1,6 +1,6 @@
 # 特征对象
 
-在上一节中有一段代码无法通过编译:
+在上一节中有一段代码无法通过编译：
 
 ```rust
 fn returns_summarizable(switch: bool) -> impl Summary {
