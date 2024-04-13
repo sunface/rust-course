@@ -144,7 +144,7 @@ fn value_in_cents(coin: Coin) -> u8 {
 
 上面代码中，在匹配 `Coin::Quarter(state)` 模式时，我们把它内部存储的值绑定到了 `state` 变量上，因此 `state` 变量就是对应的 `UsState` 枚举类型。
 
-例如有一个印了阿拉斯加州标记的 25 分硬币：`Coin::Quarter(UsState::Alaska)`, 它在匹配时，`state` 变量将被绑定 `UsState::Alaska` 的枚举值。
+例如有一个印了阿拉斯加州标记的 25 分硬币：`Coin::Quarter(UsState::Alaska)`，它在匹配时，`state` 变量将被绑定 `UsState::Alaska` 的枚举值。
 
 再来看一个更复杂的例子：
 
@@ -236,7 +236,7 @@ error[E0004]: non-exhaustive patterns: `West` not covered // 非穷尽匹配，`
    = note: the matched value is of type `Direction`
 ```
 
-不禁想感叹，Rust 的编译器**真强大**，忍不住想爆粗口了，sorry，如果你以后进一步深入使用 Rust 也会像我这样感叹的。Rust 编译器清晰地知道 `match` 中有哪些分支没有被覆盖, 这种行为能强制我们处理所有的可能性，有效避免传说中价值**十亿美金**的 `null` 陷阱。
+不禁想感叹，Rust 的编译器**真强大**，忍不住想爆粗口了，sorry，如果你以后进一步深入使用 Rust 也会像我这样感叹的。Rust 编译器清晰地知道 `match` 中有哪些分支没有被覆盖，这种行为能强制我们处理所有的可能性，有效避免传说中价值**十亿美金**的 `null` 陷阱。
 
 #### `_` 通配符
 
@@ -342,7 +342,7 @@ assert!(matches!(bar, Some(x) if x > 2));
 
 ## 变量遮蔽
 
-无论是 `match` 还是 `if let`，这里都是一个新的代码块，而且这里的绑定相当于新变量，如果你使用同名变量，会发生变量遮蔽:
+无论是 `match` 还是 `if let`，这里都是一个新的代码块，而且这里的绑定相当于新变量，如果你使用同名变量，会发生变量遮蔽：
 
 ```rust
 fn main() {
