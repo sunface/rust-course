@@ -136,6 +136,7 @@ Request: [
 ```text
 Method Request-URI HTTP-Version
 headers CRLF
+
 message-body
 ```
 
@@ -152,6 +153,7 @@ message-body
 ```text
 HTTP-Version Status-Code Reason-Phrase CRLF
 headers CRLF
+
 message-body
 ```
 
@@ -227,7 +229,7 @@ fn handle_connection(mut stream: TcpStream) {
     let length = contents.len();
 
     let response =
-        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
+        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n\n{contents}");
 
     stream.write_all(response.as_bytes()).unwrap();
 }
@@ -257,7 +259,7 @@ fn handle_connection(mut stream: TcpStream) {
         let length = contents.len();
 
         let response = format!(
-            "{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}"
+            "{status_line}\r\nContent-Length: {length}\r\n\r\n\n{contents}"
         );
 
         stream.write_all(response.as_bytes()).unwrap();
@@ -283,7 +285,7 @@ fn handle_connection(mut stream: TcpStream) {
         let length = contents.len();
 
         let response = format!(
-            "{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}"
+            "{status_line}\r\nContent-Length: {length}\r\n\r\n\n{contents}"
         );
 
         stream.write_all(response.as_bytes()).unwrap();
@@ -324,7 +326,7 @@ fn handle_connection(mut stream: TcpStream) {
     let length = contents.len();
 
     let response =
-        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
+        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n\n{contents}");
 
     stream.write_all(response.as_bytes()).unwrap();
 }

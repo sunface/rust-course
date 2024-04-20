@@ -19,7 +19,7 @@ mod tests {
 
 以上代码是一个测试模块，它在堆上生成了一个数组`stack`，初步看起来数组挺大的，先尝试运行下`cargo test`:
 
-> 你很可能会遇到`#![feature(test)]`错误，因为该特性目前只存在`Rust Nightly`版本上，具体解决方法见[Rust 语言圣经](https://course.rs/appendix/rust-version.html#在指定目录使用rust-nightly)
+> 你很可能会遇到`#![feature(test)]`错误，因为该特性目前只存在`Rust Nightly`版本上，具体解决方法见[Rust 语言圣经](https://course.rs/appendix/rust-version.html#在指定目录使用-rust-nightly)
 
 ```console
 running 1 test

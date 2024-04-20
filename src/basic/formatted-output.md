@@ -195,7 +195,7 @@ fn main() {
 
 ## 位置参数
 
-除了按照依次顺序使用值去替换占位符之外，还能让指定位置的参数去替换某个占位符，例如 `{1}`，表示用第二个参数替换该占位符(索引从 0 开始)：
+除了按照依次顺序使用值去替换占位符之外，还能让指定位置的参数去替换某个占位符，例如 `{1}`，表示用第二个参数替换该占位符（索引从 0 开始）：
 
 ```rust
 fn main() {
@@ -462,7 +462,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 ## 课后练习
 
-> [Rust By Practice](https://zh.practice.rs/formatted-output.html)，支持代码在线编辑和运行，并提供详细的习题解答。（本节暂无习题解答）
+> [Rust By Practice](https://practice-zh.course.rs/formatted-output.html)，支持代码在线编辑和运行，并提供详细的习题解答。（本节暂无习题解答）
 
 ## 总结
 

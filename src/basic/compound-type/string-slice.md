@@ -95,9 +95,9 @@ let slice = &s[..];
 > ```
 >
 > 因为我们只取 `s` 字符串的前两个字节，但是本例中每个汉字占用三个字节，因此没有落在边界处，也就是连 `中` 字都取不完整，此时程序会直接崩溃退出，如果改成 `&s[0..3]`，则可以正常通过编译。
-> 因此，当你需要对字符串做切片索引操作时，需要格外小心这一点, 关于该如何操作 UTF-8 字符串，参见[这里](#操作-utf-8-字符串)。
+> 因此，当你需要对字符串做切片索引操作时，需要格外小心这一点，关于该如何操作 UTF-8 字符串，参见[这里](#操作-utf-8-字符串)。
 
-字符串切片的类型标识是 `&str`，因此我们可以这样声明一个函数，输入 `String` 类型，返回它的切片: `fn first_word(s: &String) -> &str `。
+字符串切片的类型标识是 `&str`，因此我们可以这样声明一个函数，输入 `String` 类型，返回它的切片：`fn first_word(s: &String) -> &str `。
 
 有了切片就可以写出这样的代码：
 
@@ -152,7 +152,7 @@ assert_eq!(slice, &[2, 3]);
 
 ## 字符串字面量是切片
 
-之前提到过字符串字面量,但是没有提到它的类型：
+之前提到过字符串字面量，但是没有提到它的类型：
 
 ```rust
 let s = "Hello, world!";
@@ -176,7 +176,7 @@ Rust 在语言级别，只有一种字符串类型： `str`，它通常是以引
 
 `str` 类型是硬编码进可执行文件，也无法被修改，但是 `String` 则是一个可增长、可改变且具有所有权的 UTF-8 编码字符串，**当 Rust 用户提到字符串时，往往指的就是 `String` 类型和 `&str` 字符串切片类型，这两个类型都是 UTF-8 编码**。
 
-除了 `String` 类型的字符串，Rust 的标准库还提供了其他类型的字符串，例如 `OsString`， `OsStr`， `CsString` 和` CsStr` 等，注意到这些名字都以 `String` 或者 `Str` 结尾了吗？它们分别对应的是具有所有权和被借用的变量。
+除了 `String` 类型的字符串，Rust 的标准库还提供了其他类型的字符串，例如 `OsString`， `OsStr`， `CsString` 和 `CsStr` 等，注意到这些名字都以 `String` 或者 `Str` 结尾了吗？它们分别对应的是具有所有权和被借用的变量。
 
 ## String 与 &str 的转换
 
@@ -394,7 +394,7 @@ string_replace_range = "I like Rust!"
 
 #### 删除 (Delete)
 
-与字符串删除相关的方法有 4 个，他们分别是 `pop()`，`remove()`，`truncate()`，`clear()`。这四个方法仅适用于 `String` 类型。
+与字符串删除相关的方法有 4 个，它们分别是 `pop()`，`remove()`，`truncate()`，`clear()`。这四个方法仅适用于 `String` 类型。
 
 1、 `pop` —— 删除并返回字符串的最后一个字符
 
@@ -683,7 +683,7 @@ for b in "中国人".bytes() {
 
 那么问题来了，为啥 `String` 可变，而字符串字面值 `str` 却不可以？
 
-就字符串字面值来说，我们在编译时就知道其内容，最终字面值文本被直接硬编码进可执行文件中，这使得字符串字面值快速且高效，这主要得益于字符串字面值的不可变性。不幸的是，我们不能为了获得这种性能，而把每一个在编译时大小未知的文本都放进内存中（你也做不到！），因为有的字符串是在程序运行得过程中动态生成的。
+就字符串字面值来说，我们在编译时就知道其内容，最终字面值文本被直接硬编码进可执行文件中，这使得字符串字面值快速且高效，这主要得益于字符串字面值的不可变性。不幸的是，我们不能为了获得这种性能，而把每一个在编译时大小未知的文本都放进内存中（你也做不到！），因为有的字符串是在程序运行的过程中动态生成的。
 
 对于 `String` 类型，为了支持一个可变、可增长的文本片段，需要在堆上分配一块在编译时未知大小的内存来存放内容，这些都是在程序运行时完成的：
 
@@ -705,19 +705,19 @@ for b in "中国人".bytes() {
                                    // s 不再有效，内存被释放
 ```
 
-与其它系统编程语言的 `free` 函数相同，Rust 也提供了一个释放内存的函数： `drop`，但是不同的是，其它语言要手动调用 `free` 来释放每一个变量占用的内存，而 Rust 则在变量离开作用域时，自动调用 `drop` 函数: 上面代码中，Rust 在结尾的 `}` 处自动调用 `drop`。
+与其它系统编程语言的 `free` 函数相同，Rust 也提供了一个释放内存的函数： `drop`，但是不同的是，其它语言要手动调用 `free` 来释放每一个变量占用的内存，而 Rust 则在变量离开作用域时，自动调用 `drop` 函数：上面代码中，Rust 在结尾的 `}` 处自动调用 `drop`。
 
-> 其实，在 C++ 中，也有这种概念: _Resource Acquisition Is Initialization (RAII)_。如果你使用过 RAII 模式的话应该对 Rust 的 `drop` 函数并不陌生。
+> 其实，在 C++ 中，也有这种概念：_Resource Acquisition Is Initialization (RAII)_。如果你使用过 RAII 模式的话应该对 Rust 的 `drop` 函数并不陌生。
 
 这个模式对编写 Rust 代码的方式有着深远的影响，在后面章节我们会进行更深入的介绍。
 
 ## 课后练习
 > Rust By Practice，支持代码在线编辑和运行，并提供详细的习题解答。
-> - [字符串](https://zh.practice.rs/compound-types/string.html)
+> - [字符串](https://practice-zh.course.rs/compound-types/string.html)
 >     - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/compound-types/string.md)
-> - [切片](https://zh.practice.rs/compound-types/slice.html)
+> - [切片](https://practice-zh.course.rs/compound-types/slice.html)
 >     - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/compound-types/slice.md)
-> - [String](https://zh.practice.rs/collections/String.html)
+> - [String](https://practice-zh.course.rs/collections/String.html)
 >     - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/collections/String.md)
 
 <hr />

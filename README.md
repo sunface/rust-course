@@ -47,24 +47,17 @@
 <table>
     <tr>
         <td align="center">
-            <a href="https://github.com/sunface">
-                <img src="https://avatars.githubusercontent.com/u/7036754?v=4?s=100" width="160px"   alt=""/>
+            <a href="https://github.com/EluvK">
+                <img src="https://avatars.githubusercontent.com/u/36977935?v=4" width="160px" alt=""/>
                 <br />
-                <sub><b>Sunface 🥇</b></sub>
+                <sub><b>EluvK</b></sub>
             </a>
         </td>
         <td align="center">
             <a href="https://github.com/AllanDowney">
                 <img src="https://avatars.githubusercontent.com/u/82752697?v=4?s=100"  width="160px" alt=""/>
                 <br />
-                <sub><b>AllanDowney 🥈</b></sub>
-            </a>
-        </td>
-        <td align="center">
-            <a href="https://github.com/EluvK">
-                <img src="https://avatars.githubusercontent.com/u/36977935?v=4" width="160px" alt=""/>
-                <br />
-                <sub><b>EluvK 🥉</b></sub>
+                <sub><b>AllanDowney</b></sub>
             </a>
         </td>
     </tr>
@@ -76,6 +69,13 @@
 
 <table>
     <tr>
+        <td align="center">
+            <a href="https://github.com/SUN-LG">
+                <img src="https://avatars.githubusercontent.com/u/15073915?v=4" width="100px" alt=""/>
+                <br />
+                <sub><b>孙立刚</b></sub>
+            </a>
+        </td>
         <td align="center">
             <a href="https://github.com/JesseAtSZ">
                 <img src="https://avatars.githubusercontent.com/u/35264598?v=4?s=100" width="100px" alt=""/>
@@ -95,13 +95,6 @@
                 <img src="https://avatars.githubusercontent.com/u/10138791?v=4?s=100" width="100px" alt=""/>
                 <br />
                 <sub><b>1132719438</b></sub>
-            </a>
-        </td>
-        <td align="center">
-            <a href="https://github.com/zongzi531">
-                <img src="https://avatars.githubusercontent.com/u/22429236?v=4?s=100" width="100px" alt=""/>
-                <br />
-                <sub><b>zongzi531</b></sub>
             </a>
         </td>
     </tr>
@@ -141,7 +134,10 @@
 ## 社区 & 读者交流
 
 - 知乎: [孙飞 Sunface](https://www.zhihu.com/people/iSunface)
-- QQ 群 `1009730433`，用于日常技术交流
+- RustCn 微信交流 2 群：<img src="https://github.com/sunface/rust-course/assets/7036754/a84ec7e5-30b1-48da-9352-95503aa61a8f" width="200" /> 
+
+
+
 - 微信公众号: 扫描下面的二维码关注公众号 `Rust语言中文网`
 
 <img src="https://github.com/sunface/rust-course/blob/main/assets/studyrust公众号.png?raw=true" />

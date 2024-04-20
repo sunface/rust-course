@@ -100,7 +100,7 @@ registry = "git://mirrors.ustc.edu.cn/crates.io-index"
 
 首先，创建一个新的镜像源 `[source.ustc]`，然后将默认的 `crates-io` 替换成新的镜像源: `replace-with = 'ustc'`。
 
-简单吧？只要这样配置后，以往需要去 `crates.io` 下载的包，会全部从科大的镜像地址下载，速度刷刷的.. 我的 300M 大刀( 宽带 )终于有了用武之地。
+简单吧？只要这样配置后，以往需要去 `crates.io` 下载的包，会全部从科大的镜像地址下载，速度刷刷的... 我的 300M 大刀（宽带）终于有了用武之地。
 
 **这里强烈推荐大家在学习完后面的基本章节后，看一下 [Cargo 使用指南章节](https://course.rs/cargo/intro.html)，对于你的 Rust 之旅会有莫大的帮助！**
 
@@ -113,7 +113,7 @@ registry = "git://mirrors.ustc.edu.cn/crates.io-index"
 ### Blocking waiting for file lock on package cache
 不过这里有一个坑，需要大家注意，如果你同时打开了 VSCODE 和命令行，然后修改了 `Cargo.toml`，此时 VSCODE 的 rust-analyzer 插件会自动检测到依赖的变更，去下载新的依赖。
 
-在 VSCODE 下载的过程中( 特别是更新索引，可能会耗时很久)，假如你又在命令行中运行类似 `cargo run` 或者 `cargo build` 的命令，就会提示一行有些看不太懂的内容：
+在 VSCODE 下载的过程中（特别是更新索引，可能会耗时很久），假如你又在命令行中运行类似 `cargo run` 或者 `cargo build` 的命令，就会提示一行有些看不太懂的内容：
 
 ```shell
 $ cargo build

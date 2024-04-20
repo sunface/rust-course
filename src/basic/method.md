@@ -70,7 +70,7 @@ fn main() {
 
 该例子定义了一个 `Rectangle` 结构体，并且在其上定义了一个 `area` 方法，用于计算该矩形的面积。
 
-`impl Rectangle {}` 表示为 `Rectangle` 实现方法(`impl` 是实现 _implementation_ 的缩写)，这样的写法表明 `impl` 语句块中的一切都是跟 `Rectangle` 相关联的。
+`impl Rectangle {}` 表示为 `Rectangle` 实现方法（`impl` 是实现 _implementation_ 的缩写），这样的写法表明 `impl` 语句块中的一切都是跟 `Rectangle` 相关联的。
 
 #### self、&self 和 &mut self
 
@@ -279,4 +279,4 @@ fn main() {
 
 ## 课后练习
 
-> [Rust By Practice](https://zh.practice.rs/method.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/method.md)。
+> [Rust By Practice](https://practice-zh.course.rs/method.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/method.md)。

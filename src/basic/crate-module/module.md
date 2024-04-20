@@ -38,7 +38,7 @@ mod front_of_house {
 
 ## 模块树
 
-在[上一节](https://course.rs/basic/crate-module/crate.html)中，我们提到过 `src/main.rs` 和 `src/lib.rs` 被称为包根(crate root)，这个奇葩名称的来源(我不想承认是自己翻译水平太烂-,-)是由于这两个文件的内容形成了一个模块 `crate`，该模块位于包的树形结构(由模块组成的树形结构)的根部：
+在[上一节](https://course.rs/basic/crate-module/crate.html)中，我们提到过 `src/main.rs` 和 `src/lib.rs` 被称为包根(crate root)，这个奇葩名称的来源（我不想承认是自己翻译水平太烂-,-）是由于这两个文件的内容形成了一个模块 `crate`，该模块位于包的树形结构（由模块组成的树形结构）的根部：
 
 ```console
 crate
@@ -156,7 +156,7 @@ crate
 
 ## 代码可见性
 
-让我们运行下面(之前)的代码：
+让我们运行下面（之前）的代码：
 
 ```rust
 mod front_of_house {
@@ -174,7 +174,7 @@ pub fn eat_at_restaurant() {
 }
 ```
 
-意料之外的报错了，毕竟看上去确实很简单且没有任何问题：
+运行 `cargo build` 编译此库类型的 `Package`，意料之外的报错了，毕竟看上去确实很简单且没有任何问题：
 
 ```console
 error[E0603]: module `hosting` is private
@@ -184,7 +184,7 @@ error[E0603]: module `hosting` is private
   |                            ^^^^^^^ private module
 ```
 
-错误信息很清晰：`hosting` 模块是私有的，无法在包根进行访问，那么为何 `front_of_house` 模块就可以访问？因为它和 `eat_at_restaurant` 同属于一个包根作用域内，同一个模块内的代码自然不存在私有化问题(所以我们之前章节的代码都没有报过这个错误！)。
+错误信息很清晰：`hosting` 模块是私有的，无法在包根进行访问，那么为何 `front_of_house` 模块就可以访问？因为它和 `eat_at_restaurant` 同属于一个包根作用域内，同一个模块内的代码自然不存在私有化问题（所以我们之前章节的代码都没有报过这个错误！）。
 
 模块不仅仅对于组织代码很有用，它还能定义代码的私有化边界：在这个边界内，什么内容能让外界看到，什么内容不能，都有很明确的定义。因此，如果希望让函数或者结构体等类型变成私有化的，可以使用模块。
 
@@ -255,7 +255,7 @@ mod back_of_house {
 }
 ```
 
-嗯，我们的小餐馆又完善了，终于有厨房了！看来第一个客人也快可以有了。。。在厨房模块中，使用 `super::serve_order` 语法，调用了父模块(包根)中的 `serve_order` 函数。
+嗯，我们的小餐馆又完善了，终于有厨房了！看来第一个客人也快可以有了。。。在厨房模块中，使用 `super::serve_order` 语法，调用了父模块（包根）中的 `serve_order` 函数。
 
 那么你可能会问，为何不使用 `crate::serve_order` 的方式？额，其实也可以，不过如果你确定未来这种层级关系不会改变，那么 `super::serve_order` 的方式会更稳定，未来就算它们都不在包根了，依然无需修改引用路径。所以路径的选用，往往还是取决于场景，以及未来代码的可能走向。
 
@@ -360,4 +360,4 @@ pub mod hosting;
 
 ## 课后练习
 
-> [Rust By Practice](https://zh.practice.rs/crate-module/module.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/crate-module/module.md)。
+> [Rust By Practice](https://practice-zh.course.rs/crate-module/module.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/crate-module/module.md)。

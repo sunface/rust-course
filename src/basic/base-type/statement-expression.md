@@ -14,7 +14,7 @@ fn add_with_extra(x: i32, y: i32) -> i32 {
 
 
 
-对于 Rust 语言而言，**这种基于语句（statement）和表达式（expression）的方式是非常重要的，你需要能明确的区分这两个概念**, 但是对于很多其它语言而言，这两个往往无需区分。基于表达式是函数式语言的重要特征，**表达式总要返回值**。
+对于 Rust 语言而言，**这种基于语句（statement）和表达式（expression）的方式是非常重要的，你需要能明确的区分这两个概念**，但是对于很多其它语言而言，这两个往往无需区分。基于表达式是函数式语言的重要特征，**表达式总要返回值**。
 
 
 其实，在此之前，我们已经多次使用过语句和表达式。
@@ -113,5 +113,5 @@ fn ret_unit_type() {
 
 ## 课后练习
 
-> [Rust By Practice](https://zh.practice.rs/basic-types/statements-expressions.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/basic-types/statements.md)。
+> [Rust By Practice](https://practice-zh.course.rs/basic-types/statements-expressions.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/basic-types/statements.md)。
 

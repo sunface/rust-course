@@ -4,7 +4,7 @@
 
 ## 为何要手动设置变量的可变性？
 
-在其它大多数语言中，要么只支持声明可变的变量，要么只支持声明不可变的变量( 例如函数式语言 )，前者为编程提供了灵活性，后者为编程提供了安全性，而 Rust 比较野，选择了两者我都要，既要灵活性又要安全性。
+在其它大多数语言中，要么只支持声明可变的变量，要么只支持声明不可变的变量（例如函数式语言），前者为编程提供了灵活性，后者为编程提供了安全性，而 Rust 比较野，选择了两者我都要，既要灵活性又要安全性。
 
 能想要学习 Rust，说明我们的读者都是相当有水平的程序员了，你们应该能理解**一切选择皆是权衡**，那么两者都要的权衡是什么呢？这就是 Rust 开发团队为我们做出的贡献，两者都要意味着 Rust 语言底层代码的实现复杂度大幅提升，因此 Salute to The Rust Team!
 
@@ -122,7 +122,7 @@ warning: unused variable: `y`
 
 可以看到，两个变量都是只有声明，没有使用，但是编译器却独独给出了 `y` 未被使用的警告，充分说明了 `_` 变量名前缀在这里发挥的作用。
 
-值得注意的是，这里编译器还很善意的给出了提示( Rust 的编译器非常强大，这里的提示只是小意思 ): 将 `y` 修改 `_y` 即可。这里就不再给出代码，留给大家手动尝试并观察下运行结果。
+值得注意的是，这里编译器还很善意的给出了提示（Rust 的编译器非常强大，这里的提示只是小意思）：将 `y` 修改 `_y` 即可。这里就不再给出代码，留给大家手动尝试并观察下运行结果。
 
 更多关于 `_x` 的使用信息，请阅读后面的[模式匹配章节](https://course.rs/basic/match-pattern/all-patterns.html?highlight=_#使用下划线开头忽略未使用的变量)。
 
@@ -259,5 +259,5 @@ error: aborting due to previous error
 
 ## 课后练习
 
-> [Rust By Practice](https://zh.practice.rs/variables.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/variables.md)。
+> [Rust By Practice](https://practice-zh.course.rs/variables.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/variables.md)。
 

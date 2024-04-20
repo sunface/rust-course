@@ -47,7 +47,7 @@ fn main() {
 
 ## 泛型详解
 
-上面代码的 `T` 就是**泛型参数**，实际上在 Rust 中，泛型参数的名称你可以任意起，但是出于惯例，我们都用 `T` ( `T` 是 `type` 的首字母)来作为首选，这个名称越短越好，除非需要表达含义，否则一个字母是最完美的。
+上面代码的 `T` 就是**泛型参数**，实际上在 Rust 中，泛型参数的名称你可以任意起，但是出于惯例，我们都用 `T` （`T` 是 `type` 的首字母）来作为首选，这个名称越短越好，除非需要表达含义，否则一个字母是最完美的。
 
 使用泛型参数，有一个先决条件，必需在使用前对其进行声明：
 
@@ -304,7 +304,7 @@ fn main() {
     let arr: [i32; 3] = [1, 2, 3];
     display_array(arr);
 
-    let arr: [i32;2] = [1,2];
+    let arr: [i32; 2] = [1, 2];
     display_array(arr);
 }
 ```
@@ -332,7 +332,7 @@ fn main() {
     let arr: [i32; 3] = [1, 2, 3];
     display_array(&arr);
 
-    let arr: [i32;2] = [1,2];
+    let arr: [i32; 2] = [1, 2];
     display_array(&arr);
 }
 ```
@@ -349,7 +349,7 @@ fn main() {
     let arr: [i32; 3] = [1, 2, 3];
     display_array(&arr);
 
-    let arr: [i32;2] = [1,2];
+    let arr: [i32; 2] = [1, 2];
     display_array(&arr);
 }
 ```
@@ -467,7 +467,7 @@ fn main() {
 ## 课后练习
 
 > Rust By Practice，支持代码在线编辑和运行，并提供详细的习题解答。
-> - [泛型](https://zh.practice.rs/generics-traits/generics.html)
+> - [泛型](https://practice-zh.course.rs/generics-traits/generics.html)
 >     - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/generics-traits/generics.md)
-> - [const 泛型](https://zh.practice.rs/generics-traits/const-generics.html)
+> - [const 泛型](https://practice-zh.course.rs/generics-traits/const-generics.html)
 >     - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/generics-traits/const-generics.md)

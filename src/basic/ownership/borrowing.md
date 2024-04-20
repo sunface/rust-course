@@ -225,7 +225,7 @@ fn main() {
   // 新编译器中，r3作用域在这里结束
 ```
 
-在老版本的编译器中（Rust 1.31 前），将会报错，因为 `r1` 和 `r2` 的作用域在花括号 `}` 处结束，那么 `r3` 的借用就会触发 **无法同时借用可变和不可变**的规则。
+在老版本的编译器中（Rust 1.31 前），将会报错，因为 `r1` 和 `r2` 的作用域在花括号 `}` 处结束，那么 `r3` 的借用就会触发 **无法同时借用可变和不可变** 的规则。
 
 但是在新的编译器中，该代码将顺利通过，因为 **引用作用域的结束位置从花括号变成最后一次使用的位置**，因此 `r1` 借用和 `r2` 借用在 `println!` 后，就结束了，此时 `r3` 可以顺利借用到可变引用。
 
@@ -307,9 +307,9 @@ fn no_dangle() -> String {
 
 总的来说，借用规则如下：
 
-- 同一时刻，你只能拥有要么一个可变引用, 要么任意多个不可变引用
+- 同一时刻，你只能拥有要么一个可变引用，要么任意多个不可变引用
 - 引用必须总是有效的
 
 ## 课后练习
 
-> [Rust By Practice](https://zh.practice.rs/ownership/borrowing.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/ownership/borrowing.md)。
+> [Rust By Practice](https://practice-zh.course.rs/ownership/borrowing.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/ownership/borrowing.md)。
