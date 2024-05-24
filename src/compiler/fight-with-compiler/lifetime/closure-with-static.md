@@ -53,7 +53,7 @@ fn main() {
 }
 ```
 
-```
+```console
 error[E0310]: the parameter type `impl Fn(&str) -> Res` may not live long enough
   --> src/main.rs:25:30
    |

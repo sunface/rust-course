@@ -334,7 +334,7 @@ fn main() {
 
 结果，居然报错了，
 
-```
+```console
 error[E0277]: the trait bound `f32: Ord` is not satisfied
     --> src/main.rs:29:13
      |
@@ -406,7 +406,7 @@ fn main() {
 
 执行后输出：
 
-```
+```console
 [Person { name: "Al", age: 60 }, Person { name: "Zoe", age: 25 }, Person { name: "John", age: 1 }]
 ```
 
@@ -446,7 +446,7 @@ fn main() {
 
 执行输出
 
-```
+```console
 [Person { name: "Al", age: 30 }, Person { name: "Al", age: 60 }, Person { name: "John", age: 1 }, Person { name: "John", age: 25 }, Person { name: "Zoe", age: 25 }]
 ```
 

@@ -274,7 +274,7 @@ fn draw2(x: dyn Draw) {
 }
 ```
 
-```
+```console
 10 | fn draw2(x: dyn Draw) {
    |          ^ doesn't have a size known at compile-time
    |
@@ -364,7 +364,7 @@ pub struct Screen {
 
 将会得到如下错误：
 
-```text
+```console
 error[E0038]: the trait `std::clone::Clone` cannot be made into an object
  --> src/lib.rs:2:5
   |

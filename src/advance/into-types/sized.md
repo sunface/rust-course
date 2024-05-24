@@ -120,7 +120,7 @@ fn main() {
 
 报错如下：
 
-```
+```console
 error[E0277]: the size for values of type `str` cannot be known at compilation time
  --> src/main.rs:2:24
   |

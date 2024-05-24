@@ -336,7 +336,7 @@ pub fn add_to_waitlist() {}
 
 现在，我们尝试编译程序，很遗憾，编译器报错：
 
-```
+```console
 error[E0583]: file not found for module `front_of_house`
  --> src/lib.rs:3:1
   |
