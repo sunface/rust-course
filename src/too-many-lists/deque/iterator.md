@@ -1,9 +1,12 @@
 # 迭代器
+
 坏男孩最令人头疼，而链表实现中，迭代器就是这样的坏男孩，所以我们放在最后来处理。
 
 ## IntoIter
+
 由于是转移所有权，因此 `IntoIter` 一直都是最好实现的:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub struct IntoIter<T>(List<T>);
 
 impl<T> List<T> {
@@ -26,7 +29,7 @@ impl<T> Iterator for IntoIter<T> {
 
 这样只要为 `DoubleEndedIterator` 实现 `next_back` 方法，就可以支持双向迭代了: `Iterator` 的 `next` 方法从前往后，而 `next_back` 从后向前。
 
-```rust
+```rust,ignore,mdbook-runnable
 impl<T> DoubleEndedIterator for IntoIter<T> {
     fn next_back(&mut self) -> Option<T> {
         self.0.pop_back()
@@ -35,7 +38,8 @@ impl<T> DoubleEndedIterator for IntoIter<T> {
 ```
 
 测试下:
-```rust
+
+```rust,ignore,mdbook-runnable
 #[test]
 fn into_iter() {
     let mut list = List::new();
@@ -72,8 +76,10 @@ test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured
 ```
 
 ## Iter
+
 这里又要用到糟糕的 `Ref`:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub struct Iter<'a, T>(Option<Ref<'a, Node<T>>>);
 
 impl<T> List<T> {
@@ -88,7 +94,8 @@ $ cargo build
 ```
 
 迄今为止一切运行正常，接下来的 `next` 实现起来会有些麻烦:
-```rust
+
+```rust,ignore,mdbook-runnable
 impl<'a, T> Iterator for Iter<'a, T> {
     type Item = Ref<'a, T>;
     fn next(&mut self) -> Option<Self::Item> {
@@ -132,9 +139,9 @@ error[E0505]: cannot move out of `node_ref` because it is borrowed
 
 `node_ref` 活得不够久，跟一般的引用不同，Rust 不允许我们这样分割 `Ref`，从 `head.borrow()` 中取出的 `Ref` 只允许跟 `node_ref` 活得一样久。
 
-
 而我们想要的函数是存在的:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn map_split<U, V, F>(orig: Ref<'b, T>, f: F) -> (Ref<'b, U>, Ref<'b, V>) where
     F: FnOnce(&T) -> (&U, &V),
     U: ?Sized,
@@ -142,7 +149,8 @@ pub fn map_split<U, V, F>(orig: Ref<'b, T>, f: F) -> (Ref<'b, U>, Ref<'b, V>) wh
 ```
 
 喔，这个函数定义的泛型直接晃瞎了我的眼睛。。
-```rust
+
+```rust,ignore,mdbook-runnable
 fn next(&mut self) -> Option<Self::Item> {
     self.0.take().map(|node_ref| {
         let (next, elem) = Ref::map_split(node_ref, |node| {
@@ -173,7 +181,8 @@ error[E0521]: borrowed data escapes outside of closure
 ```
 
 额，借用的内容只允许在闭包体中使用，看起来我们还是得用 `Ref::map` 来解决问题:
-```rust
+
+```rust,ignore,mdbook-runnable
 fn next(&mut self) -> Option<Self::Item> {
     self.0.take().map(|node_ref| {
         let (next, elem) = Ref::map_split(node_ref, |node| {
@@ -205,7 +214,8 @@ error[E0308]: mismatched types
 晕, 多了一个 `RefCell` ，随着我们的对链表的逐步深入，`RefCell` 的代码嵌套变成了不可忽视的问题。
 
 看起来我们已经无能为力了，只能试着去摆脱 `RefCell` 了。`Rc` 怎么样？我们完全可以对 `Rc` 进行完整的克隆:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub struct Iter<T>(Option<Rc<Node<T>>>);
 
 impl<T> List<T> {

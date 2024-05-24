@@ -2,7 +2,7 @@
 
 一些异步程序例如 tokio 指南 章节中的绝大多数例子，它们整个程序都是异步的，包括程序入口 `main` 函数：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[tokio::main]
 async fn main() {
     println!("Hello world");
@@ -21,7 +21,7 @@ async fn main() {
 
 其实，`#[tokio::main]` 该宏仅仅是提供语法糖，目的是让大家可以更简单、更一致的去写异步代码，它会将你写下的`async fn main` 函数替换为：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     tokio::runtime::Builder::new_multi_thread()
         .enable_all()
@@ -41,7 +41,7 @@ fn main() {
 
 首先，创建一个文件 `src/blocking_client.rs`，然后使用下面代码将异步的 `Client` 结构体包裹起来:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::net::ToSocketAddrs;
 use tokio::runtime::Runtime;
 
@@ -82,7 +82,7 @@ pub fn connect<T: ToSocketAddrs>(addr: T) -> crate::Result<BlockingClient> {
 >
 > 如果这种模式不符合使用场景的需求，那大家还是需要用 `multi_thread` 运行时来代替。事实上，在 tokio 之前的章节中，我们默认使用的就是 `multi_thread` 模式。
 
-```rust
+```rust,ignore,mdbook-runnable
 use bytes::Bytes;
 use std::time::Duration;
 
@@ -114,7 +114,7 @@ impl BlockingClient {
 
 与上面的平平无奇相比，下面的代码将更有趣，因为它将 `Client` 转变成一个 `Subscriber` 对象:
 
-```rust
+```rust,ignore,mdbook-runnable
 /// 下面的客户端可以进入 pub/sub (发布/订阅) 模式
 ///
 /// 一旦客户端订阅了某个消息通道，那就只能执行 pub/sub 相关的命令。
@@ -167,7 +167,7 @@ impl BlockingSubscriber {
 
 可以通过 `Runtime` 的 `spawn` 方法来创建一个基于该运行时的后台任务：
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::runtime::Builder;
 use tokio::time::{sleep, Duration};
 
@@ -243,7 +243,7 @@ Task 0 stopping.
 
 在同步代码中使用异步的另一个方法就是生成一个运行时，然后使用消息传递的方式跟它进行交互。这个方法虽然更啰嗦一些，但是相对于之前的两种方法更加灵活：
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::runtime::Builder;
 use tokio::sync::mpsc;
 

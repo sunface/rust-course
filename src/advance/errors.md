@@ -23,7 +23,7 @@
 
 实际上，只要将布尔表达式的 `true` / `false`，替换成 `Some` / `None` 或 `Ok` / `Err` 就很好理解了。
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
   let s1 = Some("some1");
   let s2 = Some("some2");
@@ -62,7 +62,7 @@ fn main() {
 
 它们跟 `or()` 和 `and()` 类似，唯一的区别在于，它们的第二个表达式是一个闭包。
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     // or_else with Option
     let s1 = Some("some1");
@@ -93,7 +93,7 @@ fn main() {
 }
 ```
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     // and_then with Option
     let s1 = Some("some1");
@@ -128,7 +128,7 @@ fn main() {
 
 `filter` 用于对 `Option` 进行过滤：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let s1 = Some(3);
     let s2 = Some(6);
@@ -146,7 +146,7 @@ fn main() {
 
 `map` 可以将 `Some` 或 `Ok` 中的值映射为另一个：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let s1 = Some("abcde");
     let s2 = Some(5);
@@ -172,7 +172,7 @@ fn main() {
 
 但是如果你想要将 `Err` 中的值进行改变， `map` 就无能为力了，此时我们需要用 `map_err`：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let o1: Result<&str, &str> = Ok("abcde");
     let o2: Result<&str, isize> = Ok("abcde");
@@ -193,7 +193,7 @@ fn main() {
 
 `map_or` 在 `map` 的基础上提供了一个默认值:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     const V_DEFAULT: u32 = 1;
 
@@ -210,7 +210,7 @@ fn main() {
 
 `map_or_else` 与 `map_or` 类似，但是它是通过一个闭包来提供默认值:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let s = Some(10);
     let n: Option<i8> = None;
@@ -234,7 +234,7 @@ fn main() {
 
 这两兄弟可以将 `Option` 类型转换为 `Result` 类型。其中 `ok_or` 接收一个默认的 `Err` 参数:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     const ERR_DEFAULT: &str = "error message";
 
@@ -251,7 +251,7 @@ fn main() {
 
 而 `ok_or_else` 接收一个闭包作为 `Err` 参数:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let s = Some("abcde");
     let n: Option<&str> = None;
@@ -273,7 +273,7 @@ fn main() {
 
 为了帮助我们更好的定义错误，Rust 在标准库中提供了一些可复用的特征，例如 `std::error::Error` 特征：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fmt::{Debug, Display};
 
 pub trait Error: Debug + Display {
@@ -287,7 +287,7 @@ pub trait Error: Debug + Display {
 
 #### 最简单的错误
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fmt;
 
 // AppError 是自定义错误类型，它可以是当前包中定义的任何类型，在这里为了简化，我们使用了单元结构体作为例子。
@@ -328,7 +328,7 @@ fn main(){
 
 上一个例子中定义的错误非常简单，我们无法从错误中得到更多的信息，现在再来定义一个具有错误码和信息的错误:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fmt;
 
 struct AppError {
@@ -388,7 +388,7 @@ fn main() {
 
 好在 Rust 为我们提供了 `std::convert::From` 特征:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub trait From<T>: Sized {
   fn from(_: T) -> Self;
 }
@@ -400,7 +400,7 @@ pub trait From<T>: Sized {
 
 下面一起来看看如何为自定义类型实现 `From` 特征:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs::File;
 use std::io;
 
@@ -435,7 +435,7 @@ Error: AppError { kind: "io", message: "No such file or directory (os error 2)" 
 
 上面的例子只有一个标准库错误，再来看看多个不同的错误转换成 `AppError` 的实现：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs::File;
 use std::io::{self, Read};
 use std::num;
@@ -495,7 +495,7 @@ Error: AppError { kind: "parse", message: "invalid digit found in string" }
 
 在实际项目中，我们往往会为不同的错误定义不同的类型，这样做非常好，但是如果你要在一个函数中返回不同的错误呢？例如：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs::read_to_string;
 
 fn main() -> Result<(), std::io::Error> {
@@ -525,7 +525,7 @@ fn render() -> Result<String, std::io::Error> {
 
 大家还记得我们之前提到的 `std::error::Error` 特征吧，当时有说：自定义类型实现 `Debug + Display` 特征的主要原因就是为了能转换成 `Error` 的特征对象，而特征对象恰恰是在同一个地方使用不同类型的关键:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs::read_to_string;
 use std::error::Error;
 fn main() -> Result<(), Box<dyn Error>> {
@@ -547,7 +547,7 @@ fn render() -> Result<String, Box<dyn Error>> {
 
 与特征对象相比，自定义错误类型麻烦归麻烦，但是它非常灵活，因此也不具有上面的类似限制:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs::read_to_string;
 
 fn main() -> Result<(), MyError> {
@@ -606,7 +606,7 @@ impl std::fmt::Display for MyError {
 
 [`thiserror`](https://github.com/dtolnay/thiserror)可以帮助我们简化上面的第二种解决方案：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs::read_to_string;
 
 fn main() -> Result<(), MyError> {
@@ -636,7 +636,7 @@ enum MyError {
 
 [`error-chain`](https://github.com/rust-lang-deprecated/error-chain) 也是简单好用的库，可惜不再维护了，但是我觉得它依然可以在合适的地方大放光彩，值得大家去了解下。
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs::read_to_string;
 
 error_chain::error_chain! {
@@ -667,7 +667,7 @@ fn render() -> Result<String> {
 
 > 如果你想要设计自己的错误类型，同时给调用者提供具体的信息时，就使用 `thiserror`，例如当你在开发一个三方库代码时。如果你只想要简单，就使用 `anyhow`，例如在自己的应用服务中。
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs::read_to_string;
 
 use anyhow::Result;

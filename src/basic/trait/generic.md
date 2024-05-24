@@ -5,7 +5,7 @@ Go 语言在 2022 年，就要正式引入泛型，被视为在 1.0 版本后，
 
 我们在编程中，经常有这样的需求：用同一功能的函数处理不同类型的数据，例如两个数的加法，无论是整数还是浮点数，甚至是自定义类型，都能进行支持。在不支持泛型的编程语言中，通常需要为每一种类型编写一个函数：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn add_i8(a:i8, b:i8) -> i8 {
     a + b
 }
@@ -31,7 +31,7 @@ fn main() {
 
 实际上，泛型就是一种多态。泛型主要目的是为程序员提供编程的便利，减少代码的臃肿，同时可以极大地丰富语言本身的表达能力，为程序员提供了一个合适的炮管。想想，一个函数，可以代替几十个，甚至数百个函数，是一件多么让人兴奋的事情：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn add<T>(a:T, b:T) -> T {
     a + b
 }
@@ -51,7 +51,7 @@ fn main() {
 
 使用泛型参数，有一个先决条件，必需在使用前对其进行声明：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn largest<T>(list: &[T]) -> T {
 ```
 
@@ -61,7 +61,7 @@ fn largest<T>(list: &[T]) -> T {
 
 下面是一个错误的泛型函数的实现：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn largest<T>(list: &[T]) -> T {
     let mut largest = list[0];
 
@@ -125,7 +125,7 @@ help: consider restricting type parameter `T`
 
 同样的，不是所有 `T` 类型都能进行相加操作，因此我们需要用 `std::ops::Add<Output = T>` 对 `T` 进行限制：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn add<T: std::ops::Add<Output = T>>(a:T, b:T) -> T {
     a + b
 }
@@ -137,7 +137,7 @@ fn add<T: std::ops::Add<Output = T>>(a:T, b:T) -> T {
 
 结构体中的字段类型也可以用泛型来定义，下面代码定义了一个坐标点 `Point`，它可以存放任何类型的坐标值：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Point<T> {
     x: T,
     y: T,
@@ -156,7 +156,7 @@ fn main() {
 
 第二点非常重要，如果使用不同的类型，那么它会导致下面代码的报错：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Point<T> {
     x: T,
     y: T,
@@ -182,7 +182,7 @@ error[E0308]: mismatched types //类型不匹配
 
 如果想让 `x` 和 `y` 既能类型相同，又能类型不同，就需要使用不同的泛型参数：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Point<T,U> {
     x: T,
     y: U,
@@ -198,7 +198,7 @@ fn main() {
 
 提到枚举类型，`Option` 永远是第一个应该被想起来的，在之前的章节中，它也多次出现：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum Option<T> {
     Some(T),
     None,
@@ -209,7 +209,7 @@ enum Option<T> {
 
 对于枚举而言，卧龙凤雏永远是绕不过去的存在：如果是 `Option` 是卧龙，那么 `Result` 就一定是凤雏，得两者可得天下：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum Result<T, E> {
     Ok(T),
     Err(E),
@@ -224,7 +224,7 @@ enum Result<T, E> {
 
 上一章中，我们讲到什么是方法以及如何在结构体和枚举上定义方法。方法上也可以使用泛型：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Point<T> {
     x: T,
     y: T,
@@ -247,7 +247,7 @@ fn main() {
 
 除了结构体中的泛型参数，我们还能在该结构体的方法中定义额外的泛型参数，就跟泛型函数一样：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Point<T, U> {
     x: T,
     y: U,
@@ -278,7 +278,7 @@ fn main() {
 
 对于 `Point<T>` 类型，你不仅能定义基于 `T` 的方法，还能针对特定的具体类型，进行方法定义：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Point<f32> {
     fn distance_from_origin(&self) -> f32 {
         (self.x.powi(2) + self.y.powi(2)).sqrt()
@@ -296,7 +296,7 @@ impl Point<f32> {
 
 在[数组](https://course.rs/basic/compound-type/array.html)那节，有提到过很重要的一点：`[i32; 2]` 和 `[i32; 3]` 是不同的数组类型，比如下面的代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn display_array(arr: [i32; 3]) {
     println!("{:?}", arr);
 }
@@ -324,7 +324,7 @@ error[E0308]: mismatched types // 类型不匹配
 
 首先，让我们修改代码，让 `display_array` 能打印任意长度的 `i32` 数组：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn display_array(arr: &[i32]) {
     println!("{:?}", arr);
 }
@@ -341,7 +341,7 @@ fn main() {
 
 接着，将 `i32` 改成所有类型的数组：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn display_array<T: std::fmt::Debug>(arr: &[T]) {
     println!("{:?}", arr);
 }
@@ -360,7 +360,7 @@ fn main() {
 
 好在，现在咱们有了 const 泛型，也就是针对值的泛型，正好可以用于处理数组长度的问题：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn display_array<T: std::fmt::Debug, const N: usize>(arr: [T; N]) {
     println!("{:?}", arr);
 }
@@ -383,7 +383,7 @@ fn main() {
 
 假设我们某段代码需要在内存很小的平台上工作，因此需要限制函数参数占用的内存大小，此时就可以使用 const 泛型表达式来实现：
 
-```rust
+```rust,ignore,mdbook-runnable
 // 目前只能在nightly版本下使用
 #![allow(incomplete_features)]
 #![feature(generic_const_exprs)]
@@ -435,7 +435,7 @@ Rust 通过在编译时进行泛型代码的 **单态化**(_monomorphization_)�
 
 让我们看看一个使用标准库中 `Option` 枚举的例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 let integer = Some(5);
 let float = Some(5.0);
 ```
@@ -444,7 +444,7 @@ let float = Some(5.0);
 
 编译器生成的单态化版本的代码看起来像这样：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum Option_i32 {
     Some(i32),
     None,
@@ -463,11 +463,11 @@ fn main() {
 
 我们可以使用泛型来编写不重复的代码，而 Rust 将会为每一个实例编译其特定类型的代码。这意味着在使用泛型时没有运行时开销；当代码运行，它的执行效率就跟好像手写每个具体定义的重复代码一样。这个单态化过程正是 Rust 泛型在运行时极其高效的原因。
 
-
 ## 课后练习
 
 > Rust By Practice，支持代码在线编辑和运行，并提供详细的习题解答。
+>
 > - [泛型](https://practice-zh.course.rs/generics-traits/generics.html)
->     - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/generics-traits/generics.md)
+>   - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/generics-traits/generics.md)
 > - [const 泛型](https://practice-zh.course.rs/generics-traits/const-generics.html)
->     - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/generics-traits/const-generics.md)
+>   - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/generics-traits/const-generics.md)

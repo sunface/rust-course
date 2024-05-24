@@ -8,7 +8,7 @@
 
 在 Rust 中，单元测试的惯例是将测试代码的模块跟待测试的正常代码放入同一个文件中，例如 `src/lib.rs` 文件中有如下代码:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn add_two(a: i32) -> i32 {
     a + 2
 }
@@ -43,7 +43,7 @@ mod tests {
 
 关于私有函数能否被直接测试，编程社区里一直争论不休，甚至于部分语言可能都不支持对私有函数进行测试或者难以测试。无论你的立场如何，反正 Rust 是支持对私有函数进行测试的:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn add_two(a: i32) -> i32 {
     internal_adder(a, 2)
 }
@@ -81,7 +81,7 @@ mod tests {
 
 首先来创建一个集成测试文件 `tests/integration_test.rs` ，注意，`tests` 目录一般来说需要手动创建，该目录在项目的根目录下，跟 `src` 目录同级。然后在文件中填入如下测试代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 use adder;
 
 #[test]
@@ -145,7 +145,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 也许你会想要创建一个 `tests/common.rs` 文件，然后将 `setup` 函数放入其中：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn setup() {
     // 初始化一些测试状态
     // ...
@@ -167,7 +167,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 总结来说，**`tests` 目录下的子目录中的文件不会被当作独立的包，也不会有测试输出**。
 
-```rust
+```rust,ignore,mdbook-runnable
 use adder;
 
 mod common;

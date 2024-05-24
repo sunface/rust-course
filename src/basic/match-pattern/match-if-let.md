@@ -4,7 +4,7 @@
 
 先来看一个关于 `match` 的简单例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum Direction {
     East,
     West,
@@ -36,7 +36,7 @@ fn main() {
 
 首先来看看 `match` 的通用形式：
 
-```rust
+```rust,ignore,mdbook-runnable
 match target {
     模式1 => 表达式1,
     模式2 => {
@@ -52,7 +52,7 @@ match target {
 
 `match` 允许我们将一个值与一系列的模式相比较，并根据相匹配的模式执行对应的代码，下面让我们来一一详解，先看一个例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum Coin {
     Penny,
     Nickel,
@@ -85,7 +85,7 @@ fn value_in_cents(coin: Coin) -> u8 {
 
 还有一点很重要，`match` 本身也是一个表达式，因此可以用它来赋值：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum IpAddr {
    Ipv4,
    Ipv6
@@ -108,7 +108,7 @@ fn main() {
 
 模式匹配的另外一个重要功能是从模式中取出绑定的值，例如：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 enum UsState {
     Alabama,
@@ -128,7 +128,7 @@ enum Coin {
 
 接下来，我们希望在模式匹配中，获取到 25 美分硬币上刻印的州的名称：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn value_in_cents(coin: Coin) -> u8 {
     match coin {
         Coin::Penny => 1,
@@ -148,7 +148,7 @@ fn value_in_cents(coin: Coin) -> u8 {
 
 再来看一个更复杂的例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum Action {
     Say(String),
     MoveTo(i32, i32),
@@ -195,7 +195,7 @@ change color into '(r:255, g:255, b:0)', 'b' has been ignored
 
 在文章的开头，我们简单总结过 `match` 的匹配必须穷尽所有情况，下面来举例说明，例如：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum Direction {
     East,
     West,
@@ -242,7 +242,7 @@ error[E0004]: non-exhaustive patterns: `West` not covered // 非穷尽匹配，`
 
 当我们不想在匹配时列出所有值的时候，可以使用 Rust 提供的一个特殊**模式**，例如，`u8` 可以拥有 0 到 255 的有效的值，但是我们只关心 `1、3、5 和 7` 这几个值，不想列出其它的 `0、2、4、6、8、9 一直到 255` 的值。那么, 我们不必一个一个列出所有值, 因为可以使用特殊的模式 `_` 替代：
 
-```rust
+```rust,ignore,mdbook-runnable
 let some_u8_value = 0u8;
 match some_u8_value {
     1 => println!("one"),
@@ -257,7 +257,7 @@ match some_u8_value {
 
 除了`_`通配符，用一个变量来承载其他情况也是可以的。
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 enum Direction {
     East,
@@ -281,7 +281,7 @@ fn main() {
 
 有时会遇到只有一个模式的值需要被处理，其它值直接忽略的场景，如果用 `match` 来处理就要写成下面这样：
 
-```rust
+```rust,ignore,mdbook-runnable
     let v = Some(3u8);
     match v {
         Some(3) => println!("three"),
@@ -293,7 +293,7 @@ fn main() {
 
 俗话说“杀鸡焉用牛刀”，我们完全可以用 `if let` 的方式来实现：
 
-```rust
+```rust,ignore,mdbook-runnable
 if let Some(3) = v {
     println!("three");
 }
@@ -307,7 +307,7 @@ Rust 标准库中提供了一个非常实用的宏：`matches!`，它可以将�
 
 例如，有一个动态数组，里面存有以下枚举：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum MyEnum {
     Foo,
     Bar
@@ -320,19 +320,19 @@ fn main() {
 
 现在如果想对 `v` 进行过滤，只保留类型是 `MyEnum::Foo` 的元素，你可能想这么写：
 
-```rust
+```rust,ignore,mdbook-runnable
 v.iter().filter(|x| x == MyEnum::Foo);
 ```
 
 但是，实际上这行代码会报错，因为你无法将 `x` 直接跟一个枚举成员进行比较。好在，你可以使用 `match` 来完成，但是会导致代码更为啰嗦，是否有更简洁的方式？答案是使用 `matches!`：
 
-```rust
+```rust,ignore,mdbook-runnable
 v.iter().filter(|x| matches!(x, MyEnum::Foo));
 ```
 
 很简单也很简洁，再来看看更多的例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 let foo = 'f';
 assert!(matches!(foo, 'A'..='Z' | 'a'..='z'));
 
@@ -344,7 +344,7 @@ assert!(matches!(bar, Some(x) if x > 2));
 
 无论是 `match` 还是 `if let`，这里都是一个新的代码块，而且这里的绑定相当于新变量，如果你使用同名变量，会发生变量遮蔽：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
    let age = Some(30);
    println!("在匹配前，age是{:?}",age);
@@ -368,7 +368,7 @@ fn main() {
 
 对于 `match` 类型也是如此:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
    let age = Some(30);
    println!("在匹配前，age是{:?}",age);
@@ -382,7 +382,7 @@ fn main() {
 
 需要注意的是，**`match` 中的变量遮蔽其实不是那么的容易看出**，因此要小心！其实这里最好不要使用同名，避免难以理解，如下。
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
    let age = Some(30);
    println!("在匹配前，age是{:?}", age);
@@ -393,7 +393,6 @@ fn main() {
    println!("在匹配后，age是{:?}", age);
 }
 ```
-
 
 ## 课后练习
 

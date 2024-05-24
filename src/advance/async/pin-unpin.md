@@ -9,7 +9,7 @@
 
 下面就是一个自引用类型
 
-```rust
+```rust,ignore,mdbook-runnable
 struct SelfRef {
     value: String,
     pointer_to_value: *mut String,
@@ -26,7 +26,7 @@ struct SelfRef {
 
 其实 `Pin` 还有一个小伙伴 `UnPin` ，与前者相反，后者表示类型可以在内存中安全地移动。在深入之前，我们先来回忆下 `async/.await` 是如何工作的:
 
-```rust
+```rust,ignore,mdbook-runnable
 let fut_one = /* ... */; // Future 1
 let fut_two = /* ... */; // Future 2
 async move {
@@ -37,7 +37,7 @@ async move {
 
 在底层，`async` 会创建一个实现了 `Future` 的匿名类型，并提供了一个 `poll` 方法：
 
-```rust
+```rust,ignore,mdbook-runnable
 // `async { ... }`语句块创建的 `Future` 类型
 struct AsyncFuture {
     fut_one: FutOne,
@@ -77,7 +77,7 @@ impl Future for AsyncFuture {
 
 然而，如果我们的 `async` 语句块中使用了引用类型，会发生什么？例如下面例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 async {
     let mut x = [0; 128];
     let read_into_buf_fut = read_into_buf(&mut x);
@@ -88,7 +88,7 @@ async {
 
 这段代码会编译成下面的形式：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct ReadIntoBuf<'a> {
     buf: &'a mut [u8], // 指向下面的`x`字段
 }
@@ -109,7 +109,7 @@ struct AsyncFuture {
 
 从名字推测，大家可能以为 `Pin` 和 `Unpin` 都是特征吧？实际上，`Pin` 不按套路出牌，它是一个结构体：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct Pin<P> {
     pointer: P,
 }
@@ -137,7 +137,7 @@ pub struct Pin<P> {
 
 对于上面的问题，我们可以简单的归结为如何在 Rust 中处理自引用类型(果然，只要是难点，都和自引用脱离不了关系)，下面用一个稍微简单点的例子来理解下 `Pin` :
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct Test {
     a: String,
@@ -172,7 +172,7 @@ impl Test {
 
 如果不移动任何值，那么上面的例子将没有任何问题，例如:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut test1 = Test::new("test1");
     test1.init();
@@ -194,7 +194,7 @@ a: test2, b: test2
 
 明知山有虎，偏向虎山行，这才是我辈年轻人的风华。既然移动数据会导致指针不合法，那我们就移动下数据试试，将 `test1` 和 `test2` 进行下交换：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut test1 = Test::new("test1");
     test1.init();
@@ -210,14 +210,14 @@ fn main() {
 
 按理来说，这样修改后，输出应该如下:
 
-```rust
+```rust,ignore,mdbook-runnable
 a: test1, b: test1
 a: test1, b: test1
 ```
 
 但是实际运行后，却产生了下面的输出:
 
-```rust
+```rust,ignore,mdbook-runnable
 a: test1, b: test1
 a: test1, b: test2
 ```
@@ -226,7 +226,7 @@ a: test1, b: test2
 
 如果大家还是将信将疑，那再看看下面的代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut test1 = Test::new("test1");
     test1.init();
@@ -253,7 +253,7 @@ fn main() {
 
 回到之前的例子，我们可以用 `Pin` 来解决指针指向的数据被移动的问题:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::pin::Pin;
 use std::marker::PhantomPinned;
 
@@ -299,7 +299,7 @@ impl Test {
 
 此时，再去尝试移动被固定的值，就会导致**编译错误**：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn main() {
     // 此时的`test1`可以被安全的移动
     let mut test1 = Test::new("test1");
@@ -331,7 +331,7 @@ error[E0277]: `PhantomPinned` cannot be unpinned
 >
 > 一个常见的错误就是忘记去[遮蔽( shadow )](https://course.rs/basic/variable.html#%E5%8F%98%E9%87%8F%E9%81%AE%E8%94%BDshadowing)初始的变量，因为你可以 `drop` 掉 `Pin` ，然后在 `&'a mut T` 结束后去移动数据:
 >
-> ```rust
+> ```rust,ignore,mdbook-runnable
 > fn main() {
 >    let mut test1 = Test::new("test1");
 >    let mut test1_pin = unsafe { Pin::new_unchecked(&mut test1) };
@@ -387,7 +387,7 @@ error[E0277]: `PhantomPinned` cannot be unpinned
 
 将一个 `!Unpin` 类型的值固定到堆上，会给予该值一个稳定的内存地址，它指向的堆中的值在 `Pin` 后是无法被移动的。而且与固定在栈上不同，我们知道堆上的值在整个生命周期内都会被稳稳地固定住。
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::pin::Pin;
 use std::marker::PhantomPinned;
 
@@ -441,7 +441,7 @@ pub fn main() {
 
 固定后获得的 `Pin<Box<T>>` 和 `Pin<&mut T>` 既可以用于 `Future` ，**又会自动实现 `Unpin`**。
 
-```rust
+```rust,ignore,mdbook-runnable
 use pin_utils::pin_mut; // `pin_utils` 可以在crates.io中找到
 
 // 函数的参数是一个`Future`，但是要求该`Future`实现`Unpin`

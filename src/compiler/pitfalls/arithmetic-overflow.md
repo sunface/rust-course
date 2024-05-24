@@ -2,7 +2,7 @@
 
 在 Rust 中，溢出后的数值被截断是很正常的:
 
-```rust
+```rust,ignore,mdbook-runnable
 let x: u16 = 65535;
 let v = x as u8;
 println!("{}", v)
@@ -10,7 +10,7 @@ println!("{}", v)
 
 最终程序会输出`255`, 因此大家可能会下意识地就觉得算数操作在 Rust 中只会导致结果的不正确，并不会导致异常。但是实际上，如果是因为算术操作符导致的溢出，就会让整个程序 panic:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let x: u8 = 10;
 
@@ -27,7 +27,7 @@ thread 'main' panicked at 'attempt to add with overflow', src/main.rs:5:13
 
 那么当我们确实有这种需求时，该如何做呢？可以使用 Rust 提供的`checked_xxx`系列方法：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let x: u8 = 10;
 
@@ -38,7 +38,7 @@ fn main() {
 
 也许你会觉得本章内容其实算不上什么陷阱，但是在实际项目快速迭代中，越是不起眼的地方越是容易出错：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let v = production_rate_per_hour(5);
     println!("{}", v);
@@ -66,4 +66,3 @@ thread 'main' panicked at 'attempt to multiply with overflow', src/main.rs:10:18
 ```
 
 是不是还藏的挺隐蔽的？因此大家在 Rust 中做数学运算时，要多留一个心眼，免得上了生产才发现问题所在。或者，你也可以做好单元测试:)
-

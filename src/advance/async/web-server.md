@@ -8,7 +8,7 @@
 
 `src/main.rs`:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs;
 use std::io::prelude::*;
 use std::net::TcpListener;
@@ -56,7 +56,7 @@ fn handle_connection(mut stream: TcpStream) {
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Hello!</title>
   </head>
   <body>
@@ -72,7 +72,7 @@ fn handle_connection(mut stream: TcpStream) {
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Hello!</title>
   </head>
   <body>
@@ -92,7 +92,7 @@ fn handle_connection(mut stream: TcpStream) {
 
 首先将 `handle_connection` 修改为 `async` 实现:
 
-```rust
+```rust,ignore,mdbook-runnable
 async fn handle_connection(mut stream: TcpStream) {
     //<-- snip -->
 }
@@ -119,7 +119,7 @@ features = ["attributes"]
 
 下面将 `main` 函数修改为异步的，并在其中调用前面修改的异步版本 `handle_connection` :
 
-```rust
+```rust,ignore,mdbook-runnable
 #[async_std::main]
 async fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
@@ -133,7 +133,7 @@ async fn main() {
 
 **上面的代码虽然已经是异步的，实际上它还无法并发**，原因我们后面会解释，先来模拟一下慢请求:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::time::Duration;
 use async_std::task;
 
@@ -172,7 +172,7 @@ async fn handle_connection(mut stream: TcpStream) {
 
 解决方法是将 `listener.incoming()` 从一个阻塞的迭代器变成一个非阻塞的 `Stream`， 后者在前面章节有过专门介绍：
 
-```rust
+```rust,ignore,mdbook-runnable
 use async_std::net::TcpListener;
 use async_std::net::TcpStream;
 use futures::stream::StreamExt;
@@ -197,7 +197,7 @@ async fn main() {
 
 现在上面的实现的关键在于 `handle_connection` 不能再阻塞:
 
-```rust
+```rust,ignore,mdbook-runnable
 use async_std::prelude::*;
 
 async fn handle_connection(mut stream: TcpStream) {
@@ -218,7 +218,7 @@ async fn handle_connection(mut stream: TcpStream) {
 
 `async` 并发和多线程其实并不冲突，而 `async-std` 包也允许我们使用多个线程去处理，由于 `handle_connection` 实现了 `Send` 特征且不会阻塞，因此使用 `async_std::task::spawn` 是非常安全的:
 
-```rust
+```rust,ignore,mdbook-runnable
 use async_std::task::spawn;
 
 #[async_std::main]
@@ -242,7 +242,7 @@ async fn main() {
 
 为了保证单元测试的隔离性和确定性，我们使用 `MockTcpStream` 来替代 `TcpStream` 。首先，修改 `handle_connection` 的函数签名让测试更简单，之所以可以修改签名，原因在于 `async_std::net::TcpStream` 实际上并不是必须的，只要任何结构体实现了 `async_std::io::Read`, `async_std::io::Write` 和 `marker::Unpin` 就可以替代它：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::marker::Unpin;
 use async_std::io::{Read, Write};
 
@@ -251,7 +251,7 @@ async fn handle_connection(mut stream: impl Read + Write + Unpin) {
 
 下面，来构建一个 mock 的 `TcpStream` 并实现了上面这些特征，它包含一些数据，这些数据将被拷贝到 `read` 缓存中, 然后返回 `Poll::Ready` 说明 `read` 已经结束：
 
-```rust
+```rust,ignore,mdbook-runnable
 use super::*;
 use futures::io::Error;
 use futures::task::{Context, Poll};
@@ -279,7 +279,7 @@ impl Read for MockTcpStream {
 
 `Write`的实现也类似，需要实现三个方法 : `poll_write`, `poll_flush`, 与 `poll_close`。 `poll_write` 会拷贝输入数据到 mock 的 `TcpStream` 中，当完成后返回 `Poll::Ready`。由于 `TcpStream` 无需 `flush` 和 `close`，因此另两个方法直接返回 `Poll::Ready` 即可。
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Write for MockTcpStream {
     fn poll_write(
         mut self: Pin<&mut Self>,
@@ -303,14 +303,14 @@ impl Write for MockTcpStream {
 
 最后，我们的 mock 需要实现 `Unpin` 特征，表示它可以在内存中安全的移动，具体内容在[前面章节](https://course.rs/advance/async/pin-unpin.html)有讲。
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::marker::Unpin;
 impl Unpin for MockTcpStream {}
 ```
 
 现在可以准备开始测试了，在使用初始化数据设置好 `MockTcpStream` 后，我们可以使用 `#[async_std::test]` 来运行 `handle_connection` 函数，该函数跟 `#[async_std::main]` 的作用类似。为了确保 `handle_connection` 函数正确工作，需要根据初始化数据检查正确的数据被写入到 `MockTcpStream` 中。
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs;
 
 #[async_std::test]

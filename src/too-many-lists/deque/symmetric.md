@@ -1,14 +1,16 @@
 # 基本操作的对称镜像
+
 之前我们仅实现了头部的 `push`、`pop` ，现在来补全一下，大自然的对称之美咱的双向链表也不能少了。
 
-```rust
+```rust,ignore,mdbook-runnable
 tail <-> head
 next <-> prev
 front -> back
 ```
 
 需要注意的是，这里还新增了 `mut` 类型的 peek:
-```rust
+
+```rust,ignore,mdbook-runnable
 use std::cell::{Ref, RefCell, RefMut};
 
 //..
@@ -63,7 +65,8 @@ pub fn peek_front_mut(&mut self) -> Option<RefMut<T>> {
 ```
 
 再更新测试用例:
-```rust
+
+```rust,ignore,mdbook-runnable
 #[test]
 fn basics() {
     let mut list = List::new();

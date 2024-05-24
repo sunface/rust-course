@@ -6,7 +6,7 @@
 
 先来看一段多线程使用`Rc`的代码:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::thread;
 use std::rc::Rc;
 fn main() {
@@ -27,13 +27,13 @@ error[E0277]: `Rc<i32>` cannot be sent between threads safely
     = help: within `[closure@src/main.rs:5:27: 7:6]`, the trait `Send` is not implemented for `Rc<i32>`
 ```
 
-表面原因是`Rc`无法在线程间安全的转移，实际是编译器给予我们的那句帮助: ```the trait `Send` is not implemented for `Rc<i32>` ```(`Rc<i32>`未实现`Send`特征), 那么此处的`Send`特征又是何方神圣？
+表面原因是`Rc`无法在线程间安全的转移，实际是编译器给予我们的那句帮助: `` the trait `Send` is not implemented for `Rc<i32>`  ``(`Rc<i32>`未实现`Send`特征), 那么此处的`Send`特征又是何方神圣？
 
 ## Rc 和 Arc 源码对比
 
 在介绍`Send`特征之前，再来看看`Arc`为何可以在多线程使用，玄机在于两者的源码实现上：
 
-```rust
+```rust,ignore,mdbook-runnable
 // Rc源码片段
 impl<T: ?Sized> !marker::Send for Rc<T> {}
 impl<T: ?Sized> !marker::Sync for Rc<T> {}
@@ -58,7 +58,7 @@ unsafe impl<T: ?Sized + Sync + Send> Sync for Arc<T> {}
 
 没有例子的概念讲解都是耍流氓，来看看`RwLock`的实现:
 
-```rust
+```rust,ignore,mdbook-runnable
 unsafe impl<T: ?Sized + Send + Sync> Sync for RwLock<T> {}
 ```
 
@@ -66,7 +66,7 @@ unsafe impl<T: ?Sized + Send + Sync> Sync for RwLock<T> {}
 
 果不其然，上述代码中，`T`的特征约束中就有一个`Sync`特征，那问题又来了，`Mutex`是不是相反？再来看看:
 
-```rust
+```rust,ignore,mdbook-runnable
 unsafe impl<T: ?Sized + Send> Sync for Mutex<T> {}
 ```
 
@@ -94,7 +94,7 @@ unsafe impl<T: ?Sized + Send> Sync for Mutex<T> {}
 
 上面我们提到裸指针既没实现`Send`，意味着下面代码会报错:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::thread;
 fn main() {
     let p = 5 as *mut u8;
@@ -106,11 +106,11 @@ fn main() {
 }
 ```
 
-报错跟之前无二： ``` `*mut u8` cannot be sent between threads safely```, 但是有一个问题，我们无法为其直接实现`Send`特征，好在可以用[`newtype`类型](https://course.rs/advance/into-types/custom-type.html#newtype) :`struct MyBox(*mut u8);`。
+报错跟之前无二： `` `*mut u8` cannot be sent between threads safely``, 但是有一个问题，我们无法为其直接实现`Send`特征，好在可以用[`newtype`类型](https://course.rs/advance/into-types/custom-type.html#newtype) :`struct MyBox(*mut u8);`。
 
 还记得之前的规则吗：复合类型中有一个成员没实现`Send`，该复合类型就不是`Send`，因此我们需要手动为它实现:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::thread;
 
 #[derive(Debug)]
@@ -132,7 +132,7 @@ fn main() {
 
 由于`Sync`是多线程间共享一个值，大家可能会想这么实现：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::thread;
 fn main() {
     let v = 5;
@@ -148,7 +148,7 @@ fn main() {
 
 因此我们得配合`Arc`去使用:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::thread;
 use std::sync::Arc;
 use std::sync::Mutex;
@@ -182,7 +182,7 @@ error[E0277]: `*const u8` cannot be shared between threads safely
 
 因为我们访问的引用实际上还是对主线程中的数据的借用，转移进来的仅仅是外层的智能指针引用。要解决很简单，为`MyBox`实现`Sync`:
 
-```rust
+```rust,ignore,mdbook-runnable
 unsafe impl Sync for MyBox {}
 ```
 

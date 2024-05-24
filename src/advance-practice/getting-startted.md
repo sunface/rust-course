@@ -71,7 +71,7 @@ mini-redis = "0.4"
 
 接下来，使用以下代码替换 `main.rs` 中的内容：
 
-```rust
+```rust,ignore,mdbook-runnable
 use mini_redis::{client, Result};
 
 #[tokio::main]
@@ -106,7 +106,7 @@ Perfect, 代码成功运行，是时候来解释下其中蕴藏的至高奥秘�
 
 代码篇幅虽然不长，但是还是有不少值得关注的地方，接下来我们一起来看看。
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut client = client::connect("127.0.0.1:6379").await?;
 ```
 
@@ -128,7 +128,7 @@ let mut client = client::connect("127.0.0.1:6379").await?;
 
 一个函数可以通过`async fn`的方式被标记为异步函数:
 
-```rust
+```rust,ignore,mdbook-runnable
 use mini_redis::Result;
 use mini_redis::client::Client;
 use tokio::net::ToSocketAddrs;
@@ -145,7 +145,7 @@ pub async fn connect<T: ToSocketAddrs>(addr: T) -> Result<Client> {
 
 由于 `async` 会返回一个 `Future`，因此我们还需要配合使用 `.await` 来让该 `Future` 运行起来，最终获得返回值:
 
-```rust
+```rust,ignore,mdbook-runnable
 async fn say_to_world() -> String {
     String::from("world")
 }
@@ -181,7 +181,7 @@ world
 
 因此 `#[tokio::main]` 宏在将 `async fn main` 隐式的转换为 `fn main` 的同时还对整个异步运行时进行了初始化。例如以下代码:
 
-```rust
+```rust,ignore,mdbook-runnable
 #[tokio::main]
 async fn main() {
     println!("hello");
@@ -190,7 +190,7 @@ async fn main() {
 
 将被转换成:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut rt = tokio::runtime::Runtime::new().unwrap();
     rt.block_on(async {

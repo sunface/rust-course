@@ -2,7 +2,7 @@
 
 ## 强制内存对齐
 
-```rust
+```rust,ignore,mdbook-runnable
 #[repr(align(64))]
 struct CachePadded(AtomicU64);
 ```

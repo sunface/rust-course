@@ -37,13 +37,13 @@
 ```text
 [ptr] -> (ptr, ?DUMMY?, ptr) <-> (ptr, A, ptr) <-> (ptr, B, ptr)
            ^                                                 ^
-           +-------------------------------------------------+ 
+           +-------------------------------------------------+
 ```
 
 通过执行此操作，每个节点*始终*具有指向列表中上一个和下一个节点的实际指针。即使你从列表中删除了最后一个元素，你最终也只是拼接了虚拟节点以指向它自己：
 
 ```text
-[ptr] -> (ptr, ?DUMMY?, ptr) 
+[ptr] -> (ptr, ?DUMMY?, ptr)
            ^             ^
            +-------------+
 ```
@@ -64,7 +64,7 @@
 
 对于像 Rust 这样的语言来说，这些虚拟节点方案的问题确实超过了便利性，所以我们将坚持传统的布局。我们将使用与上一章中对不安全队列相同的基本设计：
 
-```rust
+```rust,ignore,mdbook-runnable
 #![allow(unused)]
 fn main() {
 pub struct LinkedList<T> {
@@ -78,7 +78,7 @@ type Link<T> = *mut Node<T>;
 struct Node<T> {
     front: Link<T>,
     back: Link<T>,
-    elem: T, 
+    elem: T,
 }
 }
 ```

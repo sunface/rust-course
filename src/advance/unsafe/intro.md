@@ -30,7 +30,7 @@ Rust 的一个主要定位就是系统编程，众所周知，系统编程就是
 
 使用 `unsafe` 非常简单，只需要将对应的代码块标记下即可:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut num = 5;
 

@@ -8,7 +8,7 @@
 
 使用 `cargo new --lib restaurant` 创建一个小餐馆，注意，这里创建的是一个库类型的 `Package`，然后将以下代码放入 `src/lib.rs` 中：
 
-```rust
+```rust,ignore,mdbook-runnable
 // 餐厅前厅，用于吃饭
 mod front_of_house {
     mod hosting {
@@ -70,7 +70,7 @@ crate
 让我们继续经营那个惨淡的小餐馆，这次为它实现一个小功能：
 <span class="filename">文件名：src/lib.rs</span>
 
-```rust
+```rust,ignore,mdbook-runnable
 mod front_of_house {
     mod hosting {
         fn add_to_waitlist() {}
@@ -92,7 +92,7 @@ pub fn eat_at_restaurant() {
 
 因为 `eat_at_restaurant` 和 `add_to_waitlist` 都定义在一个包中，因此在绝对路径引用时，可以直接以 `crate` 开头，然后逐层引用，每一层之间使用 `::` 分隔：
 
-```rust
+```rust,ignore,mdbook-runnable
 crate::front_of_house::hosting::add_to_waitlist();
 ```
 
@@ -117,7 +117,7 @@ crate
 
 再回到模块树中，因为 `eat_at_restaurant` 和 `front_of_house` 都处于包根 `crate` 中，因此相对路径可以使用 `front_of_house` 作为开头：
 
-```rust
+```rust,ignore,mdbook-runnable
 front_of_house::hosting::add_to_waitlist();
 ```
 
@@ -158,7 +158,7 @@ crate
 
 让我们运行下面（之前）的代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 mod front_of_house {
     mod hosting {
         fn add_to_waitlist() {}
@@ -196,7 +196,7 @@ Rust 出于安全的考虑，默认情况下，所有的类型都是私有化的
 
 由于之前的解释，我们知道了只需要将 `hosting` 模块标记为对外可见即可：
 
-```rust
+```rust,ignore,mdbook-runnable
 mod front_of_house {
     pub mod hosting {
         fn add_to_waitlist() {}
@@ -222,7 +222,7 @@ error[E0603]: function `add_to_waitlist` is private
 
 既然知道了如何解决，那么我们为函数也标记上 `pub`：
 
-```rust
+```rust,ignore,mdbook-runnable
 mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
@@ -241,7 +241,7 @@ Bang，顺利通过编译，感觉自己又变强了。
 `super` 代表的是父模块为开始的引用方式，非常类似于文件系统中的 `..` 语法：`../a/b`
 <span class="filename">文件名：src/lib.rs</span>
 
-```rust
+```rust,ignore,mdbook-runnable
 fn serve_order() {}
 
 // 厨房模块
@@ -263,7 +263,7 @@ mod back_of_house {
 
 `self` 其实就是引用自身模块中的项，也就是说和我们之前章节的代码类似，都调用同一模块中的内容，区别在于之前章节中直接通过名称调用即可，而 `self`，你得多此一举：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn serve_order() {
     self::back_of_house::cook_order()
 }
@@ -297,7 +297,7 @@ mod back_of_house {
 
 现在，把 `front_of_house` 前厅分离出来，放入一个单独的文件中 `src/front_of_house.rs`：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub mod hosting {
     pub fn add_to_waitlist() {}
 }
@@ -305,7 +305,7 @@ pub mod hosting {
 
 然后，将以下代码留在 `src/lib.rs` 中：
 
-```rust
+```rust,ignore,mdbook-runnable
 mod front_of_house;
 
 pub use crate::front_of_house::hosting;
@@ -330,7 +330,7 @@ so easy！其实跟之前在同一个文件中也没有太大的不同，但是�
 
 在上述例子中，我们可以创建一个目录 `front_of_house`，然后在文件夹里创建一个 `hosting.rs` 文件，`hosting.rs` 文件现在就剩下：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn add_to_waitlist() {}
 ```
 
@@ -353,7 +353,7 @@ error[E0583]: file not found for module `front_of_house`
 
 而无论是上述哪个方式创建的文件，其内容都是一样的，你需要定义你的子模块（子模块名与文件名相同）：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub mod hosting;
 // pub mod serving;
 ```

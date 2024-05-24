@@ -4,7 +4,7 @@
 
 哦，天哪，我们的 API 既不像标准版，也不像旧版。好吧，那我打算从这两个地方拼凑一些东西吧。是的，让我们 "借用 " 标准版中的这些测试：
 
-```rust
+```rust,ignore,mdbook-runnable
     #[test]
     fn test_cursor_move_peek() {
         let mut m: LinkedList<u32> = LinkedList::new();
@@ -63,7 +63,7 @@
         cursor.splice_after(Some(10).into_iter().collect());
         check_links(&m);
         assert_eq!(m.iter().cloned().collect::<Vec<_>>(), &[10, 7, 1, 8, 2, 3, 4, 5, 6, 9]);
-        
+
         /* remove_current not impl'd
         let mut cursor = m.cursor_mut();
         cursor.move_next();
@@ -172,7 +172,7 @@ test result: FAILED. 12 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out;
 
 第一次失败是什么？
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut m: LinkedList<u32> = LinkedList::new();
 m.extend([1, 2, 3, 4, 5, 6]);
 let mut cursor = m.cursor_mut();
@@ -188,7 +188,7 @@ assert_eq!(cursor.current(), None);
 assert_eq!(cursor.peek_next(), Some(&mut 1)); // DIES HERE
 ```
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn peek_next(&mut self) -> Option<&mut T> {
     unsafe {
         self.cur
@@ -200,7 +200,7 @@ pub fn peek_next(&mut self) -> Option<&mut T> {
 
 就是这错了。如果 `self.cur` 是 None, 我们不应该就这样放弃，我们还需要检查 self.list.front，因为我们在幽灵节点上！因此，我们只需在链中添加一个 or_else：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn peek_next(&mut self) -> Option<&mut T> {
     unsafe {
         self.cur
@@ -231,7 +231,7 @@ thread 'test::test_cursor_move_peek' panicked at 'assertion failed: `(left == ri
 
 又错了。好吧，显然这比我想象的要难得多。盲目地把这些情况串联起来简直是一场灾难，让我们对幽灵节点与非幽灵节点的情况做不同的判断吧：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn peek_next(&mut self) -> Option<&mut T> {
     unsafe {
         let next = if let Some(cur) = self.cur {
@@ -265,7 +265,7 @@ pub fn peek_prev(&mut self) -> Option<&mut T> {
 
 我对这一次充满信心！
 
-```rust
+```rust,ignore,mdbook-runnable
 
  cargo test
    Compiling linked-list v0.0.3
@@ -300,7 +300,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 嘿嘿，看看这个......好吧，现在我开始疑神疑鬼了。让我们正确填写 check_links，并在 miri 下进行测试：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn check_links<T: Eq + std::fmt::Debug>(list: &LinkedList<T>) {
     let from_front: Vec<_> = list.iter().collect();
     let from_back: Vec<_> = list.iter().rev().collect();

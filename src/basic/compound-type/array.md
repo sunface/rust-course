@@ -16,7 +16,7 @@
 
 在 Rust 中，数组是这样定义的：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let a = [1, 2, 3, 4, 5];
 }
@@ -26,14 +26,14 @@ fn main() {
 
 举个例子，在需要知道一年中各个月份名称的程序中，你很可能希望使用的是数组而不是动态数组。因为月份是固定的，它总是只包含 12 个元素：
 
-```rust
+```rust,ignore,mdbook-runnable
 let months = ["January", "February", "March", "April", "May", "June", "July",
               "August", "September", "October", "November", "December"];
 ```
 
 在一些时候，还需要为**数组声明类型**，如下所示：
 
-```rust
+```rust,ignore,mdbook-runnable
 let a: [i32; 5] = [1, 2, 3, 4, 5];
 ```
 
@@ -41,7 +41,7 @@ let a: [i32; 5] = [1, 2, 3, 4, 5];
 
 还可以使用下面的语法初始化一个**某个值重复出现 N 次的数组**：
 
-```rust
+```rust,ignore,mdbook-runnable
 let a = [3; 5];
 ```
 
@@ -53,7 +53,7 @@ let a = [3; 5];
 
 因为数组是连续存放元素的，因此可以通过索引的方式来访问存放其中的元素：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let a = [9, 8, 7, 6, 5];
 
@@ -68,7 +68,7 @@ fn main() {
 
 如果使用超出数组范围的索引访问数组元素，会怎么样？下面是一个接收用户的控制台输入，然后将其作为索引访问数组元素的例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::io;
 
 fn main() {
@@ -115,7 +115,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 学习了上面的知识，很多朋友肯定觉得已经学会了 Rust 的数组类型，但现实会给我们一记重锤，实际开发中还会碰到一种情况，就是**数组元素是非基本类型**的，这时候大家一定会这样写。
 
-```rust
+```rust,ignore,mdbook-runnable
 let array = [String::from("rust is good!"); 8];
 
 println!("{:#?}", array);
@@ -133,21 +133,21 @@ error[E0277]: the trait bound `String: std::marker::Copy` is not satisfied
   = note: the `Copy` trait is required because this value will be copied for each element of the array
 ```
 
-有些还没有看过特征的小伙伴，有可能不太明白这个报错，不过这个目前可以不提，我们就拿之前所学的[所有权](https://course.rs/basic/ownership/ownership.html)知识，就可以思考明白，前面几个例子都是 Rust 的基本类型，而**基本类型在 Rust 中赋值是以 Copy 的形式**，这时候你就懂了吧，`let array=[3;5]`底层就是不断的Copy出来的，但很可惜复杂类型都没有深拷贝，只能一个个创建。
+有些还没有看过特征的小伙伴，有可能不太明白这个报错，不过这个目前可以不提，我们就拿之前所学的[所有权](https://course.rs/basic/ownership/ownership.html)知识，就可以思考明白，前面几个例子都是 Rust 的基本类型，而**基本类型在 Rust 中赋值是以 Copy 的形式**，这时候你就懂了吧，`let array=[3;5]`底层就是不断的 Copy 出来的，但很可惜复杂类型都没有深拷贝，只能一个个创建。
 
 接着就有小伙伴会这样写。
 
-```rust
+```rust,ignore,mdbook-runnable
 let array = [String::from("rust is good!"),String::from("rust is good!"),String::from("rust is good!")];
 
 println!("{:#?}", array);
 ```
 
-作为一个追求极致完美的Rust开发者，怎么能容忍上面这么难看的代码存在！
+作为一个追求极致完美的 Rust 开发者，怎么能容忍上面这么难看的代码存在！
 
 **正确的写法**，应该调用`std::array::from_fn`
 
-```rust
+```rust,ignore,mdbook-runnable
 let array: [String; 8] = std::array::from_fn(|_i| String::from("rust is good!"));
 
 println!("{:#?}", array);
@@ -157,7 +157,7 @@ println!("{:#?}", array);
 
 在之前的[章节](https://course.rs/basic/compound-type/string-slice.html#切片slice)，我们有讲到 `切片` 这个概念，它允许你引用集合中的部分连续片段，而不是整个集合，对于数组也是，数组切片允许我们引用数组的一部分：
 
-```rust
+```rust,ignore,mdbook-runnable
 let a: [i32; 5] = [1, 2, 3, 4, 5];
 
 let slice: &[i32] = &a[1..3];
@@ -175,7 +175,7 @@ assert_eq!(slice, &[2, 3]);
 
 最后，让我们以一个综合性使用数组的例子，来结束本章节的学习：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
   // 编译器自动推导出one的类型
   let one             = [1, 2, 3];

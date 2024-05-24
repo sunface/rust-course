@@ -31,7 +31,7 @@ bytes = "1"
 
 但是，大家先来畅想一下使用它进行包裹后的类型长什么样？ 大概，可能，长这样：`Arc<Mutex<HashMap<String, Bytes>>>`，天哪噜，一不小心，你就遇到了 Rust 的阴暗面：类型大串烧。可以想象，如果要在代码中到处使用这样的类型，可读性会极速下降，因此我们需要一个[类型别名](https://course.rs/advance/custom-type.html#类型别名type-alias)( type alias )来简化下：
 
-```rust
+```rust,ignore,mdbook-runnable
 use bytes::Bytes;
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
@@ -43,7 +43,7 @@ type Db = Arc<Mutex<HashMap<String, Bytes>>>;
 
 接着，我们需要在 `main` 函数中对 `HashMap` 进行初始化，然后使用 `Arc` 克隆一份它的所有权并将其传入到生成的异步任务中。事实上在 Tokio 中，这里的 `Arc` 被称为 **handle**，或者更宽泛的说，`handle` 在 Tokio 中可以用来访问某个共享状态。
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::net::TcpListener;
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
@@ -85,7 +85,7 @@ async fn main() {
 
 `process()` 函数不再初始化 `HashMap`，取而代之的是它使用了 `HashMap` 的一个 `handle` 作为参数:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::net::TcpStream;
 use mini_redis::{Connection, Frame};
 
@@ -133,7 +133,7 @@ async fn process(socket: TcpStream, db: Db) {
 
 在我们的例子中，由于每一个 `key` 都是独立的，因此对锁进行分片将成为一个不错的选择:
 
-```rust
+```rust,ignore,mdbook-runnable
 type ShardedDb = Arc<Vec<Mutex<HashMap<String, Vec<u8>>>>>;
 
 fn new_sharded_db(num_shards: usize) -> ShardedDb {
@@ -149,7 +149,7 @@ fn new_sharded_db(num_shards: usize) -> ShardedDb {
 
 在分片后，使用给定的 key 找到对应的值就变成了两个步骤：首先，使用 `key` 通过特定的算法寻找到对应的分片，然后再使用该 `key` 从分片中查询到值:
 
-```rust
+```rust,ignore,mdbook-runnable
 let shard = db[hash(key) % db.len()].lock().unwrap();
 shard.insert(key, value);
 ```
@@ -160,7 +160,7 @@ shard.insert(key, value);
 
 在某些时候，你可能会不经意写下这种代码:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::{Mutex, MutexGuard};
 
 async fn increment_and_do_stuff(mutex: &Mutex<i32>) {
@@ -204,7 +204,7 @@ note: future is not `Send` as this value is used across an await
 
 要解决这个问题，就必须重构代码，让 `Mutex` 锁在 `.await` 被调用前就被释放掉。
 
-```rust
+```rust,ignore,mdbook-runnable
 // 下面的代码可以工作！
 async fn increment_and_do_stuff(mutex: &Mutex<i32>) {
     {
@@ -220,7 +220,7 @@ async fn increment_and_do_stuff(mutex: &Mutex<i32>) {
 
 但是下面的代码不工作：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::{Mutex, MutexGuard};
 
 async fn increment_and_do_stuff(mutex: &Mutex<i32>) {
@@ -242,7 +242,7 @@ async fn increment_and_do_stuff(mutex: &Mutex<i32>) {
 
 之前的代码其实也是为了在 `.await` 期间不持有锁，但是我们还有更好的实现方式，例如，你可以把 `Mutex` 放入一个结构体中，并且只在该结构体的非异步方法中使用该锁:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::Mutex;
 
 struct CanIncrement {
@@ -270,7 +270,7 @@ async fn increment_and_do_stuff(can_incr: &CanIncrement) {
 
 Tokio 提供的锁最大的优点就是：它可以在 `.await` 执行期间被持有，而且不会有任何问题。但是代价就是，这种异步锁的性能开销会更高，因此如果可以，使用之前的两种方法来解决会更好。
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::sync::Mutex; // 注意，这里使用的是 Tokio 提供的锁
 
 // 下面的代码会编译

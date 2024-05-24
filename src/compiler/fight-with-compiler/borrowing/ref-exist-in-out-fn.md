@@ -6,7 +6,7 @@
 
 ## 正确的代码
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Test {
     a : u32,
     b : u32
@@ -36,7 +36,7 @@ impl Test {
 
 ## 重构后的错误代码
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Test {
     a : u32,
     b : u32
@@ -94,7 +94,7 @@ error[E0499]: cannot borrow `*self` as mutable more than once at a time
 
 以前面的代码为例：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn increase_a (&mut self) {
     self.a += 1;
 }
@@ -119,7 +119,7 @@ fn increase(&mut self) {
 
 在深入分析中，我们提到一条重要的规则，要影响编译行为，就需要更改相关函数的签名，因此可以修改`increase_a`的签名:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn increase_a (a :&mut u32) {
     *a += 1;
 }
@@ -135,7 +135,7 @@ fn increase(&mut self) {
 
 当然，除了修改相关函数的签名，你还可以修改调用者的实现：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn increase(&mut self) {
     self.increase_a();
     self.b += 1;
@@ -148,7 +148,7 @@ fn increase(&mut self) {
 
 我们再来看一个例子:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::collections::HashMap;
 
 struct Cpu {
@@ -205,4 +205,3 @@ fn main() {
 知其然知其所以然，要彻底解决借用导致的编译错误，我们就必须深入了解其原理，心中有剑则手中无"贱"。
 
 上面的例子就留给读者朋友自己去解决，相信你以后在遇到这种常见问题时，会更加游刃有余。
-

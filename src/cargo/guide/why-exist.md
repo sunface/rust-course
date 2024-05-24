@@ -4,7 +4,7 @@
 
 包是通过 Rust 编译器 `rustc` 进行编译的:
 
-```rust
+```rust,ignore,mdbook-runnable
 $ rustc hello.rs
 $ ./hello
 Hello, world!
@@ -33,4 +33,3 @@ Hello, world!
 - 引入一些惯例，让项目的使用更加简单
 
 毫不夸张的说，得益于 `Cargo` 的标准化，只要你使用它构建过一个项目，那构建其它使用 `Cargo` 的项目，也将不存在任何困难。
-

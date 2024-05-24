@@ -4,7 +4,7 @@
 
 首先来看段很简单的代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
   let my_name = "Pascal";
   greet(my_name);
@@ -40,7 +40,7 @@ Bingo，果然报错了，编译器提示 `greet` 函数需要一个 `String` �
 
 对于字符串而言，切片就是对 `String` 类型中某一部分的引用，它看起来像这样：
 
-```rust
+```rust,ignore,mdbook-runnable
 let s = String::from("hello world");
 
 let hello = &s[0..5];
@@ -57,7 +57,7 @@ let world = &s[6..11];
 
 在使用 Rust 的 `..` [range 序列](https://course.rs/basic/base-type/numbers.html#序列range)语法时，如果你想从索引 0 开始，可以使用如下的方式，这两个是等效的：
 
-```rust
+```rust,ignore,mdbook-runnable
 let s = String::from("hello");
 
 let slice = &s[0..2];
@@ -66,7 +66,7 @@ let slice = &s[..2];
 
 同样的，如果你的切片想要包含 `String` 的最后一个字节，则可以这样使用：
 
-```rust
+```rust,ignore,mdbook-runnable
 let s = String::from("hello");
 
 let len = s.len();
@@ -77,7 +77,7 @@ let slice = &s[4..];
 
 你也可以截取完整的 `String` 切片：
 
-```rust
+```rust,ignore,mdbook-runnable
 let s = String::from("hello");
 
 let len = s.len();
@@ -88,7 +88,7 @@ let slice = &s[..];
 
 > 在对字符串使用切片语法时需要格外小心，切片的索引必须落在字符之间的边界位置，也就是 UTF-8 字符的边界，例如中文在 UTF-8 中占用三个字节，下面的代码就会崩溃：
 >
-> ```rust
+> ```rust,ignore,mdbook-runnable
 >  let s = "中国人";
 >  let a = &s[0..2];
 >  println!("{}",a);
@@ -101,7 +101,7 @@ let slice = &s[..];
 
 有了切片就可以写出这样的代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut s = String::from("hello world");
 
@@ -140,7 +140,7 @@ error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immuta
 
 因为切片是对集合的部分引用，因此不仅仅字符串有切片，其它集合类型也有，例如数组：
 
-```rust
+```rust,ignore,mdbook-runnable
 let a = [1, 2, 3, 4, 5];
 
 let slice = &a[1..3];
@@ -154,13 +154,13 @@ assert_eq!(slice, &[2, 3]);
 
 之前提到过字符串字面量，但是没有提到它的类型：
 
-```rust
+```rust,ignore,mdbook-runnable
 let s = "Hello, world!";
 ```
 
 实际上，`s` 的类型是 `&str`，因此你也可以这样声明：
 
-```rust
+```rust,ignore,mdbook-runnable
 let s: &str = "Hello, world!";
 ```
 
@@ -187,7 +187,7 @@ Rust 在语言级别，只有一种字符串类型： `str`，它通常是以引
 
 那么如何将 `String` 类型转为 `&str` 类型呢？答案很简单，取引用即可：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let s = String::from("hello,world!");
     say_hello(&s);
@@ -206,7 +206,7 @@ fn say_hello(s: &str) {
 
 在其它语言中，使用索引的方式访问字符串的某个字符或者子串是很正常的行为，但是在 Rust 中就会报错：
 
-```rust
+```rust,ignore,mdbook-runnable
    let s1 = String::from("hello");
    let h = s1[0];
 ```
@@ -224,7 +224,7 @@ fn say_hello(s: &str) {
 
 字符串的底层的数据存储格式实际上是[ `u8` ]，一个字节数组。对于 `let hello = String::from("Hola");` 这行代码来说，`Hola` 的长度是 `4` 个字节，因为 `"Hola"` 中的每个字母在 UTF-8 编码中仅占用 1 个字节，但是对于下面的代码呢？
 
-```rust
+```rust,ignore,mdbook-runnable
 let hello = String::from("中国人");
 ```
 
@@ -234,20 +234,20 @@ let hello = String::from("中国人");
 
 现在看一下用梵文写的字符串 `“नमस्ते”`, 它底层的字节数组如下形式：
 
-```rust
+```rust,ignore,mdbook-runnable
 [224, 164, 168, 224, 164, 174, 224, 164, 184, 224, 165, 141, 224, 164, 164,
 224, 165, 135]
 ```
 
 长度是 18 个字节，这也是计算机最终存储该字符串的形式。如果从字符的形式去看，则是：
 
-```rust
+```rust,ignore,mdbook-runnable
 ['न', 'म', 'स', '्', 'त', 'े']
 ```
 
 但是这种形式下，第四和六两个字母根本就不存在，没有任何意义，接着再从字母串的形式去看：
 
-```rust
+```rust,ignore,mdbook-runnable
 ["न", "म", "स्", "ते"]
 ```
 
@@ -259,7 +259,7 @@ let hello = String::from("中国人");
 
 前文提到过，字符串切片是非常危险的操作，因为切片的索引是通过字节来进行，但是字符串又是 UTF-8 编码，因此你无法保证索引的字节刚好落在字符的边界上，例如：
 
-```rust
+```rust,ignore,mdbook-runnable
 let hello = "中国人";
 
 let s = &hello[0..2];
@@ -286,7 +286,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 示例代码如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut s = String::from("Hello ");
 
@@ -311,7 +311,7 @@ fn main() {
 
 示例代码如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut s = String::from("Hello rust!");
     s.insert(5, ',');
@@ -338,7 +338,7 @@ fn main() {
 
 示例代码如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let string_replace = String::from("I like rust. Learning rust is my favorite!");
     let new_string_replace = string_replace.replace("rust", "RUST");
@@ -358,7 +358,7 @@ new_string_replace = "I like RUST. Learning RUST is my favorite!"
 
 示例代码如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let string_replace = "I like rust. Learning rust is my favorite!";
     let new_string_replacen = string_replace.replacen("rust", "RUST", 1);
@@ -378,7 +378,7 @@ new_string_replacen = "I like RUST. Learning rust is my favorite!"
 
 示例代码如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut string_replace_range = String::from("I like rust!");
     string_replace_range.replace_range(7..8, "R");
@@ -401,7 +401,7 @@ string_replace_range = "I like Rust!"
 **该方法是直接操作原来的字符串**。但是存在返回值，其返回值是一个 `Option` 类型，如果字符串为空，则返回 `None`。
 示例代码如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut string_pop = String::from("rust pop 中文!");
     let p1 = string_pop.pop();
@@ -430,7 +430,7 @@ string_pop = "rust pop 中"
 
 示例代码如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut string_remove = String::from("测试remove方法");
     println!(
@@ -460,7 +460,7 @@ string_remove = "试remove方法"
 
 示例代码如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut string_truncate = String::from("测试truncate");
     string_truncate.truncate(3);
@@ -480,7 +480,7 @@ string_truncate = "测"
 
 示例代码如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut string_clear = String::from("string clear");
     string_clear.clear();
@@ -502,7 +502,7 @@ string_clear = ""
 
 示例代码如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let string_append = String::from("hello ");
     let string_rust = String::from("rust");
@@ -523,13 +523,13 @@ fn main() {
 
 `add()` 方法的定义：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn add(self, s: &str) -> String
 ```
 
 因为该方法涉及到更复杂的特征功能，因此我们这里简单说明下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let s1 = String::from("hello,");
     let s2 = String::from("world!");
@@ -545,7 +545,7 @@ fn main() {
 
 由此可推，以下代码也是合法的：
 
-```rust
+```rust,ignore,mdbook-runnable
 let s1 = String::from("tic");
 let s2 = String::from("tac");
 let s3 = String::from("toe");
@@ -564,7 +564,7 @@ let s = s1 + "-" + &s2 + "-" + &s3;
 
 示例代码如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let s1 = "hello";
     let s2 = String::from("rust");
@@ -584,7 +584,7 @@ hello rust!
 
 我们可以通过转义的方式 `\` 输出 ASCII 和 Unicode 字符。
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     // 通过 \ + 字符的十六进制表示，转义输出一个字符
     let byte_escape = "I'm writing \x52\x75\x73\x74!";
@@ -610,7 +610,8 @@ fn main() {
 ```
 
 当然，在某些情况下，可能你会希望保持字符串的原样，不要转义：
-```rust
+
+```rust,ignore,mdbook-runnable
 fn main() {
     println!("{}", "hello \\x52\\x75\\x73\\x74");
     let raw_str = r"Escapes don't work here: \x3F \u{211D}";
@@ -634,7 +635,7 @@ fn main() {
 
 如果你想要以 Unicode 字符的方式遍历字符串，最好的办法是使用 `chars` 方法，例如：
 
-```rust
+```rust,ignore,mdbook-runnable
 for c in "中国人".chars() {
     println!("{}", c);
 }
@@ -652,7 +653,7 @@ for c in "中国人".chars() {
 
 这种方式是返回字符串的底层字节数组表现形式：
 
-```rust
+```rust,ignore,mdbook-runnable
 for b in "中国人".bytes() {
     println!("{}", b);
 }
@@ -696,7 +697,7 @@ for b in "中国人".bytes() {
 
 对于 Rust 而言，安全和性能是写到骨子里的核心特性，如果使用 GC，那么会牺牲性能；如果使用手动管理内存，那么会牺牲安全，这该怎么办？为此，Rust 的开发者想出了一个无比惊艳的办法：变量在离开作用域后，就自动释放其占用的内存：
 
-```rust
+```rust,ignore,mdbook-runnable
 {
     let s = String::from("hello"); // 从此处起，s 是有效的
 
@@ -712,13 +713,15 @@ for b in "中国人".bytes() {
 这个模式对编写 Rust 代码的方式有着深远的影响，在后面章节我们会进行更深入的介绍。
 
 ## 课后练习
+
 > Rust By Practice，支持代码在线编辑和运行，并提供详细的习题解答。
+>
 > - [字符串](https://practice-zh.course.rs/compound-types/string.html)
->     - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/compound-types/string.md)
+>   - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/compound-types/string.md)
 > - [切片](https://practice-zh.course.rs/compound-types/slice.html)
->     - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/compound-types/slice.md)
+>   - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/compound-types/slice.md)
 > - [String](https://practice-zh.course.rs/collections/string.html)
->     - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/collections/String.md)
+>   - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/collections/String.md)
 
 <hr />
 

@@ -1,4 +1,5 @@
 # 栈上的链表
+
 在之前的章节中，无一例外，我们创建的都是数据存储在堆上的链表，这种链表最常见也最实用：堆内存在动态分配的场景非常好用。
 
 但是，既然是高级技巧章节，那栈链表也应该拥有一席之地。但与堆内存的简单分配相比，栈内存就没那么友好了，你们猜大名鼎鼎的 C 语言的 `alloca` 是因为什么而出名的 :)
@@ -8,7 +9,8 @@
 任何时候，当我们在做一些递归的任务时，都可以将当前步骤状态的指针传递给下一个步骤。如果指针本身就是状态的一部分，那恭喜你：你在创建一个栈上分配的链表！
 
 新的链表类型本身就是一个 Node，并且包含一个引用指向另一个 Node:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub struct List<'a, T> {
     pub data: T,
     pub prev: Option<&'a List<'a, T>>,
@@ -16,11 +18,12 @@ pub struct List<'a, T> {
 ```
 
 该链表只有一个操作 `push`，需要注意的是，跟其它链表不同，这里的 `push` 是通过回调的方式来完成新元素推入，并将回调返回的值直接返回给 `push` 的调用者:
-```rust
+
+```rust,ignore,mdbook-runnable
 impl<'a, T> List<'a, T> {
     pub fn push<U>(
-        prev: Option<&'a List<'a, T>>, 
-        data: T, 
+        prev: Option<&'a List<'a, T>>,
+        data: T,
         callback: impl FnOnce(&List<'a, T>) -> U,
     ) -> U {
         let list = List { data, prev };
@@ -30,7 +33,8 @@ impl<'a, T> List<'a, T> {
 ```
 
 搞定，提前问一句：你见过回调地狱吗？
-```rust
+
+```rust,ignore,mdbook-runnable
 List::push(None, 3, |list| {
     println!("{}", list.data);
     List::push(Some(list), 5, |list| {
@@ -42,10 +46,11 @@ List::push(None, 3, |list| {
 })
 ```
 
-不禁让人感叹，这段回调代码多么的美丽动人😿。
+不禁让人感叹，这段回调代码多么的美丽动人 😿。
 
 用户还可以简单地使用 `while-let` 的方式来编译遍历链表，但是为了增加一些趣味，咱们还是继续使用迭代器:
-```rust
+
+```rust,ignore,mdbook-runnable
 impl<'a, T> List<'a, T> {
     pub fn iter(&'a self) -> Iter<'a, T> {
         Iter { next: Some(self) }
@@ -65,7 +70,8 @@ impl<'a, T> Iterator for Iter<'a, T> {
 ```
 
 测试下：
-```rust
+
+```rust,ignore,mdbook-runnable
 #[cfg(test)]
 mod test {
     use super::List;
@@ -84,6 +90,7 @@ mod test {
     }
 }
 ```
+
 ```shell
 $ cargo test
 
@@ -111,7 +118,8 @@ test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out;
 ```
 
 部分读者此时可能会有一些大胆的想法：咦？我能否修改 Node 中的值？大胆但貌似可行，不妨来试试。
-```rust
+
+```rust,ignore,mdbook-runnable
 pub struct List<'a, T> {
     pub data: T,
     pub prev: Option<&'a mut List<'a, T>>,
@@ -123,8 +131,8 @@ pub struct Iter<'a, T> {
 
 impl<'a, T> List<'a, T> {
     pub fn push<U>(
-        prev: Option<&'a mut List<'a, T>>, 
-        data: T, 
+        prev: Option<&'a mut List<'a, T>>,
+        data: T,
         callback: impl FnOnce(&mut List<'a, T>) -> U,
     ) -> U {
         let mut list = List { data, prev };
@@ -178,7 +186,8 @@ error[E0521]: borrowed data escapes outside of closure
 ```
 
 嗯，没想到是浓眉大眼的迭代器背叛了我们，为了验证到底是哪里出了问题，我们来修改下测试:
-```rust
+
+```rust,ignore,mdbook-runnable
 #[test]
 fn elegance() {
     List::push(None, 3, |list| {
@@ -239,7 +248,8 @@ error[E0521]: borrowed data escapes outside of closure
 总之，可以看出无论是从大的生命周期收缩为小的生命周期，还是从 `Cat` 到 `Animal`，型变的典型特征就是：范围在减小，毕竟子类型的功能肯定是比父类型多的。
 
 既然有型变，为何可变引用的版本会报错呢？其实在于型变不总是安全的，假如之前的代码可以编译，那我们可以写出<ruby>释放后再使用<rt>use-after-free</rt></ruby> 的代码:
-```rust
+
+```rust,ignore,mdbook-runnable
 List::push(None, 3, |list| {
     List::push(Some(list), 5, |list| {
         List::push(Some(list), 13, |list| {
@@ -252,7 +262,8 @@ List::push(None, 3, |list| {
 ```
 
 一旦引入可变性，型变就会造成这样的隐患：意外修改了不该被修改的代码，但这些代码的调用者还在期待着和往常一样的结果！例如以下例子：
-```rust
+
+```rust,ignore,mdbook-runnable
 let mut my_kitty = Cat;                  // Make a Cat (long lifetime)
 let animal: &mut Animal = &mut my_kitty; // Forget it's a Cat (shorten lifetime)
 *animal = Dog;                           // Write a Dog (short lifetime)
@@ -270,7 +281,8 @@ my_kitty.meow();                         // Meowing Dog! (Use After Free)
 说了这么多高深的理论，那么该如何改变链表的数据呢？答案就是：使用老本行 - 内部可变性。
 
 下面让我们回滚到之前的不可变版本，然后使用 `Cell` 来替代 `&mut`。
-```rust
+
+```rust,ignore,mdbook-runnable
 #[test]
 fn cell() {
     use std::cell::Cell;

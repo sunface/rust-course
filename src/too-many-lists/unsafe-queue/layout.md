@@ -1,7 +1,9 @@
 # 数据布局
+
 那么单向链表的队列长什么样？对于栈来说，我们向一端推入( push )元素，然后再从同一端弹出( pop )。对于栈和队列而言，唯一的区别在于队列从末端弹出。
 
 栈的实现类似于下图：
+
 ```shell
 input list:
 [Some(ptr)] -> (A, Some(ptr)) -> (B, None)
@@ -14,6 +16,7 @@ stack pop:
 ```
 
 由于队列是首端进，末端出，因此我们需要决定将 `push` 和 `pop` 中的哪个放到末端去操作，如果将 `push` 放在末端操作:
+
 ```shell
 input list:
 [Some(ptr)] -> (A, Some(ptr)) -> (B, None)
@@ -23,6 +26,7 @@ flipped push X:
 ```
 
 而如果将 `pop` 放在末端:
+
 ```shell
 input list:
 [Some(ptr)] -> (A, Some(ptr)) -> (B, Some(ptr)) -> (X, None)
@@ -34,7 +38,8 @@ flipped pop:
 但是这样实现有一个很糟糕的地方：两个操作都需要遍历整个链表后才能完成。队列要求 `push` 和 `pop` 操作需要高效，但是遍历整个链表才能完成的操作怎么看都谈不上高效！
 
 其中一个解决办法就是保存一个指针指向末端:
-```rust
+
+```rust,ignore,mdbook-runnable
 use std::mem;
 
 pub struct List<T> {
@@ -81,6 +86,7 @@ impl<T> List<T> {
 在之前的各种链表锤炼下，我们对于相关代码应该相当熟悉了，因此可以适当提提速 - 在写的过程中，事实上我碰到了很多错误，这些错误就不再一一列举。
 
 但是如果你担心不再能看到错误，那就纯属多余了:
+
 ```shell
 $ cargo build
 
@@ -98,7 +104,8 @@ error[E0382]: use of moved value: `new_tail`
 ```
 
 新鲜出炉的错误，接好！`Box` 并没有实现 `Copy` 特征，因此我们不能在两个地方进行赋值。好在，可以使用没有所有权的引用类型:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub struct List<T> {
     head: Link<T>,
     tail: Option<&mut Node<T>>, // NEW!
@@ -149,7 +156,8 @@ error[E0106]: missing lifetime specifier
 ```
 
 好吧，结构体中的引用类型需要显式的标注生命周期，先加一个 `'a` 吧:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub struct List<'a, T> {
     head: Link<T>,
     tail: Option<&'a mut Node<T>>, // NEW!
@@ -229,11 +237,13 @@ note: but, the lifetime must be valid for the lifetime 'a as defined on the impl
 > the lifetime must be valid for the lifetime 'a as defined on the impl
 
 意思是说生命周期至少要和 `'a` 一样长，是不是因为编译器为 `self` 推导的生命周期不够长呢？我们试着来手动标注下:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn push(&'a mut self, elem: T) {
 ```
 
 当当当当，成功通过编译:
+
 ```shell
 $ cargo build
 
@@ -247,7 +257,8 @@ warning: field is never used: `elem`
 ```
 
 这个错误可以称之为错误之王，但是我们依然成功的解决了它，太棒了！再来实现下 `pop`:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn pop(&'a mut self) -> Option<T> {
     self.head.take().map(|head| {
         let head = *head;
@@ -263,7 +274,8 @@ pub fn pop(&'a mut self) -> Option<T> {
 ```
 
 看起来不错，写几个测试用例溜一溜:
-```rust
+
+```rust,ignore,mdbook-runnable
 mod test {
     use super::List;
     #[test]
@@ -296,6 +308,7 @@ mod test {
     }
 }
 ```
+
 ```shell
 $ cargo test
 
@@ -353,7 +366,7 @@ error: aborting due to 11 previous errors
 
 > 事实上，上文的问题主要是自引用引起的，感兴趣的同学可以查看[这里](https://course.rs/advance/circle-self-ref/intro.html)深入阅读。
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct List<T> {
     head: Link<T>,
     tail: *mut Node<T>, // DANGER DANGER

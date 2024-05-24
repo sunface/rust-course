@@ -8,7 +8,7 @@
 
 先来看一个不是很给力的、使用`.await`的版本:
 
-```rust
+```rust,ignore,mdbook-runnable
 async fn enjoy_book_and_music() -> (Book, Music) {
     let book = enjoy_book().await;
     let music = enjoy_music().await;
@@ -20,7 +20,7 @@ async fn enjoy_book_and_music() -> (Book, Music) {
 
 要支持同时看书和听歌，有些人可能会凭空生成下面代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 // WRONG -- 别这么做
 async fn enjoy_book_and_music() -> (Book, Music) {
     let book_future = enjoy_book();
@@ -33,7 +33,7 @@ async fn enjoy_book_and_music() -> (Book, Music) {
 
 为了正确的并发运行两个 `Future` ， 我们来试试 `futures::join!` 宏:
 
-```rust
+```rust,ignore,mdbook-runnable
 use futures::join;
 
 async fn enjoy_book_and_music() -> (Book, Music) {
@@ -51,7 +51,7 @@ async fn enjoy_book_and_music() -> (Book, Music) {
 
 由于 `join!` 必须等待它管理的所有 `Future` 完成后才能完成，如果你希望在某一个 `Future` 报错后就立即停止所有 `Future` 的执行，可以使用 `try_join!`，特别是当 `Future` 返回 `Result` 时:
 
-```rust
+```rust,ignore,mdbook-runnable
 use futures::try_join;
 
 async fn get_book() -> Result<Book, String> { /* ... */ Ok(Book) }
@@ -66,7 +66,7 @@ async fn get_book_and_music() -> Result<(Book, Music), String> {
 
 有一点需要注意，传给 `try_join!` 的所有 `Future` 都必须拥有相同的错误类型。如果错误类型不同，可以考虑使用来自 `futures::future::TryFutureExt` 模块的 `map_err` 和 `err_info` 方法将错误进行转换:
 
-```rust
+```rust,ignore,mdbook-runnable
 use futures::{
     future::TryFutureExt,
     try_join,
@@ -88,7 +88,7 @@ async fn get_book_and_music() -> Result<(Book, Music), String> {
 
 `join!` 只有等所有 `Future` 结束后，才能集中处理结果，如果你想同时等待多个 `Future` ，且任何一个 `Future` 结束后，都可以立即被处理，可以考虑使用 `futures::select!`:
 
-```rust
+```rust,ignore,mdbook-runnable
 use futures::{
     future::FutureExt, // for `.fuse()`
     pin_mut,
@@ -122,7 +122,7 @@ async fn race_tasks() {
 - `complete` 分支当所有的 `Future` 和 `Stream` 完成后才会被执行，它往往配合 `loop` 使用，`loop` 用于循环完成所有的 `Future`
 - `default` 分支，若没有任何 `Future` 或 `Stream` 处于 `Ready` 状态， 则该分支会被立即执行
 
-```rust
+```rust,ignore,mdbook-runnable
 use futures::future;
 use futures::select;
 pub fn main() {
@@ -148,7 +148,7 @@ pub fn main() {
 
 再回到 `select` 的第一个例子中，里面有一段代码长这样：
 
-```rust
+```rust,ignore,mdbook-runnable
 let t1 = task_one().fuse();
 let t2 = task_two().fuse();
 
@@ -168,7 +168,7 @@ pin_mut!(t1, t2);
 
 `Stream` 稍有不同，它们使用的特征是 `FusedStream`。 通过 `.fuse()`(也可以手动实现)实现了该特征的 `Stream`，对其调用 `.next()` 或 `.try_next()` 方法可以获取实现了 `FusedFuture` 特征的`Future`:
 
-```rust
+```rust,ignore,mdbook-runnable
 use futures::{
     stream::{Stream, StreamExt, FusedStream},
     select,
@@ -201,7 +201,7 @@ async fn add_two_streams(
 
 考虑以下场景：当你要在 `select` 循环中运行一个任务，但是该任务却是在 `select` 循环内部创建时，上面的函数就非常好用了。
 
-```rust
+```rust,ignore,mdbook-runnable
 use futures::{
     future::{Fuse, FusedFuture, FutureExt},
     stream::{FusedStream, Stream, StreamExt},
@@ -244,7 +244,7 @@ async fn run_loop(
 
 当某个 `Future` 有多个拷贝都需要同时运行时，可以使用 `FuturesUnordered` 类型。下面的例子跟上个例子大体相似，但是它会将 `run_on_new_num_fut` 的每一个拷贝都运行到完成，而不是像之前那样一旦创建新的就终止旧的。
 
-```rust
+```rust,ignore,mdbook-runnable
 use futures::{
     future::{Fuse, FusedFuture, FutureExt},
     stream::{FusedStream, FuturesUnordered, Stream, StreamExt},
@@ -292,4 +292,3 @@ async fn run_loop(
     }
 }
 ```
-

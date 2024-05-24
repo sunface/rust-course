@@ -17,7 +17,7 @@ touch src/bin/client.rs
 
 由于不再使用 `main.rs` 作为程序入口，我们需要使用以下命令来运行指定的 bin 文件:
 
-```rust
+```rust,ignore,mdbook-runnable
 cargo run --bin server
 ```
 
@@ -29,7 +29,7 @@ cargo run --bin server
 
 如果想要同时运行两个 redis 命令，我们可能会为每一个命令生成一个任务，例如:
 
-```rust
+```rust,ignore,mdbook-runnable
 use mini_redis::client;
 
 #[tokio::main]
@@ -87,7 +87,7 @@ Tokio 提供了多种消息通道，可以满足不同场景的需求:
 
 在大多数场景中使用消息传递时，都是多个发送者向一个任务发送消息，该任务在处理完后，需要将响应内容返回给相应的发送者。例如我们的例子中，任务需要将 `GET` 和 `SET` 命令处理的结果返回。首先，我们需要定一个 `Command` 枚举用于代表命令：
 
-```rust
+```rust,ignore,mdbook-runnable
 use bytes::Bytes;
 
 #[derive(Debug)]
@@ -106,7 +106,7 @@ enum Command {
 
 在 `src/bin/client.rs` 的 `main` 函数中，创建一个 `mpsc` 消息通道：
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::sync::mpsc;
 
 #[tokio::main]
@@ -122,7 +122,7 @@ async fn main() {
 
 通道的缓冲队列长度是 32，意味着如果消息发送的比接收的快，这些消息将被存储在缓冲队列中，一旦存满了 32 条消息，使用`send(...).await`的发送者会**进入睡眠**，直到缓冲队列可以放入新的消息(被接收者消费了)。
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::sync::mpsc;
 
 #[tokio::main]
@@ -154,7 +154,7 @@ async fn main() {
 
 下面，我们来一起创建一个管理任务，它会管理 redis 的连接，当然，首先需要创建一条到 redis 的连接:
 
-```rust
+```rust,ignore,mdbook-runnable
 use mini_redis::client;
 // 将消息通道接收者 rx 的所有权转移到管理任务中
 let manager = tokio::spawn(async move {
@@ -182,7 +182,7 @@ let manager = tokio::spawn(async move {
 
 现在，让两个任务发送命令到消息通道，而不是像最开始报错的那样，直接发送命令到各自的 redis 连接:
 
-```rust
+```rust,ignore,mdbook-runnable
 // 由于有两个任务，因此我们需要两个发送者
 let tx2 = tx.clone();
 
@@ -207,7 +207,7 @@ let t2 = tokio::spawn(async move {
 
 在 `main` 函数的末尾，我们让 3 个任务，按照需要的顺序开始运行:
 
-```rust
+```rust,ignore,mdbook-runnable
 t1.await.unwrap();
 t2.await.unwrap();
 manager.await.unwrap();
@@ -217,7 +217,7 @@ manager.await.unwrap();
 
 最后一步，就是让发出命令的任务从管理任务那里获取命令执行的结果。为了完成这个目标，我们将使用 `oneshot` 消息通道，因为它针对一发一收的使用类型做过特别优化，且特别适用于此时的场景：接收一条从管理任务发送的结果消息。
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::sync::oneshot;
 
 let (tx, rx) = oneshot::channel();
@@ -227,7 +227,7 @@ let (tx, rx) = oneshot::channel();
 
 为了让管理任务将结果准确的返回到发送者手中，这个管道的发送端必须要随着命令一起发送, 然后发出命令的任务保留管道的发送端。一个比较好的实现就是将管道的发送端放入 `Command` 的数据结构中，同时使用一个别名来代表该发送端:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::sync::oneshot;
 use bytes::Bytes;
 
@@ -251,7 +251,7 @@ type Responder<T> = oneshot::Sender<mini_redis::Result<T>>;
 
 下面，更新发送命令的代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 let t1 = tokio::spawn(async move {
     let (resp_tx, resp_rx) = oneshot::channel();
     let cmd = Command::Get {
@@ -286,7 +286,7 @@ let t2 = tokio::spawn(async move {
 
 最后，更新管理任务:
 
-```rust
+```rust,ignore,mdbook-runnable
 while let Some(cmd) = rx.recv().await {
     match cmd {
         Command::Get { key, resp } => {
@@ -315,7 +315,7 @@ while let Some(cmd) = rx.recv().await {
 
 Tokio 在设计时就考虑了这种状况，例如 `async` 操作在 Tokio 中是惰性的:
 
-```rust
+```rust,ignore,mdbook-runnable
 loop {
     async_op();
 }
@@ -325,7 +325,7 @@ loop {
 
 然后在 `Async Rust` 和 Tokio 中，上面的代码 `async_op` 根本就不会运行，也就不会往消息队列中写入消息。原因是我们没有调用 `.await`，就算使用了 `.await` 上面的代码也不会有问题，因为只有等当前循环的任务结束后，才会开始下一次循环。
 
-```rust
+```rust,ignore,mdbook-runnable
 loop {
     // 当前 `async_op` 完成后，才会开始下一次循环
     async_op().await;

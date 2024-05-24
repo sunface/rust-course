@@ -21,7 +21,7 @@
 
 #### 试图创建动态大小的数组
 
-```rust
+```rust,ignore,mdbook-runnable
 fn my_function(n: usize) {
     let array = [123; n];
 }
@@ -37,7 +37,7 @@ fn my_function(n: usize) {
 
 考虑一下这个类型：`str`，感觉有点眼生？是的，它既不是 `String` 动态字符串，也不是 `&str` 字符串切片，而是一个 `str`。它是一个动态类型，同时还是 `String` 和 `&str` 的底层数据类型。 由于 `str` 是动态类型，因此它的大小直到运行期才知道，下面的代码会因此报错：
 
-```rust
+```rust,ignore,mdbook-runnable
 // error
 let s1: str = "Hello there!";
 let s2: str = "How's it going?";
@@ -56,7 +56,7 @@ Rust 需要明确地知道一个特定类型的值占据了多少内存空间，
 
 #### 特征对象
 
-```rust
+```rust,ignore,mdbook-runnable
 fn foobar_1(thing: &dyn MyThing) {}     // OK
 fn foobar_2(thing: Box<dyn MyThing>) {} // OK
 fn foobar_3(thing: MyThing) {}          // ERROR!
@@ -74,7 +74,7 @@ Rust 中常见的 `DST` 类型有: `str`、`[T]`、`dyn Trait`，**它们都无�
 
 既然动态类型的问题这么大，那么在使用泛型时，Rust 如何保证我们的泛型参数是固定大小的类型呢？例如以下泛型函数：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn generic<T>(t: T) {
     // --snip--
 }
@@ -82,7 +82,7 @@ fn generic<T>(t: T) {
 
 该函数很简单，就一个泛型参数 T，那么如何保证 `T` 是固定大小的类型？仔细回想下，貌似在之前的课程章节中，我们也没有做过任何事情去做相关的限制，那 `T` 怎么就成了固定大小的类型了？奥秘在于编译器自动帮我们加上了 `Sized` 特征约束：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn generic<T: Sized>(t: T) {
     // --snip--
 }
@@ -94,7 +94,7 @@ fn generic<T: Sized>(t: T) {
 
 现在还有一个问题：假如想在泛型函数中使用动态数据类型怎么办？可以使用 `?Sized` 特征(不得不说这个命名方式很 Rusty，竟然有点幽默)：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn generic<T: ?Sized>(t: &T) {
     // --snip--
 }
@@ -112,7 +112,7 @@ fn generic<T: ?Sized>(t: &T) {
 
 来验证下我们的推测：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let s1: Box<str> = Box::new("Hello there!" as str);
 }
@@ -133,7 +133,7 @@ error[E0277]: the size for values of type `str` cannot be known at compilation t
 
 提示得很清晰，不知道 `str` 的大小，因此无法使用这种语法进行 `Box` 进装，但是你可以这么做:
 
-```rust
+```rust,ignore,mdbook-runnable
 let s1: Box<str> = "Hello there!".into();
 ```
 

@@ -16,7 +16,7 @@
 
 标准库提供了通道`std::sync::mpsc`，其中`mpsc`是*multiple producer, single consumer*的缩写，代表了该通道支持多个发送者，但是只支持唯一的接收者。 当然，支持多个发送者也意味着支持单个发送者，我们先来看看单发送者、单接收者的简单例子:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::mpsc;
 use std::thread;
 
@@ -52,7 +52,7 @@ fn main() {
 
 除了上述`recv`方法，还可以使用`try_recv`尝试接收一次消息，该方法并**不会阻塞线程**，当通道中没有消息时，它会立刻返回一个错误：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::mpsc;
 use std::thread;
 
@@ -94,7 +94,7 @@ receive Err(Disconnected)
 
 一起来看看第二种情况:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::mpsc;
 use std::thread;
 
@@ -132,7 +132,7 @@ error[E0382]: borrow of moved value: `s`
 
 下面来看看如何连续接收通道中的值:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
@@ -166,7 +166,7 @@ fn main() {
 
 由于子线程会拿走发送者的所有权，因此我们必须对发送者进行克隆，然后让每个线程拿走它的一份拷贝:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::mpsc;
 use std::thread;
 
@@ -209,7 +209,7 @@ Rust 标准库的`mpsc`通道其实分为两种类型：同步和异步。
 
 之前我们使用的都是异步通道：无论接收者是否正在接收消息，消息发送者在发送消息时都不会阻塞:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
@@ -250,7 +250,7 @@ receive 1
 
 与异步通道相反，同步通道**发送消息是阻塞的，只有在消息被接收后才解除阻塞**，例如：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
@@ -301,7 +301,7 @@ receive 1
 
 纳尼。。竟然得到了和异步通道一样的效果：根本没有等待主线程的接收开始，消息发送就立即完成了！ 难道同步通道变成了异步通道？ 别急，将子线程中的代码修改下试试：
 
-```rust
+```rust,ignore,mdbook-runnable
 println!("首次发送之前");
 tx.send(1).unwrap();
 println!("首次发送之后");
@@ -339,7 +339,7 @@ Bingo，更奇怪的事出现了，第一条消息瞬间发送完成，没有阻
 
 之前提到过，一个消息通道只能传输一种类型的数据，如果你想要传输多种类型的数据，可以为每个类型创建一个通道，你也可以使用枚举类型来实现：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::mpsc::{self, Receiver, Sender};
 
 enum Fruit {
@@ -368,7 +368,7 @@ fn main() {
 
 `mpsc`虽然相当简洁明了，但是在使用起来还是可能存在坑：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::mpsc;
 fn main() {
 

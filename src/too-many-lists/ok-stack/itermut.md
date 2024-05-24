@@ -1,8 +1,10 @@
-# IterMut以及完整代码
+# IterMut 以及完整代码
+
 上一章节中我们讲到了要为 `List` 实现三种类型的迭代器并实现了其中两种: `IntoIter` 和 `Iter`。下面再来看看最后一种 `IterMut`。
 
 再来回顾下 `Iter` 的实现：
-```rust
+
+```rust,ignore,mdbook-runnable
 impl<'a, T> Iterator for Iter<'a, T> {
     type Item = &'a T;
 
@@ -11,7 +13,8 @@ impl<'a, T> Iterator for Iter<'a, T> {
 ```
 
 这段代码可以进行下脱糖( desugar ):
-```rust
+
+```rust,ignore,mdbook-runnable
 impl<'a, T> Iterator for Iter<'a, T> {
     type Item = &'a T;
 
@@ -20,7 +23,8 @@ impl<'a, T> Iterator for Iter<'a, T> {
 ```
 
 可以看出 `next` 方法的输入和输出之间的生命周期并没有关联，这样我们就可以无条件的一遍又一遍地调用 `next`:
-```rust
+
+```rust,ignore,mdbook-runnable
 let mut list = List::new();
 list.push(1); list.push(2); list.push(3);
 
@@ -33,7 +37,8 @@ let z = iter.next().unwrap();
 对于不可变借用而言，这种方式没有任何问题，因为不可变借用可以同时存在多个，但是如果是可变引用呢？因此，大家可能会以为使用安全代码来写 `IterMut` 是一件相当困难的事。但是令人诧异的是，事实上，我们可以使用安全的代码来为很多数据结构实现 `IterMut`。
 
 先将之前的代码修改成可变的：
-```rust
+
+```rust,ignore,mdbook-runnable
 pub struct IterMut<'a, T> {
     next: Option<&'a mut Node<T>>,
 }
@@ -75,7 +80,8 @@ error[E0507]: cannot move out of borrowed content
 ```
 
 果不其然，两个错误发生了。第一错误看上去很清晰，甚至告诉了我们该如何解决:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn iter_mut(&mut self) -> IterMut<'_, T> {
     IterMut { next: self.head.as_deref_mut() }
 }
@@ -86,7 +92,8 @@ pub fn iter_mut(&mut self) -> IterMut<'_, T> {
 原因在于有些类型可以 [Copy](https://course.rs/basic/ownership/ownership.html#拷贝浅拷贝)，有些不行。而`Option` 和不可变引用 `&T` 恰恰是可以 Copy 的，但尴尬的是，可变引用 `&mut T` 不可以，因此这里报错了。
 
 因此我们需要使用 `take` 方法来处理这种情况：
-```rust
+
+```rust,ignore,mdbook-runnable
 fn next(&mut self) -> Option<Self::Item> {
     self.next.take().map(|node| {
         self.next = node.next.as_deref_mut();
@@ -100,7 +107,8 @@ $ cargo build
 ```
 
 老规矩，来测试下:
-```rust
+
+```rust,ignore,mdbook-runnable
 #[test]
 fn iter_mut() {
     let mut list = List::new();
@@ -133,7 +141,7 @@ test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured
 
 ## 完整代码
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct List<T> {
     head: Link<T>,
 }

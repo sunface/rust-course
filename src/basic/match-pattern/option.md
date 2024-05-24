@@ -2,7 +2,7 @@
 
 在枚举那章，提到过 `Option` 枚举，它用来解决 Rust 中变量是否有值的问题，定义如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum Option<T> {
     Some(T),
     None,
@@ -19,7 +19,7 @@ enum Option<T> {
 
 使用 `Option<T>`，是为了从 `Some` 中取出其内部的 `T` 值以及处理没有值的情况，为了演示这一点，下面一起来编写一个函数，它获取一个 `Option<i32>`，如果其中含有一个值，将其加一；如果其中没有值，则函数返回 `None` 值：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn plus_one(x: Option<i32>) -> Option<i32> {
     match x {
         None => None,
@@ -38,13 +38,13 @@ let none = plus_one(None);
 
 #### 传入参数 `Some(5)`
 
-```rust,ignore
+```rust,ignore,mdbook-runnable,ignore
 None => None,
 ```
 
 首先是匹配 `None` 分支，因为值 `Some(5)` 并不匹配模式 `None`，所以继续匹配下一个分支。
 
-```rust,ignore
+```rust,ignore,mdbook-runnable,ignore
 Some(i) => Some(i + 1),
 ```
 
@@ -54,7 +54,7 @@ Some(i) => Some(i + 1),
 
 接着考虑下 `plus_one` 的第二个调用，这次传入的 `x` 是 `None`， 我们进入 `match` 并与第一个分支相比较。
 
-```rust,ignore
+```rust,ignore,mdbook-runnable,ignore
 None => None,
 ```
 

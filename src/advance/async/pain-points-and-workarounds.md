@@ -6,7 +6,7 @@
 
 `async` 语句块和 `async fn` 最大的区别就是前者无法显式的声明返回值，在大多数时候这都不是问题，但是当配合 `?` 一起使用时，问题就有所不同:
 
-```rust
+```rust,ignore,mdbook-runnable
 async fn foo() -> Result<u8, String> {
     Ok(1)
 }
@@ -35,11 +35,11 @@ error[E0282]: type annotations needed
    |         ^^ cannot infer type for type parameter `E` declared on the enum `Result`
 ```
 
-原因在于编译器无法推断出 `Result<T, E>` 中的 `E` 的类型， 而且编译器的提示 ```consider giving `fut` a type``` 你也别傻乎乎的相信，然后尝试半天，最后无奈放弃：目前还没有办法为 `async` 语句块指定返回类型。
+原因在于编译器无法推断出 `Result<T, E>` 中的 `E` 的类型， 而且编译器的提示 `` consider giving `fut` a type `` 你也别傻乎乎的相信，然后尝试半天，最后无奈放弃：目前还没有办法为 `async` 语句块指定返回类型。
 
 既然编译器无法推断出类型，那咱就给它更多提示，可以使用 `::< ... >` 的方式来增加类型注释：
 
-```rust
+```rust,ignore,mdbook-runnable
 let fut = async {
     foo().await?;
     bar().await?;
@@ -55,7 +55,7 @@ let fut = async {
 
 学到这里，相信大家已经很清楚 `Rc` 无法在多线程环境使用，原因就在于它并未实现 `Send` 特征，那咱就用它来做例子:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::rc::Rc;
 
 #[derive(Default)]
@@ -64,7 +64,7 @@ struct NotSend(Rc<()>);
 
 事实上，未实现 `Send` 特征的变量可以出现在 `async fn` 语句块中:
 
-```rust
+```rust,ignore,mdbook-runnable
 async fn bar() {}
 async fn foo() {
     NotSend::default();
@@ -80,7 +80,7 @@ fn main() {
 
 即使上面的 `foo` 返回的 `Future` 是 `Send`， 但是在它内部短暂的使用 `NotSend` 依然是安全的，原因在于它的作用域并没有影响到 `.await`，下面来试试声明一个变量，然后让 `.await` 的调用处于变量的作用域中试试:
 
-```rust
+```rust,ignore,mdbook-runnable
 async fn foo() {
     let x = NotSend::default();
     bar().await;
@@ -114,7 +114,7 @@ note: future is not `Send` as this value is used across an await
 
 不知道有多少同学还记得语句块 `{ ... }` 在 Rust 中其实具有非常重要的作用(特别是相比其它大多数语言来说时)：可以将变量声明在语句块内，当语句块结束时，变量会自动被 Drop，这个规则可以帮助我们解决很多借用冲突问题，特别是在 `NLL` 出来之前。
 
-```rust
+```rust,ignore,mdbook-runnable
 async fn foo() {
     {
         let x = NotSend::default();
@@ -129,7 +129,7 @@ async fn foo() {
 
 在内部实现中，`async fn` 被编译成一个状态机，这会导致递归使用 `async fn` 变得较为复杂， 因为编译后的状态机还需要包含自身。
 
-```rust
+```rust,ignore,mdbook-runnable
 // foo函数:
 async fn foo() {
     step_one().await;
@@ -166,11 +166,11 @@ error[E0733]: recursion in an `async fn` requires boxing
   = note: a recursive `async fn` must be rewritten to return a boxed future.
 ```
 
-如果认真学过之前的章节，大家应该知道只要将其使用 `Box` 放到堆上而不是栈上，就可以解决，在这里还是要称赞下 Rust 的编译器，给出的提示总是这么精确 ```recursion in an `async fn` requires boxing```。
+如果认真学过之前的章节，大家应该知道只要将其使用 `Box` 放到堆上而不是栈上，就可以解决，在这里还是要称赞下 Rust 的编译器，给出的提示总是这么精确 `` recursion in an `async fn` requires boxing ``。
 
 就算是使用 `Box`，这里也大有讲究。如果我们试图使用 `Box::pin` 这种方式去包裹是不行的，因为编译器自身的限制限制了我们(刚夸过它。。。)。为了解决这种问题，我们只能将 `recursive` 转变成一个正常的函数，该函数返回一个使用 `Box` 包裹的 `async` 语句块：
 
-```rust
+```rust,ignore,mdbook-runnable
 use futures::future::{BoxFuture, FutureExt};
 
 fn recursive() -> BoxFuture<'static, ()> {
@@ -185,7 +185,7 @@ fn recursive() -> BoxFuture<'static, ()> {
 
 在目前版本中，我们还无法在特征中定义 `async fn` 函数，不过大家也不用担心，目前已经有计划在未来移除这个限制了。
 
-```rust
+```rust,ignore,mdbook-runnable
 trait Test {
     async fn test();
 }
@@ -208,7 +208,7 @@ error[E0706]: functions in traits cannot be declared `async`
 
 好在编译器给出了提示，让我们使用 [`async-trait`](https://github.com/dtolnay/async-trait) 解决这个问题:
 
-```rust
+```rust,ignore,mdbook-runnable
 use async_trait::async_trait;
 
 #[async_trait]
@@ -246,4 +246,3 @@ impl Advertisement for AutoplayingVideo {
 ```
 
 不过使用该包并不是免费的，每一次特征中的 `async` 函数被调用时，都会产生一次堆内存分配。对于大多数场景，这个性能开销都可以接受，但是当函数一秒调用几十万、几百万次时，就得小心这块儿代码的性能了！
-

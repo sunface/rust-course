@@ -18,7 +18,7 @@
 
 例如, 以下结构体定义了某网站的用户：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct User {
     active: bool,
     username: String,
@@ -33,7 +33,7 @@ struct User {
 
 为了使用上述结构体，我们需要创建 `User` 结构体的**实例**：
 
-```rust
+```rust,ignore,mdbook-runnable
     let user1 = User {
         email: String::from("someone@example.com"),
         username: String::from("someusername123"),
@@ -51,7 +51,7 @@ struct User {
 
 通过 `.` 操作符即可访问结构体实例内部的字段值，也可以修改它们：
 
-```rust
+```rust,ignore,mdbook-runnable
     let mut user1 = User {
         email: String::from("someone@example.com"),
         username: String::from("someusername123"),
@@ -68,7 +68,7 @@ struct User {
 
 下面的函数类似一个构建函数，返回了 `User` 结构体的实例：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn build_user(email: String, username: String) -> User {
     User {
         email: email,
@@ -81,7 +81,7 @@ fn build_user(email: String, username: String) -> User {
 
 它接收两个字符串参数： `email` 和 `username`，然后使用它们来创建一个 `User` 结构体，并且返回。可以注意到这两行： `email: email` 和 `username: username`，非常的扎眼，因为实在有些啰嗦，如果你从 TypeScript 过来，肯定会鄙视 Rust 一番，不过好在，它也不是无可救药：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn build_user(email: String, username: String) -> User {
     User {
         email,
@@ -98,7 +98,7 @@ fn build_user(email: String, username: String) -> User {
 
 在实际场景中，有一种情况很常见：根据已有的结构体实例，创建新的结构体实例，例如根据已有的 `user1` 实例来构建 `user2`：
 
-```rust
+```rust,ignore,mdbook-runnable
   let user2 = User {
         active: user1.active,
         username: user1.username,
@@ -109,7 +109,7 @@ fn build_user(email: String, username: String) -> User {
 
 老话重提，如果你从 TypeScript 过来，肯定觉得啰嗦爆了：竟然手动把 `user1` 的三个字段逐个赋值给 `user2`，好在 Rust 为我们提供了 `结构体更新语法`：
 
-```rust
+```rust,ignore,mdbook-runnable
   let user2 = User {
         email: String::from("another@example.com"),
         ..user1
@@ -125,11 +125,11 @@ fn build_user(email: String, username: String) -> User {
 > 聪明的读者肯定要发问了：明明有三个字段进行了自动赋值，为何只有 `username` 发生了所有权转移？
 >
 > 仔细回想一下[所有权](https://course.rs/basic/ownership/ownership.html#拷贝浅拷贝)那一节的内容，我们提到了 `Copy` 特征：实现了 `Copy` 特征的类型无需所有权转移，可以直接在赋值时进行
->数据拷贝，其中 `bool` 和 `u64` 类型就实现了 `Copy` 特征，因此 `active` 和 `sign_in_count` 字段在赋值给 `user2` 时，仅仅发生了拷贝，而不是所有权转移。
+> 数据拷贝，其中 `bool` 和 `u64` 类型就实现了 `Copy` 特征，因此 `active` 和 `sign_in_count` 字段在赋值给 `user2` 时，仅仅发生了拷贝，而不是所有权转移。
 >
 > 值得注意的是：`username` 所有权被转移给了 `user2`，导致了 `user1` 无法再被使用，但是并不代表 `user1` 内部的其它字段不能被继续使用，例如：
 
-```rust
+```rust,ignore,mdbook-runnable
 # #[derive(Debug)]
 # struct User {
 #     active: bool,
@@ -160,7 +160,7 @@ println!("{:?}", user1);
 
 先来看以下代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
  struct File {
    name: String,
@@ -192,7 +192,7 @@ println!("{:?}", user1);
 
 结构体必须要有名称，但是结构体的字段可以没有名称，这种结构体长得很像元组，因此被称为元组结构体，例如：
 
-```rust
+```rust,ignore,mdbook-runnable
     struct Color(i32, i32, i32);
     struct Point(i32, i32, i32);
 
@@ -208,7 +208,7 @@ println!("{:?}", user1);
 
 如果你定义一个类型，但是不关心该类型的内容，只关心它的行为时，就可以使用 `单元结构体`：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct AlwaysEqual;
 
 let subject = AlwaysEqual;
@@ -227,7 +227,7 @@ impl SomeTrait for AlwaysEqual {
 
 总之，如果你想在结构体中使用一个引用，就必须加上生命周期，否则就会报错：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct User {
     username: &str,
     email: &str,
@@ -280,7 +280,7 @@ help: consider introducing a named lifetime parameter
 
 在前面的代码中我们使用 `#[derive(Debug)]` 对结构体进行了标记，这样才能使用 `println!("{:?}", s);` 的方式对其进行打印输出，如果不加，看看会发生什么:
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Rectangle {
     width: u32,
     height: u32,
@@ -304,7 +304,7 @@ error[E0277]: `Rectangle` doesn't implement `std::fmt::Display`
 
 提示我们结构体 `Rectangle` 没有实现 `Display` 特征，这是因为如果我们使用 `{}` 来格式化输出，那对应的类型就必须实现 `Display` 特征，以前学习的基本类型，都默认实现了该特征:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let v = 1;
     let b = true;
@@ -324,7 +324,7 @@ fn main() {
 
 上面提示我们使用 `{:?}` 来试试，这个方式我们在本文的前面也见过，下面来试试:
 
-```rust
+```rust,ignore,mdbook-runnable
 println!("rect1 is {:?}", rect1);
 ```
 
@@ -350,7 +350,7 @@ error[E0277]: `Rectangle` doesn't implement `Debug`
 
 后者简单的多，但是也有限制，具体见[附录 D](https://course.rs/appendix/derive.html)，这里我们就不再深入讲解，来看看该如何使用:
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct Rectangle {
     width: u32,
@@ -393,7 +393,7 @@ rect1 is Rectangle {
 
 下面的例子中清晰的展示了 `dbg!` 如何在打印出信息的同时，还把表达式的值赋给了 `width`:
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct Rectangle {
     width: u32,
@@ -427,4 +427,3 @@ $ cargo run
 ## 课后练习
 
 > [Rust By Practice](https://practice-zh.course.rs/compound-types/struct.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/compound-types/struct.md)。
-

@@ -10,7 +10,7 @@
 
 #### 绝对路径引入模块
 
-```rust
+```rust,ignore,mdbook-runnable
 mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
@@ -32,7 +32,7 @@ pub fn eat_at_restaurant() {
 
 在下面代码中，我们不仅要使用相对路径进行引入，而且与上面引入 `hosting` 模块不同，直接引入该模块中的 `add_to_waitlist` 函数：
 
-```rust
+```rust,ignore,mdbook-runnable
 mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
@@ -61,7 +61,7 @@ pub fn eat_at_restaurant() {
 
 例如，如果想使用 `HashMap`，那么直接引入该结构体是比引入模块更好的选择，因为在 `collections` 模块中，我们只需要使用一个 `HashMap` 结构体：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::collections::HashMap;
 
 fn main() {
@@ -78,7 +78,7 @@ fn main() {
 
 #### 模块::函数
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fmt;
 use std::io;
 
@@ -99,7 +99,7 @@ fn function2() -> io::Result<()> {
 
 对于同名冲突问题，还可以使用 `as` 关键字来解决，它可以赋予引入项一个全新的名称：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fmt::Result;
 use std::io::Result as IoResult;
 
@@ -121,7 +121,7 @@ fn function2() -> IoResult<()> {
 
 当外部的模块项 `A` 被引入到当前模块中时，它的可见性自动被设置为私有的，如果你希望允许其它外部代码引用我们的模块项 `A`，那么可以对它进行再导出：
 
-```rust
+```rust,ignore,mdbook-runnable
 mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
@@ -150,7 +150,7 @@ pub fn eat_at_restaurant() {
 
 好了，此时，`rand` 包已经被我们添加到依赖中，下一步就是在代码中使用：
 
-```rust
+```rust,ignore,mdbook-runnable
 use rand::Rng;
 
 fn main() {
@@ -170,7 +170,7 @@ Rust 社区已经为我们贡献了大量高质量的第三方包，你可以在
 
 对于以下一行一行的引入方式：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::collections::HashMap;
 use std::collections::BTreeMap;
 use std::collections::HashSet;
@@ -181,21 +181,21 @@ use std::io;
 
 可以使用 `{}` 来一起引入进来，在大型项目中，使用这种方式来引入，可以减少大量 `use` 的使用：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::collections::{HashMap,BTreeMap,HashSet};
 use std::{cmp::Ordering, io};
 ```
 
 对于下面的同时引入模块和模块中的项：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::io;
 use std::io::Write;
 ```
 
 可以使用 `{}` 的方式进行简化:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::io::{self, Write};
 ```
 
@@ -210,7 +210,7 @@ use std::io::{self, Write};
 
 对于之前一行一行引入 `std::collections` 的方式，我们还可以使用
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::collections::*;
 ```
 
@@ -218,7 +218,7 @@ use std::collections::*;
 
 当使用 `*` 来引入的时候要格外小心，因为你很难知道到底哪些被引入到了当前作用域中，有哪些会和你自己程序中的名称相冲突：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::collections::*;
 
 struct HashMap;
@@ -243,7 +243,7 @@ fn main() {
 - 在包根中定义一个非 `pub` 类型的 `X`(父模块的项对子模块都是可见的，因此包根中的项对模块树上的所有模块都可见)
 - 在子模块中定义一个 `pub` 类型的 `Y`，同时通过 `use` 将其引入到包根
 
-```rust
+```rust,ignore,mdbook-runnable
 mod a {
     pub mod b {
         pub fn c() {
@@ -265,7 +265,7 @@ fn d() {
 
 以上代码充分说明了之前两种办法的使用方式，但是有时我们会遇到这两种方法都不太好用的时候。例如希望对于某些特定的模块可见，但是对于其他模块又不可见：
 
-```rust
+```rust,ignore,mdbook-runnable
 // 目标：`a` 导出 `I`、`bar` and `foo`，其他的不导出
 pub mod a {
     pub const I: i32 = 3;
@@ -294,7 +294,7 @@ pub mod a {
 
 如果使用之前的可见性方式，那么想保持 `J` 私有，同时让 `a` 继续使用 `semisecret` 函数的办法是将该函数移动到 `c` 模块中，然后用 `pub use` 将 `semisecret` 函数进行再导出：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub mod a {
     pub const I: i32 = 3;
 
@@ -321,7 +321,7 @@ pub mod a {
 
 这段代码说实话问题不大，但是有些破坏了我们之前的逻辑，如果想保持代码逻辑，同时又只让 `J` 在 `a` 内可见该怎么办？
 
-```rust
+```rust,ignore,mdbook-runnable
 pub mod a {
     pub const I: i32 = 3;
 
@@ -359,7 +359,7 @@ pub mod a {
 
 #### 一个综合例子
 
-```rust
+```rust,ignore,mdbook-runnable
 // 一个名为 `my_mod` 的模块
 mod my_mod {
     // 模块中的项默认具有私有的可见性

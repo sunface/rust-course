@@ -6,7 +6,7 @@
 
 Talk is cheap, 一起来看个例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 use rand::{thread_rng, Rng};
 
 #[derive(Debug, PartialEq)]
@@ -74,7 +74,7 @@ error[E0499]: cannot borrow `arr[_]` as mutable more than once at a time
 
 虽然报错复杂，不过可以看出，所有的错误都跟`tile`这个中间变量有关，我们试着移除它看看：
 
-```rust
+```rust,ignore,mdbook-runnable
 use rand::{thread_rng, Rng};
 
 #[derive(Debug, PartialEq)]
@@ -98,7 +98,7 @@ fn random_empty_tile(arr: &mut [Tile]) -> &mut Tile {
 
 如果不使用循环呢？会不会也有这样的错误？咱们试着把循环展开：
 
-```rust
+```rust,ignore,mdbook-runnable
 use rand::{thread_rng, Rng};
 
 #[derive(Debug, PartialEq)]
@@ -142,7 +142,7 @@ fn random_empty_tile_2<'arr>(arr: &'arr mut [Tile]) -> &'arr mut Tile {
 ------2022 年 1 月 13 日更新-------
 兄弟们，我带着挖掘出的一些内容回来了，再来看段错误代码先：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct A {
     a: i32
 }
@@ -179,7 +179,7 @@ impl A {
 
 怎么办呢？很简单：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn two(&mut self) -> &i32 {
     loop {
         let k = self.one();
@@ -198,7 +198,7 @@ fn two(&mut self) -> &i32 {
 
 #### 引用外移
 
-```rust
+```rust,ignore,mdbook-runnable
 fn random_empty_tile(arr: &mut [Tile]) -> &mut Tile {
     let len = arr.len();
     let mut the_chosen_i = 0;
@@ -220,7 +220,7 @@ fn random_empty_tile(arr: &mut [Tile]) -> &mut Tile {
 
 再来看一个例子，代码会更复杂，但是原因几乎相同：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::collections::HashMap;
 
 enum Symbol {
@@ -273,7 +273,7 @@ error[E0499]: cannot borrow `self.scopes` as mutable more than once at a time
 
 对于上述代码，只需要将返回值修改下，即可通过编译：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn get_mut(&mut self, name: &String) -> &mut Symbol {
     let mut current = Some(self.current);
 

@@ -14,7 +14,7 @@ error[e0499]: cannot borrow ` * self` as mutable more than once at a time;
 
 ## 重构前的正确代码
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Test {
     a : u32,
     b : u32
@@ -46,7 +46,7 @@ impl Test {
 
 由于领导说我们这个函数没办法复用，那就敷衍一下呗：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Test {
     a : u32,
     b : u32
@@ -106,7 +106,7 @@ error[E0499]: cannot borrow `*self` as mutable more than once at a time
 
 以前面的代码为例：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn increase_a (&mut self) {
     self.a += 1;
 }
@@ -131,7 +131,7 @@ fn increase(&mut self) {
 
 在深入分析中，我们提到一条重要的规则，要影响编译行为，就需要更改相关函数的签名，因此可以修改`increase_a`的签名:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn increase_a (a :&mut u32) {
     *a += 1;
 }
@@ -147,7 +147,7 @@ fn increase(&mut self) {
 
 当然，除了修改相关函数的签名，你还可以修改调用者的实现：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn increase(&mut self) {
     self.increase_a();
     self.b += 1;
@@ -160,7 +160,7 @@ fn increase(&mut self) {
 
 再来看一个使用了闭包的例子:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::runtime::Runtime;
 
 struct Server {
@@ -218,7 +218,7 @@ error[E0501]: cannot borrow `self.runtime` as mutable because previous closure r
 
 解决办法很粗暴，既然编译器不能理解闭包中的引用是不同的，那么我们就主动告诉它:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn increase_connections_count(&mut self) {
     let runtime = &mut self.runtime;
     let server = &mut self.server;
@@ -232,7 +232,7 @@ pub fn increase_connections_count(&mut self) {
 
 你也可以这么写：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn increase_connections_count(&mut self) {
     let ServerRuntime { runtime, server } = self;
     runtime.block_on(async {
@@ -248,4 +248,3 @@ pub fn increase_connections_count(&mut self) {
 心中有剑，手中无剑，是武学至高境界。
 
 本文列出的那条编译规则，在未来就将是大家心中的那把剑，当这些心剑招式足够多时，量变产生质变，终将天下无敌。
-

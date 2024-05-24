@@ -6,7 +6,7 @@
 
 好了，下面是我们完整重写的 1200 行代码的全部内容。这应该与 [this commit](https://github.com/contain-rs/linked-list/commit/5b69cc29454595172a5167a09277660342b78092) 的文本相同。
 
-```rust
+````rust,ignore,mdbook-runnable
 use std::cmp::Ordering;
 use std::fmt::{self, Debug};
 use std::hash::{Hash, Hasher};
@@ -1207,4 +1207,4 @@ mod test {
         assert_eq!(from_front, re_reved);
     }
 }
-```
+````

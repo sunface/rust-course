@@ -2,7 +2,7 @@
 
 继上篇文章后，我们再来看一段**可能**涉及生命周期过大导致的无法编译问题:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn bar(writer: &mut Writer) {
     baz(writer.indent());
     writer.write("world");
@@ -55,7 +55,7 @@ WTF，这什么报错，之前都没有见过，而且很难理解，什么叫`w
 
 别急，我们先来仔细看下代码，注意这一段：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl<'a> Writer<'a> {
     fn indent(&'a mut self) -> &'a mut Self {
         &mut Self {
@@ -69,7 +69,7 @@ impl<'a> Writer<'a> {
 
 行，那我们先解决这个问题，将该方法修改为:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn indent(&'a mut self) -> Writer<'a> {
     Writer {
         target: self.target,
@@ -93,7 +93,7 @@ error[E0308]: mismatched types
 
 哦，这次错误很明显，因为`baz`需要`&mut Writer`，但是咱们`writer.indent`返回了一个`Writer`，因此修改下即可:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn bar(writer: &mut Writer) {
     baz(&mut writer.indent());
     writer.write("world");
@@ -118,7 +118,7 @@ error[E0623]: lifetime mismatch
 
 大概的意思可以分析，生命周期范围不匹配，说明一个大一个小，然后一个`writer`中流入到另一个`writer`说明，两个`writer`的生命周期定义错了，既然这里提到了`indent`方法调用，那么我们再去仔细看一眼：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl<'a> Writer<'a> {
     fn indent(&'a mut self) -> Writer<'a> {
         Writer {
@@ -136,7 +136,7 @@ impl<'a> Writer<'a> {
 
 既然不能相同，那我们尝试着修改下`indent`:
 
-```rust
+```rust,ignore,mdbook-runnable
  fn indent<'b>(&'b mut self) -> Writer<'b> {
     Writer {
         target: self.target,
@@ -147,7 +147,7 @@ impl<'a> Writer<'a> {
 
 Bang! 编译成功，不过稍等，回想下生命周期消除的规则，我们还可以实现的更优雅：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn bar(writer: &mut Writer) {
     baz(&mut writer.indent());
     writer.write("world");
@@ -183,4 +183,3 @@ fn main() {}
 ```
 
 至此，问题彻底解决，太好了，我感觉我又变强了。可是默默看了眼自己的头发，只能以`哎～`一声叹息结束本章内容。
-

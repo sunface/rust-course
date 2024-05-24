@@ -2,7 +2,7 @@
 
 Cargo 可以通过 `cargo test` 命令运行项目中的测试文件：它会在 `src/` 底下的文件寻找单元测试，也会在 `tests/` 目录下寻找集成测试。
 
-```rust
+```rust,ignore,mdbook-runnable
 $ cargo test
    Compiling regex v1.5.0 (https://github.com/rust-lang/regex.git#9f9f693)
    Compiling hello_world v0.1.0 (file:///path/to/package/hello_world)

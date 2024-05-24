@@ -1,8 +1,10 @@
 # 不太优秀的双端队列
+
 在实现了之前的队列后，我们不禁浮想联翩，如果 `Rc` 是可变的，那是不是可以实现一个双向链表？
 
 心动不如行动，先来创建新的链表文件 `fourth.rs`，并在 `src/lib.rs` 中添加以下内容：
-```rust
+
+```rust,ignore,mdbook-runnable
 // in lib.rs
 
 pub mod first;

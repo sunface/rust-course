@@ -6,7 +6,7 @@ Rust 的迭代器无处不在，直至你在它上面栽了跟头，经过深入
 
 以下的代码非常简单，用来统计文本中字词的数量，并打印出来：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let s = "hello world";
     let mut words = s.split(" ");
@@ -31,7 +31,7 @@ error[E0382]: borrow of moved value: `words`
 
 世事难料，我以为只有的生命周期、闭包才容易背叛革命，没想到一个你浓眉大眼的`count`方法也背叛革命。从报错来看，是因为`count`方法拿走了`words`的所有权，来看看签名：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn count(self) -> usize
 ```
 
@@ -41,7 +41,7 @@ fn count(self) -> usize
 
 在[迭代器](https://course.rs/advance/functional-programing/iterator.html#消费者与适配器)章节中，我们曾经学习过两个概念：迭代器适配器和消费者适配器，前者用于对迭代器中的元素进行操作，最终生成一个新的迭代器，例如`map`、`filter`等方法；而后者用于消费掉迭代器，最终产生一个结果，例如`collect`方法, 一个典型的示例如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 let v1: Vec<i32> = vec![1, 2, 3];
 
 let v2: Vec<_> = v1.iter().map(|x| x + 1).collect();
@@ -57,7 +57,7 @@ assert_eq!(v2, vec![2, 3, 4]);
 
 其实。。也不需要多深，只要进入`words`的源码，就能看出它属于`Iterator`特征，那说明`split`方法产生了一个迭代器？再来看看：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn split<'a, P>(&'a self, pat: P) -> Split<'a, P>
 where
     P: Pattern<'a>,
@@ -74,7 +74,7 @@ where
 
 你可能会想用`collect`来解决这个问题，先收集成一个集合，然后进行统计。当然此方法完全可行，但是很不`rusty`(很符合 rust 规范、潮流的意思)，以下给出最`rusty`的解决方案：
 
-```rust
+```rust,ignore,mdbook-runnable
 let words = s.split(",");
 let n = words.clone().count();
 ```
@@ -90,7 +90,7 @@ let n = words.clone().count();
 
 因此对迭代器的`clone`仅仅是复制了一份栈上的简单结构，性能非常高效，例如:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct Split<'a, T: 'a, P>
 where
     P: FnMut(&T) -> bool,
@@ -119,4 +119,3 @@ where
 看起来是无效借用导致的错误，实际上是迭代器被消费了导致的问题，这说明 Rust 编译器虽然会告诉你错误原因，但是这个原因不总是根本原因。我们需要一双慧眼和勤劳的手，来挖掘出这个宝藏，最后为己所用。
 
 同时，克隆在 Rust 中也并不总是**bad guy**的代名词，有的时候我们可以大胆去使用，当然前提是了解你的代码场景和具体的`clone`实现，这样你也能像文中那样作出非常`rusty`的选择。
-

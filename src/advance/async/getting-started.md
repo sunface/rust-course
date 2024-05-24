@@ -60,7 +60,6 @@
 >
 > 而使用 `spawn_blocking` 后，会创建一个单独的 OS 线程，该线程并不会被 tokio 所调度( 被 OS 所调度 )，因此它所执行的 CPU 密集任务也不会导致 tokio 调度的那些异步任务被饿死
 
-
 - 有大量 `IO` 任务需要并发运行时，选 `async` 模型
 - 有部分 `IO` 任务需要并发运行时，选多线程，如果想要降低线程创建和销毁的开销，可以使用线程池
 - 有大量 `CPU` 密集任务需要并行运行时，例如并行计算，选多线程模型，且让线程数等于或者稍大于 `CPU` 核心数
@@ -79,7 +78,7 @@
 
 在大概理解`async`后，我们再来看一个简单的例子。如果想并发的下载文件，你可以使用多线程如下实现:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn get_two_sites() {
     // 创建两个新线程执行任务
     let thread_one = thread::spawn(|| download("https://course.rs"));
@@ -93,7 +92,7 @@ fn get_two_sites() {
 
 如果是在一个小项目中简单的去下载文件，这么写没有任何问题，但是一旦下载文件的并发请求多起来，那一个下载任务占用一个线程的模式就太重了，会很容易成为程序的瓶颈。好在，我们可以使用`async`的方式来解决：
 
-```rust
+```rust,ignore,mdbook-runnable
 async fn get_two_sites_async() {
     // 创建两个不同的`future`，你可以把`future`理解为未来某个时刻会被执行的计划任务
     // 当两个`future`被同时执行后，它们将并发的去下载目标页面
@@ -176,7 +175,7 @@ futures = "0.3"
 
 首先，使用 `async fn` 语法来创建一个异步函数:
 
-```rust
+```rust,ignore,mdbook-runnable
 async fn do_something() {
     println!("go go go !");
 }
@@ -184,7 +183,7 @@ async fn do_something() {
 
 需要注意，**异步函数的返回值是一个 `Future`**，若直接调用该函数，不会输出任何结果，因为 `Future` 还未被执行：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
       do_something();
 }
@@ -192,7 +191,7 @@ fn main() {
 
 运行后，`go go go`并没有打印，同时编译器给予一个提示：`warning: unused implementer of Future that must be used`，告诉我们 `Future` 未被使用，那么到底该如何使用？答案是使用一个执行器( `executor` ):
 
-```rust
+```rust,ignore,mdbook-runnable
 // `block_on`会阻塞当前线程直到指定的`Future`执行完成，这种阻塞当前线程以等待任务完成的方式较为简单、粗暴，
 // 好在其它运行时的执行器(executor)会提供更加复杂的行为，例如将多个`future`调度到同一个线程上执行。
 use futures::executor::block_on;
@@ -211,7 +210,7 @@ fn main() {
 
 在上述代码的`main`函数中，我们使用`block_on`这个执行器等待`Future`的完成，让代码看上去非常像是同步代码，但是如果你要在一个`async fn`函数中去调用另一个`async fn`并等待其完成后再执行后续的代码，该如何做？例如:
 
-```rust
+```rust,ignore,mdbook-runnable
 use futures::executor::block_on;
 
 async fn hello_world() {
@@ -241,11 +240,11 @@ warning: unused implementer of `futures::Future` that must be used
 hello, world!
 ```
 
-不出所料，`main`函数中的`future`我们通过`block_on`函数进行了运行，但是这里的`hello_cat`返回的`Future`却没有任何人去执行它，不过好在编译器友善的给出了提示：```futures do nothing unless you `.await` or poll them```，两种解决方法：使用`.await`语法或者对`Future`进行轮询(`poll`)。
+不出所料，`main`函数中的`future`我们通过`block_on`函数进行了运行，但是这里的`hello_cat`返回的`Future`却没有任何人去执行它，不过好在编译器友善的给出了提示：`` futures do nothing unless you `.await` or poll them ``，两种解决方法：使用`.await`语法或者对`Future`进行轮询(`poll`)。
 
 后者较为复杂，暂且不表，先来使用`.await`试试:
 
-```rust
+```rust,ignore,mdbook-runnable
 use futures::executor::block_on;
 
 async fn hello_world() {
@@ -277,7 +276,7 @@ hello, world!
 
 考虑一个载歌载舞的例子，如果不用`.await`，我们可能会有如下实现：
 
-```rust
+```rust,ignore,mdbook-runnable
 use futures::executor::block_on;
 
 struct Song {
@@ -312,7 +311,7 @@ fn main() {
 
 当然，以上代码运行结果无疑是正确的，但。。。它的性能何在？需要通过连续三次阻塞去等待三个任务的完成，一次只能做一件事，实际上我们完全可以载歌载舞啊:
 
-```rust
+```rust,ignore,mdbook-runnable
 use futures::executor::block_on;
 
 struct Song {

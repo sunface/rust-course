@@ -8,7 +8,7 @@
 
 下面的代码中，使用 sleep 的方式让每次请求持续 5 秒，模拟真实的慢请求:
 
-```rust
+```rust,ignore,mdbook-runnable
 // in main.rs
 use std::{
     fs,
@@ -37,7 +37,7 @@ fn handle_connection(mut stream: TcpStream) {
 
 由于增加了新的请求路径 `/sleep`，之前的 `if else` 被修改为 `match`，需要注意的是，由于 `match` 不会像方法那样自动做引用或者解引用，因此我们需要显式调用: `match &request_line[..]` ，来获取所需的 `&str` 类型。
 
-可以看出，当用户访问 `/sleep` 时，请求会持续 5 秒后才返回，下面来试试，启动服务器后，打开你的浏览器，这次要分别打开两个页面(tab页): `http://127.0.0.1:7878/` 和 `http://127.0.0.1:7878/sleep`。
+可以看出，当用户访问 `/sleep` 时，请求会持续 5 秒后才返回，下面来试试，启动服务器后，打开你的浏览器，这次要分别打开两个页面(tab 页): `http://127.0.0.1:7878/` 和 `http://127.0.0.1:7878/sleep`。
 
 此时，如果我们连续访问 `/` 路径，那效果跟之前一样：立刻看到请求的页面。但假如先访问 `/sleep` ，接着在另一个页面访问 `/`，就会看到 `/` 的页面直到 5 秒后才会刷出来，验证了请求排队这个糟糕的事实。
 
@@ -49,7 +49,7 @@ fn handle_connection(mut stream: TcpStream) {
 
 假设线程池中包含 N 个线程，那么可以推断出，服务器将拥有并发处理 N 个请求连接的能力，从而增加服务器的吞吐量。
 
-同时，我们将限制线程池中的线程数量，以保护服务器免受拒绝服务攻击（DoS）的影响：如果针对每个请求创建一个新线程，那么一个人向我们的服务器发出1000万个请求，会直接耗尽资源，导致后续用户的请求无法被处理，这也是拒绝服务名称的来源。
+同时，我们将限制线程池中的线程数量，以保护服务器免受拒绝服务攻击（DoS）的影响：如果针对每个请求创建一个新线程，那么一个人向我们的服务器发出 1000 万个请求，会直接耗尽资源，导致后续用户的请求无法被处理，这也是拒绝服务名称的来源。
 
 因此，还需对线程池进行一定的架构设计，首先是设定最大线程数的上限，其次维护一个请求队列。池中的线程去队列中依次弹出请求并处理。这样就可以同时并发处理 N 个请求，其中 N 是线程数。
 
@@ -61,7 +61,7 @@ fn handle_connection(mut stream: TcpStream) {
 
 这显然不是我们的最终方案，原因在于它会生成无上限的线程数，最终导致资源耗尽。但它确实是一个好的起点:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
 
@@ -81,7 +81,7 @@ fn main() {
 
 原则上，我们希望在上面代码的基础上，尽量少的去修改，下面是一个假想的线程池 API 实现:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
     let pool = ThreadPool::new(4);
@@ -123,13 +123,13 @@ error: could not compile `hello` due to previous error
 
 创建 `src/lib.rs` 文件并写入如下代码:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct ThreadPool;
 ```
 
 接着在 `main.rs` 中引入:
 
-```rust
+```rust,ignore,mdbook-runnable
 // main.rs
 use hello::ThreadPool;
 ```
@@ -151,7 +151,7 @@ error: could not compile `hello` due to previous error
 
 好，继续实现 `new` 函数 :
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct ThreadPool;
 
 impl ThreadPool {
@@ -180,7 +180,7 @@ error: could not compile `hello` due to previous error
 
 其实这里有一个小难点：`execute` 的参数是一个闭包，回忆下之前学过的内容，闭包作为参数时可以由三个特征进行约束: `Fn`、`FnMut` 和 `FnOnce`，选哪个就成为一个问题。由于 `execute` 在实现上类似 `thread::spawn`，我们可以参考下后者的签名如何声明。
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn spawn<F, T>(f: F) -> JoinHandle<T>
     where
         F: FnOnce() -> T,
@@ -192,7 +192,7 @@ pub fn spawn<F, T>(f: F) -> JoinHandle<T>
 
 `F` 还有一个特征约束 `Send` ，也可以照抄过来，毕竟闭包需要从一个线程传递到另一个线程，至于生命周期约束 `'static`，是因为我们并不知道线程需要多久时间来执行该任务。
 
-```rust
+```rust,ignore,mdbook-runnable
 impl ThreadPool {
     // --snip--
     pub fn execute<F>(&self, f: F)
@@ -221,7 +221,7 @@ $ cargo check
 
 在这个项目中，我们并不需要在初始化线程池的同时创建相应的线程，因此 `new` 是更适合的选择:
 
-```rust
+```rust,ignore,mdbook-runnable
 impl ThreadPool {
     /// Create a new ThreadPool.
     ///
@@ -247,11 +247,11 @@ impl ThreadPool {
 
 ### 存储线程
 
-创建 `ThreadPool` 后，下一步就是存储具体的线程，既然要存放线程，一个绕不过去的问题就是：用什么类型来存放，例如假如使用 `Vec<T>`  来存储，那这个 `T` 应该是什么？
+创建 `ThreadPool` 后，下一步就是存储具体的线程，既然要存放线程，一个绕不过去的问题就是：用什么类型来存放，例如假如使用 `Vec<T>` 来存储，那这个 `T` 应该是什么？
 
 估计还得探索下 `thread::spawn` 的签名，毕竟它生成并返回一个线程:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn spawn<F, T>(f: F) -> JoinHandle<T>
     where
         F: FnOnce() -> T,
@@ -261,7 +261,7 @@ pub fn spawn<F, T>(f: F) -> JoinHandle<T>
 
 看起来 `JoinHandle<T>` 是我们需要的，这里的 `T` 是传入的闭包任务所返回的，我们的任务无需任何返回，因此 `T` 直接使用 `()` 即可。
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::thread;
 
 pub struct ThreadPool {
@@ -297,7 +297,7 @@ impl ThreadPool {
 
 引入 `Worker` 后，就无需再存储 `JoinHandle<()>` 实例，直接存储 `Worker` 实例：该实例内部会存储 `JoinHandle<()>`。下面是新的线程池创建流程:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::thread;
 
 pub struct ThreadPool {
@@ -345,7 +345,7 @@ impl Worker {
 
 首先 `Worker` 结构体需要从线程池 `ThreadPool` 的队列中获取待执行的代码，对于这类场景，消息传递非常适合：我们将使用消息通道( channel )作为任务队列。
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::{sync::mpsc, thread};
 
 pub struct ThreadPool {
@@ -376,7 +376,7 @@ impl ThreadPool {
 
 阅读过之前内容的同学应该知道，消息通道有发送端和接收端，其中线程池 `ThreadPool` 持有发送端，通过 `execute` 方法来发送任务。那么问题来了，谁持有接收端呢？答案是 `Worker`，它的内部线程将接收任务，然后进行处理。
 
-```rust
+```rust,ignore,mdbook-runnable
 impl ThreadPool {
     // --snip--
     pub fn new(size: usize) -> ThreadPool {
@@ -408,7 +408,7 @@ impl Worker {
 }
 ```
 
-看起来很美好，但是很不幸，它会报错: 
+看起来很美好，但是很不幸，它会报错:
 
 ```shell
 $ cargo check
@@ -434,7 +434,7 @@ error: could not compile `hello` due to previous error
 
 总之，`Arc` 允许多个 `Worker` 同时持有 `receiver`，而 `Mutex` 可以确保一次只有一个 `Worker` 能从 `receiver` 接收消息。
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::{
     sync::{mpsc, Arc, Mutex},
     thread,
@@ -473,12 +473,11 @@ impl Worker {
 
 修改后，每一个 Worker 都可以安全的持有 `receiver`，同时不必担心一个任务会被重复执行多次，完美！
 
-
 ### 实现 execute 方法
 
-首先，需要为一个很长的类型创建一个别名, 有多长呢？ 
+首先，需要为一个很长的类型创建一个别名, 有多长呢？
 
-```rust
+```rust,ignore,mdbook-runnable
 // --snip--
 
 type Job = Box<dyn FnOnce() + Send + 'static>;
@@ -503,7 +502,7 @@ impl ThreadPool {
 
 但是还没完，接收的代码也要完善下:
 
-```rust
+```rust,ignore,mdbook-runnable
 // --snip--
 
 impl Worker {
@@ -569,15 +568,13 @@ Worker 2 got a job; executing.
 
 终于，程序如愿运行起来，我们的线程池可以并发处理任务了！从打印的数字可以看到，只有 4 个线程去执行任务，符合我们对线程池的要求，这样再也不用担心系统的线程资源会被消耗殆尽了！
 
-
 > 注意： 处于缓存的考虑，有些浏览器会对多次同样的请求进行顺序的执行，因此你可能还是会遇到访问 `/sleep` 后，就无法访问另一个 `/sleep` 的问题 :(
-
 
 ## while let 的巨大陷阱
 
 还有一个问题，为啥之前我们不用 `while let` 来循环？例如：
 
-```rust
+```rust,ignore,mdbook-runnable
 // --snip--
 
 impl Worker {
@@ -596,15 +593,3 @@ impl Worker {
 ```
 
 这段代码编译起来没问题，但是并不会产生我们预期的结果：后续请求依然需要等待慢请求的处理完成后，才能被处理。奇怪吧，仅仅是从 `let` 改成 `while let` 就会变成这样？大家可以思考下为什么会这样，具体答案会在下一章节末尾给出，这里先出给一个小提示：`Mutex` 获取的锁在作用域结束后才会被释放。
-
-
-
-
-
-
-
-
-
-
-
-

@@ -6,7 +6,7 @@
 
 有两种方式可以使用 `async`： `async fn` 用于声明函数，`async { ... }` 用于声明语句块，它们会返回一个实现 `Future` 特征的值:
 
-```rust
+```rust,ignore,mdbook-runnable
 // `foo()`返回一个`Future<Output = u8>`,
 // 当调用`foo().await`时，该`Future`将被运行，当调用结束后我们将获取到一个`u8`值
 async fn foo() -> u8 { 5 }
@@ -28,7 +28,7 @@ fn bar() -> impl Future<Output = u8> {
 
 `async fn` 函数如果拥有引用类型的参数，那它返回的 `Future` 的生命周期就会被这些参数的生命周期所限制:
 
-```rust
+```rust,ignore,mdbook-runnable
 async fn foo(x: &u8) -> u8 { *x }
 
 // 上面的函数跟下面的函数是等价的:
@@ -41,7 +41,7 @@ fn foo_expanded<'a>(x: &'a u8) -> impl Future<Output = u8> + 'a {
 
 在一般情况下，在函数调用后就立即 `.await` 不会存在任何问题，例如`foo(&x).await`。但是，若 `Future` 被先存起来或发送到另一个任务或者线程，就可能存在问题了:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::future::Future;
 fn bad() -> impl Future<Output = u8> {
     let x = 5;
@@ -68,7 +68,7 @@ error[E0597]: `x` does not live long enough
 
 其中一个常用的解决方法就是将具有引用参数的 `async fn` 函数转变成一个具有 `'static` 生命周期的 `Future` 。 以上解决方法可以通过将参数和对 `async fn` 的调用放在同一个 `async` 语句块来实现:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::future::Future;
 
 async fn borrow_x(x: &u8) -> u8 { *x }
@@ -87,7 +87,7 @@ fn good() -> impl Future<Output = u8> {
 
 `async` 允许我们使用 `move` 关键字来将环境中变量的所有权转移到语句块内，就像闭包那样，好处是你不再发愁该如何解决借用生命周期的问题，坏处就是无法跟其它代码实现对变量的共享:
 
-```rust
+```rust,ignore,mdbook-runnable
 // 多个不同的 `async` 语句块可以访问同一个本地变量，只要它们在该变量的作用域内执行
 async fn blocks() {
     let my_string = "foo".to_string();
@@ -135,7 +135,7 @@ fn move_block() -> impl Future<Output = ()> {
 
 `Stream` 特征类似于 `Future` 特征，但是前者在完成前可以生成多个值，这种行为跟标准库中的 `Iterator` 特征倒是颇为相似。
 
-```rust
+```rust,ignore,mdbook-runnable
 trait Stream {
     // Stream生成的值的类型
     type Item;
@@ -149,7 +149,7 @@ trait Stream {
 
 关于 `Stream` 的一个常见例子是消息通道（ `futures` 包中的）的消费者 `Receiver`。每次有消息从 `Send` 端发送后，它都可以接收到一个 `Some(val)` 值， 一旦 `Send` 端关闭( `drop` )，且消息通道中没有消息后，它会接收到一个 `None` 值。
 
-```rust
+```rust,ignore,mdbook-runnable
 async fn send_recv() {
     const BUFFER_SIZE: usize = 10;
     let (mut tx, mut rx) = mpsc::channel::<i32>(BUFFER_SIZE);
@@ -172,7 +172,7 @@ async fn send_recv() {
 
 但是跟迭代器又有所不同，`for` 循环无法在这里使用，但是命令式风格的循环`while let`是可以用的，同时还可以使用`next` 和 `try_next` 方法:
 
-```rust
+```rust,ignore,mdbook-runnable
 async fn sum_with_next(mut stream: Pin<&mut dyn Stream<Item = i32>>) -> i32 {
     use futures::stream::StreamExt; // 引入 next
     let mut sum = 0;
@@ -196,7 +196,7 @@ async fn sum_with_try_next(
 
 上面代码是一次处理一个值的模式，但是需要注意的是：**如果你选择一次处理一个值的模式，可能会造成无法并发，这就失去了异步编程的意义**。 因此，如果可以的话我们还是要选择从一个 `Stream` 并发处理多个值的方式，通过 `for_each_concurrent` 或 `try_for_each_concurrent` 方法来实现:
 
-```rust
+```rust,ignore,mdbook-runnable
 async fn jump_around(
     mut stream: Pin<&mut dyn Stream<Item = Result<u8, io::Error>>>,
 ) -> Result<(), io::Error> {

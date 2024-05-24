@@ -1,8 +1,11 @@
 # 数据布局和基本操作
+
 对于新的链表来说，最重要的就是我们可以自由地操控列表的尾部( tail )。
 
 ## 数据布局
+
 例如以下是一个不太常见的持久化列表布局:
+
 ```shell
 list1 = A -> B -> C -> D
 list2 = tail(list1) = B -> C -> D
@@ -10,6 +13,7 @@ list3 = push(list2, X) = X -> B -> C -> D
 ```
 
 如果上面的不够清晰，我们还可以从内存角度来看：
+
 ```shell
 list1 -> A ---+
               |
@@ -29,7 +33,8 @@ list3 -> X ---+
 不过使用 Rc 意味着我们的数据将无法被改变，因为它不具备内部可变性，关于 Rc/Arc 的详细介绍请看[这里](https://course.rs/advance/smart-pointer/rc-arc.html)。
 
 下面，简单的将我们的数据结构通过 `Rc` 来实现：
-```rust
+
+```rust,ignore,mdbook-runnable
 // in third.rs
 use std::rc::Rc;
 
@@ -48,8 +53,10 @@ struct Node<T> {
 需要注意的是, `Rc` 在 Rust 中并不是一等公民，它没有被包含在 `std::prelude` 中，因此我们必须手动引入 `use std::rc::Rc` (混得好失败 - , -)
 
 ## 基本操作
+
 首先，对于 List 的构造器，可以直接复制粘贴:
-```rust
+
+```rust,ignore,mdbook-runnable
 impl<T> List<T> {
     pub fn new() -> Self {
         List { head: None }
@@ -59,7 +66,7 @@ impl<T> List<T> {
 
 而之前的 `push` 和 `pop` 已无任何意义，因为新链表是不可变的，但我们可以使用功能相似的 `prepend` 和 `tail` 来返回新的链表。
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn prepend(&self, elem: T) -> List<T> {
     List { head: Some(Rc::new(Node {
         elem: elem,
@@ -73,6 +80,7 @@ pub fn prepend(&self, elem: T) -> List<T> {
 还有一点值得注意， `head` 是 `Option<Rc<Node<T>>>` 类型，那么为何不先匹配出内部的 `Rc<Node<T>>`，然后再 clone 呢？原因是 `Option` 也提供了相应的 API，它的功能跟我们的需求是一致的。
 
 运行下试试：
+
 ```shell
 $ cargo build
 
@@ -94,7 +102,8 @@ warning: field is never used: `next`
 胆战心惊的编译通过(胆战心惊? 日常基本操作，请坐下!)。
 
 继续来实现 `tail`，该方法会将现有链表的首个元素移除，并返回剩余的链表:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn tail(&self) -> List<T> {
     List { head: self.head.as_ref().map(|node| node.next.clone()) }
 }
@@ -114,21 +123,24 @@ error[E0308]: mismatched types
 ```
 
 看起来这里的 `map` 多套了一层 `Option`，可以用 `and_then` 替代：
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn tail(&self) -> List<T> {
     List { head: self.head.as_ref().and_then(|node| node.next.clone()) }
 }
 ```
 
 顺利通过编译，很棒！最后就是实现 `head` 方法，它返回首个元素的引用，跟之前链表的 `peek` 方法一样:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn head(&self) -> Option<&T> {
     self.head.as_ref().map(|node| &node.elem )
 }
 ```
 
 好了，至此，新链表的基本操作都已经实现，最后让我们写几个测试用例来看看它们是骡子还是马：
-```rust
+
+```rust,ignore,mdbook-runnable
 #[cfg(test)]
 mod test {
     use super::List;
@@ -175,7 +187,7 @@ test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured
 
 哦对了... 我们好像忘了一个重要特性：对链表的迭代。
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct Iter<'a, T> {
     next: Option<&'a Node<T>>,
 }
@@ -198,7 +210,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
 }
 ```
 
-```rust
+```rust,ignore,mdbook-runnable
 #[test]
 fn iter() {
     let list = List::new().prepend(1).prepend(2).prepend(3);

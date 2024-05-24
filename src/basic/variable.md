@@ -32,7 +32,7 @@ Rust 的变量在默认情况下是**不可变的**。前文提到，这是 Rust
 
 然后在新建的 _variables_ 目录下，编辑 _src/main.rs_ ，改为下面代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let x = 5;
     println!("The value of x is: {}", x);
@@ -73,7 +73,7 @@ error: aborting due to previous error
 
 为了让变量声明为可变,将 _src/main.rs_ 改为以下内容：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut x = 5;
     println!("The value of x is: {}", x);
@@ -101,7 +101,7 @@ The value of x is: 6
 
 如果你创建了一个变量却不在任何地方使用它，Rust 通常会给你一个警告，因为这可能会是个 BUG。但是有时创建一个不会被使用的变量是有用的，比如你正在设计原型或刚刚开始一个项目。这时**你希望告诉 Rust 不要警告未使用的变量，为此可以用下划线作为变量名的开头**：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let _x = 5;
     let y = 10;
@@ -130,7 +130,7 @@ warning: unused variable: `y`
 
 `let` 表达式不仅仅用于变量的绑定，还能进行复杂变量的解构：从一个相对复杂的变量中，匹配出该变量的一部分内容：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let (a, mut b): (bool,bool) = (true, false);
     // a = true,不可变; b = false，可变
@@ -145,7 +145,7 @@ fn main() {
 
 在 [Rust 1.59](https://course.rs/appendix/rust-versions/1.59.html) 版本后，我们可以在赋值语句的左式中使用元组、切片和结构体模式了。
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Struct {
     e: i32
 }
@@ -179,7 +179,7 @@ fn main() {
 
 下面是一个常量声明的例子，其常量名为 `MAX_POINTS`，值设置为 `100,000`。（Rust 常量的命名约定是全部字母都使用大写，并使用下划线分隔单词，另外对数字字面量可插入下划线以提高可读性）：
 
-```rust
+```rust,ignore,mdbook-runnable
 const MAX_POINTS: u32 = 100_000;
 ```
 
@@ -191,7 +191,7 @@ const MAX_POINTS: u32 = 100_000;
 
 Rust 允许声明相同的变量名，在后面声明的变量会遮蔽掉前面声明的，如下所示：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let x = 5;
     // 在main函数的作用域内对之前的x进行遮蔽
@@ -224,7 +224,7 @@ The value of x is: 6
 
 例如，假设有一个程序要统计一个空格字符串的空格数量：
 
-```rust
+```rust,ignore,mdbook-runnable
 // 字符串类型
 let spaces = "   ";
 // usize数值类型
@@ -233,7 +233,7 @@ let spaces = spaces.len();
 
 这种结构是允许的，因为第一个 `spaces` 变量是一个字符串类型，第二个 `spaces` 变量是一个全新的变量且和第一个具有相同的变量名，且是一个数值类型。所以变量遮蔽可以帮我们节省些脑细胞，不用去想如 `spaces_str` 和 `spaces_num` 此类的变量名；相反我们可以重复使用更简单的 `spaces` 变量名。如果你不用 `let` :
 
-```rust,
+```rust,ignore,mdbook-runnable,
 let mut spaces = "   ";
 spaces = spaces.len();
 ```
@@ -256,8 +256,6 @@ error: aborting due to previous error
 
 万事开头难，到目前为止，都进展很顺利，那下面开始，咱们正式进入 Rust 的类型世界，看看有哪些挑战在前面等着大家。
 
-
 ## 课后练习
 
 > [Rust By Practice](https://practice-zh.course.rs/variables.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/variables.md)。
-

@@ -2,7 +2,7 @@
 
 从面向对象语言过来的同学对于方法肯定不陌生，`class` 里面就充斥着方法的概念。在 Rust 中，方法的概念也大差不差，往往和对象成对出现：
 
-```rust
+```rust,ignore,mdbook-runnable
 object.method()
 ```
 
@@ -12,7 +12,7 @@ object.method()
 
 Rust 使用 `impl` 来定义方法，例如以下代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Circle {
     x: f64,
     y: f64,
@@ -45,7 +45,7 @@ impl Circle {
 
 再来看一个例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct Rectangle {
     width: u32,
@@ -95,7 +95,7 @@ fn main() {
 
 在 Rust 中，允许方法名跟结构体的字段名相同：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Rectangle {
     fn width(&self) -> bool {
         self.width > 0
@@ -118,7 +118,7 @@ fn main() {
 
 一般来说，方法跟字段同名，往往适用于实现 `getter` 访问器，例如:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct Rectangle {
     width: u32,
     height: u32,
@@ -150,7 +150,7 @@ fn main() {
 >
 > 他是这样工作的：当使用 `object.something()` 调用方法时，Rust 会自动为 `object` 添加 `&`、`&mut` 或 `*` 以便使 `object` 与方法签名匹配。也就是说，这些代码是等价的：
 >
-> ```rust
+> ```rust,ignore,mdbook-runnable
 > # #[derive(Debug,Copy,Clone)]
 > # struct Point {
 > #     x: f64,
@@ -177,7 +177,7 @@ fn main() {
 
 方法和函数一样，可以使用多个参数：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Rectangle {
     fn area(&self) -> u32 {
         self.width * self.height
@@ -206,7 +206,7 @@ fn main() {
 
 在之前的代码中，我们已经多次使用过关联函数，例如 `String::from`，用于创建一个动态字符串。
 
-```rust
+```rust,ignore,mdbook-runnable
 # #[derive(Debug)]
 # struct Rectangle {
 #     width: u32,
@@ -228,7 +228,7 @@ impl Rectangle {
 
 Rust 允许我们为一个结构体定义多个 `impl` 块，目的是提供更多的灵活性和代码组织性，例如当方法多了后，可以把相关的方法组织在同一个 `impl` 块中，那么就可以形成多个 `impl` 块，各自完成一块儿目标：
 
-```rust
+```rust,ignore,mdbook-runnable
 # #[derive(Debug)]
 # struct Rectangle {
 #     width: u32,
@@ -254,7 +254,7 @@ impl Rectangle {
 
 枚举类型之所以强大，不仅仅在于它好用、可以[同一化类型](https://course.rs/basic/compound-type/enum.html#同一化类型)，还在于，我们可以像结构体一样，为枚举实现方法：
 
-```rust
+```rust,ignore,mdbook-runnable
 #![allow(unused)]
 enum Message {
     Quit,

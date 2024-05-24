@@ -16,7 +16,7 @@
 
 ## 一个不那么简单的 Drop 例子
 
-```rust
+```rust,ignore,mdbook-runnable
 struct HasDrop1;
 struct HasDrop2;
 impl Drop for HasDrop1 {
@@ -85,7 +85,7 @@ Dropping HasDrop2!
 
 实际上，就算你不为 `_x` 结构体实现 `Drop` 特征，它内部的两个字段依然会调用 `drop`，移除以下代码，并观察输出：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Drop for HasTwoDrops {
     fn drop(&mut self) {
         println!("Dropping HasTwoDrops!");
@@ -105,7 +105,7 @@ Dropping HasDrop2!
 当使用智能指针来管理锁的时候，你可能希望提前释放这个锁，然后让其它代码能及时获得锁，此时就需要提前去手动 `drop`。
 但是在之前我们提到一个悬念，`Drop::drop` 只是借用了目标值的可变引用，所以，就算你提前调用了 `drop`，后面的代码依然可以使用目标值，但是这就会访问一个并不存在的值，非常不安全，好在 Rust 会阻止你：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct Foo;
 
@@ -139,13 +139,13 @@ error[E0040]: explicit use of destructor method
 
 针对编译器提示的 `drop` 函数，我们可以大胆推测下：它能够拿走目标值的所有权。现在来看看这个猜测正确与否，以下是 `std::mem::drop` 函数的签名：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn drop<T>(_x: T)
 ```
 
 如上所示，`drop` 函数确实拿走了目标值的所有权，来验证下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let foo = Foo;
     drop(foo);
@@ -173,7 +173,7 @@ Bingo，完美拿走了所有权，而且这种实现保证了后续的使用必
 
 我们无法为一个类型同时实现 `Copy` 和 `Drop` 特征。因为实现了 `Copy` 的特征会被编译器隐式的复制，因此非常难以预测析构函数执行的时间和频率。因此这些实现了 `Copy` 的类型无法拥有析构函数。
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Copy)]
 struct Foo;
 

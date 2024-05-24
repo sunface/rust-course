@@ -48,7 +48,7 @@ time = "0.1.12"
 
 `~` 指定了最小化版本 :
 
-```rust
+```rust,ignore,mdbook-runnable
 ~1.2.3  := >=1.2.3, <1.3.0
 ~1.2    := >=1.2.0, <1.3.0
 ~1      := >=1.0.0, <2.0.0
@@ -58,7 +58,7 @@ time = "0.1.12"
 
 这种方式允许将 `*` 所在的位置替换成任何数字:
 
-```rust
+```rust,ignore,mdbook-runnable
 *     := >=0.0.0
 1.*   := >=1.0.0, <2.0.0
 1.2.* := >=1.2.0, <1.3.0
@@ -70,7 +70,7 @@ time = "0.1.12"
 
 可以使用比较符的方式来指定一个版本号范围或一个精确的版本号:
 
-```rust
+```rust,ignore,mdbook-runnable
 >= 1.2.0
 > 1
 < 2
@@ -79,7 +79,7 @@ time = "0.1.12"
 
 同时还能使用比较符进行组合，并通过逗号分隔：
 
-```rust
+```rust,ignore,mdbook-runnable
 >= 1.2, < 1.5
 ```
 
@@ -335,7 +335,7 @@ baz = { version = "0.1", registry = "custom", package = "foo" }
 
 此时，你的代码中可以使用三个包：
 
-```rust
+```rust,ignore,mdbook-runnable
 extern crate foo; // 来自 crates.io
 extern crate bar; // 来自 git repository
 extern crate baz; // 来自 registry `custom`
@@ -352,4 +352,3 @@ bar = { version = "0.1", package = 'foo', optional = true }
 [features]
 log-debug = ['bar/log-debug'] # 若使用 'foo/log-debug' 会导致报错
 ```
-

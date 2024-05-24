@@ -2,7 +2,7 @@
 
 好吧，我推迟了一段时间测试，因为我们都知道，我们现在是 Rust 的主人，不会再犯错了！另外，这是对一个旧 crate 的重写，所以我已经有了所有的测试。你已经看过很多测试了。它们就在这里：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[cfg(test)]
 mod test {
     use super::LinkedList;

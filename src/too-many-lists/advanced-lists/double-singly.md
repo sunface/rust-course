@@ -1,16 +1,18 @@
 # 双单向链表
+
 在之前的双向链表章节中，我们一度非常纠结，原因来自同样纠结成一团的所有权依赖。还有一个重要原因就是：先入为主的链表定义。
 
 谁说所有的链接一定要一个方向呢？这里一起来尝试下新的东东：链表的其中一半朝左，另一半朝右。
 
 新规矩( 老规矩是创建文件 )，创建一个新的模块:
-```rust
+
+```rust,ignore,mdbook-runnable
 // lib.rs
 // ...
 pub mod silly1;     // NEW!
 ```
 
-```rust
+```rust,ignore,mdbook-runnable
 // silly1.rs
 use crate::second::List as Stack;
 
@@ -22,7 +24,7 @@ struct List<T> {
 
 这里将之前的 `List` 引入进来，并重命名为 `Stack`，接着，创建一个新的链表。现在既可以向左增长又可以向右增长。
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct Stack<T> {
     head: Link<T>,
 }
@@ -80,7 +82,8 @@ impl<T> Drop for Stack<T> {
 ```
 
 稍微修改下 `push` 和 `pop`：
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn push(&mut self, elem: T) {
     let new_node = Box::new(Node {
         elem: elem,
@@ -110,7 +113,8 @@ fn pop_node(&mut self) -> Option<Box<Node<T>>> {
 ```
 
 现在可以开始构造新的链表:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub struct List<T> {
     left: Stack<T>,
     right: Stack<T>,
@@ -124,7 +128,8 @@ impl<T> List<T> {
 ```
 
 当然，还有一大堆左左右右类型的操作:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn push_left(&mut self, elem: T) { self.left.push(elem) }
 pub fn push_right(&mut self, elem: T) { self.right.push(elem) }
 pub fn pop_left(&mut self) -> Option<T> { self.left.pop() }
@@ -136,7 +141,8 @@ pub fn peek_right_mut(&mut self) -> Option<&mut T> { self.right.peek_mut() }
 ```
 
 其中最有趣的是：还可以来回闲逛了。
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn go_left(&mut self) -> bool {
     self.left.pop_node().map(|node| {
         self.right.push_node(node);
@@ -151,7 +157,8 @@ pub fn go_right(&mut self) -> bool {
 ```
 
 这里返回 `bool` 是为了告诉调用者我们是否成功的移动。最后，再来测试下：
-```rust
+
+```rust,ignore,mdbook-runnable
 #[cfg(test)]
 mod test {
     use super::List;
@@ -217,4 +224,3 @@ test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured
 上上下下，左左右右，BABA，哦耶，这个链表无敌了！
 
 以上是一个非常典型的<ruby>手指型数据结构<rt>finger data structure</rt></ruby>，在其中维护一个手指，然后操作所需的时间与手指的距离成正比。
-

@@ -14,9 +14,9 @@
 
 既然要添加测试，那之前的 `println!` 语句将没有大的用处，毕竟 `println!` 存在的目的就是为了让我们看到结果是否正确，而现在测试用例将取而代之。
 
-接下来，在 `lib.rs` 文件中，添加 `tests` 模块和 `test` 函数: 
+接下来，在 `lib.rs` 文件中，添加 `tests` 模块和 `test` 函数:
 
-```rust
+```rust,ignore,mdbook-runnable
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -38,7 +38,7 @@ Pick three.";
 
 但目前为止，还无法运行该测试用例，更何况还想幸灾乐祸的看其失败，原因是 `search` 函数还没有实现！毕竟是测试驱动、测试先行。
 
-```rust
+```rust,ignore,mdbook-runnable
 // in lib.rs
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     vec![]
@@ -92,7 +92,7 @@ error: test failed, to rerun pass `--lib`
 
 Rust 提供了一个很便利的 `lines` 方法将目标字符串进行按行分割:
 
-```rust
+```rust,ignore,mdbook-runnable
 // in lib.rs
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     for line in contents.lines() {
@@ -105,7 +105,7 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
 
 ### 在每一行中查询目标字符串
 
-```rust
+```rust,ignore,mdbook-runnable
 // in lib.rs
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     for line in contents.lines() {
@@ -120,12 +120,11 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
 
 接下来，只要返回合适的值，就可以完成 `search` 函数的编写。
 
-
 ### 存储匹配到的结果
 
 简单，创建一个 `Vec` 动态数组，然后将查询到的每一个 `line` 推进数组中即可：
 
-```rust
+```rust,ignore,mdbook-runnable
 // in lib.rs
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     let mut results = Vec::new();
@@ -170,7 +169,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 ### 在 run 函数中调用 search 函数
 
-```rust
+```rust,ignore,mdbook-runnable
 // in src/lib.rs
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.file_path)?;

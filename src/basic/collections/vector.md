@@ -14,13 +14,13 @@
 
 使用 `Vec::new` 创建动态数组是最 rusty 的方式，它调用了 `Vec` 中的 `new` 关联函数：
 
-```rust
+```rust,ignore,mdbook-runnable
 let v: Vec<i32> = Vec::new();
 ```
 
 这里，`v` 被显式地声明了类型 `Vec<i32>`，这是因为 Rust 编译器无法从 `Vec::new()` 中得到任何关于类型的暗示信息，因此也无法推导出 `v` 的具体类型，但是当你向里面增加一个元素后，一切又不同了：
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut v = Vec::new();
 v.push(1);
 ```
@@ -33,7 +33,7 @@ v.push(1);
 
 还可以使用宏 `vec!` 来创建数组，与 `Vec::new` 有所不同，前者能在创建同时给予初始化值：
 
-```rust
+```rust,ignore,mdbook-runnable
 let v = vec![1, 2, 3];
 ```
 
@@ -43,7 +43,7 @@ let v = vec![1, 2, 3];
 
 向数组尾部添加元素，可以使用 `push` 方法：
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut v = Vec::new();
 v.push(1);
 ```
@@ -54,7 +54,7 @@ v.push(1);
 
 跟结构体一样，`Vector` 类型在超出作用域范围后，会被自动删除：
 
-```rust
+```rust,ignore,mdbook-runnable
 {
     let v = vec![1, 2, 3];
 
@@ -71,7 +71,7 @@ v.push(1);
 - 通过下标索引访问。
 - 使用 `get` 方法。
 
-```rust
+```rust,ignore,mdbook-runnable
 let v = vec![1, 2, 3, 4, 5];
 
 let third: &i32 = &v[2];
@@ -87,12 +87,11 @@ match v.get(2) {
 
 > 细心的同学会注意到这里使用了两种格式化输出的方式，其中第一种我们在之前已经见过，而第二种是后续新版本中引入的写法，也是更推荐的用法，具体介绍请参见[格式化输出章节](https://course.rs/basic/formatted-output.html)。
 
-
 ### 下标索引与 `.get` 的区别
 
 这两种方式都能成功的读取到指定的数组元素，既然如此为什么会存在两种方法？何况 `.get` 还会增加使用复杂度，这就涉及到数组越界的问题了，让我们通过示例说明：
 
-```rust
+```rust,ignore,mdbook-runnable
 let v = vec![1, 2, 3, 4, 5];
 
 let does_not_exist = &v[100];
@@ -109,7 +108,7 @@ let does_not_exist = v.get(100);
 
 既然涉及到借用数组元素，那么很可能会遇到同时借用多个数组元素的情况，还记得在[所有权和借用](https://course.rs/basic/ownership/borrowing.html#借用规则总结)章节咱们讲过的借用规则嘛？如果记得，就来看看下面的代码 :)
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut v = vec![1, 2, 3, 4, 5];
 
 let first = &v[0];
@@ -154,7 +153,7 @@ error: could not compile `collections` due to previous error
 
 如果想要依次访问数组中的元素，可以使用迭代的方式去遍历数组，这种方式比用下标的方式去遍历数组更安全也更高效（每次下标访问都会触发数组边界检查）：
 
-```rust
+```rust,ignore,mdbook-runnable
 let v = vec![1, 2, 3];
 for i in &v {
     println!("{i}");
@@ -163,7 +162,7 @@ for i in &v {
 
 也可以在迭代过程中，修改 `Vector` 中的元素：
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut v = vec![1, 2, 3];
 for i in &mut v {
     *i += 10
@@ -174,7 +173,7 @@ for i in &mut v {
 
 在本节开头，有讲到数组的元素必须类型相同，但是也提到了解决方案：那就是通过使用枚举类型和特征对象来实现不同类型元素的存储。先来看看通过枚举如何实现：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 enum IpAddr {
     V4(String),
@@ -200,7 +199,7 @@ fn show_addr(ip: IpAddr) {
 
 再来看看特征对象的实现：
 
-```rust
+```rust,ignore,mdbook-runnable
 trait IpAddr {
     fn display(&self);
 }
@@ -234,11 +233,11 @@ fn main() {
 
 在实际使用场景中，**特征对象数组要比枚举数组常见很多**，主要原因在于[特征对象](https://course.rs/basic/trait/trait-object.html)非常灵活，而编译器对枚举的限制较多，且无法动态增加类型。
 
-
 ## Vector 常用方法
 
 初始化 vec 的更多方式：
-```rust
+
+```rust,ignore,mdbook-runnable
 fn main() {
     let v = vec![0; 3];   // 默认值为 0，初始长度为 3
     let v_from = Vec::from([0, 0, 0]);
@@ -249,7 +248,8 @@ fn main() {
 动态数组意味着我们增加元素时，如果**容量不足就会导致 vector 扩容**（目前的策略是重新申请一块 2 倍大小的内存，再将所有元素拷贝到新的内存位置，同时更新指针数据），显然，当频繁扩容或者当元素数量较多且需要扩容时，大量的内存拷贝会降低程序的性能。
 
 可以考虑在初始化时就指定一个实际的预估容量，尽量减少可能的内存拷贝：
-```rust
+
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut v = Vec::with_capacity(10);
     v.extend([1, 2, 3]);    // 附加数据到 v
@@ -262,12 +262,14 @@ fn main() {
     println!("Vector（shrink_to_fit） 长度是: {}, 容量是: {}", v.len(), v.capacity());
 }
 ```
+
 Vector 常见的一些方法示例：
-```rust
+
+```rust,ignore,mdbook-runnable
 let mut v =  vec![1, 2];
 assert!(!v.is_empty());         // 检查 v 是否为空
 
-v.insert(2, 3);                 // 在指定索引插入数据，索引值不能大于 v 的长度， v: [1, 2, 3] 
+v.insert(2, 3);                 // 在指定索引插入数据，索引值不能大于 v 的长度， v: [1, 2, 3]
 assert_eq!(v.remove(1), 2);     // 移除指定位置的元素并返回, v: [1, 3]
 assert_eq!(v.pop(), Some(3));   // 删除并返回 v 尾部的元素，v: [1]
 assert_eq!(v.pop(), Some(1));   // v: []
@@ -281,13 +283,14 @@ v.retain(|x| *x > 10);          // 保留满足条件的元素，即删除不满
 
 let mut v = vec![11, 22, 33, 44, 55];
 // 删除指定范围的元素，同时获取被删除元素的迭代器, v: [11, 55], m: [22, 33, 44]
-let mut m: Vec<_> = v.drain(1..=3).collect();    
+let mut m: Vec<_> = v.drain(1..=3).collect();
 
 let v2 = m.split_off(1);        // 指定索引处切分成两个 vec, m: [22], v2: [33, 44]
 ```
 
 当然也可以像[数组切片](/basic/compound-type/array.html#数组切片)的方式获取 vec 的部分元素：
-```rust
+
+```rust,ignore,mdbook-runnable
 fn main() {
     let v = vec![11, 22, 33, 44, 55];
     let slice = &v[1..=3];
@@ -309,10 +312,10 @@ fn main() {
 
 以下是对整数列进行排序的例子。
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
-    let mut vec = vec![1, 5, 10, 2, 15];    
-    vec.sort_unstable();    
+    let mut vec = vec![1, 5, 10, 2, 15];
+    vec.sort_unstable();
     assert_eq!(vec, vec![1, 2, 5, 10, 15]);
 }
 ```
@@ -321,10 +324,10 @@ fn main() {
 
 我们尝试使用上面的方法来对浮点数进行排序：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
-    let mut vec = vec![1.0, 5.6, 10.3, 2.0, 15f32];    
-    vec.sort_unstable();    
+    let mut vec = vec![1.0, 5.6, 10.3, 2.0, 15f32];
+    vec.sort_unstable();
     assert_eq!(vec, vec![1.0, 2.0, 5.6, 10.3, 15f32]);
 }
 ```
@@ -361,10 +364,10 @@ For more information about this error, try `rustc --explain E0277`.
 
 如此，如果我们确定在我们的浮点数数组当中，不包含 `NAN` 值，那么我们可以使用 `partial_cmp` 来作为大小判断的依据。
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
-    let mut vec = vec![1.0, 5.6, 10.3, 2.0, 15f32];    
-    vec.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());    
+    let mut vec = vec![1.0, 5.6, 10.3, 2.0, 15f32];
+    vec.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
     assert_eq!(vec, vec![1.0, 2.0, 5.6, 10.3, 15f32]);
 }
 ```
@@ -375,7 +378,7 @@ OK，现在可以正确执行了。
 
 有了上述浮点数排序的经验，我们推而广之，那么对结构体是否也可以使用这种自定义对比函数的方式来进行呢？马上来试一下：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct Person {
     name: String,
@@ -413,7 +416,7 @@ fn main() {
 
 是，但不完全是，实现 `Ord` 需要我们实现 `Ord`、`Eq`、`PartialEq`、`PartialOrd` 这些属性。好消息是，你可以 `derive` 这些属性：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug, Ord, Eq, PartialEq, PartialOrd)]
 struct Person {
     name: String,
@@ -448,7 +451,6 @@ fn main() {
 ```
 
 需要 `derive` `Ord` 相关特性，需要确保你的结构体中所有的属性均实现了 `Ord` 相关特性，否则会发生编译错误。`derive` 的默认实现会依据属性的顺序依次进行比较，如上述例子中，当 `Person` 的 `name` 值相同，则会使用 `age` 进行比较。
-
 
 ## 课后练习
 

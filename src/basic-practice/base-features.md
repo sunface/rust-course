@@ -21,7 +21,8 @@ cargo run -- searchstring example-filename.txt
 `--` 告诉 `cargo` 后面的参数是给我们的程序使用的，而不是给 `cargo` 自己使用，例如 `--` 前的 `run` 就是给它用的。
 
 接下来就是在程序中读取传入的参数，这个很简单，下面代码就可以:
-```rust
+
+```rust,ignore,mdbook-runnable
 // in main.rs
 use std::env;
 
@@ -30,24 +31,25 @@ fn main() {
     dbg!(args);
 }
 ```
+
 首先通过 `use` 引入标准库中的 `env` 包，然后 `env::args` 方法会读取并分析传入的命令行参数，最终通过 `collect` 方法输出一个集合类型 `Vector`。
 
 可能有同学疑惑，为啥不直接引入 `args` ，例如 `use std::env::args` ，这样就无需 `env::args` 来繁琐调用，直接`args.collect()` 即可。原因很简单，`args` 方法只会使用一次，啰嗦就啰嗦点吧，把相同的好名字让给 `let args..` 这位大哥不好吗？毕竟人家要出场多次的。
 
 > ### 不可信的输入
+>
 > 所有的用户输入都不可信！不可信！不可信！
 >
 > 重要的话说三遍，我们的命令行程序也是，用户会输入什么你根本就不知道，例如他输入了一个非 Unicode 字符，你能阻止吗？显然不能，但是这种输入会直接让我们的程序崩溃！
 >
 > 原因是当传入的命令行参数包含非 Unicode 字符时， `std::env::args` 会直接崩溃，如果有这种特殊需求，建议大家使用 `std::env::args_os`，该方法产生的数组将包含 `OsString` 类型，而不是之前的 `String` 类型，前者对于非 Unicode 字符会有更好的处理。
 >
-> 至于为啥我们不用，两个理由，你信哪个：1. 用户爱输入啥输入啥，反正崩溃了，他就知道自己错了 2. `args_os` 会引入额外的跨平台复杂性 
-
-
+> 至于为啥我们不用，两个理由，你信哪个：1. 用户爱输入啥输入啥，反正崩溃了，他就知道自己错了 2. `args_os` 会引入额外的跨平台复杂性
 
 `collect` 方法其实并不是`std::env`包提供的，而是迭代器自带的方法(`env::args()` 会返回一个迭代器)，它会将迭代器消费后转换成我们想要的集合类型，关于迭代器和 `collect` 的具体介绍，请参考[这里](https://course.rs/advance/functional-programing/iterator.html)。
 
 最后，代码中使用 `dbg!` 宏来输出读取到的数组内容，来看看长啥样：
+
 ```shell
 $ cargo run
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
@@ -77,7 +79,8 @@ $ cargo run -- needle haystack
 在编程中，给予清晰合理的变量名是一项基本功，咱总不能到处都是 `args[1]` 、`args[2]` 这样的糟糕代码吧。
 
 因此我们需要两个变量来存储文件路径和待搜索的字符串:
-```rust
+
+```rust,ignore,mdbook-runnable
 use std::env;
 
 fn main() {
@@ -92,6 +95,7 @@ fn main() {
 ```
 
 很简单的代码，来运行下:
+
 ```shell
 $ cargo run -- test sample.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
@@ -131,7 +135,8 @@ To an admiring bog!
 在项目根目录创建 `poem.txt` 文件，并写入如上的优美诗歌(可能翻译的很烂，别打我，哈哈，事实上大家写入英文内容就够了)。
 
 接下来修改 `main.rs` 来读取文件内容：
-```rust
+
+```rust,ignore,mdbook-runnable
 use std::env;
 use std::fs;
 
@@ -149,6 +154,7 @@ fn main() {
 首先，通过 `use std::fs` 引入文件操作包，然后通过 `fs::read_to_string` 读取指定的文件内容，最后返回的 `contents` 是 `std::io::Result<String>` 类型。
 
 运行下试试，这里无需输入第二个参数，因为我们还没有实现查询功能:
+
 ```shell
 $ cargo run -- the poem.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)

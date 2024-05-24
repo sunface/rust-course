@@ -1,7 +1,8 @@
 # Peek
+
 `push` 和 `pop` 的防不胜防的编译报错着实让人出了些冷汗，下面来看看轻松的，至少在之前的链表中是很轻松的 :)
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn peek_front(&self) -> Option<&T> {
     self.head.as_ref().map(|node| {
         &node.elem
@@ -10,7 +11,8 @@ pub fn peek_front(&self) -> Option<&T> {
 ```
 
 额...好像被人发现我是复制黏贴的了，赶紧换一个:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn peek_front(&self) -> Option<&T> {
     self.head.as_ref().map(|node| {
         // BORROW!!!!
@@ -34,20 +36,21 @@ error[E0515]: cannot return value referencing temporary value
 ```
 
 从报错可以看出，原因是我们引用了局部的变量并试图在函数中返回。为了解释这个问题，先来看看 `borrow` 的定义:
-```rust
+
+```rust,ignore,mdbook-runnable
 fn borrow<'a>(&'a self) -> Ref<'a, T>
 fn borrow_mut<'a>(&'a self) -> RefMut<'a, T>
 ```
 
 这里返回的并不是 `&T` 或 `&mut T`，而是一个 [`Ref`](https://doc.rust-lang.org/std/cell/struct.Ref.html) 和 [`RefMut`](https://doc.rust-lang.org/std/cell/struct.RefMut.html)，那么它们是什么？说白了，它们就是在借用到的引用外包裹了一层。而且 `Ref` 和 `RefMut` 分别实现了 `Deref` 和 `DerefMut`，在绝大多数场景中，我们都可以像使用 `&T` 一样去使用它们。
 
-
 只能说是成是败都赖萧何，恰恰就因为这一层包裹，导致生命周期改变了，也就是 `Ref` 和内部引用的生命周期不再和 `RefCell` 相同，而 `Ref` 的生命周期是什么，相信大家都能看得出来，因此就造成了局部引用的问题。
 
 事实上，这是必须的，如果内部的引用和外部的 `Ref` 生命周期不一致，那该如何管理？当 `Ref` 因超出作用域被 `drop` 时，内部的引用怎么办？
 
 现在该怎么办？我们只想要一个引用，现在却多了一个 `Ref` 拦路虎。等等，如果我们不返回 `&T` 而是返回 `Ref` 呢？
-```rust
+
+```rust,ignore,mdbook-runnable
 use std::cell::{Ref, RefCell};
 
 pub fn peek_front(&self) -> Option<Ref<T>> {
@@ -78,14 +81,16 @@ error[E0308]: mismatched types
 - 一条路走到死，最终通过更复杂的实现来解决
 
 但是，仔细想想，这两个选择都不是我们想要的，那没办法了，只能继续深挖，看看有没有其它解决办法。啊哦，还真发现了一只野兽：
-```rust
+
+```rust,ignore,mdbook-runnable
 map<U, F>(orig: Ref<'b, T>, f: F) -> Ref<'b, U>
     where F: FnOnce(&T) -> &U,
           U: ?Sized
 ```
 
 就像在 `Result` 和 `Option` 上使用 `map` 一样，我们还能在 `Ref` 上使用 `map`:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn peek_front(&self) -> Option<Ref<T>> {
     self.head.as_ref().map(|node| {
         Ref::map(node.borrow(), |node| &node.elem)
@@ -99,10 +104,9 @@ $ cargo build
 
 Gooood! 本章节的编译错误可以说是多个链表中最难解决的之一，依然被我们成功搞定了！
 
-
 下面来写下测试用例，需要注意的是 `Ref` 不能被直接比较，因此我们需要先利用 `Deref` 解引用出其中的值，再进行比较。
 
-```rust
+```rust,ignore,mdbook-runnable
 #[test]
 fn peek() {
     let mut list = List::new();

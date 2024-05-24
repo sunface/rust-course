@@ -13,7 +13,7 @@
 
 `assert_eq!` 宏可以用于判断两个表达式返回的值是否相等 :
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let a = 3;
     let b = 1 + 2;
@@ -23,7 +23,7 @@ fn main() {
 
 当不相等时，当前线程会直接 `panic`:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let a = 3;
     let b = 1 + 3;
@@ -56,7 +56,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 我们将之前报错的代码稍作修改：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let a = 3;
     let b = 1 + 3;
@@ -70,7 +70,7 @@ fn main() {
 
 `assert!` 用于判断传入的布尔表达式是否为 `true`:
 
-```rust
+```rust,ignore,mdbook-runnable
 // 以下断言的错误信息只包含给定表达式的返回值
 assert!(true);
 
@@ -89,7 +89,7 @@ assert!(a + b == 30, "a = {}, b = {}", a, b);
 
 来看看该如何使用 `assert!` 进行单元测试 :
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct Rectangle {
     width: u32,
@@ -127,7 +127,7 @@ mod tests {
 
 `debug_assert!`, `debug_assert_eq!`, `debug_assert_ne!` 这三个在功能上与之前讲解的版本并无区别，主要区别在于，`debug_assert!` 系列只能在 `Debug` 模式下输出，例如如下代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let a = 3;
     let b = 1 + 3;

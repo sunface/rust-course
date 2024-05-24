@@ -10,7 +10,7 @@
 
 以下是一个非常简单的脚本示例:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     // 以下代码告诉 Cargo ，一旦指定的文件 `src/hello.c` 发生了改变，就重新运行当前的构建脚本
     println!("cargo:rerun-if-changed=src/hello.c");
@@ -54,7 +54,7 @@ fn main() {
 
 通过 `println!` 输出的内容在构建过程中默认是隐藏的，如果大家想要在终端中看到这些内容，你可以使用 `-vv` 来调用，以下 `build.rs` ：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     println!("hello, build.rs");
 }

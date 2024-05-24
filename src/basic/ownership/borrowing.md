@@ -8,7 +8,7 @@ Rust 通过 `借用(Borrowing)` 这个概念来达成上述的目的，**获取�
 
 常规引用是一个指针类型，指向了对象存储的内存地址。在下面代码中，我们创建一个 `i32` 值的引用 `y`，然后使用解引用运算符来解出 `y` 所使用的值:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let x = 5;
     let y = &x;
@@ -39,7 +39,7 @@ error[E0277]: can't compare `{integer}` with `&{integer}`
 
 下面的代码，我们用 `s1` 的引用作为参数传递给 `calculate_length` 函数，而不是把 `s1` 的所有权转移给该函数：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let s1 = String::from("hello");
 
@@ -65,7 +65,7 @@ fn calculate_length(s: &String) -> usize {
 
 同理，函数 `calculate_length` 使用 `&` 来表明参数 `s` 的类型是一个引用：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn calculate_length(s: &String) -> usize { // s 是对 String 的引用
     s.len()
 } // 这里，s 离开了作用域。但因为它并不拥有引用值的所有权，
@@ -74,7 +74,7 @@ fn calculate_length(s: &String) -> usize { // s 是对 String 的引用
 
 人总是贪心的，可以拉女孩小手了，就想着抱抱柔软的身子（读者中的某老司机表示，这个流程完全不对），因此光借用已经满足不了我们了，如果尝试修改借用的变量呢？
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let s = String::from("hello");
 
@@ -106,7 +106,7 @@ error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&` ref
 
 只需要一个小调整，即可修复上面代码的错误：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut s = String::from("hello");
 
@@ -124,7 +124,7 @@ fn change(some_string: &mut String) {
 
 不过可变引用并不是随心所欲、想用就用的，它有一个很大的限制： **同一作用域，特定数据只能有一个可变引用**：
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut s = String::from("hello");
 
 let r1 = &mut s;
@@ -162,7 +162,7 @@ error[E0499]: cannot borrow `s` as mutable more than once at a time 同一时间
 
 很多时候，大括号可以帮我们解决一些编译不通过的问题，通过手动限制变量的作用域：
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut s = String::from("hello");
 
 {
@@ -177,7 +177,7 @@ let r2 = &mut s;
 
 下面的代码会导致一个错误：
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut s = String::from("hello");
 
 let r1 = &s; // 没问题
@@ -210,7 +210,7 @@ error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immuta
 
 Rust 的编译器一直在优化，早期的时候，引用的作用域跟变量作用域是一致的，这对日常使用带来了很大的困扰，你必须非常小心的去安排可变、不可变变量的借用，免得无法通过编译，例如以下代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
    let mut s = String::from("hello");
 
@@ -241,7 +241,7 @@ fn main() {
 
 让我们尝试创建一个悬垂引用，Rust 会抛出一个编译时错误：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let reference_to_nothing = dangle();
 }
@@ -279,7 +279,7 @@ this function's return type contains a borrowed value, but there is no value for
 
 仔细看看 `dangle` 代码的每一步到底发生了什么：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn dangle() -> &String { // dangle 返回一个字符串的引用
 
     let s = String::from("hello"); // s 是一个新字符串
@@ -293,7 +293,7 @@ fn dangle() -> &String { // dangle 返回一个字符串的引用
 
 其中一个很好的解决方法是直接返回 `String`：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn no_dangle() -> String {
     let s = String::from("hello");
 

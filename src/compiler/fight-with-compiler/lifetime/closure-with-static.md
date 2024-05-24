@@ -10,7 +10,7 @@
 
 在下面代码中，我们通过闭包实现了一个简单的回调函数(错误代码已经标注)：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct Res<'a> {
     value: &'a str,
 }
@@ -65,7 +65,7 @@ error[E0310]: the parameter type `impl Fn(&str) -> Res` may not live long enough
 
 从第一感觉来说，报错属实不应该，因为我们连引用都没有用，生命周期都不涉及，怎么就报错了？在继续深入之前，先来观察下该闭包是如何被使用的：
 
-```rust
+```rust,ignore,mdbook-runnable
 callback: Option<Box<dyn Fn(&str) -> Res>>,
 ```
 
@@ -83,7 +83,7 @@ callback: Option<Box<dyn Fn(&str) -> Res>>,
 
 其实在 Rust 中，`'static`生命周期很常见，例如一个没有引用字段的结构体它其实也是`'static`。当`'static`用于一个类型时，该类型不能包含任何非`'static`引用字段，例如以下结构体：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Foo<'a> {
     x : &'a [u8]
 };
@@ -105,7 +105,7 @@ help: consider adding an explicit lifetime bound...: `impl Fn(&str) -> Res + 'st
 
 ##### 1. 无本地变量被捕获
 
-```rust
+```rust,ignore,mdbook-runnable
 inl.set(|val| {
     println!("Inline: {}", val);
     Res::new("inline")
@@ -116,7 +116,7 @@ inl.set(|val| {
 
 ##### 2. 有本地变量被捕获
 
-```rust
+```rust,ignore,mdbook-runnable
 let local = "hello".to_string();
 
 // 编译错误： 闭包不是'static!
@@ -131,7 +131,7 @@ inl.set(|val| {
 
 ##### 3. 将本地变量 move 进闭包
 
-```rust
+```rust,ignore,mdbook-runnable
 let local = "hello".to_string();
 
 inl.set(move |val| {
@@ -150,7 +150,7 @@ inl.set(move |val| {
 
 对于第 2 种情况，如果非要这么干，那`'static`肯定是没办法了，我们只能给予闭包一个新的生命周期:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct Container<'a, 'b> {
     name: &'a str,
     callback: Option<Box<dyn Fn(&str) -> Res + 'b>>,
@@ -178,7 +178,7 @@ impl<'a, 'b> Container<'a, 'b> {
 
 其实，大家应该都知道该如何修改了，不过出于严谨，我们还是继续给出完整的正确代码:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn set(&mut self, cb: impl Fn(&str) -> Res + 'static) {
 ```
 

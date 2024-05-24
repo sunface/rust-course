@@ -10,7 +10,7 @@
 
 首先，来给出 `Future` 的定义：它是一个能产出值的异步计算(虽然该值可能为空，例如 `()` )。光看这个定义，可能会觉得很空洞，我们来看看一个简化版的 `Future` 特征:
 
-```rust
+```rust,ignore,mdbook-runnable
 trait SimpleFuture {
     type Output;
     fn poll(&mut self, wake: fn()) -> Poll<Self::Output>;
@@ -32,7 +32,7 @@ enum Poll<T> {
 
 下面的 `SocketRead` 结构体就是一个 `Future`:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct SocketRead<'a> {
     socket: &'a Socket,
 }
@@ -58,7 +58,7 @@ impl SimpleFuture for SocketRead<'_> {
 
 这种 `Future` 模型允许将多个异步操作组合在一起，同时还无需任何内存分配。不仅仅如此，如果你需要同时运行多个 `Future`或链式调用多个 `Future` ，也可以通过无内存分配的状态机实现，例如：
 
-```rust
+```rust,ignore,mdbook-runnable
 trait SimpleFuture {
     type Output;
     fn poll(&mut self, wake: fn()) -> Poll<Self::Output>;
@@ -114,7 +114,7 @@ where
 
 上面代码展示了如何同时运行多个 `Future`， 且在此过程中没有任何内存分配，让并发编程更加高效。 类似的，多个`Future`也可以一个接一个的连续运行：
 
-```rust
+```rust,ignore,mdbook-runnable
 /// 一个SimpleFuture, 它使用顺序的方式，一个接一个地运行两个Future
 //
 // 注意: 由于本例子用于演示，因此功能简单，`AndThenFut` 会假设两个 Future 在创建时就可用了.
@@ -148,7 +148,7 @@ where
 
 这些例子展示了在不需要内存对象分配以及深层嵌套回调的情况下，该如何使用 `Future` 特征去表达异步控制流。 在了解了基础的控制流后，我们再来看看真实的 `Future` 特征有何不同之处。
 
-```rust
+```rust,ignore,mdbook-runnable
 trait Future {
     type Output;
     fn poll(
@@ -178,7 +178,7 @@ trait Future {
 
 注意本例子还会在后面继续使用，因此我们重新创建一个工程来演示：使用 `cargo new --lib timer_future` 来创建一个新工程，在 `lib` 包的根路径 `src/lib.rs` 中添加以下内容：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::{
     future::Future,
     pin::Pin,
@@ -191,7 +191,7 @@ use std::{
 
 继续来实现 `Future` 定时器，之前提到: 新建线程在睡眠结束后会需要将状态同步给定时器 `Future` ，由于是多线程环境，我们需要使用 `Arc<Mutex<T>>` 来作为一个共享状态，用于在新线程和 `Future` 定时器间共享。
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct TimerFuture {
     shared_state: Arc<Mutex<SharedState>>,
 }
@@ -208,7 +208,7 @@ struct SharedState {
 
 下面给出 `Future` 的具体实现:
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Future for TimerFuture {
     type Output = ();
     fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
@@ -233,7 +233,7 @@ impl Future for TimerFuture {
 
 最后，再来创建一个 API 用于构建定时器和启动计时线程:
 
-```rust
+```rust,ignore,mdbook-runnable
 impl TimerFuture {
     /// 创建一个新的`TimerFuture`，在指定的时间结束后，该`Future`可以完成
     pub fn new(duration: Duration) -> Self {
@@ -272,14 +272,14 @@ Rust 的 `Future` 是惰性的：只有屁股上拍一拍，它才会努力动�
 
 下面我们将实现一个简单的执行器，它可以同时并发运行多个 `Future` 。例子中，需要用到 `futures` 包的 `ArcWake` 特征，它可以提供一个方便的途径去构建一个 `Waker` 。编辑 `Cargo.toml` ，添加下面依赖:
 
-```rust
+```rust,ignore,mdbook-runnable
 [dependencies]
 futures = "0.3"
 ```
 
 在之前的内容中，我们在 `src/lib.rs` 中创建了定时器 `Future` ，现在在 `src/main.rs` 中来创建程序的主体内容，开始之前，先引入所需的包：
 
-```rust
+```rust,ignore,mdbook-runnable
 use {
     futures::{
         future::{BoxFuture, FutureExt},
@@ -299,7 +299,7 @@ use {
 
 执行器需要从一个消息通道( `channel` )中拉取事件，然后运行它们。当一个任务准备好后（可以继续执行），它会将自己放入消息通道中，然后等待执行器 `poll` 。
 
-```rust
+```rust,ignore,mdbook-runnable
 /// 任务执行器，负责从通道中接收任务然后执行
 struct Executor {
     ready_queue: Receiver<Arc<Task>>,
@@ -337,7 +337,7 @@ fn new_executor_and_spawner() -> (Executor, Spawner) {
 
 下面再来添加一个方法用于生成 `Future` , 然后将它放入任务通道中:
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Spawner {
     fn spawn(&self, future: impl Future<Output = ()> + 'static + Send) {
         let future = future.boxed();
@@ -352,7 +352,7 @@ impl Spawner {
 
 在执行器 `poll` 一个 `Future` 之前，首先需要调用 `wake` 方法进行唤醒，然后再由 `Waker` 负责调度该任务并将其放入任务通道中。创建 `Waker` 的最简单的方式就是实现 `ArcWake` 特征，先来为我们的任务实现 `ArcWake` 特征，这样它们就能被转变成 `Waker` 然后被唤醒:
 
-```rust
+```rust,ignore,mdbook-runnable
 impl ArcWake for Task {
     fn wake_by_ref(arc_self: &Arc<Self>) {
         // 通过发送任务到任务管道的方式来实现`wake`，这样`wake`后，任务就能被执行器`poll`
@@ -367,7 +367,7 @@ impl ArcWake for Task {
 
 当任务实现了 `ArcWake` 特征后，它就变成了 `Waker` ，在调用 `wake()` 对其唤醒后会将任务复制一份所有权( `Arc` )，然后将其发送到任务通道中。最后我们的执行器将从通道中获取任务，然后进行 `poll` 执行：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Executor {
     fn run(&self) {
         while let Ok(task) = self.ready_queue.recv() {
@@ -391,7 +391,7 @@ impl Executor {
 
 恭喜！我们终于拥有了自己的执行器，下面再来写一段代码使用该执行器去运行之前的定时器 `Future` ：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let (executor, spawner) = new_executor_and_spawner();
 
@@ -416,7 +416,7 @@ fn main() {
 
 前面我们一起看过一个使用 `Future` 从 `Socket` 中异步读取数据的例子:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct SocketRead<'a> {
     socket: &'a Socket,
 }
@@ -450,7 +450,7 @@ impl SimpleFuture for SocketRead<'_> {
 
 在现实世界中，该问题往往是通过操作系统提供的 `IO` 多路复用机制来完成，例如 `Linux` 中的 **`epoll`**，`FreeBSD` 和 `macOS` 中的 **`kqueue`** ，`Windows` 中的 **`IOCP`**, `Fuchisa`中的 **`ports`** 等(可以通过 Rust 的跨平台包 `mio` 来使用它们)。借助 IO 多路复用机制，可以实现一个线程同时阻塞地去等待多个异步 IO 事件，一旦某个事件完成就立即退出阻塞并返回数据。相关实现类似于以下代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct IoBlocker {
     /* ... */
 }

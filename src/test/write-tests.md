@@ -20,7 +20,7 @@ $ cd adder
 
 创建成功后，在 _src/lib.rs_ 文件中可以发现如下代码:
 
-```rust
+```rust,ignore,mdbook-runnable
 #[cfg(test)]
 mod tests {
     #[test]
@@ -81,7 +81,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 是时候开始写自己的测试函数了，为了演示，这次我们来写一个会运行失败的:
 
-```rust
+```rust,ignore,mdbook-runnable
 #[cfg(test)]
 mod tests {
     #[test]
@@ -128,7 +128,7 @@ error: test failed, to rerun pass '--lib'
 
 默认的失败信息在有时候并不是我们想要的，来看一个例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn greeting(name: &str) -> String {
     format!("Hello {}!", name)
 }
@@ -163,7 +163,7 @@ failures:
 
 可以看出，这段报错除了告诉我们错误发生的地方，并没有更多的信息，那再来看看该如何提供一些更有用的信息：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn greeting_contains_name() {
     let result = greeting("Sunface");
     let target = "孙飞";
@@ -192,7 +192,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 也就是说，我们需要一个办法来测试一个函数是否会 `panic`，对此， Rust 提供了 `should_panic` 属性注解，和 `test` 注解一样，对目标测试函数进行标注即可：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct Guess {
     value: i32,
 }
@@ -230,7 +230,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 从输出可以看出， `panic` 的结果被准确的进行了测试，那如果测试函数中的代码不再 `panic` 呢？例如：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn greater_than_100() {
     Guess::new(50);
 }
@@ -254,7 +254,7 @@ note: test did not panic as expected // 测试并没有按照预期发生 panic
 
 鉴于此，我们可以使用可选的参数 `expected` 来说明预期的 `panic` 长啥样：
 
-```rust
+```rust,ignore,mdbook-runnable
 // --snip--
 impl Guess {
     pub fn new(value: i32) -> Guess {
@@ -296,7 +296,7 @@ mod tests {
 
 在之前的例子中，`panic` 扫清一切障碍，但是它也不是万能的，例如你想在测试中使用 `?` 操作符进行链式调用该怎么办？那就得请出 `Result<T, E>` 了：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[cfg(test)]
 mod tests {
     #[test]
@@ -337,7 +337,7 @@ mod tests {
 
 解决办法也有，我们可以让每个测试写入自己独立的文件中，当然，也可以让所有测试一个接着一个顺序运行:
 
-```rust
+```rust,ignore,mdbook-runnable
 $ cargo test -- --test-threads=1
 ```
 
@@ -347,7 +347,7 @@ $ cargo test -- --test-threads=1
 
 默认情况下，如果测试通过，那写入标准输出的内容是不会显示在测试结果中的:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn prints_and_returns_10(a: i32) -> i32 {
     println!("I got the value {}", a);
     10
@@ -396,7 +396,7 @@ test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; 
 
 大家注意看，`I got the value 4` 并没有被输出，因为该测试顺利通过了，如果就是想要看所有的输出，该怎么办呢？
 
-```rust
+```rust,ignore,mdbook-runnable
 $ cargo test -- --show-output
 ```
 
@@ -406,7 +406,7 @@ $ cargo test -- --show-output
 
 在 Mysql 中有上百万的单元测试，如果使用类似 `cargo test` 的命令来运行全部的测试，那开发真的工作十分钟，吹牛八小时了。对于 Rust 的中大型项目也一样，每次都运行全部测试是不可接受的，特别是你的工作仅仅是项目中的一部分时。
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn add_two(a: i32) -> i32 {
     a + 2
 }
@@ -515,7 +515,7 @@ test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 有时候，一些测试会非常耗时间，因此我们希望在 `cargo test` 中对它进行忽略，如果使用之前的方式，我们需要将所有需要运行的名称指定一遍，这非常麻烦，好在 Rust 允许通过 `ignore` 关键字来忽略特定的测试用例:
 
-```rust
+```rust,ignore,mdbook-runnable
 #[test]
 fn it_works() {
     assert_eq!(2 + 2, 4);
@@ -567,7 +567,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 上面的方式虽然很强大，但是单独使用依然存在局限性。好在它们还能组合使用，例如还是之前的代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -630,7 +630,7 @@ pretty_assertions = "1"
 
 然后在 `src/lib.rs` 中添加:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn add(a: i32, b: i32) -> i32 {
     a + b
 }
@@ -675,4 +675,3 @@ test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 ```
 
 如果你只想生成编译生成文件，不想看 `cargo test` 的输出结果，还可以使用 `cargo test --no-run`.
-

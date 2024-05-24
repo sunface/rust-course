@@ -8,7 +8,7 @@
 
 关联类型是在特征定义的语句块中，申明一个自定义类型，这样就可以在特征的方法签名中使用该类型：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub trait Iterator {
     type Item;
 
@@ -22,7 +22,7 @@ pub trait Iterator {
 
 还记得 `Self` 吧？在之前的章节[提到过](https://course.rs/basic/trait/trait-object#self-与-self)， **`Self` 用来指代当前调用者的具体类型，那么 `Self::Item` 就用来指代该类型实现中定义的 `Item` 类型**：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Iterator for Counter {
     type Item = u32;
 
@@ -41,7 +41,7 @@ fn main() {
 
 聪明的读者之所以聪明，是因为你们喜欢联想和举一反三，同时你们也喜欢提问：为何不用泛型，例如如下代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub trait Iterator<Item> {
     fn next(&mut self) -> Option<Item>;
 }
@@ -49,7 +49,7 @@ pub trait Iterator<Item> {
 
 答案其实很简单，为了代码的可读性，当你使用了泛型后，你需要在所有地方都写 `Iterator<Item>`，而使用了关联类型，你只需要写 `Iterator`，当类型定义复杂时，这种写法可以极大的增加可读性：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub trait CacheableItem: Clone + Default + fmt::Debug + Decodable + Encodable {
   type Address: AsRef<[u8]> + Clone + fmt::Debug + Eq + Hash;
   fn is_null(&self) -> bool;
@@ -60,7 +60,7 @@ pub trait CacheableItem: Clone + Default + fmt::Debug + Decodable + Encodable {
 
 再例如，如果使用泛型，你将得到以下的代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 trait Container<A,B> {
     fn contains(&self,a: A,b: B) -> bool;
 }
@@ -72,7 +72,7 @@ fn difference<A,B,C>(container: &C) -> i32
 
 可以看到，由于使用了泛型，导致函数头部也必须增加泛型的声明，而使用关联类型，将得到可读性好得多的代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 trait Container{
     type A;
     type B;
@@ -86,7 +86,7 @@ fn difference<C: Container>(container: &C) {}
 
 当使用泛型类型参数时，可以为其指定一个默认的具体类型，例如标准库中的 `std::ops::Add` 特征：
 
-```rust
+```rust,ignore,mdbook-runnable
 trait Add<RHS=Self> {
     type Output;
 
@@ -98,7 +98,7 @@ trait Add<RHS=Self> {
 
 可能上面那段不太好理解，下面我们用代码来举例：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::ops::Add;
 
 #[derive(Debug, PartialEq)]
@@ -130,7 +130,7 @@ fn main() {
 
 与上面的例子相反，下面的例子，我们来创建两个不同类型的相加：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::ops::Add;
 
 struct Millimeters(u32);
@@ -162,7 +162,7 @@ impl Add<Meters> for Millimeters {
 
 不同特征拥有同名的方法是很正常的事情，你没有任何办法阻止这一点；甚至除了特征上的同名方法外，在你的类型上，也有同名方法：
 
-```rust
+```rust,ignore,mdbook-runnable
 trait Pilot {
     fn fly(&self);
 }
@@ -200,7 +200,7 @@ impl Human {
 
 当调用 `Human` 实例的 `fly` 时，编译器默认调用该类型中定义的方法：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let person = Human;
     person.fly();
@@ -213,7 +213,7 @@ fn main() {
 
 为了能够调用两个特征的方法，需要使用显式调用的语法：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let person = Human;
     Pilot::fly(&person); // 调用Pilot特征上的方法
@@ -236,7 +236,7 @@ Up!
 
 但是成年人的世界，就算再伤心，事还得做，咱们继续：
 
-```rust
+```rust,ignore,mdbook-runnable
 trait Animal {
     fn baby_name() -> String;
 }
@@ -264,7 +264,7 @@ fn main() {
 
 `Dog::baby_name()` 的调用方式显然不行，因为这只是狗妈妈对宝宝的爱称，可能你会想到通过下面的方式查询其他动物对狗狗的称呼：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     println!("A baby dog is called a {}", Animal::baby_name());
 }
@@ -272,7 +272,7 @@ fn main() {
 
 铛铛，无情报错了：
 
-```rust
+```rust,ignore,mdbook-runnable
 error[E0283]: type annotations needed // 需要类型注释
   --> src/main.rs:20:43
    |
@@ -290,7 +290,7 @@ error[E0283]: type annotations needed // 需要类型注释
 
 完全限定语法是调用函数最为明确的方式：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     println!("A baby dog is called a {}", <Dog as Animal>::baby_name());
 }
@@ -300,7 +300,7 @@ fn main() {
 
 言归正题，完全限定语法定义为：
 
-```rust
+```rust,ignore,mdbook-runnable
 <Type as Trait>::function(receiver_if_method, next_arg, ...);
 ```
 
@@ -314,7 +314,7 @@ fn main() {
 
 例如有一个特征 `OutlinePrint`，它有一个方法，能够对当前的实现类型进行格式化输出：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fmt::Display;
 
 trait OutlinePrint: Display {
@@ -334,7 +334,7 @@ trait OutlinePrint: Display {
 
 想象一下，假如没有这个特征约束，那么 `self.to_string` 还能够调用吗（ `to_string` 方法会为实现 `Display` 特征的类型自动实现）？编译器肯定是不愿意的，会报错说当前作用域中找不到用于 `&Self` 类型的方法 `to_string` ：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Point {
     x: i32,
     y: i32,
@@ -358,7 +358,7 @@ try using `:?` instead if you are using a format string
 
 既然我们有求于编译器，那只能选择满足它咯：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fmt;
 
 impl fmt::Display for Point {
@@ -397,7 +397,7 @@ error[E0117]: only traits defined in the current crate can be implemented for ar
 
 编译器给了我们提示： `define and implement a trait or new type instead`，重新定义一个特征，或者使用 `new type`，前者当然不可行，那么来试试后者：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fmt;
 
 struct Wrapper(Vec<String>);
@@ -423,7 +423,6 @@ fn main() {
 当然，解决办法还是有的，要不怎么说 Rust 是极其强大灵活的编程语言！Rust 提供了一个特征叫 [`Deref`](https://course.rs/advance/smart-pointer/deref.html)，实现该特征后，可以自动做一层类似类型转换的操作，可以将 `Wrapper` 变成 `Vec<String>` 来使用。这样就会像直接使用数组那样去使用 `Wrapper`，而无需为每一个操作都添加上 `self.0`。
 
 同时，如果不想 `Wrapper` 暴露底层数组的所有方法，我们还可以为 `Wrapper` 去重载这些方法，实现隐藏的目的。
-
 
 ## 课后练习
 

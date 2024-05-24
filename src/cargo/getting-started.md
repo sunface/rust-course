@@ -6,7 +6,7 @@ Cargo 会在安装 Rust 的时候一并进行安装，无需我们手动的操�
 
 安装完成后，接下来使用 `Cargo` 来创建一个新的[二进制项目](https://course.rs/basic/crate-module/crate.html)，二进制意味着该项目可以作为一个服务运行或被编译成可执行文件运行。
 
-```rust
+```rust,ignore,mdbook-runnable
 $ cargo new hello_world
 ```
 
@@ -40,7 +40,7 @@ edition = "2021"
 
 下面是 `src/main.rs` 的内容 ：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     println!("Hello, world!");
 }
@@ -76,4 +76,3 @@ Hello, world!
 > 如果你的程序在跑性能测试 benchmark，一定要使用 `Release` 模式，因为该模式下，程序会做大量性能优化
 
 在快速了解 `Cargo` 的使用方式后，下面，我们将正式进入 Cargo 的学习之旅。
-

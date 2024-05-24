@@ -4,7 +4,7 @@
 
 为了成为一个 "好 "系列，这里还有一些乱七八糟的东西：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl<T> LinkedList<T> {
     pub fn is_empty(&self) -> bool {
         self.len == 0
@@ -19,7 +19,7 @@ impl<T> LinkedList<T> {
 
 现在，我们已经有了一大堆大家都期待的特性需要实现：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl<T> Default for LinkedList<T> {
     fn default() -> Self {
         Self::new()
@@ -96,7 +96,7 @@ impl<T: Hash> Hash for LinkedList<T> {
 
 好了，这是我们现在的代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::cmp::Ordering;
 use std::fmt::{self, Debug};
 use std::hash::{Hash, Hasher};
@@ -116,7 +116,7 @@ type Link<T> = Option<NonNull<Node<T>>>;
 struct Node<T> {
     front: Link<T>,
     back: Link<T>,
-    elem: T, 
+    elem: T,
 }
 
 pub struct Iter<'a, T> {
@@ -160,7 +160,7 @@ impl<T> LinkedList<T> {
                 (*old.as_ptr()).front = Some(new);
                 (*new.as_ptr()).back = Some(old);
             } else {
-                // If there's no front, then we're the empty list and need 
+                // If there's no front, then we're the empty list and need
                 // to set the back too.
                 self.back = Some(new);
             }
@@ -183,7 +183,7 @@ impl<T> LinkedList<T> {
                 (*old.as_ptr()).back = Some(new);
                 (*new.as_ptr()).front = Some(old);
             } else {
-                // If there's no back, then we're the empty list and need 
+                // If there's no back, then we're the empty list and need
                 // to set the front too.
                 self.front = Some(new);
             }
@@ -283,8 +283,8 @@ impl<T> LinkedList<T> {
     }
 
     pub fn iter(&self) -> Iter<T> {
-        Iter { 
-            front: self.front, 
+        Iter {
+            front: self.front,
             back: self.back,
             len: self.len,
             _boo: PhantomData,
@@ -292,8 +292,8 @@ impl<T> LinkedList<T> {
     }
 
     pub fn iter_mut(&mut self) -> IterMut<T> {
-        IterMut { 
-            front: self.front, 
+        IterMut {
+            front: self.front,
             back: self.back,
             len: self.len,
             _boo: PhantomData,
@@ -301,7 +301,7 @@ impl<T> LinkedList<T> {
     }
 
     pub fn into_iter(self) -> IntoIter<T> {
-        IntoIter { 
+        IntoIter {
             list: self
         }
     }

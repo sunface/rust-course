@@ -1,6 +1,8 @@
 ## 迭代器
+
 集合类型可以通过 `Iterator` 特征进行迭代，该特征看起来比 `Drop` 要复杂点：
-```rust
+
+```rust,ignore,mdbook-runnable
 pub trait Iterator {
     type Item;
     fn next(&mut self) -> Option<Self::Item>;
@@ -20,8 +22,10 @@ pub trait Iterator {
 也许大家不认识它们，但是其实很好理解，`IntoIter` 类型迭代器的 `next` 方法会拿走被迭代值的所有权，`IterMut` 是可变借用， `Iter` 是不可变借用。事实上，类似的[命名规则](https://course.rs/practice/naming.html#一个集合上的方法如果返回迭代器需遵循命名规则iteriter_mutinto_iter-c-iter)在 Rust 中随处可见，当熟悉后，以后见到类似的命名大家就可以迅速的理解其对值的运用方式。
 
 ## IntoIter
+
 先来看看 `IntoIter` 该怎么实现:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub struct IntoIter<T>(List<T>);
 
 impl<T> List<T> {
@@ -40,7 +44,8 @@ impl<T> Iterator for IntoIter<T> {
 ```
 
 这里我们通过[元组结构体](https://course.rs/basic/compound-type/struct.html#元组结构体tuple-struct)的方式定义了 `IntoIter`，下面来测试下:
-```rust
+
+```rust,ignore,mdbook-runnable
 #[test]
 fn into_iter() {
     let mut list = List::new();
@@ -69,11 +74,12 @@ test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured
 ```
 
 ## Iter
+
 相对来说，`IntoIter` 是最好实现的，因为它只是简单的拿走值，不涉及到引用，也不涉及到生命周期，而 `Iter` 就有所不同了。
 
 这里的基本逻辑是我们持有一个当前节点的指针，当生成一个值后，该指针将指向下一个节点。
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct Iter<T> {
     next: Option<&Node<T>>,
 }
@@ -115,7 +121,8 @@ error[E0106]: missing lifetime specifier
 许久不见的错误又冒了出来，而且这次直指 Rust 中最难的点之一：生命周期。关于生命周期的讲解，这里就不再展开，如果大家还不熟悉，强烈建议看看[此章节](https://course.rs/advance/lifetime/intro.html)，然后再继续。
 
 首先，先加一个生命周期试试：
-```rust
+
+```rust,ignore,mdbook-runnable
 pub struct Iter<'a, T> {
     next: Option<&'a Node<T>>,
 }
@@ -140,7 +147,8 @@ error: aborting due to 2 previous errors
 ```
 
 好的，现在有了更多的提示，来按照提示修改下代码:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub struct Iter<'a, T> {
     next: Option<&'a Node<T>>,
 }
@@ -187,7 +195,8 @@ error[E0063]: missing field `next` in initializer of `second::Iter<'_, _>`
 怎么回事。。感觉错误犹如雨后春笋般冒了出来，Rust 是不是被我们搞坏了 :(
 
 现在看来，我们的生命周期是用错了，聪明的同学可能已经看出了端倪，那么再修改下试试；
-```rust
+
+```rust,ignore,mdbook-runnable
 pub struct Iter<'a, T> {
     next: Option<&'a Node<T>>,
 }
@@ -216,6 +225,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
 ```
 
 现在，我们也许可以自信的编译下试试了：
+
 ```shell
 $ cargo build
 
@@ -241,7 +251,8 @@ error[E0308]: mismatched types
 (╯°□°)╯︵ ┻━┻
 
 这么看，生命周期的问题解决了，但是又引入了新的错误。原因在于，我们希望存储 `&Node` 但是获取的却是 `&Box<Node>`。嗯，小问题，解引用搞定：
-```rust
+
+```rust,ignore,mdbook-runnable
 impl<T> List<T> {
     pub fn iter<'a>(&'a self) -> Iter<'a, T> {
         Iter { next: self.head.map(|node| &*node) }
@@ -288,10 +299,11 @@ error[E0507]: cannot move out of borrowed content
    |                         ^^^^^^^^^ cannot move out of borrowed content
 ```
 
-又怎么了! (ﾉಥ益ಥ）ﾉ﻿ ┻━┻
+又怎么了! (ﾉ ಥ 益 ಥ）ﾉ ﻿ ┻━┻
 
 大家还记得之前章节的内容吗？原因是这里我们忘记了 `as_ref` ，然后值的所有权被转移到了 `map` 中，结果我们在内部引用了一个局部值，造成一个悬垂引用：
-```rust
+
+```rust,ignore,mdbook-runnable
 pub struct Iter<'a, T> {
     next: Option<&'a Node<T>>,
 }
@@ -340,7 +352,8 @@ error[E0308]: mismatched types
 😭
 
 错误的原因是，`as_ref` 增加了一层间接引用，需要被移除，这里使用另外一种方式来实现:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub struct Iter<'a, T> {
     next: Option<&'a Node<T>>,
 }
@@ -376,19 +389,22 @@ $ cargo build
 但是 `Deref` 在这里并不能很好的完成自己的任务，原因是在闭包中使用 `Option<&T>` 而不是 `&T` 对于它来说有些过于复杂了，因此我们需要显式地去帮助它完成任务。好在根据我的经验来看，这种情况还是相当少见的。
 
 事实上，还可以使用另一种方式来实现：
-```rust
+
+```rust,ignore,mdbook-runnable
 self.next = node.next.as_ref().map::<&Node<T>, _>(|node| &node);
 ```
 
 这种类型暗示的方式可以使用的原因在于 `map` 是一个泛型函数:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn map<U, F>(self, f: F) -> Option<U>
 ```
 
 turbofish 形式的符号 `::<>` 可以告诉编译器我们希望用哪个具体的类型来替代泛型类型，在这种情况里，`::<&Node<T>, _>` 意味着: 它应该返回一个 `&Node<T>`。这种方式可以让编译器知道它需要对 `&node` 应用 `deref`，这样我们就不用手动的添加 `**` 来进行解引用。
 
 好了，既然编译通过，那就写个测试来看看运行结果:
-```rust
+
+```rust,ignore,mdbook-runnable
 #[test]
 fn iter() {
     let mut list = List::new();
@@ -417,7 +433,8 @@ test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured
 ```
 
 最后，还有一点值得注意，之前的代码事实上可以应用[生命周期消除原则](https://course.rs/basic/lifetime.html#生命周期消除):
-```rust
+
+```rust,ignore,mdbook-runnable
 impl<T> List<T> {
     pub fn iter<'a>(&'a self) -> Iter<'a, T> {
         Iter { next: self.head.as_deref() }
@@ -426,7 +443,8 @@ impl<T> List<T> {
 ```
 
 这段代码跟以下代码是等价的:
-```rust
+
+```rust,ignore,mdbook-runnable
 impl<T> List<T> {
     pub fn iter(&self) -> Iter<T> {
         Iter { next: self.head.as_deref() }
@@ -435,11 +453,11 @@ impl<T> List<T> {
 ```
 
 当然，如果你就喜欢生命周期那种自由、飘逸的 feeling，还可以使用 Rust 2018 引入的“显式生命周期消除"语法 `'_`：
-```rust
+
+```rust,ignore,mdbook-runnable
 impl<T> List<T> {
     pub fn iter(&self) -> Iter<'_, T> {
         Iter { next: self.head.as_deref() }
     }
 }
 ```
-

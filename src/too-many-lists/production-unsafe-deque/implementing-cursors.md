@@ -16,7 +16,7 @@
 
 非常简单直接，上面的需求列表每一项都有一个字段！
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct CursorMut<'a, T> {
     cur: Link<T>,
     list: &'a mut LinkedList<T>,
@@ -26,12 +26,12 @@ pub struct CursorMut<'a, T> {
 
 现在是`cursor_mut` 方法:
 
-```rust
+```rust,ignore,mdbook-runnable
 impl<T> LinkedList<T> {
     pub fn cursor_mut(&mut self) -> CursorMut<T> {
-        CursorMut { 
-            list: self, 
-            cur: None, 
+        CursorMut {
+            list: self,
+            cur: None,
             index: None,
         }
     }
@@ -40,7 +40,7 @@ impl<T> LinkedList<T> {
 
 既然我们从幽灵节点开始，我们所以开始节点都是 `None`，简单明了！下一个是 `move_next`：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl<'a, T> CursorMut<'a, T> {
     pub fn index(&self) -> Option<usize> {
         self.index
@@ -69,16 +69,16 @@ impl<'a, T> CursorMut<'a, T> {
 }
 ```
 
-所以这有4种有趣的情况：
+所以这有 4 种有趣的情况：
 
 - 正常情况
 - 正常情况，但我们移动到了幽灵节点
 - 幽灵节点开始，向列表头部节点移动
 - 幽灵节点开始，列表是空的，所以什么都不做
 
-`move_prev`  的逻辑完全相同，但前后颠倒，索引变化也颠倒：
+`move_prev` 的逻辑完全相同，但前后颠倒，索引变化也颠倒：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn move_prev(&mut self) {
     if let Some(cur) = self.cur {
         unsafe {
@@ -105,7 +105,7 @@ pub fn move_prev(&mut self) {
 
 值得庆幸的是，这是 rust 在使用生命周期省略规则时的默认设置，因此我们将默认做正确的事情！
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn current(&mut self) -> Option<&mut T> {
     unsafe {
         self.cur.map(|node| &mut (*node.as_ptr()).elem)
@@ -144,7 +144,7 @@ pub fn peek_prev(&mut self) -> Option<&mut T> {
 
 让我们先从极端情况开始。我认为第三种情况
 
-```rust
+```rust,ignore,mdbook-runnable
 mem::replace(self.list, LinkedList::new())
 ```
 
@@ -170,7 +170,7 @@ return.front -> A <-> B <- return.back
 
 因此，我们需要打破当前数据和前一个数据之间的联系，而且......天哪，需要改变的东西太多了。好吧，我只需要把它分成几个步骤，这样我就能说服自己这是有意义的。虽然有点啰嗦，但我至少能说得通：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn split_before(&mut self) -> LinkedList<T> {
     if let Some(cur) = self.cur {
         // We are pointing at a real element, so the list is non-empty.
@@ -179,7 +179,7 @@ pub fn split_before(&mut self) -> LinkedList<T> {
             let old_len = self.list.len;
             let old_idx = self.index.unwrap();
             let prev = (*cur.as_ptr()).front;
-            
+
             // What self will become
             let new_len = old_len - old_idx;
             let new_front = self.cur;
@@ -246,7 +246,7 @@ list.front -> A <-> 1 <-> 2 <-> B <-> C <- list.back
 
 好的，让我们来写一下：
 
-```rust
+```rust,ignore,mdbook-runnable
     pub fn splice_before(&mut self, mut input: LinkedList<T>) {
         unsafe {
             if input.is_empty() {
@@ -299,7 +299,7 @@ list.front -> A <-> 1 <-> 2 <-> B <-> C <- list.back
 
 好吧，这个程序真的很可怕，现在真的感觉到 Option<NonNull> 的痛苦了。但我们可以做很多清理工作。首先，我们可以把这段代码拖到最后。
 
-```rust
+```rust,ignore,mdbook-runnable
 self.list.len += input.len;
 input.len = 0;
 ```
@@ -308,14 +308,14 @@ input.len = 0;
 
 > Use of moved value: `input`
 
-```rust
+```rust,ignore,mdbook-runnable
 // We're empty, become the input, remain on the ghost
 std::mem::swap(self.list, &mut input);
 ```
 
 在我反向思考下面这种情况时，我发现了这个 `unwrap` 有问题(因为 cur 的 front 在前面已经被设置为其它值了)：
 
-```rust
+```rust,ignore,mdbook-runnable
 if let Some(0) = self.index {
 
 } else {
@@ -325,13 +325,13 @@ if let Some(0) = self.index {
 
 这行也是重复的，可以提升:
 
-```rust
+```rust,ignore,mdbook-runnable
 *self.index.as_mut().unwrap() += input.len;
 ```
 
 好了，把上面的问题修改后得到这些：
 
-```rust
+```rust,ignore,mdbook-runnable
 if input.is_empty() {
     // Input is empty, do nothing.
 } else if let Some(cur) = self.cur {
@@ -374,16 +374,16 @@ input.len = 0;
 // Input dropped here
 ```
 
-还是不对，下面的代码存在bug：
+还是不对，下面的代码存在 bug：
 
-```rust
+```rust,ignore,mdbook-runnable
     (*back.as_ptr()).back = input.front.take();
     (*input.front.unwrap().as_ptr()).front = Some(back);
 ```
 
 我们使用 `take` 拿走了 input.front 的值，然后在下一行将其 `unwrap`！boom，panic！
 
-```rust
+```rust,ignore,mdbook-runnable
 // We can either `take` the input's pointers or `mem::forget`
 // it. Using `take` is more responsible in case we ever do custom
 // allocators or something that also needs to be cleaned up!
@@ -431,7 +431,7 @@ input.len = 0;
 总之，我已经筋疲力尽了，所以 `insert` 和 `remove` 以及所有其他应用程序接口就留给读者练习。
 下面是 Cursor 的最终代码，我做对了吗？我只有在写下一章并测试这个怪东西时才能知道！
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct CursorMut<'a, T> {
     list: &'a mut LinkedList<T>,
     cur: Link<T>,
@@ -440,9 +440,9 @@ pub struct CursorMut<'a, T> {
 
 impl<T> LinkedList<T> {
     pub fn cursor_mut(&mut self) -> CursorMut<T> {
-        CursorMut { 
-            list: self, 
-            cur: None, 
+        CursorMut {
+            list: self,
+            cur: None,
             index: None,
         }
     }
@@ -523,15 +523,15 @@ impl<'a, T> CursorMut<'a, T> {
         //     list.front -> A <-> B <-> C <-> D <- list.back
         //                               ^
         //                              cur
-        // 
+        //
         //
         // And we want to produce this:
-        // 
+        //
         //     list.front -> C <-> D <- list.back
         //                   ^
         //                  cur
         //
-        // 
+        //
         //    return.front -> A <-> B <- return.back
         //
         if let Some(cur) = self.cur {
@@ -541,7 +541,7 @@ impl<'a, T> CursorMut<'a, T> {
                 let old_len = self.list.len;
                 let old_idx = self.index.unwrap();
                 let prev = (*cur.as_ptr()).front;
-                
+
                 // What self will become
                 let new_len = old_len - old_idx;
                 let new_front = self.cur;
@@ -585,15 +585,15 @@ impl<'a, T> CursorMut<'a, T> {
         //     list.front -> A <-> B <-> C <-> D <- list.back
         //                         ^
         //                        cur
-        // 
+        //
         //
         // And we want to produce this:
-        // 
+        //
         //     list.front -> A <-> B <- list.back
         //                         ^
         //                        cur
         //
-        // 
+        //
         //    return.front -> C <-> D <- return.back
         //
         if let Some(cur) = self.cur {
@@ -603,7 +603,7 @@ impl<'a, T> CursorMut<'a, T> {
                 let old_len = self.list.len;
                 let old_idx = self.index.unwrap();
                 let next = (*cur.as_ptr()).back;
-                
+
                 // What self will become
                 let new_len = old_idx + 1;
                 let new_back = self.cur;
@@ -698,9 +698,9 @@ impl<'a, T> CursorMut<'a, T> {
             self.list.len += input.len;
             // Not necessary but Polite To Do
             input.len = 0;
-            
+
             // Input dropped here
-        }        
+        }
     }
 
     pub fn splice_after(&mut self, mut input: LinkedList<T>) {
@@ -759,9 +759,9 @@ impl<'a, T> CursorMut<'a, T> {
             self.list.len += input.len;
             // Not necessary but Polite To Do
             input.len = 0;
-            
+
             // Input dropped here
-        }        
+        }
     }
 }
 ```
