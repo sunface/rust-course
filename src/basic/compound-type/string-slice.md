@@ -720,8 +720,6 @@ for b in "中国人".bytes() {
 >   - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/compound-types/string.md)
 > - [切片](https://practice-zh.course.rs/compound-types/slice.html)
 >   - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/compound-types/slice.md)
-> - [String](https://practice-zh.course.rs/collections/string.html)
->   - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/collections/String.md)
 
 <hr />
 
