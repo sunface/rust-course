@@ -155,7 +155,7 @@ parallel = ["jpeg-decoder/rayon"]
 
 前者就是功能削减，与之相对，后者是功能添加，根据之前的内容，我们应该选择后者的做法：
 
-```rust
+```rust,ignore,mdbook-runnable
 #![no_std]
 
 #[cfg(feature = "std")]

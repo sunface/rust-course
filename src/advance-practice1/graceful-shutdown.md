@@ -2,14 +2,13 @@
 
 之前的程序，如果使用 `ctrl-c` 的方法来关闭，所有的线程都会立即停止，这会造成正在请求的用户感知到一个明显的错误。
 
-
 因此我们需要添加一些优雅关闭( Graceful Shutdown )，以更好的完成资源清理等收尾工作。
 
 ## 为线程池实现 Drop
 
 当线程池被 drop 时，需要等待所有的子线程完成它们的工作，然后再退出，下面是一个初步尝试:
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Drop for ThreadPool {
     fn drop(&mut self) {
         for worker in &mut self.workers {
@@ -23,7 +22,7 @@ impl Drop for ThreadPool {
 
 这里通过实现 `Drop` 特征来为线程池添加资源收尾工作，代码比较简单，就是依次调用每个线程的 `join` 方法。编译下试试：
 
-```rust
+```rust,ignore,mdbook-runnable
 $ cargo check
     Checking hello v0.1.0 (file:///projects/hello)
 error[E0507]: cannot move out of `worker.thread` which is behind a mutable reference
@@ -44,7 +43,7 @@ error: could not compile `hello` due to previous error
 
 目前来看，只能将 `thread` 从 `worker` 中移动出来，一个可行的尝试:
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Worker {
     id: usize,
     thread: Option<thread::JoinHandle<()>>,
@@ -84,7 +83,7 @@ help: try wrapping the expression in `Some`
 
 先来解决第二个类型不匹配的错误:
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Worker {
     fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
         // --snip--
@@ -99,7 +98,7 @@ impl Worker {
 
 简单搞定，回头看看第一个错误，既然换了 `Option`，就可以用 `take` 拿走所有权:
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Drop for ThreadPool {
     fn drop(&mut self) {
         for worker in &mut self.workers {
@@ -119,7 +118,7 @@ impl Drop for ThreadPool {
 
 虽然调用了 `join` ，但是目标线程依然不会停止，原因在于它们在无限的 `loop` 循环等待，看起来需要借用 `channel` 的 `drop` 机制：释放 `sender`发送端后，`receiver` 接收端会收到报错，然后再退出即可。
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct ThreadPool {
     workers: Vec<Worker>,
     sender: Option<mpsc::Sender<Job>>,
@@ -167,8 +166,7 @@ impl Drop for ThreadPool {
 
 关闭 `sender` 后，将关闭对应的 `channel`，意味着不会再有任何消息被发送。随后，所有的处于无限 `loop` 的接收端将收到一个错误，我们根据错误再进行进一步的处理。
 
-
-```rust
+```rust,ignore,mdbook-runnable
 impl Worker {
     fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
         let thread = thread::spawn(move || loop {
@@ -197,7 +195,7 @@ impl Worker {
 
 为了快速验证代码是否正确，修改 `main` 函数，让其只接收前两个请求:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
     let pool = ThreadPool::new(4);
@@ -236,9 +234,9 @@ Shutting down worker 3
 
 可以看到，代码按照我们的设想如期运行，至此，一个基于线程池的简单 Web 服务器已经完成，下面是完整的代码:
 
-
 ## 完整代码
-```rust
+
+```rust,ignore,mdbook-runnable
 // src/main.rs
 use hello::ThreadPool;
 use std::fs;
@@ -293,7 +291,7 @@ fn handle_connection(mut stream: TcpStream) {
 }
 ```
 
-```rust
+```rust,ignore,mdbook-runnable
 // src/lib.rs
 use std::{
     sync::{mpsc, Arc, Mutex},
@@ -399,16 +397,15 @@ impl Worker {
 - 使用线程池完成其它类型的工作，而不仅仅是本章的 Web 服务器
 - 在 `crates.io` 上找到一个线程池实现，然后使用该包实现一个类似的 Web 服务器
 
-
 ## 上一章节的遗留问题
 
 在上一章节的末尾，我们提到将 `let` 替换为 `while let` 后，多线程的优势将荡然无存，原因藏的很隐蔽：
 
-1. `Mutex` 结构体没有提供显式的 `unlock`，要依赖作用域结束后的 `drop` 来自动释放 
+1. `Mutex` 结构体没有提供显式的 `unlock`，要依赖作用域结束后的 `drop` 来自动释放
 2. `let job = receiver.lock().unwrap().recv().unwrap();` 在这行代码中，由于使用了 `let`，右边的任何临时变量会在 `let` 语句结束后立即被 `drop`，因此锁会自动释放
 3. 然而 `while let` (还包括 `if let` 和 `match`) 直到最后一个花括号后，才触发 `drop`
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Worker {
     fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
         let thread = thread::spawn(move || {

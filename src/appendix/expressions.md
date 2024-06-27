@@ -4,14 +4,14 @@
 
 ### 基本表达式
 
-```rust
+```rust,ignore,mdbook-runnable
 let n = 3;
 let s = "test";
 ```
 
 ### if 表达式
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let var1 = 10;
 
@@ -29,7 +29,7 @@ fn main() {
 
 你还可以在循环中结合 `continue` 、`break` 来使用：
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut v = 0;
 for i in 1..10 {
     v = if i == 9 {
@@ -43,7 +43,7 @@ println!("{}", v);
 
 ### if let 表达式
 
-```rust
+```rust,ignore,mdbook-runnable
 let o = Some(3);
 let v = if let Some(x) = o {
     x
@@ -54,7 +54,7 @@ let v = if let Some(x) = o {
 
 ### match 表达式
 
-```rust
+```rust,ignore,mdbook-runnable
 let o = Some(3);
 let v = match o {
     Some(x) => x,
@@ -64,7 +64,7 @@ let v = match o {
 
 ### loop 表达式
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut n = 0;
 let v = loop {
     if n == 10 {
@@ -76,7 +76,7 @@ let v = loop {
 
 ### 语句块 {}
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut n = 0;
 let v = {
     println!("before: {}", n);

@@ -30,7 +30,7 @@
 
 `Cargo.toml` 是一个清单文件( `manifest` )包含了我们 `package` 的描述元数据。例如，通过以下内容可以说明对另一个 `package` 的依赖 :
 
-```rust
+```rust,ignore,mdbook-runnable
 [package]
 name = "hello_world"
 version = "0.1.0"
@@ -45,7 +45,7 @@ regex = { git = "https://github.com/rust-lang/regex.git" }
 
 可以看出，确保依赖版本的确定性是非常重要的:
 
-```rust
+```rust,ignore,mdbook-runnable
 [dependencies]
 regex = { git = "https://github.com/rust-lang/regex.git", rev = "9f9f693" }
 ```
@@ -58,7 +58,7 @@ regex = { git = "https://github.com/rust-lang/regex.git", rev = "9f9f693" }
 
 当有了 `Cargo.lock` 后，我们无需手动追踪依赖库的 `rev`，`Cargo` 会自动帮我们完成，还是之前的清单:
 
-```rust
+```rust,ignore,mdbook-runnable
 [package]
 name = "hello_world"
 version = "0.1.0"
@@ -69,7 +69,7 @@ regex = { git = "https://github.com/rust-lang/regex.git" }
 
 第一次构建时，`Cargo` 依然会拉取最新的 `master commit`，然后将以下信息写到 `Cargo.lock` 文件中:
 
-```rust
+```rust,ignore,mdbook-runnable
 [[package]]
 name = "hello_world"
 version = "0.1.0"
@@ -89,7 +89,7 @@ source = "git+https://github.com/rust-lang/regex.git#9f9f693768c584971a4d53bc3c5
 
 由于 `Cargo.lock` 会锁住依赖的版本，你需要通过手动的方式将依赖更新到新的版本：
 
-```rust
+```rust,ignore,mdbook-runnable
 $ cargo update            # 更新所有依赖
 $ cargo update -p regex   # 只更新 “regex”
 ```

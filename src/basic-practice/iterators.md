@@ -2,14 +2,13 @@
 
 > 本章节是可选内容，请大家在看完[迭代器章节](https://course.rs/advance/functional-programing/iterator.html)后，再来阅读
 
-
 在之前的 `minigrep` 中，功能虽然已经 ok，但是一些细节上还值得打磨下，下面一起看看如何使用迭代器来改进 `Config::build` 和 `search` 的实现。
 
 ## 移除 `clone` 的使用
 
 虽然之前有讲过为什么这里可以使用 `clone`，但是也许总有同学心有芥蒂，毕竟程序员嘛，都希望代码处处完美，而不是丑陋的处处妥协。
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Config {
     pub fn build(args: &[String]) -> Result<Config, &'static str> {
         if args.len() < 3 {
@@ -38,7 +37,7 @@ impl Config {
 
 在之前的实现中，我们的 `args` 是一个动态数组:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let args: Vec<String> = env::args().collect();
 
@@ -55,7 +54,7 @@ fn main() {
 
 现在呢，无需数组了，直接传入迭代器即可：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let config = Config::build(env::args()).unwrap_or_else(|err| {
         eprintln!("Problem parsing arguments: {err}");
@@ -68,8 +67,7 @@ fn main() {
 
 如上所示，我们甚至省去了一行代码，原因是 `env::args` 可以直接返回一个迭代器，再作为 `Config::build` 的参数传入，下面再来改写 `build` 方法。
 
-
-```rust
+```rust,ignore,mdbook-runnable
 impl Config {
     pub fn build(
         mut args: impl Iterator<Item = String>,
@@ -85,7 +83,7 @@ impl Config {
 
 数组索引会越界，为了安全性和简洁性，使用 `Iterator` 特征自带的 `next` 方法是一个更好的选择:
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Config {
     pub fn build(
         mut args: impl Iterator<Item = String>,
@@ -116,12 +114,11 @@ impl Config {
 
 喔，上面使用了迭代器和模式匹配的代码，看上去是不是很 Rust？我想我们已经走在了正确的道路上。
 
-
 ## 使用迭代器适配器让代码更简洁
 
 为了帮大家更好的回忆和对比，之前的 `search` 长这样：
 
-```rust
+```rust,ignore,mdbook-runnable
 // in lib.rs
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     let mut results = Vec::new();
@@ -138,7 +135,7 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
 
 引入了迭代器后，就连古板的 `search` 函数也可以变得更 rusty 些:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     contents
         .lines()
@@ -148,7 +145,6 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
 ```
 
 Rock，让我们的函数编程 Style rock 起来，这种一行到底的写法有时真的让人沉迷。
-
 
 ## 总结
 

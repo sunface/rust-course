@@ -2,7 +2,7 @@
 
 好了，这就是本书最烂的部分，也是我花了 7 年时间才写完这一章的原因！是时候把我们已经做过 5 次的枯燥乏味的东西再写一遍了，但因为我们必须使用 Option<NonNull<Node<T>> 把每件事都做两遍，所以显得格外冗长！
 
-```rust
+```rust,ignore,mdbook-runnable
 impl<T> LinkedList<T> {
     pub fn new() -> Self {
         Self {
@@ -17,7 +17,7 @@ impl<T> LinkedList<T> {
 
 PhantomData 是一种奇怪的类型，没有字段，所以你只需说出它的类型名称就能创建一个。
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn push_front(&mut self, elem: T) {
     // SAFETY: it's a linked-list, what do you want?
     unsafe {
@@ -31,7 +31,7 @@ pub fn push_front(&mut self, elem: T) {
             (*old).front = Some(new);
             (*new).back = Some(old);
         } else {
-            // If there's no front, then we're the empty list and need 
+            // If there's no front, then we're the empty list and need
             // to set the back too. Also here's some integrity checks
             // for testing, in case we mess up.
             debug_assert!(self.back.is_none());
@@ -52,7 +52,7 @@ error[E0614]: type `NonNull<Node<T>>` cannot be dereferenced
 
 是的，我真恨 `NonNull<Node<T>>`。我们需要明确地使用 `as_ptr` 从 NonNull 中获取原始指针，因为 DerefMut 是以 `&mut` 定义的，我们不想在不安全代码中随意引入安全引用！
 
-```rust
+```rust,ignore,mdbook-runnable
             (*old.as_ptr()).front = Some(new);
             (*new.as_ptr()).back = Some(old);
    Compiling linked-list v0.0.3
@@ -71,7 +71,7 @@ warning: `linked-list` (lib test) generated 1 warning
 
 很好，接下来是 `pop` 和 `len`：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn pop_front(&mut self) -> Option<T> {
     unsafe {
         // Only have to do stuff if there is a front node to pop.
@@ -111,7 +111,7 @@ pub fn len(&self) -> usize {
 
 在我看来是合法的，是时候写一个测试了！
 
-```rust
+```rust,ignore,mdbook-runnable
 #[cfg(test)]
 mod test {
     use super::LinkedList;

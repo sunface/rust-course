@@ -10,7 +10,7 @@ Rust 中哈希类型（哈希映射）为 `HashMap<K,V>`，在其它语言中，
 
 ### 使用 new 方法创建
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::collections::HashMap;
 
 // 创建一个HashMap，用于存储宝石种类和对应的数量
@@ -40,7 +40,7 @@ my_gems.insert("河边捡的误以为是宝石的破石头", 18);
 
 一个动动脚趾头就能想到的笨方法如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     use std::collections::HashMap;
 
@@ -63,7 +63,7 @@ fn main() {
 
 好在，Rust 为我们提供了一个非常精妙的解决办法：先将 `Vec` 转为迭代器，接着通过 `collect` 方法，将迭代器中的元素收集后，转成 `HashMap`：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     use std::collections::HashMap;
 
@@ -74,7 +74,7 @@ fn main() {
     ];
 
     let teams_map: HashMap<_,_> = teams_list.into_iter().collect();
-    
+
     println!("{:?}",teams_map)
 }
 ```
@@ -91,7 +91,6 @@ error[E0282]: type annotations needed // 需要类型标注
    |         ^^^^^^^^^ consider giving `teams_map` a type // 给予 `teams_map` 一个具体的类型
 ```
 
-
 ## 所有权转移
 
 `HashMap` 的所有权规则与其它 Rust 类型没有区别：
@@ -101,7 +100,7 @@ error[E0282]: type annotations needed // 需要类型标注
 
 例如我参选帅气男孩时的场景再现：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     use std::collections::HashMap;
 
@@ -136,7 +135,7 @@ error[E0382]: borrow of moved value: `name`
 
 **如果你使用引用类型放入 HashMap 中**，请确保该引用的生命周期至少跟 `HashMap` 活得一样久：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     use std::collections::HashMap;
 
@@ -170,7 +169,7 @@ fn main() {
 
 通过 `get` 方法可以获取元素：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::collections::HashMap;
 
 let mut scores = HashMap::new();
@@ -189,16 +188,15 @@ let score: Option<&i32> = scores.get(&team_name);
 
 还可以继续拓展下，上面的代码中，如果我们想直接获得值类型的 `score` 该怎么办，答案简约但不简单：
 
-```rust
+```rust,ignore,mdbook-runnable
 let score: i32 = scores.get(&team_name).copied().unwrap_or(0);
 ```
 
 这里留给大家一个小作业：去官方文档中查询下 `Option` 的 `copied` 方法和 `unwrap_or` 方法的含义及该如何使用。
 
-
 还可以通过循环的方式依次遍历 `KV` 对：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::collections::HashMap;
 
 let mut scores = HashMap::new();
@@ -222,7 +220,7 @@ Blue: 10
 
 更新值的时候，涉及多种情况，咱们在代码中一一进行说明：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     use std::collections::HashMap;
 
@@ -254,7 +252,7 @@ fn main() {
 
 另一个常用场景如下：查询某个 `key` 对应的值，若不存在则插入新值，若存在则对已有的值进行更新，例如在文本中统计词语出现的次数：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::collections::HashMap;
 
 let text = "hello world wonderful world";
@@ -295,7 +293,7 @@ println!("{:?}", map);
 
 因此若性能测试显示当前标准库默认的哈希函数不能满足你的性能需求，就需要去 [`crates.io`](https://crates.io) 上寻找其它的哈希函数实现，使用方法很简单：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::hash::BuildHasherDefault;
 use std::collections::HashMap;
 // 引入第三方的哈希函数
@@ -310,7 +308,6 @@ assert_eq!(hash.get(&42), Some(&"the answer"));
 > 目前，`HashMap` 使用的哈希函数是 `SipHash`，它的性能不是很高，但是安全性很高。`SipHash` 在中等大小的 `Key` 上，性能相当不错，但是对于小型的 `Key` （例如整数）或者大型 `Key` （例如字符串）来说，性能还是不够好。若你需要极致性能，例如实现算法，可以考虑这个库：[ahash](https://github.com/tkaitchuck/ahash)。
 
 最后，如果你想要了解 `HashMap` 更多的用法，请参见本书的标准库解析章节：[HashMap 常用方法](https://course.rs/std/hashmap.html)
-
 
 ## 课后练习
 

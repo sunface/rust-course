@@ -3,6 +3,7 @@
 但凡稍微没那么糟糕的程序，都应该具有代码模块化和错误处理，不然连玩具都谈不上。
 
 梳理我们的代码和目标后，可以整理出大致四个改进点:
+
 - **单一且庞大的函数**。对于 `minigrep` 程序而言， `main` 函数当前执行两个任务：解析命令行参数和读取文件。但随着代码的增加，`main` 函数承载的功能也将快速增加。从软件工程角度来看，一个函数具有的功能越多，越是难以阅读和维护。因此最好的办法是将大的函数拆分成更小的功能单元。
 - **配置变量散乱在各处**。还有一点要考虑的是，当前 `main` 函数中的变量都是独立存在的，这些变量很可能被整个程序所访问，在这个背景下，独立的变量越多，越是难以维护，因此我们还可以将这些用于配置的变量整合到一个结构体中。
 - **细化错误提示**。 目前的实现中，我们使用 `expect` 方法来输出文件读取失败时的错误信息，这个没问题，但是无论任何情况下，都只输出 `Should have been able to read the file` 这条错误提示信息，显然是有问题的，毕竟文件不存在、无权限等等都是可能的错误，一条大一统的消息无法给予用户更多的提示。
@@ -22,14 +23,15 @@
 - 调用 `lib.rs` 中的 `run` 函数，以启动逻辑代码的运行
 - 如果 `run` 返回一个错误，需要对该错误进行处理
 
-这个方案有一个很优雅的名字: 关注点分离(Separation of Concerns)。简而言之，`main.rs` 负责启动程序，`lib.rs` 负责逻辑代码的运行。从测试的角度而言，这种分离也非常合理：  `lib.rs` 中的主体逻辑代码可以得到简单且充分的测试，至于 `main.rs` ？确实没办法针对其编写额外的测试代码，但是它的代码也很少啊，很容易就能保证它的正确性。
+这个方案有一个很优雅的名字: 关注点分离(Separation of Concerns)。简而言之，`main.rs` 负责启动程序，`lib.rs` 负责逻辑代码的运行。从测试的角度而言，这种分离也非常合理： `lib.rs` 中的主体逻辑代码可以得到简单且充分的测试，至于 `main.rs` ？确实没办法针对其编写额外的测试代码，但是它的代码也很少啊，很容易就能保证它的正确性。
 
 > 关于如何在 Rust 中编写测试代码，请参见如下章节：https://course.rs/test/intro.html
 
 ### 分离命令行解析
 
 根据之前的分析，我们需要将命令行解析的代码分离到一个单独的函数，然后将该函数放置在 `main.rs` 中：
-```rust
+
+```rust,ignore,mdbook-runnable
 // in main.rs
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -55,7 +57,7 @@ fn parse_config(args: &[String]) -> (&str, &str) {
 
 前文提到，配置变量并不适合分散的到处都是，因此使用一个结构体来统一存放是非常好的选择，这样修改后，后续的使用以及未来的代码维护都将更加简单明了。
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let args: Vec<String> = env::args().collect();
 
@@ -92,15 +94,15 @@ fn parse_config(args: &[String]) -> Config {
 > 因此是否使用 `clone` 更多是一种性能上的权衡，对于上面的使用而言，由于是配置的初始化，因此整个程序只需要执行一次，性能损耗几乎是可以忽略不计的。
 >
 > 总之，判断是否使用 `clone`:
+>
 > - 是否严肃的项目，玩具项目直接用 `clone` 就行，简单不好吗？
 > - 要看所在的代码路径是否是热点路径(hot path)，例如执行次数较多的显然就是热点路径，热点路径就值得去使用性能更好的实现方式
->
 
 好了，言归正传，从 `C` 语言过来的同学可能会觉得上面的代码已经很棒了，但是从 OO 语言角度来说，还差了那么一点意思。
 
 下面我们试着来优化下，通过构造函数来初始化一个 `Config` 实例，而不是直接通过函数返回实例，典型的，标准库中的 `String::new` 函数就是一个范例。
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let args: Vec<String> = env::args().collect();
 
@@ -144,7 +146,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 还记得在错误处理章节，我们提到过 `panic` 的两种用法: 被动触发和主动调用嘛？上面代码的出现方式很明显是被动触发，这种报错信息是不可控的，下面我们先改成主动调用的方式:
 
-```rust
+```rust,ignore,mdbook-runnable
 // in main.rs
  // --snip--
     fn new(args: &[String]) -> Config {
@@ -168,11 +170,12 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 不错，用户看到了更为明确的提示，但是还是有一大堆 `debug` 输出，这些我们其实是不想让用户看到的。这么看来，想要输出对用户友好的信息, `panic` 是不太适合的，它更适合告知开发者，哪里出现了问题。
 
 ### 返回 Result 来替代直接 panic
+
 那只能祭出之前学过的错误处理大法了，也就是返回一个 `Result`：成功时包含 `Config` 实例，失败时包含一条错误信息。
 
 有一点需要额外注意下，从代码惯例的角度出发，`new` 往往不会失败，毕竟新建一个实例没道理失败，对不？因此修改为 `build` 会更加合适。
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Config {
     fn build(args: &[String]) -> Result<Config, &'static str> {
         if args.len() < 3 {
@@ -193,7 +196,7 @@ impl Config {
 
 接下来就是在调用 `build` 函数时，对返回的 `Result` 进行处理了，目的就是给出准确且友好的报错提示, 为了让大家更好的回顾我们修改过的内容，这里给出整体代码:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::env;
 use std::fs;
 use std::process;
@@ -244,6 +247,7 @@ impl Config {
 综上可知，`config` 变量的值是一个 `Config` 实例，而 `unwrap_or_else` 闭包中的 `err` 参数，它的类型是 `'static str`，值是 "not enough arguments" 那个字符串字面量。
 
 运行后，可以看到以下输出：
+
 ```shell
 $ cargo run
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
@@ -258,7 +262,7 @@ Problem parsing arguments: not enough arguments
 
 接下来可以继续精简 `main` 函数，那就是将主体逻辑( 例如业务逻辑 )从 `main` 中分离出去，这样 `main` 函数就保留主流程调用，非常简洁。
 
-```rust
+```rust,ignore,mdbook-runnable
 // in main.rs
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -284,15 +288,15 @@ fn run(config: Config) {
 // --snip--
 ```
 
-
 如上所示，`main` 函数仅保留主流程各个环节的调用，一眼看过去非常简洁清晰。
 
 继续之前，先请大家仔细看看 `run` 函数，你们觉得还缺少什么？提示：参考 `build` 函数的改进过程。
 
 ### 使用 ? 和特征对象来返回错误
+
 答案就是 `run` 函数没有错误处理，因为在文章开头我们提到过，错误处理最好统一在一个地方完成，这样极其有利于后续的代码维护。
 
-```rust
+```rust,ignore,mdbook-runnable
 //in main.rs
 use std::error::Error;
 
@@ -313,7 +317,8 @@ fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
 明白了 `Box<dyn Error>` 的重要战略地位，接下来大家分析下，`fs::read_to_string` 返回的具体错误类型是怎么被转化为 `Box<dyn Error>` 的？其实原因在之前章节都有讲过，这里就不直接给出答案了，参见 [?-传播界的大明星](https://course.rs/basic/result-error/result.html#传播界的大明星-)。
 
-运行代码看看效果： 
+运行代码看看效果：
+
 ```shell
 $ cargo run the poem.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
@@ -345,10 +350,9 @@ To an admiring bog!
 
 没任何问题，不过 Rust 编译器也给出了善意的提示，那就是 `Result` 并没有被使用，这可能意味着存在错误的潜在可能性。
 
-
 ### 处理返回的错误
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     // --snip--
 
@@ -374,7 +378,7 @@ fn main() {
 
 首先，创建一个 `src/lib.rs` 文件，然后将所有的非 `main` 函数都移动到其中。代码大概类似：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::error::Error;
 use std::fs;
 
@@ -396,7 +400,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
 为了内容的简洁性，这里忽略了具体的实现，下一步就是在 `main.rs` 中引入 `lib.rs` 中定义的 `Config` 类型。
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::env;
 use std::process;
 

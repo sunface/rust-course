@@ -2,7 +2,7 @@
 
 在 Rust 中，我们不太容易遇到栈溢出，因为默认栈还挺大的，而且大的数据往往存在堆上(动态增长)，但是一旦遇到该如何处理？先来看段代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 #![feature(test)]
 extern crate test;
 

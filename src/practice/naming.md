@@ -4,25 +4,25 @@
 
 通常，对于 **type-level** 的构造 Rust 倾向于使用**驼峰命名法**，而对于 **value-level** 的构造使用**蛇形命名法**。详情如下：
 
-| 条目 | 惯例 |
-| ---- | ---------- |
-| 包 Crates | [unclear](https://github.com/rust-lang/api-guidelines/issues/29) |
-| 模块 Modules | `snake_case` |
-| 类型 Types | `UpperCamelCase` |
-| 特征 Traits | `UpperCamelCase` |
-| 枚举 Enumerations | `UpperCamelCase` |
-| 结构体 Structs | `UpperCamelCase` |
-| 函数 Functions | `snake_case` |
-| 方法 Methods | `snake_case` |
-| 通用构造器 General constructors | `new` or `with_more_details` |
-| 转换构造器 Conversion constructors | `from_some_other_type` |
-| 宏 Macros | `snake_case!` |
-| 局部变量 Local variables | `snake_case` |
-| 静态类型 Statics | `SCREAMING_SNAKE_CASE` |
-| 常量 Constants | `SCREAMING_SNAKE_CASE` |
-| 类型参数 Type parameters | `UpperCamelCase`，通常使用一个大写字母: `T` |
-| 生命周期 Lifetimes | 通常使用小写字母: `'a`，`'de`，`'src` |
-| Features | [unclear](https://github.com/rust-lang/api-guidelines/issues/101) but see [C-FEATURE] |
+| 条目                               | 惯例                                                                                  |
+| ---------------------------------- | ------------------------------------------------------------------------------------- |
+| 包 Crates                          | [unclear](https://github.com/rust-lang/api-guidelines/issues/29)                      |
+| 模块 Modules                       | `snake_case`                                                                          |
+| 类型 Types                         | `UpperCamelCase`                                                                      |
+| 特征 Traits                        | `UpperCamelCase`                                                                      |
+| 枚举 Enumerations                  | `UpperCamelCase`                                                                      |
+| 结构体 Structs                     | `UpperCamelCase`                                                                      |
+| 函数 Functions                     | `snake_case`                                                                          |
+| 方法 Methods                       | `snake_case`                                                                          |
+| 通用构造器 General constructors    | `new` or `with_more_details`                                                          |
+| 转换构造器 Conversion constructors | `from_some_other_type`                                                                |
+| 宏 Macros                          | `snake_case!`                                                                         |
+| 局部变量 Local variables           | `snake_case`                                                                          |
+| 静态类型 Statics                   | `SCREAMING_SNAKE_CASE`                                                                |
+| 常量 Constants                     | `SCREAMING_SNAKE_CASE`                                                                |
+| 类型参数 Type parameters           | `UpperCamelCase`，通常使用一个大写字母: `T`                                           |
+| 生命周期 Lifetimes                 | 通常使用小写字母: `'a`，`'de`，`'src`                                                 |
+| Features                           | [unclear](https://github.com/rust-lang/api-guidelines/issues/101) but see [C-FEATURE] |
 
 对于**驼峰命名法**，复合词的缩略形式我们认为是一个单独的词语，所以**只对首字母进行大写**：使用 `Uuid` 而不是 ~~`UUID`~~，`Usize` 而不是 ~~`USize`~~，`Stdin` 而不是 ~~`StdIn`~~。
 
@@ -37,16 +37,18 @@
 [C-FEATURE]: #c-feature
 
 ## 特征命名
+
 特征的名称应该使用动词，而不是形容词或者名词，例如 `Print` 和 `Draw` 明显好于 `Printable` 和 `Drawable`。
 
 ## 类型转换要遵守 `as_`，`to_`，`into_` 命名惯例(C-CONV)
+
 类型转换应该通过方法调用的方式实现，其中的前缀规则如下：
 
-| 方法前缀 | 性能开销 | 所有权改变 |
-| ------ | ---- | --------- |
-| `as_` | Free | borrowed -\> borrowed |
-| `to_` | Expensive | borrowed -\> borrowed<br>borrowed -\> owned (non-Copy types)<br>owned -\> owned (Copy types) |
-| `into_` | Variable | owned -\> owned (non-Copy types) |
+| 方法前缀 | 性能开销  | 所有权改变                                                                                   |
+| -------- | --------- | -------------------------------------------------------------------------------------------- |
+| `as_`    | Free      | borrowed -\> borrowed                                                                        |
+| `to_`    | Expensive | borrowed -\> borrowed<br>borrowed -\> owned (non-Copy types)<br>owned -\> owned (Copy types) |
+| `into_`  | Variable  | owned -\> owned (non-Copy types)                                                             |
 
 例如：
 
@@ -54,7 +56,6 @@
 - [`Path::to_str`] 会执行一次昂贵的 UTF-8 字节数组检查，输入和输出都是借用的。对于这种情况，如果把方法命名为 `as_str` 是不正确的，因为这个方法的开销还挺大
 - [`str::to_lowercase()`] 在调用过程中会遍历字符串的字符，且可能会分配新的内存对象。输入是一个借用的 `str`，输出是一个有独立所有权的 `String`
 - [`String::into_bytes()`] 返回 `String` 底层的 `Vec<u8>` 数组，转换本身是零消耗的。该方法获取 `String` 的所有权，然后返回一个新的有独立所有权的 `Vec<u8>`
-
 
 [`str::as_bytes()`]: https://doc.rust-lang.org/std/primitive.str.html#method.as_bytes
 [`Path::to_str`]: https://doc.rust-lang.org/std/path/struct.Path.html#method.to_str
@@ -64,9 +65,7 @@
 [`BufReader::into_inner()`]: https://doc.rust-lang.org/std/io/struct.BufReader.html#method.into_inner
 [`BufWriter::into_inner()`]: https://doc.rust-lang.org/std/io/struct.BufWriter.html#method.into_inner
 
-
 当一个单独的值被某个类型所包装时，访问该类型的内部值应通过 `into_inner()` 方法来访问。例如将一个缓冲区值包装为 [`BufReader`] 类型，还有 [`GzDecoder`]、[`AtomicBool`] 等，都是这种类型。
-
 
 [`BufReader`]: https://doc.rust-lang.org/std/io/struct.BufReader.html#method.into_inner
 [`GzDecoder`]: https://docs.rs/flate2/0.2.19/flate2/read/struct.GzDecoder.html#method.into_inner
@@ -76,7 +75,7 @@
 
 [`Vec::as_mut_slice`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.as_mut_slice
 
-```rust
+```rust,ignore,mdbook-runnable
 // 返回类型是一个 `mut` 切片
 fn as_mut_slice(&mut self) -> &mut [T];
 ```
@@ -88,12 +87,11 @@ fn as_mut_slice(&mut self) -> &mut [T];
 - [`slice::to_vec`](https://doc.rust-lang.org/std/primitive.slice.html#method.to_vec)
 - [`Option::into_iter`](https://doc.rust-lang.org/std/option/enum.Option.html#method.into_iter)
 
+## 读访问器(Getter)的名称遵循 Rust 的命名规范(C-GETTER)
 
-##  读访问器(Getter)的名称遵循 Rust 的命名规范(C-GETTER)
+除了少数例外，在 Rust 代码中 `get` 前缀不用于 Getter。
 
-除了少数例外，在 Rust代码中 `get` 前缀不用于 Getter。
-
-```rust
+```rust,ignore,mdbook-runnable
 pub struct S {
     first: First,
     second: Second,
@@ -111,6 +109,7 @@ impl S {
     }
 }
 ```
+
 至于上文提到的少数例外，如下：**当有且仅有一个值**能被 Getter 所获取时，才使用 `get` 前缀。例如，[`Cell::get`] 能直接访问到 `Cell` 中的内容。
 
 [`Cell::get`]: https://doc.rust-lang.org/std/cell/struct.Cell.html#method.get
@@ -118,7 +117,7 @@ impl S {
 有些 Getter 会在过程中执行运行时检查，那么我们就可以考虑添加 `_unchecked` Getter 函数，这个函数虽然不安全，但是往往具有更高的性能。
 典型的例子如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn get(&self, index: K) -> Option<&V>;
 fn get_mut(&mut self, index: K) -> Option<&mut V>;
 unsafe fn get_unchecked(&self, index: K) -> &V;
@@ -139,11 +138,12 @@ unsafe fn get_unchecked_mut(&mut self, index: K) -> &mut V;
 
 ## 一个集合上的方法，如果返回迭代器，需遵循命名规则：`iter`，`iter_mut`，`into_iter` (C-ITER)
 
-```rust
+```rust,ignore,mdbook-runnable
 fn iter(&self) -> Iter             // Iter implements Iterator<Item = &U>
 fn iter_mut(&mut self) -> IterMut  // IterMut implements Iterator<Item = &mut U>
 fn into_iter(self) -> IntoIter     // IntoIter implements Iterator<Item = U>
 ```
+
 上面的规则适用于同构性的数据集合。与之相反，`str` 类型是一个 UTF-8 字节数组切片，与同构性集合有一点微妙的差别，它可以认为是字节集合，也可以认为是字符集合，因此它提供了 [`str::bytes`] 去遍历字节，还有 [`str::chars`] 去遍历字符，而并没有直接定义 `iter` 等方法。
 
 [`str::bytes`]: https://doc.rust-lang.org/std/primitive.str.html#method.bytes
@@ -163,6 +163,7 @@ fn into_iter(self) -> IntoIter     // IntoIter implements Iterator<Item = U>
 - [`BTreeMap::iter_mut`](https://doc.rust-lang.org/std/collections/struct.BTreeMap.html#method.iter_mut)
 
 ## 迭代器的类型应该与产生它的方法名相匹配(C-ITER-TY)
+
 例如形如 `into_iter()` 的方法应该返回一个 `IntoIter` 类型，与之相似，其它任何返回迭代器的方法也应该遵循这种命名惯例。
 
 上述规则主要应用于方法，但是经常对于函数也适用。例如上文提到的 `url` 包中的 [`percent_encode`] 函数，返回了一个 [`PercentEncode`] 类型。
@@ -175,11 +176,11 @@ fn into_iter(self) -> IntoIter     // IntoIter implements Iterator<Item = U>
 
 ### 标准库示例
 
-* [`Vec::iter`] returns [`Iter`][slice::Iter]
-* [`Vec::iter_mut`] returns [`IterMut`][slice::IterMut]
-* [`Vec::into_iter`] returns [`IntoIter`][vec::IntoIter]
-* [`BTreeMap::keys`] returns [`Keys`][btree_map::Keys]
-* [`BTreeMap::values`] returns [`Values`][btree_map::Values]
+- [`Vec::iter`] returns [`Iter`][slice::Iter]
+- [`Vec::iter_mut`] returns [`IterMut`][slice::IterMut]
+- [`Vec::into_iter`] returns [`IntoIter`][vec::IntoIter]
+- [`BTreeMap::keys`] returns [`Keys`][btree_map::Keys]
+- [`BTreeMap::values`] returns [`Values`][btree_map::Values]
 
 [`Vec::iter`]: https://doc.rust-lang.org/std/vec/struct.Vec.html#method.iter
 [slice::Iter]: https://doc.rust-lang.org/std/slice/struct.Iter.html
@@ -192,8 +193,8 @@ fn into_iter(self) -> IntoIter     // IntoIter implements Iterator<Item = U>
 [`BTreeMap::values`]: https://doc.rust-lang.org/std/collections/struct.BTreeMap.html#method.values
 [btree_map::Values]: https://doc.rust-lang.org/std/collections/btree_map/struct.Values.html
 
-
 <a id="c-feature"></a>
+
 ## Cargo Feature 的名称不应该包含占位词(C-FEATURE)
 
 不要在 [Cargo feature] 中包含无法传达任何意义的词，例如 `use-abc` 或 `with-abc`，直接命名为 `abc` 即可。
@@ -210,11 +211,12 @@ default = ["std"]
 std = []
 ```
 
-```rust
+```rust,ignore,mdbook-runnable
 // 在我们自定义的 lib.rs 中
 
 #![cfg_attr(not(feature = "std"), no_std)]
 ```
+
 除了 `std` 之外，不要使用任何 `ust-std` 或者 `with-std` 等自以为很有创造性的名称。
 
 ## 命名要使用一致性的词序(C-WORD-ORDER)

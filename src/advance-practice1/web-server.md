@@ -18,9 +18,9 @@ $ cargo new hello
 $ cd hello
 ```
 
-接下来，使用 `std::net` 模块监听进入的请求连接，IP和端口是 `127.0.0.1:7878` 。
+接下来，使用 `std::net` 模块监听进入的请求连接，IP 和端口是 `127.0.0.1:7878` 。
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::net::TcpListener;
 
 fn main() {
@@ -41,7 +41,7 @@ fn main() {
 
 `unwrap` 的使用是因为 `bind` 返回 `Result<T,E>`，毕竟监听是有可能报错的，例如：如果要监听 `80` 端口往往需要管理员权限；监听了同样的端口，等等。
 
-`incoming` 会返回一个迭代器，它每一次迭代都会返回一个新的连接 `stream`(客户端发起，web服务器监听接收)，因此，接下来要做的就是从 `stream` 中读取数据，然后返回处理后的结果。
+`incoming` 会返回一个迭代器，它每一次迭代都会返回一个新的连接 `stream`(客户端发起，web 服务器监听接收)，因此，接下来要做的就是从 `stream` 中读取数据，然后返回处理后的结果。
 
 细心的同学可能会注意到，代码中对 `stream` 还进行了一次 `unwrap` 处理，原因在于我们并不是在迭代一个一个连接，而是在迭代处理一个一个请求建立连接的尝试，而这种尝试可能会失败！例如，操作系统的最大连接数限制。
 
@@ -65,7 +65,7 @@ Connection established!
 
 连接建立后，就可以开始读取客户端传来的数据:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::{
     io::{prelude::*, BufReader},
     net::{TcpListener, TcpStream},
@@ -167,7 +167,7 @@ HTTP/1.1 200 OK\r\n\r\n
 
 下面将该应答发送回客户端:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn handle_connection(mut stream: TcpStream) {
     let buf_reader = BufReader::new(&mut stream);
     let http_request: Vec<_> = buf_reader
@@ -196,7 +196,7 @@ fn handle_connection(mut stream: TcpStream) {
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Hello!</title>
   </head>
   <body>
@@ -208,7 +208,7 @@ fn handle_connection(mut stream: TcpStream) {
 
 看得出来，这是一个非常简单的 HTML5 网页文档，基本上没人读不懂吧 ：）
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::{
     fs,
     io::{prelude::*, BufReader},
@@ -241,14 +241,13 @@ fn handle_connection(mut stream: TcpStream) {
 
 > 用这么奇怪的格式返回应答数据，原因只有一个，我们在模拟实现真正的 http web 服务器框架。事实上，写逻辑代码时，只需使用现成的 web 框架( 例如 [`rocket`](https://rocket.rs) )去启动 web 服务即可，解析请求数据和返回应答数据都已经被封装在 API 中，非常简单易用
 
-
 ## 验证请求和选择性应答
 
 用户想要获取他的个人信息，你给他 say hi，用户想要查看他的某篇文章内容，你给他 say hi, 好吧用户想要骂你，你还是给它 say hi。
 
 是的，这种服务态度我们很欣赏，但是这种服务质量属实令人堪忧。因此我们要针对用户的不同请求给出相应的不同回复，让场景模拟更加真实。
 
-```rust
+```rust,ignore,mdbook-runnable
 fn handle_connection(mut stream: TcpStream) {
     let buf_reader = BufReader::new(&mut stream);
     let request_line = buf_reader.lines().next().unwrap().unwrap();
@@ -277,7 +276,7 @@ fn handle_connection(mut stream: TcpStream) {
 
 下面来完善下，当用户访问根路径之外的页面时，给他展示一个友好的 404 页面( 相比直接报错 )。
 
-```rust
+```rust,ignore,mdbook-runnable
     // --snip--
     } else {
         let status_line = "HTTP/1.1 404 NOT FOUND";
@@ -298,7 +297,7 @@ fn handle_connection(mut stream: TcpStream) {
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>你好!</title>
   </head>
   <body>
@@ -310,7 +309,7 @@ fn handle_connection(mut stream: TcpStream) {
 
 最后，上面的代码其实有很多重复，可以提取出来进行简单重构:
 
-```rust
+```rust,ignore,mdbook-runnable
 // --snip--
 
 fn handle_connection(mut stream: TcpStream) {
@@ -333,4 +332,3 @@ fn handle_connection(mut stream: TcpStream) {
 ```
 
 至此，单线程版本的服务器已经完成，但是说实话，没啥用，总不能让你的用户排队等待访问吧，那也太糟糕了...
-

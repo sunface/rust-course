@@ -4,7 +4,7 @@
 
 ### 匹配字面值
 
-```rust
+```rust,ignore,mdbook-runnable
 let x = 1;
 
 match x {
@@ -21,7 +21,7 @@ match x {
 
 在 [match](https://course.rs/basic/match-pattern/match-if-let.html#%E5%8F%98%E9%87%8F%E9%81%AE%E8%94%BD) 中，我们有讲过变量遮蔽的问题，这个在**匹配命名变量**时会遇到：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let x = Some(5);
     let y = 10;
@@ -50,7 +50,7 @@ fn main() {
 
 在 `match` 表达式中，可以使用 `|` 语法匹配多个模式，它代表 **或**的意思。例如，如下代码将 `x` 的值与匹配分支相比较，第一个分支有 **或** 选项，意味着如果 `x` 的值匹配此分支的任何一个模式，它就会运行：
 
-```rust
+```rust,ignore,mdbook-runnable
 let x = 1;
 
 match x {
@@ -68,7 +68,7 @@ match x {
 
 `..=` 语法允许你匹配一个闭区间序列内的值。在如下代码中，当模式匹配任何在此序列内的值时，该分支会执行：
 
-```rust
+```rust,ignore,mdbook-runnable
 let x = 5;
 
 match x {
@@ -83,7 +83,7 @@ match x {
 
 如下是一个使用字符类型序列的例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 let x = 'c';
 
 match x {
@@ -103,7 +103,7 @@ Rust 知道 `'c'` 位于第一个模式的序列内，所以会打印出 `early 
 
 下面代码展示了如何用 `let` 解构一个带有两个字段 `x` 和 `y` 的结构体 `Point`：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Point {
     x: i32,
     y: i32,
@@ -122,7 +122,7 @@ fn main() {
 
 因为变量名匹配字段名是常见的，同时因为 `let Point { x: x, y: y } = p;` 中 `x` 和 `y` 重复了，所以对于匹配结构体字段的模式存在简写：只需列出结构体字段的名称，则模式创建的变量会有相同的名称。下例与上例有着相同行为的代码，不过 `let` 模式创建的变量为 `x` 和 `y` 而不是 `a` 和 `b`：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Point {
     x: i32,
     y: i32,
@@ -143,7 +143,7 @@ fn main() {
 
 下文展示了固定某个字段的匹配方式：
 
-```rust
+```rust,ignore,mdbook-runnable
 # struct Point {
 #     x: i32,
 #     y: i32,
@@ -170,7 +170,7 @@ fn main() {
 
 下面代码以 `Message` 枚举为例，编写一个 `match` 使用模式解构每一个内部值：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum Message {
     Quit,
     Move { x: i32, y: i32 },
@@ -219,7 +219,7 @@ fn main() {
 
 例如使用下面的代码来同时支持 RGB 和 HSV 色彩模式：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum Color {
    Rgb(i32, i32, i32),
    Hsv(i32, i32, i32),
@@ -263,7 +263,7 @@ fn main() {
 
 我们甚至可以用复杂的方式来混合、匹配和嵌套解构模式。如下是一个复杂结构体的例子，其中结构体和元组嵌套在元组中，并将所有的原始类型解构出来：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Point {
      x: i32,
      y: i32,
@@ -279,7 +279,8 @@ let ((feet, inches), Point {x, y}) = ((3, 10), Point { x: 3, y: -10 });
 对于数组，我们可以用类似元组的方式解构，分为两种情况：
 
 定长数组
-```rust
+
+```rust,ignore,mdbook-runnable
 let arr: [u16; 2] = [114, 514];
 let [x, y] = arr;
 
@@ -288,7 +289,8 @@ assert_eq!(y, 514);
 ```
 
 不定长数组
-```rust
+
+```rust,ignore,mdbook-runnable
 let arr: &[u16] = &[114, 514];
 
 if let [x, ..] = arr {
@@ -313,7 +315,7 @@ assert!(!matches!(arr, [x, ..]));
 
 虽然 `_` 模式作为 `match` 表达式最后的分支特别有用，但是它的作用还不限于此。例如可以将其用于函数参数中：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn foo(_: i32, y: i32) {
     println!("This code only uses the y parameter: {}", y);
 }
@@ -331,7 +333,7 @@ fn main() {
 
 可以在一个模式内部使用 `_` 忽略部分值：
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut setting_value = Some(5);
 let new_setting_value = Some(10);
 
@@ -354,7 +356,7 @@ println!("setting is {:?}", setting_value);
 
 还可以在一个模式中的多处使用下划线来忽略特定值，如下所示，这里忽略了一个五元元组中的第二和第四个值：
 
-```rust
+```rust,ignore,mdbook-runnable
 let numbers = (2, 4, 8, 16, 32);
 
 match numbers {
@@ -372,7 +374,7 @@ match numbers {
 
 如果你创建了一个变量却不在任何地方使用它，Rust 通常会给你一个警告，因为这可能会是个 BUG。但是有时创建一个不会被使用的变量是有用的，比如你正在设计原型或刚刚开始一个项目。这时你希望告诉 Rust 不要警告未使用的变量，为此可以用下划线作为变量名的开头：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let _x = 5;
     let y = 10;
@@ -383,7 +385,7 @@ fn main() {
 
 注意, 只使用 `_` 和使用以下划线开头的名称有些微妙的不同：比如 **`_x` 仍会将值绑定到变量，而 `_` 则完全不会绑定**。
 
-```rust
+```rust,ignore,mdbook-runnable
 let s = Some(String::from("Hello!"));
 
 if let Some(_s) = s {
@@ -408,7 +410,7 @@ error[E0382]: borrow of partially moved value: `s`
 
 只使用下划线本身，则并不会绑定值，因为 `s` 没有被移动进 `_`：
 
-```rust
+```rust,ignore,mdbook-runnable
 let s = Some(String::from("Hello!"));
 
 if let Some(_) = s {
@@ -422,7 +424,7 @@ println!("{:?}", s);
 
 对于有多个部分的值，可以使用 `..` 语法来只使用部分值而忽略其它值，这样也不用再为每一个被忽略的值都单独列出下划线。`..` 模式会忽略模式中剩余的任何没有显式匹配的值部分。
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Point {
     x: i32,
     y: i32,
@@ -440,7 +442,7 @@ match origin {
 
 还可以用 `..` 来忽略元组中间的某些值：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let numbers = (2, 4, 8, 16, 32);
 
@@ -456,7 +458,7 @@ fn main() {
 
 然而使用 `..` 必须是无歧义的。如果期望匹配和忽略的值是不明确的，Rust 会报错。下面代码展示了一个带有歧义的 `..` 例子，因此不能编译：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let numbers = (2, 4, 8, 16, 32);
 
@@ -490,7 +492,7 @@ Rust 无法判断，`second` 应该匹配 `numbers` 中的第几个元素，因�
 
 这个条件可以使用模式中创建的变量：
 
-```rust
+```rust,ignore,mdbook-runnable
 let num = Some(4);
 
 match num {
@@ -508,7 +510,7 @@ match num {
 
 在之前，我们提到可以使用匹配守卫来解决模式中变量覆盖的问题，那里 `match` 表达式的模式中新建了一个变量而不是使用 `match` 之外的同名变量。内部变量覆盖了外部变量，意味着此时不能够使用外部变量的值，下面代码展示了如何使用匹配守卫修复这个问题。
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let x = Some(5);
     let y = 10;
@@ -529,7 +531,7 @@ fn main() {
 
 也可以在匹配守卫中使用 **或** 运算符 `|` 来指定多个模式，**同时匹配守卫的条件会作用于所有的模式**。下面代码展示了匹配守卫与 `|` 的优先级。这个例子中看起来好像 `if y` 只作用于 `6`，但实际上匹配守卫 `if y` 作用于 `4`、`5` **和** `6` ，在满足 `x` 属于 `4 | 5 | 6` 后才会判断 `y` 是否为 `true`：
 
-```rust
+```rust,ignore,mdbook-runnable
 let x = 4;
 let y = false;
 
@@ -561,7 +563,7 @@ match x {
 
 `@`（读作 at）运算符允许为一个字段绑定另外一个变量。下面例子中，我们希望测试 `Message::Hello` 的 `id` 字段是否位于 `3..=7` 范围内，同时也希望能将其值绑定到 `id_variable` 变量中以便此分支中相关的代码可以使用它。我们可以将 `id_variable` 命名为 `id`，与字段同名，不过出于示例的目的这里选择了不同的名称。
 
-```rust
+```rust,ignore,mdbook-runnable
 enum Message {
     Hello { id: i32 },
 }
@@ -593,7 +595,7 @@ match msg {
 
 使用 `@` 还可以在绑定新变量的同时，对目标进行解构：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct Point {
     x: i32,
@@ -620,7 +622,7 @@ fn main() {
 
 考虑下面一段代码:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     match 1 {
         num @ 1 | 2 => {
@@ -633,14 +635,13 @@ fn main() {
 
 编译不通过，是因为 `num` 没有绑定到所有的模式上，只绑定了模式 `1`，你可能会试图通过这个方式来解决：
 
-```rust
+```rust,ignore,mdbook-runnable
 num @ (1 | 2)
 ```
 
 但是，如果你用的是 Rust 1.53 之前的版本，那这种写法会报错，因为编译器不支持。
 
 至此，模式匹配的内容已经全部完结，复杂但是详尽，想要一次性全部记住属实不易，因此读者可以先留一个印象，等未来需要时，再来翻阅寻找具体的模式实现方式。
-
 
 ## 课后练习
 

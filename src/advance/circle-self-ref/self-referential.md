@@ -6,7 +6,7 @@
 
 可能也有不少人第一次听说自引用结构体，那咱们先来看看它们长啥样。
 
-```rust
+```rust,ignore,mdbook-runnable
 struct SelfRef<'a> {
     value: String,
 
@@ -17,7 +17,7 @@ struct SelfRef<'a> {
 
 以上就是一个很简单的自引用结构体，看上去好像没什么，那来试着运行下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main(){
     let s = "aaa".to_string();
     let v = SelfRef {
@@ -43,7 +43,7 @@ fn main(){
 
 最简单的方式就是使用 `Option` 分两步来实现：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct WhatAboutThis<'a> {
     name: String,
@@ -63,7 +63,7 @@ fn main() {
 
 在某种程度上来说，`Option` 这个方法可以工作，但是这个方法的限制较多，例如从一个函数创建并返回它是不可能的：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn creator<'a>() -> WhatAboutThis<'a> {
     let mut tricky = WhatAboutThis {
         name: "Annabelle".to_string(),
@@ -92,7 +92,7 @@ error[E0515]: cannot return value referencing local data `tricky.name`
 
 如果是通过方法使用，你需要一个无用 `&'a self` 生命周期标识，一旦有了这个标识，代码将变得更加受限，你将很容易就获得借用错误，就连 NLL 规则都没用：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct WhatAboutThis<'a> {
     name: String,
@@ -121,7 +121,7 @@ fn main() {
 
 既然借用规则妨碍了我们，那就一脚踢开：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct SelfRef {
     value: String,
@@ -164,7 +164,7 @@ fn main() {
 
 当然，上面的代码你还能通过裸指针来修改 `String`，但是需要将 `*const` 修改为 `*mut`：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct SelfRef {
     value: String,
@@ -223,7 +223,7 @@ hello, world!, 0x16f3aec70
 
 通过开头我们知道，自引用最麻烦的就是创建引用的同时，值的所有权会被转移，而通过 `Pin` 就可以很好的防止这一点：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::marker::PhantomPinned;
 use std::pin::Pin;
 use std::ptr::NonNull;
@@ -278,7 +278,7 @@ fn main() {
 
 对于自引用结构体，三方库也有支持的，其中一个就是 [ouroboros](https://github.com/joshua-maros/ouroboros)，当然它也有自己的限制，我们后面会提到，先来看看该如何使用：
 
-```rust
+```rust,ignore,mdbook-runnable
 use ouroboros::self_referencing;
 
 #[self_referencing]
@@ -310,7 +310,7 @@ fn main(){
 
 看上去很美好对吧？但是你可以尝试着去修改 `String` 字符串的值试试，`ouroboros` 限制还是较多的，但是对于基本类型依然是支持的不错，以下例子来源于官方：
 
-```rust
+```rust,ignore,mdbook-runnable
 use ouroboros::self_referencing;
 
 #[self_referencing]

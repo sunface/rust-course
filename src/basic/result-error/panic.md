@@ -8,10 +8,11 @@
 
 对于这些严重到影响程序运行的错误，触发 `panic` 是很好的解决方式。在 Rust 中触发 `panic` 有两种方式：被动触发和主动调用，下面依次来看看。
 
-
 ### 被动触发
+
 先来看一段简单又熟悉的代码:
-```rust
+
+```rust,ignore,mdbook-runnable
 fn main() {
     let v = vec![1, 2, 3];
 
@@ -22,6 +23,7 @@ fn main() {
 心明眼亮的同学立马就能看出这里发生了严重的错误 —— 数组访问越界，在其它编程语言中无一例外，都会报出严重的异常，甚至导致程序直接崩溃关闭。
 
 而 Rust 也不例外，运行后将看到如下报错：
+
 ```shell
 $ cargo run
    Compiling panic v0.1.0 (file:///projects/panic)
@@ -35,7 +37,6 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 总之，类似的 `panic` 还有很多，而被动触发的 `panic` 是我们日常开发中最常遇到的，这也是 Rust 给我们的一种保护，毕竟错误只有抛出来，才有可能被处理，否则只会偷偷隐藏起来，寻觅时机给你致命一击。
 
-
 ### 主动调用
 
 在某些特殊场景中，开发者想要主动抛出一个异常，例如开头提到的在系统启动阶段读取文件失败。
@@ -46,7 +47,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 首先，来调用一下 `panic!`，这里使用了最简单的代码实现，实际上你在程序的任何地方都可以这样调用：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     panic!("crash and burn");
 }
@@ -72,7 +73,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 在真实场景中，错误往往涉及到很长的调用链甚至会深入第三方库，如果没有栈展开技术，错误将难以跟踪处理，下面我们来看一个真实的崩溃例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let v = vec![1, 2, 3];
 
@@ -129,7 +130,7 @@ note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose bac
 
 对于绝大多数用户，使用默认选择是最好的，但是当你关心最终编译出的二进制可执行文件大小时，那么可以尝试去使用直接终止的方式，例如下面的配置修改 `Cargo.toml` 文件，实现在 [`release`](https://course.rs/first-try/cargo.html#手动编译和运行项目) 模式下遇到 `panic` 直接终止：
 
-```rust
+```rust,ignore,mdbook-runnable
 [profile.release]
 panic = 'abort'
 ```
@@ -146,7 +147,7 @@ panic = 'abort'
 
 先来一点背景知识，在前面章节我们粗略讲过 `Result<T, E>` 这个枚举类型，它是用来表示函数的返回结果：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum Result<T, E> {
     Ok(T),
     Err(E),
@@ -155,7 +156,7 @@ enum Result<T, E> {
 
 当没有错误发生时，函数返回一个用 `Result` 类型包裹的值 `Ok(T)`，当错误时，返回一个 `Err(E)`。对于 `Result` 返回我们有很多处理方法，最简单粗暴的就是 `unwrap` 和 `expect`，这两个函数非常类似，我们以 `unwrap` 举例：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::net::IpAddr;
 let home: IpAddr = "127.0.0.1".parse().unwrap();
 ```
@@ -174,7 +175,7 @@ let home: IpAddr = "127.0.0.1".parse().unwrap();
 
 因为 `panic` 的触发方式比错误处理要简单，因此可以让代码更清晰，可读性也更加好，当我们的代码注定是正确时，你可以用 `unwrap` 等方法直接进行处理，反正也不可能 `panic` ：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::net::IpAddr;
 let home: IpAddr = "127.0.0.1".parse().unwrap();
 ```

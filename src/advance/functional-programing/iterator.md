@@ -19,7 +19,7 @@ for (let i = 0; i < arr.length; i++) {
 
 在上面代码中，我们设置索引的开始点和结束点，然后再通过索引去访问元素 `arr[i]`，这就是典型的循环，来对比下 Rust 中的 `for`：
 
-```rust
+```rust,ignore,mdbook-runnable
 let arr = [1, 2, 3];
 for v in arr {
     println!("{}",v);
@@ -32,7 +32,7 @@ for v in arr {
 
 简而言之就是数组实现了 `IntoIterator` 特征，Rust 通过 `for` 语法糖，自动把实现了该特征的数组类型转换为迭代器（你也可以为自己的集合类型实现此特征），最终让我们可以直接对一个数组进行迭代，类似的还有：
 
-```rust
+```rust,ignore,mdbook-runnable
 for i in 1..10 {
     println!("{}", i);
 }
@@ -42,7 +42,7 @@ for i in 1..10 {
 
 `IntoIterator` 特征拥有一个 `into_iter` 方法，因此我们还可以显式的把数组转换成迭代器：
 
-```rust
+```rust,ignore,mdbook-runnable
 let arr = [1, 2, 3];
 for v in arr.into_iter() {
     println!("{}", v);
@@ -55,7 +55,7 @@ for v in arr.into_iter() {
 
 在 Rust 中，迭代器是惰性的，意味着如果你不使用它，那么它将不会发生任何事：
 
-```rust
+```rust,ignore,mdbook-runnable
 let v1 = vec![1, 2, 3];
 
 let v1_iter = v1.iter();
@@ -75,7 +75,7 @@ for val in v1_iter {
 
 先来看一个特征：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub trait Iterator {
     type Item;
 
@@ -91,7 +91,7 @@ pub trait Iterator {
 
 既然 `for` 可以调用 `next` 方法，是不是意味着我们也可以？来试试：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let arr = [1, 2, 3];
     let mut arr_iter = arr.into_iter();
@@ -115,7 +115,7 @@ fn main() {
 
 因为 `for` 循环是迭代器的语法糖，因此我们完全可以通过迭代器来模拟实现它：
 
-```rust
+```rust,ignore,mdbook-runnable
 let values = vec![1, 2, 3];
 
 {
@@ -139,7 +139,7 @@ let values = vec![1, 2, 3];
 
 其实有一个细节，由于 `Vec` 动态数组实现了 `IntoIterator` 特征，因此可以通过 `into_iter` 将其转换为迭代器，那如果本身就是一个迭代器，该怎么办？实际上，迭代器自身也实现了 `IntoIterator`，标准库早就帮我们考虑好了：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl<I: Iterator> IntoIterator for I {
     type Item = I::Item;
     type IntoIter = I;
@@ -153,7 +153,7 @@ impl<I: Iterator> IntoIterator for I {
 
 最终你完全可以写出这样的奇怪代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let values = vec![1, 2, 3];
 
@@ -175,7 +175,7 @@ fn main() {
 
 使用一段代码来解释下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let values = vec![1, 2, 3];
 
@@ -227,7 +227,7 @@ fn main() {
 
 其中一个例子是 `sum` 方法，它会拿走迭代器的所有权，然后通过不断调用 `next` 方法对里面的元素进行求和：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let v1 = vec![1, 2, 3];
 
@@ -247,7 +247,7 @@ fn main() {
 
 如代码注释中所说明的：在使用 `sum` 方法后，我们将无法再使用 `v1_iter`，因为 `sum` 拿走了该迭代器的所有权：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn sum<S>(self) -> S
     where
         Self: Sized,
@@ -266,7 +266,7 @@ fn sum<S>(self) -> S
 
 与消费者适配器不同，迭代器适配器是惰性的，意味着你**需要一个消费者适配器来收尾，最终将迭代器转换成一个具体的值**：
 
-```rust
+```rust,ignore,mdbook-runnable
 let v1: Vec<i32> = vec![1, 2, 3];
 
 v1.iter().map(|x| x + 1);
@@ -287,7 +287,7 @@ warning: unused `Map` that must be used
 
 如上述中文注释所说，这里的 `map` 方法是一个迭代者适配器，它是惰性的，不产生任何行为，因此我们还需要一个消费者适配器进行收尾：
 
-```rust
+```rust,ignore,mdbook-runnable
 let v1: Vec<i32> = vec![1, 2, 3];
 
 let v2: Vec<_> = v1.iter().map(|x| x + 1).collect();
@@ -305,7 +305,7 @@ assert_eq!(v2, vec![2, 3, 4]);
 
 再来看看如何使用 `collect` 收集成 `HashMap` 集合：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::collections::HashMap;
 fn main() {
     let names = ["sunface", "sunfei"];
@@ -324,7 +324,7 @@ fn main() {
 
 之前的 `map` 方法中，我们使用闭包来作为迭代器适配器的参数，它最大的好处不仅在于可以就地实现迭代器中元素的处理，还在于可以捕获环境值：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Shoe {
     size: u32,
     style: String,
@@ -343,7 +343,7 @@ fn shoes_in_size(shoes: Vec<Shoe>, shoe_size: u32) -> Vec<Shoe> {
 
 首先，创建一个计数器：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Counter {
     count: u32,
 }
@@ -357,7 +357,7 @@ impl Counter {
 
 我们为计数器 `Counter` 实现了一个关联函数 `new`，用于创建新的计数器实例。下面我们继续为计数器实现 `Iterator` 特征：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Iterator for Counter {
     type Item = u32;
 
@@ -378,7 +378,7 @@ impl Iterator for Counter {
 
 最后，使用我们新建的 `Counter` 进行迭代：
 
-```rust
+```rust,ignore,mdbook-runnable
  let mut counter = Counter::new();
 
 assert_eq!(counter.next(), Some(1));
@@ -395,7 +395,7 @@ assert_eq!(counter.next(), None);
 
 下面的代码演示了部分方法的使用：
 
-```rust
+```rust,ignore,mdbook-runnable
 let sum: u32 = Counter::new()
     .zip(Counter::new().skip(1))
     .map(|(a, b)| a * b)
@@ -416,7 +416,7 @@ assert_eq!(18, sum);
 
 在之前的流程控制章节，针对 `for` 循环，我们提供了一种方法可以获取迭代时的索引：
 
-```rust
+```rust,ignore,mdbook-runnable
 let v = vec![1u64, 2, 3, 4, 5, 6];
 for (i,v) in v.iter().enumerate() {
     println!("第{}个值是{}",i,v)
@@ -428,7 +428,7 @@ for (i,v) in v.iter().enumerate() {
 
 因为 `enumerate` 是迭代器适配器，因此我们可以对它返回的迭代器调用其它 `Iterator` 特征方法：
 
-```rust
+```rust,ignore,mdbook-runnable
 let v = vec![1u64, 2, 3, 4, 5, 6];
 let val = v.iter()
     .enumerate()
@@ -448,7 +448,7 @@ println!("{}", val);
 
 理论分析不会有结果，直接测试最为靠谱：
 
-```rust
+```rust,ignore,mdbook-runnable
 #![feature(test)]
 
 extern crate rand;

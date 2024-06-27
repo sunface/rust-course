@@ -6,7 +6,7 @@
 
 `select!` 允许同时等待多个计算操作，然后当其中一个操作完成时就退出等待:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::sync::oneshot;
 
 #[tokio::main]
@@ -45,7 +45,7 @@ async fn main() {
 
 对于 Tokio 的 `oneshot` 的接收端来说，它在被释放时会发送一个关闭通知到发送端，因此发送端可以通过释放任务的方式来终止正在执行的任务。
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::sync::oneshot;
 
 async fn some_operation() -> String {
@@ -93,7 +93,7 @@ async fn main() {
 
 为了更好的理解 `select` 的工作原理，我们来看看如果使用 `Future` 该如何实现。当然，这里是一个简化版本，在实际中，`select!` 会包含一些额外的功能，例如一开始会随机选择一个分支进行 `poll`。
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::sync::oneshot;
 use std::future::Future;
 use std::pin::Pin;
@@ -148,7 +148,7 @@ async fn main() {
 
 目前来说，`select!` 最多可以支持 64 个分支，每个分支形式如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 <模式> = <async 表达式> => <结果处理>,
 ```
 
@@ -162,7 +162,7 @@ async fn main() {
 
 例如从在分支中进行 TCP 连接：
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::net::TcpStream;
 use tokio::sync::oneshot;
 
@@ -188,7 +188,7 @@ async fn main() {
 
 再比如，在分支中进行 TCP 监听:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::net::TcpListener;
 use tokio::sync::oneshot;
 use std::io;
@@ -228,7 +228,7 @@ async fn main() -> io::Result<()> {
 
 `select!` 还能返回一个值:
 
-```rust
+```rust,ignore,mdbook-runnable
 async fn computation1() -> String {
     // .. 计算
 }
@@ -257,7 +257,7 @@ async fn main() {
 - 在分支中 `async` 表达式使用会将该表达式的结果变成一个 `Result`
 - 在结果处理中使用，会将错误直接传播到 `select!` 之外
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::net::TcpListener;
 use tokio::sync::oneshot;
 use std::io;
@@ -296,13 +296,13 @@ async fn main() -> io::Result<()> {
 
 既然是模式匹配，我们需要再来回忆下 `select!` 的分支语法形式:
 
-```rust
+```rust,ignore,mdbook-runnable
 <模式> = <async 表达式> => <结果处理>,
 ```
 
 迄今为止，我们只用了变量绑定的模式，事实上，[任何 Rust 模式](https://course.rs/basic/match-pattern/all-patterns.html)都可以在此处使用。
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::sync::mpsc;
 
 #[tokio::main]
@@ -336,7 +336,7 @@ async fn main() {
 
 来看个例子，在这里我们同时向两个 TCP 目标发送同样的数据:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::io::AsyncWriteExt;
 use tokio::net::TcpStream;
 use std::io;
@@ -371,7 +371,7 @@ async fn race(
 
 还有一个非常重要的点，**借用规则在分支表达式和结果处理中存在很大的不同**。例如上面代码中，我们在两个分支表达式中分别对 `data` 做了不可变借用，这当然 ok，但是若是两次可变借用，那编译器会立即进行报错。但是转折来了：当在结果处理中进行两次可变借用时，却不会报错，大家可以思考下为什么，提示下：思考下分支在执行完成后会发生什么？
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::sync::oneshot;
 
 #[tokio::main]
@@ -403,7 +403,7 @@ async fn main() {
 
 来看看该如何在循环中使用 `select!`，顺便说一句，跟循环一起使用是最常见的使用方式。
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::sync::mpsc;
 
 #[tokio::main]
@@ -433,7 +433,7 @@ async fn main() {
 
 #### 恢复之前的异步操作
 
-```rust
+```rust,ignore,mdbook-runnable
 async fn action() {
     // 一些异步逻辑
 }
@@ -507,7 +507,7 @@ error[E0599]: no method named `poll` found for struct
 - 等待异步操作完成，与此同时监听消息通道以获取更多的偶数
 - 若在异步操作完成前一个新的偶数到来了，终止当前的异步操作，然后接着使用新的偶数开始异步操作
 
-```rust
+```rust,ignore,mdbook-runnable
 async fn action(input: Option<i32>) -> Option<String> {
     // 若 input（输入）是None，则返回 None
     // 事实上也可以这么写: `let i = input?;`
@@ -566,7 +566,7 @@ thread 'main' panicked at '`async fn` resumed after completion', src/main.rs:1:5
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ```
 
-```'`async fn` resumed after completion'``` 错误的含义是：`async fn` 异步函数在完成后，依然被恢复了(继续使用)。
+`` '`async fn` resumed after completion' `` 错误的含义是：`async fn` 异步函数在完成后，依然被恢复了(继续使用)。
 
 回到例子中来，这个错误是由于 `operation` 在它已经调用完成后依然被使用。通常来说，当使用 `.await` 后，调用 `.await` 的值会被消耗掉，因此并不存在这个问题。但是在这例子中，我们在引用上调用 `.await`，因此之后该引用依然可以被使用。
 

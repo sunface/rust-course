@@ -6,7 +6,7 @@ Rust 的安全性是众所周知的，但是不代表它不会内存泄漏。一
 
 关于内存泄漏，如果你没有充足的 Rust 经验，可能都无法造出一份代码来再现它：
 
-```rust
+```rust,ignore,mdbook-runnable
 use crate::List::{Cons, Nil};
 use std::cell::RefCell;
 use std::rc::Rc;
@@ -37,7 +37,7 @@ fn main() {}
 
 下面来使用一下这个复杂的 `List` 枚举：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
 
@@ -146,7 +146,7 @@ fatal runtime error: stack overflow
 
 一个简单的例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::rc::Rc;
 fn main() {
     // 创建Rc，持有一个值5
@@ -178,7 +178,7 @@ fn main() {
 
 工具间里，每个工具都有其主人，且多个工具可以拥有一个主人；同时一个主人也可以拥有多个工具，在这种场景下，就很容易形成循环引用，好在我们有 `Weak`：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::rc::Rc;
 use std::rc::Weak;
 use std::cell::RefCell;
@@ -235,7 +235,7 @@ fn main() {
 
 #### tree 数据结构
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::cell::RefCell;
 use std::rc::{Rc, Weak};
 

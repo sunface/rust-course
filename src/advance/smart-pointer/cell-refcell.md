@@ -10,7 +10,7 @@ Rust 的编译器之严格，可以说是举世无双。特别是在所有权方
 
 `Cell` 和 `RefCell` 在功能上没有区别，区别在于 `Cell<T>` 适用于 `T` 实现 `Copy` 的情况：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::cell::Cell;
 fn main() {
   let c = Cell::new("asdf");
@@ -28,7 +28,7 @@ fn main() {
 
 取到值保存在 `one` 变量后，还能同时进行修改，这个违背了 Rust 的借用规则，但是由于 `Cell` 的存在，我们很优雅地做到了这一点，但是如果你尝试在 `Cell` 中存放`String`：
 
-```rust
+```rust,ignore,mdbook-runnable
  let c = Cell::new(String::from("asdf"));
 ```
 
@@ -56,7 +56,7 @@ fn main() {
 
 可以看出，`Rc/Arc` 和 `RefCell` 合在一起，解决了 Rust 中严苛的所有权和借用规则带来的某些场景下难使用的问题。但是它们并不是银弹，例如 `RefCell` 实际上并没有解决可变引用和引用可以共存的问题，只是将报错从编译期推迟到运行时，从编译器错误变成了 `panic` 异常：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::cell::RefCell;
 
 fn main() {
@@ -107,7 +107,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 `Cell` 没有额外的性能损耗，例如以下两段代码的性能其实是一致的：
 
-```rust
+```rust,ignore,mdbook-runnable
 // code snipet 1
 let x = Cell::new(1);
 let y = &x;
@@ -137,7 +137,7 @@ println!("{}", x);
 
 之前我们提到 `RefCell` 具有内部可变性，何为内部可变性？简单来说，对一个不可变的值进行可变借用，但这个并不符合 Rust 的基本借用规则：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let x = 5;
     let y = &mut x;
@@ -148,7 +148,7 @@ fn main() {
 
 虽然基本借用规则是 Rust 的基石，然而在某些场景中，一个值可以在其方法内部被修改，同时对于其它代码不可变，是很有用的：
 
-```rust
+```rust,ignore,mdbook-runnable
 // 定义在外部库中的特征
 pub trait Messenger {
     fn send(&self, msg: String);
@@ -184,7 +184,7 @@ error[E0596]: cannot borrow `self.msg_cache` as mutable, as it is behind a `&` r
 
 在报错的同时，编译器大聪明还善意地给出了提示：将 `&self` 修改为 `&mut self`，但是。。。我们实现的特征是定义在外部库中，因此该签名根本不能修改。值此危急关头， `RefCell` 闪亮登场：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::cell::RefCell;
 pub trait Messenger {
     fn send(&self, msg: String);
@@ -214,7 +214,7 @@ fn main() {
 
 在 Rust 中，一个常见的组合就是 `Rc` 和 `RefCell` 在一起使用，前者可以实现一个数据拥有多个所有者，后者可以实现数据的可变性：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::cell::RefCell;
 use std::rc::Rc;
 fn main() {
@@ -252,7 +252,7 @@ RefCell { value: "我很善变，还拥有多个主人, oh yeah!" }
 
 两者结合的数据结构与下面类似：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Wrapper<T> {
     // Rc
     strong_count: usize,
@@ -301,7 +301,7 @@ struct Wrapper<T> {
 
 这里我们不做深入的介绍，但是来看看如何使用这两个方法来解决一个常见的借用冲突问题：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn is_even(i: i32) -> bool {
     i % 2 == 0
 }
@@ -333,7 +333,7 @@ error[E0502]: cannot borrow `*nums` as mutable because it is also borrowed as im
 
 很明显，报错是因为同时借用了不可变与可变引用，你可以通过索引的方式来避免这个问题：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn retain_even(nums: &mut Vec<i32>) {
     let mut i = 0;
     for j in 0..nums.len() {
@@ -350,7 +350,7 @@ fn retain_even(nums: &mut Vec<i32>) {
 
 这时就可以使用 `Cell` 新增的这两个方法：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::cell::Cell;
 
 fn retain_even(nums: &mut Vec<i32>) {

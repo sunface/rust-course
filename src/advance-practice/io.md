@@ -15,7 +15,7 @@ Tokio 中的 I/O 操作和 `std` 在使用方式上几无区别，最大的区�
 
 `AsyncReadExt::read` 是一个异步方法可以将数据读入缓冲区( `buffer` )中，然后返回读取的字节数。
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::fs::File;
 use tokio::io::{self, AsyncReadExt};
 
@@ -38,7 +38,7 @@ async fn main() -> io::Result<()> {
 
 `AsyncReadExt::read_to_end` 方法会从字节流中读取所有的字节，直到遇到 `EOF` ：
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::io::{self, AsyncReadExt};
 use tokio::fs::File;
 
@@ -57,7 +57,7 @@ async fn main() -> io::Result<()> {
 
 `AsyncWriteExt::write` 异步方法会尝试将缓冲区的内容写入到写入器( `writer` )中，同时返回写入的字节数:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::io::{self, AsyncWriteExt};
 use tokio::fs::File;
 
@@ -78,7 +78,7 @@ async fn main() -> io::Result<()> {
 
 `AsyncWriteExt::write_all` 将缓冲区的内容全部写入到写入器中：
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::io::{self, AsyncWriteExt};
 use tokio::fs::File;
 
@@ -99,7 +99,7 @@ async fn main() -> io::Result<()> {
 
 例如，`tokio::io::copy` 异步的将读取器( `reader` )中的内容拷贝到写入器( `writer` )中。
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::fs::File;
 use tokio::io;
 
@@ -141,7 +141,7 @@ cargo run --bin echo-server-copy
 
 先来实现一下基本的服务器框架：通过 loop 循环接收 TCP 连接，然后为每一条连接创建一个单独的任务去处理。
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::io;
 use tokio::net::TcpListener;
 
@@ -161,7 +161,7 @@ async fn main() -> io::Result<()> {
 
 下面，来看看重头戏 `io::copy` ，它有两个参数：一个读取器，一个写入器，然后将读取器中的数据直接拷贝到写入器中，类似的实现代码如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 io::copy(&mut socket, &mut socket).await
 ```
 
@@ -175,7 +175,7 @@ io::copy(&mut socket, &mut socket).await
 
 例如，我们的回声客户端可以这样实现，以实现同时并发读写：
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::io::{self, AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
 
@@ -216,7 +216,7 @@ async fn main() -> io::Result<()> {
 
 再来分析下我们的使用场景，由于 `io::copy()` 调用时所在的任务和 `split` 所在的任务是同一个，因此可以使用性能最高的 `TcpStream::split`:
 
-```rust
+```rust,ignore,mdbook-runnable
 tokio::spawn(async move {
     let (mut rd, mut wr) = socket.split();
 
@@ -232,7 +232,7 @@ tokio::spawn(async move {
 
 程序员往往拥有一颗手动干翻一切的心，因此如果你不想用 `io::copy` 来简单实现，还可以自己手动去拷贝数据:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::io::{self, AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpListener;
 
@@ -273,7 +273,7 @@ async fn main() -> io::Result<()> {
 
 下面一起来看看这段代码有哪些值得注意的地方。首先，由于使用了 `write_all` 和 `read` 方法，需要先将对应的特征引入到当前作用域内:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::io::{self, AsyncReadExt, AsyncWriteExt};
 ```
 
@@ -281,7 +281,7 @@ use tokio::io::{self, AsyncReadExt, AsyncWriteExt};
 
 在上面代码中，我们需要将数据从 `socket` 中读取到一个缓冲区 `buffer` 中：
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut buf = vec![0; 1024];
 ```
 
@@ -291,7 +291,7 @@ let mut buf = vec![0; 1024];
 
 若该缓冲区数组创建在栈上，那每条连接所对应的任务的内部数据结构看上去可能如下所示：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Task {
     task: enum {
         AwaitingRead {
@@ -321,7 +321,7 @@ struct Task {
 
 当 TCP 连接的读取端关闭后，再调用 `read` 方法会返回 `Ok(0)`。此时，再继续下去已经没有意义，因此我们需要退出循环。忘记在 EOF 时退出读取循环，是网络编程中一个常见的 bug :
 
-```rust
+```rust,ignore,mdbook-runnable
 loop {
     match socket.read(&mut buf).await {
         Ok(0) => return,
@@ -331,4 +331,3 @@ loop {
 ```
 
 大家不妨深入思考下，如果没有退出循环会怎么样？之前我们提到过，一旦读取端关闭后，那后面的 `read` 调用就会立即返回 `Ok(0)`，而不会阻塞等待，因此这种无阻塞循环会最终导致 CPU 立刻跑到 100% ，并将一直持续下去，直到程序关闭。
-

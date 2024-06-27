@@ -36,7 +36,7 @@ nightly-aarch64-apple-darwin (override)
 
 当完成版本切换后，就可以开始正式编写 `benchmark` 代码了。首先，将 `src/lib.rs` 中的内容替换成如下代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 #![feature(test)]
 
 extern crate test;
@@ -104,7 +104,7 @@ test result: ok. 0 passed; 0 failed; 1 ignored; 1 measured; 0 filtered out; fini
 
 在写 `benchmark` 时，你可能会遇到一些很纳闷的棘手问题，例如以下代码:
 
-```rust
+```rust,ignore,mdbook-runnable
 #![feature(test)]
 
 extern crate test;
@@ -156,7 +156,7 @@ mod tests {
 
 解决很简单，使用 Rust 标准库中的 `black_box` 函数:
 
-```rust
+```rust,ignore,mdbook-runnable
  for i in 100..200 {
     test::black_box(fibonacci_u64(test::black_box(i)));
 }
@@ -197,7 +197,7 @@ harness = false
 
 接着，在项目中创建一个测试文件: `$PROJECT/benches/my_benchmark.rs`，然后加入以下内容：
 
-```rust
+```rust,ignore,mdbook-runnable
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 fn fibonacci(n: u64) -> u64 {

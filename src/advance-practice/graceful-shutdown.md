@@ -16,7 +16,7 @@
 
 为了检测来自操作系统的关闭信号，`Tokio` 提供了一个 `tokio::signal::ctrl_c` 函数，它将一直睡眠直到收到对应的信号:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::signal;
 
 #[tokio::main]
@@ -41,7 +41,7 @@ async fn main() {
 
 事实上也是如此，最常见的通知程序各个部分关闭的方式就是使用一个广播消息通道。关于如何实现，其实也不复杂：应用中的每个任务都持有一个广播消息通道的接收端，当消息被广播到该通道时，每个任务都可以收到该消息，并关闭自己:
 
-```rust
+```rust,ignore,mdbook-runnable
 let next_frame = tokio::select! {
     res = self.connection.read_frame() => res?,
     _ = self.shutdown.recv() => {
@@ -64,7 +64,7 @@ let next_frame = tokio::select! {
 
 大家发现没？这个特性特别适合优雅关闭的场景：主线程持有消息通道的接收端，然后每个代码部分拿走一个发送端，当该部分结束时，就 `drop` 掉发送端，因此所有发送端被 `drop` 也就意味着所有的部分都已关闭，此时主线程的接收端就会收到错误，进而结束。
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::sync::mpsc::{channel, Sender};
 use tokio::time::{sleep, Duration};
 

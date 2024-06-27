@@ -2,7 +2,7 @@
 
 现在，鉴于大家已经掌握了 Tokio 的基本 I/O 用法，我们可以开始实现 `mini-redis` 的帧 `frame`。通过帧可以将字节流转换成帧组成的流。每个帧就是一个数据单元，例如客户端发送的一次请求就是一个帧。
 
-```rust
+```rust,ignore,mdbook-runnable
 use bytes::Bytes;
 
 enum Frame {
@@ -17,7 +17,7 @@ enum Frame {
 
 可以看到帧除了数据之外，并不具备任何语义。命令解析和实现会在更高的层次进行(相比帧解析层）。我们再来通过 HTTP 的帧来帮大家加深下相关的理解：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum HttpFrame {
     RequestHead {
         method: Method,
@@ -38,7 +38,7 @@ enum HttpFrame {
 
 为了实现 `mini-redis` 的帧，我们需要一个 `Connection` 结构体，里面包含了一个 `TcpStream` 以及对帧进行读写的方法:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::net::TcpStream;
 use mini_redis::{Frame, Result};
 
@@ -78,7 +78,7 @@ impl Connection {
 
 这里使用 [`BytesMut`](https://docs.rs/bytes/1/bytes/struct.BytesMut.html) 作为缓冲区类型，它是 [`Bytes`](https://docs.rs/bytes/1/bytes/struct.Bytes.html) 的可变版本。
 
-```rust
+```rust,ignore,mdbook-runnable
 use bytes::BytesMut;
 use tokio::net::TcpStream;
 
@@ -100,7 +100,7 @@ impl Connection {
 
 接下来，实现 `read_frame` 方法:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::io::AsyncReadExt;
 use bytes::Buf;
 use mini_redis::Result;
@@ -141,7 +141,7 @@ pub async fn read_frame(&mut self)
 
 可以先来考虑下该如何使用 `read()` 和 `Vec<u8>` 来实现同样的功能 :
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::net::TcpStream;
 
 pub struct Connection {
@@ -164,7 +164,7 @@ impl Connection {
 
 下面是相应的 `read_frame` 方法:
 
-```rust
+```rust,ignore,mdbook-runnable
 use mini_redis::{Frame, Result};
 
 pub async fn read_frame(&mut self)
@@ -218,7 +218,7 @@ pub async fn read_frame(&mut self)
 - 确保有一个完整的帧已经被写入了缓冲区，找到该帧的最后一个字节所在的位置
 - 解析帧
 
-```rust
+```rust,ignore,mdbook-runnable
 use mini_redis::{Frame, Result};
 use mini_redis::frame::Error::Incomplete;
 use bytes::Buf;
@@ -274,7 +274,7 @@ fn parse_frame(&mut self)
 
 首先，更新下 `Connection` 的结构体:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::io::BufWriter;
 use tokio::net::TcpStream;
 use bytes::BytesMut;
@@ -296,7 +296,7 @@ impl Connection {
 
 接着来实现 `write_frame` 函数:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::io::{self, AsyncWriteExt};
 use mini_redis::Frame;
 
@@ -347,4 +347,3 @@ async fn write_frame(&mut self, frame: &Frame)
 在函数结束前，我们还额外的调用了一次 `self.stream.flush().await`，原因是缓冲区可能还存在数据，因此需要手动刷一次数据：`flush` 的调用会将缓冲区中剩余的数据立刻写入到 socket 中。
 
 当然，当帧比较小的时候，每写一次帧就 flush 一次的模式性能开销会比较大，此时我们可以选择在 `Connection` 中实现 `flush` 函数，然后将等帧积累多个后，再一次性在 `Connection` 中进行 flush。当然，对于我们的例子来说，简洁性是非常重要的，因此选了将 `flush` 放入到 `write_frame` 中。
-

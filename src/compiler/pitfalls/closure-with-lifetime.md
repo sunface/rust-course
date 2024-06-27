@@ -6,7 +6,7 @@ Rust 一道独特的靓丽风景就是生命周期，也是反复折磨新手的
 
 先来看一段简单的代码:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn fn_elision(x: &i32) -> &i32 { x }
 let closure_slision = |x: &i32| -> &i32 { x };
 ```
@@ -34,7 +34,7 @@ error: lifetime may not live long enough
 
 为了验证闭包无法应用生命周期消除规则，再来看一个复杂一些的例子:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::marker::PhantomData;
 
 trait Parser<'a>: Sized + Copy {
@@ -96,7 +96,7 @@ error: lifetime may not live long enough
 
 对于函数的生命周期而言，它的消除规则之所以能生效是因为它的生命周期完全体现在签名的引用类型上，在函数体中无需任何体现:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn fn_elision(x: &i32) -> &i32 {..}
 ```
 
@@ -104,7 +104,7 @@ fn fn_elision(x: &i32) -> &i32 {..}
 
 可是闭包，并没有函数那么简单，它的生命周期分散在参数和闭包函数体中(主要是它没有确切的返回值签名)：
 
-```rust
+```rust,ignore,mdbook-runnable
 let closure_slision = |x: &i32| -> &i32 { x };
 ```
 
@@ -117,4 +117,3 @@ let closure_slision = |x: &i32| -> &i32 { x };
 虽然我言之凿凿，闭包的生命周期无法解决，但是未来谁又知道呢。最大的可能性就是之前开头那种简单的场景，可以被自动识别和消除。
 
 总之，如果有这种需求，还是像古天乐一样做一个平平无奇的男人，老老实实使用函数吧。
-

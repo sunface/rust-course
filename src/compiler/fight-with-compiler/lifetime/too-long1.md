@@ -4,7 +4,7 @@
 
 ## 例子 1
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Interface<'a> {
     manager: &'a mut Manager<'a>
 }
@@ -74,7 +74,7 @@ error[E0502]: cannot borrow `list` as immutable because it is also borrowed as m
 
 要解决这个问题，我们需要为`get_interface`方法的参数给予一个不同于`List<'a>`的生命周期`'b`，最终代码如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Interface<'b, 'a: 'b> {
     manager: &'b mut Manager<'a>
 }
@@ -126,7 +126,7 @@ fn use_list(list: &List) {
 
 当然，咱还可以给生命周期给予更有意义的名称：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Interface<'text, 'manager> {
     manager: &'manager mut Manager<'text>
 }

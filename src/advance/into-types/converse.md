@@ -1,6 +1,5 @@
 # 类型转换
 
-
 Rust 是类型安全的语言，因此在 Rust 中做类型转换不是一件简单的事，这一章节我们将对 Rust 中的类型转换进行详尽讲解。
 
 > 高能预警：本章节有些难，可以考虑学了进阶后回头再看
@@ -9,7 +8,7 @@ Rust 是类型安全的语言，因此在 Rust 中做类型转换不是一件简
 
 先来看一段代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
   let a: i32 = 10;
   let b: u16 = 100;
@@ -28,14 +27,14 @@ fn main() {
 
 > 使用类型转换需要小心，因为如果执行以下操作 `300_i32 as i8`，你将获得 `44` 这个值，而不是 `300`，因为 `i8` 类型能表达的的最大值为 `2^7 - 1`，使用以下代码可以查看 `i8` 的最大值：
 
-```rust
+```rust,ignore,mdbook-runnable
 let a = i8::MAX;
 println!("{}",a);
 ```
 
 下面列出了常用的转换形式：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
    let a = 3.1 as i8;
    let b = 100_i8 as i32;
@@ -47,7 +46,7 @@ fn main() {
 
 #### 内存地址转换为指针
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut values: [i32; 2] = [1, 2];
 let p1: *mut i32 = values.as_mut_ptr();
 let first_address = p1 as usize; // 将p1内存地址转换为一个整数
@@ -68,7 +67,7 @@ assert_eq!(values[1], 3);
 
 在一些场景中，使用 `as` 关键字会有比较大的限制。如果你想要在类型转换上拥有完全的控制而不依赖内置的转换，例如处理转换错误，那么可以使用 `TryInto` ：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::convert::TryInto;
 
 fn main() {
@@ -89,7 +88,7 @@ fn main() {
 
 最主要的是 `try_into` 转换会捕获大类型向小类型转换时导致的溢出错误：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let b: i16 = 1500;
 
@@ -109,7 +108,7 @@ fn main() {
 
 虽然 `as` 和 `TryInto` 很强大，但是只能应用在数值类型上，可是 Rust 有如此多的类型，想要为这些类型实现转换，我们需要另谋出路，先来看看在一个笨办法，将一个结构体转换为另外一个结构体：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Foo {
     x: u32,
     y: u16,
@@ -134,7 +133,7 @@ fn reinterpret(foo: Foo) -> Bar {
 
 首先，在匹配特征时，不会做任何强制转换(除了方法)。一个类型 `T` 可以强制转换为 `U`，不代表 `impl T` 可以强制转换为 `impl U`，例如下面的代码就无法通过编译检查：
 
-```rust
+```rust,ignore,mdbook-runnable
 trait Trait {}
 
 fn foo<X: Trait>(t: X) {}
@@ -179,7 +178,7 @@ error[E0277]: the trait bound `&mut i32: Trait` is not satisfied
 
 下面我们来用一个例子来解释上面的方法查找算法:
 
-```rust
+```rust,ignore,mdbook-runnable
 let array: Rc<Box<[T; 3]>> = ...;
 let first_entry = array[0];
 ```
@@ -196,7 +195,7 @@ let first_entry = array[0];
 
 再来看看以下更复杂的例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn do_stuff<T: Clone>(value: &T) {
     let cloned = value.clone();
 }
@@ -206,7 +205,7 @@ fn do_stuff<T: Clone>(value: &T) {
 
 如果 `T: Clone` 的特征约束被移除呢？
 
-```rust
+```rust,ignore,mdbook-runnable
 fn do_stuff<T>(value: &T) {
     let cloned = value.clone();
 }
@@ -220,7 +219,7 @@ fn do_stuff<T>(value: &T) {
 
 下面的例子也是自动引用生效的地方：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Clone)]
 struct Container<T>(Arc<T>);
 
@@ -238,7 +237,7 @@ fn clone_containers<T>(foo: &Container<i32>, bar: &Container<T>) {
 
 然而，`bar_cloned` 的类型却是 `&Container<T>`，这个不合理啊，明明我们为 `Container<T>` 派生了 `Clone` 特征，因此它也应该是 `Container<T>` 类型才对。万事皆有因，我们先来看下 `derive` 宏最终生成的代码大概是啥样的：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl<T> Clone for Container<T> where T: Clone {
     fn clone(&self) -> Self {
         Self(Arc::clone(&self.0))
@@ -252,7 +251,7 @@ impl<T> Clone for Container<T> where T: Clone {
 
 当然，也可以为 `Container<T>` 手动实现 `Clone` 特征：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl<T> Clone for Container<T> {
     fn clone(&self) -> Self {
         Self(Arc::clone(&self.0))
@@ -291,22 +290,22 @@ impl<T> Clone for Container<T> {
 
 - 将裸指针变成函数指针：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn foo() -> i32 {
     0
 }
 
 let pointer = foo as *const ();
-let function = unsafe { 
+let function = unsafe {
     // 将裸指针转换为函数指针
-    std::mem::transmute::<*const (), fn() -> i32>(pointer) 
+    std::mem::transmute::<*const (), fn() -> i32>(pointer)
 };
 assert_eq!(function(), 0);
 ```
 
 - 延长生命周期，或者缩短一个静态生命周期寿命：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct R<'a>(&'a i32);
 
 // 将 'b 生命周期延长至 'static 生命周期
@@ -323,10 +322,12 @@ unsafe fn shorten_invariant_lifetime<'b, 'c>(r: &'b mut R<'static>) -> &'b mut R
 以上例子非常先进！但是是非常不安全的 Rust 行为！
 
 ## 课后练习
+
 > Rust By Practice，支持代码在线编辑和运行，并提供详细的习题解答。
+>
 > - [as](https://practice-zh.course.rs/type-conversions/as.html)
->    - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/type-conversions/as.md)
+>   - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/type-conversions/as.md)
 > - [From/Into](https://practice-zh.course.rs/type-conversions/from-into.html)
->    - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/type-conversions/from-into.md)
+>   - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/type-conversions/from-into.md)
 > - [其它转换](https://practice-zh.course.rs/type-conversions/others.html)
->    - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/type-conversions/others.md)
+>   - [习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/type-conversions/others.md)

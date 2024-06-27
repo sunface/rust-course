@@ -1,14 +1,16 @@
-# 数据布局2: 再裸一些吧
+# 数据布局 2: 再裸一些吧
 
 > TL;DR 在之前部分中，将安全的指针 `&` 、`&mut` 和 `Box` 跟不安全的裸指针 `*mut` 和 `*const` 混用是 UB 的根源之一，原因是安全指针会引入额外的约束，但是裸指针并不会遵守这些约束。
 
 一个好消息，一个坏消息。坏消息是我们又要开始写链表了，悲剧 = , = 好消息呢是之前我们已经讨论过该如何设计了，之前做的工作基本都是正确的，除了混用安全指针和不安全指针的部分。
 
 ## 布局
+
 在新的布局中我们将只使用裸指针，然后大家就等着好消息吧！
 
 下面是之前的"破代码" ：
-```rust
+
+```rust,ignore,mdbook-runnable
 pub struct List<T> {
     head: Link<T>,
     tail: *mut Node<T>, // 好人一枚
@@ -23,7 +25,8 @@ struct Node<T> {
 ```
 
 现在删除恶魔:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub struct List<T> {
     head: Link<T>,
     tail: *mut Node<T>,
@@ -40,8 +43,10 @@ struct Node<T> {
 请大家牢记：当使用裸指针时，`Option` 对我们是相当不友好的，所以这里不再使用。在后面还将引入 `NonNull` 类型，但是现在还无需操心。
 
 ## 基本操作
+
 `List::new` 与之前几乎没有区别：
-```rust
+
+```rust,ignore,mdbook-runnable
 use ptr;
 
 impl<T> List<T> {
@@ -52,7 +57,8 @@ impl<T> List<T> {
 ```
 
 `Push` 也几乎没区...
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn push(&mut self, elem: T) {
     let mut new_tail = Box::new(
 ```
@@ -62,7 +68,8 @@ pub fn push(&mut self, elem: T) {
 也许我们可以使用 `std::alloc::alloc`，但是大家想象一下拿着武士刀进厨房切菜的场景，所以，还是算了吧。
 
 我们想要 `Box` 又不想要，这里有一个也许很野但是管用的方法:
-```rust
+
+```rust,ignore,mdbook-runnable
 struct Node<T> {
     elem: T,
     real_next: Option<Box<Node<T>>>,
@@ -79,7 +86,7 @@ struct Node<T> {
 > `pub fn into_raw(b: Box<T>) -> *mut T`
 >
 > 消费掉 `Box` (拿走所有权)，返回一个裸指针。该指针会被正确的对齐且不为 null
-> 
+>
 > 在调用该函数后，调用者需要对之前被 Box 所管理的内存负责，特别地，调用者需要正确的清理 `T` 并释放相应的内存。最简单的方式是通过 `Box::from_raw` 函数将裸指针再转回到 `Box`，然后 `Box` 的析构器就可以自动执行清理了。
 >
 > 注意：这是一个关联函数，因此 `b.into_raw()` 是不正确的，我们得使用 `Box::into_raw(b)`。因此该函数不会跟内部类型的同名方法冲突。
@@ -88,16 +95,18 @@ struct Node<T> {
 >
 > 将裸指针转换成 `Box` 以实现自动的清理:
 >
-> ```rust
+> ```rust,ignore,mdbook-runnable
 >
 > let x = Box::new(String::from("Hello"));
 > let ptr = Box::into_raw(x);
 > let x = unsafe { Box::from_raw(ptr) };
+> ```
 
 太棒了，简直为我们量身定制。而且它还很符合我们试图遵循的规则： 从安全的东东开始，将其转换成裸指针，最后再将裸指针转回安全的东东以实现安全的 drop。
 
 现在，我们就可以到处使用裸指针，也无需再注意 unsafe 的范围，反正现在都是 unsafe 了，无所谓。
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn push(&mut self, elem: T) {
     unsafe {
         // 一开始就将 Box 转换成裸指针
@@ -120,7 +129,8 @@ pub fn push(&mut self, elem: T) {
 嘿，都说 unsafe 不应该使用，但没想到 unsafe 真的是好！现在代码整体看起来简洁多了。
 
 继续实现 `pop`，它跟之前区别不大，但是我们不要忘了使用 `Box::from_raw` 来清理内存:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn pop(&mut self) -> Option<T> {
     unsafe {
         if self.head.is_null() {
@@ -142,7 +152,8 @@ pub fn pop(&mut self) -> Option<T> {
 纪念下死去的 `take` 和 `map`，现在我们得手动检查和设置 `null` 了。
 
 然后再实现下析构器，直接循环 `pop` 即可，怎么说，简单可爱，谁不爱呢?
-```rust
+
+```rust,ignore,mdbook-runnable
 impl<T> Drop for List<T> {
     fn drop(&mut self) {
         while let Some(_) = self.pop() { }
@@ -151,7 +162,8 @@ impl<T> Drop for List<T> {
 ```
 
 现在到了检验正确性的时候:
-```rust
+
+```rust,ignore,mdbook-runnable
 #[cfg(test)]
 mod test {
     use super::List;
@@ -216,7 +228,8 @@ test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured
 ```
 
 测试没问题，还有一个拦路虎 `miri` 呢。
-```rust
+
+```rust,ignore,mdbook-runnable
 MIRIFLAGS="-Zmiri-tag-raw-pointers" cargo +nightly-2022-01-21 miri test
 
 running 12 tests

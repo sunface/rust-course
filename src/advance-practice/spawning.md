@@ -9,14 +9,13 @@ $ mkdir -p examples
 $ mv src/main.rs examples/hello-redis.rs
 ```
 
-并在 `Cargo.toml` 里添加 `[[example]]` 说明。关于 `example` 的详细说明，可以在[Cargo使用指南](https://course.rs/cargo/reference/cargo-target.html#示例对象examples)里进一步了解。
+并在 `Cargo.toml` 里添加 `[[example]]` 说明。关于 `example` 的详细说明，可以在[Cargo 使用指南](https://course.rs/cargo/reference/cargo-target.html#示例对象examples)里进一步了解。
 
 ```toml
 [[example]]
 name = "hello-redis"
 path = "examples/hello-redis.rs"
 ```
-
 
 然后再重新创建一个空的 `src/main.rs` 文件，至此替换文档已经完成，提速正式开始。
 
@@ -28,7 +27,7 @@ path = "examples/hello-redis.rs"
 
 `TcpListener` 监听 **6379** 端口，然后通过循环来接收外部进来的连接，每个连接在处理完后会被关闭。对于目前来说，我们的任务很简单：读取命令、打印到标准输出 `stdout`，最后回复给客户端一个错误。
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::net::{TcpListener, TcpStream};
 use mini_redis::{Connection, Frame};
 
@@ -84,7 +83,7 @@ $ cargo run --example hello-redis
 
 为了并发的处理连接，需要为每一条进来的连接都生成( `spawn` )一个新的任务, 然后在该任务中处理连接:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::net::TcpListener;
 
 #[tokio::main]
@@ -108,7 +107,7 @@ async fn main() {
 
 `spawn` 函数的参数是一个 `async` 语句块，该语句块甚至可以返回一个值，然后调用者可以通过 `JoinHandle` 句柄获取该值:
 
-```rust
+```rust,ignore,mdbook-runnable
 #[tokio::main]
 async fn main() {
     let handle = tokio::spawn(async {
@@ -130,7 +129,7 @@ async fn main() {
 
 当使用 Tokio 创建一个任务时，该任务类型的生命周期必须是 `'static`。意味着，在任务中不能使用外部数据的引用:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::task;
 
 #[tokio::main]
@@ -180,7 +179,7 @@ help: to force the async block to take ownership of `v` (and any other
 
 但是 `move` 有一个问题，一个数据只能被一个任务使用，如果想要多个任务使用一个数据，就有些强人所难。不知道还有多少同学记得 [`Arc`](https://course.rs/advance/smart-pointer/rc-arc.html)，它可以轻松解决该问题，还是线程安全的。
 
-在上面的报错中，还有一句很奇怪的信息```function requires argument type to outlive `'static` ```， 函数要求参数类型的生命周期必须比 `'static` 长，问题是 `'static` 已经活得跟整个程序一样久了，难道函数的参数还能活得更久？大家可能会觉得编译器秀逗了，毕竟其它语言编译器也有秀逗的时候:)
+在上面的报错中，还有一句很奇怪的信息`` function requires argument type to outlive `'static`  ``， 函数要求参数类型的生命周期必须比 `'static` 长，问题是 `'static` 已经活得跟整个程序一样久了，难道函数的参数还能活得更久？大家可能会觉得编译器秀逗了，毕竟其它语言编译器也有秀逗的时候:)
 
 先别急着给它扣帽子，虽然我有时候也想这么做。。原因是它说的是类型必须活得比 `'static` 长，而不是值。当我们说一个值是 `'static` 时，意味着它将永远存活。这个很重要，因为编译器无法知道新创建的任务将存活多久，所以唯一的办法就是让任务永远存活。
 
@@ -194,7 +193,7 @@ help: to force the async block to take ownership of `v` (and any other
 
 例如以下代码可以工作:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::task::yield_now;
 use std::rc::Rc;
 
@@ -216,7 +215,7 @@ async fn main() {
 
 但是下面代码就不行：
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::task::yield_now;
 use std::rc::Rc;
 
@@ -279,7 +278,7 @@ note: future is not `Send` as this value is used across an await
 
 同时，我们将使用循环的方式在同一个客户端连接中处理多次连续的请求:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::net::TcpStream;
 use mini_redis::{Connection, Frame};
 

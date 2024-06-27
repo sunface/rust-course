@@ -2,7 +2,7 @@
 
 枚举(enum 或 enumeration)允许你通过列举可能的成员来定义一个**枚举类型**，例如扑克牌花色：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum PokerSuit {
   Clubs,
   Spades,
@@ -24,14 +24,14 @@ enum PokerSuit {
 
 现在来创建 `PokerSuit` 枚举类型的两个成员实例：
 
-```rust
+```rust,ignore,mdbook-runnable
 let heart = PokerSuit::Hearts;
 let diamond = PokerSuit::Diamonds;
 ```
 
 我们通过 `::` 操作符来访问 `PokerSuit` 下的具体成员，从代码可以清晰看出，`heart` 和 `diamond` 都是 `PokerSuit` 枚举类型的，接着可以定义一个函数来使用它们：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let heart = PokerSuit::Hearts;
     let diamond = PokerSuit::Diamonds;
@@ -52,7 +52,7 @@ fn print_suit(card: PokerSuit) {
 
 目前来说，枚举值还不能带有值，因此先用结构体来实现：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum PokerSuit {
     Clubs,
     Spades,
@@ -81,7 +81,7 @@ fn main() {
 
 可以吗？可以！好吗？说实话，不咋地，因为还有简洁得多的方式来实现：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum PokerCard {
     Clubs(u8),
     Spades(u8),
@@ -99,7 +99,7 @@ fn main() {
 
 不仅如此，同一个枚举类型下的不同成员还能持有不同的数据类型，例如让某些花色打印 `1-13` 的字样，另外的花色打印上 `A-K` 的字样：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum PokerCard {
     Clubs(u8),
     Spades(u8),
@@ -117,7 +117,7 @@ fn main() {
 
 再来看一个来自标准库中的例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Ipv4Addr {
     // --snip--
 }
@@ -138,7 +138,7 @@ enum IpAddr {
 
 增加一些挑战？先看以下代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum Message {
     Quit,
     Move { x: i32, y: i32 },
@@ -162,7 +162,7 @@ fn main() {
 
 当然，我们也可以用结构体的方式来定义这些消息：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct QuitMessage; // 单元结构体
 struct MoveMessage {
     x: i32,
@@ -182,7 +182,7 @@ struct ChangeColorMessage(i32, i32, i32); // 元组结构体
 
 例如我们有一个 WEB 服务，需要接受用户的长连接，假设连接有两种：`TcpStream` 和 `TlsStream`，但是我们希望对这两个连接的处理流程相同，也就是用同一个函数来处理这两个连接，代码如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn new (stream: TcpStream) {
   let mut s = stream;
   if tls {
@@ -198,7 +198,7 @@ fn new (stream: TcpStream) {
 
 此时，枚举类型就能帮上大忙：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum Websocket {
   Tcp(Websocket<TcpStream>),
   Tls(Websocket<native_tls::TlsStream<TcpStream>>),
@@ -217,7 +217,7 @@ enum Websocket {
 
 `Option` 枚举包含两个成员，一个成员表示含有值：`Some(T)`, 另一个表示没有值：`None`，定义如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum Option<T> {
     Some(T),
     None,
@@ -230,7 +230,7 @@ enum Option<T> {
 
 再来看以下代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 let some_number = Some(5);
 let some_string = Some("a string");
 
@@ -243,7 +243,7 @@ let absent_number: Option<i32> = None;
 
 简而言之，因为 `Option<T>` 和 `T`（这里 `T` 可以是任何类型）是不同的类型，例如，这段代码不能编译，因为它尝试将 `Option<i8>`(`Option<T>`) 与 `i8`(`T`) 相加：
 
-```rust
+```rust,ignore,mdbook-runnable
 let x: i8 = 5;
 let y: Option<i8> = Some(5);
 
@@ -274,7 +274,7 @@ not satisfied
 
 这里先简单看一下 `match` 的大致模样，在[模式匹配](https://course.rs/basic/match-pattern/intro.html)中，我们会详细讲解：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn plus_one(x: Option<i32>) -> Option<i32> {
     match x {
         None => None,
@@ -288,7 +288,6 @@ let none = plus_one(None);
 ```
 
 `plus_one` 通过 `match` 来处理不同 `Option` 的情况。
-
 
 ## 课后练习
 

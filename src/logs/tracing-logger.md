@@ -2,9 +2,7 @@
 
 在 [tracing](https://docs.rs/crate/tracing/latest) 包出来前，Rust 的日志也就 `log` 有一战之力，但是 `log` 的功能相对来说还是简单一些。在大名鼎鼎的 tokio 开发团队推出 `tracing` 后，我现在坚定的认为 `tracing` 就是未来！
 
-
-> 截至目前，rust编译器团队、GraphQL 都在使用 tracing，而且 tokio 在密谋一件大事：基于 tracing 开发一套终端交互式 debug 工具: [console](https://github.com/tokio-rs/console)！
-
+> 截至目前，rust 编译器团队、GraphQL 都在使用 tracing，而且 tokio 在密谋一件大事：基于 tracing 开发一套终端交互式 debug 工具: [console](https://github.com/tokio-rs/console)！
 
 基于这种坚定的信仰，我们决定将公司之前使用的 `log` 包替换成 `tracing` ，但是有一个问题：后者提供的 JSON logger 总感觉不是那个味儿。这意味着，对于程序员来说，最快乐的时光又要到来了：定制自己的开发工具。
 
@@ -15,6 +13,7 @@
 首先，使用 `cargo new --bin test-tracing` 创建一个新的二进制类型( binary )的项目。
 
 然后引入以下依赖：
+
 ```toml
 # in cargo.toml
 
@@ -28,7 +27,7 @@ tracing-subscriber = "0.3"
 
 下面来实现一个基本功能：设置自定义的 logger，并使用 `info!` 来打印一行日志。
 
-```rust
+```rust,ignore,mdbook-runnable
 // in examples/figure_0/main.rs
 
 use tracing::info;
@@ -48,7 +47,7 @@ fn main() {
 
 大家会发现，上面引入了一个模块 `custom_layer`， 下面从该模块开始，来实现我们的自定义 logger。首先，`tracing-subscriber` 提供了一个特征 [`Layer`](https://docs.rs/tracing-subscriber/0.3/tracing_subscriber/layer/trait.Layer.html) 专门用于处理 `tracing` 的各种事件( span, event )。
 
-```rust
+```rust,ignore,mdbook-runnable
 // in examples/figure_0/custom_layer.rs
 
 use tracing_subscriber::Layer;
@@ -60,14 +59,13 @@ impl<S> Layer<S> for CustomLayer where S: tracing::Subscriber {}
 
 由于还没有填入任何代码，运行该示例比你打的水漂还无力 - 毫无效果。
 
-
 ## 捕获事件
 
 在 `tracing` 中，当 `info!`、`error!` 等日志宏被调用时，就会产生一个相应的[事件 Event](https://docs.rs/tracing/0.1/tracing/event/struct.Event.html)。
 
 而我们首先，就要为之前的 `Layer` 特征实现 `on_event` 方法。
 
-```rust,editable
+```rust,ignore,mdbook-runnable,editable
 // in examples/figure_0/custom_layer.rs
 
 where
@@ -113,7 +111,7 @@ Got event!
 
 解决办法就是使用访问者模式(Visitor Pattern)：手动实现 `Visit` 特征去获取事件中的值。`Visit` 为每个 `tracing` 可以处理的类型都提供了对应的 `record_X` 方法。
 
-```rust
+```rust,ignore,mdbook-runnable
 // in examples/figure_2/custom_layer.rs
 
 struct PrintlnVisitor;
@@ -153,11 +151,9 @@ impl tracing::field::Visit for PrintlnVisitor {
 }
 ```
 
-
-
 然后在之前的 `on_event` 中来使用这个新的访问者： `event.record(&mut visitor)` 可以访问其中的所有值。
 
-```rust
+```rust,ignore,mdbook-runnable
 // in examples/figure_2/custom_layer.rs
 
 fn on_event(
@@ -175,6 +171,7 @@ fn on_event(
 ```
 
 这段代码看起来有模有样，来运行下试试：
+
 ```properties
 $ cargo run --example figure_2
 
@@ -190,9 +187,10 @@ Got event!
 Bingo ! 一切完美运行 ！
 
 ### 构建 JSON logger
+
 目前为止，离我们想要的 JSON logger 只差一步了。下面来实现一个 `JsonVisitor` 替代之前的 `PrintlnVisitor` 用于构建一个 JSON 对象。
 
-```rust
+```rust,ignore,mdbook-runnable
 // in  examples/figure_3/custom_layer.rs
 
 
@@ -242,7 +240,7 @@ impl<'a> tracing::field::Visit for JsonVisitor<'a> {
 }
 ```
 
-```rust
+```rust,ignore,mdbook-runnable
 // in examples/figure_3/custom_layer.rs
 
 fn on_event(
@@ -267,6 +265,7 @@ fn on_event(
 ```
 
 继续运行:
+
 ```properties
 $ cargo run --example figure_3
 
@@ -286,8 +285,8 @@ $ cargo run --example figure_3
 
 下面再来一起看看如何使用`tracing` 提供的 `period-of-time spans` 为日志增加更详细的上下文信息。
 
-
 ### 何为 span
+
 在之前我们多次提到 span 这个词，但是何为 span？
 
 不知道大家知道分布式追踪不？在分布式系统中每一个请求从开始到返回，会经过多个服务，这条请求路径被称为请求跟踪链路( trace )，可以看出，一条链路是由多个部分组成，我们可以简单的把其中一个部分认为是一个 span。
@@ -299,9 +298,10 @@ $ cargo run --example figure_3
 在理解后，再来看看该如何为自定义的 logger 实现 spans。
 
 ### 打地基(2)
+
 先来创建一个外部 span 和一个内部 span，从概念上来说，spans 和 events 创建的东东类似以下嵌套结构：
 
-- 进入外部 span 
+- 进入外部 span
   - 进入内部 span
     - 事件已创建，内部 span 是它的父 span，外部 span 是它的祖父 span
   - 结束内部 span
@@ -311,7 +311,7 @@ $ cargo run --example figure_3
 
 在下面的代码中，当使用 `span.enter()` 创建的 span 超出作用域时，将自动退出：根据 `Drop` 特征触发的顺序，`inner_span` 将先退出，然后才是 `outer_span` 的退出。
 
-```rust
+```rust,ignore,mdbook-runnable
 // in examples/figure_5/main.rs
 
 use tracing::{debug_span, info, info_span};
@@ -343,7 +343,7 @@ fn main() {
 
 > 译者注：这里用到了高阶生命周期 HRTB( Higher Ranke Trait Bounds ) 的概念，一般的读者无需了解，感兴趣的可以看看(这里)[https://doc.rust-lang.org/nomicon/hrtb.html]
 
-```rust
+```rust,ignore,mdbook-runnable
 // in examples/figure_5/custom_layer.rs
 
 impl<S> Layer<S> for CustomLayer
@@ -373,6 +373,7 @@ where
 ```
 
 运行下看看效果:
+
 ```properties
 $ cargo run --example figure_5
 
@@ -398,7 +399,7 @@ an ancestor span
 
 现在只能看看 `Layer` 特征有没有提供其它的方法了，哦呦，发现了一个 `on_new_span`，从名字可以看出，该方法是在 `span` 创建时调用的。
 
-```rust
+```rust,ignore,mdbook-runnable
 // in  examples/figure_6/custom_layer.rs
 
 impl<S> Layer<S> for CustomLayer
@@ -451,8 +452,9 @@ Got on_new_span!
 
 好在 `tracing-subscriber` 提供了扩展 extensions 的方式，可以让我们轻松地存储自己的数据，该扩展甚至可以跟每一个 span 联系在一起！
 
-虽然我们可以把之前见过的 `BTreeMap<String, serde_json::Value>` 存在扩展中，但是由于扩展数据是被 registry 中的所有layers 所共享的，因此出于私密性的考虑，还是只保存私有字段比较合适。这里使用一个 newtype 模式来创建新的类型:
-```rust
+虽然我们可以把之前见过的 `BTreeMap<String, serde_json::Value>` 存在扩展中，但是由于扩展数据是被 registry 中的所有 layers 所共享的，因此出于私密性的考虑，还是只保存私有字段比较合适。这里使用一个 newtype 模式来创建新的类型:
+
+```rust,ignore,mdbook-runnable
 // in examples/figure_8/custom_layer.rs
 
 #[derive(Debug)]
@@ -461,7 +463,7 @@ struct CustomFieldStorage(BTreeMap<String, serde_json::Value>);
 
 每次发现一个新的 span 时，都基于它来构建一个 JSON 对象，然后将其存储在扩展数据中。
 
-```rust
+```rust,ignore,mdbook-runnable
 // in examples/figure_8/custom_layer.rs
 
 fn on_new_span(
@@ -489,7 +491,7 @@ fn on_new_span(
 
 这样，未来任何时候我们都可以取到该 span 包含的数据( 例如在 `on_event` 方法中 )。
 
-```rust
+```rust,ignore,mdbook-runnable
 // in examples/figure_8/custom_layer.rs
 
 fn on_event(&self, event: &tracing::Event<'_>, ctx: tracing_subscriber::layer::Context<'_, S>) {
@@ -507,9 +509,10 @@ fn on_event(&self, event: &tracing::Event<'_>, ctx: tracing_subscriber::layer::C
 ```
 
 ### 功能齐全的 JSON logger
+
 截至目前，我们已经学了不少东西，下面来利用这些知识实现最后的 JSON logger。
 
-```rust
+```rust,ignore,mdbook-runnable
 // in examples/figure_9/custom_layer.rs
 
 fn on_event(&self, event: &tracing::Event<'_>, ctx: tracing_subscriber::layer::Context<'_, S>) {
@@ -584,7 +587,7 @@ $ cargo run --example figure_9
 
 上面的代码在发布到生产环境后，依然运行地相当不错，但是我发现还缺失了一个功能: span 在创建之后，依然要能记录数据。
 
-```rust
+```rust,ignore,mdbook-runnable
 // in examples/figure_10/main.rs
 
 let outer_span = info_span!("outer", level = 0, other_field = tracing::field::Empty);
@@ -596,7 +599,8 @@ outer_span.record("other_field", &7);
 如果基于之前的代码运行上面的代码，我们将不会记录 `other_field`，因为该字段在收到 `on_new_span` 事件时，还不存在。
 
 对此，`Layer` 提供了 `on_record` 方法：
-```rust
+
+```rust,ignore,mdbook-runnable
 // in examples/figure_10/custom_layer.rs
 
 fn on_record(
@@ -620,10 +624,9 @@ fn on_record(
 }
 ```
 
-
 终于，在最后，我们拥有了一个功能齐全的自定义的 JSON logger，大家快去尝试下吧。当然，你也可以根据自己的需求来定制专属于你的 logger，毕竟方法是一通百通的。
 
-> 在以下 github 仓库，可以找到完整的代码: https://github.com/bryanburgers/tracing-blog-post 
+> 在以下 github 仓库，可以找到完整的代码: https://github.com/bryanburgers/tracing-blog-post
 >
 > 本文由 Rustt 提供翻译
 > 原文链接: https://github.com/studyrs/Rustt/blob/main/Articles/%5B2022-04-07%5D%20在%20Rust%20中使用%20tracing%20自定义日志.md

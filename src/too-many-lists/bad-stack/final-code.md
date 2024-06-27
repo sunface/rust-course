@@ -1,12 +1,14 @@
 # 一些收尾工作以及最终代码
+
 在之前的章节中，我们完成了 Bad 单链表栈的数据定义和基本操作，下面一起来写一些测试代码。
 
-
 ## 单元测试
+
 > 关于如何编写测试，请参见[自动化测试章节](https://course.rs/test/write-tests.html)
 
 首先，单元测试代码要放在待测试的目标代码旁边，也就是同一个文件中:
-```rust
+
+```rust,ignore,mdbook-runnable
 // in first.rs
 #[cfg(test)]
 mod test {
@@ -42,6 +44,7 @@ mod test {
 ```
 
 在 `src/first.rs` 中添加以上测试模块，然后使用 `cargo test` 运行相关的测试用例：
+
 ```shell
 $ cargo test
 
@@ -54,7 +57,8 @@ error[E0433]: failed to resolve: use of undeclared type or module `List`
 ```
 
 Ooops! 报错了，从错误内容来看，是因为我们在一个不同的模块 `test` 中，引入了 `first` 模块中的代码，由于前者是后者的子模块，因此可以使用以下方式引入 `first` 模块中的 `List` 定义:
-```rust
+
+```rust,ignore,mdbook-runnable
 #[cfg(test)]
 mod test {
     use super::List;
@@ -65,6 +69,7 @@ mod test {
 大家可以再次尝试使用 `cargo test` 运行测试用例，具体的结果就不再展开，关于结果的解读，请参看文章开头的链接。
 
 ## Drop
+
 现在还有一个问题，我们是否需要手动来清理释放我们的链表？答案是 No，因为 Rust 为我们提供了 `Drop` 特征，若变量实现了该特征，则在它离开作用域时将自动调用解构函数以实现资源清理释放工作，最妙的是，这一切都发生在编译期，因此没有多余的性能开销。
 
 > 关于 Drop 特征的详细介绍，请参见[智能指针 - Drop](https://course.rs/advance/smart-pointer/drop.html)
@@ -72,6 +77,7 @@ mod test {
 事实上，我们无需手动为自定义类型实现 `Drop` 特征，原因是 Rust 自动为几乎所有类型都实现了 `Drop`，例如我们自定义的结构体，只要结构体的所有字段都实现了 `Drop`，那结构体也会自动实现 `Drop` !
 
 但是，有的时候这种自动实现可能不够优秀，例如考虑以下链表:
+
 ```shell
 list -> A -> B -> C
 ```
@@ -79,7 +85,8 @@ list -> A -> B -> C
 当 `List` 被自动 `drop` 后，接着会去尝试 `Drop` A，然后是 `B`，最后是 `C`。这个时候，其中一部分读者可能会紧张起来，因此这其实是一段递归代码，可能会直接撑爆我们的 stack 栈。
 
 例如以下的测试代码会试图创建一个很长的链表，然后会导致栈溢出错误:
-```rust
+
+```rust,ignore,mdbook-runnable
 #[test]
 fn long_list() {
     let mut list = List::new();
@@ -90,13 +97,13 @@ fn long_list() {
 }
 ```
 
-
 ```shell
 thread 'first::test::long_list' has overflowed its stack
 ```
 
 可能另一部分同学会想 "这显然是[尾递归](https://zh.wikipedia.org/wiki/尾调用)，一个靠谱的编程语言是不会让尾递归撑爆我们的 stack"。然后，这个想法并不正确，下面让我们尝试模拟编译器来看看 `Drop` 会如何实现:
-```rust
+
+```rust,ignore,mdbook-runnable
 impl Drop for List {
     fn drop(&mut self) {
         // NOTE: 在 Rust 代码中，我们不能显式的调用 `drop` 方法，只能调用 std::mem::drop 函数
@@ -133,7 +140,8 @@ impl Drop for Node {
 从上面的代码和注释可以看出为 `Box<Node>` 实现的 `drop` 方法中，在 `self.ptr.drop` 后调用的 `deallocate` 会导致非尾递归的情况发生。
 
 因此我们需要手动为 `List` 实现 `Drop` 特征:
-```rust
+
+```rust,ignore,mdbook-runnable
 impl Drop for List {
     fn drop(&mut self) {
         let mut cur_link = mem::replace(&mut self.head, Link::Empty);
@@ -148,6 +156,7 @@ impl Drop for List {
 ```
 
 测试下上面的实现以及之前的长链表例子:
+
 ```shell
 $ cargo test
 
@@ -174,10 +183,12 @@ test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured
 `self.pop()` 的会返回 `Option<i32>`, 而我们之前的实现仅仅对智能指针 `Box<Node>` 进行操作。前者会对值进行拷贝，而后者仅仅使用的是指针类型。
 
 当链表中包含的值是其他较大的类型时，那这个拷贝的开销将变得非常高昂。
+
 </details>
 
 ## 最终代码
-```rust
+
+```rust,ignore,mdbook-runnable
 use std::mem;
 
 pub struct List {

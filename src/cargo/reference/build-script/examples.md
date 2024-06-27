@@ -36,7 +36,7 @@ version = "0.1.0"
 
 接下来，再来看看构建脚本的内容:
 
-```rust
+```rust,ignore,mdbook-runnable
 // build.rs
 
 use std::env;
@@ -66,7 +66,7 @@ fn main() {
 
 下面，我们来看看 `main.rs`：
 
-```rust
+```rust,ignore,mdbook-runnable
 // src/main.rs
 
 include!(concat!(env!("OUT_DIR"), "/hello.rs"));
@@ -108,7 +108,7 @@ edition = "2021"
 
 现在，我们还不会使用任何构建依赖，先来看看构建脚本:
 
-```rust
+```rust,ignore,mdbook-runnable
 // build.rs
 
 use std::process::Command;
@@ -147,7 +147,7 @@ cc = "1.0"
 
 然后重写构建脚本使用 `cc` :
 
-```rust
+```rust,ignore,mdbook-runnable
 // build.rs
 
 fn main() {
@@ -181,7 +181,7 @@ void hello() {
 }
 ```
 
-```rust
+```rust,ignore,mdbook-runnable
 // src/main.rs
 
 // 注意，这里没有再使用 `#[link]` 属性。我们把选择使用哪个 link 的责任交给了构建脚本，而不是在这里进行硬编码
@@ -221,7 +221,7 @@ pkg-config = "0.3.16"
 
 构建脚本也很简单:
 
-```rust
+```rust,ignore,mdbook-runnable
 // build.rs
 
 fn main() {
@@ -232,7 +232,7 @@ fn main() {
 
 下面再在代码中使用：
 
-```rust
+```rust,ignore,mdbook-runnable
 // src/lib.rs
 
 use std::os::raw::{c_uint, c_ulong};
@@ -287,7 +287,7 @@ cc = "1.0.46"
 
 通过包含 `libz-sys`，确保了最终只会使用一个 `libz` 库，并且给了我们在构建脚本中使用的途径:
 
-```rust
+```rust,ignore,mdbook-runnable
 // build.rs
 
 fn main() {
@@ -317,13 +317,13 @@ fn main() {
 
 `openssl-sys` 包对 OpenSSL 库进行了构建和链接，支持多个不同的实现(例如 LibreSSL )和多个不同的版本。它也使用了 `links` 配置，这样就可以给**其它构建脚本**传递所需的信息。例如 `version_number` ，包含了检测到的 OpenSSL 库的版本号信息。`openssl-sys` 自己的[构建脚本中](https://github.com/sfackler/rust-openssl/blob/dc72a8e2c429e46c275e528b61a733a66e7877fc/openssl-sys/build/main.rs#L216)有类似于如下的代码:
 
-```rust
+```rust,ignore,mdbook-runnable
 println!("cargo:version_number={:x}", openssl_version);
 ```
 
 该指令将 `version_number` 的信息通过环境变量 `DEP_OPENSSL_VERSION_NUMBER` 的方式传递给直接使用 `openssl-sys` 的项目。例如 `openssl` 包提供了更高级的抽象接口，并且它使用了 `openssl-sys` 作为依赖。`openssl` 的构建脚本会通过环境变量读取 `openssl-sys` 提供的版本号的信息，然后使用该版本号来生成一些 [`cfg`](https://github.com/sfackler/rust-openssl/blob/dc72a8e2c429e46c275e528b61a733a66e7877fc/openssl/build.rs#L18-L36):
 
-```rust
+```rust,ignore,mdbook-runnable
 // (portion of build.rs)
 
 if let Ok(version) = env::var("DEP_OPENSSL_VERSION_NUMBER") {
@@ -349,7 +349,7 @@ if let Ok(version) = env::var("DEP_OPENSSL_VERSION_NUMBER") {
 
 这些 `cfg` 可以跟 [`cfg` 属性]() 或 [`cfg` 宏]()一起使用以实现条件编译。例如，在 OpenSSL 1.1 中引入了 SHA3 的支持，那么我们就可以指定只有当版本号为 1.1 时，才[包含并编译相关的代码](https://github.com/sfackler/rust-openssl/blob/dc72a8e2c429e46c275e528b61a733a66e7877fc/openssl/src/hash.rs#L67-L85):
 
-```rust
+```rust,ignore,mdbook-runnable
 // (portion of openssl crate)
 
 #[cfg(ossl111)]

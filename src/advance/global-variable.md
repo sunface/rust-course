@@ -14,7 +14,7 @@
 
 全局常量可以在程序任何一部分使用，当然，如果它是定义在某个模块中，你需要引入对应的模块才能使用。常量，顾名思义它是不可变的，很适合用作静态配置：
 
-```rust
+```rust,ignore,mdbook-runnable
 const MAX_ID: usize =  usize::MAX / 2;
 fn main() {
    println!("用户ID允许的最大值是{}",MAX_ID);
@@ -34,7 +34,7 @@ fn main() {
 
 静态变量允许声明一个全局的变量，常用于全局数据统计，例如我们希望用一个变量来统计程序当前的总请求数：
 
-```rust
+```rust,ignore,mdbook-runnable
 static mut REQUEST_RECV: usize = 0;
 fn main() {
    unsafe {
@@ -59,7 +59,7 @@ Rust 要求必须使用`unsafe`语句块才能访问和修改`static`变量，�
 
 想要全局计数器、状态控制等功能，又想要线程安全的实现，原子类型是非常好的办法。
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::atomic::{AtomicUsize, Ordering};
 static REQUEST_RECV: AtomicUsize  = AtomicUsize::new(0);
 fn main() {
@@ -77,7 +77,7 @@ fn main() {
 
 来看看如何使用上面的内容实现一个全局 ID 生成器:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::atomic::{Ordering, AtomicUsize};
 
 struct Factory{
@@ -114,7 +114,7 @@ impl Factory{
 
 以上的静态初始化有一个致命的问题：无法用函数进行静态初始化，例如你如果想声明一个全局的`Mutex`锁：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::Mutex;
 static NAMES: Mutex<String> = Mutex::new(String::from("Sunface, Jack, Allen"));
 
@@ -139,7 +139,7 @@ error[E0015]: calls in statics are limited to constant functions, tuple structs 
 
 [`lazy_static`](https://github.com/rust-lang-nursery/lazy-static.rs)是社区提供的非常强大的宏，用于懒初始化静态变量，之前的静态变量都是在编译期初始化的，因此无法使用函数调用进行赋值，而`lazy_static`允许我们在运行期初始化静态变量！
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::Mutex;
 use lazy_static::lazy_static;
 lazy_static! {
@@ -161,7 +161,7 @@ fn main() {
 
 再来看一个使用`lazy_static`实现全局缓存的例子:
 
-```rust
+```rust,ignore,mdbook-runnable
 use lazy_static::lazy_static;
 use std::collections::HashMap;
 
@@ -190,7 +190,7 @@ fn main() {
 
 在`Box`智能指针章节中，我们提到了`Box::leak`可以用于全局变量，例如用作运行期初始化的全局动态配置，先来看看如果不使用`lazy_static`也不使用`Box::leak`，会发生什么：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct Config {
     a: String,
@@ -233,7 +233,7 @@ error[E0716]: temporary value dropped while borrowed
 
 好在`Rust`为我们提供了`Box::leak`方法，它可以将一个变量从内存中泄漏(听上去怪怪的，竟然做主动内存泄漏)，然后将其变为`'static`生命周期，最终该变量将和程序活得一样久，因此可以赋值给全局静态变量`CONFIG`。
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct Config {
     a: String,
@@ -259,7 +259,7 @@ fn main() {
 
 问题又来了，如果我们需要在运行期，从一个函数返回一个全局变量该如何做？例如：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct Config {
     a: String,
@@ -286,7 +286,7 @@ fn main() {
 
 报错这里就不展示了，跟之前大同小异，还是生命周期引起的，那么该如何解决呢？依然可以用`Box::leak`:
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct Config {
     a: String,
@@ -316,12 +316,11 @@ fn main() {
 ## 标准库中的 OnceCell
 
 在 `Rust` 标准库中提供了实验性的 `lazy::OnceCell` 和 `lazy::SyncOnceCell` (在 `Rust`
-1.70.0版本及以上的标准库中，替换为稳定的 `cell::OnceCell` 和 `sync::OnceLock` )两种
+1.70.0 版本及以上的标准库中，替换为稳定的 `cell::OnceCell` 和 `sync::OnceLock` )两种
 `Cell` ，前者用于单线程，后者用于多线程，它们用来存储堆上的信息，并且具有最
 多只能赋值一次的特性。 如实现一个多线程的日志组件 `Logger`：
 
-
-```rust
+```rust,ignore,mdbook-runnable
 // 低于Rust 1.70版本中， OnceCell 和 SyncOnceCell 的API为实验性的 ，
 // 需启用特性 `#![feature(once_cell)]`。
 #![feature(once_cell)]

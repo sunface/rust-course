@@ -1,8 +1,8 @@
-# 语句和表达式 
+# 语句和表达式
 
 Rust 的函数体是由一系列语句组成，最后由一个表达式来返回值，例如：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn add_with_extra(x: i32, y: i32) -> i32 {
     let x = x + 1; // 语句
     let y = y + 5; // 语句
@@ -12,16 +12,13 @@ fn add_with_extra(x: i32, y: i32) -> i32 {
 
 语句会执行一些操作但是不会返回一个值，而表达式会在求值后返回一个值，因此在上述函数体的三行代码中，前两行是语句，最后一行是表达式。
 
-
-
 对于 Rust 语言而言，**这种基于语句（statement）和表达式（expression）的方式是非常重要的，你需要能明确的区分这两个概念**，但是对于很多其它语言而言，这两个往往无需区分。基于表达式是函数式语言的重要特征，**表达式总要返回值**。
-
 
 其实，在此之前，我们已经多次使用过语句和表达式。
 
 ## 语句
 
-```rust
+```rust,ignore,mdbook-runnable
 let a = 8;
 let b: Vec<f64> = Vec::new();
 let (a, c) = ("hi", false);
@@ -31,7 +28,7 @@ let (a, c) = ("hi", false);
 
 由于 `let` 是语句，因此不能将 `let` 语句赋值给其它值，如下形式是错误的：
 
-```rust
+```rust,ignore,mdbook-runnable
 let b = (let a = 8);
 ```
 
@@ -68,7 +65,7 @@ error[E0658]: `let` expressions in this position are experimental
 
 调用一个函数是表达式，因为会返回一个值，调用宏也是表达式，用花括号包裹最终返回一个值的语句块也是表达式，总之，能返回值，它就是表达式:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let y = {
         let x = 3;
@@ -81,7 +78,7 @@ fn main() {
 
 上面使用一个语句块表达式将值赋给 `y` 变量，语句块长这样：
 
-```rust
+```rust,ignore,mdbook-runnable
 {
     let x = 3;
     x + 1
@@ -92,7 +89,7 @@ fn main() {
 
 最后，表达式如果不返回任何值，会隐式地返回一个 [`()`](https://course.rs/basic/base-type/char-bool.html#单元类型) 。
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     assert_eq!(ret_unit_type(), ())
 }
@@ -114,4 +111,3 @@ fn ret_unit_type() {
 ## 课后练习
 
 > [Rust By Practice](https://practice-zh.course.rs/basic-types/statements-expressions.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/basic-types/statements.md)。
-

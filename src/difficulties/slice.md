@@ -10,7 +10,7 @@
 
 Rust 语言特性内置的 `str` 和 `[u8]` 类型都是切片，前者是字符串切片，后者是数组切片，下面我们来尝试下使用 `str` ：
 
-```rust
+```rust,ignore,mdbook-runnable
 let string: str = "banana";
 ```
 
@@ -54,7 +54,7 @@ error[E0277]: the size for values of type `str` cannot be known at compilation t
 
 `str` 切片的引用类型是 `&str`，而 `[i32]` 的引用类型是 `&[i32]`，相信聪明的读者已经看出来了，`&str` 和 `&[i32]` 都是我们非常常用的类型，例如:
 
-```rust
+```rust,ignore,mdbook-runnable
 let s1: &str = "banana";
 let s2: &str = &String::from("banana");
 
@@ -77,4 +77,3 @@ let s3: &[i32] = &arr[1..3];
 | [u8] 数组切片  | &[u8] 数组切片的引用  |
 
 **但是出于方便，我们往往不会说使用切片引用，而是直接说使用字符串切片或数组切片，实际上，这时指代的都是切片的引用！**
-

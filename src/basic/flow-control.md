@@ -10,7 +10,7 @@
 
 但凡你能找到一门编程语言没有 `if else`，那么一定更要反馈给鲁迅，反正不是我说的 :) 总之，只要你拥有其它语言的编程经验，就一定会有以下认知：`if else` **表达式**根据条件执行不同的代码分支：
 
-```rust
+```rust,ignore,mdbook-runnable
 if condition == true {
     // A...
 } else {
@@ -22,7 +22,7 @@ if condition == true {
 
 先看下面代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let condition = true;
     let number = if condition {
@@ -60,7 +60,7 @@ error[E0308]: if and else have incompatible types
 
 可以将 `else if` 与 `if`、`else` 组合在一起实现更复杂的条件分支判断：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let n = 6;
 
@@ -92,7 +92,7 @@ fn main() {
 
 `for` 循环是 Rust 的大杀器：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     for i in 1..=5 {
         println!("{}", i);
@@ -102,7 +102,7 @@ fn main() {
 
 以上代码循环输出一个从 1 到 5 的序列，简单粗暴，核心就在于 `for` 和 `in` 的联动，语义表达如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 for 元素 in 集合 {
   // 使用元素干一些你懂我不懂的事情
 }
@@ -112,7 +112,7 @@ for 元素 in 集合 {
 
 注意，使用 `for` 时我们往往使用集合的引用形式，除非你不想在后面的代码中继续使用该集合（比如我们这里使用了 `container` 的引用）。如果不使用引用的话，所有权会被转移（move）到 `for` 语句块中，后面就无法再使用这个集合了)：
 
-```rust
+```rust,ignore,mdbook-runnable
 for item in &container {
   // ...
 }
@@ -122,7 +122,7 @@ for item in &container {
 
 如果想在循环中，**修改该元素**，可以使用 `mut` 关键字：
 
-```rust
+```rust,ignore,mdbook-runnable
 for item in &mut collection {
   // ...
 }
@@ -138,7 +138,7 @@ for item in &mut collection {
 
 如果想在循环中**获取元素的索引**：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let a = [4, 3, 2, 1];
     // `.iter()` 方法把 `a` 数组变成一个迭代器
@@ -150,7 +150,7 @@ fn main() {
 
 有同学可能会想到，如果我们想用 `for` 循环控制某个过程执行 10 次，但是又不想单独声明一个变量来控制这个流程，该怎么写？
 
-```rust
+```rust,ignore,mdbook-runnable
 for _ in 0..10 {
   // ...
 }
@@ -162,7 +162,7 @@ for _ in 0..10 {
 
 以下代码，使用了两种循环方式：
 
-```rust
+```rust,ignore,mdbook-runnable
 // 第一种
 let collection = [1, 2, 3, 4, 5];
 for i in 0..collection.len() {
@@ -187,7 +187,7 @@ for item in collection {
 
 使用 `continue` 可以跳过当前当次的循环，开始下次的循环：
 
-```rust
+```rust,ignore,mdbook-runnable
  for i in 1..4 {
      if i == 2 {
          continue;
@@ -207,7 +207,7 @@ for item in collection {
 
 使用 `break` 可以直接跳出当前整个循环：
 
-```rust
+```rust,ignore,mdbook-runnable
  for i in 1..4 {
      if i == 2 {
          break;
@@ -226,7 +226,7 @@ for item in collection {
 
 如果你需要一个条件来循环，当该条件为 `true` 时，继续循环，条件为 `false`，跳出循环，那么 `while` 就非常适用：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut n = 0;
 
@@ -254,7 +254,7 @@ fn main() {
 
 当然，你也可以用其它方式组合实现，例如 `loop`（无条件循环，将在下面介绍） + `if` + `break`：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut n = 0;
 
@@ -276,7 +276,7 @@ fn main() {
 
 我们也能用 `while` 来实现 `for` 的功能：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let a = [10, 20, 30, 40, 50];
     let mut index = 0;
@@ -305,7 +305,7 @@ the value is: 50
 
 `for`循环代码如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let a = [10, 20, 30, 40, 50];
 
@@ -323,7 +323,7 @@ fn main() {
 
 使用 `loop` 循环一定要打起精神，否则你会写出下面的跑满你一个 CPU 核心的疯子代码：
 
-```rust,ignore
+```rust,ignore,mdbook-runnable,ignore
 fn main() {
     loop {
         println!("again!");
@@ -345,7 +345,7 @@ again!
 
 因此，当使用 `loop` 时，必不可少的伙伴是 `break` 关键字，它能让循环在满足某个条件时跳出：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut counter = 0;
 
