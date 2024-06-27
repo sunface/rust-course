@@ -59,7 +59,7 @@ Rust 需要明确地知道一个特定类型的值占据了多少内存空间，
 ```rust
 fn foobar_1(thing: &dyn MyThing) {}     // OK
 fn foobar_2(thing: Box<dyn MyThing>) {} // OK
-fn foobar_3(thing: MyThing) {}          // ERROR!
+fn foobar_3(thing: dyn MyThing) {}      // ERROR!
 ```
 
 如上所示，只能通过引用或 `Box` 的方式来使用特征对象，直接使用将报错！
