@@ -16,9 +16,9 @@ struct SelfRef {
 }
 ```
 
-在上面的结构体中，`pointer_to_value` 是一个裸指针，指向第一个字段 `value` 持有的字符串 `String` 。很简单对吧？现在考虑一个情况， 若`String` 被移动了怎么办？
+在上面的结构体中，`pointer_to_value` 是一个裸指针，指向第一个字段 `value` 持有的字符串 `String` 。很简单对吧？现在考虑一个情况， 若 `value` 被移动了怎么办？
 
-此时一个致命的问题就出现了：新的字符串的内存地址变了，而 `pointer_to_value` 依然指向之前的地址，一个重大 bug 就出现了！
+此时一个致命的问题就出现了：`value` 的内存地址变了，而 `pointer_to_value` 依然指向 `value` 之前的地址，一个重大 bug 就出现了！
 
 灾难发生，英雄在哪？只见 `Pin` 闪亮登场，它可以防止一个类型在内存中被移动。再来回忆下之前在 `Future` 章节中，我们提到过在 `poll` 方法的签名中有一个 `self: Pin<&mut Self>` ，那么为何要在这里使用 `Pin` 呢？
 
