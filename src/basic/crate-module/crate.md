@@ -72,7 +72,7 @@ error: a bin target must be available for `cargo run`
 
 看完上面，相信大家看出来为何 `Package` 和包容易被混淆了吧？因为你用 `cargo new` 创建的 `Package` 和它其中包含的包是同名的！
 
-不过，只要你牢记 `Package` 是一个项目工程，而包只是一个编译单元，基本上也就不会混淆这个两个概念了：`src/main.rs` 和 `src/lib.rs` 都是编译单元，因此它们都是包。
+不过，只要你牢记 `Package` 是一个项目工程，而包只是一个编译单元，基本上也就不会混淆这两个概念了：`src/main.rs` 和 `src/lib.rs` 都是编译单元，因此它们都是包。
 
 #### 典型的 `Package` 结构
 
