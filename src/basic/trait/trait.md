@@ -6,7 +6,7 @@
 
 在之前的代码中，我们也多次见过特征的使用，例如 `#[derive(Debug)]`，它在我们定义的类型(`struct`)上自动派生 `Debug` 特征，接着可以使用 `println!("{:?}", x)` 打印这个类型；再例如：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn add<T: std::ops::Add<Output = T>>(a:T, b:T) -> T {
     a + b
 }
@@ -22,7 +22,7 @@ fn add<T: std::ops::Add<Output = T>>(a:T, b:T) -> T {
 
 例如，我们现在有文章 `Post` 和微博 `Weibo` 两种内容载体，而我们想对相应的内容进行总结，也就是无论是文章内容，还是微博内容，都可以在某个时间点进行总结，那么总结这个行为就是共享的，因此可以用特征来定义：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub trait Summary {
     fn summarize(&self) -> String;
 }
@@ -40,7 +40,7 @@ pub trait Summary {
 
 首先来为 `Post` 和 `Weibo` 实现 `Summary` 特征：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub trait Summary {
     fn summarize(&self) -> String;
 }
@@ -72,7 +72,7 @@ impl Summary for Weibo {
 
 接下来就可以在这个类型上调用特征的方法：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let post = Post{title: "Rust语言简介".to_string(),author: "Sunface".to_string(), content: "Rust棒极了!".to_string()};
     let weibo = Weibo{username: "sunface".to_string(),content: "好像微博没Tweet好用".to_string()};
@@ -105,7 +105,7 @@ sunface发表了微博好像微博没Tweet好用
 
 你可以在特征中定义具有**默认实现**的方法，这样其它类型无需再实现该方法，或者也可以选择重载该方法：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub trait Summary {
     fn summarize(&self) -> String {
         String::from("(Read more...)")
@@ -115,7 +115,7 @@ pub trait Summary {
 
 上面为 `Summary` 定义了一个默认实现，下面我们编写段代码来测试下：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Summary for Post {}
 
 impl Summary for Weibo {
@@ -127,7 +127,7 @@ impl Summary for Weibo {
 
 可以看到，`Post` 选择了默认实现，而 `Weibo` 重载了该方法，调用和输出如下：
 
-```rust
+```rust,ignore,mdbook-runnable
     println!("{}",post.summarize());
     println!("{}",weibo.summarize());
 ```
@@ -139,7 +139,7 @@ sunface发表了微博好像微博没Tweet好用
 
 默认实现允许调用相同特征中的其他方法，哪怕这些方法没有默认实现。如此，特征可以提供很多有用的功能而只需要实现指定的一小部分内容。例如，我们可以定义 `Summary` 特征，使其具有一个需要实现的 `summarize_author` 方法，然后定义一个 `summarize` 方法，此方法的默认实现调用 `summarize_author` 方法：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub trait Summary {
     fn summarize_author(&self) -> String;
 
@@ -151,7 +151,7 @@ pub trait Summary {
 
 为了使用 `Summary`，只需要实现 `summarize_author` 方法即可：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Summary for Weibo {
     fn summarize_author(&self) -> String {
         format!("@{}", self.username)
@@ -169,7 +169,7 @@ println!("1 new weibo: {}", weibo.summarize());
 
 现在，先定义一个函数，使用特征作为函数参数：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn notify(item: &impl Summary) {
     println!("Breaking news! {}", item.summarize());
 }
@@ -183,7 +183,7 @@ pub fn notify(item: &impl Summary) {
 
 虽然 `impl Trait` 这种语法非常好理解，但是实际上它只是一个语法糖：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn notify<T: Summary>(item: &T) {
     println!("Breaking news! {}", item.summarize());
 }
@@ -193,13 +193,13 @@ pub fn notify<T: Summary>(item: &T) {
 
 在简单的场景下 `impl Trait` 这种语法糖就足够使用，但是对于复杂的场景，特征约束可以让我们拥有更大的灵活性和语法表现能力，例如一个函数接受两个 `impl Summary` 的参数：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn notify(item1: &impl Summary, item2: &impl Summary) {}
 ```
 
 如果函数两个参数是不同的类型，那么上面的方法很好，只要这两个类型都实现了 `Summary` 特征即可。但是如果我们想要强制函数的两个参数是同一类型呢？上面的语法就无法做到这种限制，此时我们只能使特征约束来实现：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn notify<T: Summary>(item1: &T, item2: &T) {}
 ```
 
@@ -209,13 +209,13 @@ pub fn notify<T: Summary>(item1: &T, item2: &T) {}
 
 除了单个约束条件，我们还可以指定多个约束条件，例如除了让参数实现 `Summary` 特征外，还可以让参数实现 `Display` 特征以控制它的格式化输出：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn notify(item: &(impl Summary + Display)) {}
 ```
 
 除了上述的语法糖形式，还能使用特征约束的形式：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn notify<T: Summary + Display>(item: &T) {}
 ```
 
@@ -225,13 +225,13 @@ pub fn notify<T: Summary + Display>(item: &T) {}
 
 当特征约束变得很多时，函数的签名将变得很复杂：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn some_function<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) -> i32 {}
 ```
 
 严格来说，上面的例子还是不够复杂，但是我们还是能对其做一些形式上的改进，通过 `where`：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn some_function<T, U>(t: &T, u: &U) -> i32
     where T: Display + Clone,
           U: Clone + Debug
@@ -242,7 +242,7 @@ fn some_function<T, U>(t: &T, u: &U) -> i32
 
 特征约束，可以让我们在指定类型 + 指定特征的条件下去实现方法，例如：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fmt::Display;
 
 struct Pair<T> {
@@ -275,7 +275,7 @@ impl<T: Display + PartialOrd> Pair<T> {
 
 **也可以有条件地实现特征**，例如，标准库为任何实现了 `Display` 特征的类型实现了 `ToString` 特征：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl<T: Display> ToString for T {
     // --snip--
 }
@@ -283,7 +283,7 @@ impl<T: Display> ToString for T {
 
 我们可以对任何实现了 `Display` 特征的类型调用由 `ToString` 定义的 `to_string` 方法。例如，可以将整型转换为对应的 `String` 值，因为整型实现了 `Display`：
 
-```rust
+```rust,ignore,mdbook-runnable
 let s = 3.to_string();
 ```
 
@@ -291,7 +291,7 @@ let s = 3.to_string();
 
 可以通过 `impl Trait` 来说明一个函数返回了一个类型，该类型实现了某个特征：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn returns_summarizable() -> impl Summary {
     Weibo {
         username: String::from("sunface"),
@@ -308,7 +308,7 @@ fn returns_summarizable() -> impl Summary {
 
 但是这种返回值方式有一个很大的限制：只能有一个具体的类型，例如：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn returns_summarizable(switch: bool) -> impl Summary {
     if switch {
         Post {
@@ -345,7 +345,7 @@ expected struct `Post`, found struct `Weibo`
 
 还记得上一节中的[例子](https://course.rs/basic/trait/generic.html#泛型详解)吧，当时留下一个疑问，该如何解决编译报错：
 
-```rust
+```rust,ignore,mdbook-runnable
 error[E0369]: binary operation `>` cannot be applied to type `T` // 无法在 `T` 类型上应用`>`运算符
  --> src/main.rs:5:17
   |
@@ -364,13 +364,13 @@ help: consider restricting type parameter `T` // 考虑使用以下的特征来�
 
 由于 `PartialOrd` 位于 `prelude` 中所以并不需要通过 `std::cmp` 手动将其引入作用域。所以可以将 `largest` 的签名修改为如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn largest<T: PartialOrd>(list: &[T]) -> T {}
 ```
 
 但是此时编译，又会出现新的错误：
 
-```rust
+```rust,ignore,mdbook-runnable
 error[E0508]: cannot move out of type `[T]`, a non-copy slice
  --> src/main.rs:2:23
   |
@@ -394,7 +394,7 @@ error[E0507]: cannot move out of borrowed content
 
 因此，为了让 `T` 拥有 `Copy` 特性，我们可以增加特征约束：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn largest<T: PartialOrd + Copy>(list: &[T]) -> T {
     let mut largest = list[0];
 
@@ -440,7 +440,7 @@ fn main() {
 
 在一些场景中，使用 `as` 关键字做类型转换会有比较大的限制，因为你想要在类型转换上拥有完全的控制，例如处理转换错误，那么你将需要 `TryInto`：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::convert::TryInto;
 
 fn main() {
@@ -466,7 +466,7 @@ fn main() {
 
 在 Rust 中除了数值类型的加法，`String` 也可以做[加法](https://course.rs/basic/compound-type/string-slice.html#操作字符串)，因为 Rust 为该类型实现了 `std::ops::Add` 特征，同理，如果我们为自定义类型实现了该特征，那就可以自己实现 `Point1 + Point2` 的操作:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::ops::Add;
 
 // 为Point结构体派生Debug特征，用于格式化输出
@@ -506,7 +506,7 @@ fn main() {
 
 在开发过程中，往往只要使用 `#[derive(Debug)]` 对我们的自定义类型进行标注，即可实现打印输出的功能：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct Point{
     x: i32,
@@ -520,7 +520,7 @@ fn main() {
 
 但是在实际项目中，往往需要对我们的自定义类型进行自定义的格式化输出，以让用户更好的阅读理解我们的类型，此时就要为自定义类型实现 `std::fmt::Display` 特征：
 
-```rust
+```rust,ignore,mdbook-runnable
 #![allow(dead_code)]
 
 use std::fmt;
@@ -576,7 +576,6 @@ fn main() {
 以上两个例子较为复杂，目的是为读者展示下真实的使用场景长什么样，因此需要读者细细阅读，最终消化这些知识对于你的 Rust 之路会有莫大的帮助。
 
 最后，特征和特征约束，是 Rust 中极其重要的概念，如果你还是没搞懂，强烈建议回头再看一遍，或者寻找相关的资料进行补充学习。如果已经觉得掌握了，那么就可以进入下一节的学习。
-
 
 ## 课后练习
 

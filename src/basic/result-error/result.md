@@ -6,7 +6,7 @@
 
 之前章节有提到过，`Result<T, E>` 是一个枚举类型，定义如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum Result<T, E> {
     Ok(T),
     Err(E),
@@ -15,7 +15,7 @@ enum Result<T, E> {
 
 泛型参数 `T` 代表成功时存入的正确值的类型，存放方式是 `Ok(T)`，`E` 代表错误时存入的错误值，存放方式是 `Err(E)`，枯燥的讲解永远不及代码生动准确，因此先来看下打开文件的例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs::File;
 
 fn main() {
@@ -33,7 +33,7 @@ fn main() {
 > - 在 [Rust IDE](https://course.rs/first-try/editor.html) 章节，我们推荐了 `VSCode` IDE 和 `rust-analyzer` 插件，如果你成功安装的话，那么就可以在 `VSCode` 中很方便的通过代码跳转的方式查看代码，同时 `rust-analyzer` 插件还会对代码中的类型进行标注，非常方便好用！
 > - 你还可以尝试故意标记一个错误的类型，然后让编译器告诉你：
 
-```rust
+```rust,ignore,mdbook-runnable
 let f: u32 = File::open("hello.txt");
 ```
 
@@ -57,7 +57,7 @@ error[E0308]: mismatched types
 
 这个返回值类型说明 `File::open` 调用如果成功则返回一个可以进行读写的文件句柄，如果失败，则返回一个 IO 错误：文件不存在或者没有访问文件的权限等。总之 `File::open` 需要一个方式告知调用者是成功还是失败，并同时返回具体的文件句柄（成功）或错误信息（失败），万幸的是，这些信息可以通过 `Result` 枚举提供：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs::File;
 
 fn main() {
@@ -80,7 +80,7 @@ fn main() {
 
 直接 `panic` 还是过于粗暴，因为实际上 IO 的错误有很多种，我们需要对部分错误进行特殊处理，而不是所有错误都直接崩溃：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs::File;
 use std::io::ErrorKind;
 
@@ -115,7 +115,7 @@ fn main() {
 
 它们的作用就是，如果返回成功，就将 `Ok(T)` 中的值取出来，如果失败，就直接 `panic`，真的勇士绝不多 BB，直接崩溃。
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs::File;
 
 fn main() {
@@ -132,7 +132,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 `expect` 跟 `unwrap` 很像，也是遇到错误直接 `panic`, 但是会带上自定义的错误提示信息，相当于重载了错误打印的函数：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs::File;
 
 fn main() {
@@ -155,7 +155,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 例如以下函数从文件中读取用户名，然后将结果进行返回：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs::File;
 use std::io::{self, Read};
 
@@ -194,7 +194,7 @@ fn read_username_from_file() -> Result<String, io::Error> {
 
 大明星出场，必须得有排面，来看看 `?` 的排面：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs::File;
 use std::io;
 use std::io::Read;
@@ -211,7 +211,7 @@ fn read_username_from_file() -> Result<String, io::Error> {
 
 其实 `?` 就是一个宏，它的作用跟上面的 `match` 几乎一模一样：
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut f = match f {
     // 打开文件成功，将file句柄赋值给f
     Ok(file) => file,
@@ -228,7 +228,7 @@ let mut f = match f {
 
 明白了以上的错误转换，`?` 的更胜一筹就很好理解了，它可以自动进行类型提升（转换）：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn open_file() -> Result<File, Box<dyn std::error::Error>> {
     let mut f = File::open("hello.txt")?;
     Ok(f)
@@ -243,7 +243,7 @@ fn open_file() -> Result<File, Box<dyn std::error::Error>> {
 
 强中自有强中手，一码更比一码短：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs::File;
 use std::io;
 use std::io::Read;
@@ -261,7 +261,7 @@ fn read_username_from_file() -> Result<String, io::Error> {
 
 不仅有更强，还要有最强，我不信还有人比我更短(不要误解)：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs;
 use std::io;
 
@@ -277,7 +277,7 @@ fn read_username_from_file() -> Result<String, io::Error> {
 
 `?` 不仅仅可以用于 `Result` 的传播，还能用于 `Option` 的传播，再来回忆下 `Option` 的定义：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub enum Option<T> {
     Some(T),
     None
@@ -286,7 +286,7 @@ pub enum Option<T> {
 
 `Result` 通过 `?` 返回错误，那么 `Option` 就通过 `?` 返回 `None`：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn first(arr: &[i32]) -> Option<&i32> {
    let v = arr.get(0)?;
    Some(v)
@@ -297,7 +297,7 @@ fn first(arr: &[i32]) -> Option<&i32> {
 
 其实这个函数有些画蛇添足，我们完全可以写出更简单的版本：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn first(arr: &[i32]) -> Option<&i32> {
    arr.get(0)
 }
@@ -305,7 +305,7 @@ fn first(arr: &[i32]) -> Option<&i32> {
 
 有一句话怎么说？没有需求，制造需求也要上……大家别跟我学习，这是软件开发大忌。只能用代码洗洗眼了：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn last_char_of_first_line(text: &str) -> Option<char> {
     text.lines().next()?.chars().last()
 }
@@ -317,7 +317,7 @@ fn last_char_of_first_line(text: &str) -> Option<char> {
 
 初学者在用 `?` 时，老是会犯错，例如写出这样的代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn first(arr: &[i32]) -> Option<&i32> {
    arr.get(0)?
 }
@@ -332,7 +332,7 @@ fn first(arr: &[i32]) -> Option<&i32> {
 
 在了解了 `?` 的使用限制后，这段代码你很容易看出它无法编译：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fs::File;
 
 fn main() {
@@ -341,6 +341,7 @@ fn main() {
 ```
 
 运行后会报错:
+
 ```shell
 $ cargo run
    ...
@@ -359,7 +360,7 @@ $ cargo run
 
 实际上 Rust 还支持另外一种形式的 `main` 函数：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::error::Error;
 use std::fs::File;
 
@@ -378,7 +379,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
 在 `?` 横空出世之前( Rust 1.13 )，Rust 开发者还可以使用 `try!` 来处理错误，该宏的大致定义如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 macro_rules! try {
     ($e:expr) => (match $e {
         Ok(val) => val,
@@ -389,7 +390,7 @@ macro_rules! try {
 
 简单看一下与 `?` 的对比:
 
-```rust
+```rust,ignore,mdbook-runnable
 //  `?`
 let x = function_with_error()?; // 若返回 Err, 则立刻返回；若返回 Ok(255)，则将 x 的值设置为 255
 

@@ -48,7 +48,7 @@ $ cargo build
 
 此时，就可以在 `src/main.rs` 中使用新引入的 `regexp` 包:
 
-```rust
+```rust,ignore,mdbook-runnable
 use regex::Regex;
 
 fn main() {

@@ -4,7 +4,7 @@
 
 Rust 标准库中提供了一个消息通道，非常好用，也相当简单明了，但是但是在使用起来还是可能存在坑：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::mpsc;
 fn main() {
 
@@ -48,7 +48,7 @@ Got: 2
 
 破局点只有一个，那就是主动`drop`掉`send`，这个简单，使用`std::mem::drop`函数即可，得益于`prelude`，我们只需要使用`drop`:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::mpsc;
 fn main() {
 

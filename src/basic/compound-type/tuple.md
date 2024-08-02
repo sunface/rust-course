@@ -4,7 +4,7 @@
 
 可以通过以下语法创建一个元组：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let tup: (i32, f64, u8) = (500, 6.4, 1);
 }
@@ -16,7 +16,7 @@ fn main() {
 
 ### 用模式匹配解构元组
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let tup = (500, 6.4, 1);
 
@@ -32,7 +32,7 @@ fn main() {
 
 模式匹配可以让我们一次性把元组中的值全部或者部分获取出来，如果只想要访问某个特定元素，那模式匹配就略显繁琐，对此，Rust 提供了 `.` 的访问方式：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let x: (i32, f64, u8) = (500, 6.4, 1);
 
@@ -50,7 +50,7 @@ fn main() {
 
 元组在函数返回值场景很常用，例如下面的代码，可以使用元组返回多个值：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let s1 = String::from("hello");
 
@@ -71,8 +71,6 @@ fn calculate_length(s: String) -> (String, usize) {
 在其他语言中，可以用结构体来声明一个三维空间中的点，例如 `Point(10, 20, 30)`，虽然使用 Rust 元组也可以做到：`(10, 20, 30)`，但是这样写有个非常重大的缺陷：
 
 **不具备任何清晰的含义**，在下一章节中，会提到一种与元组类似的结构体，`元组结构体`，可以解决这个问题。
-
-
 
 ## 课后练习
 

@@ -12,7 +12,7 @@
 
 开始之前先通过一段代码来简单浏览下 Rust 的语法：
 
-```rust
+```rust,ignore,mdbook-runnable
 // Rust 程序入口函数，跟其它语言一样，都是 main，该函数目前无返回值
 fn main() {
     // 使用let来声明变量，进行绑定，a是不可变的

@@ -10,7 +10,7 @@
 
 接下来，对世界友人给予热切的问候：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn greet_world() {
     let southern_germany = "Grüß Gott!";
     let chinese = "世界，你好";
@@ -54,11 +54,11 @@ World, hello
 
 ## Rust 语言初印象
 
-Haskell 和 Java 开发者们可能会觉得Rust 这门语言很熟悉，因为它们在高阶表达方面都很优秀。简而言之，就是可以很简洁的写出原本需要一大堆代码才能表达的含义。但是，Rust 又有所不同：它的性能是底层语言级别的性能，可以跟 C/C++ 相媲美。
+Haskell 和 Java 开发者们可能会觉得 Rust 这门语言很熟悉，因为它们在高阶表达方面都很优秀。简而言之，就是可以很简洁的写出原本需要一大堆代码才能表达的含义。但是，Rust 又有所不同：它的性能是底层语言级别的性能，可以跟 C/C++ 相媲美。
 
 上面的 `So Easy` 的余音仍在绕梁，我希望它能继续下去，可是… 人总是要面对现实，因此让我们来点狠活：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
    let penguin_data = "\
    common name,length (cm)

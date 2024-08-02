@@ -22,7 +22,7 @@
 
 #### 行注释 `//`
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     // 我是Sun...
     // face
@@ -37,7 +37,7 @@ fn main() {
 
 #### 块注释`/* ..... */`
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     /*
         我
@@ -66,7 +66,7 @@ Rust 提供了 `cargo doc` 的命令，可以用于把这些文档注释转换�
 
 本书的一大特点就是废话不多，因此我们开门见山：
 
-````rust
+````rust,ignore,mdbook-runnable
 /// `add_one` 将指定值加1
 ///
 /// # Examples
@@ -94,7 +94,7 @@ pub fn add_one(x: i32) -> i32 {
 
 与代码注释一样，文档也有块注释，当注释内容多时，使用块注释可以减少 `///` 的使用：
 
-````rust
+````rust,ignore,mdbook-runnable
 /** `add_two` 将指定值加2
 
 # Examples
@@ -141,7 +141,7 @@ pub fn add_two(x: i32) -> i32 {
 
 现在，为我们的包增加注释，在 `src/lib.rs` 包根的最上方，添加：
 
-```rust
+```rust,ignore,mdbook-runnable
 /*! lib包是world_hello二进制包的依赖包，
  里面包含了compute等有用模块 */
 
@@ -150,7 +150,7 @@ pub mod compute;
 
 然后再为该包根的子模块 `src/compute.rs` 添加注释：
 
-```rust
+```rust,ignore,mdbook-runnable
 //! 计算一些你口算算不出来的复杂算术题
 
 
@@ -172,7 +172,7 @@ pub mod compute;
 
 在之前的 `add_one` 中，我们写的示例代码非常像是一个单元测试的用例，这是偶然吗？并不是。因为 Rust 允许我们在文档注释中写单元测试用例！方法就如同之前做的：
 
-````rust
+````rust,ignore,mdbook-runnable
 /// `add_one` 将指定值加1
 ///
 /// # Examples11
@@ -208,12 +208,12 @@ test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 文档测试中的用例还可以造成 `panic`：
 
-````rust
+````rust,ignore,mdbook-runnable
 /// # Panics
 ///
 /// The function panics if the second argument is zero.
 ///
-/// ```rust
+/// ```rust,ignore,mdbook-runnable
 /// // panics on division by zero
 /// world_hello::compute::div(10, 0);
 /// ```
@@ -239,12 +239,12 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 如果想要通过这种测试，可以添加 `should_panic`：
 
-````rust
+````rust,ignore,mdbook-runnable
 /// # Panics
 ///
 /// The function panics if the second argument is zero.
 ///
-/// ```rust,should_panic
+/// ```rust,ignore,mdbook-runnable,should_panic
 /// // panics on division by zero
 /// world_hello::compute::div(10, 0);
 /// ```
@@ -256,7 +256,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 在某些时候，我们希望保留文档测试的功能，但是又要将某些测试用例的内容从文档中隐藏起来：
 
-````rust
+````rust,ignore,mdbook-runnable
 /// ```
 /// # // 使用#开头的行会在文档中被隐藏起来，但是依然会在文档测试中运行
 /// # fn try_main() -> Result<(), String> {
@@ -287,7 +287,7 @@ Rust 在文档注释中还提供了一个非常强大的功能，那就是可以
 
 #### 跳转到标准库
 
-```rust
+```rust,ignore,mdbook-runnable
 /// `add_one` 返回一个[`Option`]类型
 pub fn add_one(x: i32) -> Option<i32> {
     Some(x + 1)
@@ -301,7 +301,7 @@ pub fn add_one(x: i32) -> Option<i32> {
 
 再比如，还可以使用路径的方式跳转：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::mpsc::Receiver;
 
 /// [`Receiver<T>`]   [`std::future`].
@@ -322,7 +322,7 @@ impl<T> AsyncReceiver<T> {
 
 除了跳转到标准库，你还可以通过指定具体的路径跳转到自己代码或者其它库的指定项，例如在 `lib.rs` 中添加以下代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub mod a {
     /// `add_one` 返回一个[`Option`]类型
     /// 跳转到[`crate::MySpecialFormatter`]
@@ -340,7 +340,7 @@ pub struct MySpecialFormatter;
 
 如果遇到同名项，可以使用标示类型的方式进行跳转：
 
-```rust
+```rust,ignore,mdbook-runnable
 /// 跳转到结构体  [`Foo`](struct@Foo)
 pub struct Bar;
 
@@ -360,7 +360,7 @@ macro_rules! foo {
 
 Rust 文档支持搜索功能，我们可以为自己的类型定义几个别名，以实现更好的搜索展现，当别名命中时，搜索结果会被放在第一位：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[doc(alias = "x")]
 #[doc(alias = "big")]
 pub struct BigX;
@@ -393,7 +393,7 @@ Created binary (application) `art` package
 
 将以下内容添加到 `src/lib.rs` 中：
 
-````rust
+````rust,ignore,mdbook-runnable
 //! # Art
 //!
 //!  未来的艺术建模库，现在的调色库
@@ -426,7 +426,7 @@ pub mod utils {
     use crate::kinds::*;
 
     /// 将两种主色调成副色
-    /// ```rust
+    /// ```rust,ignore,mdbook-runnable
     /// use art::utils::mix;
     /// use art::kinds::{PrimaryColor,SecondaryColor};
     /// assert!(matches!(mix(PrimaryColor::Yellow, PrimaryColor::Blue), SecondaryColor::Green));
@@ -441,7 +441,7 @@ pub mod utils {
 
 接着，将下面内容添加到 `src/main.rs` 中：
 
-```rust
+```rust,ignore,mdbook-runnable
 use art::kinds::PrimaryColor;
 use art::utils::mix;
 

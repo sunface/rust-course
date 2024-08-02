@@ -4,7 +4,7 @@
 
 首先，让我们来解决 `Drop` 的问题：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl<T> Drop for LinkedList<T> {
     fn drop(&mut self) {
         // Pop until we have to stop
@@ -15,11 +15,11 @@ impl<T> Drop for LinkedList<T> {
 
 我们必须填写一堆非常无聊的组合实现，如 front、front_mut、back、back_mut、iter、iter_mut、into_iter......
 
-我已经精心设计了之前的 push/pop 实现，因此我们只需前后对调，代码就能做正确的事情！痛苦的经验万岁！(对于节点来说，使用 "prev和next "是很有诱惑力的，但我发现，为了避免错误，尽量使用 "front "和 "back"才是真正对的）。
+我已经精心设计了之前的 push/pop 实现，因此我们只需前后对调，代码就能做正确的事情！痛苦的经验万岁！(对于节点来说，使用 "prev 和 next "是很有诱惑力的，但我发现，为了避免错误，尽量使用 "front "和 "back"才是真正对的）。
 
 首先是 `front`:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn front(&self) -> Option<&T> {
     unsafe {
         self.front.map(|node| &(*node.as_ptr()).elem)
@@ -29,7 +29,7 @@ pub fn front(&self) -> Option<&T> {
 
 接着是：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn front_mut(&mut self) -> Option<&mut T> {
     unsafe {
         self.front.map(|node| &mut (*node.as_ptr()).elem)
@@ -43,7 +43,7 @@ pub fn front_mut(&mut self) -> Option<&mut T> {
 
 因此，除了 `next` 和 `size_hint`，我们还将支持 `next_back` 和 `len`。
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct Iter<'a, T> {
     front: Link<T>,
     back: Link<T>,
@@ -53,8 +53,8 @@ pub struct Iter<'a, T> {
 
 impl<T> LinkedList<T> {
     pub fn iter(&self) -> Iter<T> {
-        Iter { 
-            front: self.front, 
+        Iter {
+            front: self.front,
             back: self.back,
             len: self.len,
             _boo: PhantomData,
@@ -74,7 +74,7 @@ impl<'a, T> IntoIterator for &'a LinkedList<T> {
 
 impl<'a, T> Iterator for Iter<'a, T> {
     type Item = &'a T;
-    
+
     fn next(&mut self) -> Option<Self::Item> {
         // While self.front == self.back is a tempting condition to check here,
         // it won't do the right for yielding the last element! That sort of
@@ -121,14 +121,14 @@ impl<'a, T> ExactSizeIterator for Iter<'a, T> {
 
 我们将在最后粘贴 IterMut，它在很多地方与 `mut` 的代码完全相同，让我们先敲掉 `into_iter`。我们仍然可以使用我们屡试不爽的解决方案，即让它包裹我们的集合，并在下一步中使用 `pop`：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct IntoIter<T> {
     list: LinkedList<T>,
 }
 
 impl<T> LinkedList<T> {
     pub fn into_iter(self) -> IntoIter<T> {
-        IntoIter { 
+        IntoIter {
             list: self
         }
     }
@@ -173,7 +173,7 @@ impl<T> ExactSizeIterator for IntoIter<T> {
 
 好了，这是我们所有的代码，其中包含了所有的组合：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::ptr::NonNull;
 use std::marker::PhantomData;
 
@@ -189,7 +189,7 @@ type Link<T> = Option<NonNull<Node<T>>>;
 struct Node<T> {
     front: Link<T>,
     back: Link<T>,
-    elem: T, 
+    elem: T,
 }
 
 pub struct Iter<'a, T> {
@@ -233,7 +233,7 @@ impl<T> LinkedList<T> {
                 (*old.as_ptr()).front = Some(new);
                 (*new.as_ptr()).back = Some(old);
             } else {
-                // If there's no front, then we're the empty list and need 
+                // If there's no front, then we're the empty list and need
                 // to set the back too.
                 self.back = Some(new);
             }
@@ -256,7 +256,7 @@ impl<T> LinkedList<T> {
                 (*old.as_ptr()).back = Some(new);
                 (*new.as_ptr()).front = Some(old);
             } else {
-                // If there's no back, then we're the empty list and need 
+                // If there's no back, then we're the empty list and need
                 // to set the front too.
                 self.front = Some(new);
             }
@@ -347,8 +347,8 @@ impl<T> LinkedList<T> {
     }
 
     pub fn iter(&self) -> Iter<T> {
-        Iter { 
-            front: self.front, 
+        Iter {
+            front: self.front,
             back: self.back,
             len: self.len,
             _boo: PhantomData,
@@ -356,8 +356,8 @@ impl<T> LinkedList<T> {
     }
 
     pub fn iter_mut(&mut self) -> IterMut<T> {
-        IterMut { 
-            front: self.front, 
+        IterMut {
+            front: self.front,
             back: self.back,
             len: self.len,
             _boo: PhantomData,
@@ -365,7 +365,7 @@ impl<T> LinkedList<T> {
     }
 
     pub fn into_iter(self) -> IntoIter<T> {
-        IntoIter { 
+        IntoIter {
             list: self
         }
     }

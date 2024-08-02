@@ -16,7 +16,7 @@
 
 使用 `thread::spawn` 可以创建线程：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::thread;
 use std::time::Duration;
 
@@ -63,7 +63,7 @@ hi number 5 from the spawned thread!
 
 因此我们需要一个方法，让主线程安全、可靠地等所有子线程完成任务后，再 kill self：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::thread;
 use std::time::Duration;
 
@@ -105,7 +105,7 @@ hi number 4 from the main thread!
 
 首先，来看看在一个线程中直接使用另一个线程中的数据会如何：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::thread;
 
 fn main() {
@@ -146,7 +146,7 @@ help: to force the closure to take ownership of `v` (and any other referenced va
 
 其实代码本身并没有什么问题，问题在于 Rust 无法确定新的线程会活多久（多个线程的结束顺序并不是固定的），所以也无法确定新线程所引用的 `v` 是否在使用过程中一直合法：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::thread;
 
 fn main() {
@@ -164,9 +164,9 @@ fn main() {
 
 大家要记住，线程的启动时间点和结束时间点是不确定的，因此存在一种可能，当主线程执行完， `v` 被释放掉时，新的线程很可能还没有结束甚至还没有被创建成功，此时新线程对 `v` 的引用立刻就不再合法！
 
-好在报错里进行了提示：```to force the closure to take ownership of v (and any other referenced variables), use the `move` keyword```，让我们使用 `move` 关键字拿走 `v` 的所有权即可：
+好在报错里进行了提示：`` to force the closure to take ownership of v (and any other referenced variables), use the `move` keyword ``，让我们使用 `move` 关键字拿走 `v` 的所有权即可：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::thread;
 
 fn main() {
@@ -198,7 +198,7 @@ fn main() {
 
 第一情况很常见，我们来模拟看看第二种情况：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::thread;
 use std::time::Duration;
 fn main() {
@@ -243,7 +243,7 @@ fn main() {
 
 下面的代码是一个无锁实现(CAS)的 `Hashmap` 在多线程下的使用：
 
-```rust
+```rust,ignore,mdbook-runnable
 for i in 0..num_threads {
     let ht = Arc::clone(&ht);
 
@@ -284,7 +284,7 @@ for handle in handles {
 
 在 Rust 中，可以使用 `Barrier` 让多个线程都执行到某个点后，才继续一起往后执行：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::{Arc, Barrier};
 use std::thread;
 
@@ -332,7 +332,7 @@ after wait
 
 使用 `thread_local` 宏可以初始化线程局部变量，然后在线程内部使用该变量的 `with` 方法获取变量值：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::cell::RefCell;
 use std::thread;
 
@@ -366,7 +366,7 @@ FOO.with(|f| {
 
 你还可以在结构体中使用线程局部变量：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::cell::RefCell;
 
 struct Foo;
@@ -383,7 +383,7 @@ fn main() {
 
 或者通过引用的方式使用它:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::cell::RefCell;
 use std::thread::LocalKey;
 
@@ -406,7 +406,7 @@ impl Bar {
 
 除了标准库外，一位大神还开发了 [thread-local](https://github.com/Amanieu/thread_local-rs) 库，它允许每个线程持有值的独立拷贝：
 
-```rust
+```rust,ignore,mdbook-runnable
 use thread_local::ThreadLocal;
 use std::sync::Arc;
 use std::cell::Cell;
@@ -448,7 +448,7 @@ assert_eq!(total, 5);
 
 条件变量(Condition Variables)经常和 `Mutex` 一起使用，可以让线程挂起，直到某个条件发生后再继续执行：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::thread;
 use std::sync::{Arc, Mutex, Condvar};
 
@@ -483,7 +483,7 @@ fn main() {
 
 有时，我们会需要某个函数在多线程环境下只被调用一次，例如初始化全局变量，无论是哪个线程先调用函数来初始化，都会保证全局变量只会被初始化一次，随后的其它线程调用就会忽略该函数：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::thread;
 use std::sync::Once;
 

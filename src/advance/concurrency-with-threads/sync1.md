@@ -32,7 +32,7 @@
 
 先来看看单线程中`Mutex`该如何使用:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::Mutex;
 
 fn main() {
@@ -62,7 +62,7 @@ fn main() {
 
 正因为智能指针的使用，使得我们无需任何操作就能获取其中的数据。 如果释放锁，你需要做的仅仅是做好锁的作用域管理，例如上述代码的内部花括号使用，建议读者尝试下去掉内部的花括号，然后再次尝试获取第二个锁`num1`，看看会发生什么，友情提示：不会报错，但是主线程会永远阻塞，因为不幸发生了死锁。
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::Mutex;
 
 fn main() {
@@ -86,7 +86,7 @@ fn main() {
 
 ##### 无法运行的`Rc<T>`
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::rc::Rc;
 use std::sync::Mutex;
 use std::thread;
@@ -153,7 +153,7 @@ error[E0277]: `Rc<Mutex<i32>>` cannot be sent between threads safely
 
 好在，我们有`Arc<T>`，得益于它的[内部计数器](https://course.rs/advance/smart-pointer/rc-arc.html#多线程无力的rc)是多线程安全的，因此可以在多线程环境中使用:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::{Arc, Mutex};
 use std::thread;
 
@@ -214,7 +214,7 @@ Result: 10
 
 这种死锁比较容易规避，但是当代码复杂后还是有可能遇到：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::Mutex;
 
 fn main() {
@@ -230,7 +230,7 @@ fn main() {
 
 当我们拥有两个锁，且两个线程各自使用了其中一个锁，然后试图去访问另一个锁时，就可能发生死锁：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::{sync::{Mutex, MutexGuard}, thread};
 use std::thread::sleep;
 use std::time::Duration;
@@ -291,7 +291,7 @@ fn main() {
 
 与`lock`方法不同，`try_lock`会**尝试**去获取一次锁，如果无法获取会返回一个错误，因此**不会发生阻塞**:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::{sync::{Mutex, MutexGuard}, thread};
 use std::thread::sleep;
 use std::time::Duration;
@@ -362,7 +362,7 @@ fn main() {
 
 `Mutex`会对每次读写都进行加锁，但某些时候，我们需要大量的并发读，`Mutex`就无法满足需求了，此时就可以使用`RwLock`:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::RwLock;
 
 fn main() {
@@ -439,7 +439,7 @@ Err("WouldBlock")
 
 `Mutex`用于解决资源安全访问的问题，但是我们还需要一个手段来解决资源访问顺序的问题。而 Rust 考虑到了这一点，为我们提供了条件变量(Condition Variables)，它经常和`Mutex`一起使用，可以让线程挂起，直到某个条件发生后再继续执行，其实`Condvar`我们在之前的多线程章节就已经见到过，现在再来看一个不同的例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::{Arc,Mutex,Condvar};
 use std::thread::{spawn,sleep};
 use std::time::Duration;
@@ -460,7 +460,7 @@ fn main() {
                 // 同时当前线程在此处会被阻塞，直到被其他地方notify后，它会将原本的MutexGuard<'a, T>还给我们，即重新获取到了锁，同时唤醒了此线程。
                 lock = ccond.wait(lock).unwrap();
             }
-            
+
             *lock = false;
 
             counter += 1;
@@ -502,7 +502,7 @@ Mutex { data: true, poisoned: false, .. }
 
 本来 Rust 在标准库中有提供一个[信号量实现](https://doc.rust-lang.org/1.8.0/std/sync/struct.Semaphore.html), 但是由于各种原因这个库现在已经不再推荐使用了，因此我们推荐使用`tokio`中提供的`Semaphore`实现: [`tokio::sync::Semaphore`](https://github.com/tokio-rs/tokio/blob/master/tokio/src/sync/semaphore.rs)。
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::Arc;
 use tokio::sync::Semaphore;
 
@@ -538,4 +538,3 @@ async fn main() {
 但是它并不能优雅的解决所有问题，因为我们面临的真实世界是非常复杂的，无法用某一种银弹统一解决。当面临消息传递不太适用的场景时，或者需要更好的性能和简洁性时，我们往往需要用锁来解决这些问题，因为锁允许多个线程同时访问同一个资源，简单粗暴。
 
 除了锁之外，其实还有一种并发原语可以帮助我们解决并发访问数据的问题，那就是原子类型 Atomic，在下一章节中，我们会对其进行深入讲解。
-

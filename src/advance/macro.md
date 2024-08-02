@@ -8,7 +8,7 @@
 
 细心的读者可能会注意到 `println!` 后面跟着的是 `()`，而 `vec!` 后面跟着的是 `[]`，这是因为宏的参数可以使用 `()`、`[]` 以及 `{}`:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     println!("aaaa");
     println!["aaaa"];
@@ -60,7 +60,7 @@ Rust 的函数签名是固定的：定义了两个参数，就必须传入两个
 
 声明式宏允许我们写出类似 `match` 的代码。`match` 表达式是一个控制结构，其接收一个表达式，然后将表达式的结果与多个模式进行匹配，一旦匹配了某个模式，则该模式相关联的代码将被执行:
 
-```rust
+```rust,ignore,mdbook-runnable
 match target {
     模式1 => 表达式1,
     模式2 => {
@@ -78,7 +78,7 @@ match target {
 
 在[动态数组 Vector 章节](https://course.rs/basic/collections/vector.html#vec)中，我们学习了使用 `vec!` 来便捷的初始化一个动态数组:
 
-```rust
+```rust,ignore,mdbook-runnable
 let v: Vec<u32> = vec![1, 2, 3];
 ```
 
@@ -86,7 +86,7 @@ let v: Vec<u32> = vec![1, 2, 3];
 
 好在我们有 `macro_rules!`，来看看该如何使用它来实现 `vec!`，以下是一个简化实现：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[macro_export]
 macro_rules! vec {
     ( $( $x:expr ),* ) => {
@@ -130,7 +130,7 @@ macro_rules! vec {
 
 接下来，我们再来看看与模式相关联、在 `=>` 之后的代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 {
     {
         let mut temp_vec = Vec::new();
@@ -144,7 +144,7 @@ macro_rules! vec {
 
 这里就比较好理解了，`$()` 中的 `temp_vec.push()` 将根据模式匹配的次数生成对应的代码，当调用 `vec![1, 2, 3]` 时，下面这段生成的代码将替代传入的源代码，也就是替代 `vec![1, 2, 3]` :
 
-```rust
+```rust,ignore,mdbook-runnable
 {
     let mut temp_vec = Vec::new();
     temp_vec.push(1);
@@ -156,7 +156,7 @@ macro_rules! vec {
 
 如果是 `let v = vec![1, 2, 3]`，那生成的代码最后返回的值 `temp_vec` 将被赋予给变量 `v`，等同于 :
 
-```rust
+```rust,ignore,mdbook-runnable
 let v = {
     let mut temp_vec = Vec::new();
     temp_vec.push(1);
@@ -186,7 +186,7 @@ let v = {
 
 假设我们要创建一个 `derive` 类型的过程宏：
 
-```rust
+```rust,ignore,mdbook-runnable
 use proc_macro;
 
 #[proc_macro_derive(HelloMacro)]
@@ -207,7 +207,7 @@ pub fn some_name(input: TokenStream) -> TokenStream {
 
 以上两种方式并没有孰优孰劣，主要在于不同的类型是否可以使用同样的默认特征实现，如果可以，那过程宏的方式可以帮我们减少很多代码实现:
 
-```rust
+```rust,ignore,mdbook-runnable
 use hello_macro::HelloMacro;
 use hello_macro_derive::HelloMacro;
 
@@ -235,7 +235,7 @@ $ touch src/lib.rs
 
 接下来，先在 `src/lib.rs` 中定义过程宏所需的 `HelloMacro` 特征和其关联函数:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub trait HelloMacro {
     fn hello_macro();
 }
@@ -243,7 +243,7 @@ pub trait HelloMacro {
 
 然后在 `src/main.rs` 中编写主体代码，首先映入大家脑海的可能会是如下实现:
 
-```rust
+```rust,ignore,mdbook-runnable
 use hello_macro::HelloMacro;
 
 struct Sunfei;
@@ -271,7 +271,7 @@ fn main() {
 
 使用宏，就不存在这个问题：
 
-```rust
+```rust,ignore,mdbook-runnable
 use hello_macro::HelloMacro;
 use hello_macro_derive::HelloMacro;
 
@@ -291,7 +291,7 @@ fn main() {
 
 宏所在的包名自然也有要求，必须以 `derive` 为后缀，对于 `hello_macro` 宏而言，包名就应该是 `hello_macro_derive`。在之前创建的 `hello_macro` 项目根目录下，运行如下命令，创建一个单独的 `lib` 包:
 
-```rust
+```rust,ignore,mdbook-runnable
 cargo new hello_macro_derive --lib
 ```
 
@@ -323,6 +323,7 @@ hello_macro_derive = { path = "../hello_macro/hello_macro_derive" }
 此时，`hello_macro` 项目就可以成功的引用到 `hello_macro_derive` 本地包了，对于项目依赖引入的详细介绍，可以参见 [Cargo 章节](https://course.rs/cargo/dependency.html)。
 
 另外，学习过程更好的办法是通过展开宏来阅读和调试自己写的宏，这里需要用到一个 cargo-expand 的工具，可以通过下面的命令安装
+
 ```bash
 cargo install cargo-expand
 ```
@@ -346,7 +347,7 @@ quote = "1.0"
 
 其次，在 `hello_macro_derive/src/lib.rs` 中添加如下代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 extern crate proc_macro;
 
 use proc_macro::TokenStream;
@@ -374,8 +375,9 @@ pub fn hello_macro_derive(input: TokenStream) -> TokenStream {
 
 `syn` 将字符串形式的 Rust 代码解析为一个 AST 树的数据结构，该数据结构可以在随后的 `impl_hello_macro` 函数中进行操作。最后，操作的结果又会被 `quote` 包转换回 Rust 代码。这些包非常关键，可以帮我们节省大量的精力，否则你需要自己去编写支持代码解析和还原的解析器，这可不是一件简单的任务！
 
-derive过程宏只能用在struct/enum/union上，多数用在结构体上，我们先来看一下一个结构体由哪些部分组成:
-```rust
+derive 过程宏只能用在 struct/enum/union 上，多数用在结构体上，我们先来看一下一个结构体由哪些部分组成:
+
+```rust,ignore,mdbook-runnable
 // vis，可视范围             ident，标识符     generic，范型    fields: 结构体的字段
 pub              struct    User            <'a, T>          {
 
@@ -385,11 +387,11 @@ pub              struct    User            <'a, T>          {
 }
 ```
 
-其中type还可以细分，具体请阅读syn文档或源码
+其中 type 还可以细分，具体请阅读 syn 文档或源码
 
 `syn::parse` 调用会返回一个 `DeriveInput` 结构体来代表解析后的 Rust 代码:
 
-```rust
+```rust,ignore,mdbook-runnable
 DeriveInput {
     // --snip--
     vis: Visibility,
@@ -422,7 +424,7 @@ DeriveInput {
 
 至此，这个函数大家应该已经基本理解了，下面来看看如何构建特征实现的代码，也是过程宏的核心目标:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
     let name = &ast.ident;
     let gen = quote! {
@@ -450,10 +452,12 @@ fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
 - 可以减少一次 `String` 带来的内存分配
 
 在运行之前，可以先用 expand 展开宏，观察是否有错误或符合预期:
+
 ```shell
 $ cargo expand --bin hello_macro
 ```
-```rust
+
+```rust,ignore,mdbook-runnable
 struct Sunfei;
 impl HelloMacro for Sunfei {
     fn hello_macro() {
@@ -486,8 +490,8 @@ fn main() {
 }
 ```
 
-从展开的代码也能看出derive宏的特性，`struct Sunfei;` 和 `struct Sunface;` 都被保留了，也就是说最后 `impl_hello_macro()` 返回的token被加到结构体后面，这和类属性宏可以修改输入
-的token是不一样的，input的token并不能被修改。
+从展开的代码也能看出 derive 宏的特性，`struct Sunfei;` 和 `struct Sunface;` 都被保留了，也就是说最后 `impl_hello_macro()` 返回的 token 被加到结构体后面，这和类属性宏可以修改输入
+的 token 是不一样的，input 的 token 并不能被修改。
 
 至此，过程宏的定义、特征定义、主体代码都已经完成，运行下试试:
 
@@ -503,7 +507,7 @@ Bingo，虽然过程有些复杂，但是结果还是很喜人，我们终于完
 
 下面来实现一个更实用的例子，实现官方的#[derive(Default)]宏，废话不说直接开干:
 
-```rust
+```rust,ignore,mdbook-runnable
 extern crate proc_macro;
 use proc_macro::TokenStream;
 use quote::quote;
@@ -555,7 +559,7 @@ pub fn my_default(input: TokenStream) -> TokenStream {
 
 然后来写使用代码:
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(MyDefault)]
 struct SomeData (u32,String);
 
@@ -572,7 +576,7 @@ fn main() {
 
 然后我们先展开代码看一看
 
-```rust
+```rust,ignore,mdbook-runnable
 struct SomeData(u32, String);
 impl Default for SomeData {
     fn default() -> Self {
@@ -599,7 +603,7 @@ fn main() {}
 
 展开的代码符合预期，然后我们修改一下使用代码并测试结果
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(MyDefault, Debug)]
 struct SomeData (u32,String);
 
@@ -623,8 +627,6 @@ $ cargo run
 User { name: "", data: SomeData(0, "") }
 ```
 
-
-
 接下来，再来看看过程宏的另外两种类型跟 `derive` 类型有何区别。
 
 ## 类属性宏(Attribute-like macros)
@@ -633,14 +635,14 @@ User { name: "", data: SomeData(0, "") }
 
 假设我们在开发一个 `web` 框架，当用户通过 `HTTP GET` 请求访问 `/` 根路径时，使用 `index` 函数为其提供服务:
 
-```rust
+```rust,ignore,mdbook-runnable
 #[route(GET, "/")]
 fn index() {
 ```
 
 如上所示，代码功能非常清晰、简洁，这里的 `#[route]` 属性就是一个过程宏，它的定义函数大概如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[proc_macro_attribute]
 pub fn route(attr: TokenStream, item: TokenStream) -> TokenStream {
 ```
@@ -658,14 +660,14 @@ pub fn route(attr: TokenStream, item: TokenStream) -> TokenStream {
 
 区别在于，`macro_rules` 的定义形式与 `match` 匹配非常相像，而类函数宏的定义形式则类似于之前讲过的两种过程宏:
 
-```rust
+```rust,ignore,mdbook-runnable
 #[proc_macro]
 pub fn sql(input: TokenStream) -> TokenStream {
 ```
 
 而使用形式则类似于函数调用:
 
-```rust
+```rust,ignore,mdbook-runnable
 let sql = sql!(SELECT * FROM posts WHERE id=1);
 ```
 

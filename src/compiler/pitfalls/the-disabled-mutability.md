@@ -4,7 +4,7 @@
 
 先来看段正确的代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct A {
     f1: u32,
@@ -38,7 +38,7 @@ fn main() {
 
 在理解了上面两条简单规则后，来看看下面这段代码:
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct A {
     f1: u32,
@@ -92,7 +92,7 @@ error[E0594]: cannot assign to `self.a.f1`, which is behind a `&` reference
 
 事实上如果你将第一段代码的调用改成:
 
-```rust
+```rust,ignore,mdbook-runnable
 let b: &B = &B{ f1: 3, a: &mut a };
 b.a.f1 += 1;
 ```
@@ -103,7 +103,7 @@ b.a.f1 += 1;
 
 结束之前再来一个练习，稍微有点绕，大家品味品味：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct A {
     f1: u32,
@@ -134,4 +134,3 @@ fn main() {
 根据之前的观察和上面的小提示，可以得出一个结论：**可变性的真正含义是你对目标对象的独占修改权**。在实际项目中，偶尔会遇到比上述代码更复杂的可变性情况，记住这个结论，有助于我们拨云见日，直达本质。
 
 学习，就是不断接近和认识事物本质的过程，对于 Rust 语言的学习亦是如此。
-

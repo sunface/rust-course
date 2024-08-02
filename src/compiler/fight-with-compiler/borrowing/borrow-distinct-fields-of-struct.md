@@ -8,7 +8,7 @@
 
 不知道也没关系，我们这里再简单回顾一下:
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Test {
     a : u32,
     b : u32
@@ -39,7 +39,7 @@ impl Test {
 
 既然了解了结构体的借用规则和`RefCell`, 我们来看一段结合了两者的代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::cell::RefCell;
 use std::io::Write;
 
@@ -79,13 +79,13 @@ error[E0502]: cannot borrow `mut_s` as mutable because it is also borrowed as im
 
 第一感觉，问题是出在`borrow_mut`方法返回的类型上，先来看看:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn borrow_mut(&self) -> RefMut<'_, T>
 ```
 
 可以看出，该方法并没有直接返回我们的结构体，而是一个`RefMut`类型，而要使用该类型，需要经过编译器为我们做一次隐式的`Deref`转换，编译器展开后的代码大概如下:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::cell::RefMut;
 use std::ops::{Deref, DerefMut};
 
@@ -106,7 +106,7 @@ fn write(s: RefCell<S>) {
 
 既然两次`Deref::deref`调用都是对智能指针的自动`Deref`，那么可以提前手动的把它`Deref`了，只做一次！
 
-```rust
+```rust,ignore,mdbook-runnable
 fn write(s: RefCell<S>) {
     let mut mut_s = s.borrow_mut();
     let mut tmp = &mut *mut_s; // Here
@@ -123,7 +123,7 @@ fn write(s: RefCell<S>) {
 
 我们再来模拟编译器对正确的代码进行一次展开:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::cell::RefMut;
 use std::ops::DerefMut;
 
@@ -153,7 +153,7 @@ fn write(s: RefCell<S>) {
 
 下面再来一个练习巩固一下，强烈建议大家按照文章的思路进行分析和解决：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::rc::Rc;
 use std::cell::RefCell;
 
@@ -186,4 +186,3 @@ fn main() {
 而智能指针由于隐式解引用`Deref`的存在，导致了两次`Deref`时都让结构体穿越了函数边界`Deref::deref`，结果造成了重复借用的错误。
 
 解决办法就是提前对智能指针进行手动解引用，然后对内部的值进行借用后，再行使用。
-

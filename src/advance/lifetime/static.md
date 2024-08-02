@@ -6,7 +6,7 @@ Rust 的难点之一就在于它有不少容易混淆的概念，例如 `&str` �
 
 `'static` 在 Rust 中是相当常见的，例如字符串字面值就具有 `'static` 生命周期:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
   let mark_twain: &str = "Samuel Clemens";
   print_author(mark_twain);
@@ -20,7 +20,7 @@ fn print_author(author: &'static str) {
 
 除了 `&'static` 的用法外，我们在另外一种场景中也可以见到 `'static` 的使用:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fmt::Display;
 fn main() {
     let mark_twain = "Samuel Clemens";
@@ -42,7 +42,7 @@ fn print<T: Display + 'static>(message: &T) {
 
 但是，**`&'static` 生命周期针对的仅仅是引用，而不是持有该引用的变量，对于变量来说，还是要遵循相应的作用域规则** :
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::{slice::from_raw_parts, str::from_utf8_unchecked};
 
 fn get_memory_location() -> (usize, usize) {
@@ -84,7 +84,7 @@ fn main() {
 
 首先，在以下两种情况下，`T: 'static` 与 `&'static` 有相同的约束：`T` 必须活得和程序一样久。
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fmt::Debug;
 
 fn print_it<T: Debug + 'static>( input: T) {
@@ -108,7 +108,8 @@ fn main() {
 以上代码会报错，原因很简单: `&i` 的生命周期无法满足 `'static` 的约束，如果大家将 `i` 修改为常量，那自然一切 OK。
 
 见证奇迹的时候，请不要眨眼，现在我们来稍微修改下 `print_it` 函数:
-```rust
+
+```rust,ignore,mdbook-runnable
 use std::fmt::Debug;
 
 fn print_it<T: Debug + 'static>( input: &T) {
@@ -126,7 +127,7 @@ fn main() {
 
 再来看一个例子:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::fmt::Display;
 
 fn main() {
@@ -166,10 +167,12 @@ fn static_bound<T: Display + 'static>(t: &T) {
 ```
 
 ## static 到底针对谁？
+
 大家有没有想过，到底是 `&'static` 这个引用还是该引用指向的数据活得跟程序一样久呢？
 
 **答案是引用指向的数据**，而引用本身是要遵循其作用域范围的，我们来简单验证下：
-```rust
+
+```rust,ignore,mdbook-runnable
 fn main() {
     {
         let static_string = "I'm in read-only memory";
@@ -188,7 +191,6 @@ fn main() {
 
 > [Rust By Practice](https://practice-zh.course.rs/lifetime/static.html)，支持代码在线编辑和运行，并提供详细的习题解答。（本节暂无习题解答）
 
-
 ## 总结
 
 总之， `&'static` 和 `T: 'static` 大体上相似，相比起来，后者的使用形式会更加复杂一些。
@@ -201,4 +203,3 @@ fn main() {
 - 如果你希望满足和取悦编译器，那就使用 `T: 'static`，很多时候它都能解决问题
 
 > 一个小知识，在 Rust 标准库中，有 48 处用到了 &'static ，112 处用到了 `T: 'static` ，看来取悦编译器不仅仅是菜鸟需要的，高手也经常用到 :)
-

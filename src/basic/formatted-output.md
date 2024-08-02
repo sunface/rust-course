@@ -6,7 +6,7 @@
 
 先来一段代码，看看格式化输出的初印象：
 
-```rust
+```rust,ignore,mdbook-runnable
 println!("Hello");                 // => "Hello"
 println!("Hello, {}!", "world");   // => "Hello, world!"
 println!("The number is {}", 1);   // => "The number is 1"
@@ -28,7 +28,7 @@ println!("{:04}", 42);             // => "0042" with leading zeros
 
 在实际项目中，最常用的是 `println!` 及 `format!`，前者常用来调试输出，后者常用来生成格式化的字符串：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let s = "hello";
     println!("{}, world", s);
@@ -49,7 +49,7 @@ hello, world!
 
 除了三大金刚外，还有两大护法，使用方式跟 `print!`，`println!` 很像，但是它们输出到标准错误输出：
 
-```rust
+```rust,ignore,mdbook-runnable
 eprintln!("Error: Could not complete task")
 ```
 
@@ -70,7 +70,7 @@ eprintln!("Error: Could not complete task")
 
 事实上，为了方便我们调试，大多数 Rust 类型都实现了 `Debug` 特征或者支持派生该特征：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct Person {
     name: String,
@@ -92,7 +92,7 @@ fn main() {
 
 与大部分类型实现了 `Debug` 不同，实现了 `Display` 特征的 Rust 类型并没有那么多，往往需要我们自定义想要的格式化方式：
 
-```rust
+```rust,ignore,mdbook-runnable
 let i = 3.1415926;
 let s = String::from("hello");
 let v = vec![1, 2, 3];
@@ -135,7 +135,7 @@ println!("{}, {}, {}, {}", i, s, v, p);
 
 如果你的类型是定义在当前作用域中的，那么可以为其实现 `Display` 特征，即可用于格式化输出：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Person {
     name: String,
     age: u8,
@@ -170,7 +170,7 @@ fn main() {
 
 在 Rust 中，无法直接为外部类型实现外部特征，但是可以使用[`newtype`](https://course.rs/advance/into-types/custom-type.html#newtype)解决此问题：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Array(Vec<i32>);
 
 use std::fmt;
@@ -197,7 +197,7 @@ fn main() {
 
 除了按照依次顺序使用值去替换占位符之外，还能让指定位置的参数去替换某个占位符，例如 `{1}`，表示用第二个参数替换该占位符（索引从 0 开始）：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     println!("{}{}", 1, 2); // =>"12"
     println!("{1}{0}", 1, 2); // =>"21"
@@ -211,7 +211,7 @@ fn main() {
 
 除了像上面那样指定位置外，我们还可以为参数指定名称：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     println!("{argument}", argument = "test"); // => "test"
     println!("{name} {}", 1, name = 2); // => "2 1"
@@ -221,11 +221,11 @@ fn main() {
 
 需要注意的是：**带名称的参数必须放在不带名称参数的后面**，例如下面代码将报错：
 
-```rust
+```rust,ignore,mdbook-runnable
 println!("{abc} {1}", abc = "def", 2);
 ```
 
-```rust
+```rust,ignore,mdbook-runnable
 error: positional arguments cannot follow named arguments
  --> src/main.rs:4:36
    |
@@ -239,7 +239,7 @@ error: positional arguments cannot follow named arguments
 
 格式化输出，意味着对输出格式会有更多的要求，例如只输出浮点数的小数点后两位：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let v = 3.1415926;
     // Display => 3.14
@@ -261,7 +261,7 @@ fn main() {
 
 字符串格式化默认使用空格进行填充，并且进行左对齐。
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     //-----------------------------------
     // 以下全部输出 "Hello x    !"
@@ -284,7 +284,7 @@ fn main() {
 
 数字格式化默认也是使用空格进行填充，但与字符串左对齐不同的是，数字是右对齐。
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     // 宽度是5 => Hello     5!
     println!("Hello {:5}!", 5);
@@ -299,7 +299,7 @@ fn main() {
 
 ### 对齐
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     // 以下全部都会补齐5个字符的长度
     // 左对齐 => Hello x    !
@@ -319,7 +319,7 @@ fn main() {
 
 精度可以用于控制浮点数的精度或者字符串的长度
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let v = 3.1415926;
     // 保留小数点后两位 => 3.14
@@ -349,7 +349,7 @@ fn main() {
 - `#X`, 大写十六进制
 - `x`, 不带前缀的小写十六进制
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     // 二进制 => 0b11011!
     println!("{:#b}!", 27);
@@ -372,7 +372,7 @@ fn main() {
 
 ### 指数
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     println!("{:2e}", 1000000000); // => 1e9
     println!("{:2E}", 1000000000); // => 1E9
@@ -381,7 +381,7 @@ fn main() {
 
 ### 指针地址
 
-```rust
+```rust,ignore,mdbook-runnable
 let v= vec![1, 2, 3];
 println!("{:p}", v.as_ptr()) // => 0x600002324050
 ```
@@ -390,10 +390,10 @@ println!("{:p}", v.as_ptr()) // => 0x600002324050
 
 有时需要输出 `{`和`}`，但这两个字符是特殊字符，需要进行转义：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     // "{{" 转义为 '{'   "}}" 转义为 '}'   "\"" 转义为 '"'
-    // => Hello "{World}" 
+    // => Hello "{World}"
     println!(" Hello \"{{World}}\" ");
 
     // 下面代码会报错，因为占位符{}只有一个右括号}，左括号被转义成字符串的内容
@@ -407,7 +407,7 @@ fn main() {
 
 在以前，想要输出一个函数的返回值，你需要这么做：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn get_person() -> String {
     String::from("sunface")
 }
@@ -421,7 +421,7 @@ fn main() {
 
 问题倒也不大，但是一旦格式化字符串长了后，就会非常冗余，而在 1.58 后，我们可以这么写：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn get_person() -> String {
     String::from("sunface")
 }
@@ -433,7 +433,7 @@ fn main() {
 
 是不是清晰、简洁了很多？甚至还可以将环境中的值用于格式化参数:
 
-```rust
+```rust,ignore,mdbook-runnable
 let (width, precision) = get_format();
 for (name, score) in get_scores() {
   println!("{name}: {score:width$.precision$}");
@@ -443,7 +443,7 @@ for (name, score) in get_scores() {
 但也有局限，它只能捕获普通的变量，对于更复杂的类型（例如表达式），可以先将它赋值给一个变量或使用以前的 `name = expression` 形式的格式化参数。
 目前除了 `panic!` 外，其它接收格式化参数的宏，都可以使用新的特性。对于 `panic!` 而言，如果还在使用 `2015版本` 或 `2018版本`，那 `panic!("{ident}")` 依然会被当成 正常的字符串来处理，同时编译器会给予 `warn` 提示。而对于 `2021版本` ，则可以正常使用:
 
-```rust
+```rust,ignore,mdbook-runnable
 fn get_person() -> String {
     String::from("sunface")
 }

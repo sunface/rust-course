@@ -1,8 +1,6 @@
 # 计算性能优化
 
-
 https://www.reddit.com/r/rust/comments/rn7ozz/find_perfect_number_comparison_go_java_rust/
-
 
 ```go
 package main
@@ -62,7 +60,7 @@ func all(ds map[int]struct{}) []int {
 
 ## 120ms
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::time::Instant;
 
 const N: usize = 320_000	;
@@ -104,7 +102,7 @@ fn main() {
 
 ## 90ms
 
-```rust
+```rust,ignore,mdbook-runnable
 use {
     std::{time::Instant},
 };

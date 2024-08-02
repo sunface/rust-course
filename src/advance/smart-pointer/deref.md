@@ -1,6 +1,8 @@
 # Deref 解引用
+
 在开始之前，我们先来看一段代码：
-```rust
+
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct Person {
     name: String,
@@ -33,10 +35,9 @@ impl Person {
 
 在正式讲解 `Deref` 之前，我们先来看下常规引用的解引用。
 
-
 常规引用是一个指针类型，包含了目标数据存储的内存地址。对常规引用使用 `*` 操作符，就可以通过解引用的方式获取到内存地址对应的数据值：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let x = 5;
     let y = &x;
@@ -65,7 +66,7 @@ error[E0277]: can't compare `{integer}` with `&{integer}` //无法将{integer} �
 
 实现 `Deref` 后的智能指针结构体，就可以像普通引用一样，通过 `*` 进行解引用，例如 `Box<T>` 智能指针：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let x = Box::new(1);
     let sum = *x + 1;
@@ -78,7 +79,7 @@ fn main() {
 
 现在，让我们一起来实现一个智能指针，功能上类似 `Box<T>`。由于 `Box<T>` 本身很简单，并没有包含类如长度、最大长度等信息，因此用一个元组结构体即可。
 
-```rust
+```rust,ignore,mdbook-runnable
 struct MyBox<T>(T);
 
 impl<T> MyBox<T> {
@@ -90,7 +91,7 @@ impl<T> MyBox<T> {
 
 跟 `Box<T>` 一样，我们的智能指针也持有一个 `T` 类型的值，然后使用关联函数 `MyBox::new` 来创建智能指针。由于还未实现 `Deref` 特征，此时使用 `*` 肯定会报错：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let y = MyBox::new(5);
 
@@ -112,7 +113,7 @@ error[E0614]: type `MyBox<{integer}>` cannot be dereferenced
 
 现在来为 `MyBox` 实现 `Deref` 特征，以支持 `*` 解引用操作符：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::ops::Deref;
 
 impl<T> Deref for MyBox<T> {
@@ -135,7 +136,7 @@ impl<T> Deref for MyBox<T> {
 
 当我们对智能指针 `Box` 进行解引用时，实际上 Rust 为我们调用了以下方法：
 
-```rust
+```rust,ignore,mdbook-runnable
 *(y.deref())
 ```
 
@@ -149,7 +150,7 @@ impl<T> Deref for MyBox<T> {
 
 对于函数和方法的传参，Rust 提供了一个极其有用的隐式转换：`Deref `转换。若一个类型实现了 `Deref` 特征，那它的引用在传给函数或方法时，会根据参数签名来决定是否进行隐式的 `Deref` 转换，例如：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let s = String::from("hello world");
     display(&s)
@@ -170,7 +171,7 @@ fn display(s: &str) {
 
 如果你以为 `Deref` 仅仅这点作用，那就大错特错了。`Deref` 可以支持连续的隐式转换，直到找到适合的形式为止：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let s = MyBox::new(String::from("hello world"));
     display(&s)
@@ -185,7 +186,7 @@ fn display(s: &str) {
 
 想象一下，假如 `Rust` 没有提供这种隐式转换，我们该如何调用 `display` 函数？
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let m = MyBox::new(String::from("Rust"));
     display(&(*m)[..]);
@@ -198,7 +199,7 @@ fn main() {
 
 再来看一下在方法、赋值中自动应用 `Deref` 的例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let s = MyBox::new(String::from("hello, world"));
     let s1: &str = &s;
@@ -227,7 +228,7 @@ Rust 编译器实际上只能对 `&v` 形式的引用进行解引用操作，那
 
 关于第二种情况，这么干巴巴的说，也许大家会迷迷糊糊的，我们来看一段标准库源码：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl<T: ?Sized> Deref for &T {
     type Target = T;
 
@@ -241,7 +242,7 @@ impl<T: ?Sized> Deref for &T {
 
 PS: 以下是 `LLVM` 编译后的部分中间层代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 // Rust 代码
 let mut _2: &i32;
 let _3: &&&&i32;
@@ -253,7 +254,7 @@ bb0: {
 
 #### 几个例子
 
-```rust
+```rust,ignore,mdbook-runnable
     fn foo(s: &str) {}
 
     // 由于 String 实现了 Deref<Target=str>
@@ -263,7 +264,7 @@ bb0: {
     foo(&owned);
 ```
 
-```rust
+```rust,ignore,mdbook-runnable
     use std::rc::Rc;
 
     fn foo(s: &str) {}
@@ -277,7 +278,7 @@ bb0: {
     foo(&counted);
 ```
 
-```rust
+```rust,ignore,mdbook-runnable
     struct Foo;
 
     impl Foo {
@@ -302,7 +303,7 @@ bb0: {
 
 来看一个关于 `DerefMut` 的例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct MyBox<T> {
     v: T,
 }

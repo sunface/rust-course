@@ -69,7 +69,7 @@
 
 例如，`match` 是关键字。如果尝试编译如下使用 `match` 作为名字的函数：
 
-```rust,ignore,does_not_compile
+```rust,ignore,mdbook-runnable,ignore,does_not_compile
 fn match(needle: &str, haystack: &str) -> bool {
     haystack.contains(needle)
 }
@@ -89,7 +89,7 @@ error: expected identifier, found keyword `match`
 
 <span class="filename">文件名: src/main.rs</span>
 
-```rust
+```rust,ignore,mdbook-runnable
 fn r#match(needle: &str, haystack: &str) -> bool {
     haystack.contains(needle)
 }

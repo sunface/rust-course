@@ -1,12 +1,12 @@
 # 使用环境变量来增强程序
 
-在上一章节中，留下了一个悬念，该如何实现用户控制的大小写敏感，其实答案很简单，你在其它程序中肯定也遇到过不少，例如如何控制 `panic` 后的栈展开？ Rust 提供的解决方案是通过命令行参数来控制: 
+在上一章节中，留下了一个悬念，该如何实现用户控制的大小写敏感，其实答案很简单，你在其它程序中肯定也遇到过不少，例如如何控制 `panic` 后的栈展开？ Rust 提供的解决方案是通过命令行参数来控制:
 
 ```shell
 RUST_BACKTRACE=1 cargo run
 ```
 
-与之类似，我们也可以使用环境变量来控制大小写敏感，例如: 
+与之类似，我们也可以使用环境变量来控制大小写敏感，例如:
 
 ```shell
 IGNORE_CASE=1 cargo run -- to poem.txt
@@ -14,14 +14,13 @@ IGNORE_CASE=1 cargo run -- to poem.txt
 
 既然有了目标，那么一起来看看该如何实现吧。
 
-
 ## 编写大小写不敏感的测试用例
 
 还是遵循之前的规则：测试驱动，这次是对一个新的大小写不敏感函数进行测试 `search_case_insensitive`。
 
 还记得 TDD 的测试步骤嘛？首先编写一个注定失败的用例:
 
-```rust
+```rust,ignore,mdbook-runnable
 // in src/lib.rs
 #[cfg(test)]
 mod tests {
@@ -60,7 +59,7 @@ Trust me.";
 
 接着来实现这个大小写不敏感的搜索函数:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn search_case_insensitive<'a>(
     query: &str,
     contents: &'a str,
@@ -109,9 +108,9 @@ running 0 tests
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 ```
 
-Ok，TDD的第二步也完成了，测试通过，接下来就是最后一步，在 `run` 中调用新的搜索函数。但是在此之前，要新增一个配置项，用于控制是否开启大小写敏感。
+Ok，TDD 的第二步也完成了，测试通过，接下来就是最后一步，在 `run` 中调用新的搜索函数。但是在此之前，要新增一个配置项，用于控制是否开启大小写敏感。
 
-```rust
+```rust,ignore,mdbook-runnable
 // in lib.rs
 pub struct Config {
     pub query: String,
@@ -122,7 +121,7 @@ pub struct Config {
 
 接下来就是检查该字段，来判断是否启动大小写敏感：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.file_path)?;
 
@@ -142,7 +141,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
 现在的问题来了，该如何控制这个配置项呢。这个就要借助于章节开头提到的环境变量，好在 Rust 的 `env` 包提供了相应的方法。
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::env;
 // --snip--
 
@@ -169,6 +168,7 @@ impl Config {
 `env::var` 没啥好说的，倒是 `is_ok` 值得说道下。该方法是 `Result` 提供的，用于检查是否有值，有就返回 `true`，没有则返回 `false`，刚好完美符合我们的使用场景，因为我们并不关心 `Ok<T>` 中具体的值。
 
 运行下试试：
+
 ```shell
 $ cargo run -- to poem.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
@@ -178,7 +178,7 @@ Are you nobody, too?
 How dreary to be somebody!
 ```
 
-看起来没有问题，接下来测试下大小写不敏感: 
+看起来没有问题，接下来测试下大小写不敏感:
 
 ```shell
 $ IGNORE_CASE=1 cargo run -- to poem.txt
@@ -194,6 +194,3 @@ To an admiring bog!
 大小写不敏感后，查询到的内容明显多了很多，也很符合我们的预期。
 
 最后，给大家留一个小作业：同时使用命令行参数和环境变量的方式来控制大小写不敏感，其中环境变量的优先级更高，也就是两个都设置的情况下，优先使用环境变量的设置。
-
-
-

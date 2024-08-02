@@ -17,7 +17,7 @@ Rust 所有权机制要求一个值只能有一个所有者，在大多数情况
 
 下面是经典的所有权被转移导致报错的例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let s = String::from("hello, world");
     // s在这里被转移给a
@@ -29,7 +29,7 @@ fn main() {
 
 使用 `Rc` 就可以轻易解决：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::rc::Rc;
 fn main() {
     let a = Rc::new(String::from("hello, world"));
@@ -58,7 +58,7 @@ fn main() {
 
 使用关联函数 `Rc::strong_count` 可以获取当前引用计数的值，我们来观察下引用计数如何随着变量声明、释放而变化：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::rc::Rc;
 fn main() {
         let a = Rc::new(String::from("test ref counting"));
@@ -89,7 +89,7 @@ fn main() {
 
 考虑一个场景，有很多小工具，每个工具都有自己的主人，但是存在多个工具属于同一个主人的情况，此时使用 `Rc<T>` 就非常适合：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::rc::Rc;
 
 struct Owner {
@@ -148,7 +148,7 @@ fn main() {
 
 来看看在多线程场景使用 `Rc<T>` 会如何：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::rc::Rc;
 use std::thread;
 
@@ -189,7 +189,7 @@ error[E0277]: `Rc<String>` cannot be sent between threads safely
 
 `Arc` 和 `Rc` 拥有完全一样的 API，修改起来很简单：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::Arc;
 use std::thread;
 

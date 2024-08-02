@@ -10,7 +10,7 @@
 4. [The isize::MAX Allocation Rule](https://doc.rust-lang.org/nightly/nomicon/vec/vec-alloc.html)
 5. [Zero-Sized Types](https://doc.rust-lang.org/nightly/nomicon/vec/vec-zsts.html)
 
-幸好，后面2个对我们来说都不是问题。
+幸好，后面 2 个对我们来说都不是问题。
 
 我们可以把第三个问题变成我们的问题，但这带来的麻烦比它的价值更多。
 
@@ -18,19 +18,19 @@
 
 所以只剩下了 Variance(型变)。
 
-Rust 有子类型了。通常，`&'big T`  是 `&'small T` 的子类型。因为如果某些代码需要在程序的某个特定区域存活的引用，那么通常完全可以给它一个存在*时间更长的*引用。直觉上这是正确的，对吧？
+Rust 有子类型了。通常，`&'big T` 是 `&'small T` 的子类型。因为如果某些代码需要在程序的某个特定区域存活的引用，那么通常完全可以给它一个存在*时间更长的*引用。直觉上这是正确的，对吧？
 
 为什么这很重要？想象一下，一些代码采用两个具有相同类型的值：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn take_two<T>(_val1: T, _val2: T) { }
 ```
 
 这是一些非常无聊的代码，并且我们期望它能够很好地与 T=&u32 一起使用，对吧？
 
-```rust
+```rust,ignore,mdbook-runnable
 fn two_refs<'big: 'small, 'small>(
-    big: &'big u32, 
+    big: &'big u32,
     small: &'small u32,
 ) {
     take_two(big, small);
@@ -43,12 +43,12 @@ fn take_two<T>(_val1: T, _val2: T) { }
 
 现在让我们找点乐子，把它包起来：`std::cell::Cell`
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::cell::Cell;
 
 fn two_refs<'big: 'small, 'small>(
     // NOTE: these two lines changed
-    big: Cell<&'big u32>, 
+    big: Cell<&'big u32>,
     small: Cell<&'small u32>,
 ) {
     take_two(big, small);
@@ -58,7 +58,7 @@ fn take_two<T>(_val1: T, _val2: T) { }
 error[E0623]: lifetime mismatch
  --> src/main.rs:7:19
   |
-4 |     big: Cell<&'big u32>, 
+4 |     big: Cell<&'big u32>,
   |               ---------
 5 |     small: Cell<&'small u32>,
   |                 ----------- these two types are declared with different lifetimes...
@@ -71,9 +71,9 @@ error[E0623]: lifetime mismatch
 
 啊，好吧，生命周期的“子类型”必须非常简单，所以如果你将引用包装在任何东西中，它就会被破坏，看看 Vec：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn two_refs<'big: 'small, 'small>(
-    big: Vec<&'big u32>, 
+    big: Vec<&'big u32>,
     small: Vec<&'small u32>,
 ) {
     take_two(big, small);
@@ -84,21 +84,21 @@ fn take_two<T>(_val1: T, _val2: T) { }
      Running `target/debug/playground`
 ```
 
-看到它没有编译成功 ——等等???Vec是魔术??????
+看到它没有编译成功 ——等等???Vec 是魔术??????
 
-是的。这种魔力就是✨*Variance*✨。
+是的。这种魔力就是 ✨*Variance*✨。
 
 如果您想要所有细节，请阅读 [nomicon 关于子类型的章节](https://doc.rust-lang.org/nightly/nomicon/subtyping.html)，但基本上子类型*并不总是*安全的。特别是，当涉及可变引用时，它就更不安全了，。因为你可能会使用诸如`mem::swap`的东西，突然哎呀，悬空指针！
 
-可变引用是 *invariant(不变的)*，这意味着它们会阻止对泛型参数子类型化。因此，为了安全起见， `&mut T` 在 T 上是不变的，并且 `Cell<T>` 在 T 上也是不变的（因为内部可变性），因为 `&Cell<T>` 本质上就像 `&mut T`。
+可变引用是 _invariant(不变的)_，这意味着它们会阻止对泛型参数子类型化。因此，为了安全起见， `&mut T` 在 T 上是不变的，并且 `Cell<T>` 在 T 上也是不变的（因为内部可变性），因为 `&Cell<T>` 本质上就像 `&mut T`。
 
-几乎所有不是 *invariant* 的东西都是 *covariant(协变的)* ，这意味着子类型可以正常工作（也有 *contravariant(逆变的)* 的类型使子类型倒退，但它们真的很少见，没有人喜欢它们，所以我不会再提到它们）。
+几乎所有不是 _invariant_ 的东西都是 _covariant(协变的)_ ，这意味着子类型可以正常工作（也有 _contravariant(逆变的)_ 的类型使子类型倒退，但它们真的很少见，没有人喜欢它们，所以我不会再提到它们）。
 
 集合通常包含指向其数据的可变指针，因此你可能希望它们也是不变的，但事实上，它们并不需要不变！由于 Rust 的所有权系统，`Vec<T>` 在语义上等同于 `T`，这意味着它可以安全地保持*covariant(协变的)* ！
 
-不幸的的是，下面的定义是 *invariant(不变的)*:
+不幸的的是，下面的定义是 _invariant(不变的)_:
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct LinkedList<T> {
     front: Link<T>,
     back: Link<T>,
@@ -110,21 +110,21 @@ type Link<T> = *mut Node<T>;
 struct Node<T> {
     front: Link<T>,
     back: Link<T>,
-    elem: T, 
+    elem: T,
 }
 ```
 
 所以我们的类型定义中哪里惹 Rust 编译器不高兴了? `*mut`！
 
-Rust 中的裸指针其实就是让你可以做任何事情，但它们只有一个安全特性：因为大多数人都不知道 Rust 中还有 *Variance(型变)* 和子类型，而错误地使用 *covariant(协变的)* 会非常危险，所以 `*mut T` 是*invariant(不变的)*，因为它很有可能被 "作为" `&mut T` 使用。
+Rust 中的裸指针其实就是让你可以做任何事情，但它们只有一个安全特性：因为大多数人都不知道 Rust 中还有 _Variance(型变)_ 和子类型，而错误地使用 _covariant(协变的)_ 会非常危险，所以 `*mut T` 是*invariant(不变的)*，因为它很有可能被 "作为" `&mut T` 使用。
 
 作为一个花了大量时间在 Rust 中编写集合的人，这让我感到厌烦。这就是为什么我在制作 [std::ptr::NonNull](https://doc.rust-lang.org/std/ptr/struct.NonNull.html), 时添加了这个小魔法：
 
-> 与 *mut T 不同，NonNull<T> 在 T 上是 *covariant(协变的)*。这使得使用 NonNull<T> 构建*covariant(协变的)*类型成为可能，但如果在不应该是 *covariant(协变的)* 的地方中使用，则会带来不健全的风险。
+> 与 *mut T 不同，NonNull<T> 在 T 上是 *covariant(协变的)*。这使得使用 NonNull<T> 构建*covariant(协变的)*类型成为可能，但如果在不应该是 *covariant(协变的)\* 的地方中使用，则会带来不健全的风险。
 
 这是一个围绕着 `*mut T` 构建的类型。真的是魔法吗？让我们来看一下：
 
-```rust
+```rust,ignore,mdbook-runnable
 pub struct NonNull<T> {
     pointer: *const T,
 }
@@ -138,15 +138,15 @@ impl<T> NonNull<T> {
 }
 ```
 
-不，这里没有魔法！NonNull 只是滥用了 *const T 是 *covariant(协变的)* 这一事实，并将其存储起来。这就是 Rust 中集合的协变方式！这可真是惨不忍睹！所以我为你做了这个 Good Pointer Type ！不客气好好享受子类型吧
+不，这里没有魔法！NonNull 只是滥用了 *const T 是 *covariant(协变的)\* 这一事实，并将其存储起来。这就是 Rust 中集合的协变方式！这可真是惨不忍睹！所以我为你做了这个 Good Pointer Type ！不客气好好享受子类型吧
 
 解决你所有问题的办法就是使用 NonNull，然后如果你想再次使用可空指针，就使用 Option<NonNull<T>>。我们真的要这么做吗？
 
-是的！这很糟糕，但我们要做的是生产级的链表，所以我们要吃尽千辛万苦（我们可以直接使用裸*const T，然后在任何地方都进行转换，但我真的想看看这样做有多痛苦......为了人体工程学科学）。
+是的！这很糟糕，但我们要做的是生产级的链表，所以我们要吃尽千辛万苦（我们可以直接使用裸\*const T，然后在任何地方都进行转换，但我真的想看看这样做有多痛苦......为了人体工程学科学）。
 
 下面就是我们最终的类型定义：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::ptr::NonNull;
 
 // !!!This changed!!!
@@ -161,13 +161,13 @@ type Link<T> = Option<NonNull<Node<T>>>;
 struct Node<T> {
     front: Link<T>,
     back: Link<T>,
-    elem: T, 
+    elem: T,
 }
 ```
 
 ...等等，不，最后一件事。每当你使用裸指针时，你都应该添加一个 Ghost 来保护你的指针：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::marker::PhantomData;
 
 pub struct LinkedList<T> {

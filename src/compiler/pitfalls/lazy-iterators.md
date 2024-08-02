@@ -10,7 +10,7 @@
 
 使用循环:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::collections::HashMap;
 #[derive(Debug)]
 struct Account {
@@ -31,7 +31,7 @@ fn main() {
 
 使用迭代器:
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut resolvers = HashMap::new();
 accounts.into_iter().map(|a| {
     resolvers
@@ -61,7 +61,7 @@ println!("{:?}",resolvers);
 
 在我们之前的迭代器示例中，只有一个迭代器适配器`map`:
 
-```rust
+```rust,ignore,mdbook-runnable
 accounts.into_iter().map(|a| {
     resolvers
         .entry(a.id)
@@ -86,7 +86,7 @@ accounts.into_iter().map(|a| {
 
 1. 不再使用迭代器适配器`map`，改成`for_each`:
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut resolvers = HashMap::new();
 accounts.into_iter().for_each(|a| {
     resolvers
@@ -100,7 +100,7 @@ accounts.into_iter().for_each(|a| {
 
 2. 使用消费者适配器`collect`来收尾，将`map`产生的迭代器收集成一个集合类型:
 
-```rust
+```rust,ignore,mdbook-runnable
 let resolvers: HashMap<_, _> = accounts
 .into_iter()
 .map(|a| (a.id, a))
@@ -111,7 +111,7 @@ let resolvers: HashMap<_, _> = accounts
 
 3. 使用`fold`，语义表达更强:
 
-```rust
+```rust,ignore,mdbook-runnable
 let resolvers = account.into_iter().fold(HashMap::new(), |mut resolvers, a|{
     resolvers.entry(a.id).or_insert(Vec::new()).push(a);
     resolvers

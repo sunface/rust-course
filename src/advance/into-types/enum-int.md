@@ -36,7 +36,7 @@ int main(void)
 
 但是在 Rust 中，以下代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 enum MyEnum {
     A = 1,
     B,
@@ -73,7 +73,7 @@ num-derive = "0.3.3"
 
 代码如下:
 
-```rust
+```rust,ignore,mdbook-runnable
 use num_derive::FromPrimitive;
 use num_traits::FromPrimitive;
 
@@ -102,7 +102,7 @@ fn main() {
 
 在 Rust 1.34 后，可以实现`TryFrom`特征来做转换:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::convert::TryFrom;
 
 impl TryFrom<i32> for MyEnum {
@@ -121,7 +121,7 @@ impl TryFrom<i32> for MyEnum {
 
 以上代码定义了从`i32`到`MyEnum`的转换，接着就可以使用`TryInto`来实现转换：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::convert::TryInto;
 
 fn main() {
@@ -138,7 +138,7 @@ fn main() {
 
 但是上面的代码有个问题，你需要为每个枚举成员都实现一个转换分支，非常麻烦。好在可以使用宏来简化，自动根据枚举的定义来实现`TryFrom`特征:
 
-```rust
+```rust,ignore,mdbook-runnable
 #[macro_export]
 macro_rules! back_to_enum {
     ($(#[$meta:meta])* $vis:vis enum $name:ident {
@@ -179,7 +179,7 @@ back_to_enum! {
 
 > 最好使用#[repr(..)]来控制底层类型的大小，免得本来需要 i32，结果传入 i64，最终内存无法对齐，产生奇怪的结果
 
-```rust
+```rust,ignore,mdbook-runnable
 #[repr(i32)]
 enum MyEnum {
     A = 1, B, C
@@ -206,4 +206,3 @@ fn main() {
 本文列举了常用(其实差不多也是全部了，还有一个 unstable 特性没提到)的从整数转换为枚举的方式，推荐度按照出现的先后顺序递减。
 
 但是推荐度最低，不代表它就没有出场的机会，只要使用边界清晰，一样可以大放光彩，例如最后的`transmute`函数.
-

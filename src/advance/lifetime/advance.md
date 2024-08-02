@@ -8,7 +8,7 @@
 
 #### 例子 1
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct Foo;
 
@@ -47,7 +47,7 @@ error[E0502]: cannot borrow `foo` as immutable because it is also borrowed as mu
 
 对于这个反直觉的事情，让我们用生命周期来解释下，可能你就很好理解了：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Foo;
 
 impl Foo {
@@ -85,7 +85,7 @@ fn main() {
 
 再来看一个例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 #![allow(unused)]
 fn main() {
     use std::collections::HashMap;
@@ -140,7 +140,7 @@ error[E0499]: cannot borrow `*map` as mutable more than once at a time
 
 无界生命周期往往是在解引用一个裸指针(裸指针 raw pointer)时产生的，换句话说，它是凭空产生的，因为输入参数根本就没有这个生命周期：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn f<'a, T>(x: *const T) -> &'a T {
     unsafe {
         &*x
@@ -162,7 +162,7 @@ fn f<'a, T>(x: *const T) -> &'a T {
 
 假设有两个引用 `&'a i32` 和 `&'b i32`，它们的生命周期分别是 `'a` 和 `'b`，若 `'a` >= `'b`，则可以定义 `'a:'b`，表示 `'a` 至少要活得跟 `'b` 一样久。
 
-```rust
+```rust,ignore,mdbook-runnable
 struct DoubleRef<'a,'b:'a, T> {
     r: &'a T,
     s: &'b T
@@ -175,7 +175,7 @@ struct DoubleRef<'a,'b:'a, T> {
 
 表示类型 `T` 必须比 `'a` 活得要久：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Ref<'a, T: 'a> {
     r: &'a T
 }
@@ -185,7 +185,7 @@ struct Ref<'a, T: 'a> {
 
 在 Rust 1.30 版本之前，该写法是必须的，但是从 1.31 版本开始，编译器可以自动推导 `T: 'a` 类型的约束，因此我们只需这样写即可：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Ref<'a, T> {
     r: &'a T
 }
@@ -193,7 +193,7 @@ struct Ref<'a, T> {
 
 来看一个使用了生命周期约束的综合例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct ImportantExcerpt<'a> {
     part: &'a str,
 }
@@ -212,7 +212,7 @@ impl<'a: 'b, 'b> ImportantExcerpt<'a> {
 
 先来看一段简单的代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn fn_elision(x: &i32) -> &i32 { x }
 let closure_slision = |x: &i32| -> &i32 { x };
 ```
@@ -238,7 +238,7 @@ error: lifetime may not live long enough
 
 对于函数的生命周期而言，它的消除规则之所以能生效是因为它的生命周期完全体现在签名的引用类型上，在函数体中无需任何体现：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn fn_elision(x: &i32) -> &i32 {..}
 ```
 
@@ -246,7 +246,7 @@ fn fn_elision(x: &i32) -> &i32 {..}
 
 可是闭包，并没有函数那么简单，它的生命周期分散在参数和闭包函数体中(主要是它没有确切的返回值签名)：
 
-```rust
+```rust,ignore,mdbook-runnable
 let closure_slision = |x: &i32| -> &i32 { x };
 ```
 
@@ -255,10 +255,10 @@ let closure_slision = |x: &i32| -> &i32 { x };
 由于上述原因(当然，实际情况复杂的多)，Rust 语言开发者目前其实是有意针对函数和闭包实现了两种不同的生命周期消除规则。
 
 > **用 `Fn` 特征解决闭包生命周期**
-> 
+>
 > 之前我们提到了很难解决，但是并没有完全堵死(论文字的艺术- , -) 这不 @Ykong1337 同学就带了一个解决方法，为他点赞!
-> 
-> ```rust
+>
+> ```rust,ignore,mdbook-runnable
 > fn main() {
 >    let closure_slision = fun(|x: &i32| -> &i32 { x });
 >    assert_eq!(*closure_slision(&45), 45);
@@ -269,11 +269,12 @@ let closure_slision = |x: &i32| -> &i32 { x };
 >    f
 > }
 > ```
+
 ## NLL (Non-Lexical Lifetime)
 
 之前我们在[引用与借用](https://course.rs/basic/ownership/borrowing.html#NLL)那一章其实有讲到过这个概念，简单来说就是：**引用的生命周期正常来说应该从借用开始一直持续到作用域结束**，但是这种规则会让多引用共存的情况变得更复杂：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
    let mut s = String::from("hello");
 
@@ -295,7 +296,7 @@ fn main() {
 
 再来看一段关于 `NLL` 的代码解释：
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut u = 0i32;
 let mut v = 1i32;
 let mut w = 2i32;
@@ -327,7 +328,7 @@ use(a);                 //   |                            |
 
 先来看一段代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[derive(Debug)]
 struct Point {
     x: i32,
@@ -356,7 +357,7 @@ fn main() {
 
 对于再借用而言，`rr` 再借用时不会破坏借用规则，但是你不能在它的生命周期内再使用原来的借用 `r`，来看看对上段代码的分析：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut p = Point { x: 0, y: 0 };
     let r = &mut p;
@@ -374,7 +375,7 @@ fn main() {
 
 再来看一个例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::vec::Vec;
 fn read_length(strings: &mut Vec<String>) -> usize {
    strings.len()
@@ -385,7 +386,7 @@ fn read_length(strings: &mut Vec<String>) -> usize {
 
 那么下面让我们来做件坏事，破坏这条规则，使其报错：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let mut p = Point { x: 0, y: 0 };
     let r = &mut p;
@@ -407,7 +408,7 @@ fn main() {
 
 #### impl 块消除
 
-```rust
+```rust,ignore,mdbook-runnable
 impl<'a> Reader for BufReader<'a> {
     // methods go here
     // impl内部实际上没有用到'a
@@ -416,7 +417,7 @@ impl<'a> Reader for BufReader<'a> {
 
 如果你以前写的`impl`块长上面这样，同时在 `impl` 内部的方法中，根本就没有用到 `'a`，那就可以写成下面的代码形式。
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Reader for BufReader<'_> {
     // methods go here
 }
@@ -428,7 +429,7 @@ impl Reader for BufReader<'_> {
 
 #### 生命周期约束消除
 
-```rust
+```rust,ignore,mdbook-runnable
 // Rust 2015
 struct Ref<'a, T: 'a> {
     field: &'a T
@@ -446,7 +447,7 @@ struct Ref<'a, T> {
 
 下面是一个关于生命周期声明过大的例子，会较为复杂，希望大家能细细阅读，它能帮你对生命周期的理解更加深入。
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Interface<'a> {
     manager: &'a mut Manager<'a>
 }
@@ -516,7 +517,7 @@ error[E0502]: cannot borrow `list` as immutable because it is also borrowed as m
 
 要解决这个问题，我们需要为 `get_interface` 方法的参数给予一个不同于 `List<'a>` 的生命周期 `'b`，最终代码如下：
 
-```rust
+```rust,ignore,mdbook-runnable
 struct Interface<'b, 'a: 'b> {
     manager: &'b mut Manager<'a>
 }

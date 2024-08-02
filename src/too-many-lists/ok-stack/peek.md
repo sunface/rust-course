@@ -1,9 +1,10 @@
 # Peek 函数
+
 在之前章节中，我们定义了 `push`、`pop` 等基础操作，下面一起添加几个进阶操作，让我们的链表有用起来。
 
-
 首先实现的就是 `peek` 函数，它会返回链表的表头元素的引用:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn peek(&self) -> Option<&T> {
     self.head.map(|node| {
         &node.elem
@@ -30,14 +31,16 @@ error[E0507]: cannot move out of borrowed content
 哎，Rust 大爷，您又哪里不满意了。不过问题倒是也很明显: `map` 方法是通过 `self` 获取的值，我们相当于把内部值的引用返回给函数外面的调用者。
 
 一个比较好的解决办法就是让 `map` 作用在引用上，而不是直接作用在 `self.head` 上，为此我们可以使用 `Option` 的 `as_ref` 方法：
-```rust
+
+```rust,ignore,mdbook-runnable
 impl<T> Option<T> {
     pub fn as_ref(&self) -> Option<&T>;
 }
 ```
 
 该方法将一个 `Option<T>` 变成了 `Option<&T>`，然后再调用 `map` 就会对引用进行处理了：
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn peek(&self) -> Option<&T> {
     self.head.as_ref().map(|node| {
         &node.elem
@@ -52,7 +55,8 @@ $ cargo build
 ```
 
 当然，我们还可以通过类似的方式获取一个可变引用:
-```rust
+
+```rust,ignore,mdbook-runnable
 pub fn peek_mut(&mut self) -> Option<&mut T> {
     self.head.as_mut().map(|node| {
         &mut node.elem
@@ -61,7 +65,8 @@ pub fn peek_mut(&mut self) -> Option<&mut T> {
 ```
 
 至此 `peek` 已经完成，为了测试它的功能，我们还需要编写一个测试用例:
-```rust
+
+```rust,ignore,mdbook-runnable
 #[test]
 fn peek() {
     let mut list = List::new();
@@ -101,7 +106,7 @@ error[E0384]: cannot assign twice to immutable variable `value`
 
 因此我们没必要画蛇添足，这里直接使用 `|value|` 来匹配可变引用即可，那么此时匹配出来的 `value` 就是一个可变引用。
 
-```rust
+```rust,ignore,mdbook-runnable
 #[test]
 fn peek() {
     let mut list = List::new();

@@ -24,12 +24,11 @@ Problem parsing arguments: not enough arguments
 
 所以，可以得出一个结论，如果错误信息输出到标准输出，那么它们将跟普通的日志信息混在一起，难以分辨，因此我们需要将错误信息进行单独输出。
 
-
 ## 标准错误输出 stderr
 
 将错误信息重定向到 `stderr` 很简单，只需在打印错误的地方，将 `println!` 宏替换为 `eprintln!`即可。
 
-```rust
+```rust,ignore,mdbook-runnable
 fn main() {
     let args: Vec<String> = env::args().collect();
 
@@ -46,6 +45,7 @@ fn main() {
 ```
 
 接下来，还是同样的运行命令：
+
 ```shell
 $ cargo run > output.txt
 Problem parsing arguments: not enough arguments

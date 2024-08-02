@@ -14,7 +14,7 @@
 
 原子类型的一个常用场景，就是作为全局变量来使用:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::ops::Sub;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::thread::{self, JoinHandle};
@@ -64,7 +64,7 @@ Mutex实现: 1136ms
 
 还有一点值得注意: **和`Mutex`一样，`Atomic`的值具有内部可变性**，你无需将其声明为`mut`：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::Mutex;
 use std::sync::atomic::{Ordering, AtomicU64};
 
@@ -99,7 +99,7 @@ fn main() {
 
 对于第二点，我们举个例子：
 
-```rust
+```rust,ignore,mdbook-runnable
 static mut X: u64 = 0;
 static mut Y: u64 = 1;
 
@@ -120,7 +120,7 @@ fn main() {
 
 假如在`C`和`D`代码片段中，根本没有用到`X = 1`，那么编译器很可能会将`X = 1`和`X = 2`进行合并:
 
-```rust
+```rust,ignore,mdbook-runnable
  ...     // A
 
 unsafe {
@@ -175,7 +175,7 @@ X = 2;          }
 - **Relaxed**， 这是最宽松的规则，它对编译器和 CPU 不做任何限制，可以乱序
 - **Release 释放**，设定内存屏障(Memory barrier)，保证它之前的操作永远在它之前，但是它后面的操作可能被重排到它前面
 - **Acquire 获取**, 设定内存屏障，保证在它之后的访问永远在它之后，但是它之前的操作却有可能被重排到它后面，往往和`Release`在不同线程中联合使用
-- **AcqRel**, 是 *Acquire* 和 *Release* 的结合，同时拥有它们俩提供的保证。比如你要对一个 `atomic` 自增 1，同时希望该操作之前和之后的读取或写入操作不会被重新排序
+- **AcqRel**, 是 _Acquire_ 和 _Release_ 的结合，同时拥有它们俩提供的保证。比如你要对一个 `atomic` 自增 1，同时希望该操作之前和之后的读取或写入操作不会被重新排序
 - **SeqCst 顺序一致性**， `SeqCst`就像是`AcqRel`的加强版，它不管原子操作是属于读取还是写入的操作，只要某个线程有用到`SeqCst`的原子操作，线程中该`SeqCst`操作前的数据操作绝对不会被重新排在该`SeqCst`操作之后，且该`SeqCst`操作后的数据操作也绝对不会被重新排在`SeqCst`操作前。
 
 这些规则由于是系统提供的，因此其它语言提供的相应规则也大同小异，大家如果不明白可以看看其它语言的相关解释。
@@ -184,7 +184,7 @@ X = 2;          }
 
 下面我们以`Release`和`Acquire`为例，使用它们构筑出一对内存屏障，防止编译器和 CPU 将屏障前(Release)和屏障后(Acquire)中的数据操作重新排在屏障围成的范围之外:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::thread::{self, JoinHandle};
 use std::sync::atomic::{Ordering, AtomicBool};
 
@@ -241,7 +241,7 @@ fn main() {
 
 在多线程环境中要使用`Atomic`需要配合`Arc`：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::Arc;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::{hint, thread};

@@ -2,7 +2,7 @@
 
 一般来说，`for`循环能做到的，`while`也可以，反之亦然，但是有一种情况，还真不行，先来看代码:
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut v = vec![1,2,3];
 
 for i in 0..v.len() {
@@ -27,7 +27,7 @@ for i in 0..v.len() {
 
 行，问题算是清楚了，那该如何解决呢，我们可以使用`while`循环，该循环与`for`相反，每次都会重新求值：
 
-```rust
+```rust,ignore,mdbook-runnable
 let mut v = vec![1,2,3];
 
 let mut i = 0;

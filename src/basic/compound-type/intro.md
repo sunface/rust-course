@@ -6,7 +6,7 @@
 
 来看一段代码，它使用我们之前学过的内容来构建文件操作：
 
-```rust
+```rust,ignore,mdbook-runnable
 #![allow(unused_variables)]
 type File = String;
 

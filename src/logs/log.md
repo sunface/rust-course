@@ -3,6 +3,7 @@
 就如同 slf4j 是 Java 的日志门面库，[log](https://github.com/rust-lang/log) 也是 Rust 的日志门面库( 这不是我自己编的，官方用语: logging facade )，它目前由官方积极维护，因此大家可以放心使用。
 
 使用方式很简单，只要在 `Cargo.toml` 中引入即可：
+
 ```toml
 [dependencies]
 log = "0.4"
@@ -15,7 +16,8 @@ log = "0.4"
 ## Log 特征
 
 例如，它定义了一个 `Log` 特征：
-```rust
+
+```rust,ignore,mdbook-runnable
 pub trait Log: Sync + Send {
     fn enabled(&self, metadata: &Metadata<'_>) -> bool;
     fn log(&self, record: &Record<'_>);
@@ -31,7 +33,7 @@ pub trait Log: Sync + Send {
 
 `log` 还为我们提供了一整套标准的宏，用于方便地记录日志。看到 `trace!`、`debug!`、`info!`、`warn!`、`error!`，大家是否感觉眼熟呢？是的，它们跟上一章节提到的日志级别几乎一模一样，唯一的区别就是这里乱入了一个 `trace!`，它比 `debug!` 的日志级别还要低，记录的信息还要详细。可以说，你如果想巨细无遗地了解某个流程的所有踪迹，它就是不二之选。
 
-```rust
+```rust,ignore,mdbook-runnable
 use log::{info, trace, warn};
 
 pub fn shave_the_yak(yak: &mut Yak) {
@@ -58,7 +60,7 @@ pub fn shave_the_yak(yak: &mut Yak) {
 
 除了以上常用的，`log` 还提供了 `log!` 和 `log_enabled!` 宏，后者用于确定一条消息在当前模块中，对于给定的日志级别是否能够被记录
 
-```rust
+```rust,ignore,mdbook-runnable
 use log::Level::Debug;
 use log::{debug, log_enabled};
 
@@ -75,7 +77,8 @@ if log_enabled!(target: "Global", Debug) {
 ```
 
 而 `log!` 宏就简单的多，它是一个通用的日志记录方式，因此需要我们手动指定日志级别：
-```rust
+
+```rust,ignore,mdbook-runnable
 use log::{log, Level};
 
 let data = (42, "Forty-two");
@@ -87,21 +90,24 @@ log!(target: "app_events", Level::Warn, "App warning: {}, {}, {}",
 ```
 
 ## 日志输出在哪里？
+
 我不知道有没有同学尝试运行过上面的代码，但是我知道，就算你们运行了，也看不到任何输出。
 
 为什么？原因很简单，`log` 仅仅是日志门面库，**它并不具备完整的日志库功能！**，因此你无法在控制台中看到任何日志输出，这种情况下，说实话，远不如一个 `println!` 有用！
 
 但是别急，让我们看看该如何让 `log` 有用起来。
 
-
 ## 使用具体的日志库
+
 `log` 包这么设计，其实是有很多好处的。
 
 ### Rust 库的开发者
+
 最直接的好处就是，如果你是一个 Rust 库开发者，那你自己或库的用户肯定都不希望这个库绑定任何具体的日志库，否则用户想使用 `log1` 来记录日志，你的库却使用了 `log2`，这就存在很多问题了！
 
 因此，**作为库的开发者，你只要在库中使用门面库即可**，将具体的日志库交给用户去选择和绑定。
-```rust
+
+```rust,ignore,mdbook-runnable
 use log::{info, trace, warn};
 pub fn deal_with_something() {
     // 开始处理
@@ -116,6 +122,7 @@ pub fn deal_with_something() {
 ```
 
 ### 应用开发者
+
 如果是应用开发者，那你的应用运行起来，却看不到任何日志输出，这种场景想想都捉急。此时就需要去选择一个具体的日志库了。
 
 目前来说，已经有了不少日志库实现，官方也[推荐了一些](https://github.com/rust-lang/log#in-executables)
@@ -126,6 +133,7 @@ pub fn deal_with_something() {
 #### env_logger
 
 修改 `Cargo.toml` , 添加以下内容:
+
 ```toml
 # in Cargo.toml
 
@@ -135,7 +143,8 @@ env_logger = "0.9"
 ```
 
 在 `src/main.rs` 中添加如下代码：
-```rust
+
+```rust,ignore,mdbook-runnable
 use log::{debug, error, log_enabled, info, Level};
 
 fn main() {
@@ -153,12 +162,14 @@ fn main() {
 ```
 
 在运行程序时，可以通过环境变量来设定日志级别:
+
 ```shell
 $ RUST_LOG=error ./main
 [2017-11-09T02:12:24Z ERROR main] this is printed by default
 ```
 
 我们还可以为单独一个模块指定日志级别:
+
 ```shell
 $ RUST_LOG=main=info ./main
 [2017-11-09T02:12:24Z ERROR main] this is printed by default
@@ -166,6 +177,7 @@ $ RUST_LOG=main=info ./main
 ```
 
 还能为某个模块开启所有日志级别：
+
 ```shell
 $ RUST_LOG=main ./main
 [2017-11-09T02:12:24Z DEBUG main] this is a debug message
@@ -174,6 +186,7 @@ $ RUST_LOG=main ./main
 ```
 
 需要注意的是，如果文件名包含 `-`，你需要将其替换成下划线来使用，原因是 Rust 的模块和包名不支持使用 `-`。
+
 ```shell
 $ RUST_LOG=my_app ./my-app
 [2017-11-09T02:12:24Z DEBUG my_app] this is a debug message
@@ -182,7 +195,8 @@ $ RUST_LOG=my_app ./my-app
 ```
 
 默认情况下，`env_logger` 会输出到标准错误 `stderr`，如果你想要输出到标准输出 `stdout`，可以使用 `Builder` 来改变日志对象( target ):
-```rust
+
+```rust,ignore,mdbook-runnable
 use std::env;
 use env_logger::{Builder, Target};
 
@@ -193,7 +207,8 @@ builder.init();
 ```
 
 默认
-```rust
+
+```rust,ignore,mdbook-runnable
    if cfg!(debug_assertions) {
        eprintln!("debug: {:?} -> {:?}",
               record, fields);
@@ -201,9 +216,10 @@ builder.init();
 ```
 
 ### 日志库开发者
+
 对于这类开发者而言，自然要实现自己的 `Log` 特征咯:
 
-```rust
+```rust,ignore,mdbook-runnable
 use log::{Record, Level, Metadata};
 struct SimpleLogger;
 impl log::Log for SimpleLogger {
@@ -220,7 +236,8 @@ impl log::Log for SimpleLogger {
 ```
 
 除此之外，我们还需要像 `env_logger` 一样包装下 `set_logger` 和 `set_max_level`:
-```rust
+
+```rust,ignore,mdbook-runnable
 use log::{SetLoggerError, LevelFilter};
 static LOGGER: SimpleLogger = SimpleLogger;
 pub fn init() -> Result<(), SetLoggerError> {
@@ -229,7 +246,6 @@ pub fn init() -> Result<(), SetLoggerError> {
 }
 ```
 
-
 ## 更多示例
-关于 `log` 门面库和具体的日志库还有更多的使用方式，详情请参见锈书的[开发者工具](https://rusty.course.rs/devtools/log.html)一章。
 
+关于 `log` 门面库和具体的日志库还有更多的使用方式，详情请参见锈书的[开发者工具](https://rusty.course.rs/devtools/log.html)一章。

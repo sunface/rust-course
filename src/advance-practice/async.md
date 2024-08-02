@@ -8,7 +8,7 @@
 
 先来回顾一下 `async fn` 异步函数 :
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::net::TcpStream;
 
 async fn my_async_fn() {
@@ -22,7 +22,7 @@ async fn my_async_fn() {
 
 接着对它进行调用获取一个返回值，再在返回值上调用 `.await`：
 
-```rust
+```rust,ignore,mdbook-runnable
 #[tokio::main]
 async fn main() {
     let what_is_this = my_async_fn();
@@ -42,7 +42,7 @@ async fn main() {
 
 `std::future::Future` 的定义如下所示:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::pin::Pin;
 use std::task::{Context, Poll};
 
@@ -66,7 +66,7 @@ pub trait Future {
 
 下面来一起实现个五脏俱全的 `Future`，它将：1. 等待某个特定时间点的到来 2. 在标准输出打印文本 3. 生成一个字符串
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::future::Future;
 use std::pin::Pin;
 use std::task::{Context, Poll};
@@ -117,7 +117,7 @@ async fn main() {
 
 原因是 `.await` 只能用于 `async fn` 函数中，因此我们将 `main` 函数声明成 `async fn main` 同时使用 `#[tokio::main]` 进行了标注，此时 `async fn main` 生成的代码类似下面：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::future::Future;
 use std::pin::Pin;
 use std::task::{Context, Poll};
@@ -187,7 +187,7 @@ impl Future for MainFuture {
 
 先来看一段基础代码:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::collections::VecDeque;
 use std::future::Future;
 use std::pin::Pin;
@@ -255,7 +255,7 @@ impl MiniTokio {
 
 再来看下 `Future::poll` 的定义：
 
-```rust
+```rust,ignore,mdbook-runnable
 fn poll(self: Pin<&mut Self>, cx: &mut Context)
     -> Poll<Self::Output>;
 ```
@@ -268,7 +268,7 @@ fn poll(self: Pin<&mut Self>, cx: &mut Context)
 
 现在，为 `Delay` 添加下 `Waker` 支持：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::future::Future;
 use std::pin::Pin;
 use std::task::{Context, Poll};
@@ -320,7 +320,7 @@ impl Future for Delay {
 
 再回忆下最早实现的 `Delay` 代码：
 
-```rust
+```rust,ignore,mdbook-runnable
 impl Future for Delay {
     type Output = &'static str;
 
@@ -361,7 +361,7 @@ crossbeam = "0.8"
 
 再来更新下 `MiniTokio` 结构体：
 
-```rust
+```rust,ignore,mdbook-runnable
 use crossbeam::channel;
 use std::sync::Arc;
 
@@ -379,7 +379,7 @@ struct Task {
 
 为了实现上述的目的，我们引入了消息通道，当 `waker.wake()` 函数被调用时，任务会被发送到该消息通道中:
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::sync::{Arc, Mutex};
 
 struct Task {
@@ -406,7 +406,7 @@ futures = "0.3"
 
 然后为我们的任务 `Task` 实现 `ArcWake`:
 
-```rust
+```rust,ignore,mdbook-runnable
 use futures::task::{self, ArcWake};
 use std::sync::Arc;
 impl ArcWake for Task {
@@ -418,7 +418,7 @@ impl ArcWake for Task {
 
 当之前的计时器线程调用 `waker.wake()` 时，所在的任务会被推入到消息通道中。因此接下来，我们需要实现接收端的功能，然后 `MiniTokio::run()` 函数中执行该任务:
 
-```rust
+```rust,ignore,mdbook-runnable
 impl MiniTokio {
     // 从消息通道中接收任务，然后通过 poll 来执行
     fn run(&self) {
@@ -491,7 +491,7 @@ impl Task {
 
 之前实现 `Delay Future` 时，我们提到有几个问题需要解决。Rust 的异步模型允许一个 Future 在执行过程中可以跨任务迁移:
 
-```rust
+```rust,ignore,mdbook-runnable
 use futures::future::poll_fn;
 use std::future::Future;
 use std::pin::Pin;
@@ -524,7 +524,7 @@ async fn main() {
 
 这一段大家可能会看得云里雾里的，没办法，原文就绕来绕去，好在终于可以看代码了。。我们可以通过代码来解决疑惑：
 
-```rust
+```rust,ignore,mdbook-runnable
 use std::future::Future;
 use std::pin::Pin;
 use std::sync::{Arc, Mutex};
@@ -600,7 +600,7 @@ impl Future for Delay {
 
 该 `Notify` 提供了一个基础的任务通知机制，它会处理这些 `waker` 的细节，包括确保两次 `waker` 的匹配:
 
-```rust
+```rust,ignore,mdbook-runnable
 use tokio::sync::Notify;
 use std::sync::Arc;
 use std::time::{Duration, Instant};
