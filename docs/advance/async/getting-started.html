@@ -1,0 +1,530 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>async 编程入门 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item affix "><a href="../../about-book.html">关于本书</a></li><li class="chapter-item affix "><a href="../../into-rust.html">进入 Rust 编程世界</a></li><li class="chapter-item affix "><a href="../../first-try/sth-you-should-not-do.html">避免从入门到放弃</a></li><li class="chapter-item affix "><a href="../../community.html">社区和锈书</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="../../some-thoughts.html">Xobserve: 一切皆可观测</a></li><li class="chapter-item affix "><a href="../../beat-ai.html">BeatAI: 工程师 AI 入门圣经</a></li><li class="chapter-item affix "><li class="part-title">Rust 语言基础学习</li><li class="spacer"></li><li class="chapter-item "><a href="../../first-try/intro.html"><strong aria-hidden="true">1.</strong> 寻找牛刀，以便小试</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../first-try/installation.html"><strong aria-hidden="true">1.1.</strong> 安装 Rust 环境</a></li><li class="chapter-item "><a href="../../first-try/editor.html"><strong aria-hidden="true">1.2.</strong> 墙推 VSCode!</a></li><li class="chapter-item "><a href="../../first-try/cargo.html"><strong aria-hidden="true">1.3.</strong> 认识 Cargo</a></li><li class="chapter-item "><a href="../../first-try/hello-world.html"><strong aria-hidden="true">1.4.</strong> 不仅仅是 Hello world</a></li><li class="chapter-item "><a href="../../first-try/slowly-downloading.html"><strong aria-hidden="true">1.5.</strong> 下载依赖太慢了？</a></li></ol></li><li class="chapter-item "><a href="../../basic/intro.html"><strong aria-hidden="true">2.</strong> Rust 基础入门</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../basic/variable.html"><strong aria-hidden="true">2.1.</strong> 变量绑定与解构</a></li><li class="chapter-item "><a href="../../basic/base-type/index.html"><strong aria-hidden="true">2.2.</strong> 基本类型</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../basic/base-type/numbers.html"><strong aria-hidden="true">2.2.1.</strong> 数值类型</a></li><li class="chapter-item "><a href="../../basic/base-type/char-bool.html"><strong aria-hidden="true">2.2.2.</strong> 字符、布尔、单元类型</a></li><li class="chapter-item "><a href="../../basic/base-type/statement-expression.html"><strong aria-hidden="true">2.2.3.</strong> 语句与表达式</a></li><li class="chapter-item "><a href="../../basic/base-type/function.html"><strong aria-hidden="true">2.2.4.</strong> 函数</a></li></ol></li><li class="chapter-item "><a href="../../basic/ownership/index.html"><strong aria-hidden="true">2.3.</strong> 所有权和借用</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../basic/ownership/ownership.html"><strong aria-hidden="true">2.3.1.</strong> 所有权</a></li><li class="chapter-item "><a href="../../basic/ownership/borrowing.html"><strong aria-hidden="true">2.3.2.</strong> 引用与借用</a></li></ol></li><li class="chapter-item "><a href="../../basic/compound-type/intro.html"><strong aria-hidden="true">2.4.</strong> 复合类型</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../basic/compound-type/string-slice.html"><strong aria-hidden="true">2.4.1.</strong> 字符串与切片</a></li><li class="chapter-item "><a href="../../basic/compound-type/tuple.html"><strong aria-hidden="true">2.4.2.</strong> 元组</a></li><li class="chapter-item "><a href="../../basic/compound-type/struct.html"><strong aria-hidden="true">2.4.3.</strong> 结构体</a></li><li class="chapter-item "><a href="../../basic/compound-type/enum.html"><strong aria-hidden="true">2.4.4.</strong> 枚举</a></li><li class="chapter-item "><a href="../../basic/compound-type/array.html"><strong aria-hidden="true">2.4.5.</strong> 数组</a></li></ol></li><li class="chapter-item "><a href="../../basic/flow-control.html"><strong aria-hidden="true">2.5.</strong> 流程控制</a></li><li class="chapter-item "><a href="../../basic/match-pattern/intro.html"><strong aria-hidden="true">2.6.</strong> 模式匹配</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../basic/match-pattern/match-if-let.html"><strong aria-hidden="true">2.6.1.</strong> match 和 if let</a></li><li class="chapter-item "><a href="../../basic/match-pattern/option.html"><strong aria-hidden="true">2.6.2.</strong> 解构 Option</a></li><li class="chapter-item "><a href="../../basic/match-pattern/pattern-match.html"><strong aria-hidden="true">2.6.3.</strong> 模式适用场景</a></li><li class="chapter-item "><a href="../../basic/match-pattern/all-patterns.html"><strong aria-hidden="true">2.6.4.</strong> 全模式列表</a></li></ol></li><li class="chapter-item "><a href="../../basic/method.html"><strong aria-hidden="true">2.7.</strong> 方法 Method</a></li><li class="chapter-item "><a href="../../basic/trait/intro.html"><strong aria-hidden="true">2.8.</strong> 泛型和特征</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../basic/trait/generic.html"><strong aria-hidden="true">2.8.1.</strong> 泛型 Generics</a></li><li class="chapter-item "><a href="../../basic/trait/trait.html"><strong aria-hidden="true">2.8.2.</strong> 特征 Trait</a></li><li class="chapter-item "><a href="../../basic/trait/trait-object.html"><strong aria-hidden="true">2.8.3.</strong> 特征对象</a></li><li class="chapter-item "><a href="../../basic/trait/advance-trait.html"><strong aria-hidden="true">2.8.4.</strong> 进一步深入特征</a></li></ol></li><li class="chapter-item "><a href="../../basic/collections/intro.html"><strong aria-hidden="true">2.9.</strong> 集合类型</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../basic/collections/vector.html"><strong aria-hidden="true">2.9.1.</strong> 动态数组 Vector</a></li><li class="chapter-item "><a href="../../basic/collections/hashmap.html"><strong aria-hidden="true">2.9.2.</strong> KV 存储 HashMap</a></li></ol></li><li class="chapter-item "><a href="../../basic/lifetime.html"><strong aria-hidden="true">2.10.</strong> 认识生命周期</a></li><li class="chapter-item "><a href="../../basic/result-error/intro.html"><strong aria-hidden="true">2.11.</strong> 返回值和错误处理</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../basic/result-error/panic.html"><strong aria-hidden="true">2.11.1.</strong> panic! 深入剖析</a></li><li class="chapter-item "><a href="../../basic/result-error/result.html"><strong aria-hidden="true">2.11.2.</strong> 返回值 Result 和?</a></li></ol></li><li class="chapter-item "><a href="../../basic/crate-module/intro.html"><strong aria-hidden="true">2.12.</strong> 包和模块</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../basic/crate-module/crate.html"><strong aria-hidden="true">2.12.1.</strong> 包 Crate</a></li><li class="chapter-item "><a href="../../basic/crate-module/module.html"><strong aria-hidden="true">2.12.2.</strong> 模块 Module</a></li><li class="chapter-item "><a href="../../basic/crate-module/use.html"><strong aria-hidden="true">2.12.3.</strong> 使用 use 引入模块及受限可见性</a></li></ol></li><li class="chapter-item "><a href="../../basic/comment.html"><strong aria-hidden="true">2.13.</strong> 注释和文档</a></li><li class="chapter-item "><a href="../../basic/formatted-output.html"><strong aria-hidden="true">2.14.</strong> 格式化输出</a></li></ol></li><li class="chapter-item "><a href="../../basic-practice/intro.html"><strong aria-hidden="true">3.</strong> 入门实战：文件搜索工具</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../basic-practice/base-features.html"><strong aria-hidden="true">3.1.</strong> 基本功能</a></li><li class="chapter-item "><a href="../../basic-practice/refactoring.html"><strong aria-hidden="true">3.2.</strong> 增加模块化和错误处理</a></li><li class="chapter-item "><a href="../../basic-practice/tests.html"><strong aria-hidden="true">3.3.</strong> 测试驱动开发</a></li><li class="chapter-item "><a href="../../basic-practice/envs.html"><strong aria-hidden="true">3.4.</strong> 使用环境变量</a></li><li class="chapter-item "><a href="../../basic-practice/stderr.html"><strong aria-hidden="true">3.5.</strong> 重定向错误信息的输出</a></li><li class="chapter-item "><a href="../../basic-practice/iterators.html"><strong aria-hidden="true">3.6.</strong> 使用迭代器来改进程序(可选)</a></li></ol></li><li class="chapter-item "><li class="part-title">Rust 语言进阶学习</li><li class="spacer"></li><li class="chapter-item expanded "><a href="../../advance/intro.html"><strong aria-hidden="true">4.</strong> Rust 高级进阶</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance/lifetime/intro.html"><strong aria-hidden="true">4.1.</strong> 生命周期</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance/lifetime/advance.html"><strong aria-hidden="true">4.1.1.</strong> 深入生命周期</a></li><li class="chapter-item "><a href="../../advance/lifetime/static.html"><strong aria-hidden="true">4.1.2.</strong> &'static 和 T: 'static</a></li></ol></li><li class="chapter-item "><a href="../../advance/functional-programing/intro.html"><strong aria-hidden="true">4.2.</strong> 函数式编程: 闭包、迭代器</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance/functional-programing/closure.html"><strong aria-hidden="true">4.2.1.</strong> 闭包 Closure</a></li><li class="chapter-item "><a href="../../advance/functional-programing/iterator.html"><strong aria-hidden="true">4.2.2.</strong> 迭代器 Iterator</a></li></ol></li><li class="chapter-item "><a href="../../advance/into-types/intro.html"><strong aria-hidden="true">4.3.</strong> 深入类型</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance/into-types/converse.html"><strong aria-hidden="true">4.3.1.</strong> 类型转换</a></li><li class="chapter-item "><a href="../../advance/into-types/custom-type.html"><strong aria-hidden="true">4.3.2.</strong> newtype 和 类型别名</a></li><li class="chapter-item "><a href="../../advance/into-types/sized.html"><strong aria-hidden="true">4.3.3.</strong> Sized 和不定长类型 DST</a></li><li class="chapter-item "><a href="../../advance/into-types/enum-int.html"><strong aria-hidden="true">4.3.4.</strong> 枚举和整数</a></li></ol></li><li class="chapter-item "><a href="../../advance/smart-pointer/intro.html"><strong aria-hidden="true">4.4.</strong> 智能指针</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance/smart-pointer/box.html"><strong aria-hidden="true">4.4.1.</strong> Box堆对象分配</a></li><li class="chapter-item "><a href="../../advance/smart-pointer/deref.html"><strong aria-hidden="true">4.4.2.</strong> Deref 解引用</a></li><li class="chapter-item "><a href="../../advance/smart-pointer/drop.html"><strong aria-hidden="true">4.4.3.</strong> Drop 释放资源</a></li><li class="chapter-item "><a href="../../advance/smart-pointer/rc-arc.html"><strong aria-hidden="true">4.4.4.</strong> Rc 与 Arc 实现 1vN 所有权机制</a></li><li class="chapter-item "><a href="../../advance/smart-pointer/cell-refcell.html"><strong aria-hidden="true">4.4.5.</strong> Cell 与 RefCell 内部可变性</a></li></ol></li><li class="chapter-item "><a href="../../advance/circle-self-ref/intro.html"><strong aria-hidden="true">4.5.</strong> 循环引用与自引用</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance/circle-self-ref/circle-reference.html"><strong aria-hidden="true">4.5.1.</strong> Weak 与循环引用</a></li><li class="chapter-item "><a href="../../advance/circle-self-ref/self-referential.html"><strong aria-hidden="true">4.5.2.</strong> 结构体中的自引用</a></li></ol></li><li class="chapter-item "><a href="../../advance/concurrency-with-threads/intro.html"><strong aria-hidden="true">4.6.</strong> 多线程并发编程</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance/concurrency-with-threads/concurrency-parallelism.html"><strong aria-hidden="true">4.6.1.</strong> 并发和并行</a></li><li class="chapter-item "><a href="../../advance/concurrency-with-threads/thread.html"><strong aria-hidden="true">4.6.2.</strong> 使用多线程</a></li><li class="chapter-item "><a href="../../advance/concurrency-with-threads/message-passing.html"><strong aria-hidden="true">4.6.3.</strong> 线程同步：消息传递</a></li><li class="chapter-item "><a href="../../advance/concurrency-with-threads/sync1.html"><strong aria-hidden="true">4.6.4.</strong> 线程同步：锁、Condvar 和信号量</a></li><li class="chapter-item "><a href="../../advance/concurrency-with-threads/sync2.html"><strong aria-hidden="true">4.6.5.</strong> 线程同步：Atomic 原子操作与内存顺序</a></li><li class="chapter-item "><a href="../../advance/concurrency-with-threads/send-sync.html"><strong aria-hidden="true">4.6.6.</strong> 基于 Send 和 Sync 的线程安全</a></li></ol></li><li class="chapter-item "><a href="../../advance/global-variable.html"><strong aria-hidden="true">4.7.</strong> 全局变量</a></li><li class="chapter-item "><a href="../../advance/errors.html"><strong aria-hidden="true">4.8.</strong> 错误处理</a></li><li class="chapter-item "><a href="../../advance/unsafe/intro.html"><strong aria-hidden="true">4.9.</strong> Unsafe Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance/unsafe/superpowers.html"><strong aria-hidden="true">4.9.1.</strong> 五种兵器</a></li><li class="chapter-item "><a href="../../advance/unsafe/inline-asm.html"><strong aria-hidden="true">4.9.2.</strong> 内联汇编</a></li></ol></li><li class="chapter-item "><a href="../../advance/macro.html"><strong aria-hidden="true">4.10.</strong> Macro 宏编程</a></li><li class="chapter-item expanded "><a href="../../advance/async/intro.html"><strong aria-hidden="true">4.11.</strong> async/await 异步编程</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../advance/async/getting-started.html" class="active"><strong aria-hidden="true">4.11.1.</strong> async 编程入门</a></li><li class="chapter-item "><a href="../../advance/async/future-excuting.html"><strong aria-hidden="true">4.11.2.</strong> 底层探秘: Future 执行与任务调度</a></li><li class="chapter-item "><a href="../../advance/async/pin-unpin.html"><strong aria-hidden="true">4.11.3.</strong> 定海神针 Pin 和 Unpin</a></li><li class="chapter-item "><a href="../../advance/async/async-await.html"><strong aria-hidden="true">4.11.4.</strong> async/await 和 Stream 流处理</a></li><li class="chapter-item "><a href="../../advance/async/multi-futures-simultaneous.html"><strong aria-hidden="true">4.11.5.</strong> 同时运行多个 Future</a></li><li class="chapter-item "><a href="../../advance/async/pain-points-and-workarounds.html"><strong aria-hidden="true">4.11.6.</strong> 一些疑难问题的解决办法</a></li><li class="chapter-item "><a href="../../advance/async/web-server.html"><strong aria-hidden="true">4.11.7.</strong> 实践应用：Async Web 服务器</a></li></ol></li></ol></li><li class="chapter-item "><a href="../../advance-practice1/intro.html"><strong aria-hidden="true">5.</strong> 进阶实战1: 实现一个 web 服务器</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance-practice1/web-server.html"><strong aria-hidden="true">5.1.</strong> 单线程版本</a></li><li class="chapter-item "><a href="../../advance-practice1/multi-threads.html"><strong aria-hidden="true">5.2.</strong> 多线程版本</a></li><li class="chapter-item "><a href="../../advance-practice1/graceful-shutdown.html"><strong aria-hidden="true">5.3.</strong> 优雅关闭和资源清理</a></li></ol></li><li class="chapter-item "><a href="../../advance-practice/intro.html"><strong aria-hidden="true">6.</strong> 进阶实战2: 实现一个简单 Redis</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../advance-practice/overview.html"><strong aria-hidden="true">6.1.</strong> tokio 概览</a></li><li class="chapter-item "><a href="../../advance-practice/getting-startted.html"><strong aria-hidden="true">6.2.</strong> 使用初印象</a></li><li class="chapter-item "><a href="../../advance-practice/spawning.html"><strong aria-hidden="true">6.3.</strong> 创建异步任务</a></li><li class="chapter-item "><a href="../../advance-practice/shared-state.html"><strong aria-hidden="true">6.4.</strong> 共享状态</a></li><li class="chapter-item "><a href="../../advance-practice/channels.html"><strong aria-hidden="true">6.5.</strong> 消息传递</a></li><li class="chapter-item "><a href="../../advance-practice/io.html"><strong aria-hidden="true">6.6.</strong> I/O</a></li><li class="chapter-item "><a href="../../advance-practice/frame.html"><strong aria-hidden="true">6.7.</strong> 解析数据帧</a></li><li class="chapter-item "><a href="../../advance-practice/async.html"><strong aria-hidden="true">6.8.</strong> 深入 async</a></li><li class="chapter-item "><a href="../../advance-practice/select.html"><strong aria-hidden="true">6.9.</strong> select</a></li><li class="chapter-item "><a href="../../advance-practice/stream.html"><strong aria-hidden="true">6.10.</strong> 类似迭代器的 Stream</a></li><li class="chapter-item "><a href="../../advance-practice/graceful-shutdown.html"><strong aria-hidden="true">6.11.</strong> 优雅的关闭</a></li><li class="chapter-item "><a href="../../advance-practice/bridging-with-sync.html"><strong aria-hidden="true">6.12.</strong> 异步跟同步共存</a></li></ol></li><li class="chapter-item "><a href="../../difficulties/intro.html"><strong aria-hidden="true">7.</strong> Rust 难点攻关</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../difficulties/slice.html"><strong aria-hidden="true">7.1.</strong> 切片和切片引用</a></li><li class="chapter-item "><a href="../../difficulties/eq.html"><strong aria-hidden="true">7.2.</strong> Eq 和 PartialEq</a></li><li class="chapter-item "><a href="../../difficulties/string.html"><strong aria-hidden="true">7.3.</strong> String、&str 和 str TODO</a></li><li class="chapter-item "><a href="../../difficulties/lifetime.html"><strong aria-hidden="true">7.4.</strong> 作用域、生命周期和 NLL TODO</a></li><li class="chapter-item "><a href="../../difficulties/move-copy.html"><strong aria-hidden="true">7.5.</strong> move、Copy 和 Clone TODO</a></li><li class="chapter-item "><a href="../../advance/difficulties/pointer.html"><strong aria-hidden="true">7.6.</strong> 裸指针、引用和智能指针 TODO</a></li></ol></li><li class="chapter-item "><li class="part-title">常用工具链</li><li class="spacer"></li><li class="chapter-item "><a href="../../test/intro.html"><strong aria-hidden="true">8.</strong> 自动化测试</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../test/write-tests.html"><strong aria-hidden="true">8.1.</strong> 编写测试及控制执行</a></li><li class="chapter-item "><a href="../../test/unit-integration-test.html"><strong aria-hidden="true">8.2.</strong> 单元测试和集成测试</a></li><li class="chapter-item "><a href="../../test/assertion.html"><strong aria-hidden="true">8.3.</strong> 断言 assertion</a></li><li class="chapter-item "><a href="../../test/ci.html"><strong aria-hidden="true">8.4.</strong> 用 GitHub Actions 进行持续集成</a></li><li class="chapter-item "><a href="../../test/benchmark.html"><strong aria-hidden="true">8.5.</strong> 基准测试 benchmark</a></li></ol></li><li class="chapter-item "><a href="../../cargo/intro.html"><strong aria-hidden="true">9.</strong> Cargo 使用指南</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../cargo/getting-started.html"><strong aria-hidden="true">9.1.</strong> 上手使用</a></li><li class="chapter-item "><a href="../../cargo/guide/intro.html"><strong aria-hidden="true">9.2.</strong> 基础指南</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../cargo/guide/why-exist.html"><strong aria-hidden="true">9.2.1.</strong> 为何会有 Cargo</a></li><li class="chapter-item "><a href="../../cargo/guide/download-package.html"><strong aria-hidden="true">9.2.2.</strong> 下载并构建 Package</a></li><li class="chapter-item "><a href="../../cargo/guide/dependencies.html"><strong aria-hidden="true">9.2.3.</strong> 添加依赖</a></li><li class="chapter-item "><a href="../../cargo/guide/package-layout.html"><strong aria-hidden="true">9.2.4.</strong> Package 目录结构</a></li><li class="chapter-item "><a href="../../cargo/guide/cargo-toml-lock.html"><strong aria-hidden="true">9.2.5.</strong> Cargo.toml vs Cargo.lock</a></li><li class="chapter-item "><a href="../../cargo/guide/tests-ci.html"><strong aria-hidden="true">9.2.6.</strong> 测试和 CI</a></li><li class="chapter-item "><a href="../../cargo/guide/cargo-cache.html"><strong aria-hidden="true">9.2.7.</strong> Cargo 缓存</a></li><li class="chapter-item "><a href="../../cargo/guide/build-cache.html"><strong aria-hidden="true">9.2.8.</strong> Build 缓存</a></li></ol></li><li class="chapter-item "><a href="../../cargo/reference/intro.html"><strong aria-hidden="true">9.3.</strong> 进阶指南</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../cargo/reference/specify-deps.html"><strong aria-hidden="true">9.3.1.</strong> 指定依赖项</a></li><li class="chapter-item "><a href="../../cargo/reference/deps-overriding.html"><strong aria-hidden="true">9.3.2.</strong> 依赖覆盖</a></li><li class="chapter-item "><a href="../../cargo/reference/manifest.html"><strong aria-hidden="true">9.3.3.</strong> Cargo.toml 清单详解</a></li><li class="chapter-item "><a href="../../cargo/reference/cargo-target.html"><strong aria-hidden="true">9.3.4.</strong> Cargo Target</a></li><li class="chapter-item "><a href="../../cargo/reference/workspaces.html"><strong aria-hidden="true">9.3.5.</strong> 工作空间 Workspace</a></li><li class="chapter-item "><a href="../../cargo/reference/features/intro.html"><strong aria-hidden="true">9.3.6.</strong> 条件编译 Features</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../cargo/reference/features/examples.html"><strong aria-hidden="true">9.3.6.1.</strong> Features 示例</a></li></ol></li><li class="chapter-item "><a href="../../cargo/reference/profiles.html"><strong aria-hidden="true">9.3.7.</strong> 发布配置 Profile</a></li><li class="chapter-item "><a href="../../cargo/reference/configuration.html"><strong aria-hidden="true">9.3.8.</strong> 通过 config.toml 对 Cargo 进行配置</a></li><li class="chapter-item "><a href="../../cargo/reference/publishing-on-crates.io.html"><strong aria-hidden="true">9.3.9.</strong> 发布到 crates.io</a></li><li class="chapter-item "><a href="../../cargo/reference/build-script/intro.html"><strong aria-hidden="true">9.3.10.</strong> 构建脚本 build.rs</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../cargo/reference/build-script/examples.html"><strong aria-hidden="true">9.3.10.1.</strong> 构建脚本示例</a></li></ol></li></ol></li></ol></li><li class="chapter-item "><li class="part-title">开发实践</li><li class="spacer"></li><li class="chapter-item "><a href="../../usecases/intro.html"><strong aria-hidden="true">10.</strong> 企业落地实践</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../usecases/aws-rust.html"><strong aria-hidden="true">10.1.</strong> AWS 为何这么喜欢 Rust?</a></li></ol></li><li class="chapter-item "><a href="../../logs/intro.html"><strong aria-hidden="true">11.</strong> 日志和监控</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../logs/about-log.html"><strong aria-hidden="true">11.1.</strong> 日志详解</a></li><li class="chapter-item "><a href="../../logs/log.html"><strong aria-hidden="true">11.2.</strong> 日志门面 log</a></li><li class="chapter-item "><a href="../../logs/tracing.html"><strong aria-hidden="true">11.3.</strong> 使用 tracing 记录日志</a></li><li class="chapter-item "><a href="../../logs/tracing-logger.html"><strong aria-hidden="true">11.4.</strong> 自定义 tracing 的输出格式</a></li><li class="chapter-item "><a href="../../logs/observe/intro.html"><strong aria-hidden="true">11.5.</strong> 监控</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../logs/observe/about-observe.html"><strong aria-hidden="true">11.5.1.</strong> 可观测性</a></li><li class="chapter-item "><a href="../../logs/observe/trace.html"><strong aria-hidden="true">11.5.2.</strong> 分布式追踪</a></li></ol></li></ol></li><li class="chapter-item "><a href="../../practice/intro.html"><strong aria-hidden="true">12.</strong> Rust 最佳实践</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../practice/third-party-libs.html"><strong aria-hidden="true">12.1.</strong> 日常开发三方库精选</a></li><li class="chapter-item "><a href="../../practice/naming.html"><strong aria-hidden="true">12.2.</strong> 命名规范</a></li><li class="chapter-item "><a href="../../practice/interview.html"><strong aria-hidden="true">12.3.</strong> 面试经验</a></li><li class="chapter-item "><a href="../../practice/best-pratice.html"><strong aria-hidden="true">12.4.</strong> 代码开发实践 todo</a></li></ol></li><li class="chapter-item "><a href="../../too-many-lists/intro.html"><strong aria-hidden="true">13.</strong> 手把手带你实现链表</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../too-many-lists/do-we-need-it.html"><strong aria-hidden="true">13.1.</strong> 我们到底需不需要链表</a></li><li class="chapter-item "><a href="../../too-many-lists/bad-stack/intro.html"><strong aria-hidden="true">13.2.</strong> 不太优秀的单向链表：栈</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../too-many-lists/bad-stack/layout.html"><strong aria-hidden="true">13.2.1.</strong> 数据布局</a></li><li class="chapter-item "><a href="../../too-many-lists/bad-stack/basic-operations.html"><strong aria-hidden="true">13.2.2.</strong> 基本操作</a></li><li class="chapter-item "><a href="../../too-many-lists/bad-stack/final-code.html"><strong aria-hidden="true">13.2.3.</strong> 最后实现</a></li></ol></li><li class="chapter-item "><a href="../../too-many-lists/ok-stack/intro.html"><strong aria-hidden="true">13.3.</strong> 还可以的单向链表</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../too-many-lists/ok-stack/type-optimizing.html"><strong aria-hidden="true">13.3.1.</strong> 优化类型定义</a></li><li class="chapter-item "><a href="../../too-many-lists/ok-stack/peek.html"><strong aria-hidden="true">13.3.2.</strong> 定义 Peek 函数</a></li><li class="chapter-item "><a href="../../too-many-lists/ok-stack/iter.html"><strong aria-hidden="true">13.3.3.</strong> IntoIter 和 Iter</a></li><li class="chapter-item "><a href="../../too-many-lists/ok-stack/itermut.html"><strong aria-hidden="true">13.3.4.</strong> IterMut 以及完整代码</a></li></ol></li><li class="chapter-item "><a href="../../too-many-lists/persistent-stack/intro.html"><strong aria-hidden="true">13.4.</strong> 持久化单向链表</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../too-many-lists/persistent-stack/layout.html"><strong aria-hidden="true">13.4.1.</strong> 数据布局和基本操作</a></li><li class="chapter-item "><a href="../../too-many-lists/persistent-stack/drop-arc.html"><strong aria-hidden="true">13.4.2.</strong> Drop、Arc 及完整代码</a></li></ol></li><li class="chapter-item "><a href="../../too-many-lists/deque/intro.html"><strong aria-hidden="true">13.5.</strong> 不咋样的双端队列</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../too-many-lists/deque/layout.html"><strong aria-hidden="true">13.5.1.</strong> 数据布局和基本操作</a></li><li class="chapter-item "><a href="../../too-many-lists/deque/peek.html"><strong aria-hidden="true">13.5.2.</strong> Peek</a></li><li class="chapter-item "><a href="../../too-many-lists/deque/symmetric.html"><strong aria-hidden="true">13.5.3.</strong> 基本操作的对称镜像</a></li><li class="chapter-item "><a href="../../too-many-lists/deque/iterator.html"><strong aria-hidden="true">13.5.4.</strong> 迭代器</a></li><li class="chapter-item "><a href="../../too-many-lists/deque/final-code.html"><strong aria-hidden="true">13.5.5.</strong> 最终代码</a></li></ol></li><li class="chapter-item "><a href="../../too-many-lists/unsafe-queue/intro.html"><strong aria-hidden="true">13.6.</strong> 不错的 unsafe 队列</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../too-many-lists/unsafe-queue/layout.html"><strong aria-hidden="true">13.6.1.</strong> 数据布局</a></li><li class="chapter-item "><a href="../../too-many-lists/unsafe-queue/basics.html"><strong aria-hidden="true">13.6.2.</strong> 基本操作</a></li><li class="chapter-item "><a href="../../too-many-lists/unsafe-queue/miri.html"><strong aria-hidden="true">13.6.3.</strong> Miri</a></li><li class="chapter-item "><a href="../../too-many-lists/unsafe-queue/stacked-borrow.html"><strong aria-hidden="true">13.6.4.</strong> 栈借用</a></li><li class="chapter-item "><a href="../../too-many-lists/unsafe-queue/testing-stacked-borrow.html"><strong aria-hidden="true">13.6.5.</strong> 测试栈借用</a></li><li class="chapter-item "><a href="../../too-many-lists/unsafe-queue/layout2.html"><strong aria-hidden="true">13.6.6.</strong> 数据布局 2</a></li><li class="chapter-item "><a href="../../too-many-lists/unsafe-queue/extra-junk.html"><strong aria-hidden="true">13.6.7.</strong> 额外的操作</a></li><li class="chapter-item "><a href="../../too-many-lists/unsafe-queue/final-code.html"><strong aria-hidden="true">13.6.8.</strong> 最终代码</a></li></ol></li><li class="chapter-item "><a href="../../too-many-lists/production-unsafe-deque/intro.html"><strong aria-hidden="true">13.7.</strong> 生产级的双向 unsafe 队列</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../too-many-lists/production-unsafe-deque/layout.html"><strong aria-hidden="true">13.7.1.</strong> 数据布局</a></li><li class="chapter-item "><a href="../../too-many-lists/production-unsafe-deque/variance-and-phantomData.html"><strong aria-hidden="true">13.7.2.</strong> 型变与子类型</a></li><li class="chapter-item "><a href="../../too-many-lists/production-unsafe-deque/basics.html"><strong aria-hidden="true">13.7.3.</strong> 基础结构</a></li><li class="chapter-item "><a href="../../too-many-lists/production-unsafe-deque/drop-and-panic-safety.html"><strong aria-hidden="true">13.7.4.</strong> 恐慌与安全</a></li><li class="chapter-item "><a href="../../too-many-lists/production-unsafe-deque/boring-combinatorics.html"><strong aria-hidden="true">13.7.5.</strong> 无聊的组合</a></li><li class="chapter-item "><a href="../../too-many-lists/production-unsafe-deque/filling-in-random-bits.html"><strong aria-hidden="true">13.7.6.</strong> 其它特征</a></li><li class="chapter-item "><a href="../../too-many-lists/production-unsafe-deque/testing.html"><strong aria-hidden="true">13.7.7.</strong> 测试</a></li><li class="chapter-item "><a href="../../too-many-lists/production-unsafe-deque/send-sync-and-compile-tests.html"><strong aria-hidden="true">13.7.8.</strong> Send,Sync和编译测试</a></li><li class="chapter-item "><a href="../../too-many-lists/production-unsafe-deque/implementing-cursors.html"><strong aria-hidden="true">13.7.9.</strong> 实现游标</a></li><li class="chapter-item "><a href="../../too-many-lists/production-unsafe-deque/testing-cursors.html"><strong aria-hidden="true">13.7.10.</strong> 测试游标</a></li><li class="chapter-item "><a href="../../too-many-lists/production-unsafe-deque/final-code.html"><strong aria-hidden="true">13.7.11.</strong> 最终代码</a></li></ol></li><li class="chapter-item "><a href="../../too-many-lists/advanced-lists/intro.html"><strong aria-hidden="true">13.8.</strong> 使用高级技巧实现链表</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../too-many-lists/advanced-lists/double-singly.html"><strong aria-hidden="true">13.8.1.</strong> 双单向链表</a></li><li class="chapter-item "><a href="../../too-many-lists/advanced-lists/stack-allocated.html"><strong aria-hidden="true">13.8.2.</strong> 栈上的链表</a></li></ol></li></ol></li><li class="chapter-item "><li class="part-title">攻克编译错误</li><li class="spacer"></li><li class="chapter-item "><a href="../../compiler/intro.html"><strong aria-hidden="true">14.</strong> 征服编译错误</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../compiler/fight-with-compiler/intro.html"><strong aria-hidden="true">14.1.</strong> 对抗编译检查</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../compiler/fight-with-compiler/lifetime/intro.html"><strong aria-hidden="true">14.1.1.</strong> 生命周期</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../compiler/fight-with-compiler/lifetime/too-long1.html"><strong aria-hidden="true">14.1.1.1.</strong> 生命周期过大-01</a></li><li class="chapter-item "><a href="../../compiler/fight-with-compiler/lifetime/too-long2.html"><strong aria-hidden="true">14.1.1.2.</strong> 生命周期过大-02</a></li><li class="chapter-item "><a href="../../compiler/fight-with-compiler/lifetime/loop.html"><strong aria-hidden="true">14.1.1.3.</strong> 循环中的生命周期</a></li><li class="chapter-item "><a href="../../compiler/fight-with-compiler/lifetime/closure-with-static.html"><strong aria-hidden="true">14.1.1.4.</strong> 闭包碰到特征对象-01</a></li></ol></li><li class="chapter-item "><a href="../../compiler/fight-with-compiler/borrowing/intro.html"><strong aria-hidden="true">14.1.2.</strong> 重复借用</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../compiler/fight-with-compiler/borrowing/ref-exist-in-out-fn.html"><strong aria-hidden="true">14.1.2.1.</strong> 同时在函数内外使用引用</a></li><li class="chapter-item "><a href="../../compiler/fight-with-compiler/borrowing/borrow-distinct-fields-of-struct.html"><strong aria-hidden="true">14.1.2.2.</strong> 智能指针引起的重复借用错误</a></li></ol></li><li class="chapter-item "><a href="../../compiler/fight-with-compiler/unconstrained.html"><strong aria-hidden="true">14.1.3.</strong> 类型未限制(todo)</a></li><li class="chapter-item "><a href="../../compiler/fight-with-compiler/phantom-data.html"><strong aria-hidden="true">14.1.4.</strong> 幽灵数据(todo)</a></li></ol></li><li class="chapter-item "><a href="../../compiler/pitfalls/index.html"><strong aria-hidden="true">14.2.</strong> Rust 常见陷阱</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../compiler/pitfalls/use-vec-in-for.html"><strong aria-hidden="true">14.2.1.</strong> for 循环中使用外部数组</a></li><li class="chapter-item "><a href="../../compiler/pitfalls/stack-overflow.html"><strong aria-hidden="true">14.2.2.</strong> 线程类型导致的栈溢出</a></li><li class="chapter-item "><a href="../../compiler/pitfalls/arithmetic-overflow.html"><strong aria-hidden="true">14.2.3.</strong> 算术溢出导致的 panic</a></li><li class="chapter-item "><a href="../../compiler/pitfalls/closure-with-lifetime.html"><strong aria-hidden="true">14.2.4.</strong> 闭包中奇怪的生命周期</a></li><li class="chapter-item "><a href="../../compiler/pitfalls/the-disabled-mutability.html"><strong aria-hidden="true">14.2.5.</strong> 可变变量不可变？</a></li><li class="chapter-item "><a href="../../compiler/pitfalls/multiple-mutable-references.html"><strong aria-hidden="true">14.2.6.</strong> 可变借用失败引发的深入思考</a></li><li class="chapter-item "><a href="../../compiler/pitfalls/lazy-iterators.html"><strong aria-hidden="true">14.2.7.</strong> 不太勤快的迭代器</a></li><li class="chapter-item "><a href="../../compiler/pitfalls/weird-ranges.html"><strong aria-hidden="true">14.2.8.</strong> 奇怪的序列 x..y</a></li><li class="chapter-item "><a href="../../compiler/pitfalls/iterator-everywhere.html"><strong aria-hidden="true">14.2.9.</strong> 无处不在的迭代器</a></li><li class="chapter-item "><a href="../../compiler/pitfalls/main-with-channel-blocked.html"><strong aria-hidden="true">14.2.10.</strong> 线程间传递消息导致主线程无法结束</a></li><li class="chapter-item "><a href="../../compiler/pitfalls/utf8-performance.html"><strong aria-hidden="true">14.2.11.</strong> 警惕 UTF-8 引发的性能隐患</a></li></ol></li></ol></li><li class="chapter-item "><li class="part-title">性能优化</li><li class="spacer"></li><li class="chapter-item "><a href="../../profiling/intro.html"><strong aria-hidden="true">15.</strong> Rust 性能优化 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../profiling/memory/intro.html"><strong aria-hidden="true">15.1.</strong> 深入内存 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../profiling/memory/pointer-ref.html"><strong aria-hidden="true">15.1.1.</strong> 指针和引用 todo</a></li><li class="chapter-item "><a href="../../profiling/memory/uninit.html"><strong aria-hidden="true">15.1.2.</strong> 未初始化内存 todo</a></li><li class="chapter-item "><a href="../../profiling/memory/allocation.html"><strong aria-hidden="true">15.1.3.</strong> 内存分配 todo</a></li><li class="chapter-item "><a href="../../profiling/memory/layout.html"><strong aria-hidden="true">15.1.4.</strong> 内存布局 todo</a></li><li class="chapter-item "><a href="../../profiling/memory/virtual.html"><strong aria-hidden="true">15.1.5.</strong> 虚拟内存 todo</a></li></ol></li><li class="chapter-item "><a href="../../profiling/performance/intro.html"><strong aria-hidden="true">15.2.</strong> 性能调优 doing</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../profiling/performance/string.html"><strong aria-hidden="true">15.2.1.</strong> 字符串操作性能</a></li><li class="chapter-item "><a href="../../profiling/performance/deep-into-move.html"><strong aria-hidden="true">15.2.2.</strong> 深入理解 move</a></li><li class="chapter-item "><a href="../../profiling/performance/early-optimise.html"><strong aria-hidden="true">15.2.3.</strong> 糟糕的提前优化 todo</a></li><li class="chapter-item "><a href="../../profiling/performance/clone-copy.html"><strong aria-hidden="true">15.2.4.</strong> Clone 和 Copy todo</a></li><li class="chapter-item "><a href="../../profiling/performance/runtime-check.html"><strong aria-hidden="true">15.2.5.</strong> 减少 Runtime check(todo)</a></li><li class="chapter-item "><a href="../../profiling/performance/cpu-cache.html"><strong aria-hidden="true">15.2.6.</strong> CPU 缓存性能优化 todo</a></li><li class="chapter-item "><a href="../../profiling/performance/calculate.html"><strong aria-hidden="true">15.2.7.</strong> 计算性能优化 todo</a></li><li class="chapter-item "><a href="../../profiling/performance/heap-stack.html"><strong aria-hidden="true">15.2.8.</strong> 堆和栈 todo</a></li><li class="chapter-item "><a href="../../profiling/performance/allocator.html"><strong aria-hidden="true">15.2.9.</strong> 内存 allocator todo</a></li><li class="chapter-item "><a href="../../profiling/performance/tools.html"><strong aria-hidden="true">15.2.10.</strong> 常用性能测试工具 todo</a></li><li class="chapter-item "><a href="../../profiling/performance/enum.html"><strong aria-hidden="true">15.2.11.</strong> Enum 内存优化 todo</a></li></ol></li><li class="chapter-item "><a href="../../profiling/compiler/intro.html"><strong aria-hidden="true">15.3.</strong> 编译优化 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../profiling/compiler/llvm.html"><strong aria-hidden="true">15.3.1.</strong> LLVM todo</a></li><li class="chapter-item "><a href="../../profiling/compiler/attributes.html"><strong aria-hidden="true">15.3.2.</strong> 常见属性标记 todo</a></li><li class="chapter-item "><a href="../../profiling/compiler/speed-up.html"><strong aria-hidden="true">15.3.3.</strong> 提升编译速度 todo</a></li><li class="chapter-item "><a href="../../profiling/compiler/optimization/intro.html"><strong aria-hidden="true">15.3.4.</strong> 编译器优化 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../profiling/compiler/optimization/option.html"><strong aria-hidden="true">15.3.4.1.</strong> Option 枚举 todo</a></li></ol></li></ol></li></ol></li><li class="chapter-item "><li class="part-title">附录</li><li class="spacer"></li><li class="chapter-item "><div><strong aria-hidden="true">16.</strong> Appendix</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../appendix/keywords.html"><strong aria-hidden="true">16.1.</strong> 关键字</a></li><li class="chapter-item "><a href="../../appendix/operators.html"><strong aria-hidden="true">16.2.</strong> 运算符与符号</a></li><li class="chapter-item "><a href="../../appendix/expressions.html"><strong aria-hidden="true">16.3.</strong> 表达式</a></li><li class="chapter-item "><a href="../../appendix/derive.html"><strong aria-hidden="true">16.4.</strong> 派生特征 trait</a></li><li class="chapter-item "><a href="../../appendix/prelude.html"><strong aria-hidden="true">16.5.</strong> prelude 模块 todo</a></li><li class="chapter-item "><a href="../../appendix/rust-version.html"><strong aria-hidden="true">16.6.</strong> Rust 版本说明</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/intro.html"><strong aria-hidden="true">16.7.</strong> Rust 历次版本更新解读</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../appendix/rust-versions/1.58.html"><strong aria-hidden="true">16.7.1.</strong> 1.58</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.59.html"><strong aria-hidden="true">16.7.2.</strong> 1.59</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.60.html"><strong aria-hidden="true">16.7.3.</strong> 1.60</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.61.html"><strong aria-hidden="true">16.7.4.</strong> 1.61</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.62.html"><strong aria-hidden="true">16.7.5.</strong> 1.62</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.63.html"><strong aria-hidden="true">16.7.6.</strong> 1.63</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.64.html"><strong aria-hidden="true">16.7.7.</strong> 1.64</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.65.html"><strong aria-hidden="true">16.7.8.</strong> 1.65</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.66.html"><strong aria-hidden="true">16.7.9.</strong> 1.66</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.67.html"><strong aria-hidden="true">16.7.10.</strong> 1.67</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.68.html"><strong aria-hidden="true">16.7.11.</strong> 1.68</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.69.html"><strong aria-hidden="true">16.7.12.</strong> 1.69</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.70.html"><strong aria-hidden="true">16.7.13.</strong> 1.70</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.71.html"><strong aria-hidden="true">16.7.14.</strong> 1.71</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.72.html"><strong aria-hidden="true">16.7.15.</strong> 1.72</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.73.html"><strong aria-hidden="true">16.7.16.</strong> 1.73</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.74.html"><strong aria-hidden="true">16.7.17.</strong> 1.74</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.75.html"><strong aria-hidden="true">16.7.18.</strong> 1.75</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.76.html"><strong aria-hidden="true">16.7.19.</strong> 1.76</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.77.html"><strong aria-hidden="true">16.7.20.</strong> 1.77</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.78.html"><strong aria-hidden="true">16.7.21.</strong> 1.78</a></li><li class="chapter-item "><a href="../../appendix/rust-versions/1.79.html"><strong aria-hidden="true">16.7.22.</strong> 1.79</a></li></ol></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+        
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/async/getting-started.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <!-- Page table of contents -->
+                    <div class="sidetoc"><nav class="pagetoc"></nav></div>
+                    <main>
+                        <h1 id="async-编程简介"><a class="header" href="#async-编程简介">Async 编程简介</a></h1>
+<p>众所周知，Rust 可以让我们写出性能高且安全的软件，那么异步编程这块儿呢？是否依然在高性能的同时保证了安全？</p>
+<p>我们先通过一张 web 框架性能对比图来感受下 Rust 异步编程的性能:</p>
+<img alt="actix-vs-gin screenshot" width="100%" src="https://pic1.zhimg.com/v2-3cebd732fb56f43713f106fdcfa44a3c_b.png" class="center"  />
+<p>上图并不能说 Rust 写的 <code>actix</code> 框架比 Go 的 <code>gin</code> 更好、更优秀，但是确实可以一定程度上说明 Rust 的异步性能非常的高！</p>
+<p>简单来说，异步编程是一个<a href="https://course.rs/advance/concurrency-with-threads/concurrency-parallelism.html">并发编程模型</a>，目前主流语言基本都支持了，当然，支持的方式有所不同。异步编程允许我们同时并发运行大量的任务，却仅仅需要几个甚至一个 OS 线程或 CPU 核心，现代化的异步编程在使用体验上跟同步编程也几无区别，例如 Go 语言的 <code>go</code> 关键字，也包括我们后面将介绍的 <code>async/await</code> 语法，该语法是 <code>JavaScript</code> 和 <code>Rust</code> 的核心特性之一。</p>
+<h2 id="async-简介"><a class="header" href="#async-简介">async 简介</a></h2>
+<p><code>async</code> 是 Rust 选择的异步编程模型，下面我们来介绍下它的优缺点，以及何时适合使用。</p>
+<h4 id="async-vs-其它并发模型"><a class="header" href="#async-vs-其它并发模型">async vs 其它并发模型</a></h4>
+<p>由于并发编程在现代社会非常重要，因此每个主流语言都对自己的并发模型进行过权衡取舍和精心设计，Rust 语言也不例外。下面的列表可以帮助大家理解不同并发模型的取舍:</p>
+<ul>
+<li><strong>OS 线程</strong>， 它最简单，也无需改变任何编程模型(业务/代码逻辑)，因此非常适合作为语言的原生并发模型，我们在<a href="https://course.rs/advance/concurrency-with-threads/concurrency-parallelism.html">多线程章节</a>也提到过，Rust 就选择了原生支持线程级的并发编程。但是，这种模型也有缺点，例如线程间的同步将变得更加困难，线程间的上下文切换损耗较大。使用线程池在一定程度上可以提升性能，但是对于 IO 密集的场景来说，线程池还是不够。</li>
+<li><strong>事件驱动(Event driven)</strong>， 这个名词你可能比较陌生，如果说事件驱动常常跟回调( Callback )一起使用，相信大家就恍然大悟了。这种模型性能相当的好，但最大的问题就是存在回调地狱的风险：非线性的控制流和结果处理导致了数据流向和错误传播变得难以掌控，还会导致代码可维护性和可读性的大幅降低，大名鼎鼎的 <code>JavaScript</code> 曾经就存在回调地狱。</li>
+<li><strong>协程(Coroutines)</strong> 可能是目前最火的并发模型，<code>Go</code> 语言的协程设计就非常优秀，这也是 <code>Go</code> 语言能够迅速火遍全球的杀手锏之一。协程跟线程类似，无需改变编程模型，同时，它也跟 <code>async</code> 类似，可以支持大量的任务并发运行。但协程抽象层次过高，导致用户无法接触到底层的细节，这对于系统编程语言和自定义异步运行时是难以接受的</li>
+<li><strong>actor 模型</strong>是 erlang 的杀手锏之一，它将所有并发计算分割成一个一个单元，这些单元被称为 <code>actor</code> ，单元之间通过消息传递的方式进行通信和数据传递，跟分布式系统的设计理念非常相像。由于 <code>actor</code> 模型跟现实很贴近，因此它相对来说更容易实现，但是一旦遇到流控制、失败重试等场景时，就会变得不太好用</li>
+<li><strong>async/await</strong>， 该模型性能高，还能支持底层编程，同时又像线程和协程那样无需过多的改变编程模型，但有得必有失，<code>async</code> 模型的问题就是内部实现机制过于复杂，对于用户来说，理解和使用起来也没有线程和协程简单，好在前者的复杂性开发者们已经帮我们封装好，而理解和使用起来不够简单，正是本章试图解决的问题。</li>
+</ul>
+<p>总之，Rust 经过权衡取舍后，最终选择了同时提供多线程编程和 async 编程:</p>
+<ul>
+<li>前者通过标准库实现，当你无需那么高的并发时，例如需要并行计算时，可以选择它，优点是线程内的代码执行效率更高、实现更直观更简单，这块内容已经在多线程章节进行过深入讲解，不再赘述</li>
+<li>后者通过语言特性 + 标准库 + 三方库的方式实现，在你需要高并发、异步 <code>I/O</code> 时，选择它就对了</li>
+</ul>
+<h4 id="async-rust-vs-其它语言"><a class="header" href="#async-rust-vs-其它语言">async: Rust vs 其它语言</a></h4>
+<p>目前已经有诸多语言都通过 <code>async</code> 的方式提供了异步编程，例如 <code>JavaScript</code> ，但 <code>Rust</code> 在实现上有所区别:</p>
+<ul>
+<li><strong>Future 在 Rust 中是惰性的</strong>，只有在被轮询(<code>poll</code>)时才会运行， 因此丢弃一个 <code>future</code> 会阻止它未来再被运行，你可以将<code>Future</code>理解为一个在未来某个时间点被调度执行的任务。</li>
+<li><strong>Async 在 Rust 中使用开销是零</strong>， 意味着只有你能看到的代码(自己的代码)才有性能损耗，你看不到的(<code>async</code> 内部实现)都没有性能损耗，例如，你可以无需分配任何堆内存、也无需任何动态分发来使用 <code>async</code> ，这对于热点路径的性能有非常大的好处，正是得益于此，Rust 的异步编程性能才会这么高。</li>
+<li><strong>Rust 没有内置异步调用所必需的运行时</strong>，但是无需担心，Rust 社区生态中已经提供了非常优异的运行时实现，例如大明星 <a href="https://tokio.rs"><code>tokio</code></a></li>
+<li><strong>运行时同时支持单线程和多线程</strong>，这两者拥有各自的优缺点，稍后会讲</li>
+</ul>
+<h4 id="rust-async-vs-多线程"><a class="header" href="#rust-async-vs-多线程">Rust: async vs 多线程</a></h4>
+<p>虽然 <code>async</code> 和多线程都可以实现并发编程，后者甚至还能通过线程池来增强并发能力，但是这两个方式并不互通，从一个方式切换成另一个需要大量的代码重构工作，因此提前为自己的项目选择适合的并发模型就变得至关重要。</p>
+<p><code>OS</code> 线程非常适合少量任务并发，因为线程的创建和上下文切换是非常昂贵的，甚至于空闲的线程都会消耗系统资源。虽说线程池可以有效的降低性能损耗，但是也无法彻底解决问题。当然，线程模型也有其优点，例如它不会破坏你的代码逻辑和编程模型，你之前的顺序代码，经过少量修改适配后依然可以在新线程中直接运行，同时在某些操作系统中，你还可以改变线程的优先级，这对于实现驱动程序或延迟敏感的应用(例如硬实时系统)很有帮助。</p>
+<p>对于长时间运行的 CPU 密集型任务，例如并行计算，使用线程将更有优势。 这种密集任务往往会让所在的线程持续运行，任何不必要的线程切换都会带来性能损耗，因此高并发反而在此时成为了一种多余。同时你所创建的线程数应该等于 CPU 核心数，充分利用 CPU 的并行能力，甚至还可以将线程绑定到 CPU 核心上，进一步减少线程上下文切换。</p>
+<p>而高并发更适合 <code>IO</code> 密集型任务，例如 web 服务器、数据库连接等等网络服务，因为这些任务绝大部分时间都处于等待状态，如果使用多线程，那线程大量时间会处于无所事事的状态，再加上线程上下文切换的高昂代价，让多线程做 <code>IO</code> 密集任务变成了一件非常奢侈的事。而使用<code>async</code>，既可以有效的降低 <code>CPU</code> 和内存的负担，又可以让大量的任务并发的运行，一个任务一旦处于<code>IO</code>或者其他等待(阻塞)状态，就会被立刻切走并执行另一个任务，而这里的任务切换的性能开销要远远低于使用多线程时的线程上下文切换。</p>
+<p>事实上， <code>async</code> 底层也是基于线程实现，但是它基于线程封装了一个运行时，可以将多个任务映射到少量线程上，然后将线程切换变成了任务切换，后者仅仅是内存中的访问，因此要高效的多。</p>
+<p>不过<code>async</code>也有其缺点，原因是编译器会为<code>async</code>函数生成状态机，然后将整个运行时打包进来，这会造成我们编译出的二进制可执行文件体积显著增大。</p>
+<p>总之，<code>async</code>编程并没有比多线程更好，最终还是根据你的使用场景作出合适的选择，如果无需高并发，或者也不在意线程切换带来的性能损耗，那么多线程使用起来会简单、方便的多！最后再简单总结下：</p>
+<blockquote>
+<p>若大家使用 tokio，那 CPU 密集的任务尤其需要用线程的方式去处理，例如使用 <code>spawn_blocking</code> 创建一个阻塞的线程去完成相应 CPU 密集任务。</p>
+<p>至于具体的原因，不仅是上文说到的那些，还有一个是：tokio 是协作式的调度器，如果某个 CPU 密集的异步任务是通过 tokio 创建的，那理论上来说，该异步任务需要跟其它的异步任务交错执行，最终大家都得到了执行，皆大欢喜。但实际情况是，CPU 密集的任务很可能会一直霸占着 CPU，此时 tokio 的调度方式决定了该任务会一直被执行，这意味着，其它的异步任务无法得到执行的机会，最终这些任务都会因为得不到资源而饿死。</p>
+<p>而使用 <code>spawn_blocking</code> 后，会创建一个单独的 OS 线程，该线程并不会被 tokio 所调度( 被 OS 所调度 )，因此它所执行的 CPU 密集任务也不会导致 tokio 调度的那些异步任务被饿死</p>
+</blockquote>
+<ul>
+<li>有大量 <code>IO</code> 任务需要并发运行时，选 <code>async</code> 模型</li>
+<li>有部分 <code>IO</code> 任务需要并发运行时，选多线程，如果想要降低线程创建和销毁的开销，可以使用线程池</li>
+<li>有大量 <code>CPU</code> 密集任务需要并行运行时，例如并行计算，选多线程模型，且让线程数等于或者稍大于 <code>CPU</code> 核心数</li>
+<li>无所谓时，统一选多线程</li>
+</ul>
+<h4 id="async-和多线程的性能对比"><a class="header" href="#async-和多线程的性能对比">async 和多线程的性能对比</a></h4>
+<div class="table-wrapper"><table><thead><tr><th>操作</th><th>async</th><th>线程</th></tr></thead><tbody>
+<tr><td>创建</td><td>0.3 微秒</td><td>17 微秒</td></tr>
+<tr><td>线程切换</td><td>0.2 微秒</td><td>1.7 微秒</td></tr>
+</tbody></table>
+</div>
+<p>可以看出，<code>async</code> 在线程切换的开销显著低于多线程，对于 IO 密集的场景，这种性能开销累计下来会非常可怕！</p>
+<h4 id="一个例子"><a class="header" href="#一个例子">一个例子</a></h4>
+<p>在大概理解<code>async</code>后，我们再来看一个简单的例子。如果想并发的下载文件，你可以使用多线程如下实现:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn get_two_sites() {
+    // 创建两个新线程执行任务
+    let thread_one = thread::spawn(|| download(&quot;https://course.rs&quot;));
+    let thread_two = thread::spawn(|| download(&quot;https://fancy.rs&quot;));
+
+    // 等待两个线程的完成
+    thread_one.join().expect(&quot;thread one panicked&quot;);
+    thread_two.join().expect(&quot;thread two panicked&quot;);
+}
+<span class="boring">}</span></code></pre></pre>
+<p>如果是在一个小项目中简单的去下载文件，这么写没有任何问题，但是一旦下载文件的并发请求多起来，那一个下载任务占用一个线程的模式就太重了，会很容易成为程序的瓶颈。好在，我们可以使用<code>async</code>的方式来解决：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn get_two_sites_async() {
+    // 创建两个不同的`future`，你可以把`future`理解为未来某个时刻会被执行的计划任务
+    // 当两个`future`被同时执行后，它们将并发的去下载目标页面
+    let future_one = download_async(&quot;https://www.foo.com&quot;);
+    let future_two = download_async(&quot;https://www.bar.com&quot;);
+
+    // 同时运行两个`future`，直至完成
+    join!(future_one, future_two);
+}
+<span class="boring">}</span></code></pre></pre>
+<p>此时，不再有线程创建和切换的昂贵开销，所有的函数都是通过静态的方式进行分发，同时也没有任何内存分配发生。这段代码的性能简直无懈可击！</p>
+<p>事实上，<code>async</code> 和多线程并不是二选一，在同一应用中，可以根据情况两者一起使用，当然，我们还可以使用其它的并发模型，例如上面提到事件驱动模型，前提是有三方库提供了相应的实现。</p>
+<h2 id="async-rust-当前的进展"><a class="header" href="#async-rust-当前的进展">Async Rust 当前的进展</a></h2>
+<p>简而言之，Rust 语言的 <code>async</code> 目前还没有达到多线程的成熟度，其中一部分内容还在不断进化中，当然，这并不影响我们在生产级项目中使用，因为社区中还有 <code>tokio</code> 这种大杀器。</p>
+<p>使用 <code>async</code> 时，你会遇到好的，也会遇到不好的，例如：</p>
+<ul>
+<li>收获卓越的性能</li>
+<li>会经常跟进阶语言特性打交道，例如生命周期等，这些家伙可不好对付</li>
+<li>一些兼容性问题，例如同步和异步代码、不同的异步运行时( <code>tokio</code> 与 <code>async-std</code> )</li>
+<li>更昂贵的维护成本，原因是 <code>async</code> 和社区开发的运行时依然在不停的进化</li>
+</ul>
+<p>总之，<code>async</code> 在 Rust 中并不是一个善茬，你会遇到更多的困难或者说坑，也会带来更高的代码阅读成本及维护成本，但是为了性能，一切都值了，不是吗？</p>
+<p>不过好在，这些进化早晚会彻底稳定成熟，而且在实际项目中，我们往往会使用成熟的三方库，例如<code>tokio</code>，因此可以避免一些类似的问题，但是对于本章的学习来说，<code>async</code> 的一些难点还是我们必须要去面对和征服的。</p>
+<h4 id="语言和库的支持"><a class="header" href="#语言和库的支持">语言和库的支持</a></h4>
+<p><code>async</code> 的底层实现非常复杂，且会导致编译后文件体积显著增加，因此 Rust 没有选择像 Go 语言那样内置了完整的特性和运行时，而是选择了通过 Rust 语言提供了必要的特性支持，再通过社区来提供 <code>async</code> 运行时的支持。 因此要完整的使用 <code>async</code> 异步编程，你需要依赖以下特性和外部库:</p>
+<ul>
+<li>所必须的特征(例如 <code>Future</code> )、类型和函数，由标准库提供实现</li>
+<li>关键字 <code>async/await</code> 由 Rust 语言提供，并进行了编译器层面的支持</li>
+<li>众多实用的类型、宏和函数由官方开发的 <a href="https://github.com/rust-lang/futures-rs"><code>futures</code></a> 包提供(不是标准库)，它们可以用于任何 <code>async</code> 应用中。</li>
+<li><code>async</code> 代码的执行、<code>IO</code> 操作、任务创建和调度等等复杂功能由社区的 <code>async</code> 运行时提供，例如 <a href="https://github.com/tokio-rs/tokio"><code>tokio</code></a> 和 <a href="https://github.com/async-rs/async-std"><code>async-std</code></a></li>
+</ul>
+<p>还有，你在同步( <code>synchronous</code> )代码中使用的一些语言特性在 <code>async</code> 中可能将无法再使用，而且 Rust 也不允许你在特征中声明 <code>async</code> 函数(可以通过三方库实现)， 总之，你会遇到一些在同步代码中不会遇到的奇奇怪怪、形形色色的问题，不过不用担心，本章会专门用一个章节罗列这些问题，并给出相应的解决方案。</p>
+<h4 id="编译和错误"><a class="header" href="#编译和错误">编译和错误</a></h4>
+<p>在大多数情况下，<code>async</code> 中的编译错误和运行时错误跟之前没啥区别，但是依然有以下几点值得注意：</p>
+<ul>
+<li>编译错误，由于 <code>async</code> 编程时需要经常使用复杂的语言特性，例如生命周期和<code>Pin</code>，因此相关的错误可能会出现的更加频繁</li>
+<li>运行时错误，编译器会为每一个<code>async</code>函数生成状态机，这会导致在栈跟踪时会包含这些状态机的细节，同时还包含了运行时对函数的调用，因此，栈跟踪记录(例如 <code>panic</code> 时)将变得更加难以解读</li>
+<li>一些隐蔽的错误也可能发生，例如在一个 <code>async</code> 上下文中去调用一个阻塞的函数，或者没有正确的实现 <code>Future</code> 特征都有可能导致这种错误。这种错误可能会悄无声息的通过编译检查甚至有时候会通过单元测试。好在一旦你深入学习并掌握了本章的内容和 <code>async</code> 原理，可以有效的降低遇到这些错误的概率</li>
+</ul>
+<h4 id="兼容性考虑"><a class="header" href="#兼容性考虑">兼容性考虑</a></h4>
+<p>异步代码和同步代码并不总能和睦共处。例如，我们无法在一个同步函数中去调用一个 <code>async</code> 异步函数，同步和异步代码也往往使用不同的设计模式，这些都会导致两者融合上的困难。</p>
+<p>甚至于有时候，异步代码之间也存在类似的问题，如果一个库依赖于特定的 <code>async</code> 运行时来运行，那么这个库非常有必要告诉它的用户，它用了这个运行时。否则一旦用户选了不同的或不兼容的运行时，就会导致不可预知的麻烦。</p>
+<h4 id="性能特性"><a class="header" href="#性能特性">性能特性</a></h4>
+<p><code>async</code> 代码的性能主要取决于你使用的 <code>async</code> 运行时，好在这些运行时都经过了精心的设计，在你能遇到的绝大多数场景中，它们都能拥有非常棒的性能表现。</p>
+<p>但是世事皆有例外。目前主流的 <code>async</code> 运行时几乎都使用了多线程实现，相比单线程虽然增加了并发表现，但是对于执行性能会有所损失，因为多线程实现会有同步和切换上的性能开销，若你需要极致的顺序执行性能，那么 <code>async</code> 目前并不是一个好的选择。</p>
+<p>同样的，对于延迟敏感的任务来说，任务的执行次序需要能被严格掌控，而不是交由运行时去自动调度，后者会导致不可预知的延迟，例如一个 web 服务器总是有 <code>1%</code> 的请求，它们的延迟会远高于其它请求，因为调度过于繁忙导致了部分任务被延迟调度，最终导致了较高的延时。正因为此，这些延迟敏感的任务非常依赖于运行时或操作系统提供调度次序上的支持。</p>
+<p>以上的两个需求，目前的 <code>async</code> 运行时并不能很好的支持，在未来可能会有更好的支持，但在此之前，我们可以尝试用多线程解决。</p>
+<h2 id="asyncawait-简单入门"><a class="header" href="#asyncawait-简单入门">async/.await 简单入门</a></h2>
+<p><code>async/.await</code> 是 Rust 内置的语言特性，可以让我们用同步的方式去编写异步的代码。</p>
+<p>通过 <code>async</code> 标记的语法块会被转换成实现了<code>Future</code>特征的状态机。 与同步调用阻塞当前线程不同，当<code>Future</code>执行并遇到阻塞时，它会让出当前线程的控制权，这样其它的<code>Future</code>就可以在该线程中运行，这种方式完全不会导致当前线程的阻塞。</p>
+<p>下面我们来通过例子学习 <code>async/.await</code> 关键字该如何使用，在开始之前，需要先引入 <code>futures</code> 包。编辑 <code>Cargo.toml</code> 文件并添加以下内容:</p>
+<pre><code class="language-toml">[dependencies]
+futures = &quot;0.3&quot;
+</code></pre>
+<h4 id="使用-async"><a class="header" href="#使用-async">使用 async</a></h4>
+<p>首先，使用 <code>async fn</code> 语法来创建一个异步函数:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn do_something() {
+    println!(&quot;go go go !&quot;);
+}
+<span class="boring">}</span></code></pre></pre>
+<p>需要注意，<strong>异步函数的返回值是一个 <code>Future</code></strong>，若直接调用该函数，不会输出任何结果，因为 <code>Future</code> 还未被执行：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+      do_something();
+}</code></pre></pre>
+<p>运行后，<code>go go go</code>并没有打印，同时编译器给予一个提示：<code>warning: unused implementer of Future that must be used</code>，告诉我们 <code>Future</code> 未被使用，那么到底该如何使用？答案是使用一个执行器( <code>executor</code> ):</p>
+<pre><pre class="playground"><code class="language-rust edition2021">// `block_on`会阻塞当前线程直到指定的`Future`执行完成，这种阻塞当前线程以等待任务完成的方式较为简单、粗暴，
+// 好在其它运行时的执行器(executor)会提供更加复杂的行为，例如将多个`future`调度到同一个线程上执行。
+use futures::executor::block_on;
+
+async fn hello_world() {
+    println!(&quot;hello, world!&quot;);
+}
+
+fn main() {
+    let future = hello_world(); // 返回一个Future, 因此不会打印任何输出
+    block_on(future); // 执行`Future`并等待其运行完成，此时&quot;hello, world!&quot;会被打印输出
+}</code></pre></pre>
+<h4 id="使用await"><a class="header" href="#使用await">使用.await</a></h4>
+<p>在上述代码的<code>main</code>函数中，我们使用<code>block_on</code>这个执行器等待<code>Future</code>的完成，让代码看上去非常像是同步代码，但是如果你要在一个<code>async fn</code>函数中去调用另一个<code>async fn</code>并等待其完成后再执行后续的代码，该如何做？例如:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use futures::executor::block_on;
+
+async fn hello_world() {
+    hello_cat();
+    println!(&quot;hello, world!&quot;);
+}
+
+async fn hello_cat() {
+    println!(&quot;hello, kitty!&quot;);
+}
+fn main() {
+    let future = hello_world();
+    block_on(future);
+}</code></pre></pre>
+<p>这里，我们在<code>hello_world</code>异步函数中先调用了另一个异步函数<code>hello_cat</code>，然后再输出<code>hello, world!</code>，看看运行结果：</p>
+<pre><code class="language-console">warning: unused implementer of `futures::Future` that must be used
+ --&gt; src/main.rs:6:5
+  |
+6 |     hello_cat();
+  |     ^^^^^^^^^^^^
+= note: futures do nothing unless you `.await` or poll them
+...
+hello, world!
+</code></pre>
+<p>不出所料，<code>main</code>函数中的<code>future</code>我们通过<code>block_on</code>函数进行了运行，但是这里的<code>hello_cat</code>返回的<code>Future</code>却没有任何人去执行它，不过好在编译器友善的给出了提示：<code>futures do nothing unless you `.await` or poll them</code>，两种解决方法：使用<code>.await</code>语法或者对<code>Future</code>进行轮询(<code>poll</code>)。</p>
+<p>后者较为复杂，暂且不表，先来使用<code>.await</code>试试:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use futures::executor::block_on;
+
+async fn hello_world() {
+    hello_cat().await;
+    println!(&quot;hello, world!&quot;);
+}
+
+async fn hello_cat() {
+    println!(&quot;hello, kitty!&quot;);
+}
+fn main() {
+    let future = hello_world();
+    block_on(future);
+}</code></pre></pre>
+<p>为<code>hello_cat()</code>添加上<code>.await</code>后，结果立刻大为不同:</p>
+<pre><code class="language-console">hello, kitty!
+hello, world!
+</code></pre>
+<p>输出的顺序跟代码定义的顺序完全符合，因此，我们在上面代码中<strong>使用同步的代码顺序实现了异步的执行效果</strong>，非常简单、高效，而且很好理解，未来也绝对不会有回调地狱的发生。</p>
+<p>总之，在<code>async fn</code>函数中使用<code>.await</code>可以等待另一个异步调用的完成。<strong>但是与<code>block_on</code>不同，<code>.await</code>并不会阻塞当前的线程</strong>，而是异步的等待<code>Future A</code>的完成，在等待的过程中，该线程还可以继续执行其它的<code>Future B</code>，最终实现了并发处理的效果。</p>
+<h4 id="一个例子-1"><a class="header" href="#一个例子-1">一个例子</a></h4>
+<p>考虑一个载歌载舞的例子，如果不用<code>.await</code>，我们可能会有如下实现：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use futures::executor::block_on;
+
+struct Song {
+    author: String,
+    name: String,
+}
+
+async fn learn_song() -&gt; Song {
+    Song {
+        author: &quot;周杰伦&quot;.to_string(),
+        name: String::from(&quot;《菊花台》&quot;),
+    }
+}
+
+async fn sing_song(song: Song) {
+    println!(
+        &quot;给大家献上一首{}的{} ~ {}&quot;,
+        song.author, song.name, &quot;菊花残，满地伤~ ~&quot;
+    );
+}
+
+async fn dance() {
+    println!(&quot;唱到情深处，身体不由自主的动了起来~ ~&quot;);
+}
+
+fn main() {
+    let song = block_on(learn_song());
+    block_on(sing_song(song));
+    block_on(dance());
+}</code></pre></pre>
+<p>当然，以上代码运行结果无疑是正确的，但。。。它的性能何在？需要通过连续三次阻塞去等待三个任务的完成，一次只能做一件事，实际上我们完全可以载歌载舞啊:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use futures::executor::block_on;
+
+struct Song {
+    author: String,
+    name: String,
+}
+
+async fn learn_song() -&gt; Song {
+    Song {
+        author: &quot;曲婉婷&quot;.to_string(),
+        name: String::from(&quot;《我的歌声里》&quot;),
+    }
+}
+
+async fn sing_song(song: Song) {
+    println!(
+        &quot;给大家献上一首{}的{} ~ {}&quot;,
+        song.author, song.name, &quot;你存在我深深的脑海里~ ~&quot;
+    );
+}
+
+async fn dance() {
+    println!(&quot;唱到情深处，身体不由自主的动了起来~ ~&quot;);
+}
+
+async fn learn_and_sing() {
+    // 这里使用`.await`来等待学歌的完成，但是并不会阻塞当前线程，该线程在学歌的任务`.await`后，完全可以去执行跳舞的任务
+    let song = learn_song().await;
+
+    // 唱歌必须要在学歌之后
+    sing_song(song).await;
+}
+
+async fn async_main() {
+    let f1 = learn_and_sing();
+    let f2 = dance();
+
+    // `join!`可以并发的处理和等待多个`Future`，若`learn_and_sing Future`被阻塞，那`dance Future`可以拿过线程的所有权继续执行。若`dance`也变成阻塞状态，那`learn_and_sing`又可以再次拿回线程所有权，继续执行。
+    // 若两个都被阻塞，那么`async main`会变成阻塞状态，然后让出线程所有权，并将其交给`main`函数中的`block_on`执行器
+    futures::join!(f1, f2);
+}
+
+fn main() {
+    block_on(async_main());
+}</code></pre></pre>
+<p>上面代码中，学歌和唱歌具有明显的先后顺序，但是这两者都可以跟跳舞一同存在，也就是你可以在跳舞的时候学歌，也可以在跳舞的时候唱歌。如果上面代码不使用<code>.await</code>，而是使用<code>block_on(learn_song())</code>， 那在学歌时，当前线程就会阻塞，不再可以做其它任何事，包括跳舞。</p>
+<p>因此<code>.await</code>对于实现异步编程至关重要，它允许我们在同一个线程内并发的运行多个任务，而不是一个一个先后完成。若大家看到这里还是不太明白，强烈建议回头再仔细看一遍，同时亲自上手修改代码试试效果。</p>
+<p>至此，读者应该对 Rust 的<code>async/.await</code>异步编程有了一个清晰的初步印象，下面让我们一起来看看这背后的原理：<code>Future</code>和任务在底层如何被执行。</p>
+
+                        <div id="giscus-container"></div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../advance/async/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../advance/async/future-excuting.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../advance/async/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../advance/async/future-excuting.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <script type="text/javascript" charset="utf-8">
+        var pagePath = "advance/async/getting-started.md"
+        </script>
+
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

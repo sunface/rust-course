@@ -1,0 +1,668 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>使用 tracing 记录日志 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item affix "><a href="../about-book.html">关于本书</a></li><li class="chapter-item affix "><a href="../into-rust.html">进入 Rust 编程世界</a></li><li class="chapter-item affix "><a href="../first-try/sth-you-should-not-do.html">避免从入门到放弃</a></li><li class="chapter-item affix "><a href="../community.html">社区和锈书</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="../some-thoughts.html">Xobserve: 一切皆可观测</a></li><li class="chapter-item affix "><a href="../beat-ai.html">BeatAI: 工程师 AI 入门圣经</a></li><li class="chapter-item affix "><li class="part-title">Rust 语言基础学习</li><li class="spacer"></li><li class="chapter-item "><a href="../first-try/intro.html"><strong aria-hidden="true">1.</strong> 寻找牛刀，以便小试</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../first-try/installation.html"><strong aria-hidden="true">1.1.</strong> 安装 Rust 环境</a></li><li class="chapter-item "><a href="../first-try/editor.html"><strong aria-hidden="true">1.2.</strong> 墙推 VSCode!</a></li><li class="chapter-item "><a href="../first-try/cargo.html"><strong aria-hidden="true">1.3.</strong> 认识 Cargo</a></li><li class="chapter-item "><a href="../first-try/hello-world.html"><strong aria-hidden="true">1.4.</strong> 不仅仅是 Hello world</a></li><li class="chapter-item "><a href="../first-try/slowly-downloading.html"><strong aria-hidden="true">1.5.</strong> 下载依赖太慢了？</a></li></ol></li><li class="chapter-item "><a href="../basic/intro.html"><strong aria-hidden="true">2.</strong> Rust 基础入门</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../basic/variable.html"><strong aria-hidden="true">2.1.</strong> 变量绑定与解构</a></li><li class="chapter-item "><a href="../basic/base-type/index.html"><strong aria-hidden="true">2.2.</strong> 基本类型</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../basic/base-type/numbers.html"><strong aria-hidden="true">2.2.1.</strong> 数值类型</a></li><li class="chapter-item "><a href="../basic/base-type/char-bool.html"><strong aria-hidden="true">2.2.2.</strong> 字符、布尔、单元类型</a></li><li class="chapter-item "><a href="../basic/base-type/statement-expression.html"><strong aria-hidden="true">2.2.3.</strong> 语句与表达式</a></li><li class="chapter-item "><a href="../basic/base-type/function.html"><strong aria-hidden="true">2.2.4.</strong> 函数</a></li></ol></li><li class="chapter-item "><a href="../basic/ownership/index.html"><strong aria-hidden="true">2.3.</strong> 所有权和借用</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../basic/ownership/ownership.html"><strong aria-hidden="true">2.3.1.</strong> 所有权</a></li><li class="chapter-item "><a href="../basic/ownership/borrowing.html"><strong aria-hidden="true">2.3.2.</strong> 引用与借用</a></li></ol></li><li class="chapter-item "><a href="../basic/compound-type/intro.html"><strong aria-hidden="true">2.4.</strong> 复合类型</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../basic/compound-type/string-slice.html"><strong aria-hidden="true">2.4.1.</strong> 字符串与切片</a></li><li class="chapter-item "><a href="../basic/compound-type/tuple.html"><strong aria-hidden="true">2.4.2.</strong> 元组</a></li><li class="chapter-item "><a href="../basic/compound-type/struct.html"><strong aria-hidden="true">2.4.3.</strong> 结构体</a></li><li class="chapter-item "><a href="../basic/compound-type/enum.html"><strong aria-hidden="true">2.4.4.</strong> 枚举</a></li><li class="chapter-item "><a href="../basic/compound-type/array.html"><strong aria-hidden="true">2.4.5.</strong> 数组</a></li></ol></li><li class="chapter-item "><a href="../basic/flow-control.html"><strong aria-hidden="true">2.5.</strong> 流程控制</a></li><li class="chapter-item "><a href="../basic/match-pattern/intro.html"><strong aria-hidden="true">2.6.</strong> 模式匹配</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../basic/match-pattern/match-if-let.html"><strong aria-hidden="true">2.6.1.</strong> match 和 if let</a></li><li class="chapter-item "><a href="../basic/match-pattern/option.html"><strong aria-hidden="true">2.6.2.</strong> 解构 Option</a></li><li class="chapter-item "><a href="../basic/match-pattern/pattern-match.html"><strong aria-hidden="true">2.6.3.</strong> 模式适用场景</a></li><li class="chapter-item "><a href="../basic/match-pattern/all-patterns.html"><strong aria-hidden="true">2.6.4.</strong> 全模式列表</a></li></ol></li><li class="chapter-item "><a href="../basic/method.html"><strong aria-hidden="true">2.7.</strong> 方法 Method</a></li><li class="chapter-item "><a href="../basic/trait/intro.html"><strong aria-hidden="true">2.8.</strong> 泛型和特征</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../basic/trait/generic.html"><strong aria-hidden="true">2.8.1.</strong> 泛型 Generics</a></li><li class="chapter-item "><a href="../basic/trait/trait.html"><strong aria-hidden="true">2.8.2.</strong> 特征 Trait</a></li><li class="chapter-item "><a href="../basic/trait/trait-object.html"><strong aria-hidden="true">2.8.3.</strong> 特征对象</a></li><li class="chapter-item "><a href="../basic/trait/advance-trait.html"><strong aria-hidden="true">2.8.4.</strong> 进一步深入特征</a></li></ol></li><li class="chapter-item "><a href="../basic/collections/intro.html"><strong aria-hidden="true">2.9.</strong> 集合类型</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../basic/collections/vector.html"><strong aria-hidden="true">2.9.1.</strong> 动态数组 Vector</a></li><li class="chapter-item "><a href="../basic/collections/hashmap.html"><strong aria-hidden="true">2.9.2.</strong> KV 存储 HashMap</a></li></ol></li><li class="chapter-item "><a href="../basic/lifetime.html"><strong aria-hidden="true">2.10.</strong> 认识生命周期</a></li><li class="chapter-item "><a href="../basic/result-error/intro.html"><strong aria-hidden="true">2.11.</strong> 返回值和错误处理</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../basic/result-error/panic.html"><strong aria-hidden="true">2.11.1.</strong> panic! 深入剖析</a></li><li class="chapter-item "><a href="../basic/result-error/result.html"><strong aria-hidden="true">2.11.2.</strong> 返回值 Result 和?</a></li></ol></li><li class="chapter-item "><a href="../basic/crate-module/intro.html"><strong aria-hidden="true">2.12.</strong> 包和模块</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../basic/crate-module/crate.html"><strong aria-hidden="true">2.12.1.</strong> 包 Crate</a></li><li class="chapter-item "><a href="../basic/crate-module/module.html"><strong aria-hidden="true">2.12.2.</strong> 模块 Module</a></li><li class="chapter-item "><a href="../basic/crate-module/use.html"><strong aria-hidden="true">2.12.3.</strong> 使用 use 引入模块及受限可见性</a></li></ol></li><li class="chapter-item "><a href="../basic/comment.html"><strong aria-hidden="true">2.13.</strong> 注释和文档</a></li><li class="chapter-item "><a href="../basic/formatted-output.html"><strong aria-hidden="true">2.14.</strong> 格式化输出</a></li></ol></li><li class="chapter-item "><a href="../basic-practice/intro.html"><strong aria-hidden="true">3.</strong> 入门实战：文件搜索工具</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../basic-practice/base-features.html"><strong aria-hidden="true">3.1.</strong> 基本功能</a></li><li class="chapter-item "><a href="../basic-practice/refactoring.html"><strong aria-hidden="true">3.2.</strong> 增加模块化和错误处理</a></li><li class="chapter-item "><a href="../basic-practice/tests.html"><strong aria-hidden="true">3.3.</strong> 测试驱动开发</a></li><li class="chapter-item "><a href="../basic-practice/envs.html"><strong aria-hidden="true">3.4.</strong> 使用环境变量</a></li><li class="chapter-item "><a href="../basic-practice/stderr.html"><strong aria-hidden="true">3.5.</strong> 重定向错误信息的输出</a></li><li class="chapter-item "><a href="../basic-practice/iterators.html"><strong aria-hidden="true">3.6.</strong> 使用迭代器来改进程序(可选)</a></li></ol></li><li class="chapter-item "><li class="part-title">Rust 语言进阶学习</li><li class="spacer"></li><li class="chapter-item "><a href="../advance/intro.html"><strong aria-hidden="true">4.</strong> Rust 高级进阶</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../advance/lifetime/intro.html"><strong aria-hidden="true">4.1.</strong> 生命周期</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../advance/lifetime/advance.html"><strong aria-hidden="true">4.1.1.</strong> 深入生命周期</a></li><li class="chapter-item "><a href="../advance/lifetime/static.html"><strong aria-hidden="true">4.1.2.</strong> &'static 和 T: 'static</a></li></ol></li><li class="chapter-item "><a href="../advance/functional-programing/intro.html"><strong aria-hidden="true">4.2.</strong> 函数式编程: 闭包、迭代器</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../advance/functional-programing/closure.html"><strong aria-hidden="true">4.2.1.</strong> 闭包 Closure</a></li><li class="chapter-item "><a href="../advance/functional-programing/iterator.html"><strong aria-hidden="true">4.2.2.</strong> 迭代器 Iterator</a></li></ol></li><li class="chapter-item "><a href="../advance/into-types/intro.html"><strong aria-hidden="true">4.3.</strong> 深入类型</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../advance/into-types/converse.html"><strong aria-hidden="true">4.3.1.</strong> 类型转换</a></li><li class="chapter-item "><a href="../advance/into-types/custom-type.html"><strong aria-hidden="true">4.3.2.</strong> newtype 和 类型别名</a></li><li class="chapter-item "><a href="../advance/into-types/sized.html"><strong aria-hidden="true">4.3.3.</strong> Sized 和不定长类型 DST</a></li><li class="chapter-item "><a href="../advance/into-types/enum-int.html"><strong aria-hidden="true">4.3.4.</strong> 枚举和整数</a></li></ol></li><li class="chapter-item "><a href="../advance/smart-pointer/intro.html"><strong aria-hidden="true">4.4.</strong> 智能指针</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../advance/smart-pointer/box.html"><strong aria-hidden="true">4.4.1.</strong> Box堆对象分配</a></li><li class="chapter-item "><a href="../advance/smart-pointer/deref.html"><strong aria-hidden="true">4.4.2.</strong> Deref 解引用</a></li><li class="chapter-item "><a href="../advance/smart-pointer/drop.html"><strong aria-hidden="true">4.4.3.</strong> Drop 释放资源</a></li><li class="chapter-item "><a href="../advance/smart-pointer/rc-arc.html"><strong aria-hidden="true">4.4.4.</strong> Rc 与 Arc 实现 1vN 所有权机制</a></li><li class="chapter-item "><a href="../advance/smart-pointer/cell-refcell.html"><strong aria-hidden="true">4.4.5.</strong> Cell 与 RefCell 内部可变性</a></li></ol></li><li class="chapter-item "><a href="../advance/circle-self-ref/intro.html"><strong aria-hidden="true">4.5.</strong> 循环引用与自引用</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../advance/circle-self-ref/circle-reference.html"><strong aria-hidden="true">4.5.1.</strong> Weak 与循环引用</a></li><li class="chapter-item "><a href="../advance/circle-self-ref/self-referential.html"><strong aria-hidden="true">4.5.2.</strong> 结构体中的自引用</a></li></ol></li><li class="chapter-item "><a href="../advance/concurrency-with-threads/intro.html"><strong aria-hidden="true">4.6.</strong> 多线程并发编程</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../advance/concurrency-with-threads/concurrency-parallelism.html"><strong aria-hidden="true">4.6.1.</strong> 并发和并行</a></li><li class="chapter-item "><a href="../advance/concurrency-with-threads/thread.html"><strong aria-hidden="true">4.6.2.</strong> 使用多线程</a></li><li class="chapter-item "><a href="../advance/concurrency-with-threads/message-passing.html"><strong aria-hidden="true">4.6.3.</strong> 线程同步：消息传递</a></li><li class="chapter-item "><a href="../advance/concurrency-with-threads/sync1.html"><strong aria-hidden="true">4.6.4.</strong> 线程同步：锁、Condvar 和信号量</a></li><li class="chapter-item "><a href="../advance/concurrency-with-threads/sync2.html"><strong aria-hidden="true">4.6.5.</strong> 线程同步：Atomic 原子操作与内存顺序</a></li><li class="chapter-item "><a href="../advance/concurrency-with-threads/send-sync.html"><strong aria-hidden="true">4.6.6.</strong> 基于 Send 和 Sync 的线程安全</a></li></ol></li><li class="chapter-item "><a href="../advance/global-variable.html"><strong aria-hidden="true">4.7.</strong> 全局变量</a></li><li class="chapter-item "><a href="../advance/errors.html"><strong aria-hidden="true">4.8.</strong> 错误处理</a></li><li class="chapter-item "><a href="../advance/unsafe/intro.html"><strong aria-hidden="true">4.9.</strong> Unsafe Rust</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../advance/unsafe/superpowers.html"><strong aria-hidden="true">4.9.1.</strong> 五种兵器</a></li><li class="chapter-item "><a href="../advance/unsafe/inline-asm.html"><strong aria-hidden="true">4.9.2.</strong> 内联汇编</a></li></ol></li><li class="chapter-item "><a href="../advance/macro.html"><strong aria-hidden="true">4.10.</strong> Macro 宏编程</a></li><li class="chapter-item "><a href="../advance/async/intro.html"><strong aria-hidden="true">4.11.</strong> async/await 异步编程</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../advance/async/getting-started.html"><strong aria-hidden="true">4.11.1.</strong> async 编程入门</a></li><li class="chapter-item "><a href="../advance/async/future-excuting.html"><strong aria-hidden="true">4.11.2.</strong> 底层探秘: Future 执行与任务调度</a></li><li class="chapter-item "><a href="../advance/async/pin-unpin.html"><strong aria-hidden="true">4.11.3.</strong> 定海神针 Pin 和 Unpin</a></li><li class="chapter-item "><a href="../advance/async/async-await.html"><strong aria-hidden="true">4.11.4.</strong> async/await 和 Stream 流处理</a></li><li class="chapter-item "><a href="../advance/async/multi-futures-simultaneous.html"><strong aria-hidden="true">4.11.5.</strong> 同时运行多个 Future</a></li><li class="chapter-item "><a href="../advance/async/pain-points-and-workarounds.html"><strong aria-hidden="true">4.11.6.</strong> 一些疑难问题的解决办法</a></li><li class="chapter-item "><a href="../advance/async/web-server.html"><strong aria-hidden="true">4.11.7.</strong> 实践应用：Async Web 服务器</a></li></ol></li></ol></li><li class="chapter-item "><a href="../advance-practice1/intro.html"><strong aria-hidden="true">5.</strong> 进阶实战1: 实现一个 web 服务器</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../advance-practice1/web-server.html"><strong aria-hidden="true">5.1.</strong> 单线程版本</a></li><li class="chapter-item "><a href="../advance-practice1/multi-threads.html"><strong aria-hidden="true">5.2.</strong> 多线程版本</a></li><li class="chapter-item "><a href="../advance-practice1/graceful-shutdown.html"><strong aria-hidden="true">5.3.</strong> 优雅关闭和资源清理</a></li></ol></li><li class="chapter-item "><a href="../advance-practice/intro.html"><strong aria-hidden="true">6.</strong> 进阶实战2: 实现一个简单 Redis</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../advance-practice/overview.html"><strong aria-hidden="true">6.1.</strong> tokio 概览</a></li><li class="chapter-item "><a href="../advance-practice/getting-startted.html"><strong aria-hidden="true">6.2.</strong> 使用初印象</a></li><li class="chapter-item "><a href="../advance-practice/spawning.html"><strong aria-hidden="true">6.3.</strong> 创建异步任务</a></li><li class="chapter-item "><a href="../advance-practice/shared-state.html"><strong aria-hidden="true">6.4.</strong> 共享状态</a></li><li class="chapter-item "><a href="../advance-practice/channels.html"><strong aria-hidden="true">6.5.</strong> 消息传递</a></li><li class="chapter-item "><a href="../advance-practice/io.html"><strong aria-hidden="true">6.6.</strong> I/O</a></li><li class="chapter-item "><a href="../advance-practice/frame.html"><strong aria-hidden="true">6.7.</strong> 解析数据帧</a></li><li class="chapter-item "><a href="../advance-practice/async.html"><strong aria-hidden="true">6.8.</strong> 深入 async</a></li><li class="chapter-item "><a href="../advance-practice/select.html"><strong aria-hidden="true">6.9.</strong> select</a></li><li class="chapter-item "><a href="../advance-practice/stream.html"><strong aria-hidden="true">6.10.</strong> 类似迭代器的 Stream</a></li><li class="chapter-item "><a href="../advance-practice/graceful-shutdown.html"><strong aria-hidden="true">6.11.</strong> 优雅的关闭</a></li><li class="chapter-item "><a href="../advance-practice/bridging-with-sync.html"><strong aria-hidden="true">6.12.</strong> 异步跟同步共存</a></li></ol></li><li class="chapter-item "><a href="../difficulties/intro.html"><strong aria-hidden="true">7.</strong> Rust 难点攻关</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../difficulties/slice.html"><strong aria-hidden="true">7.1.</strong> 切片和切片引用</a></li><li class="chapter-item "><a href="../difficulties/eq.html"><strong aria-hidden="true">7.2.</strong> Eq 和 PartialEq</a></li><li class="chapter-item "><a href="../difficulties/string.html"><strong aria-hidden="true">7.3.</strong> String、&str 和 str TODO</a></li><li class="chapter-item "><a href="../difficulties/lifetime.html"><strong aria-hidden="true">7.4.</strong> 作用域、生命周期和 NLL TODO</a></li><li class="chapter-item "><a href="../difficulties/move-copy.html"><strong aria-hidden="true">7.5.</strong> move、Copy 和 Clone TODO</a></li><li class="chapter-item "><a href="../advance/difficulties/pointer.html"><strong aria-hidden="true">7.6.</strong> 裸指针、引用和智能指针 TODO</a></li></ol></li><li class="chapter-item "><li class="part-title">常用工具链</li><li class="spacer"></li><li class="chapter-item "><a href="../test/intro.html"><strong aria-hidden="true">8.</strong> 自动化测试</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../test/write-tests.html"><strong aria-hidden="true">8.1.</strong> 编写测试及控制执行</a></li><li class="chapter-item "><a href="../test/unit-integration-test.html"><strong aria-hidden="true">8.2.</strong> 单元测试和集成测试</a></li><li class="chapter-item "><a href="../test/assertion.html"><strong aria-hidden="true">8.3.</strong> 断言 assertion</a></li><li class="chapter-item "><a href="../test/ci.html"><strong aria-hidden="true">8.4.</strong> 用 GitHub Actions 进行持续集成</a></li><li class="chapter-item "><a href="../test/benchmark.html"><strong aria-hidden="true">8.5.</strong> 基准测试 benchmark</a></li></ol></li><li class="chapter-item "><a href="../cargo/intro.html"><strong aria-hidden="true">9.</strong> Cargo 使用指南</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../cargo/getting-started.html"><strong aria-hidden="true">9.1.</strong> 上手使用</a></li><li class="chapter-item "><a href="../cargo/guide/intro.html"><strong aria-hidden="true">9.2.</strong> 基础指南</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../cargo/guide/why-exist.html"><strong aria-hidden="true">9.2.1.</strong> 为何会有 Cargo</a></li><li class="chapter-item "><a href="../cargo/guide/download-package.html"><strong aria-hidden="true">9.2.2.</strong> 下载并构建 Package</a></li><li class="chapter-item "><a href="../cargo/guide/dependencies.html"><strong aria-hidden="true">9.2.3.</strong> 添加依赖</a></li><li class="chapter-item "><a href="../cargo/guide/package-layout.html"><strong aria-hidden="true">9.2.4.</strong> Package 目录结构</a></li><li class="chapter-item "><a href="../cargo/guide/cargo-toml-lock.html"><strong aria-hidden="true">9.2.5.</strong> Cargo.toml vs Cargo.lock</a></li><li class="chapter-item "><a href="../cargo/guide/tests-ci.html"><strong aria-hidden="true">9.2.6.</strong> 测试和 CI</a></li><li class="chapter-item "><a href="../cargo/guide/cargo-cache.html"><strong aria-hidden="true">9.2.7.</strong> Cargo 缓存</a></li><li class="chapter-item "><a href="../cargo/guide/build-cache.html"><strong aria-hidden="true">9.2.8.</strong> Build 缓存</a></li></ol></li><li class="chapter-item "><a href="../cargo/reference/intro.html"><strong aria-hidden="true">9.3.</strong> 进阶指南</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../cargo/reference/specify-deps.html"><strong aria-hidden="true">9.3.1.</strong> 指定依赖项</a></li><li class="chapter-item "><a href="../cargo/reference/deps-overriding.html"><strong aria-hidden="true">9.3.2.</strong> 依赖覆盖</a></li><li class="chapter-item "><a href="../cargo/reference/manifest.html"><strong aria-hidden="true">9.3.3.</strong> Cargo.toml 清单详解</a></li><li class="chapter-item "><a href="../cargo/reference/cargo-target.html"><strong aria-hidden="true">9.3.4.</strong> Cargo Target</a></li><li class="chapter-item "><a href="../cargo/reference/workspaces.html"><strong aria-hidden="true">9.3.5.</strong> 工作空间 Workspace</a></li><li class="chapter-item "><a href="../cargo/reference/features/intro.html"><strong aria-hidden="true">9.3.6.</strong> 条件编译 Features</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../cargo/reference/features/examples.html"><strong aria-hidden="true">9.3.6.1.</strong> Features 示例</a></li></ol></li><li class="chapter-item "><a href="../cargo/reference/profiles.html"><strong aria-hidden="true">9.3.7.</strong> 发布配置 Profile</a></li><li class="chapter-item "><a href="../cargo/reference/configuration.html"><strong aria-hidden="true">9.3.8.</strong> 通过 config.toml 对 Cargo 进行配置</a></li><li class="chapter-item "><a href="../cargo/reference/publishing-on-crates.io.html"><strong aria-hidden="true">9.3.9.</strong> 发布到 crates.io</a></li><li class="chapter-item "><a href="../cargo/reference/build-script/intro.html"><strong aria-hidden="true">9.3.10.</strong> 构建脚本 build.rs</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../cargo/reference/build-script/examples.html"><strong aria-hidden="true">9.3.10.1.</strong> 构建脚本示例</a></li></ol></li></ol></li></ol></li><li class="chapter-item "><li class="part-title">开发实践</li><li class="spacer"></li><li class="chapter-item "><a href="../usecases/intro.html"><strong aria-hidden="true">10.</strong> 企业落地实践</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../usecases/aws-rust.html"><strong aria-hidden="true">10.1.</strong> AWS 为何这么喜欢 Rust?</a></li></ol></li><li class="chapter-item expanded "><a href="../logs/intro.html"><strong aria-hidden="true">11.</strong> 日志和监控</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../logs/about-log.html"><strong aria-hidden="true">11.1.</strong> 日志详解</a></li><li class="chapter-item "><a href="../logs/log.html"><strong aria-hidden="true">11.2.</strong> 日志门面 log</a></li><li class="chapter-item expanded "><a href="../logs/tracing.html" class="active"><strong aria-hidden="true">11.3.</strong> 使用 tracing 记录日志</a></li><li class="chapter-item "><a href="../logs/tracing-logger.html"><strong aria-hidden="true">11.4.</strong> 自定义 tracing 的输出格式</a></li><li class="chapter-item "><a href="../logs/observe/intro.html"><strong aria-hidden="true">11.5.</strong> 监控</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../logs/observe/about-observe.html"><strong aria-hidden="true">11.5.1.</strong> 可观测性</a></li><li class="chapter-item "><a href="../logs/observe/trace.html"><strong aria-hidden="true">11.5.2.</strong> 分布式追踪</a></li></ol></li></ol></li><li class="chapter-item "><a href="../practice/intro.html"><strong aria-hidden="true">12.</strong> Rust 最佳实践</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../practice/third-party-libs.html"><strong aria-hidden="true">12.1.</strong> 日常开发三方库精选</a></li><li class="chapter-item "><a href="../practice/naming.html"><strong aria-hidden="true">12.2.</strong> 命名规范</a></li><li class="chapter-item "><a href="../practice/interview.html"><strong aria-hidden="true">12.3.</strong> 面试经验</a></li><li class="chapter-item "><a href="../practice/best-pratice.html"><strong aria-hidden="true">12.4.</strong> 代码开发实践 todo</a></li></ol></li><li class="chapter-item "><a href="../too-many-lists/intro.html"><strong aria-hidden="true">13.</strong> 手把手带你实现链表</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../too-many-lists/do-we-need-it.html"><strong aria-hidden="true">13.1.</strong> 我们到底需不需要链表</a></li><li class="chapter-item "><a href="../too-many-lists/bad-stack/intro.html"><strong aria-hidden="true">13.2.</strong> 不太优秀的单向链表：栈</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../too-many-lists/bad-stack/layout.html"><strong aria-hidden="true">13.2.1.</strong> 数据布局</a></li><li class="chapter-item "><a href="../too-many-lists/bad-stack/basic-operations.html"><strong aria-hidden="true">13.2.2.</strong> 基本操作</a></li><li class="chapter-item "><a href="../too-many-lists/bad-stack/final-code.html"><strong aria-hidden="true">13.2.3.</strong> 最后实现</a></li></ol></li><li class="chapter-item "><a href="../too-many-lists/ok-stack/intro.html"><strong aria-hidden="true">13.3.</strong> 还可以的单向链表</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../too-many-lists/ok-stack/type-optimizing.html"><strong aria-hidden="true">13.3.1.</strong> 优化类型定义</a></li><li class="chapter-item "><a href="../too-many-lists/ok-stack/peek.html"><strong aria-hidden="true">13.3.2.</strong> 定义 Peek 函数</a></li><li class="chapter-item "><a href="../too-many-lists/ok-stack/iter.html"><strong aria-hidden="true">13.3.3.</strong> IntoIter 和 Iter</a></li><li class="chapter-item "><a href="../too-many-lists/ok-stack/itermut.html"><strong aria-hidden="true">13.3.4.</strong> IterMut 以及完整代码</a></li></ol></li><li class="chapter-item "><a href="../too-many-lists/persistent-stack/intro.html"><strong aria-hidden="true">13.4.</strong> 持久化单向链表</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../too-many-lists/persistent-stack/layout.html"><strong aria-hidden="true">13.4.1.</strong> 数据布局和基本操作</a></li><li class="chapter-item "><a href="../too-many-lists/persistent-stack/drop-arc.html"><strong aria-hidden="true">13.4.2.</strong> Drop、Arc 及完整代码</a></li></ol></li><li class="chapter-item "><a href="../too-many-lists/deque/intro.html"><strong aria-hidden="true">13.5.</strong> 不咋样的双端队列</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../too-many-lists/deque/layout.html"><strong aria-hidden="true">13.5.1.</strong> 数据布局和基本操作</a></li><li class="chapter-item "><a href="../too-many-lists/deque/peek.html"><strong aria-hidden="true">13.5.2.</strong> Peek</a></li><li class="chapter-item "><a href="../too-many-lists/deque/symmetric.html"><strong aria-hidden="true">13.5.3.</strong> 基本操作的对称镜像</a></li><li class="chapter-item "><a href="../too-many-lists/deque/iterator.html"><strong aria-hidden="true">13.5.4.</strong> 迭代器</a></li><li class="chapter-item "><a href="../too-many-lists/deque/final-code.html"><strong aria-hidden="true">13.5.5.</strong> 最终代码</a></li></ol></li><li class="chapter-item "><a href="../too-many-lists/unsafe-queue/intro.html"><strong aria-hidden="true">13.6.</strong> 不错的 unsafe 队列</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../too-many-lists/unsafe-queue/layout.html"><strong aria-hidden="true">13.6.1.</strong> 数据布局</a></li><li class="chapter-item "><a href="../too-many-lists/unsafe-queue/basics.html"><strong aria-hidden="true">13.6.2.</strong> 基本操作</a></li><li class="chapter-item "><a href="../too-many-lists/unsafe-queue/miri.html"><strong aria-hidden="true">13.6.3.</strong> Miri</a></li><li class="chapter-item "><a href="../too-many-lists/unsafe-queue/stacked-borrow.html"><strong aria-hidden="true">13.6.4.</strong> 栈借用</a></li><li class="chapter-item "><a href="../too-many-lists/unsafe-queue/testing-stacked-borrow.html"><strong aria-hidden="true">13.6.5.</strong> 测试栈借用</a></li><li class="chapter-item "><a href="../too-many-lists/unsafe-queue/layout2.html"><strong aria-hidden="true">13.6.6.</strong> 数据布局 2</a></li><li class="chapter-item "><a href="../too-many-lists/unsafe-queue/extra-junk.html"><strong aria-hidden="true">13.6.7.</strong> 额外的操作</a></li><li class="chapter-item "><a href="../too-many-lists/unsafe-queue/final-code.html"><strong aria-hidden="true">13.6.8.</strong> 最终代码</a></li></ol></li><li class="chapter-item "><a href="../too-many-lists/production-unsafe-deque/intro.html"><strong aria-hidden="true">13.7.</strong> 生产级的双向 unsafe 队列</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../too-many-lists/production-unsafe-deque/layout.html"><strong aria-hidden="true">13.7.1.</strong> 数据布局</a></li><li class="chapter-item "><a href="../too-many-lists/production-unsafe-deque/variance-and-phantomData.html"><strong aria-hidden="true">13.7.2.</strong> 型变与子类型</a></li><li class="chapter-item "><a href="../too-many-lists/production-unsafe-deque/basics.html"><strong aria-hidden="true">13.7.3.</strong> 基础结构</a></li><li class="chapter-item "><a href="../too-many-lists/production-unsafe-deque/drop-and-panic-safety.html"><strong aria-hidden="true">13.7.4.</strong> 恐慌与安全</a></li><li class="chapter-item "><a href="../too-many-lists/production-unsafe-deque/boring-combinatorics.html"><strong aria-hidden="true">13.7.5.</strong> 无聊的组合</a></li><li class="chapter-item "><a href="../too-many-lists/production-unsafe-deque/filling-in-random-bits.html"><strong aria-hidden="true">13.7.6.</strong> 其它特征</a></li><li class="chapter-item "><a href="../too-many-lists/production-unsafe-deque/testing.html"><strong aria-hidden="true">13.7.7.</strong> 测试</a></li><li class="chapter-item "><a href="../too-many-lists/production-unsafe-deque/send-sync-and-compile-tests.html"><strong aria-hidden="true">13.7.8.</strong> Send,Sync和编译测试</a></li><li class="chapter-item "><a href="../too-many-lists/production-unsafe-deque/implementing-cursors.html"><strong aria-hidden="true">13.7.9.</strong> 实现游标</a></li><li class="chapter-item "><a href="../too-many-lists/production-unsafe-deque/testing-cursors.html"><strong aria-hidden="true">13.7.10.</strong> 测试游标</a></li><li class="chapter-item "><a href="../too-many-lists/production-unsafe-deque/final-code.html"><strong aria-hidden="true">13.7.11.</strong> 最终代码</a></li></ol></li><li class="chapter-item "><a href="../too-many-lists/advanced-lists/intro.html"><strong aria-hidden="true">13.8.</strong> 使用高级技巧实现链表</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../too-many-lists/advanced-lists/double-singly.html"><strong aria-hidden="true">13.8.1.</strong> 双单向链表</a></li><li class="chapter-item "><a href="../too-many-lists/advanced-lists/stack-allocated.html"><strong aria-hidden="true">13.8.2.</strong> 栈上的链表</a></li></ol></li></ol></li><li class="chapter-item "><li class="part-title">攻克编译错误</li><li class="spacer"></li><li class="chapter-item "><a href="../compiler/intro.html"><strong aria-hidden="true">14.</strong> 征服编译错误</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../compiler/fight-with-compiler/intro.html"><strong aria-hidden="true">14.1.</strong> 对抗编译检查</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../compiler/fight-with-compiler/lifetime/intro.html"><strong aria-hidden="true">14.1.1.</strong> 生命周期</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../compiler/fight-with-compiler/lifetime/too-long1.html"><strong aria-hidden="true">14.1.1.1.</strong> 生命周期过大-01</a></li><li class="chapter-item "><a href="../compiler/fight-with-compiler/lifetime/too-long2.html"><strong aria-hidden="true">14.1.1.2.</strong> 生命周期过大-02</a></li><li class="chapter-item "><a href="../compiler/fight-with-compiler/lifetime/loop.html"><strong aria-hidden="true">14.1.1.3.</strong> 循环中的生命周期</a></li><li class="chapter-item "><a href="../compiler/fight-with-compiler/lifetime/closure-with-static.html"><strong aria-hidden="true">14.1.1.4.</strong> 闭包碰到特征对象-01</a></li></ol></li><li class="chapter-item "><a href="../compiler/fight-with-compiler/borrowing/intro.html"><strong aria-hidden="true">14.1.2.</strong> 重复借用</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../compiler/fight-with-compiler/borrowing/ref-exist-in-out-fn.html"><strong aria-hidden="true">14.1.2.1.</strong> 同时在函数内外使用引用</a></li><li class="chapter-item "><a href="../compiler/fight-with-compiler/borrowing/borrow-distinct-fields-of-struct.html"><strong aria-hidden="true">14.1.2.2.</strong> 智能指针引起的重复借用错误</a></li></ol></li><li class="chapter-item "><a href="../compiler/fight-with-compiler/unconstrained.html"><strong aria-hidden="true">14.1.3.</strong> 类型未限制(todo)</a></li><li class="chapter-item "><a href="../compiler/fight-with-compiler/phantom-data.html"><strong aria-hidden="true">14.1.4.</strong> 幽灵数据(todo)</a></li></ol></li><li class="chapter-item "><a href="../compiler/pitfalls/index.html"><strong aria-hidden="true">14.2.</strong> Rust 常见陷阱</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../compiler/pitfalls/use-vec-in-for.html"><strong aria-hidden="true">14.2.1.</strong> for 循环中使用外部数组</a></li><li class="chapter-item "><a href="../compiler/pitfalls/stack-overflow.html"><strong aria-hidden="true">14.2.2.</strong> 线程类型导致的栈溢出</a></li><li class="chapter-item "><a href="../compiler/pitfalls/arithmetic-overflow.html"><strong aria-hidden="true">14.2.3.</strong> 算术溢出导致的 panic</a></li><li class="chapter-item "><a href="../compiler/pitfalls/closure-with-lifetime.html"><strong aria-hidden="true">14.2.4.</strong> 闭包中奇怪的生命周期</a></li><li class="chapter-item "><a href="../compiler/pitfalls/the-disabled-mutability.html"><strong aria-hidden="true">14.2.5.</strong> 可变变量不可变？</a></li><li class="chapter-item "><a href="../compiler/pitfalls/multiple-mutable-references.html"><strong aria-hidden="true">14.2.6.</strong> 可变借用失败引发的深入思考</a></li><li class="chapter-item "><a href="../compiler/pitfalls/lazy-iterators.html"><strong aria-hidden="true">14.2.7.</strong> 不太勤快的迭代器</a></li><li class="chapter-item "><a href="../compiler/pitfalls/weird-ranges.html"><strong aria-hidden="true">14.2.8.</strong> 奇怪的序列 x..y</a></li><li class="chapter-item "><a href="../compiler/pitfalls/iterator-everywhere.html"><strong aria-hidden="true">14.2.9.</strong> 无处不在的迭代器</a></li><li class="chapter-item "><a href="../compiler/pitfalls/main-with-channel-blocked.html"><strong aria-hidden="true">14.2.10.</strong> 线程间传递消息导致主线程无法结束</a></li><li class="chapter-item "><a href="../compiler/pitfalls/utf8-performance.html"><strong aria-hidden="true">14.2.11.</strong> 警惕 UTF-8 引发的性能隐患</a></li></ol></li></ol></li><li class="chapter-item "><li class="part-title">性能优化</li><li class="spacer"></li><li class="chapter-item "><a href="../profiling/intro.html"><strong aria-hidden="true">15.</strong> Rust 性能优化 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../profiling/memory/intro.html"><strong aria-hidden="true">15.1.</strong> 深入内存 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../profiling/memory/pointer-ref.html"><strong aria-hidden="true">15.1.1.</strong> 指针和引用 todo</a></li><li class="chapter-item "><a href="../profiling/memory/uninit.html"><strong aria-hidden="true">15.1.2.</strong> 未初始化内存 todo</a></li><li class="chapter-item "><a href="../profiling/memory/allocation.html"><strong aria-hidden="true">15.1.3.</strong> 内存分配 todo</a></li><li class="chapter-item "><a href="../profiling/memory/layout.html"><strong aria-hidden="true">15.1.4.</strong> 内存布局 todo</a></li><li class="chapter-item "><a href="../profiling/memory/virtual.html"><strong aria-hidden="true">15.1.5.</strong> 虚拟内存 todo</a></li></ol></li><li class="chapter-item "><a href="../profiling/performance/intro.html"><strong aria-hidden="true">15.2.</strong> 性能调优 doing</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../profiling/performance/string.html"><strong aria-hidden="true">15.2.1.</strong> 字符串操作性能</a></li><li class="chapter-item "><a href="../profiling/performance/deep-into-move.html"><strong aria-hidden="true">15.2.2.</strong> 深入理解 move</a></li><li class="chapter-item "><a href="../profiling/performance/early-optimise.html"><strong aria-hidden="true">15.2.3.</strong> 糟糕的提前优化 todo</a></li><li class="chapter-item "><a href="../profiling/performance/clone-copy.html"><strong aria-hidden="true">15.2.4.</strong> Clone 和 Copy todo</a></li><li class="chapter-item "><a href="../profiling/performance/runtime-check.html"><strong aria-hidden="true">15.2.5.</strong> 减少 Runtime check(todo)</a></li><li class="chapter-item "><a href="../profiling/performance/cpu-cache.html"><strong aria-hidden="true">15.2.6.</strong> CPU 缓存性能优化 todo</a></li><li class="chapter-item "><a href="../profiling/performance/calculate.html"><strong aria-hidden="true">15.2.7.</strong> 计算性能优化 todo</a></li><li class="chapter-item "><a href="../profiling/performance/heap-stack.html"><strong aria-hidden="true">15.2.8.</strong> 堆和栈 todo</a></li><li class="chapter-item "><a href="../profiling/performance/allocator.html"><strong aria-hidden="true">15.2.9.</strong> 内存 allocator todo</a></li><li class="chapter-item "><a href="../profiling/performance/tools.html"><strong aria-hidden="true">15.2.10.</strong> 常用性能测试工具 todo</a></li><li class="chapter-item "><a href="../profiling/performance/enum.html"><strong aria-hidden="true">15.2.11.</strong> Enum 内存优化 todo</a></li></ol></li><li class="chapter-item "><a href="../profiling/compiler/intro.html"><strong aria-hidden="true">15.3.</strong> 编译优化 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../profiling/compiler/llvm.html"><strong aria-hidden="true">15.3.1.</strong> LLVM todo</a></li><li class="chapter-item "><a href="../profiling/compiler/attributes.html"><strong aria-hidden="true">15.3.2.</strong> 常见属性标记 todo</a></li><li class="chapter-item "><a href="../profiling/compiler/speed-up.html"><strong aria-hidden="true">15.3.3.</strong> 提升编译速度 todo</a></li><li class="chapter-item "><a href="../profiling/compiler/optimization/intro.html"><strong aria-hidden="true">15.3.4.</strong> 编译器优化 todo</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../profiling/compiler/optimization/option.html"><strong aria-hidden="true">15.3.4.1.</strong> Option 枚举 todo</a></li></ol></li></ol></li></ol></li><li class="chapter-item "><li class="part-title">附录</li><li class="spacer"></li><li class="chapter-item "><div><strong aria-hidden="true">16.</strong> Appendix</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../appendix/keywords.html"><strong aria-hidden="true">16.1.</strong> 关键字</a></li><li class="chapter-item "><a href="../appendix/operators.html"><strong aria-hidden="true">16.2.</strong> 运算符与符号</a></li><li class="chapter-item "><a href="../appendix/expressions.html"><strong aria-hidden="true">16.3.</strong> 表达式</a></li><li class="chapter-item "><a href="../appendix/derive.html"><strong aria-hidden="true">16.4.</strong> 派生特征 trait</a></li><li class="chapter-item "><a href="../appendix/prelude.html"><strong aria-hidden="true">16.5.</strong> prelude 模块 todo</a></li><li class="chapter-item "><a href="../appendix/rust-version.html"><strong aria-hidden="true">16.6.</strong> Rust 版本说明</a></li><li class="chapter-item "><a href="../appendix/rust-versions/intro.html"><strong aria-hidden="true">16.7.</strong> Rust 历次版本更新解读</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../appendix/rust-versions/1.58.html"><strong aria-hidden="true">16.7.1.</strong> 1.58</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.59.html"><strong aria-hidden="true">16.7.2.</strong> 1.59</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.60.html"><strong aria-hidden="true">16.7.3.</strong> 1.60</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.61.html"><strong aria-hidden="true">16.7.4.</strong> 1.61</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.62.html"><strong aria-hidden="true">16.7.5.</strong> 1.62</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.63.html"><strong aria-hidden="true">16.7.6.</strong> 1.63</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.64.html"><strong aria-hidden="true">16.7.7.</strong> 1.64</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.65.html"><strong aria-hidden="true">16.7.8.</strong> 1.65</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.66.html"><strong aria-hidden="true">16.7.9.</strong> 1.66</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.67.html"><strong aria-hidden="true">16.7.10.</strong> 1.67</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.68.html"><strong aria-hidden="true">16.7.11.</strong> 1.68</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.69.html"><strong aria-hidden="true">16.7.12.</strong> 1.69</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.70.html"><strong aria-hidden="true">16.7.13.</strong> 1.70</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.71.html"><strong aria-hidden="true">16.7.14.</strong> 1.71</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.72.html"><strong aria-hidden="true">16.7.15.</strong> 1.72</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.73.html"><strong aria-hidden="true">16.7.16.</strong> 1.73</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.74.html"><strong aria-hidden="true">16.7.17.</strong> 1.74</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.75.html"><strong aria-hidden="true">16.7.18.</strong> 1.75</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.76.html"><strong aria-hidden="true">16.7.19.</strong> 1.76</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.77.html"><strong aria-hidden="true">16.7.20.</strong> 1.77</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.78.html"><strong aria-hidden="true">16.7.21.</strong> 1.78</a></li><li class="chapter-item "><a href="../appendix/rust-versions/1.79.html"><strong aria-hidden="true">16.7.22.</strong> 1.79</a></li></ol></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+        
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/logs/tracing.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <!-- Page table of contents -->
+                    <div class="sidetoc"><nav class="pagetoc"></nav></div>
+                    <main>
+                        <h1 id="使用-tracing-记录日志"><a class="header" href="#使用-tracing-记录日志">使用 tracing 记录日志</a></h1>
+<p>严格来说，tracing 并不是一个日志库，而是一个分布式跟踪的 SDK，用于采集监控数据的。</p>
+<p>随着微服务的流行，现在一个产品有多个系统组成是非常常见的，这种情况下，一条用户请求可能会横跨几个甚至几十个服务。此时再用传统的日志方式去跟踪这条用户请求就变得较为困难，这就是分布式追踪在现代化监控系统中这么炽手可热的原因。</p>
+<p>关于分布式追踪，在后面的监控章节进行详细介绍，大家只要知道：分布式追踪的核心就是在请求的开始生成一个 <code>trace_id</code>，然后将该 <code>trace_id</code> 一直往后透穿，请求经过的每个服务都会使用该 <code>trace_id</code> 记录相关信息，最终将整个请求形成一个完整的链路予以记录下来。</p>
+<p>那么后面当要查询这次请求的相关信息时，只要使用 <code>trace_id</code> 就可以获取整个请求链路的所有信息了，非常简单好用。看到这里，相信大家也明白为什么这个库的名称叫 <code>tracing</code> 了吧？</p>
+<p>至于为何把它归到日志库的范畴呢？因为 <code>tracing</code> 支持 <code>log</code> 门面库的 API，因此，它既可以作为分布式追踪的 SDK 来使用，也可以作为日志库来使用。</p>
+<blockquote>
+<p>在分布式追踪中，trace_id 都是由 SDK 自动生成和往后透穿，对于用户的使用来说是完全透明的。如果你要手动用日志的方式来实现请求链路的追踪，那么就必须考虑 trace_id 的手动生成、透传，以及不同语言之间的协议规范等问题</p>
+</blockquote>
+<h2 id="一个简单例子"><a class="header" href="#一个简单例子">一个简单例子</a></h2>
+<p>开始之前，需要先将 <code>tracing</code> 添加到项目的 <code>Cargo.toml</code> 中:</p>
+<pre><code class="language-toml">[dependencies]
+tracing = &quot;0.1&quot;
+</code></pre>
+<p>注意，在写作本文时，<code>0.2</code> 版本已经快要出来了，所以具体使用的版本请大家以阅读时为准。</p>
+<p>下面的例子中将同时使用 <code>log</code> 和 <code>tracing</code> :</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use log;
+use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt};
+
+fn main() {
+    // 只有注册 subscriber 后， 才能在控制台上看到日志输出
+    tracing_subscriber::registry()
+        .with(fmt::layer())
+        .init();
+    
+    // 调用 `log` 包的 `info!`
+    log::info!(&quot;Hello world&quot;);
+    
+    let foo = 42;
+    // 调用 `tracing` 包的 `info!`
+    tracing::info!(foo, &quot;Hello from tracing&quot;);
+}</code></pre></pre>
+<p>可以看出，门面库的排场还是有的，<code>tracing</code> 在 API 上明显是使用了 <code>log</code> 的规范。</p>
+<p>运行后，输出如下日志:</p>
+<pre><code class="language-shell">2022-04-09T14:34:28.965952Z  INFO test_tracing: Hello world    
+2022-04-09T14:34:28.966011Z  INFO test_tracing: Hello from tracing foo=42
+</code></pre>
+<p>还可以看出，<code>log</code> 的日志格式跟 <code>tracing</code> 一模一样，结合上一章节的知识，相信聪明的同学已经明白了这是为什么。</p>
+<p>那么 <code>tracing</code> 跟 <code>log</code> 的具体日志实现框架有何区别呢？别急，我们再来接着看。</p>
+<h2 id="异步编程中的挑战"><a class="header" href="#异步编程中的挑战">异步编程中的挑战</a></h2>
+<p>除了分布式追踪，在异步编程中使用传统的日志也是存在一些问题的，最大的挑战就在于异步任务的执行没有确定的顺序，那么输出的日志也将没有确定的顺序并混在一起，无法按照我们想要的逻辑顺序串联起来。</p>
+<p><strong>归根到底，在于日志只能针对某个时间点进行记录，缺乏上下文信息，而线程间的执行顺序又是不确定的，因此日志就有些无能为力</strong>。而 <code>tracing</code> 为了解决这个问题，引入了 <code>span</code> 的概念( 这个概念也来自于分布式追踪 )，一个 <code>span</code> 代表了一个时间段，拥有开始和结束时间，在此期间的所有类型数据、结构化数据、文本数据都可以记录其中。</p>
+<p>大家发现了吗？ <code>span</code> 是可以拥有上下文信息的，这样就能帮我们把信息按照所需的逻辑性串联起来了。</p>
+<h2 id="核心概念"><a class="header" href="#核心概念">核心概念</a></h2>
+<p><code>tracing</code> 中最重要的三个概念是 <code>Span</code>、<code>Event</code> 和 <code>Collector</code>，下面我们来一一简单介绍下。</p>
+<h3 id="span"><a class="header" href="#span">Span</a></h3>
+<p>相比起日志只能记录在某个时间点发生的事件，<code>span</code> 最大的意义就在于它可以记录一个过程，也就是在某一段时间内发生的事件流。既然是记录时间段，那自然有开始和结束:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use tracing::{span, Level};
+fn main() {
+    let span = span!(Level::TRACE, &quot;my_span&quot;);
+
+    // `enter` 返回一个 RAII ，当其被 drop 时，将自动结束该 span
+    let enter = span.enter();
+    // 这里开始进入 `my_span` 的上下文
+    // 下面执行一些任务，并记录一些信息到 `my_span` 中
+    // ...
+} // 这里 enter 将被 drop，`my_span` 也随之结束</code></pre></pre>
+<h3 id="event-事件"><a class="header" href="#event-事件">Event 事件</a></h3>
+<p><code>Event</code> 代表了某个时间点发生的事件，这方面它跟日志类似，但是不同的是，<code>Event</code> 还可以产生在 span 的上下文中。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use tracing::{event, span, Level};
+use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt};
+
+fn main() {
+    tracing_subscriber::registry().with(fmt::layer()).init();
+    // 在 span 的上下文之外记录一次 event 事件
+    event!(Level::INFO, &quot;something happened&quot;);
+
+    let span = span!(Level::INFO, &quot;my_span&quot;);
+    let _guard = span.enter();
+
+    // 在 &quot;my_span&quot; 的上下文中记录一次 event
+    event!(Level::DEBUG, &quot;something happened inside my_span&quot;);
+}</code></pre></pre>
+<pre><code class="language-shell">2022-04-09T14:51:38.382987Z  INFO test_tracing: something happened
+2022-04-09T14:51:38.383111Z DEBUG my_span: test_tracing: something happened inside my_span
+</code></pre>
+<p>虽然 <code>event</code> 在哪里都可以使用，<strong>但是最好只在 span 的上下文中使用</strong>：用于代表一个时间点发生的事件，例如记录 HTTP 请求返回的状态码，从队列中获取一个对象，等等。</p>
+<h3 id="collector-收集器"><a class="header" href="#collector-收集器">Collector 收集器</a></h3>
+<p>当 <code>Span</code> 或 <code>Event</code> 发生时，它们会被实现了 <code>Collect</code> 特征的收集器所记录或聚合。这个过程是通过通知的方式实现的：当 <code>Event</code> 发生或者 <code>Span</code> 开始/结束时，会调用 <code>Collect</code> 特征的<a href="https://tracing-rs.netlify.app/tracing/trait.collect#tymethod.event">相应方法</a>通知 Collector。</p>
+<h4 id="tracing-subscriber"><a class="header" href="#tracing-subscriber">tracing-subscriber</a></h4>
+<p>我们前面提到只有使用了 <a href="https://docs.rs/tracing-subscriber/"><code>tracing-subscriber</code></a> 后，日志才能输出到控制台中。</p>
+<p>之前大家可能还不理解，现在应该明白了，它是一个 Collector，可以将记录的日志收集后，再输出到控制台中。</p>
+<h2 id="使用方法"><a class="header" href="#使用方法">使用方法</a></h2>
+<h3 id="span-宏"><a class="header" href="#span-宏"><code>span!</code> 宏</a></h3>
+<p><code>span!</code> 宏可以用于创建一个 <code>Span</code> 结构体，然后通过调用结构体的 <code>enter</code> 方法来开始，再通过超出作用域时的 <code>drop</code> 来结束。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use tracing::{span, Level};
+fn main() {
+    let span = span!(Level::TRACE, &quot;my_span&quot;);
+
+    // `enter` 返回一个 RAII ，当其被 drop 时，将自动结束该 span
+    let enter = span.enter();
+    // 这里开始进入 `my_span` 的上下文
+    // 下面执行一些任务，并记录一些信息到 `my_span` 中
+    // ...
+} // 这里 enter 将被 drop，`my_span` 也随之结束</code></pre></pre>
+<h3 id="instrument"><a class="header" href="#instrument">#[instrument]</a></h3>
+<p>如果想要将某个函数的整个函数体都设置为 span 的范围，最简单的方法就是为函数标记上 <code>#[instrument]</code>，此时 tracing 会自动为函数创建一个 span，span 名跟函数名相同，在输出的信息中还会自动带上函数参数。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use tracing::{info, instrument};
+use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt};
+
+#[instrument]
+fn foo(ans: i32) {
+    info!(&quot;in foo&quot;);
+}
+
+fn main() {
+    tracing_subscriber::registry().with(fmt::layer()).init();
+    foo(42);
+}</code></pre></pre>
+<pre><code class="language-shell">2022-04-10T02:44:12.885556Z  INFO foo{ans=42}: test_tracing: in foo
+</code></pre>
+<p>关于 <code>#[instrument]</code> 详细说明，请参见<a href="https://tracing-rs.netlify.app/tracing/attr.instrument.html">官方文档</a>。</p>
+<h3 id="in_scope"><a class="header" href="#in_scope">in_scope</a></h3>
+<p>对于没有内置 tracing 支持或者无法使用 <code>#instrument</code> 的函数，例如外部库的函数，我们可以使用 <code>Span</code> 结构体的 <code>in_scope</code> 方法，它可以将同步代码包裹在一个 span 中：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use tracing::info_span;
+
+let json = info_span!(&quot;json.parse&quot;).in_scope(|| serde_json::from_slice(&amp;buf))?;
+<span class="boring">}</span></code></pre></pre>
+<h3 id="在-async-中使用-span"><a class="header" href="#在-async-中使用-span">在 async 中使用 span</a></h3>
+<p>需要注意，如果是在异步编程时使用，要避免以下使用方式:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn my_async_function() {
+    let span = info_span!(&quot;my_async_function&quot;);
+
+    // WARNING: 该 span 直到 drop 后才结束，因此在 .await 期间，span 依然处于工作中状态
+    let _enter = span.enter();
+
+    // 在这里 span 依然在记录，但是 .await 会让出当前任务的执行权，然后运行时会去运行其它任务，此时这个 span 可能会记录其它任务的执行信息，最终记录了不正确的 trace 信息
+    some_other_async_function().await
+
+    // ...
+}
+<span class="boring">}</span></code></pre></pre>
+<p>我们建议使用以下方式，简单又有效:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use tracing::{info, instrument};
+use tokio::{io::AsyncWriteExt, net::TcpStream};
+use std::io;
+
+#[instrument]
+async fn write(stream: &amp;mut TcpStream) -&gt; io::Result&lt;usize&gt; {
+    let result = stream.write(b&quot;hello world\n&quot;).await;
+    info!(&quot;wrote to stream; success={:?}&quot;, result.is_ok());
+    result
+}
+<span class="boring">}</span></code></pre></pre>
+<p>那有同学可能要问了，是不是我们无法在异步代码中使用 <code>span.enter</code> 了，答案是：是也不是。</p>
+<p>是，你无法直接使用 <code>span.enter</code> 语法了，原因上面也说过，但是可以通过下面的方式来曲线使用：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use tracing::Instrument;
+
+let my_future = async {
+    // ...
+};
+
+my_future
+    .instrument(tracing::info_span!(&quot;my_future&quot;))
+    .await
+<span class="boring">}</span></code></pre></pre>
+<h3 id="span-嵌套"><a class="header" href="#span-嵌套">span 嵌套</a></h3>
+<p><code>tracing</code> 的 span 不仅仅是上面展示的基本用法，它们还可以进行嵌套！</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use tracing::{debug, info, span, Level};
+use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt};
+
+fn main() {
+    tracing_subscriber::registry().with(fmt::layer()).init();
+
+    let scope = span!(Level::DEBUG, &quot;foo&quot;);
+    let _enter = scope.enter();
+    info!(&quot;Hello in foo scope&quot;);
+    debug!(&quot;before entering bar scope&quot;); 
+    {
+        let scope = span!(Level::DEBUG, &quot;bar&quot;, ans = 42);
+        let _enter = scope.enter();
+        debug!(&quot;enter bar scope&quot;);
+        info!(&quot;In bar scope&quot;);
+        debug!(&quot;end bar scope&quot;);
+    }
+    debug!(&quot;end bar scope&quot;);
+}</code></pre></pre>
+<pre><code class="language-shell">INFO foo: log_test: Hello in foo scope
+DEBUG foo: log_test: before entering bar scope
+DEBUG foo:bar{ans=42}: log_test: enter bar scope
+INFO foo:bar{ans=42}: log_test: In bar scope
+DEBUG foo:bar{ans=42}: log_test: end bar scope
+DEBUG foo: log_test: end bar scope
+</code></pre>
+<p>在上面的日志中，<code>foo:bar</code> 不仅包含了 <code>foo</code> 和 <code>bar</code> span 名，还显示了它们之间的嵌套关系。</p>
+<h2 id="对宏进行配置"><a class="header" href="#对宏进行配置">对宏进行配置</a></h2>
+<h3 id="日志级别和目标"><a class="header" href="#日志级别和目标">日志级别和目标</a></h3>
+<p><code>span!</code> 和 <code>event!</code> 宏都需要设定相应的日志级别，而且它们支持可选的 <code>target</code> 或 <code>parent</code> 参数( 只能二者选其一 )，该参数用于描述事件发生的位置，如果父 span 没有设置，<code>target</code> 参数也没有提供，那这个位置默认分别是当前的 span 和 当前的模块。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use tracing::{debug, info, span, Level,event};
+use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt};
+
+fn main() {
+    tracing_subscriber::registry().with(fmt::layer()).init();
+
+    let s = span!(Level::TRACE, &quot;my span&quot;);
+    // 没进入 span，因此输出日志将不会带上 span 的信息
+    event!(target: &quot;app_events&quot;, Level::INFO, &quot;something has happened 1!&quot;);
+
+    // 进入 span ( 开始 )
+    let _enter = s.enter();
+    // 没有设置 target 和 parent
+    // 这里的对象位置分别是当前的 span 名和模块名
+    event!(Level::INFO, &quot;something has happened 2!&quot;);
+    // 设置了 target
+    // 这里的对象位置分别是当前的 span 名和 target
+    event!(target: &quot;app_events&quot;,Level::INFO, &quot;something has happened 3!&quot;);
+
+    let span = span!(Level::TRACE, &quot;my span 1&quot;);
+    // 这里就更为复杂一些，留给大家作为思考题
+    event!(parent: &amp;span, Level::INFO, &quot;something has happened 4!&quot;);
+}</code></pre></pre>
+<h3 id="记录字段"><a class="header" href="#记录字段">记录字段</a></h3>
+<p>我们可以通过语法 <code>field_name = field_value</code> 来输出结构化的日志</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 记录一个事件，带有两个字段:
+//  - &quot;answer&quot;, 值是 42
+//  - &quot;question&quot;, 值是 &quot;life, the universe and everything&quot;
+event!(Level::INFO, answer = 42, question = &quot;life, the universe, and everything&quot;);
+
+// 日志输出 -&gt; INFO test_tracing: answer=42 question=&quot;life, the universe, and everything&quot;
+<span class="boring">}</span></code></pre></pre>
+<h4 id="捕获环境变量"><a class="header" href="#捕获环境变量">捕获环境变量</a></h4>
+<p>还可以捕获环境中的变量:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let user = &quot;ferris&quot;;
+
+// 下面的简写方式
+span!(Level::TRACE, &quot;login&quot;, user);
+// 等价于:
+span!(Level::TRACE, &quot;login&quot;, user = user);
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust edition2021">use tracing::{info, span, Level};
+use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt};
+
+fn main() {
+    tracing_subscriber::registry().with(fmt::layer()).init();
+
+    let user = &quot;ferris&quot;;
+    let s = span!(Level::TRACE, &quot;login&quot;, user);
+    let _enter = s.enter();
+
+    info!(welcome=&quot;hello&quot;, user);
+    // 下面一行将报错，原因是这种写法是格式化字符串的方式，必须使用 info!(&quot;hello {}&quot;, user)
+    // info!(&quot;hello&quot;, user);
+}
+
+// 日志输出 -&gt; INFO login{user=&quot;ferris&quot;}: test_tracing: welcome=&quot;hello&quot; user=&quot;ferris&quot;</code></pre></pre>
+<h4 id="字段名的多种形式"><a class="header" href="#字段名的多种形式">字段名的多种形式</a></h4>
+<p>字段名还可以包含 <code>.</code> :</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let user = &quot;ferris&quot;;
+let email = &quot;ferris@rust-lang.org&quot;;
+event!(Level::TRACE, user, user.email = email);
+
+// 还可以使用结构体
+let user = User {
+    name: &quot;ferris&quot;,
+    email: &quot;ferris@rust-lang.org&quot;,
+};
+
+// 直接访问结构体字段，无需赋值即可使用
+span!(Level::TRACE, &quot;login&quot;, user.name, user.email);
+
+// 字段名还可以使用字符串
+event!(Level::TRACE, &quot;guid:x-request-id&quot; = &quot;abcdef&quot;, &quot;type&quot; = &quot;request&quot;);
+
+// 日志输出 -&gt; 
+// TRACE test_tracing: user=&quot;ferris&quot; user.email=&quot;ferris@rust-lang.org&quot;
+// TRACE test_tracing: user.name=&quot;ferris&quot; user.email=&quot;ferris@rust-lang.org&quot;
+// TRACE test_tracing: guid:x-request-id=&quot;abcdef&quot; type=&quot;request&quot;
+<span class="boring">}</span></code></pre></pre>
+<h4 id=""><a class="header" href="#">?</a></h4>
+<p><code>?</code> 符号用于说明该字段将使用 <code>fmt::Debug</code> 来格式化。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span> #[derive(Debug)]
+struct MyStruct {
+    field: &amp;'static str,
+}
+
+let my_struct = MyStruct {
+    field: &quot;Hello world!&quot;,
+};
+
+// `my_struct` 将使用 Debug 的形式输出
+event!(Level::TRACE, greeting = ?my_struct);
+// 等价于:
+event!(Level::TRACE, greeting = tracing::field::debug(&amp;my_struct));
+
+// 下面代码将报错, my_struct 没有实现 Display
+// event!(Level::TRACE, greeting = my_struct);
+
+// 日志输出 -&gt; TRACE test_tracing: greeting=MyStruct { field: &quot;Hello world!&quot; }
+<span class="boring">}</span></code></pre></pre>
+<h4 id="-1"><a class="header" href="#-1">%</a></h4>
+<p><code>%</code> 说明字段将用 <code>fmt::Display</code> 来格式化。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// `my_struct.field` 将使用 `fmt::Display` 的格式化形式输出
+event!(Level::TRACE, greeting = %my_struct.field);
+// 等价于:
+event!(Level::TRACE, greeting = tracing::field::display(&amp;my_struct.field));
+
+// 作为对比，大家可以看下 Debug 和正常的字段输出长什么样
+event!(Level::TRACE, greeting = ?my_struct.field);
+event!(Level::TRACE, greeting = my_struct.field);
+
+// 下面代码将报错, my_struct 没有实现 Display
+// event!(Level::TRACE, greeting = %my_struct);
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-shell">2022-04-10T03:49:00.834330Z TRACE test_tracing: greeting=Hello world!
+2022-04-10T03:49:00.834410Z TRACE test_tracing: greeting=Hello world!
+2022-04-10T03:49:00.834422Z TRACE test_tracing: greeting=&quot;Hello world!&quot;
+2022-04-10T03:49:00.834433Z TRACE test_tracing: greeting=&quot;Hello world!&quot;
+</code></pre>
+<h4 id="empty"><a class="header" href="#empty">Empty</a></h4>
+<p>字段还能标记为 <code>Empty</code>，用于说明该字段目前没有任何值，但是可以在后面进行记录。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use tracing::{trace_span, field};
+
+let span = trace_span!(&quot;my_span&quot;, greeting = &quot;hello world&quot;, parting = field::Empty);
+
+// ...
+
+// 现在，为 parting 记录一个值
+span.record(&quot;parting&quot;, &amp;&quot;goodbye world!&quot;);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="格式化字符串"><a class="header" href="#格式化字符串">格式化字符串</a></h4>
+<p>除了以字段的方式记录信息，我们还可以使用格式化字符串的方式( 同 <code>println!</code> 、<code>format!</code> )。</p>
+<blockquote>
+<p>注意，当字段跟格式化的方式混用时，必须把格式化放在最后，如下所示</p>
+</blockquote>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let question = &quot;the ultimate question of life, the universe, and everything&quot;;
+let answer = 42;
+event!(
+    Level::DEBUG,
+    question.answer = answer,
+    question.tricky = true,
+    &quot;the answer to {} is {}.&quot;, question, answer
+);
+
+// 日志输出 -&gt; DEBUG test_tracing: the answer to the ultimate question of life, the universe, and everything is 42. question.answer=42 question.tricky=true
+<span class="boring">}</span></code></pre></pre>
+<h3 id="文件输出"><a class="header" href="#文件输出">文件输出</a></h3>
+<p>截至目前，我们上面的日志都是输出到控制台中。</p>
+<p>针对文件输出，<code>tracing</code> 提供了一个专门的库 <a href="https://github.com/tokio-rs/tracing/tree/master/tracing-appender">tracing-appender</a>，大家可以查看官方文档了解更多。</p>
+<h2 id="一个综合例子"><a class="header" href="#一个综合例子">一个综合例子</a></h2>
+<p>最后，再来看一个综合的例子，使用了 <a href="https://github.com/yaahc/color-eyre">color-eyre</a> 和 文件输出，前者用于为输出的日志加上更易读的颜色。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use color_eyre::{eyre::eyre, Result};
+use tracing::{error, info, instrument};
+use tracing_appender::{non_blocking, rolling};
+use tracing_error::ErrorLayer;
+use tracing_subscriber::{
+    filter::EnvFilter, fmt, layer::SubscriberExt, util::SubscriberInitExt, Registry,
+};
+
+#[instrument]
+fn return_err() -&gt; Result&lt;()&gt; {
+    Err(eyre!(&quot;Something went wrong&quot;))
+}
+
+#[instrument]
+fn call_return_err() {
+    info!(&quot;going to log error&quot;);
+    if let Err(err) = return_err() {
+        // 推荐大家运行下，看看这里的输出效果
+        error!(?err, &quot;error&quot;);
+    }
+}
+
+fn main() -&gt; Result&lt;()&gt; {
+    let env_filter = EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new(&quot;info&quot;));
+    // 输出到控制台中
+    let formatting_layer = fmt::layer().pretty().with_writer(std::io::stderr);
+    
+    // 输出到文件中
+    let file_appender = rolling::never(&quot;logs&quot;, &quot;app.log&quot;);
+    let (non_blocking_appender, _guard) = non_blocking(file_appender);
+    let file_layer = fmt::layer()
+        .with_ansi(false)
+        .with_writer(non_blocking_appender);
+        
+    // 注册
+    Registry::default()
+        .with(env_filter)
+        // ErrorLayer 可以让 color-eyre 获取到 span 的信息
+        .with(ErrorLayer::default())
+        .with(formatting_layer)
+        .with(file_layer)
+        .init();
+    
+    // 安裝 color-eyre 的 panic 处理句柄 
+    color_eyre::install()?;
+
+    call_return_err();
+
+    Ok(())
+}</code></pre></pre>
+<h2 id="总结--推荐"><a class="header" href="#总结--推荐">总结 &amp; 推荐</a></h2>
+<p>至此，<code>tracing</code> 的介绍就已结束，相信大家都看得出，它比上个章节的 <code>log</code> 及兄弟们要更加复杂一些，一方面是因为它能更好的支持异步编程环境，另一方面就是它还是一个分布式追踪的库，对于后者，我们将在后续的监控章节进行讲解。</p>
+<p>如果你让我推荐使用哪个，那我的建议是:</p>
+<ul>
+<li>对于简单的工程，例如用于 POC（ Proof of Concepts ） 目的，使用 <code>log</code> 即可</li>
+<li>对于需要认真对待，例如生产级或优秀的开源项目，建议使用 tracing 的方式，一举解决日志和监控的后顾之忧</li>
+</ul>
+
+                        <div id="giscus-container"></div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../logs/log.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../logs/tracing-logger.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../logs/log.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../logs/tracing-logger.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <script type="text/javascript" charset="utf-8">
+        var pagePath = "logs/tracing.md"
+        </script>
+
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>
