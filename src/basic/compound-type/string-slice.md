@@ -620,7 +620,7 @@ fn main() {
     let quotes = r#"And then I said: "There is no escape!""#;
     println!("{}", quotes);
 
-    // 如果还是有歧义，可以继续增加，没有限制
+    // 如果字符串中包含 # 号，可以在开头和结尾加多个 # 号，最多加255个，只需保证与字符串中连续 # 号的个数不超过开头和结尾的 # 号的个数即可
     let longer_delimiter = r###"A string with "# in it. And even "##!"###;
     println!("{}", longer_delimiter);
 }
