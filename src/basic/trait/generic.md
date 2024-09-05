@@ -419,7 +419,59 @@ impl IsTrue for Assert<true> {
 
 #### const fn
 
-@todo
+在讨论完 `const` 泛型后，不得不提及另一个与之密切相关且强大的特性：`const fn`，即常量函数。`const fn` 允许我们在编译期对函数进行求值，从而实现更高效、更灵活的代码设计。
+
+##### 为什么需要 const fn
+
+通常情况下，函数是在运行时被调用和执行的。然而，在某些场景下，我们希望在编译期就计算出一些值，以提高运行时的性能或满足某些编译期的约束条件。例如，定义数组的长度、计算常量值等。
+
+有了 `const fn`，我们可以在编译期执行这些函数，从而将计算结果直接嵌入到生成的代码中。这不仅以高了运行时的性能，还使代码更加简洁和安全。
+
+##### const fn 的基本用法
+
+要定义一个常量函数，只需要在函数声明前加上 `const` 关键字。例如：
+
+```rust
+const fn add(a: usize, b: usize) -> usize {
+    a + b
+}
+
+const RESULT: usize = add(5, 10);
+
+fn main() {
+    println!("The result is: {}", RESULT);
+}
+```
+
+##### const fn 的限制
+
+虽然 `const fn` 提供了很多便利，但是由于其在编译期执行，以确保函数能在编译期被安全地求值，因此有一些限制，例如，不可将随机数生成器写成 `const fn`。
+
+无论在编译时还是运行时调用 `const fn`，它们的结果总是相同，即使多次调用也是如此。唯一的例外是，如果你在极端情况下进行复杂的浮点操作，你可能会得到（非常轻微的）不同结果。因此，不建议使 `数组长度 (arr.len())` 和 `Enum判别式` 依赖于浮点计算。
+
+##### 结合 const fn 与 const 泛型
+
+将 `const fn` 与 `const 泛型` 结合，可以实现更加灵活和高效的代码设计。例如，创建一个固定大小的缓冲区结构，其中缓冲区大小由编译期计算确定：
+
+```rust
+struct Buffer<const N: usize> {
+    data: [u8; N],
+}
+
+const fn compute_buffer_size(factor: usize) -> usize {
+    factor * 1024
+}
+
+fn main() {
+    const SIZE: usize = compute_buffer_size(4);
+    let buffer = Buffer::<SIZE> {
+        data: [0; SIZE],
+    };
+    println!("Buffer size: {} bytes", buffer.data.len());
+}
+```
+
+在这个例子中，`compute_buffer_size` 是一个常量函数，它根据传入的 `factor` 计算缓冲区的大小。在 `main` 函数中，我们使用 `compute_buffer_size(4)` 来计算缓冲区大小为 4096 字节，并将其作为泛型参数传递给 `Buffer` 结构体。这样，缓冲区的大小在编译期就被确定下来，避免了运行时的计算开销。
 
 ## 泛型的性能
 
