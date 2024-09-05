@@ -4,7 +4,7 @@
 
 - [bindgen](https://crates.io/crates/bindgen), 自动生成 Rust -> C 的 FFI 绑定
 - [cc](https://crates.io/crates/cc), 编译 C/C++/汇编
-- [pkg-config](https://crates.io/crates/cc), 使用 `pkg-config` 工具检测系统库
+- [pkg-config](https://crates.io/crates/pkg-config), 使用 `pkg-config` 工具检测系统库
 - [cmake](https://crates.io/crates/cmake), 运行 `cmake` 来构建一个本地库
 - [autocfg](https://crates.io/crates/autocfg), [rustc_version](https://crates.io/crates/rustc_version), [version_check](https://crates.io/crates/version_check)，这些包提供基于 `rustc` 的当前版本来实现条件编译的方法
 
