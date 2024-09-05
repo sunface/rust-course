@@ -114,7 +114,7 @@ let s = "hello";
 let s = String::from("hello");
 ```
 
-`::` 是一种调用操作符，这里表示调用 `String` 模块中的 `from` 方法，由于 `String` 类型存储在堆上，因此它是动态的，你可以这样修改：
+`::` 是一种调用操作符，这里表示调用 `String` 类型中的 `from` 关联函数，由于 `String` 类型存储在堆上，因此它是动态的，你可以这样修改：
 
 ```rust
 let mut s = String::from("hello");
