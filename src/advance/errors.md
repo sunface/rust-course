@@ -180,10 +180,10 @@ fn main() {
     let e1: Result<&str, &str> = Err("404");
     let e2: Result<&str, isize> = Err(404);
 
-    let fn_character_count = |s: &str| -> isize { s.parse().unwrap() }; // 该函数返回一个 isize
+    let fn_parse = |s: &str| -> isize { s.parse().unwrap() }; // 该函数返回一个 isize
 
-    assert_eq!(o1.map_err(fn_character_count), o2); // Ok1 map = Ok2
-    assert_eq!(e1.map_err(fn_character_count), e2); // Err1 map = Err2
+    assert_eq!(o1.map_err(fn_parse), o2); // Ok1 map = Ok2
+    assert_eq!(e1.map_err(fn_parse), e2); // Err1 map = Err2
 }
 ```
 
