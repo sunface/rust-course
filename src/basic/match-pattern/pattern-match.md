@@ -169,7 +169,7 @@ if let Some(x) = some_option_value {
 
 #### let-else(Rust 1.65 新增)
 
-使用`let-else`匹配，即可使`let`变为可驳模式。它可以使用`else`分支来处理模式不匹配的情况，但是`else`分支中必须用发散的代码块处理（例如：`break`，`return`，`panic`）。请看下面的代码：
+使用 `let-else` 匹配，即可使 `let` 变为可驳模式。它可以使用 `else` 分支来处理模式不匹配的情况，但是 `else` 分支中必须用发散的代码块处理（例如：`break`、`return`、`panic`）。请看下面的代码：
 
 ```rust
 use std::str::FromStr;
