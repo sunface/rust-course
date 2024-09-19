@@ -205,5 +205,5 @@ let Some(x) = some_option_value else { return; }
 println!("{}", x);
 ```
 
-在上面的例子中，`if let`写法里的`x`只能在`if`分支内使用，而`let-else`写法里的`x`则可以在`let`之外使用。
+在上面的例子中，`if let` 写法里的 `x` 只能在 `if` 分支内使用，而 `let-else` 写法里的 `x` 则可以在 `let` 之外使用。
 
