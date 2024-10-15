@@ -119,28 +119,40 @@ fn main() {
 一般来说，方法跟字段同名，往往适用于实现 `getter` 访问器，例如:
 
 ```rust
-pub struct Rectangle {
-    width: u32,
-    height: u32,
-}
-
-impl Rectangle {
-    pub fn new(width: u32, height: u32) -> Self {
-        Rectangle { width, height }
+mod my {
+    pub struct Rectangle {
+        width: u32,
+        pub height: u32,
     }
-    pub fn width(&self) -> u32 {
-        return self.width;
+
+    impl Rectangle {
+        pub fn new(width: u32, height: u32) -> Self {
+            Rectangle { width, height }
+        }
+        pub fn width(&self) -> u32 {
+            return self.width;
+        }
+        pub fn height(&self) -> u32 {
+            return self.height;
+        }
     }
 }
 
 fn main() {
-    let rect1 = Rectangle::new(30, 50);
+    let rect1 = my::Rectangle::new(30, 50);
 
-    println!("{}", rect1.width());
+    println!("{}", rect1.width()); // OK
+    println!("{}", rect1.height()); // OK
+    // println!("{}", rect1.width); // Error - the visibility of field defaults to private
+    println!("{}", rect1.height); // OK
 }
 ```
 
-用这种方式，我们可以把 `Rectangle` 的字段设置为私有属性，只需把它的 `new` 和 `width` 方法设置为公开可见，那么用户就可以创建一个矩形，同时通过访问器 `rect1.width()` 方法来获取矩形的宽度，因为 `width` 字段是私有的，当用户访问 `rect1.width` 字段时，就会报错。注意在此例中，`Self` 指代的就是被实现方法的结构体 `Rectangle`。
+当从模块外部访问结构体时，结构体的字段默认是私有的，其目的是隐藏信息（封装）。我们如果想要从模块外部获取 `Rectangle` 的字段，只需把它的 `new`， `width` 和 `height` 方法设置为公开可见，那么用户就可以创建一个矩形，同时通过访问器 `rect1.width()` 和 `rect1.height()` 方法来获取矩形的宽度和高度。
+
+因为 `width` 字段是私有的，当用户访问 `rect1.width` 字段时，就会报错。注意在此例中，`Self` 指代的就是被实现方法的结构体 `Rectangle`。
+
+特别的是，这种默认的可见性（私有的）可以通过 `pub` 进行覆盖，这样对于模块外部来说，就可以直接访问使用 `pub` 修饰的字段而无需通过访问器。这种可见性仅当从定义结构的模块外部访问时才重要，并且具有隐藏信息（封装）的目的。
 
 > ### `->` 运算符到哪去了？
 >
