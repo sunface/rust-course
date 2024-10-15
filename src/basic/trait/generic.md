@@ -133,6 +133,66 @@ fn add<T: std::ops::Add<Output = T>>(a:T, b:T) -> T {
 
 进行如上修改后，就可以正常运行。
 
+### 显式地指定泛型的类型参数
+
+有时候，编译器无法推断你想要的泛型参数：
+
+```rust
+use std::fmt::Display;
+
+fn create_and_print<T>() where T: From<i32> + Display {
+    let a: T = 100.into(); // 创建了类型为 T 的变量 a，它的初始值由 100 转换而来
+    println!("a is: {}", a);
+}
+
+fn main() {
+    create_and_print();
+}
+```
+
+如果运行以上代码，会得到报错：
+
+```console
+error[E0283]: type annotations needed // 需要标明类型
+ --> src/main.rs:9:5
+  |
+9 |     create_and_print();
+  |     ^^^^^^^^^^^^^^^^ cannot infer type of the type parameter `T` declared on the function `create_and_print` // 无法推断函数 `create_and_print` 的类型参数 `T` 的类型
+  |
+  = note: multiple `impl`s satisfying `_: From<i32>` found in the `core` crate:
+          - impl From<i32> for AtomicI32;
+          - impl From<i32> for f64;
+          - impl From<i32> for i128;
+          - impl From<i32> for i64;
+note: required by a bound in `create_and_print`
+ --> src/main.rs:3:35
+  |
+3 | fn create_and_print<T>() where T: From<i32> + Display {
+  |                                   ^^^^^^^^^ required by this bound in `create_and_print`
+help: consider specifying the generic argument // 尝试指定泛型参数
+  |
+9 |     create_and_print::<T>();
+  |                     +++++
+```
+
+报错里说得很清楚，编译器不知道 `T` 到底应该是什么类型。不过好心的编译器已经帮我们列出了满足条件的类型，然后告诉我们解决方法：显式指定类型：`create_and_print::<T>()`。
+
+于是，我们修改代码：
+```rust
+use std::fmt::Display;
+
+fn create_and_print<T>() where T: From<i32> + Display {
+    let a: T = 100.into(); // 创建了类型为 T 的变量 a，它的初始值由 100 转换而来
+    println!("a is: {}", a);
+}
+
+fn main() {
+    create_and_print::<i64>();
+}
+```
+
+即可成功运行。
+
 ## 结构体中使用泛型
 
 结构体中的字段类型也可以用泛型来定义，下面代码定义了一个坐标点 `Point`，它可以存放任何类型的坐标值：
