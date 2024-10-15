@@ -166,3 +166,44 @@ if let Some(x) = some_option_value {
 ```
 
 因为 `if let` 允许匹配一种模式，而忽略其余的模式( 可驳模式匹配 )。
+
+#### let-else(Rust 1.65 新增)
+
+使用 `let-else` 匹配，即可使 `let` 变为可驳模式。它可以使用 `else` 分支来处理模式不匹配的情况，但是 `else` 分支中必须用发散的代码块处理（例如：`break`、`return`、`panic`）。请看下面的代码：
+
+```rust
+use std::str::FromStr;
+
+fn get_count_item(s: &str) -> (u64, &str) {
+    let mut it = s.split(' ');
+    let (Some(count_str), Some(item)) = (it.next(), it.next()) else {
+        panic!("Can't segment count item pair: '{s}'");
+    };
+    let Ok(count) = u64::from_str(count_str) else {
+        panic!("Can't parse integer: '{count_str}'");
+    };
+    // error: `else` clause of `let...else` does not diverge
+    // let Ok(count) = u64::from_str(count_str) else { 0 };
+    (count, item)
+}
+
+fn main() {
+    assert_eq!(get_count_item("3 chairs"), (3, "chairs"));
+}
+```
+
+与 `match` 和 `if let` 相比，`let-else` 的一个显著特点在于其解包成功时所创建的变量具有更广的作用域。在 `let-else` 语句中，成功匹配后的变量不再仅限于特定分支内使用：
+
+```rust
+// if let
+if let Some(x) = some_option_value {
+    println!("{}", x);
+}
+
+// let-else
+let Some(x) = some_option_value else { return; }
+println!("{}", x);
+```
+
+在上面的例子中，`if let` 写法里的 `x` 只能在 `if` 分支内使用，而 `let-else` 写法里的 `x` 则可以在 `let` 之外使用。
+
