@@ -160,7 +160,7 @@ fn main() {
 >
 > Rust 并没有一个与 `->` 等效的运算符；相反，Rust 有一个叫 **自动引用和解引用**的功能。方法调用是 Rust 中少数几个拥有这种行为的地方。
 >
-> 他是这样工作的：当使用 `object.something()` 调用方法时，Rust 会自动为 `object` 添加 `&`、`&mut` 或 `*` 以便使 `object` 与方法签名匹配。也就是说，这些代码是等价的：
+> 他是这样工作的：当使用 `object.something()` 调用方法时，Rust 会自动为 `object` 添加 `&`（视可见性添加`&mut`)、 `*` 以便使 `object` 与方法签名匹配。也就是说，这些代码是等价的：
 >
 > ```rust
 > # #[derive(Debug,Copy,Clone)]
