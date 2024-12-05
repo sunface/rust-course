@@ -81,6 +81,15 @@ trait Container{
 
 fn difference<C: Container>(container: &C) {}
 ```
+**关联类型可以增加其他特征限制**
+例如：限定类型必须实现了core::fmt::Display trait:
+```rust
+trait Container{
+    type A：Display;
+    type B;
+    fn contains(&self, a: &Self::A, b: &Self::B) -> bool;
+}
+很多库里面都有这样的写法，大家别被绕晕
 
 ## 默认泛型类型参数
 
