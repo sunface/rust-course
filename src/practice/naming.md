@@ -69,7 +69,7 @@
 
 
 [`BufReader`]: https://doc.rust-lang.org/std/io/struct.BufReader.html#method.into_inner
-[`GzDecoder`]: https://docs.rs/flate2/0.2.19/flate2/read/struct.GzDecoder.html#method.into_inner
+[`GzDecoder`]: https://starry-network.github.io/starry_node/flate2/write/struct.GzDecoder.html#method.into_inner
 [`AtomicBool`]: https://doc.rust-lang.org/std/sync/atomic/struct.AtomicBool.html#method.into_inner
 
 如果 `mut` 限定符在返回类型中出现，那么在命名上也**应该**体现出来。例如，[`Vec::as_mut_slice`] 就说明它返回了一个 `mut` 切片，在这种情况下 `as_mut_slice` 比 `as_slice_mut` 更适合。
