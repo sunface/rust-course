@@ -287,7 +287,7 @@ error[E0515]: cannot return value referencing local variable `result` // 返回�
 那遇到这种情况该怎么办？最好的办法就是返回内部字符串的所有权，然后把字符串的所有权转移给调用者：
 
 ```rust
-fn longest<'a>(_x: &str, _y: &str) -> String {
+fn longest(_x: &str, _y: &str) -> String {
     String::from("really long string")
 }
 
