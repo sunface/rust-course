@@ -81,7 +81,7 @@ trait Container{
 
 fn difference<C: Container>(container: &C) {}
 ```
-**关联类型可以增加其他特征限制**
+关联类型还可以被其它特征进行约束，例如：
 ```rust
 trait Container{
     type A：Display;
