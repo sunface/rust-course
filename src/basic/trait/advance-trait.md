@@ -81,6 +81,13 @@ trait Container{
 
 fn difference<C: Container>(container: &C) {}
 ```
+关联类型还可以被其它特征进行约束，例如：
+```rust
+trait Container{
+    type A：Display;
+    type B;
+    fn contains(&self, a: &Self::A, b: &Self::B) -> bool;
+}
 
 ## 默认泛型类型参数
 
