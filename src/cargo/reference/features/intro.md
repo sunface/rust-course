@@ -146,7 +146,7 @@ parallel = ["jpeg-decoder/rayon"]
 
 <img src="https://pic2.zhimg.com/80/v2-251973b0cc83f35cd6858bf21dd00ed6_1440w.png" />
 
-由于这种不可控性，我们需要让 `启用feature = 添加特性` 这个等式成立，换而言之，**启用一个 feature 不应该导致某个功能被禁止**。这样才能的让多个包启用同一个依赖的不同 features。
+由于这种不可控性，我们需要让 `启用feature = 添加特性` 这个等式成立，换而言之，**启用一个 feature 不应该导致某个功能被禁止**。这样才能让多个包启用同一个依赖的不同 features。
 
 例如，如果我们想可选的支持 `no_std` 环境(不使用标准库)，那么有两种做法：
 
