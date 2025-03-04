@@ -81,7 +81,7 @@ fn main() {
 
 代码很简单，`into_iter` 方法将列表转为迭代器，接着通过 `collect` 进行收集，不过需要注意的是，`collect` 方法在内部实际上支持生成多种类型的目标集合，因此我们需要通过类型标注 `HashMap<_,_>` 来告诉编译器：请帮我们收集为 `HashMap` 集合类型，具体的 `KV` 类型，麻烦编译器您老人家帮我们推导。
 
-由此可见，Rust 中的编译器时而小聪明，时而大聪明，不过好在，它大聪明的时候，会自家人知道自己事，总归会通知你一声：
+由此可见，Rust 中的编译器时而小聪明，时而大聪明，不过好在，它大聪明的时候，会自家人知道自家事，总归会通知你一声：
 
 ```console
 error[E0282]: type annotations needed // 需要类型标注
@@ -186,6 +186,20 @@ let score: Option<&i32> = scores.get(&team_name);
 
 - `get` 方法返回一个 `Option<&i32>` 类型：当查询不到时，会返回一个 `None`，查询到时返回 `Some(&i32)`
 - `&i32` 是对 `HashMap` 中值的借用，如果不使用借用，可能会发生所有权的转移
+- `get` 方法的 `key` 参数必须是一个引用，如这里的 `scores.get(&team_name)`，这是因为 `HashMap<K, V>` 的 `get` 方法的签名如下：
+```rust
+impl<K, V> HashMap<K, V>
+where
+    K: Eq + Hash,
+{
+    pub fn get<Q>(&self, k: &Q) -> Option<&V>
+    where
+        K: Borrow<Q>,
+        Q: Hash + Eq + ?Sized,
+    { ... }
+}
+```
+- 可以看到签名中的 `k: &Q`。下面的特征约束 `K: Borrow<Q>` 是指类型 `K` 需要能以另一种形式 `Q` 被借用。在这种情况下，`String` 实现了 `Borrow<str>`，所以 `&String` 和 `&str` 类型都可以用于 `get` 方法。
 
 还可以继续拓展下，上面的代码中，如果我们想直接获得值类型的 `score` 该怎么办，答案简约但不简单：
 
