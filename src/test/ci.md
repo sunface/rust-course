@@ -335,74 +335,65 @@ jobs:
 
 ## 构建
 
+使用 [taiki-e/upload-rust-binary-action](https://github.com/taiki-e/upload-rust-binary-action) 可以帮助我们快捷的自动化构建 Rust 针对各个不同操作系统和平台的二进制文件,下面是一个示例：
+
+效果: 打完 tag 之后自动 build `windows`, `macos`, `linux` 三个平台的二进制文件并上传到 GitHub Release。
+
+
 ```yml
 name: build
+
 on:
-  workflow_dispatch: {}
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
 jobs:
-  build:
-    name: build
-    runs-on: ${{ matrix.os }}
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: taiki-e/create-gh-release-action@v1
+        with:
+          # (required) GitHub token for creating GitHub Releases.
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  upload-assets:
+    needs: create-release
     strategy:
       matrix:
-        build: [linux, macos, windows]
         include:
-          - build: linux
-            os: ubuntu-18.04
-            rust: nightly
-            target: x86_64-unknown-linux-musl
-            archive-name: sgf-render-linux.tar.gz
-          - build: macos
+          - target: aarch64-unknown-linux-gnu
+            os: ubuntu-latest
+          - target: aarch64-apple-darwin
             os: macos-latest
-            rust: nightly
-            target: x86_64-apple-darwin
-            archive-name: sgf-render-macos.tar.gz
-          - build: windows
-            os: windows-2019
-            rust: nightly-x86_64-msvc
-            target: x86_64-pc-windows-msvc
-            archive-name: sgf-render-windows.7z
-      fail-fast: false
-
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest
+          - target: x86_64-apple-darwin
+            os: macos-latest
+          # Universal macOS binary is supported as universal-apple-darwin.
+          - target: universal-apple-darwin
+            os: macos-latest
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
+      - uses: actions/checkout@v4
+      - uses: taiki-e/upload-rust-binary-action@v1
         with:
-          toolchain: ${{ matrix.rust }}
-          profile: minimal
-          override: true
+          # (required) Comma-separated list of binary names (non-extension portion of filename) to build and upload.
+          # Note that glob pattern is not supported yet.
+          # 在这里填上你的 二进制名称
+          bin: ...
+          # (optional) Target triple, default is host triple.
           target: ${{ matrix.target }}
+          # (required) GitHub token for uploading assets to GitHub Releases.
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build binary
-        run: cargo build --verbose --release --target ${{ matrix.target }}
-        env:
-          RUST_BACKTRACE: 1
 
-      - name: Strip binary (linux and macos)
-        if: matrix.build == 'linux' || matrix.build == 'macos'
-        run: strip "target/${{ matrix.target }}/release/sgf-render"
-
-      - name: Build archive
-        shell: bash
-        run: |
-          mkdir archive
-          cp LICENSE README.md archive/
-          cd archive
-          if [ "${{ matrix.build }}" = "windows" ]; then
-            cp "../target/${{ matrix.target }}/release/sgf-render.exe" ./
-            7z a "${{ matrix.archive-name }}" LICENSE README.md sgf-render.exe
-          else
-            cp "../target/${{ matrix.target }}/release/sgf-render" ./
-            tar -czf "${{ matrix.archive-name }}" LICENSE README.md sgf-render
-          fi
-      - name: Upload archive
-        uses: actions/upload-artifact@v1
-        with:
-          name: ${{ matrix.archive-name }}
-          path: archive/${{ matrix.archive-name }}
 ```
 
 限于文章篇幅有限，我们就不再多做解释，大家有疑问可以看看文中给出的文档链接，顺便说一句官方文档是支持中文的！
