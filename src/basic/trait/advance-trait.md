@@ -88,7 +88,7 @@ trait Container{
     type B;
     fn contains(&self, a: &Self::A, b: &Self::B) -> bool;
 }
-
+```
 ## 默认泛型类型参数
 
 当使用泛型类型参数时，可以为其指定一个默认的具体类型，例如标准库中的 `std::ops::Add` 特征：
