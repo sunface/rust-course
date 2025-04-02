@@ -88,6 +88,7 @@ trait Container{
     type B;
     fn contains(&self, a: &Self::A, b: &Self::B) -> bool;
 }
+```
 
 ## 默认泛型类型参数
 
