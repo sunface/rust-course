@@ -93,7 +93,7 @@
     - [Sized 和不定长类型 DST](advance/into-types/sized.md)
     - [枚举和整数](advance/into-types/enum-int.md)
   - [智能指针](advance/smart-pointer/intro.md)
-    - [Box<T>堆对象分配](advance/smart-pointer/box.md)
+    - [`Box<T>` 堆对象分配](advance/smart-pointer/box.md)
     - [Deref 解引用](advance/smart-pointer/deref.md)
     - [Drop 释放资源](advance/smart-pointer/drop.md)
     - [Rc 与 Arc 实现 1vN 所有权机制](advance/smart-pointer/rc-arc.md)
