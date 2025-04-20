@@ -31,31 +31,31 @@
 
 | 名称                              | 关键字         | 简介                                                                                 |
 | --------------------------------- | -------------- | ------------------------------------------------------------------------------------ |
-| [?]                               | 错误传播       | 用于简化错误传播                                                                     |
-| [()]                              | 单元类型       | 单元类型，无返回值                                                                   |
+| `[?]`                             | 错误传播       | 用于简化错误传播                                                                     |
+| `[()]`                            | 单元类型       | 单元类型，无返回值                                                                   |
 | `!` : 1. [函数] 2. [类型]         | 永不返回       | 永不返回                                                                             |
-| [&]                               | 引用           | 常规引用是一个指针类型，指向了对象存储的内存地址                                     |
-| [\*]                              | 解引用         | 解出引用所指向的值                                                                   |
-| [@]                               | 变量绑定       | 为一个字段绑定另外一个变量                                                           |
+| `[&]`                             | 引用           | 常规引用是一个指针类型，指向了对象存储的内存地址                                     |
+| `[\*]`                            | 解引用         | 解出引用所指向的值                                                                   |
+| `[@]`                             | 变量绑定       | 为一个字段绑定另外一个变量                                                           |
 | `_` : 1. [忽略变量] 2. [模式匹配] | 忽略           | 1. 忽略该值或者类型，否则编译器会给你一个 `变量未使用的` 的警告<br>2. 模式匹配通配符 |
-| ['a: 'b]                          | 生命周期约束   | 用来说明两个生命周期的长短                                                           |
-| [{:?}] {:#?}                      | 打印结构体信息 | 使用 `#[derive(Debug)]` 派生实现 `Debug` 特征，另见 [格式化输出]                     |
-| [::]                              | 关联函数       | 定义在 `impl` 中且没有 `self` 的函数                                                 |
+| `['a: 'b]`                        | 生命周期约束   | 用来说明两个生命周期的长短                                                           |
+| `[{:?}] {:#?}`                    | 打印结构体信息 | 使用 `#[derive(Debug)]` 派生实现 `Debug` 特征，另见 [格式化输出]                     |
+| `[::]`                            | 关联函数       | 定义在 `impl` 中且没有 `self` 的函数                                                 |
 |                                   |                |
 
-[?]: https://course.rs/basic/result-error/result.html#传播界的大明星-
-[()]: https://course.rs/basic/base-type/function.html#无返回值
-[函数]: https://course.rs/basic/base-type/function.html#永不返回的发散函数-
-[类型]: https://course.rs/advance/into-types/custom-type.html#永不返回类型
-[&]: https://course.rs/basic/ownership/borrowing.html#引用与解引用
-[\*]: https://course.rs/basic/ownership/borrowing.html#引用与解引用
-[@]: https://course.rs/basic/match-pattern/all-patterns.html#绑定
-['a: 'b]: https://course.rs/advance/lifetime/advance.html#生命周期约束-hrtb
-[{:?}]: https://course.rs/basic/compound-type/struct.html#使用-derivedebug-来打印结构体的信息
-[忽略变量]: https://course.rs/basic/variable.html#使用下划线开头忽略未使用的变量
-[模式匹配]: https://course.rs/basic/match-pattern/match-if-let.html#_-通配符
-[::]: https://course.rs/basic/method.html#关联函数
-[格式化输出]: https://course.rs/basic/formatted-output.html#-与-
+`[?]`: https://course.rs/basic/result-error/result.html#传播界的大明星-
+`[()]`: https://course.rs/basic/base-type/function.html#无返回值
+`[函数]`: https://course.rs/basic/base-type/function.html#永不返回的发散函数-
+`[类型]`: https://course.rs/advance/into-types/custom-type.html#永不返回类型
+`[&]`: https://course.rs/basic/ownership/borrowing.html#引用与解引用
+`[\*]`: https://course.rs/basic/ownership/borrowing.html#引用与解引用
+`[@]`: https://course.rs/basic/match-pattern/all-patterns.html#绑定
+`['a: 'b]`: https://course.rs/advance/lifetime/advance.html#生命周期约束-hrtb
+`[{:?}]`: https://course.rs/basic/compound-type/struct.html#使用-derivedebug-来打印结构体的信息
+`[忽略变量]`: https://course.rs/basic/variable.html#使用下划线开头忽略未使用的变量
+`[模式匹配]`: https://course.rs/basic/match-pattern/match-if-let.html#_-通配符
+`[::]`: https://course.rs/basic/method.html#关联函数
+`[格式化输出]`: https://course.rs/basic/formatted-output.html#-与-
 
 [back](#head)
 
