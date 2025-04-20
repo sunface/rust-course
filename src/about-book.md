@@ -41,6 +41,7 @@ Rust 语言真的好：连续八年成为全世界最受欢迎的语言、没有
 🏆
 
 <table>
+    <tbody>
     <tr>
         <td align="center">
             <a href="https://github.com/EluvK">
@@ -57,6 +58,7 @@ Rust 语言真的好：连续八年成为全世界最受欢迎的语言、没有
             </a>
         </td>
     </tr>
+    </tbody>
 </table>
 
 <br />
@@ -64,6 +66,7 @@ Rust 语言真的好：连续八年成为全世界最受欢迎的语言、没有
 🏅
 
 <table>
+    <tbody>
     <tr>
         <td align="center">
             <a href="https://github.com/JesseAtSZ">
@@ -94,4 +97,5 @@ Rust 语言真的好：连续八年成为全世界最受欢迎的语言、没有
             </a>
         </td>
     </tr>
+    </tbody>
 </table>
