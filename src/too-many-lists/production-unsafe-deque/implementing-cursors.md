@@ -216,7 +216,7 @@ pub fn split_before(&mut self) -> LinkedList<T> {
 }
 ```
 
-你可能注意到，我们没有处理 prev 是幽灵节点的情况。但据我所知，其他一切都只是顺便做了正确的事。等我们写测试的时候就知道了！(复制粘贴完成 split_after）。
+你可能注意到，我们没有处理 prev 是幽灵节点的情况。但据我所知，其他一切都只是顺便做了正确的事。等我们写测试的时候就知道了！（复制粘贴完成 split_after）。
 
 # [Splice](https://rust-unofficial.github.io/too-many-lists/sixth-cursors-impl.html#splice)
 
@@ -297,7 +297,7 @@ list.front -> A <-> 1 <-> 2 <-> B <-> C <- list.back
     }
 ```
 
-好吧，这个程序真的很可怕，现在真的感觉到 Option<NonNull> 的痛苦了。但我们可以做很多清理工作。首先，我们可以把这段代码拖到最后。
+好吧，这个程序真的很可怕，现在真的感觉到 `Option<NonNull>` 的痛苦了。但我们可以做很多清理工作。首先，我们可以把这段代码拖到最后。
 
 ```rust
 self.list.len += input.len;
