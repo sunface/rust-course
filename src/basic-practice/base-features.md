@@ -30,7 +30,7 @@ fn main() {
     dbg!(args);
 }
 ```
-首先通过 `use` 引入标准库中的 `env` 包，然后 `env::args` 方法会读取并分析传入的命令行参数，最终通过 `collect` 方法输出一个集合类型 `Vector`。
+首先通过 `use` 引入标准库中的 `env` 模块，然后 `env::args` 方法会读取并分析传入的命令行参数，最终通过 `collect` 方法输出一个集合类型 `Vector`。
 
 可能有同学疑惑，为啥不直接引入 `args` ，例如 `use std::env::args` ，这样就无需 `env::args` 来繁琐调用，直接`args().collect()` 即可。原因很简单，`args` 方法只会使用一次，啰嗦就啰嗦点吧，把相同的好名字让给 `let args..` 这位大哥不好吗？毕竟人家要出场多次的。
 
@@ -45,7 +45,7 @@ fn main() {
 
 
 
-`collect` 方法其实并不是`std::env`包提供的，而是迭代器自带的方法(`env::args()` 会返回一个迭代器)，它会将迭代器消费后转换成我们想要的集合类型，关于迭代器和 `collect` 的具体介绍，请参考[这里](https://course.rs/advance/functional-programing/iterator.html)。
+`collect` 方法其实并不是`std::env`模块提供的，而是迭代器自带的方法(`env::args()` 会返回一个迭代器)，它会将迭代器消费后转换成我们想要的集合类型，关于迭代器和 `collect` 的具体介绍，请参考[这里](https://course.rs/advance/functional-programing/iterator.html)。
 
 最后，代码中使用 `dbg!` 宏来输出读取到的数组内容，来看看长啥样：
 ```shell
@@ -146,7 +146,7 @@ fn main() {
 }
 ```
 
-首先，通过 `use std::fs` 引入文件操作包，然后通过 `fs::read_to_string` 读取指定的文件内容，最后返回的 `contents` 是 `std::io::Result<String>` 类型。
+首先，通过 `use std::fs` 引入文件操作模块，然后通过 `fs::read_to_string` 读取指定的文件内容，最后返回的 `contents` 是 `std::io::Result<String>` 类型。
 
 运行下试试，这里无需输入第二个参数，因为我们还没有实现查询功能:
 ```shell
