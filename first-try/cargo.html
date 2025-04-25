@@ -1,0 +1,351 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>认识 Cargo - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/first-try/cargo.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="认识-cargo"><a class="header" href="#认识-cargo">认识 Cargo</a></h2>
+<p>但凡经历过 C/C++ 或 Go 语言 1.10 版本之前的用户都知道，一个好的包管理工具有多么的重要！！我那个时候是如此的渴望类似 <code>nodejs</code> 的 <code>npm</code> 包管理工具，但是却求而不得。</p>
+<p>包管理工具最重要的意义就是<strong>任何用户拿到你的代码，都能运行起来</strong>，而不会因为各种包版本依赖焦头烂额。</p>
+<p>Go 语言在 1.10 版本之前，所有的包都是在 <code>github.com</code> 下存放，导致了所有的项目都公用一套依赖代码，在本地项目复杂后，这简直是一种灾难。</p>
+<p>说多了都是泪，笔者目前还有一个早期 Go 的项目（15 年写的），用到了 <code>iris</code> （一个坑爹 HTTP 服务），结果现在运行不起来了，因为找不到 <code>iris</code> 当时的那个版本了！！</p>
+<p>作为一门现代化语言，<code>Rust</code> 吸收了多个语言的包管理优点，为大家提供超级大杀器： <code>cargo</code>，真的，再挑剔的开发者，都对它赞不绝口。👍</p>
+<p>总而言之，<code>cargo</code> 提供了一系列的工具，从项目的建立、构建到测试、运行直至部署，为 Rust 项目的管理提供尽可能完整的手段。同时，与 Rust 语言及其编译器 <code>rustc</code> 紧密结合，可以说用了后就忘不掉，如同初恋般的感觉。</p>
+<h2 id="创建一个你好世界项目"><a class="header" href="#创建一个你好世界项目">创建一个"你好，世界"项目</a></h2>
+<p>又见"你好，世界"，肯定有读者在批评了：你就不能有点创意吗？"世界，你好"难道不配？你是读者，你说了算，那我们就来创建一个"世界，你好"。</p>
+<p>上文提到，Rust 语言的包管理工具是 <code>cargo</code>。不过，我们无需再手动安装，之前安装 Rust 的时候，就已经一并安装了。</p>
+<p>终于到了紧张刺激的 new new new 环节：</p>
+<pre><code class="language-console">$ cargo new world_hello
+$ cd world_hello
+</code></pre>
+<p>上面的命令使用 <code>cargo new</code> 创建一个项目，项目名是 <code>world_hello</code> （向读者势力低头的项目名称，泪奔），该项目的结构和配置文件都是由 <code>cargo</code> 生成，意味着<strong>我们的项目被 <code>cargo</code> 所管理</strong>。</p>
+<blockquote>
+<p>如果你在终端无法使用这个命令，考虑一下 <code>环境变量</code> 是否正确的设置：把 <code>cargo</code> 可执行文件所在的目录添加到环境变量中。</p>
+<p>如果是在 Windows 的 WSL2 子系统下，出现以下错误：</p>
+<p><code>error: command failed: 'rustc'</code>
+<code>error: caused by: Permission denied (os error 13)</code></p>
+<p>可尝试先卸载，再使用<code>sudo</code>命令进行安装：<code>$ sudo curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh</code></p>
+</blockquote>
+<p>早期的 <code>cargo</code> 在创建项目时，必须添加 <code>--bin</code> 的参数，如下所示：</p>
+<pre><code class="language-console">$ cargo new world_hello --bin
+$ cd world_hello
+</code></pre>
+<p>现在的版本，已经无需此参数，<code>cargo</code> 默认就创建 <code>bin</code> 类型的项目，顺便说一句，Rust 项目主要分为两个类型：<code>bin</code> 和 <code>lib</code>，前者是一个可运行的项目，后者是一个依赖库项目。</p>
+<p>下面来看看创建的项目结构：</p>
+<pre><code class="language-console">$ tree
+.
+├── .git
+├── .gitignore
+├── Cargo.toml
+└── src
+    └── main.rs
+
+</code></pre>
+<p>是的，连 <code>git</code> 都给你创建了，不禁令人感叹，不是女儿，胜似女儿，比小棉袄还体贴。</p>
+<h2 id="运行项目"><a class="header" href="#运行项目">运行项目</a></h2>
+<p>有两种方式可以运行项目：</p>
+<ol>
+<li>
+<p><code>cargo run</code></p>
+</li>
+<li>
+<p>手动编译和运行项目</p>
+</li>
+</ol>
+<p>首先来看看第一种方式，一码胜似千言，在之前创建的 <code>world_hello</code> 目录下运行：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling world_hello v0.1.0 (/Users/sunfei/development/rust/world_hello)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.43s
+     Running `target/debug/world_hello`
+Hello, world!
+</code></pre>
+<p>好了，你已经看到程序的输出：<code>"Hello, world"</code>。</p>
+<p>如果你安装的 Rust 的 <code>host triple</code> 是 <code>x86_64-pc-windows-msvc</code> 并确认 Rust 已经正确安装，但在终端上运行上述命令时，出现类似如下的错误摘要 <code>linking with `link.exe` failed: exit code: 1181</code>，请使用 Visual Studio Installer 安装 <code>Windows SDK</code>。</p>
+<p>可能有读者不愿意了，说好了"世界，你好"呢？别急，在下一节，我们再对代码进行修改。（认真想来，"你好，世界“强调的是我对世界说你好，而"世界，你好“是世界对我说你好，明显是后者更有包容性和国际范儿，读者真·好眼光。）</p>
+<p>上述代码，<code>cargo run</code> 首先对项目进行编译，然后再运行，因此它实际上等同于运行了两个指令，下面我们手动试一下编译和运行项目：</p>
+<p>编译</p>
+<pre><code class="language-console">$ cargo build
+    Finished dev [unoptimized + debuginfo] target(s) in 0.00s
+</code></pre>
+<p>运行</p>
+<pre><code class="language-console">$ ./target/debug/world_hello
+Hello, world!
+</code></pre>
+<p>行云流水，但谈不上一气呵成。 细心的读者可能已经发现，在调用的时候，路径 <code>./target/debug/world_hello</code> 中有一个明晃晃的 <code>debug</code> 字段，没错我们运行的是 <code>debug</code> 模式，在这种模式下，<strong>代码的编译速度会非常快</strong>，可是福兮祸所伏，<strong>运行速度就慢了</strong>. 原因是，在 <code>debug</code> 模式下，Rust 编译器不会做任何的优化，只为了尽快的编译完成，让你的开发流程更加顺畅。</p>
+<p>作为尊贵的读者，咱自然可以要求更多，比如你想要高性能的代码怎么办？ 简单，添加 <code>--release</code> 来编译：</p>
+<ul>
+<li><code>cargo run --release</code></li>
+<li><code>cargo build --release</code></li>
+</ul>
+<p>试着运行一下我们高性能的 <code>release</code> 程序：</p>
+<pre><code class="language-console">$ ./target/release/world_hello
+Hello, world!
+</code></pre>
+<h2 id="cargo-check"><a class="header" href="#cargo-check">cargo check</a></h2>
+<p>当项目大了后，<code>cargo run</code> 和 <code>cargo build</code> 不可避免的会变慢，那么有没有更快的方式来验证代码的正确性呢？大杀器来了，接着！</p>
+<p><code>cargo check</code> 是我们在代码开发过程中最常用的命令，它的作用很简单：快速的检查一下代码能否编译通过。因此该命令速度会非常快，能节省大量的编译时间。</p>
+<pre><code class="language-console">$ cargo check
+    Checking world_hello v0.1.0 (/Users/sunfei/development/rust/world_hello)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.06s
+</code></pre>
+<blockquote>
+<p>Rust 虽然编译速度还行，但是还是不能与 Go 语言相提并论，因为 Rust 需要做很多复杂的编译优化和语言特性解析，甚至连如何优化编译速度都成了一门学问: <a href="https://course.rs/profiling/compiler/speed-up.html">优化编译速度</a>。</p>
+</blockquote>
+<h2 id="cargotoml-和-cargolock"><a class="header" href="#cargotoml-和-cargolock">Cargo.toml 和 Cargo.lock</a></h2>
+<p><code>Cargo.toml</code> 和 <code>Cargo.lock</code> 是 <code>cargo</code> 的核心文件，它的所有活动均基于此二者。</p>
+<ul>
+<li>
+<p><code>Cargo.toml</code> 是 <code>cargo</code> 特有的<strong>项目数据描述文件</strong>。它存储了项目的所有元配置信息，如果 Rust 开发者希望 Rust 项目能够按照期望的方式进行构建、测试和运行，那么，必须按照合理的方式构建 <code>Cargo.toml</code>。</p>
+</li>
+<li>
+<p><code>Cargo.lock</code> 文件是 <code>cargo</code> 工具根据同一项目的 <code>toml</code> 文件生成的<strong>项目依赖详细清单</strong>，因此我们一般不用修改它，只需要对着 <code>Cargo.toml</code> 文件撸就行了。</p>
+</li>
+</ul>
+<blockquote>
+<p>什么情况下该把 <code>Cargo.lock</code> 上传到 git 仓库里？很简单，当你的项目是一个可运行的程序时，就上传 <code>Cargo.lock</code>，如果是一个依赖库项目，那么请把它添加到 <code>.gitignore</code> 中。</p>
+</blockquote>
+<p>现在用 VSCode 打开上面创建的"世界，你好"项目，然后进入根目录的 <code>Cargo.toml</code> 文件，可以看到该文件包含不少信息：</p>
+<h3 id="package-配置段落"><a class="header" href="#package-配置段落">package 配置段落</a></h3>
+<p><code>package</code> 中记录了项目的描述信息，典型的如下：</p>
+<pre><code class="language-toml">[package]
+name = "world_hello"
+version = "0.1.0"
+edition = "2021"
+</code></pre>
+<p><code>name</code> 字段定义了项目名称，<code>version</code> 字段定义当前版本，新项目默认是 <code>0.1.0</code>，<code>edition</code> 字段定义了我们使用的 Rust 大版本。因为本书很新（不仅仅是现在新，未来也将及时修订，跟得上 Rust 的小步伐），所以使用的是 <code>Rust edition 2021</code> 大版本，详情见 <a href="https://course.rs/appendix/rust-version.html">Rust 版本详解</a></p>
+<h3 id="定义项目依赖"><a class="header" href="#定义项目依赖">定义项目依赖</a></h3>
+<p>使用 <code>cargo</code> 工具的最大优势就在于，能够对该项目的各种依赖项进行方便、统一和灵活的管理。</p>
+<p>在 <code>Cargo.toml</code> 中，主要通过各种依赖段落来描述该项目的各种依赖项：</p>
+<ul>
+<li>基于 Rust 官方仓库 <code>crates.io</code>，通过版本说明来描述</li>
+<li>基于项目源代码的 git 仓库地址，通过 URL 来描述</li>
+<li>基于本地项目的绝对路径或者相对路径，通过类 Unix 模式的路径来描述</li>
+</ul>
+<p>这三种形式具体写法如下：</p>
+<pre><code class="language-toml">[dependencies]
+rand = "0.3"
+hammer = { version = "0.5.0"}
+color = { git = "https://github.com/bjz/color-rs" }
+geometry = { path = "crates/geometry" }
+</code></pre>
+<p>相信聪明的读者已经能看懂该如何引入外部依赖库，这里就不再赘述。详细的说明参见此章：<a href="https://course.rs/cargo/reference/specify-deps.html">Cargo 依赖管理</a>，但是不建议大家现在去看，只要按照目录浏览，拨云见日指日可待。</p>
+<h2 id="基于-cargo-的项目组织结构"><a class="header" href="#基于-cargo-的项目组织结构">基于 cargo 的项目组织结构</a></h2>
+<p>前文有提到 <code>cargo</code> 默认生成的项目结构，真实的项目肯定会有所不同，但是在目前的学习阶段，还无需关注。感兴趣的同学可以移步：<a href="https://course.rs/cargo/guide/package-layout.html">Cargo 项目结构</a></p>
+<p>至此，大家对 Rust 项目的创建和管理已经有了初步的了解，那么来完善刚才的<code>"世界，你好"</code>项目吧。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../first-try/editor.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../first-try/hello-world.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../first-try/editor.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../first-try/hello-world.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

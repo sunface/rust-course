@@ -1,0 +1,367 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>恐慌与安全 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/too-many-lists/production-unsafe-deque/drop-and-panic-safety.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="drop-and-panic-safety"><a class="header" href="#drop-and-panic-safety">Drop and Panic Safety</a></h1>
+<p>嘿，你注意到这些注释了吗：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Note that we don't need to mess around with `take` anymore
+// because everything is Copy and there are no dtors that will
+// run if we mess up... right? :) Riiiight? :)))
+<span class="boring">}</span></code></pre></pre>
+<p>这对吗？</p>
+<p>你忘记你正在读那本书了吗？当然这是错误的（部分上是）。</p>
+<p>让我们再次看看 pop_front 内部:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Bring the Box back to life so we can move out its value and
+// Drop it (Box continues to magically understand this for us).
+let boxed_node = Box::from_raw(node.as_ptr());
+let result = boxed_node.elem;
+
+// Make the next node into the new front.
+self.front = boxed_node.back;
+if let Some(new) = self.front {
+    // Cleanup its reference to the removed node
+    (*new.as_ptr()).front = None;
+} else {
+    // If the front is now null, then this list is now empty!
+    debug_assert!(self.len == 1);
+    self.back = None;
+}
+
+self.len -= 1;
+result
+// Box gets implicitly freed here, knows there is no T.
+<span class="boring">}</span></code></pre></pre>
+<p>你看到 bug 了吗? 真可怕, 是这一行:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>debug_assert!(self.len == 1);
+<span class="boring">}</span></code></pre></pre>
+<p>大多数情况下，你不需要考虑或担心恐慌，但一旦你开始编写真正不安全的代码，并在 "invariants(不可变性) "上大做文章，你就需要对恐慌保持高度警惕！</p>
+<p>我们必须谈谈 <a href="https://doc.rust-lang.org/nightly/nomicon/exception-safety.html"><em>异常安全</em></a> （又名恐慌安全、解除安全......）。</p>
+<p>情况是这样的：在默认情况下，恐慌会被 unwinding。unwind 只是 "让每个函数立即返回 "的一种花哨说法。你可能会想："好吧，如果每个函数都返回，那么程序就要结束了，何必在乎它呢？"但你错了！</p>
+<p>我们必须关注有两个原因：当函数返回时，析构函数会运行，而且可以捕获 unwind。在这两种情况下，代码都可能在恐慌发生后继续运行，因此我们必须非常小心，确保我们的不安全的集合在恐慌发生时始终处于某种一致的状态，因为每次恐慌都是隐式的提前返回！</p>
+<p>让我们想一想，到这一行时，我们的集合处于什么状态：</p>
+<p>我们将 boxed_node 放在栈上，并从中提取了元素。如果我们在此时返回，Box 将被丢弃，节点将被释放。self.back 仍然指向那个被释放的节点！一旦我们使用 self.back 来处理一些事情，这就可能导致释放后再使用！</p>
+<p>有趣的是，这行也有类似的问题，但它要安全得多：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>self.len -= 1;
+<span class="boring">}</span></code></pre></pre>
+<p>默认情况下，Rust 会在调试构建时检查上溢和下溢，并在发生时产生恐慌。是的，每一次算术运算都会带来恐慌安全隐患！这行还好，他不会导致内存错误，因为之前已经完成了该做的所有操作。所以调试断言哪行在某种意义上更糟糕，因为它可能将一个小问题升级为关键问题！</p>
+<p>在实现过程中，只要我们确保在别人注意到之前修复它们，我们可以临时性的破坏invariants(不可变性)。这实际上是 Rust 的集合所有权和借用系统的 "杀手级应用 "之一：如果一个操作需要一个 <code>&amp;mut Self</code>，那么我们就能保证对我们的集合拥有独占访问权，而且我们可以暂时破坏invariants(不可变性)，因为我们知道没有人能偷偷摸摸地破坏它。</p>
+<p>我们有两种方法可以让我们的代码更健壮：</p>
+<ul>
+<li>更积极地使用 Option::take 这样的操作，因为它们更 "事务性"，更倾向于保留invariants(不可变性)。</li>
+<li>放弃 debug_asserts，相信自己能写出更好的测试，并使用专用的 "完整性检查 "函数，而这些函数永远不会在用户代码中运行。</li>
+</ul>
+<p>原则上，我喜欢第一种方案，但它对双链路列表的实际效果并不好，因为所有内容都是双冗余编码的。Option::take 并不能解决这里的问题，但将 debug_assert 下移一行却可以。不过说真的，为什么要为难我们自己呢？让我们移除那些 debug_asserts，并确保任何可能引起恐慌的事情都发生在我们方法的开头或结尾，而我们在这些地方保持invariants(不可变性)。</p>
+<p>这是我们的全部实现：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::ptr::NonNull;
+use std::marker::PhantomData;
+
+pub struct LinkedList&lt;T&gt; {
+    front: Link&lt;T&gt;,
+    back: Link&lt;T&gt;,
+    len: usize,
+    _boo: PhantomData&lt;T&gt;,
+}
+
+type Link&lt;T&gt; = Option&lt;NonNull&lt;Node&lt;T&gt;&gt;&gt;;
+
+struct Node&lt;T&gt; {
+    front: Link&lt;T&gt;,
+    back: Link&lt;T&gt;,
+    elem: T, 
+}
+
+impl&lt;T&gt; LinkedList&lt;T&gt; {
+    pub fn new() -&gt; Self {
+        Self {
+            front: None,
+            back: None,
+            len: 0,
+            _boo: PhantomData,
+        }
+    }
+
+    pub fn push_front(&amp;mut self, elem: T) {
+        // SAFETY: it's a linked-list, what do you want?
+        unsafe {
+            let new = NonNull::new_unchecked(Box::into_raw(Box::new(Node {
+                front: None,
+                back: None,
+                elem,
+            })));
+            if let Some(old) = self.front {
+                // Put the new front before the old one
+                (*old.as_ptr()).front = Some(new);
+                (*new.as_ptr()).back = Some(old);
+            } else {
+                // If there's no front, then we're the empty list and need 
+                // to set the back too.
+                self.back = Some(new);
+            }
+            // These things always happen!
+            self.front = Some(new);
+            self.len += 1;
+        }
+    }
+
+    pub fn pop_front(&amp;mut self) -&gt; Option&lt;T&gt; {
+        unsafe {
+            // Only have to do stuff if there is a front node to pop.
+            self.front.map(|node| {
+                // Bring the Box back to life so we can move out its value and
+                // Drop it (Box continues to magically understand this for us).
+                let boxed_node = Box::from_raw(node.as_ptr());
+                let result = boxed_node.elem;
+
+                // Make the next node into the new front.
+                self.front = boxed_node.back;
+                if let Some(new) = self.front {
+                    // Cleanup its reference to the removed node
+                    (*new.as_ptr()).front = None;
+                } else {
+                    // If the front is now null, then this list is now empty!
+                    self.back = None;
+                }
+
+                self.len -= 1;
+                result
+                // Box gets implicitly freed here, knows there is no T.
+            })
+        }
+    }
+
+    pub fn len(&amp;self) -&gt; usize {
+        self.len
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这还有什么可以引发恐慌？老实说，要知道这些需要你是 Rust 专家，不过幸好我是！</p>
+<p>在这段代码中，我能看到的唯一可能引起恐慌的地方是 <code>Box::new</code>（用于内存不足的情况）和 <code>len</code> 运算。所有这些都在我们方法的最末端或最开始，所以，我们是安全的！</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../too-many-lists/production-unsafe-deque/basics.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../too-many-lists/production-unsafe-deque/boring-combinatorics.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../too-many-lists/production-unsafe-deque/basics.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../too-many-lists/production-unsafe-deque/boring-combinatorics.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

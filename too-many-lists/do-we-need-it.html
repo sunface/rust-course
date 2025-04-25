@@ -1,0 +1,287 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>我们到底需不需要链表 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/too-many-lists/do-we-need-it.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="我们到底需不需要链表"><a class="header" href="#我们到底需不需要链表">我们到底需不需要链表</a></h2>
+<p>经常有读者询问该如何实现一个链表，怎么说呢，这个答案主要取决于你的需求，因此并不是很好回答。鉴于此，我决定通过这本书来详尽的介绍该如何实现一个链表，大家应该都能从这本书中找到答案。</p>
+<p>书中我们将通过实现 6 种链表来学习基本和进阶 Rust 编程知识，在此过程中，你能学到：</p>
+<ul>
+<li>指针类型: <code>&amp;</code>, <code>&amp;mut</code>, <code>Box</code>, <code>Rc</code>, <code>Arc</code>, <code>*const</code>, <code>*mut</code>, <code>NonNull</code></li>
+<li>所有权、借用、继承可变性、内部可变性、Copy</li>
+<li>所有的关键字：struct、enum、fn、pub、impl、use, ...</li>
+<li>模式匹配、泛型、解构</li>
+<li>测试、安装新的工具链、使用 <code>miri</code></li>
+<li>Unsafe: 裸指针、别名、栈借用、<code>UnsafeCell</code>、变体 variance</li>
+</ul>
+<p>是的，链表就是这么可怕，只有将这些知识融会贯通后，你才能掌握 :(</p>
+<blockquote>
+<p>事实上这本书中关于 Rust 语言的绝大部分知识都在 <code>Rust语言圣经</code>中有讲，因此除非特殊情况，我们将直接提供链接供大家学习，重点还是放在链表实现上</p>
+</blockquote>
+<h4 id="创建一个项目"><a class="header" href="#创建一个项目">创建一个项目</a></h4>
+<p>在开始前，先来创建一个项目专门用于链表学习：</p>
+<pre><code class="language-shell">$ cargo new --lib lists
+$ cd lists
+</code></pre>
+<p>之后，我们会将每个一个链表放入单独的文件中，需要注意的是我们会尽量模拟真实的 Rust 开发场景：你写了一段代码，然后编译器开始跳出试图教你做事，只有这样才能真正学会 Rust，温室环境是无法培养出强大的 Rustacean 的。</p>
+<h4 id="义务告知"><a class="header" href="#义务告知">义务告知</a></h4>
+<p>首先，本书不是保姆式教程，而且我个人认为编程应该是快乐，这种快乐往往需要你自己发现而不是别人的事无巨细的讲解。</p>
+<p>其次，我讨厌链表。链表真的是一种糟糕的数据结构，尽管它在部分场景下确实很有用：</p>
+<ul>
+<li>对列表进行大量的分割和合并操作</li>
+<li>无锁并发</li>
+<li>要实现内核或嵌入式的服务</li>
+<li>你在使用一个纯函数式语言，由于受限的语法和缺少可变性，因此你需要使用链表来解决这些问题</li>
+</ul>
+<p>但是实事求是的说，这些场景对于几乎任何 Rust 开发都是很少遇到的，99% 的场景你可以使用 <code>Vec</code> 来替代，然后 1% 中的 99% 可以使用 <code>VecDeque</code>。 由于它们具有更少的内存分配次数、更低的内存占用、随机访问和缓存亲和特性，因此能够适用于绝大多数工作场景。总之，类似于 <code>trie</code> 树，链表也是一种非常小众的数据结构，特别是对于 Rust 开发而言。</p>
+<blockquote>
+<p>本书只是为了学习链表该如何实现，如果大家只是为了使用链表，强烈推荐直接使用标准库或者社区提供的现成实现，例如 <a href="https://doc.rust-lang.org/std/collections/struct.LinkedList.html">std::collections::LinkedList</a></p>
+</blockquote>
+<h4 id="链表有-o1-的分割合并插入移除性能"><a class="header" href="#链表有-o1-的分割合并插入移除性能">链表有 O(1) 的分割、合并、插入、移除性能</a></h4>
+<p>是的，但是你首先要考虑的是，这些代码被调用的频率是怎么样的？是否在热点路径？ 答案如果是否定的，那么还是强烈建议使用 <code>Vec</code> 等传统数据结构，况且整个数组的拷贝也是相当快的！</p>
+<p>况且，<code>Vec</code> 上的 <code>push</code> 和 <code>pop</code> 操作是 <code>O(1)</code> 的，它们比链表提供的 <code>push</code> 和 <code>pop</code> 要更快！我们只需要通过一个指针 + 内存偏移就可以访问了。</p>
+<blockquote>
+<p>关于是否使用链表这个问题，Bjarne Stroustrup 有过非常深入的<a href="https://www.youtube.com/watch?v=YQs6IC-vgmo">讲解</a></p>
+</blockquote>
+<p>但是如果你的整体项目确实因为某一段分割、合并的代码导致了性能低下，那么就放心大胆的使用链表吧。</p>
+<h4 id="我无法接受内存重新分配的代价"><a class="header" href="#我无法接受内存重新分配的代价">我无法接受内存重新分配的代价</a></h4>
+<p>是的，<code>Vec</code> 当 <a href="https://practice-zh.course.rs/collections/vector.html#capacity"><code>capacity</code></a> 不够时，会重新分配一块内存，然后将之前的 <code>Vec</code> 全部拷贝过去，但是对于绝大多数使用场景，要么 <code>Vec</code> 不在热点路径中，要么 <code>Vec</code> 的容量可以提前预测。</p>
+<p>对于前者，那性能如何自然无关紧要。而对于后者，我们只需要使用 <code>Vec::with_capacity</code> 提前分配足够的空间即可，同时，Rust 中所有的迭代器还提供了 <code>size_hint</code> 也可以解决这种问题。</p>
+<p>当然，如果这段代码在热点路径，且你无法提前预测所需的容量，那么链表确实会更提升性能。</p>
+<h4 id="链表更节省内存空间"><a class="header" href="#链表更节省内存空间">链表更节省内存空间</a></h4>
+<p>首先，这个问题较为复杂。一个标准的数组调整策略是：增加或减少数组的长度使数组最多有一半为空，例如 capacity 增长是翻倍的策略。这确实会导致内存空间的浪费，特别是在 Rust 中，我们不会自动收缩集合类型。</p>
+<p>但是上面说的是最坏的情况，如果是最好的情况，那整个数组其实只有 3 个指针大小(指针在 Rust 中占用一个 word 的空间，例如 64 位机器就是 8 个字节的大小)的内存浪费，或者说，没有浪费。</p>
+<p>而且链表实际上也有内存浪费，例如链表中的每个元素都会占用额外的内存：单向链表浪费一个指针，双向链表浪费两个指针。当然，如果你的链表中每个元素都很大，那相对来说，这种浪费也微不足道，但是如果链表的元素较小且数量很多呢？那浪费的空间就相当可观了！</p>
+<p>当然，这个也和使用的内存分配器有关( allocator )：对链表节点的分配和回收会经常发生，这样就不会浪费内存。</p>
+<p>总之，如果链表的元素较大，你也无法预测数组的空间，同时还有一个不错的内存分配器，那链表确实可以节省空间！</p>
+<h4 id="我在函数语言中一直使用链表"><a class="header" href="#我在函数语言中一直使用链表">我在函数语言中一直使用链表</a></h4>
+<p>对于函数语言而言，链表确实非常棒，因为你可以解决可变性问题，还能递归地去使用，当然，可能还有一定的图方便的因素，因为链表不用操心长度等问题。</p>
+<p>但彼之蜜糖不等于吾之蜜糖，函数语言的一些使用习惯不应该带入到其它语言中，例如 Rust。</p>
+<ul>
+<li>函数语言往往将链表用于迭代，但是 Rust 中最适合迭代的数据结构是迭代器 <code>Iterator</code></li>
+<li>函数式语言的不可变对于 Rust 也不是问题</li>
+<li>Rust 还支持对数组进行切片以获取其中一部分连续的元素，而在函数语言中你可能得通过链表的 <code>head/tail</code> 分割来完成</li>
+</ul>
+<p>其实，在函数语言中，我们也应该选择合适的数据结构来解决适合的场景，而不是<em>一根链表挂腰间，潇潇洒洒走天下</em>。</p>
+<h4 id="链表适合构建并发数据结构"><a class="header" href="#链表适合构建并发数据结构">链表适合构建并发数据结构</a></h4>
+<p>是这样的，如果有这样的需求，那么链表会非常合适！但是只有在你确实需要并发数据结构，且没有其它办法时，再考虑链表！</p>
+<h4 id="链表非常适合教学目的"><a class="header" href="#链表非常适合教学目的">链表非常适合教学目的</a></h4>
+<p>额... 这么说也没错，毕竟所有的编程语言课程都以链表来作为最常见的练手项目，包括本书也是服务于这个目的的。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../too-many-lists/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../too-many-lists/bad-stack/intro.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../too-many-lists/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../too-many-lists/bad-stack/intro.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

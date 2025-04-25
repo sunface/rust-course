@@ -1,0 +1,255 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Features 示例 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../../favicon.svg">
+        <link rel="shortcut icon" href="../../../favicon.png">
+        <link rel="stylesheet" href="../../../css/variables.css">
+        <link rel="stylesheet" href="../../../css/general.css">
+        <link rel="stylesheet" href="../../../css/chrome.css">
+        <link rel="stylesheet" href="../../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/cargo/reference/features/examples.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="features-示例"><a class="header" href="#features-示例">Features 示例</a></h1>
+<p>以下我们一起来看看一些来自真实世界的示例。</p>
+<h3 id="最小化构建时间和文件大小"><a class="header" href="#最小化构建时间和文件大小">最小化构建时间和文件大小</a></h3>
+<p>如果一些包的部分特性不再启用，就可以减少该包占用的大小以及编译时间:</p>
+<ul>
+<li><a href="https://crates.io/crates/syn"><code>syn</code></a> 包可以用来解析 Rust 代码，由于它很受欢迎，大量的项目都在引用，因此它给出了<a href="https://docs.rs/syn/1.0.54/syn/#optional-features">非常清晰的文档</a>关于如何最小化使用它包含的 <code>features</code></li>
+<li><a href="https://crates.io/crates/regex"><code>regex</code></a> 也有关于 features 的<a href="https://docs.rs/regex/1.4.2/regex/#crate-features">描述文档</a>，例如移除 Unicode 支持的 feature 可以降低最终生成可执行文件的大小</li>
+<li><a href="https://crates.io/crates/winapi"><code>winapi</code></a> 拥有<a href="https://github.com/retep998/winapi-rs/blob/0.3.9/Cargo.toml#L25-L431">众多 features</a>，这些 <code>feature</code> 对用了各种 Windows API，你可以只引入代码中用到的 API 所对应的 feature.</li>
+</ul>
+<h3 id="行为扩展"><a class="header" href="#行为扩展">行为扩展</a></h3>
+<p><a href="https://crates.io/crates/serde_json"><code>serde_json</code></a> 拥有一个 <a href="https://github.com/serde-rs/json/blob/v1.0.60/Cargo.toml#L53-L56"><code>preserve_order</code> feature</a>，可以用于在序列化时保留 JSON 键值对的顺序。同时，该 feature 还会启用一个可选依赖 <a href="https://crates.io/crates/indexmap">indexmap</a>。</p>
+<p>当这么做时，一定要小心不要破坏了 SemVer 的版本兼容性，也就是说：启用 feature 后，代码依然要能正常工作。</p>
+<h3 id="no_std-支持"><a class="header" href="#no_std-支持">no_std 支持</a></h3>
+<p>一些包希望能同时支持 <a href="https://doc.rust-lang.org/stable/reference/names/preludes.html#the-no_std-attribute"><code>no_std</code></a> 和 <code>std</code> 环境，例如该包希望支持嵌入式系统或资源紧张的系统，且又希望能支持其它的平台，此时这种做法是非常有用的，因为标准库 <code>std</code> 会大幅增加编译出来的文件的大小，对于资源紧张的系统来说，<code>no_std</code> 才是最合适的。</p>
+<p><a href="https://crates.io/crates/wasm-bindgen">wasm-bindgen</a> 定义了一个 <a href="https://github.com/rustwasm/wasm-bindgen/blob/0.2.69/Cargo.toml#L25">std feature</a>，它是<a href="https://github.com/rustwasm/wasm-bindgen/blob/0.2.69/Cargo.toml#L25">默认启用的</a>。首先，在库的顶部，它<a href="https://github.com/rustwasm/wasm-bindgen/blob/0.2.69/src/lib.rs#L8">无条件的启用了 <code>no_std</code> 属性</a>，它可以确保 <code>std</code> 和 <a href="https://doc.rust-lang.org/stable/std/prelude/index.html"><code>std prelude</code></a> 不会自动引入到作用域中来。其次，在不同的地方(<a href="https://doc.rust-lang.org/stable/std/prelude/index.html">示例 1</a>，<a href="https://github.com/rustwasm/wasm-bindgen/blob/0.2.69/src/lib.rs#L67-L75">示例 2</a>)，它通过 <code>#[cfg(feature = "std")]</code> 启用 <code>std</code> feature 来添加 <code>std</code> 标准库支持。</p>
+<h2 id="对依赖库的-features-进行再导出"><a class="header" href="#对依赖库的-features-进行再导出">对依赖库的 features 进行再导出</a></h2>
+<p>从依赖库再导出 features 在有些场景中会相当有用，这样用户就可以通过依赖包的 features 来控制功能而不是自己去手动定义。</p>
+<p>例如 <a href="https://crates.io/crates/regex"><code>regex</code></a> 将 <a href="https://github.com/rust-lang/regex/blob/1.4.2/regex-syntax/Cargo.toml#L17-L32"><code>regex_syntax</code></a> 包的 features 进行了<a href="https://github.com/rust-lang/regex/blob/1.4.2/Cargo.toml#L65-L89">再导出</a>，这样 <code>regex</code> 的用户无需知道 <code>regex_syntax</code> 包，但是依然可以访问后者包含的 features。</p>
+<h2 id="feature-优先级"><a class="header" href="#feature-优先级">feature 优先级</a></h2>
+<p>一些包可能会拥有彼此互斥的 features(无法共存，上一章节中有讲到)，其中一个办法就是为 feature 定义优先级，这样其中一个就会优于另一个被启用。</p>
+<p>例如 <a href="https://crates.io/crates/log"><code>log</code></a> 包，它有<a href="https://github.com/rust-lang/log/blob/0.4.11/Cargo.toml#L29-L42">几个 features</a> 可以用于在编译期选择最大的<a href="https://docs.rs/log/0.4.11/log/#compile-time-filters">日志级别</a>，这里，它就使用了 <a href="https://crates.io/crates/cfg-if"><code>cfg-if</code></a> 的方式来<a href="https://github.com/rust-lang/log/blob/0.4.11/src/lib.rs#L1422-L1448">设置优先级</a>。一旦多个 <code>features</code> 被启用，那更高优先级的就会优先被启用。</p>
+<h2 id="过程宏包"><a class="header" href="#过程宏包">过程宏包</a></h2>
+<p>一些包拥有过程宏，这些宏必须定义在一个独立的包中。但是不是所有的用户都需要过程宏的，因此也无需引入该包。</p>
+<p>在这种情况下，将过程宏所在的包定义为可选依赖，是很不错的选择。这样做还有一个好处：有时过程宏的版本必须要跟父包进行同步，但是我们又不希望所有的用户都进行同步。</p>
+<p>其中一个例子就是 <a href="https://crates.io/crates/serde">serde</a> ，它有一个 <a href="https://github.com/serde-rs/serde/blob/v1.0.118/serde/Cargo.toml#L34-L35">derive</a> feature 可以启用 <a href="https://crates.io/crates/serde_derive">serde_derive</a> 过程宏。由于 <code>serde_derive</code> 包跟 <code>serde</code> 的关系非常紧密，因此它使用了<a href="https://github.com/serde-rs/serde/blob/v1.0.118/serde/Cargo.toml#L17">版本相同的需求</a>来保证两者的版本同步性。</p>
+<h2 id="只能用于-nightly-的-feature"><a class="header" href="#只能用于-nightly-的-feature">只能用于 nightly 的 feature</a></h2>
+<p>Rust 有些实验性的 API 或语言特性只能在 nightly 版本下使用，但某些使用了这些 API 的包并不想强制他们的用户也使用 <code>nightly</code> 版本，因此他们会通过 feature 的方式来控制。</p>
+<p>若用户希望使用这些 API 时，需要启用相应的 feature ，而这些 feature 只能在 nightly 下使用。若用户不需要使用这些 API，就无需开启 相应的 feature，自然也不需要使用 nightly 版本。</p>
+<p>例如 <a href="https://crates.io/crates/rand"><code>rand</code></a> 包有一个 <a href="https://github.com/rust-random/rand/blob/0.7.3/Cargo.toml#L40">simd_support</a> feature 就只能在 nightly 下使用，若我们不使用该 feature，则在 stable 下依然可以使用 <code>rand</code>。</p>
+<h2 id="实验性-feature"><a class="header" href="#实验性-feature">实验性 feature</a></h2>
+<p>有一些包会提前将一些实验性的 API 放出去，既然是实验性的，自然无法保证其稳定性。在这种情况下，通常会在文档中将相应的 features 标记为实验性，意味着它们在未来可能会发生大的改变(甚至 minor 版本都可能发生)。</p>
+<p>其中一个例子是 <a href="https://crates.io/crates/async-std">async-std</a> 包，它拥有一个 <a href="https://github.com/async-rs/async-std/blob/v1.8.0/Cargo.toml#L38-L42">unstable feature</a>，用来<a href="https://github.com/async-rs/async-std/blob/v1.8.0/src/macros.rs#L46">标记一些新的 API</a>，表示人们已经可以选择性的使用但是还没有准备好去依赖它。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../cargo/reference/features/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../cargo/reference/profiles.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../cargo/reference/features/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../cargo/reference/profiles.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../../ace.js"></script>
+        <script src="../../../editor.js"></script>
+        <script src="../../../mode-rust.js"></script>
+        <script src="../../../theme-dawn.js"></script>
+        <script src="../../../theme-tomorrow_night.js"></script>
+
+        <script src="../../../elasticlunr.min.js"></script>
+        <script src="../../../mark.min.js"></script>
+        <script src="../../../searcher.js"></script>
+
+        <script src="../../../clipboard.min.js"></script>
+        <script src="../../../highlight.js"></script>
+        <script src="../../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../../assets/custom2.js"></script>
+        <script src="../../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

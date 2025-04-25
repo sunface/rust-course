@@ -1,0 +1,675 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>底层探秘: Future 执行与任务调度 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/async/future-excuting.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="底层探秘-future-执行器与任务调度"><a class="header" href="#底层探秘-future-执行器与任务调度">底层探秘: Future 执行器与任务调度</a></h1>
+<p>异步编程背后到底藏有什么秘密？究竟是哪只幕后之手在操纵这一切？如果你对这些感兴趣，就继续看下去，否则可以直接跳过，因为本章节的内容对于一个 API 工程师并没有太多帮助。</p>
+<p>但是如果你希望能深入理解 <code>Rust</code> 的 <code>async/.await</code> 代码是如何工作、理解运行时和性能，甚至未来想要构建自己的 <code>async</code> 运行时或相关工具，那么本章节终究不会辜负于你。</p>
+<h2 id="future-特征"><a class="header" href="#future-特征">Future 特征</a></h2>
+<p><code>Future</code> 特征是 Rust 异步编程的核心，毕竟异步函数是异步编程的核心，而 <code>Future</code> 恰恰是异步函数的返回值和被执行的关键。</p>
+<p>首先，来给出 <code>Future</code> 的定义：它是一个能产出值的异步计算(虽然该值可能为空，例如 <code>()</code> )。光看这个定义，可能会觉得很空洞，我们来看看一个简化版的 <code>Future</code> 特征:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>trait SimpleFuture {
+    type Output;
+    fn poll(&amp;mut self, wake: fn()) -&gt; Poll&lt;Self::Output&gt;;
+}
+
+enum Poll&lt;T&gt; {
+    Ready(T),
+    Pending,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>在上一章中，我们提到过 <code>Future</code> 需要被执行器<code>poll</code>(轮询)后才能运行，诺，这里 <code>poll</code> 就来了，通过调用该方法，可以推进 <code>Future</code> 的进一步执行，直到被切走为止( 这里不好理解，但是你只需要知道 <code>Future</code> 并不能保证在一次 <code>poll</code> 中就被执行完，后面会详解介绍)。</p>
+<p>若在当前 <code>poll</code> 中， <code>Future</code> 可以被完成，则会返回 <code>Poll::Ready(result)</code> ，反之则返回 <code>Poll::Pending</code>， 并且安排一个 <code>wake</code> 函数：当未来 <code>Future</code> 准备好进一步执行时， 该函数会被调用，然后管理该 <code>Future</code> 的执行器(例如上一章节中的<code>block_on</code>函数)会再次调用 <code>poll</code> 方法，此时 <code>Future</code> 就可以继续执行了。</p>
+<p>如果没有 <code>wake</code> 方法，那执行器无法知道某个 <code>Future</code> 是否可以继续被执行，除非执行器定期的轮询每一个 <code>Future</code>，确认它是否能被执行，但这种作法效率较低。而有了 <code>wake</code>，<code>Future</code> 就可以主动通知执行器，然后执行器就可以精确的执行该 <code>Future</code>。 这种“事件通知 -&gt; 执行”的方式要远比定期对所有 <code>Future</code> 进行一次全遍历来的高效。</p>
+<p>也许大家还是迷迷糊糊的，没事，我们用一个例子来说明下。考虑一个需要从 <code>socket</code> 读取数据的场景：如果有数据，可以直接读取数据并返回 <code>Poll::Ready(data)</code>， 但如果没有数据，<code>Future</code> 会被阻塞且不会再继续执行，此时它会注册一个 <code>wake</code> 函数，当 <code>socket</code> 数据准备好时，该函数将被调用以通知执行器：我们的 <code>Future</code> 已经准备好了，可以继续执行。</p>
+<p>下面的 <code>SocketRead</code> 结构体就是一个 <code>Future</code>:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct SocketRead&lt;'a&gt; {
+    socket: &amp;'a Socket,
+}
+
+impl SimpleFuture for SocketRead&lt;'_&gt; {
+    type Output = Vec&lt;u8&gt;;
+
+    fn poll(&amp;mut self, wake: fn()) -&gt; Poll&lt;Self::Output&gt; {
+        if self.socket.has_data_to_read() {
+            // socket有数据，写入buffer中并返回
+            Poll::Ready(self.socket.read_buf())
+        } else {
+            // socket中还没数据
+            //
+            // 注册一个`wake`函数，当数据可用时，该函数会被调用，
+            // 然后当前Future的执行器会再次调用`poll`方法，此时就可以读取到数据
+            self.socket.set_readable_callback(wake);
+            Poll::Pending
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这种 <code>Future</code> 模型允许将多个异步操作组合在一起，同时还无需任何内存分配。不仅仅如此，如果你需要同时运行多个 <code>Future</code>或链式调用多个 <code>Future</code> ，也可以通过无内存分配的状态机实现，例如：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>trait SimpleFuture {
+    type Output;
+    fn poll(&amp;mut self, wake: fn()) -&gt; Poll&lt;Self::Output&gt;;
+}
+
+enum Poll&lt;T&gt; {
+    Ready(T),
+    Pending,
+}
+
+/// 一个SimpleFuture，它会并发地运行两个Future直到它们完成
+///
+/// 之所以可以并发，是因为两个Future的轮询可以交替进行，一个阻塞，另一个就可以立刻执行，反之亦然
+pub struct Join&lt;FutureA, FutureB&gt; {
+    // 结构体的每个字段都包含一个Future，可以运行直到完成.
+    // 等到Future完成后，字段会被设置为 `None`. 这样Future完成后，就不会再被轮询
+    a: Option&lt;FutureA&gt;,
+    b: Option&lt;FutureB&gt;,
+}
+
+impl&lt;FutureA, FutureB&gt; SimpleFuture for Join&lt;FutureA, FutureB&gt;
+where
+    FutureA: SimpleFuture&lt;Output = ()&gt;,
+    FutureB: SimpleFuture&lt;Output = ()&gt;,
+{
+    type Output = ();
+    fn poll(&amp;mut self, wake: fn()) -&gt; Poll&lt;Self::Output&gt; {
+        // 尝试去完成一个 Future `a`
+        if let Some(a) = &amp;mut self.a {
+            if let Poll::Ready(()) = a.poll(wake) {
+                self.a.take();
+            }
+        }
+
+        // 尝试去完成一个 Future `b`
+        if let Some(b) = &amp;mut self.b {
+            if let Poll::Ready(()) = b.poll(wake) {
+                self.b.take();
+            }
+        }
+
+        if self.a.is_none() &amp;&amp; self.b.is_none() {
+            // 两个 Future都已完成 - 我们可以成功地返回了
+            Poll::Ready(())
+        } else {
+            // 至少还有一个 Future 没有完成任务，因此返回 `Poll::Pending`.
+            // 当该 Future 再次准备好时，通过调用`wake()`函数来继续执行
+            Poll::Pending
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>上面代码展示了如何同时运行多个 <code>Future</code>， 且在此过程中没有任何内存分配，让并发编程更加高效。 类似的，多个<code>Future</code>也可以一个接一个的连续运行：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// 一个SimpleFuture, 它使用顺序的方式，一个接一个地运行两个Future
+//
+// 注意: 由于本例子用于演示，因此功能简单，`AndThenFut` 会假设两个 Future 在创建时就可用了.
+// 而真实的`Andthen`允许根据第一个`Future`的输出来创建第二个`Future`，因此复杂的多。
+pub struct AndThenFut&lt;FutureA, FutureB&gt; {
+    first: Option&lt;FutureA&gt;,
+    second: FutureB,
+}
+
+impl&lt;FutureA, FutureB&gt; SimpleFuture for AndThenFut&lt;FutureA, FutureB&gt;
+where
+    FutureA: SimpleFuture&lt;Output = ()&gt;,
+    FutureB: SimpleFuture&lt;Output = ()&gt;,
+{
+    type Output = ();
+    fn poll(&amp;mut self, wake: fn()) -&gt; Poll&lt;Self::Output&gt; {
+        if let Some(first) = &amp;mut self.first {
+            match first.poll(wake) {
+                // 我们已经完成了第一个 Future， 可以将它移除， 然后准备开始运行第二个
+                Poll::Ready(()) =&gt; self.first.take(),
+                // 第一个 Future 还不能完成
+                Poll::Pending =&gt; return Poll::Pending,
+            };
+        }
+
+        // 运行到这里，说明第一个Future已经完成，尝试去完成第二个
+        self.second.poll(wake)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这些例子展示了在不需要内存对象分配以及深层嵌套回调的情况下，该如何使用 <code>Future</code> 特征去表达异步控制流。 在了解了基础的控制流后，我们再来看看真实的 <code>Future</code> 特征有何不同之处。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>trait Future {
+    type Output;
+    fn poll(
+        // 首先值得注意的地方是，`self`的类型从`&amp;mut self`变成了`Pin&lt;&amp;mut Self&gt;`:
+        self: Pin&lt;&amp;mut Self&gt;,
+        // 其次将`wake: fn()` 修改为 `cx: &amp;mut Context&lt;'_&gt;`:
+        cx: &amp;mut Context&lt;'_&gt;,
+    ) -&gt; Poll&lt;Self::Output&gt;;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>首先这里多了一个 <code>Pin</code> ，关于它我们会在后面章节详细介绍，现在你只需要知道使用它可以创建一个无法被移动的 <code>Future</code> ，因为无法被移动，所以它将具有固定的内存地址，意味着我们可以存储它的指针(如果内存地址可能会变动，那存储指针地址将毫无意义！)，也意味着可以实现一个自引用数据结构: <code>struct MyFut { a: i32, ptr_to_a: *const i32 }</code>。 而对于 <code>async/await</code> 来说，<code>Pin</code> 是不可或缺的关键特性。</p>
+<p>其次，从 <code>wake: fn()</code> 变成了 <code>&amp;mut Context&lt;'_&gt;</code> 。意味着 <code>wake</code> 函数可以携带数据了，为何要携带数据？考虑一个真实世界的场景，一个复杂应用例如 web 服务器可能有数千连接同时在线，那么同时就有数千 <code>Future</code> 在被同时管理着，如果不能携带数据，当一个 <code>Future</code> 调用 <code>wake</code> 后，执行器该如何知道是哪个 <code>Future</code> 调用了 <code>wake</code> ,然后进一步去 <code>poll</code> 对应的 <code>Future</code> ？没有办法！那之前的例子为啥就可以使用没有携带数据的 <code>wake</code> ？ 因为足够简单，不存在歧义性。</p>
+<p>总之，在正式场景要进行 <code>wake</code> ，就必须携带上数据。 而 <code>Context</code> 类型通过提供一个 <code>Waker</code> 类型的值，就可以用来唤醒特定的的任务。</p>
+<h2 id="使用-waker-来唤醒任务"><a class="header" href="#使用-waker-来唤醒任务">使用 Waker 来唤醒任务</a></h2>
+<p>对于 <code>Future</code> 来说，第一次被 <code>poll</code> 时无法完成任务是很正常的。但它需要确保在未来一旦准备好时，可以通知执行器再次对其进行 <code>poll</code> 进而继续往下执行，该通知就是通过 <code>Waker</code> 类型完成的。</p>
+<p><code>Waker</code> 提供了一个 <code>wake()</code> 方法可以用于告诉执行器：相关的任务可以被唤醒了，此时执行器就可以对相应的 <code>Future</code> 再次进行 <code>poll</code> 操作。</p>
+<h4 id="构建一个定时器"><a class="header" href="#构建一个定时器">构建一个定时器</a></h4>
+<p>下面一起来实现一个简单的定时器 <code>Future</code> 。为了让例子尽量简单，当计时器创建时，我们会启动一个线程接着让该线程进入睡眠，等睡眠结束后再通知给 <code>Future</code> 。</p>
+<p>注意本例子还会在后面继续使用，因此我们重新创建一个工程来演示：使用 <code>cargo new --lib timer_future</code> 来创建一个新工程，在 <code>lib</code> 包的根路径 <code>src/lib.rs</code> 中添加以下内容：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::{
+    future::Future,
+    pin::Pin,
+    sync::{Arc, Mutex},
+    task::{Context, Poll, Waker},
+    thread,
+    time::Duration,
+};
+<span class="boring">}</span></code></pre></pre>
+<p>继续来实现 <code>Future</code> 定时器，之前提到: 新建线程在睡眠结束后会需要将状态同步给定时器 <code>Future</code> ，由于是多线程环境，我们需要使用 <code>Arc&lt;Mutex&lt;T&gt;&gt;</code> 来作为一个共享状态，用于在新线程和 <code>Future</code> 定时器间共享。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct TimerFuture {
+    shared_state: Arc&lt;Mutex&lt;SharedState&gt;&gt;,
+}
+
+/// 在Future和等待的线程间共享状态
+struct SharedState {
+    /// 定时(睡眠)是否结束
+    completed: bool,
+
+    /// 当睡眠结束后，线程可以用`waker`通知`TimerFuture`来唤醒任务
+    waker: Option&lt;Waker&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>下面给出 <code>Future</code> 的具体实现:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl Future for TimerFuture {
+    type Output = ();
+    fn poll(self: Pin&lt;&amp;mut Self&gt;, cx: &amp;mut Context&lt;'_&gt;) -&gt; Poll&lt;Self::Output&gt; {
+        // 通过检查共享状态，来确定定时器是否已经完成
+        let mut shared_state = self.shared_state.lock().unwrap();
+        if shared_state.completed {
+            Poll::Ready(())
+        } else {
+            // 设置`waker`，这样新线程在睡眠(计时)结束后可以唤醒当前的任务，接着再次对`Future`进行`poll`操作,
+            //
+            // 下面的`clone`每次被`poll`时都会发生一次，实际上，应该是只`clone`一次更加合理。
+            // 选择每次都`clone`的原因是： `TimerFuture`可以在执行器的不同任务间移动，如果只克隆一次，
+            // 那么获取到的`waker`可能已经被篡改并指向了其它任务，最终导致执行器运行了错误的任务
+            shared_state.waker = Some(cx.waker().clone());
+            Poll::Pending
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>代码很简单，只要新线程设置了 <code>shared_state.completed = true</code> ，那任务就能顺利结束。如果没有设置，会为当前的任务克隆一份 <code>Waker</code> ，这样新线程就可以使用它来唤醒当前的任务。</p>
+<p>最后，再来创建一个 API 用于构建定时器和启动计时线程:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl TimerFuture {
+    /// 创建一个新的`TimerFuture`，在指定的时间结束后，该`Future`可以完成
+    pub fn new(duration: Duration) -&gt; Self {
+        let shared_state = Arc::new(Mutex::new(SharedState {
+            completed: false,
+            waker: None,
+        }));
+
+        // 创建新线程
+        let thread_shared_state = shared_state.clone();
+        thread::spawn(move || {
+            // 睡眠指定时间实现计时功能
+            thread::sleep(duration);
+            let mut shared_state = thread_shared_state.lock().unwrap();
+            // 通知执行器定时器已经完成，可以继续`poll`对应的`Future`了
+            shared_state.completed = true;
+            if let Some(waker) = shared_state.waker.take() {
+                waker.wake()
+            }
+        });
+
+        TimerFuture { shared_state }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>至此，一个简单的定时器 <code>Future</code> 就已创建成功，那么该如何使用它呢？相信部分爱动脑筋的读者已经猜到了：我们需要创建一个执行器，才能让程序动起来。</p>
+<h2 id="执行器-executor"><a class="header" href="#执行器-executor">执行器 Executor</a></h2>
+<p>Rust 的 <code>Future</code> 是惰性的：只有屁股上拍一拍，它才会努力动一动。其中一个推动它的方式就是在 <code>async</code> 函数中使用 <code>.await</code> 来调用另一个 <code>async</code> 函数，但是这个只能解决 <code>async</code> 内部的问题，那么这些最外层的 <code>async</code> 函数，谁来推动它们运行呢？答案就是我们之前多次提到的执行器 <code>executor</code> 。</p>
+<p>执行器会管理一批 <code>Future</code> (最外层的 <code>async</code> 函数)，然后通过不停地 <code>poll</code> 推动它们直到完成。 最开始，执行器会先 <code>poll</code> 一次 <code>Future</code> ，后面就不会主动去 <code>poll</code> 了，而是等待 <code>Future</code> 通过调用 <code>wake</code> 函数来通知它可以继续，它才会继续去 <code>poll</code> 。这种 <strong>wake 通知然后 poll</strong> 的方式会不断重复，直到 <code>Future</code> 完成。</p>
+<h4 id="构建执行器"><a class="header" href="#构建执行器">构建执行器</a></h4>
+<p>下面我们将实现一个简单的执行器，它可以同时并发运行多个 <code>Future</code> 。例子中，需要用到 <code>futures</code> 包的 <code>ArcWake</code> 特征，它可以提供一个方便的途径去构建一个 <code>Waker</code> 。编辑 <code>Cargo.toml</code> ，添加下面依赖:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>[dependencies]
+futures = "0.3"
+<span class="boring">}</span></code></pre></pre>
+<p>在之前的内容中，我们在 <code>src/lib.rs</code> 中创建了定时器 <code>Future</code> ，现在在 <code>src/main.rs</code> 中来创建程序的主体内容，开始之前，先引入所需的包：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use {
+    futures::{
+        future::{BoxFuture, FutureExt},
+        task::{waker_ref, ArcWake},
+    },
+    std::{
+        future::Future,
+        sync::mpsc::{sync_channel, Receiver, SyncSender},
+        sync::{Arc, Mutex},
+        task::{Context, Poll},
+        time::Duration,
+    },
+    // 引入之前实现的定时器模块
+    timer_future::TimerFuture,
+};
+<span class="boring">}</span></code></pre></pre>
+<p>执行器需要从一个消息通道( <code>channel</code> )中拉取事件，然后运行它们。当一个任务准备好后（可以继续执行），它会将自己放入消息通道中，然后等待执行器 <code>poll</code> 。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// 任务执行器，负责从通道中接收任务然后执行
+struct Executor {
+    ready_queue: Receiver&lt;Arc&lt;Task&gt;&gt;,
+}
+
+/// `Spawner`负责创建新的`Future`然后将它发送到任务通道中
+#[derive(Clone)]
+struct Spawner {
+    task_sender: SyncSender&lt;Arc&lt;Task&gt;&gt;,
+}
+
+/// 一个Future，它可以调度自己(将自己放入任务通道中)，然后等待执行器去`poll`
+struct Task {
+    /// 进行中的Future，在未来的某个时间点会被完成
+    ///
+    /// 按理来说`Mutex`在这里是多余的，因为我们只有一个线程来执行任务。但是由于
+    /// Rust并不聪明，它无法知道`Future`只会在一个线程内被修改，并不会被跨线程修改。因此
+    /// 我们需要使用`Mutex`来满足这个笨笨的编译器对线程安全的执着。
+    ///
+    /// 如果是生产级的执行器实现，不会使用`Mutex`，因为会带来性能上的开销，取而代之的是使用`UnsafeCell`
+    future: Mutex&lt;Option&lt;BoxFuture&lt;'static, ()&gt;&gt;&gt;,
+
+    /// 可以将该任务自身放回到任务通道中，等待执行器的poll
+    task_sender: SyncSender&lt;Arc&lt;Task&gt;&gt;,
+}
+
+fn new_executor_and_spawner() -&gt; (Executor, Spawner) {
+    // 任务通道允许的最大缓冲数(任务队列的最大长度)
+    // 当前的实现仅仅是为了简单，在实际的执行中，并不会这么使用
+    const MAX_QUEUED_TASKS: usize = 10_000;
+    let (task_sender, ready_queue) = sync_channel(MAX_QUEUED_TASKS);
+    (Executor { ready_queue }, Spawner { task_sender })
+}
+<span class="boring">}</span></code></pre></pre>
+<p>下面再来添加一个方法用于生成 <code>Future</code> , 然后将它放入任务通道中:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl Spawner {
+    fn spawn(&amp;self, future: impl Future&lt;Output = ()&gt; + 'static + Send) {
+        let future = future.boxed();
+        let task = Arc::new(Task {
+            future: Mutex::new(Some(future)),
+            task_sender: self.task_sender.clone(),
+        });
+        self.task_sender.send(task).expect("任务队列已满");
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>在执行器 <code>poll</code> 一个 <code>Future</code> 之前，首先需要调用 <code>wake</code> 方法进行唤醒，然后再由 <code>Waker</code> 负责调度该任务并将其放入任务通道中。创建 <code>Waker</code> 的最简单的方式就是实现 <code>ArcWake</code> 特征，先来为我们的任务实现 <code>ArcWake</code> 特征，这样它们就能被转变成 <code>Waker</code> 然后被唤醒:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl ArcWake for Task {
+    fn wake_by_ref(arc_self: &amp;Arc&lt;Self&gt;) {
+        // 通过发送任务到任务管道的方式来实现`wake`，这样`wake`后，任务就能被执行器`poll`
+        let cloned = arc_self.clone();
+        arc_self
+            .task_sender
+            .send(cloned)
+            .expect("任务队列已满");
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>当任务实现了 <code>ArcWake</code> 特征后，它就变成了 <code>Waker</code> ，在调用 <code>wake()</code> 对其唤醒后会将任务复制一份所有权( <code>Arc</code> )，然后将其发送到任务通道中。最后我们的执行器将从通道中获取任务，然后进行 <code>poll</code> 执行：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl Executor {
+    fn run(&amp;self) {
+        while let Ok(task) = self.ready_queue.recv() {
+            // 获取一个future，若它还没有完成(仍然是Some，不是None)，则对它进行一次poll并尝试完成它
+            let mut future_slot = task.future.lock().unwrap();
+            if let Some(mut future) = future_slot.take() {
+                // 基于任务自身创建一个 `LocalWaker`
+                let waker = waker_ref(&amp;task);
+                let context = &amp;mut Context::from_waker(&amp;*waker);
+                // `BoxFuture&lt;T&gt;`是`Pin&lt;Box&lt;dyn Future&lt;Output = T&gt; + Send + 'static&gt;&gt;`的类型别名
+                // 通过调用`as_mut`方法，可以将上面的类型转换成`Pin&lt;&amp;mut dyn Future + Send + 'static&gt;`
+                if future.as_mut().poll(context).is_pending() {
+                    // Future还没执行完，因此将它放回任务中，等待下次被poll
+                    *future_slot = Some(future);
+                }
+            }
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>恭喜！我们终于拥有了自己的执行器，下面再来写一段代码使用该执行器去运行之前的定时器 <code>Future</code> ：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let (executor, spawner) = new_executor_and_spawner();
+
+    // 生成一个任务
+    spawner.spawn(async {
+        println!("howdy!");
+        // 创建定时器Future，并等待它完成
+        TimerFuture::new(Duration::new(2, 0)).await;
+        println!("done!");
+    });
+
+    // drop掉任务，这样执行器就知道任务已经完成，不会再有新的任务进来
+    drop(spawner);
+
+    // 运行执行器直到任务队列为空
+    // 任务运行后，会先打印`howdy!`, 暂停2秒，接着打印 `done!`
+    executor.run();
+}</code></pre></pre>
+<h2 id="执行器和系统-io"><a class="header" href="#执行器和系统-io">执行器和系统 IO</a></h2>
+<p>前面我们一起看过一个使用 <code>Future</code> 从 <code>Socket</code> 中异步读取数据的例子:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct SocketRead&lt;'a&gt; {
+    socket: &amp;'a Socket,
+}
+
+impl SimpleFuture for SocketRead&lt;'_&gt; {
+    type Output = Vec&lt;u8&gt;;
+
+    fn poll(&amp;mut self, wake: fn()) -&gt; Poll&lt;Self::Output&gt; {
+        if self.socket.has_data_to_read() {
+            // socket有数据，写入buffer中并返回
+            Poll::Ready(self.socket.read_buf())
+        } else {
+            // socket中还没数据
+            //
+            // 注册一个`wake`函数，当数据可用时，该函数会被调用，
+            // 然后当前Future的执行器会再次调用`poll`方法，此时就可以读取到数据
+            self.socket.set_readable_callback(wake);
+            Poll::Pending
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>该例子中，<code>Future</code> 将从 <code>Socket</code> 读取数据，若当前还没有数据，则会让出当前线程的所有权，允许执行器去执行其它的 <code>Future</code> 。当数据准备好后，会调用 <code>wake()</code> 函数将该 <code>Future</code> 的任务放入任务通道中，等待执行器的 <code>poll</code> 。</p>
+<p>关于该流程已经反复讲了很多次，相信大家应该非常清楚了。然而该例子中还有一个疑问没有解决：</p>
+<ul>
+<li><code>set_readable_callback</code> 方法到底是怎么工作的？怎么才能知道 <code>socket</code> 中的数据已经可以被读取了？</li>
+</ul>
+<p>关于第二点，其中一个简单粗暴的方法就是使用一个新线程不停的检查 <code>socket</code> 中是否有了数据，当有了后，就调用 <code>wake()</code> 函数。该方法确实可以满足需求，但是性能着实太低了，需要为每个阻塞的 <code>Future</code> 都创建一个单独的线程！</p>
+<p>在现实世界中，该问题往往是通过操作系统提供的 <code>IO</code> 多路复用机制来完成，例如 <code>Linux</code> 中的 <strong><code>epoll</code></strong>，<code>FreeBSD</code> 和 <code>macOS</code> 中的 <strong><code>kqueue</code></strong> ，<code>Windows</code> 中的 <strong><code>IOCP</code></strong>, <code>Fuchisa</code>中的 <strong><code>ports</code></strong> 等(可以通过 Rust 的跨平台包 <code>mio</code> 来使用它们)。借助 IO 多路复用机制，可以实现一个线程同时阻塞地去等待多个异步 IO 事件，一旦某个事件完成就立即退出阻塞并返回数据。相关实现类似于以下代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct IoBlocker {
+    /* ... */
+}
+
+struct Event {
+    // Event的唯一ID，该事件发生后，就会被监听起来
+    id: usize,
+
+    // 一组需要等待或者已发生的信号
+    signals: Signals,
+}
+
+impl IoBlocker {
+    /// 创建需要阻塞等待的异步IO事件的集合
+    fn new() -&gt; Self { /* ... */ }
+
+    /// 对指定的IO事件表示兴趣
+    fn add_io_event_interest(
+        &amp;self,
+
+        /// 事件所绑定的socket
+        io_object: &amp;IoObject,
+
+        event: Event,
+    ) { /* ... */ }
+
+    /// 进入阻塞，直到某个事件出现
+    fn block(&amp;self) -&gt; Event { /* ... */ }
+}
+
+let mut io_blocker = IoBlocker::new();
+io_blocker.add_io_event_interest(
+    &amp;socket_1,
+    Event { id: 1, signals: READABLE },
+);
+io_blocker.add_io_event_interest(
+    &amp;socket_2,
+    Event { id: 2, signals: READABLE | WRITABLE },
+);
+let event = io_blocker.block();
+
+// 当socket的数据可以读取时，打印 "Socket 1 is now READABLE"
+println!("Socket {:?} is now {:?}", event.id, event.signals);
+<span class="boring">}</span></code></pre></pre>
+<p>这样，我们只需要一个执行器线程，它会接收 IO 事件并将其分发到对应的 <code>Waker</code> 中，接着后者会唤醒相关的任务，最终通过执行器 <code>poll</code> 后，任务可以顺利地继续执行, 这种 IO 读取流程可以不停的循环，直到 <code>socket</code> 关闭。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../advance/async/getting-started.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../advance/async/pin-unpin.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../advance/async/getting-started.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../advance/async/pin-unpin.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Cargo Target - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/cargo/reference/cargo-target.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="cargo-target"><a class="header" href="#cargo-target">Cargo Target</a></h1>
+<p><strong>Cargo 项目中包含有一些对象，它们包含的源代码文件可以被编译成相应的包，这些对象被称之为 Cargo Target</strong>。例如<a href="https://course.rs/cargo/guide/package-layout.html">之前章节</a>提到的库对象 <code>Library</code> 、二进制对象 <code>Binary</code>、示例对象 <code>Examples</code>、测试对象 <code>Tests</code> 和 基准性能对象 <code>Benches</code> 都是 Cargo Target。</p>
+<p>本章节我们一起来看看该如何在 <code>Cargo.toml</code> 清单中配置这些对象，当然，大部分时候都无需手动配置，因为默认的配置通常由项目目录的布局自动推断出来。</p>
+<h2 id="对象介绍"><a class="header" href="#对象介绍">对象介绍</a></h2>
+<p>在开始讲解如何配置对象前，我们先来看看这些对象究竟是什么，估计还有些同学对此有些迷糊 :)</p>
+<h4 id="库对象library"><a class="header" href="#库对象library">库对象(Library)</a></h4>
+<p>库对象用于定义一个库，该库可以被其它的库或者可执行文件所链接。<strong>该对象包含的默认文件名是 <code>src/lib.rs</code>，且默认情况下，库对象的名称<a href="https://course.rs/basic/crate-module/crate.html#package">跟项目名是一致的</a></strong>，</p>
+<p>一个工程只能有一个库对象，因此也只能有一个 <code>src/lib.rs</code> 文件，以下是一种自定义配置:</p>
+<pre><code class="language-shell"># 一个简单的例子：在 Cargo.toml 中定制化库对象
+[lib]
+crate-type = ["cdylib"]
+bench = false
+</code></pre>
+<h4 id="二进制对象binaries"><a class="header" href="#二进制对象binaries">二进制对象(Binaries)</a></h4>
+<p>二进制对象在被编译后可以生成可执行的文件，默认的文件名是 <code>src/main.rs</code>，二进制对象的名称跟项目名也是相同的。</p>
+<p>大家应该还记得，一个项目拥有多个二进制文件，因此一个项目可以拥有多个二进制对象。当拥有多个对象时，对象的文件默认会被放在 <code>src/bin/</code> 目录下。</p>
+<p>二进制对象可以使用库对象提供的公共 API，也可以通过 <code>[dependencies]</code> 来引入外部的依赖库。</p>
+<p>我们可以使用 <code>cargo run --bin &lt;bin-name&gt;</code> 的方式来运行指定的二进制对象，以下是二进制对象的配置示例：</p>
+<pre><code class="language-toml"># Example of customizing binaries in Cargo.toml.
+[[bin]]
+name = "cool-tool"
+test = false
+bench = false
+
+[[bin]]
+name = "frobnicator"
+required-features = ["frobnicate"]
+</code></pre>
+<h4 id="示例对象examples"><a class="header" href="#示例对象examples">示例对象(Examples)</a></h4>
+<p>示例对象的文件在根目录下的 <code>examples</code> 目录中。既然是示例，自然是使用项目中的库对象的功能进行演示。示例对象编译后的文件会存储在 <code>target/debug/examples</code> 目录下。</p>
+<p>如上所示，示例对象可以使用库对象的公共 API，也可以通过 <code>[dependencies]</code> 来引入外部的依赖库。</p>
+<p>默认情况下，示例对象都是可执行的二进制文件( 带有 <code>fn main()</code> 函数入口)，毕竟例子是用来测试和演示我们的库对象，是用来运行的。而你完全可以将示例对象改成库的类型:</p>
+<pre><code class="language-toml">[[example]]
+name = "foo"
+crate-type = ["staticlib"]
+</code></pre>
+<p>如果想要指定运行某个示例对象，可以使用 <code>cargo run --example &lt;example-name&gt;</code> 命令。如果是库类型的示例对象，则可以使用 <code>cargo build --example &lt;example-name&gt;</code> 进行构建。</p>
+<p>与此类似，还可以使用 <code>cargo install --example &lt;example-name&gt;</code> 来将示例对象编译出的可执行文件安装到默认的目录中，将该目录添加到 <code>$PATH</code> 环境变量中，就可以直接全局运行安装的可执行文件。</p>
+<p>最后，<code>cargo test</code> 命令默认会对示例对象进行编译，以防止示例代码因为长久没运行，导致严重过期以至于无法运行。</p>
+<h4 id="测试对象tests"><a class="header" href="#测试对象tests">测试对象(Tests)</a></h4>
+<p>测试对象的文件位于根目录下的 <code>tests</code> 目录中，如果大家还有印象的话，就知道该目录是<a href="https://course.rs/test/unit-integration-test.html#%E9%9B%86%E6%88%90%E6%B5%8B%E8%AF%95">集成测试</a>所使用的。</p>
+<p>当运行 <code>cargo test</code> 时，里面的每个文件都会被编译成独立的包，然后被执行。</p>
+<p>测试对象可以使用库对象提供的公共 API，也可以通过 <code>[dependencies]</code> 来引入外部的依赖库。</p>
+<h4 id="基准性能对象benches"><a class="header" href="#基准性能对象benches">基准性能对象(Benches)</a></h4>
+<p>该对象的文件位于 <code>benches</code> 目录下，可以通过 <code>cargo bench</code> 命令来运行，关于基准测试，可以通过<a href="https://course.rs/test/benchmark.html">这篇文章</a>了解更多。</p>
+<h2 id="配置一个对象"><a class="header" href="#配置一个对象">配置一个对象</a></h2>
+<p>我们可以通过 <code>Cargo.toml</code> 中的 <code>[lib]</code>、<code>[[bin]]</code>、<code>[[example]]</code>、<code>[[test]]</code> 和 <code>[[bench]]</code> 部分对以上对象进行配置。</p>
+<blockquote>
+<p>大家可能会疑惑 <code>[lib]</code> 和 <code>[[bin]]</code> 的写法为何不一致，原因是这种语法是 <code>TOML</code> 提供的<a href="https://toml.io/en/v1.0.0-rc.3#array-of-tables">数组特性</a>， <code>[[bin]]</code> 这种写法意味着我们可以在 Cargo.toml 中创建多个 <code>[[bin]]</code> ，每一个对应一个二进制文件</p>
+<p>上文提到过，我们只能指定一个库对象，因此这里只能使用 <code>[lib]</code> 形式</p>
+</blockquote>
+<p>由于它们的配置内容都是相似的，因此我们以 <code>[lib]</code> 为例来说明相应的配置项:</p>
+<pre><code class="language-toml">[lib]
+name = "foo"           # 对象名称: 库对象、`src/main.rs` 二进制对象的名称默认是项目名
+path = "src/lib.rs"    # 对象的源文件路径
+test = true            # 能否被测试，默认是 true
+doctest = true         # 文档测试是否开启，默认是 true
+bench = true           # 基准测试是否开启
+doc = true             # 文档功能是否开启
+plugin = false         # 是否可以用于编译器插件(deprecated).
+proc-macro = false     # 是否是过程宏类型的库
+harness = true         # 是否使用libtest harness : https://doc.rust-lang.org/stable/rustc/tests/index.html
+edition = "2015"       # 对象使用的 Rust Edition
+crate-type = ["lib"]   # 生成的包类型
+required-features = [] # 构建对象所需的 Cargo Features (N/A for lib).
+</code></pre>
+<h4 id="name"><a class="header" href="#name">name</a></h4>
+<p>对于库对象和默认的二进制对象( <code>src/main.rs </code>)，默认的名称是项目的名称( <code>package.name</code> )。</p>
+<p>对于其它类型的对象，默认是目录或文件名。</p>
+<p>除了 <code>[lib]</code> 外，<code>name</code> 字段对于其他对象都是必须的。</p>
+<h4 id="proc-macro"><a class="header" href="#proc-macro">proc-macro</a></h4>
+<p>该字段的使用方式在<a href="https://course.rs/advance/macro.html#%E5%AE%9A%E4%B9%89%E8%BF%87%E7%A8%8B%E5%AE%8F">过程宏章节</a>有详细的介绍。</p>
+<h4 id="edition"><a class="header" href="#edition">edition</a></h4>
+<p>对使用的 Rust Edition 版本进行设置。</p>
+<p>如果没有设置，则默认使用 <code>[package]</code> 中配置的 <code>package.edition</code>，通常来说，这个字段不应该被单独设置，只有在一些特殊场景中才可能用到：例如将一个大型项目逐步升级为新的 edition 版本。</p>
+<h4 id="crate-type"><a class="header" href="#crate-type">crate-type</a></h4>
+<p>该字段定义了对象生成的<a href="https://doc.rust-lang.org/stable/reference/linkage.html">包类型</a>。它是一个数组，因此为同一个对象指定多个包类型。</p>
+<p>需要注意的是，只有库对象和示例对象可以被指定，因为其他的二进制、测试和基准测试对象只能是 <code>bin</code> 这个包类型。</p>
+<p>默认的包类型如下:</p>
+<div class="table-wrapper"><table><thead><tr><th>对象</th><th>包类型</th></tr></thead><tbody>
+<tr><td>正常的库对象</td><td>"lib"</td></tr>
+<tr><td>过程宏的库对象</td><td>"proc-macro"</td></tr>
+<tr><td>示例对象</td><td>"bin"</td></tr>
+</tbody></table>
+</div>
+<p>可用的选项包括 <code>bin</code>、<code>lib</code>、<code>rlib</code>、<code>dylib</code>、<code>cdylib</code>、<code>staticlib</code> 和 <code>proc-macro</code> ，如果大家想了解更多，可以看下官方的<a href="https://doc.rust-lang.org/stable/reference/linkage.html">参考手册</a>。</p>
+<h4 id="required-features"><a class="header" href="#required-features">required-features</a></h4>
+<p>该字段用于指定在构建对象时所需的 <a href="https://course.rs/cargo/reference/features.html"><code>features</code></a> 列表。</p>
+<p>该字段只对 <code>[[bin]]</code>、 <code>[[bench]]</code>、 <code>[[test]]</code> 和 <code>[[example]]</code> 有效，对于 <code>[lib]</code> 没有任何效果。</p>
+<pre><code class="language-toml">[features]
+# ...
+postgres = []
+sqlite = []
+tools = []
+
+[[bin]]
+name = "my-pg-tool"
+required-features = ["postgres", "tools"]
+</code></pre>
+<h2 id="对象自动发现"><a class="header" href="#对象自动发现">对象自动发现</a></h2>
+<p>默认情况下，<code>Cargo</code> 会基于项目的<a href="https://course.rs/cargo/guide/package-layout.html">目录文件布局</a>自动发现和确定对象，而之前的配置项则允许我们对其进行手动的配置修改(若项目布局跟标准的不一样时)。</p>
+<p>而这种自动发现对象的设定可以通过以下配置来禁用:</p>
+<pre><code class="language-toml">[package]
+# ...
+autobins = false
+autoexamples = false
+autotests = false
+autobenches = false
+</code></pre>
+<p>只有在特定场景下才应该禁用自动对象发现。例如，你有一个模块想要命名为 <code>bin</code>，目录结构如下:</p>
+<pre><code class="language-shell">├── Cargo.toml
+└── src
+    ├── lib.rs
+    └── bin
+        └── mod.rs
+</code></pre>
+<p>这在默认情况下会导致问题，因为 <code>Cargo</code> 会使用 <code>src/bin</code> 作为存放二进制对象的地方。</p>
+<p>为了阻止这一点，可以设置 <code>autobins = false</code> :</p>
+<pre><code class="language-toml">├── Cargo.toml
+└── src
+    ├── lib.rs
+    └── bin
+        └── mod.rs
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../cargo/reference/manifest.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../cargo/reference/workspaces.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../cargo/reference/manifest.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../cargo/reference/workspaces.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

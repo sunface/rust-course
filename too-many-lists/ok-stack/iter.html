@@ -1,0 +1,635 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>IntoIter 和 Iter - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/too-many-lists/ok-stack/iter.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="迭代器"><a class="header" href="#迭代器">迭代器</a></h2>
+<p>集合类型可以通过 <code>Iterator</code> 特征进行迭代，该特征看起来比 <code>Drop</code> 要复杂点：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Iterator {
+    type Item;
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt;;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这里的 <code>Item</code> 是<a href="https://course.rs/basic/trait/advance-trait.html#%E5%85%B3%E8%81%94%E7%B1%BB%E5%9E%8B">关联类型</a>，用来指代迭代器中具体的元素类型，<code>next</code> 方法返回的也是该类型。</p>
+<p>其实上面的说法有点不够准确，原因是 <code>next</code> 方法返回的是 <code>Option&lt;Self::Item&gt;</code>，使用 <code>Option&lt;T&gt;</code> 枚举的原因是为了方便用户，不然用户需要 <code>has_next</code> 和 <code>get_next</code> 才能满足使用需求。有值时返回 <code>Some(T)</code>，无值时返回 <code>None</code>，这种 API 设计工程性更好，也更加安全，完美！</p>
+<p>有点悲剧的是, Rust 截至目前还没有 <code>yield</code> 语句，因此我们需要自己来实现相关的逻辑。还有点需要注意，每个集合类型应该实现 3 种迭代器类型：</p>
+<ul>
+<li><code>IntoIter</code> - <code>T</code></li>
+<li><code>IterMut</code> - <code>&amp;mut T</code></li>
+<li><code>Iter</code> - <code>&amp;T</code></li>
+</ul>
+<p>也许大家不认识它们，但是其实很好理解，<code>IntoIter</code> 类型迭代器的 <code>next</code> 方法会拿走被迭代值的所有权，<code>IterMut</code> 是可变借用， <code>Iter</code> 是不可变借用。事实上，类似的<a href="https://course.rs/practice/naming.html#%E4%B8%80%E4%B8%AA%E9%9B%86%E5%90%88%E4%B8%8A%E7%9A%84%E6%96%B9%E6%B3%95%E5%A6%82%E6%9E%9C%E8%BF%94%E5%9B%9E%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%9C%80%E9%81%B5%E5%BE%AA%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99iteriter_mutinto_iter-c-iter">命名规则</a>在 Rust 中随处可见，当熟悉后，以后见到类似的命名大家就可以迅速的理解其对值的运用方式。</p>
+<h2 id="intoiter"><a class="header" href="#intoiter">IntoIter</a></h2>
+<p>先来看看 <code>IntoIter</code> 该怎么实现:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct IntoIter&lt;T&gt;(List&lt;T&gt;);
+
+impl&lt;T&gt; List&lt;T&gt; {
+    pub fn into_iter(self) -&gt; IntoIter&lt;T&gt; {
+        IntoIter(self)
+    }
+}
+
+impl&lt;T&gt; Iterator for IntoIter&lt;T&gt; {
+    type Item = T;
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        // access fields of a tuple struct numerically
+        self.0.pop()
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这里我们通过<a href="https://course.rs/basic/compound-type/struct.html#%E5%85%83%E7%BB%84%E7%BB%93%E6%9E%84%E4%BD%93tuple-struct">元组结构体</a>的方式定义了 <code>IntoIter</code>，下面来测试下:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[test]
+fn into_iter() {
+    let mut list = List::new();
+    list.push(1); list.push(2); list.push(3);
+
+    let mut iter = list.into_iter();
+    assert_eq!(iter.next(), Some(3));
+    assert_eq!(iter.next(), Some(2));
+    assert_eq!(iter.next(), Some(1));
+    assert_eq!(iter.next(), None);
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-shell">$ cargo test
+
+     Running target/debug/lists-5c71138492ad4b4a
+
+running 4 tests
+test first::test::basics ... ok
+test second::test::basics ... ok
+test second::test::into_iter ... ok
+test second::test::peek ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured
+</code></pre>
+<h2 id="iter"><a class="header" href="#iter">Iter</a></h2>
+<p>相对来说，<code>IntoIter</code> 是最好实现的，因为它只是简单的拿走值，不涉及到引用，也不涉及到生命周期，而 <code>Iter</code> 就有所不同了。</p>
+<p>这里的基本逻辑是我们持有一个当前节点的指针，当生成一个值后，该指针将指向下一个节点。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Iter&lt;T&gt; {
+    next: Option&lt;&amp;Node&lt;T&gt;&gt;,
+}
+
+impl&lt;T&gt; List&lt;T&gt; {
+    pub fn iter(&amp;self) -&gt; Iter&lt;T&gt; {
+        Iter { next: self.head.map(|node| &amp;node) }
+    }
+}
+
+impl&lt;T&gt; Iterator for Iter&lt;T&gt; {
+    type Item = &amp;T;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        self.next.map(|node| {
+            self.next = node.next.map(|node| &amp;node);
+            &amp;node.elem
+        })
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-shell">$ cargo build
+
+error[E0106]: missing lifetime specifier
+  --&gt; src/second.rs:72:18
+   |
+72 |     next: Option&lt;&amp;Node&lt;T&gt;&gt;,
+   |                  ^ expected lifetime parameter
+
+error[E0106]: missing lifetime specifier
+  --&gt; src/second.rs:82:17
+   |
+82 |     type Item = &amp;T;
+   |                 ^ expected lifetime parameter
+</code></pre>
+<p>许久不见的错误又冒了出来，而且这次直指 Rust 中最难的点之一：生命周期。关于生命周期的讲解，这里就不再展开，如果大家还不熟悉，强烈建议看看<a href="https://course.rs/advance/lifetime/intro.html">此章节</a>，然后再继续。</p>
+<p>首先，先加一个生命周期试试：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Iter&lt;'a, T&gt; {
+    next: Option&lt;&amp;'a Node&lt;T&gt;&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-shell">$ cargo build
+
+error[E0106]: missing lifetime specifier
+  --&gt; src/second.rs:83:22
+   |
+83 | impl&lt;T&gt; Iterator for Iter&lt;T&gt; {
+   |                      ^^^^^^^ expected lifetime parameter
+
+error[E0106]: missing lifetime specifier
+  --&gt; src/second.rs:84:17
+   |
+84 |     type Item = &amp;T;
+   |                 ^ expected lifetime parameter
+
+error: aborting due to 2 previous errors
+</code></pre>
+<p>好的，现在有了更多的提示，来按照提示修改下代码:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Iter&lt;'a, T&gt; {
+    next: Option&lt;&amp;'a Node&lt;T&gt;&gt;,
+}
+
+impl&lt;'a, T&gt; List&lt;T&gt; {
+    pub fn iter(&amp;'a self) -&gt; Iter&lt;'a, T&gt; {
+        Iter { next: self.head.map(|node| &amp;'a node) }
+    }
+}
+
+impl&lt;'a, T&gt; Iterator for Iter&lt;'a, T&gt; {
+    type Item = &amp;'a T;
+    fn next(&amp;'a mut self) -&gt; Option&lt;Self::Item&gt; {
+        self.next.map(|node| {
+            self.next = node.next.map(|node| &amp;'a node);
+            &amp;'a node.elem
+        })
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-shell">$ cargo build
+
+error: expected `:`, found `node`
+  --&gt; src/second.rs:77:47
+   |
+77 |         Iter { next: self.head.map(|node| &amp;'a node) }
+   |         ---- while parsing this struct        ^^^^ expected `:`
+
+error: expected `:`, found `node`
+  --&gt; src/second.rs:85:50
+   |
+85 |             self.next = node.next.map(|node| &amp;'a node);
+   |                                                  ^^^^ expected `:`
+
+error[E0063]: missing field `next` in initializer of `second::Iter&lt;'_, _&gt;`
+  --&gt; src/second.rs:77:9
+   |
+77 |         Iter { next: self.head.map(|node| &amp;'a node) }
+   |         ^^^^ missing `next`
+</code></pre>
+<p>怎么回事。。感觉错误犹如雨后春笋般冒了出来，Rust 是不是被我们搞坏了 :(</p>
+<p>现在看来，我们的生命周期是用错了，聪明的同学可能已经看出了端倪，那么再修改下试试；</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Iter&lt;'a, T&gt; {
+    next: Option&lt;&amp;'a Node&lt;T&gt;&gt;,
+}
+
+// 这里无需生命周期，因为 List 没有使用生命周期的关联项
+impl&lt;T&gt; List&lt;T&gt; {
+    // 这里我们为 `iter` 声明一个生命周期 'a , 此时 `&amp;self` 需要至少和 `Iter` 活得一样久
+    pub fn iter&lt;'a&gt;(&amp;'a self) -&gt; Iter&lt;'a, T&gt; {
+        Iter { next: self.head.map(|node| &amp;node) }
+    }
+}
+
+// 这里声明生命周期是因为下面的关联类型 Item 需要
+impl&lt;'a, T&gt; Iterator for Iter&lt;'a, T&gt; {
+    type Item = &amp;'a T;
+
+    // 这里无需更改，因为上面已经处理了.
+    // Self 依然是这么棒
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        self.next.map(|node| {
+            self.next = node.next.map(|node| &amp;node);
+            &amp;node.elem
+        })
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>现在，我们也许可以自信的编译下试试了：</p>
+<pre><code class="language-shell">$ cargo build
+
+error[E0308]: mismatched types
+  --&gt; src/second.rs:77:22
+   |
+77 |         Iter { next: self.head.map(|node| &amp;node) }
+   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected struct `second::Node`, found struct `std::boxed::Box`
+   |
+   = note: expected type `std::option::Option&lt;&amp;second::Node&lt;T&gt;&gt;`
+              found type `std::option::Option&lt;&amp;std::boxed::Box&lt;second::Node&lt;T&gt;&gt;&gt;`
+
+error[E0308]: mismatched types
+  --&gt; src/second.rs:85:25
+   |
+85 |             self.next = node.next.map(|node| &amp;node);
+   |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected struct `second::Node`, found struct `std::boxed::Box`
+   |
+   = note: expected type `std::option::Option&lt;&amp;'a second::Node&lt;T&gt;&gt;`
+              found type `std::option::Option&lt;&amp;std::boxed::Box&lt;second::Node&lt;T&gt;&gt;&gt;`
+</code></pre>
+<p>(╯°□°)╯︵ ┻━┻</p>
+<p>这么看，生命周期的问题解决了，但是又引入了新的错误。原因在于，我们希望存储 <code>&amp;Node</code> 但是获取的却是 <code>&amp;Box&lt;Node&gt;</code>。嗯，小问题，解引用搞定：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;T&gt; List&lt;T&gt; {
+    pub fn iter&lt;'a&gt;(&amp;'a self) -&gt; Iter&lt;'a, T&gt; {
+        Iter { next: self.head.map(|node| &amp;*node) }
+    }
+}
+
+impl&lt;'a, T&gt; Iterator for Iter&lt;'a, T&gt; {
+    type Item = &amp;'a T;
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        self.next.map(|node| {
+            self.next = node.next.map(|node| &amp;*node);
+            &amp;node.elem
+        })
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-shell">$ cargo build
+
+   Compiling lists v0.1.0 (/Users/ABeingessner/dev/temp/lists)
+error[E0515]: cannot return reference to local data `*node`
+  --&gt; src/second.rs:77:43
+   |
+77 |         Iter { next: self.head.map(|node| &amp;*node) }
+   |                                           ^^^^^^ returns a reference to data owned by the current function
+
+error[E0507]: cannot move out of borrowed content
+  --&gt; src/second.rs:77:22
+   |
+77 |         Iter { next: self.head.map(|node| &amp;*node) }
+   |                      ^^^^^^^^^ cannot move out of borrowed content
+
+error[E0515]: cannot return reference to local data `*node`
+  --&gt; src/second.rs:85:46
+   |
+85 |             self.next = node.next.map(|node| &amp;*node);
+   |                                              ^^^^^^ returns a reference to data owned by the current function
+
+error[E0507]: cannot move out of borrowed content
+  --&gt; src/second.rs:85:25
+   |
+85 |             self.next = node.next.map(|node| &amp;*node);
+   |                         ^^^^^^^^^ cannot move out of borrowed content
+</code></pre>
+<p>又怎么了! (ﾉಥ益ಥ）ﾉ﻿ ┻━┻</p>
+<p>大家还记得之前章节的内容吗？原因是这里我们忘记了 <code>as_ref</code> ，然后值的所有权被转移到了 <code>map</code> 中，结果我们在内部引用了一个局部值，造成一个悬垂引用：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Iter&lt;'a, T&gt; {
+    next: Option&lt;&amp;'a Node&lt;T&gt;&gt;,
+}
+
+impl&lt;T&gt; List&lt;T&gt; {
+    pub fn iter&lt;'a&gt;(&amp;'a self) -&gt; Iter&lt;'a, T&gt; {
+        Iter { next: self.head.as_ref().map(|node| &amp;*node) }
+    }
+}
+
+impl&lt;'a, T&gt; Iterator for Iter&lt;'a, T&gt; {
+    type Item = &amp;'a T;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        self.next.map(|node| {
+            self.next = node.next.as_ref().map(|node| &amp;*node);
+            &amp;node.elem
+        })
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-shell">$ cargo build
+
+   Compiling lists v0.1.0 (/Users/ABeingessner/dev/temp/lists)
+error[E0308]: mismatched types
+  --&gt; src/second.rs:77:22
+   |
+77 |         Iter { next: self.head.as_ref().map(|node| &amp;*node) }
+   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected struct `second::Node`, found struct `std::boxed::Box`
+   |
+   = note: expected type `std::option::Option&lt;&amp;second::Node&lt;T&gt;&gt;`
+              found type `std::option::Option&lt;&amp;std::boxed::Box&lt;second::Node&lt;T&gt;&gt;&gt;`
+
+error[E0308]: mismatched types
+  --&gt; src/second.rs:85:25
+   |
+85 |             self.next = node.next.as_ref().map(|node| &amp;*node);
+   |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected struct `second::Node`, found struct `std::boxed::Box`
+   |
+   = note: expected type `std::option::Option&lt;&amp;'a second::Node&lt;T&gt;&gt;`
+              found type `std::option::Option&lt;&amp;std::boxed::Box&lt;second::Node&lt;T&gt;&gt;&gt;`
+</code></pre>
+<p>😭</p>
+<p>错误的原因是，<code>as_ref</code> 增加了一层间接引用，需要被移除，这里使用另外一种方式来实现:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Iter&lt;'a, T&gt; {
+    next: Option&lt;&amp;'a Node&lt;T&gt;&gt;,
+}
+
+impl&lt;T&gt; List&lt;T&gt; {
+    pub fn iter&lt;'a&gt;(&amp;'a self) -&gt; Iter&lt;'a, T&gt; {
+        Iter { next: self.head.as_deref() }
+    }
+}
+
+impl&lt;'a, T&gt; Iterator for Iter&lt;'a, T&gt; {
+    type Item = &amp;'a T;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        self.next.map(|node| {
+            self.next = node.next.as_deref();
+            &amp;node.elem
+        })
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-shell">$ cargo build
+</code></pre>
+<p>🎉 🎉 🎉</p>
+<p><code>as_deref</code> 和 <code>as_deref_mut</code> 函数在 Rust 1.40 版本中正式稳定下来。在那之前，你只能在 <code>stable</code> 版本中使用 <code>map(|node| &amp;**node)</code> 和 <code>map(|node| &amp;mut**node)</code> 的方式来替代。</p>
+<p>大家可能会觉得 <code>&amp;**</code> 的形式看上去有些烂，没错，确实如此。但是就像一瓶好酒一样，Rust 也随着时间的推进变得越来越好，因此现在我们已经无需再这么做了。事实上，Rust 很擅长隐式地做类似的转换，或者可以称之为 <a href="https://course.rs/advance/smart-pointer/deref.html"><code>Deref</code></a>。</p>
+<p>但是 <code>Deref</code> 在这里并不能很好的完成自己的任务，原因是在闭包中使用 <code>Option&lt;&amp;T&gt;</code> 而不是 <code>&amp;T</code> 对于它来说有些过于复杂了，因此我们需要显式地去帮助它完成任务。好在根据我的经验来看，这种情况还是相当少见的。</p>
+<p>事实上，还可以使用另一种方式来实现：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>self.next = node.next.as_ref().map::&lt;&amp;Node&lt;T&gt;, _&gt;(|node| &amp;node);
+<span class="boring">}</span></code></pre></pre>
+<p>这种类型暗示的方式可以使用的原因在于 <code>map</code> 是一个泛型函数:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn map&lt;U, F&gt;(self, f: F) -&gt; Option&lt;U&gt;
+<span class="boring">}</span></code></pre></pre>
+<p>turbofish 形式的符号 <code>::&lt;&gt;</code> 可以告诉编译器我们希望用哪个具体的类型来替代泛型类型，在这种情况里，<code>::&lt;&amp;Node&lt;T&gt;, _&gt;</code> 意味着: 它应该返回一个 <code>&amp;Node&lt;T&gt;</code>。这种方式可以让编译器知道它需要对 <code>&amp;node</code> 应用 <code>deref</code>，这样我们就不用手动的添加 <code>**</code> 来进行解引用。</p>
+<p>好了，既然编译通过，那就写个测试来看看运行结果:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[test]
+fn iter() {
+    let mut list = List::new();
+    list.push(1); list.push(2); list.push(3);
+
+    let mut iter = list.iter();
+    assert_eq!(iter.next(), Some(&amp;3));
+    assert_eq!(iter.next(), Some(&amp;2));
+    assert_eq!(iter.next(), Some(&amp;1));
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-shell">$ cargo test
+
+     Running target/debug/lists-5c71138492ad4b4a
+
+running 5 tests
+test first::test::basics ... ok
+test second::test::basics ... ok
+test second::test::into_iter ... ok
+test second::test::iter ... ok
+test second::test::peek ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured
+</code></pre>
+<p>最后，还有一点值得注意，之前的代码事实上可以应用<a href="https://course.rs/basic/lifetime.html#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%B6%88%E9%99%A4">生命周期消除原则</a>:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;T&gt; List&lt;T&gt; {
+    pub fn iter&lt;'a&gt;(&amp;'a self) -&gt; Iter&lt;'a, T&gt; {
+        Iter { next: self.head.as_deref() }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这段代码跟以下代码是等价的:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;T&gt; List&lt;T&gt; {
+    pub fn iter(&amp;self) -&gt; Iter&lt;T&gt; {
+        Iter { next: self.head.as_deref() }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>当然，如果你就喜欢生命周期那种自由、飘逸的 feeling，还可以使用 Rust 2018 引入的“显式生命周期消除"语法 <code>'_</code>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;T&gt; List&lt;T&gt; {
+    pub fn iter(&amp;self) -&gt; Iter&lt;'_, T&gt; {
+        Iter { next: self.head.as_deref() }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../too-many-lists/ok-stack/peek.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../too-many-lists/ok-stack/itermut.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../too-many-lists/ok-stack/peek.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../too-many-lists/ok-stack/itermut.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

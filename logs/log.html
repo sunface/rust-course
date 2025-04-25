@@ -1,0 +1,423 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>日志门面 log - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/logs/log.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="日志门面-log"><a class="header" href="#日志门面-log">日志门面 log</a></h1>
+<p>就如同 slf4j 是 Java 的日志门面库，<a href="https://github.com/rust-lang/log">log</a> 也是 Rust 的日志门面库( 这不是我自己编的，官方用语: logging facade )，它目前由官方积极维护，因此大家可以放心使用。</p>
+<p>使用方式很简单，只要在 <code>Cargo.toml</code> 中引入即可：</p>
+<pre><code class="language-toml">[dependencies]
+log = "0.4"
+</code></pre>
+<blockquote>
+<p>日志门面不是说排场很大的意思，而是指相应的日志 API 已成为事实上的标准，会被其它日志框架所使用。通过这种统一的门面，开发者就可以不必再拘泥于日志框架的选择，未来大不了再换一个日志框架就是</p>
+</blockquote>
+<p>既然是门面，<code>log</code> 自然定义了一套统一的日志特征和 API，将日志的操作进行了抽象。</p>
+<h2 id="log-特征"><a class="header" href="#log-特征">Log 特征</a></h2>
+<p>例如，它定义了一个 <code>Log</code> 特征：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Log: Sync + Send {
+    fn enabled(&amp;self, metadata: &amp;Metadata&lt;'_&gt;) -&gt; bool;
+    fn log(&amp;self, record: &amp;Record&lt;'_&gt;);
+    fn flush(&amp;self);
+}
+<span class="boring">}</span></code></pre></pre>
+<ul>
+<li><code>enabled</code> 用于判断某条带有元数据的日志是否能被记录，它对于 <code>log_enabled!</code> 宏特别有用</li>
+<li><code>log</code> 会记录 <code>record</code> 所代表的日志</li>
+<li><code>flush</code> 会将缓存中的日志数据刷到输出中，例如标准输出或者文件中</li>
+</ul>
+<h2 id="日志宏"><a class="header" href="#日志宏">日志宏</a></h2>
+<p><code>log</code> 还为我们提供了一整套标准的宏，用于方便地记录日志。看到 <code>trace!</code>、<code>debug!</code>、<code>info!</code>、<code>warn!</code>、<code>error!</code>，大家是否感觉眼熟呢？是的，它们跟上一章节提到的日志级别几乎一模一样，唯一的区别就是这里乱入了一个 <code>trace!</code>，它比 <code>debug!</code> 的日志级别还要低，记录的信息还要详细。可以说，你如果想巨细无遗地了解某个流程的所有踪迹，它就是不二之选。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use log::{info, trace, warn};
+
+pub fn shave_the_yak(yak: &amp;mut Yak) {
+    trace!("Commencing yak shaving");
+
+    loop {
+        match find_a_razor() {
+            Ok(razor) =&gt; {
+                info!("Razor located: {}", razor);
+                yak.shave(razor);
+                break;
+            }
+            Err(err) =&gt; {
+                warn!("Unable to locate a razor: {}, retrying", err);
+            }
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>上面的例子使用 <code>trace!</code> 记录了一条可有可无的信息：准备开始剃须，然后开始寻找剃须刀，找到后就用 <code>info!</code> 记录一条可能事后也没人看的信息：找到剃须刀；没找到的话，就记录一条 <code>warn!</code> 信息，这条信息就有一定价值了，不仅告诉我们没找到的原因，还记录了发生的次数，有助于事后定位问题。</p>
+<p>可以看出，这里使用日志级别的方式和我们上一章节所述基本相符。</p>
+<p>除了以上常用的，<code>log</code> 还提供了 <code>log!</code> 和 <code>log_enabled!</code> 宏，后者用于确定一条消息在当前模块中，对于给定的日志级别是否能够被记录</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use log::Level::Debug;
+use log::{debug, log_enabled};
+
+// 判断能否记录 Debug 消息
+if log_enabled!(Debug) {
+    let data = expensive_call();
+     // 下面的日志记录较为昂贵，因此我们先在前面判断了是否能够记录，能，才继续这里的逻辑
+    debug!("expensive debug data: {} {}", data.x, data.y);
+}
+if log_enabled!(target: "Global", Debug) {
+   let data = expensive_call();
+   debug!(target: "Global", "expensive debug data: {} {}", data.x, data.y);
+}
+<span class="boring">}</span></code></pre></pre>
+<p>而 <code>log!</code> 宏就简单的多，它是一个通用的日志记录方式，因此需要我们手动指定日志级别：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use log::{log, Level};
+
+let data = (42, "Forty-two");
+let private_data = "private";
+
+log!(Level::Error, "Received errors: {}, {}", data.0, data.1);
+log!(target: "app_events", Level::Warn, "App warning: {}, {}, {}",
+    data.0, data.1, private_data);
+<span class="boring">}</span></code></pre></pre>
+<h2 id="日志输出在哪里"><a class="header" href="#日志输出在哪里">日志输出在哪里？</a></h2>
+<p>我不知道有没有同学尝试运行过上面的代码，但是我知道，就算你们运行了，也看不到任何输出。</p>
+<p>为什么？原因很简单，<code>log</code> 仅仅是日志门面库，<strong>它并不具备完整的日志库功能！</strong>，因此你无法在控制台中看到任何日志输出，这种情况下，说实话，远不如一个 <code>println!</code> 有用！</p>
+<p>但是别急，让我们看看该如何让 <code>log</code> 有用起来。</p>
+<h2 id="使用具体的日志库"><a class="header" href="#使用具体的日志库">使用具体的日志库</a></h2>
+<p><code>log</code> 包这么设计，其实是有很多好处的。</p>
+<h3 id="rust-库的开发者"><a class="header" href="#rust-库的开发者">Rust 库的开发者</a></h3>
+<p>最直接的好处就是，如果你是一个 Rust 库开发者，那你自己或库的用户肯定都不希望这个库绑定任何具体的日志库，否则用户想使用 <code>log1</code> 来记录日志，你的库却使用了 <code>log2</code>，这就存在很多问题了！</p>
+<p>因此，<strong>作为库的开发者，你只要在库中使用门面库即可</strong>，将具体的日志库交给用户去选择和绑定。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use log::{info, trace, warn};
+pub fn deal_with_something() {
+    // 开始处理
+
+    // 记录一些日志
+    trace!("a trace log");
+    info!("a info long: {}", "abc");
+    warn!("a warning log: {}, retrying", err);
+
+    // 结束处理
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="应用开发者"><a class="header" href="#应用开发者">应用开发者</a></h3>
+<p>如果是应用开发者，那你的应用运行起来，却看不到任何日志输出，这种场景想想都捉急。此时就需要去选择一个具体的日志库了。</p>
+<p>目前来说，已经有了不少日志库实现，官方也<a href="https://github.com/rust-lang/log#in-executables">推荐了一些</a>
+，大家可以根据自己的需求来选择，不过 <a href="https://docs.rs/env_logger/*/env_logger/">env_logger</a> 是一个相当不错的选择。</p>
+<p><code>log</code> 还提供了 <a href="https://docs.rs/log/0.4.8/log/fn.set_logger.html">set_logger</a> 函数用于设置日志库，<a href="https://docs.rs/log/0.4.8/log/fn.set_max_level.html">set_max_level</a> 用于设置最大日志级别，但是如果你选了具体的日志库，它往往会提供更高级的 API，无需我们手动调用这两个函数，例如下面的 <code>env_logger</code> 就是如此。</p>
+<h4 id="env_logger"><a class="header" href="#env_logger">env_logger</a></h4>
+<p>修改 <code>Cargo.toml</code> , 添加以下内容:</p>
+<pre><code class="language-toml"># in Cargo.toml
+
+[dependencies]
+log = "0.4.0"
+env_logger = "0.9"
+</code></pre>
+<p>在 <code>src/main.rs</code> 中添加如下代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use log::{debug, error, log_enabled, info, Level};
+
+fn main() {
+    // 注意，env_logger 必须尽可能早的初始化
+    env_logger::init();
+
+    debug!("this is a debug {}", "message");
+    error!("this is printed by default");
+
+    if log_enabled!(Level::Info) {
+        let x = 3 * 4; // expensive computation
+        info!("the answer was: {}", x);
+    }
+}</code></pre></pre>
+<p>在运行程序时，可以通过环境变量来设定日志级别:</p>
+<pre><code class="language-shell">$ RUST_LOG=error ./main
+[2017-11-09T02:12:24Z ERROR main] this is printed by default
+</code></pre>
+<p>我们还可以为单独一个模块指定日志级别:</p>
+<pre><code class="language-shell">$ RUST_LOG=main=info ./main
+[2017-11-09T02:12:24Z ERROR main] this is printed by default
+[2017-11-09T02:12:24Z INFO main] the answer was: 12
+</code></pre>
+<p>还能为某个模块开启所有日志级别：</p>
+<pre><code class="language-shell">$ RUST_LOG=main ./main
+[2017-11-09T02:12:24Z DEBUG main] this is a debug message
+[2017-11-09T02:12:24Z ERROR main] this is printed by default
+[2017-11-09T02:12:24Z INFO main] the answer was: 12
+</code></pre>
+<p>需要注意的是，如果文件名包含 <code>-</code>，你需要将其替换成下划线来使用，原因是 Rust 的模块和包名不支持使用 <code>-</code>。</p>
+<pre><code class="language-shell">$ RUST_LOG=my_app ./my-app
+[2017-11-09T02:12:24Z DEBUG my_app] this is a debug message
+[2017-11-09T02:12:24Z ERROR my_app] this is printed by default
+[2017-11-09T02:12:24Z INFO my_app] the answer was: 12
+</code></pre>
+<p>默认情况下，<code>env_logger</code> 会输出到标准错误 <code>stderr</code>，如果你想要输出到标准输出 <code>stdout</code>，可以使用 <code>Builder</code> 来改变日志对象( target ):</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::env;
+use env_logger::{Builder, Target};
+
+let mut builder = Builder::from_default_env();
+builder.target(Target::Stdout);
+
+builder.init();
+<span class="boring">}</span></code></pre></pre>
+<p>默认</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>   if cfg!(debug_assertions) {
+       eprintln!("debug: {:?} -&gt; {:?}",
+              record, fields);
+     }
+<span class="boring">}</span></code></pre></pre>
+<h3 id="日志库开发者"><a class="header" href="#日志库开发者">日志库开发者</a></h3>
+<p>对于这类开发者而言，自然要实现自己的 <code>Log</code> 特征咯:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use log::{Record, Level, Metadata};
+struct SimpleLogger;
+impl log::Log for SimpleLogger {
+    fn enabled(&amp;self, metadata: &amp;Metadata) -&gt; bool {
+        metadata.level() &lt;= Level::Info
+    }
+    fn log(&amp;self, record: &amp;Record) {
+        if self.enabled(record.metadata()) {
+            println!("{} - {}", record.level(), record.args());
+        }
+    }
+    fn flush(&amp;self) {}
+}
+<span class="boring">}</span></code></pre></pre>
+<p>除此之外，我们还需要像 <code>env_logger</code> 一样包装下 <code>set_logger</code> 和 <code>set_max_level</code>:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use log::{SetLoggerError, LevelFilter};
+static LOGGER: SimpleLogger = SimpleLogger;
+pub fn init() -&gt; Result&lt;(), SetLoggerError&gt; {
+    log::set_logger(&amp;LOGGER)
+        .map(|()| log::set_max_level(LevelFilter::Info))
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="更多示例"><a class="header" href="#更多示例">更多示例</a></h2>
+<p>关于 <code>log</code> 门面库和具体的日志库还有更多的使用方式，详情请参见锈书的<a href="https://rusty.course.rs/devtools/log.html">开发者工具</a>一章。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../logs/about-log.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../logs/tracing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../logs/about-log.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../logs/tracing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

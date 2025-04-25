@@ -1,0 +1,394 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>同时在函数内外使用引用 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../../favicon.svg">
+        <link rel="shortcut icon" href="../../../favicon.png">
+        <link rel="stylesheet" href="../../../css/variables.css">
+        <link rel="stylesheet" href="../../../css/general.css">
+        <link rel="stylesheet" href="../../../css/chrome.css">
+        <link rel="stylesheet" href="../../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/compiler/fight-with-compiler/borrowing/ref-exist-in-out-fn.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="同时在函数内外使用引用导致的重复借用错误"><a class="header" href="#同时在函数内外使用引用导致的重复借用错误">同时在函数内外使用引用导致的重复借用错误</a></h1>
+<p>本文将彻底解决一个困扰广大 Rust 用户已久的常见错误：因为在函数内外同时借用一个引用，导致了重复借用错误<code>cannot borrow *self as mutable because it is also borrowed as immutable</code>.</p>
+<blockquote>
+<p>本文大部分内容节选自<a href="https://course.rs/pitfalls/index.html">Rust 常见陷阱</a>专题，由于借用是新手绕不过去的坎，因此将其提取出来形成一个新的系列</p>
+</blockquote>
+<h2 id="正确的代码"><a class="header" href="#正确的代码">正确的代码</a></h2>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Test {
+    a : u32,
+    b : u32
+}
+
+impl Test {
+    fn increase(&amp;mut self) {
+        let mut a = &amp;mut self.a;
+        let mut b = &amp;mut self.b;
+        *b += 1;
+        *a += 1;
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这段代码是可以正常编译的，也许有读者会有疑问，<code>self</code>在这里被两个变量以可变的方式借用了，明明违反了 Rust 的所有权规则，为何它不会报错？</p>
+<p>答案要从很久很久之前开始(啊哒~~~由于我太啰嗦，被正义群众来了一下，那咱现在开始长话短说，直接进入主题)。</p>
+<h4 id="正确代码为何不报错"><a class="header" href="#正确代码为何不报错">正确代码为何不报错？</a></h4>
+<p>虽然从表面来看，<code>a</code>和<code>b</code>都可变引用了<code>self</code>，但是 Rust 的编译器在很多时候都足够聪明，它发现我们其实仅仅引用了同一个结构体中的不同字段，因此完全可以将其的借用权分离开来。</p>
+<p>因此，虽然我们不能同时对整个结构体进行可变引用，但是我们可以分别对结构体中的不同字段进行可变引用，当然，一个字段至多也只能存在一个可变引用，这个最基本的所有权规则还是不能违反的。变量<code>a</code>引用结构体字段<code>a</code>，变量<code>b</code>引用结构体字段<code>b</code>，从底层来说，这种方式也不会造成两个可变引用指向了同一块内存。</p>
+<p>至此，正确代码我们已经挖掘完毕，再来看看重构后的错误代码。</p>
+<h2 id="重构后的错误代码"><a class="header" href="#重构后的错误代码">重构后的错误代码</a></h2>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Test {
+    a : u32,
+    b : u32
+}
+
+impl Test {
+
+    fn increase_a (&amp;mut self) {
+        self.a += 1;
+    }
+
+    fn increase(&amp;mut self) {
+        let b = &amp;mut self.b;
+        self.increase_a();
+        *b += 1;
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>果然不正义的代码就是不好看，但是邪恶的它更强了吗？</p>
+<pre><code class="language-console">error[E0499]: cannot borrow `*self` as mutable more than once at a time
+  --&gt; src/main.rs:14:9
+   |
+13 |         let b = &amp;mut self.b;
+   |                 ----------- first mutable borrow occurs here
+14 |         self.increase_a();
+   |         ^^^^ second mutable borrow occurs here
+15 |         *b += 1;
+   |         ------- first borrow later used here
+</code></pre>
+<p>嗯，最开始提到的错误，它终于出现了。</p>
+<h2 id="大聪明编译器"><a class="header" href="#大聪明编译器">大聪明编译器</a></h2>
+<p>为什么？明明之前还是正确的代码，就因为放入函数中就报错了？我们先从一个简单的理解谈起，当然这个理解也是浮于表面的，等会会深入分析真实的原因。</p>
+<p>之前讲到 Rust 编译器挺聪明，可以识别到引用到不同的结构体字段，因此不会报错。但是现在这种情况下，编译器又不够聪明了，一旦放入函数中，编译器将无法理解我们对<code>self</code>的使用：它仅仅用到了一个字段，而不是整个结构体。</p>
+<p>因此它会简单的认为，这个结构体作为一个整体被可变借用了，产生两个可变引用，一个引用整个结构体，一个引用了结构体字段<code>b</code>，这两个引用存在重叠的部分，最终导致编译错误。</p>
+<h2 id="被冤枉的编译器"><a class="header" href="#被冤枉的编译器">被冤枉的编译器</a></h2>
+<p>在工作生活中，我们无法理解甚至错误的理解一件事，有时是因为层次不够导致的。同样，对于本文来说，也是因为我们对编译器的所知不够，才冤枉了它，还给它起了一个屈辱的“大聪明”外号。</p>
+<h4 id="深入分析"><a class="header" href="#深入分析">深入分析</a></h4>
+<blockquote>
+<p>如果只改变相关函数的实现而不改变它的签名，那么不会影响编译的结果</p>
+</blockquote>
+<p>何为相关函数？当函数<code>a</code>调用了函数<code>b</code>，那么<code>b</code>就是<code>a</code>的相关函数。</p>
+<p>上面这句是一条非常重要的编译准则，意思是，对于编译器来说，只要函数签名没有变，那么任何函数实现的修改都不会影响已有的编译结果(前提是函数实现没有错误- , -)。</p>
+<p>以前面的代码为例：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn increase_a (&amp;mut self) {
+    self.a += 1;
+}
+
+fn increase(&amp;mut self) {
+    let b = &amp;mut self.b;
+    self.increase_a();
+    *b += 1;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>虽然<code>increase_a</code>在函数实现中没有访问<code>self.b</code>字段，但是它的签名允许它访问<code>b</code>，因此违背了借用规则。事实上，该函数有没有访问<code>b</code>不重要，<strong>因为编译器在这里只关心签名，签名存在可能性，那么就立刻报出错误</strong>。</p>
+<p>为何会有这种编译器行为，主要有两个原因：</p>
+<ol>
+<li>一般来说，我们希望编译器有能力独立的编译每个函数，而无需深入到相关函数的内部实现，因为这样做会带来快得多的编译速度。</li>
+<li>如果没有这种保证，那么在实际项目开发中，我们会特别容易遇到各种错误。 假设我们要求编译器不仅仅关注相关函数的签名，还要深入其内部关注实现，那么由于 Rust 严苛的编译规则，当你修改了某个函数内部实现的代码后，可能会引起使用该函数的其它函数的各种错误！对于大型项目来说，这几乎是不可接受的！</li>
+</ol>
+<p>然后，我们的借用类型这么简单，编译器有没有可能针对这种场景，在现有的借用规则之外增加特殊规则？答案是否定的，由于 Rust 语言的设计哲学：特殊规则的加入需要慎之又慎，而我们的这种情况其实还蛮好解决的，因此编译器不会为此新增规则。</p>
+<h2 id="解决办法"><a class="header" href="#解决办法">解决办法</a></h2>
+<p>在深入分析中，我们提到一条重要的规则，要影响编译行为，就需要更改相关函数的签名，因此可以修改<code>increase_a</code>的签名:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn increase_a (a :&amp;mut u32) {
+    *a += 1;
+}
+
+fn increase(&amp;mut self) {
+    let b = &amp;mut self.b;
+    Test::increase_a(&amp;mut self.a);
+    *b += 1;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>此时，<code>increase_a</code>这个相关函数，不再使用<code>&amp;mut self</code>作为签名，而是获取了结构体中的字段<code>a</code>，此时编译器又可以清晰的知道：函数<code>increase_a</code>和变量<code>b</code>分别引用了结构体中的不同字段，因此可以编译通过。</p>
+<p>当然，除了修改相关函数的签名，你还可以修改调用者的实现：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn increase(&amp;mut self) {
+    self.increase_a();
+    self.b += 1;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>在这里，我们不再单独声明变量<code>b</code>，而是直接调用<code>self.b+=1</code>进行递增，根据借用生命周期<a href="https://course.rs/advance/lifetime/advance.html#nllnon-lexical-lifetime">NLL</a>的规则，第一个可变借用<code>self.increase_a()</code>的生命周期随着方法调用的结束而结束，那么就不会影响<code>self.b += 1</code>中的借用。</p>
+<h2 id="cpu-模拟例子"><a class="header" href="#cpu-模拟例子">CPU 模拟例子</a></h2>
+<p>我们再来看一个例子:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::collections::HashMap;
+
+struct Cpu {
+    pc: u16,
+    cycles: u32,
+    opcodes: HashMap&lt;u8, Opcode&gt;,
+}
+
+struct Opcode {
+    size: u16,
+    cycles: u32,
+}
+
+impl Cpu {
+    fn new() -&gt; Cpu {
+        Cpu {
+            pc: 0,
+            cycles: 0,
+            opcodes: HashMap::from([
+                (0x00, Opcode::new(1, 7)),
+                (0x01, Opcode::new(2, 6))
+            ]),
+        }
+    }
+
+    fn tick(&amp;mut self) {
+        let address = self.pc as u8;
+        let opcode = &amp;self.opcodes[&amp;address];
+
+        step(&amp;mut self, opcode);
+    }
+
+
+}
+
+fn step(cpu : &amp;mut Cpu, opcode: &amp;Opcode) {
+
+}
+
+impl Opcode {
+    fn new(size: u16, cycles: u32) -&gt; Opcode {
+        Opcode { size, cycles }
+    }
+}
+
+fn main() {
+    let mut cpu = Cpu::new();
+    cpu.tick();
+}</code></pre></pre>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p>知其然知其所以然，要彻底解决借用导致的编译错误，我们就必须深入了解其原理，心中有剑则手中无"贱"。</p>
+<p>上面的例子就留给读者朋友自己去解决，相信你以后在遇到这种常见问题时，会更加游刃有余。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../compiler/fight-with-compiler/borrowing/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../compiler/fight-with-compiler/borrowing/borrow-distinct-fields-of-struct.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../compiler/fight-with-compiler/borrowing/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../compiler/fight-with-compiler/borrowing/borrow-distinct-fields-of-struct.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../../ace.js"></script>
+        <script src="../../../editor.js"></script>
+        <script src="../../../mode-rust.js"></script>
+        <script src="../../../theme-dawn.js"></script>
+        <script src="../../../theme-tomorrow_night.js"></script>
+
+        <script src="../../../elasticlunr.min.js"></script>
+        <script src="../../../mark.min.js"></script>
+        <script src="../../../searcher.js"></script>
+
+        <script src="../../../clipboard.min.js"></script>
+        <script src="../../../highlight.js"></script>
+        <script src="../../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../../assets/custom2.js"></script>
+        <script src="../../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

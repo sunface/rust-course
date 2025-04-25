@@ -1,0 +1,275 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Unsafe Rust - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/unsafe/intro.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="unsafe-简介"><a class="header" href="#unsafe-简介">unsafe 简介</a></h1>
+<p>圣人论迹不论心，论心世上无圣人，对于编程语言而言，亦是如此。</p>
+<p>虽然在本章之前，我们学到的代码都是在编译期就得到了 Rust 的安全保障，但是在其内心深处也隐藏了一些阴暗面，在这些阴暗面里，内存安全就存在一些变数了：当不娴熟的开发者接触到这些阴暗面，就可能写出不安全的代码，因此我们称这种代码为 <code>unsafe</code> 代码块。</p>
+<h2 id="为何会有-unsafe"><a class="header" href="#为何会有-unsafe">为何会有 unsafe</a></h2>
+<p>几乎每个语言都有 <code>unsafe</code> 关键字，但 Rust 语言使用 <code>unsafe</code> 的原因可能与其它编程语言还有所不同。</p>
+<h4 id="过强的编译器"><a class="header" href="#过强的编译器">过强的编译器</a></h4>
+<p>说来尴尬，<code>unsafe</code> 的存在主要是因为 Rust 的静态检查太强了，但是强就算了，它还很保守，这就会导致当编译器在分析代码时，一些正确代码会因为编译器无法分析出它的所有正确性，结果将这段代码拒绝，导致编译错误。</p>
+<p>这种保守的选择确实也没有错，毕竟安全就是要防微杜渐，但是对于使用者来说，就不是那么愉快的事了，特别是当配合 Rust 的所有权系统一起使用时，有个别问题是真的棘手和难以解决。</p>
+<p>举个例子，在之前的自引用章节中，我们就提到了相关的编译检查是很难绕过的，如果想要绕过，最常用的方法之一就是使用 <a href="https://course.rs/advance/circle-self-ref/self-referential.html"><code>unsafe</code> 和 <code>Pin</code></a>。</p>
+<p>好在，当遇到这些情况时，我们可以使用 <code>unsafe</code> 来解决。此时，你需要替代编译器的部分职责对 <code>unsafe</code> 代码的正确性负责，例如在正常代码中不可能遇到的空指针解引用问题在 <code>unsafe</code> 中就可能会遇到，我们需要自己来处理好这些类似的问题。</p>
+<h4 id="特定任务的需要"><a class="header" href="#特定任务的需要">特定任务的需要</a></h4>
+<p>至于 <code>unsafe</code> 存在的另一个原因就是：它必须要存在。原因是计算机底层的一些硬件就是不安全的，如果 Rust 只允许你做安全的操作，那一些任务就无法完成，换句话说，我们还怎么跟 C++ 干架？</p>
+<p>Rust 的一个主要定位就是系统编程，众所周知，系统编程就是底层编程，往往需要直接跟操作系统打交道，甚至于去实现一个操作系统。而为了实现底层系统编程，<code>unsafe</code> 就是必不可少的。</p>
+<p>在了解了为何会有 <code>unsafe</code> 后，我们再来看看，除了这些必要性，<code>unsafe</code> 还能给我们带来哪些超能力。</p>
+<h2 id="unsafe-的超能力"><a class="header" href="#unsafe-的超能力">unsafe 的超能力</a></h2>
+<p>使用 <code>unsafe</code> 非常简单，只需要将对应的代码块标记下即可:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let mut num = 5;
+
+    let r1 = &amp;num as *const i32;
+
+    unsafe {
+        println!("r1 is: {}", *r1);
+    }
+}</code></pre></pre>
+<p>上面代码中, <code>r1</code> 是一个裸指针(raw pointer)，由于它具有破坏 Rust 内存安全的潜力，因此只能在 <code>unsafe</code> 代码块中使用，如果你去掉 <code>unsafe {}</code>，编译器会立刻报错。</p>
+<p>言归正传， <code>unsafe</code> 能赋予我们 5 种超能力，这些能力在安全的 Rust 代码中是无法获取的：</p>
+<ul>
+<li>解引用裸指针，就如上例所示</li>
+<li>调用一个 <code>unsafe</code> 或外部的函数</li>
+<li>访问或修改一个可变的<a href="https://course.rs/advance/global-variable.html#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F">静态变量</a></li>
+<li>实现一个 <code>unsafe</code> 特征</li>
+<li>访问 <code>union</code> 中的字段</li>
+</ul>
+<p>在本章中，我们将着重讲解裸指针和 FFI 的使用。</p>
+<h2 id="unsafe-的安全保证"><a class="header" href="#unsafe-的安全保证">unsafe 的安全保证</a></h2>
+<p>曾经在 <code>reddit</code> 上有一个讨论还挺热闹的，是关于 <code>unsafe</code> 的命名是否合适，总之公有公理，婆有婆理，但有一点是不可否认的：虽然名称自带不安全，但是 Rust 依然提供了强大的安全支撑。</p>
+<p>首先，<code>unsafe</code> 并不能绕过 Rust 的借用检查，也不能关闭任何 Rust 的安全检查规则，例如当你在 <code>unsafe</code> 中使用<strong>引用</strong>时，该有的检查一样都不会少。</p>
+<p>因此 <code>unsafe</code> 能给大家提供的也仅仅是之前的 5 种超能力，在使用这 5 种能力时，编译器才不会进行内存安全方面的检查，最典型的就是使用<strong>裸指针</strong>(引用和裸指针有很大的区别)。</p>
+<h2 id="谈虎色变"><a class="header" href="#谈虎色变">谈虎色变？</a></h2>
+<p>在网上充斥着这样的言论：<code>千万不要使用 unsafe，因为它不安全</code>，甚至有些库会以没有 <code>unsafe</code> 代码作为噱头来吸引用户。事实上，大可不必，如果按照这个标准，Rust 的标准库也将不复存在！</p>
+<p>Rust 中的 <code>unsafe</code> 其实没有那么可怕，虽然听上去很不安全，但是实际上 Rust 依然提供了很多机制来帮我们提升了安全性，因此不必像对待 Go 语言的 <code>unsafe</code> 那样去畏惧于使用 Rust 中的 <code>unsafe</code> 。</p>
+<p>大致使用原则总结如下：没必要用时，就不要用，当有必要用时，就大胆用，但是尽量控制好边界，让 <code>unsafe</code> 的范围尽可能小。</p>
+<h2 id="控制-unsafe-的使用边界"><a class="header" href="#控制-unsafe-的使用边界">控制 unsafe 的使用边界</a></h2>
+<p><code>unsafe</code> 不安全，但是该用的时候就要用，在一些时候，它能帮助我们大幅降低代码实现的成本。</p>
+<p>而作为使用者，你的水平决定了 <code>unsafe</code> 到底有多不安全，因此你需要在 <code>unsafe</code> 中小心谨慎地去访问内存。</p>
+<p>即使做到小心谨慎，依然会有出错的可能性，但是 <code>unsafe</code> 语句块决定了：就算内存访问出错了，你也能立刻意识到，错误是在 <code>unsafe</code> 代码块中，而不花大量时间像无头苍蝇一样去寻找问题所在。</p>
+<p>正因为此，写代码时要尽量控制好 <code>unsafe</code> 的边界大小，越小的 <code>unsafe</code> 越会让我们在未来感谢自己当初的选择。</p>
+<p>除了控制边界大小，另一个很常用的方式就是在 <code>unsafe</code> 代码块外包裹一层 <code>safe</code> 的 API，例如一个函数声明为 safe 的，然后在其内部有一块儿是 <code>unsafe</code> 代码。</p>
+<blockquote>
+<p>忍不住抱怨一句，内存安全方面的 bug ，是真心难查！</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../advance/errors.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../advance/unsafe/superpowers.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../advance/errors.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../advance/unsafe/superpowers.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

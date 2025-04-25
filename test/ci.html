@@ -1,0 +1,562 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>用 GitHub Actions 进行持续集成 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/test/ci.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="用-github-actions-进行持续集成"><a class="header" href="#用-github-actions-进行持续集成">用 GitHub Actions 进行持续集成</a></h1>
+<p><a href="https://github.com/features/actions">GitHub Actions</a> 是官方于 2018 年推出的持续集成服务，它非常强大，本文将手把手带领大家学习如何使用 <code>GitHub Actions</code> 对 Rust 项目进行持续集成。</p>
+<p>持续集成是软件开发中异常重要的一环，大家应该都听说过 <code>Jenkins</code>，它就是一个拥有悠久历史的持续集成工具。简单来说，持续集成会定期拉取同一个项目中所有成员的相关代码，对其进行自动化构建。</p>
+<p>在没有持续集成前，首先开发者需要手动编译代码并运行单元测试、集成测试等基础测试，然后启动项目相关的所有服务，接着测试人员开始介入对整个项目进行回归测试、黑盒测试等系统化的测试，当测试通过后，最后再手动发布到指定的环境中运行，这个过程是非常冗长，且所有成员都需要同时参与的。</p>
+<p>在有了持续集成后，只要编写好相应的编译、测试、发布配置文件，那持续集成平台会自动帮助我们完成整个相关的流程，期间无需任何人介入，高效且可靠。</p>
+<h2 id="github-actions"><a class="header" href="#github-actions">GitHub Actions</a></h2>
+<p>而本文的主角正是这样的持续集成平台，它由 GitHub 官方提供，并且跟 GitHub 进行了深度的整合，其中 <code>actions</code> 代表了代码拉取、测试运行、登陆远程服务器、发布到第三方服务等操作行为。</p>
+<p>最妙的是 GitHub 发现这些 <code>actions</code> 其实在很多项目中都是类似的，意味着 <code>actions</code> 完全可以被多个项目共享使用，而不是每个项目都从零开发自己的 <code>actions</code>。</p>
+<p>若你需要某个 <code>action</code>，不必自己写复杂的脚本，直接引用他人写好的 <code>action</code> 即可，整个持续集成过程，就变成了多个 <code>action</code> 的组合，这就是<code> GitHub Actions</code> 最厉害的地方。</p>
+<h4 id="action-的分享与引用"><a class="header" href="#action-的分享与引用">action 的分享与引用</a></h4>
+<p>既然 <code>action</code> 这么强大，我们就可以将自己的 <code>action</code> 分享给他人，也可以引用他人分享的 <code>action</code>，有以下几种方式：</p>
+<ol>
+<li>将你的 <code>action</code> 放在 GitHub 上的公共仓库中，这样其它开发者就可以引用，例如 <a href="https://github.com/vn7n24fzkq/github-profile-summary-cards">github-profile-summary-cards</a> 就提供了相应的 <code>action</code>，可以生成 GitHub 用户统计信息，然后嵌入到你的个人主页中，具体效果<a href="https://github.com/sunface">见这里</a></li>
+<li>GitHub 提供了一个<a href="https://github.com/marketplace?type=actions">官方市场</a>，里面收集了许多质量不错的 <code>actions</code>，并支持在线搜索</li>
+<li><a href="https://github.com/sdras/awesome-actions">awesome-actions</a>，由三方开发者收集并整理的 actions</li>
+<li><a href="https://github.com/actions/starter-workflows">starter workflows</a>，由官方提供的工作流( workflow )模版</li>
+</ol>
+<p>对于第一点这里再补充下，如果你想要引用某个代码仓库中的 <code>action</code> ，可以通过 <code>userName/repoName</code> 方式来引用: 例如你可以通过 <code>actions/setup-node</code> 来引用 <code>github.com/actions/setup-node</code> 仓库中的 <code>action</code>，该 <code>action</code> 的作用是安装 Node.js。</p>
+<p>由于 <code>action</code> 是代码仓库，因此就有版本的概念，你可以使用 <code>@</code> 符号来引入同一个仓库中不同版本的 <code>action</code>，例如:</p>
+<pre><code class="language-yml">actions/setup-node@master  # 指向一个分支
+actions/setup-node@v2.5.1    # 指向一个 release
+actions/setup-node@f099707 # 指向一个 commit
+</code></pre>
+<p>如果希望深入了解，可以进一步查看官方的<a href="https://docs.github.com/cn/actions/creating-actions/about-custom-actions#using-release-management-for-actions">文档</a>。</p>
+<h2 id="actions-基础"><a class="header" href="#actions-基础">Actions 基础</a></h2>
+<p>在了解了何为 GitHub Actions 后，再来通过一个基本的例子来学习下它的基本概念，注意，由于篇幅有限，我们只会讲解最常用的部分，如果想要完整的学习，请移步<a href="https://docs.github.com/en/actions">这里</a>。</p>
+<h4 id="创建-action-demo"><a class="header" href="#创建-action-demo">创建 action demo</a></h4>
+<p>首先，为了演示，我们需要创建一个公开的 GitHub 仓库 <code>rust-action</code>，然后在仓库主页的导航栏中点击 <code>Actions</code> ，你会看到如下页面 :</p>
+<img src="https://pic1.zhimg.com/80/v2-4bb58f042c7a285219910bfd3c259464_1440w.jpg" />
+<p>接着点击 <code>set up a workflow yourself -&gt;</code> ，你将看到系统为你自动创建的一个工作流 workflow ，在 <code>rust-action/.github/workflows/main.yml</code> 文件中包含以下内容:</p>
+<pre><code class="language-yml"># 下面是一个基础的工作流，你可以基于它来编写自己的 GitHub Actions
+name: CI
+
+# 控制工作流何时运行
+on:
+  # 当 `push` 或 `pull request` 事件发生时就触发工作流的执行，这里仅仅针对 `main` 分支
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+  # 允许用于在 `Actions` 标签页中手动运行工作流
+  workflow_dispatch:
+
+# 工作流由一个或多个作业( job )组成，这些作业可以顺序运行也可以并行运行
+jobs:
+  # 当前的工作流仅包含一个作业，作业 id 是 "build"
+  build:
+    # 作业名称
+    name: build rust action
+    # 执行作业所需的运行器 runner
+    runs-on: ubuntu-latest
+
+    # steps 代表了作业中包含的一系列可被执行的任务
+    steps:
+      # 在 $GITHUB_WORKSPACE 下 checks-out 当前仓库，这样当前作业就可以访问该仓库
+      - uses: actions/checkout@v2
+
+      # 使用运行器的终端来运行一个命令
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # 使用运行器的终端运行一组命令
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+</code></pre>
+<h4 id="查看工作流信息"><a class="header" href="#查看工作流信息">查看工作流信息</a></h4>
+<p>通过内容的注释，大家应该能大概理解这个工作流是怎么回事了，在具体讲解前，我们先完成 <code>Actions</code> 的创建，点击右上角的 <code>Start Commit</code> 绿色按钮提交，然后再回到 <code>Actions</code> 标签页，你可以看到如下界面:</p>
+<img src="https://pic2.zhimg.com/80/v2-301a8feac57633f34f9cd638ac139c22_1440w.jpg" />
+<p>这里包含了我们刚创建的工作流及当前的状态，从右下角可以看出，该工作流的运行时间是 <code>now</code> 也就是现在，<code>queued</code> 代表它已经被安排到了运行队列中，等待运行。</p>
+<p>等过几秒(也可能几十秒后)，刷新当前页面，就能看到成功运行的工作流：</p>
+<img src="https://pic3.zhimg.com/80/v2-99fb593bc3140f71c316ce0ba6249911_1440w.png"/>
+<p>还记得之前配置中的 <code>workflow_dispatch</code> 嘛？它允许工作流被手动执行：点击左边的 <code>All workflows -&gt; CI</code> ，可以看到如下页面。</p>
+<img src="https://pic3.zhimg.com/80/v2-cc1d9418f6befb5a089cde659666e65e_1440w.png" />
+<p>页面中通过蓝色的醒目高亮提示我们 <code>this workflow has a workflow_dispatch event trigger</code>，因此可以点击右边的 <code>Run workflow</code> 手动再次执行该工作流。</p>
+<blockquote>
+<p>注意，目前 <code>Actions</code> 并不会自动渲染最新的结果，因此需要刷新页面来看到最新的结果</p>
+</blockquote>
+<p>点击 <code>Create main.yml</code> 可以查看该工作流的详细信息：</p>
+<img src="https://pic1.zhimg.com/80/v2-94b46f23b5d63de35eae7f0425bb99b7_1440w.jpg" />
+<p>至此，我们已经初步掌握 <code>GitHub Actions</code> 的用法，现在来看看一些基本的概念。</p>
+<h4 id="基本概念"><a class="header" href="#基本概念">基本概念</a></h4>
+<ul>
+<li><strong>GitHub Actions</strong>，每个项目都拥有一个 <code>Actions</code> ，可以包含多个工作流</li>
+<li><strong>workflow 工作流</strong>，描述了一次持续集成的过程</li>
+<li><strong>job 作业</strong>，一个工作流可以包含多个作业，因为一次持续集成本身就由多个不同的部分组成</li>
+<li><strong>step 步骤</strong>，每个作业由多个步骤组成，按照顺序一步一步完成</li>
+<li><strong>action 动作</strong>，每个步骤可以包含多个动作，例如上例中的 <code>Run a multi-line script</code> 步骤就包含了两个动作</li>
+</ul>
+<p>可以看出，每一个概念都是相互包含的关系，前者包含了后者，层层相扣，正因为这些精心设计的对象才有了强大的 <code>GitHub Actions</code>。</p>
+<h4 id="on"><a class="header" href="#on">on</a></h4>
+<p><code>on</code> 可以设定事件用于触发工作流的运行：</p>
+<ol>
+<li>
+<p>一个或多个 GitHub 事件，例如 <code>push</code> 一个 <code>commit</code>、创建一个 <code>issue</code>、提交一次 <code>pr</code> 等等，详细的事件列表参见<a href="https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows">这里</a></p>
+</li>
+<li>
+<p>预定的时间，例如每天零点零分触发，详情见<a href="https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule">这里</a></p>
+</li>
+</ol>
+<pre><code class="language-yml">on:
+  schedule: -cron:'0 0 * * *'
+</code></pre>
+<ol start="3">
+<li>外部事件触发，例如你可以通过 <code>REST API</code> 向 GitHub 发送请求去触发，具体请查阅<a href="https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#repository_dispatch">官方文档</a></li>
+</ol>
+<h4 id="jobs"><a class="header" href="#jobs">jobs</a></h4>
+<p>工作流由一个或多个作业 <code>job</code> 组成，这些作业可以顺序运行也可以并行运行，同时我们还能使用 <code>needs</code> 来指定作业之间的依赖关系：</p>
+<pre><code class="language-yml">jobs:
+  job1:
+
+  job2:
+    needs: job1
+
+  job3:
+    needs: [job1, job2]
+</code></pre>
+<p>这里的 <code>job2</code> 必须等待 <code>job1</code> 成功后才能运行，而 <code>job3</code> 则需要等待 <code>job1</code> 和 <code>job2</code>。</p>
+<h4 id="runs-on"><a class="header" href="#runs-on">runs-on</a></h4>
+<p>指定作业的运行环境，运行器 <code>runner</code> 分为两种：<code>GitHub-hosted runner</code> 和 <code>self-hosted runner</code>，后者是使用自己的机器来运行作业，但是需要 GitHub 能进行访问并给予相应的机器权限，感兴趣的同学可以看看<a href="https://docs.github.com/en/actions/using-jobs/choosing-the-runner-for-a-job#choosing-self-hosted-runners">这里</a>。</p>
+<p>而对于前者，GitHub 提供了以下的运行环境：</p>
+<img src="https://pic2.zhimg.com/80/v2-614999565cc513715aaf156c2e478991_1440w.jpg" />
+<p>其中比较常用的就是 <code>runs-on:ubuntu-latest</code>。</p>
+<h4 id="strategymatrix"><a class="header" href="#strategymatrix">strategy.matrix</a></h4>
+<p>有时候我们常常需要对多个操作系统、多个平台、多个编程语言版本进行测试，为此我们可以配置一个 <code>matrix</code> 矩阵：</p>
+<pre><code class="language-yml">runs-on: ${{ matrix.os }}
+strategy:
+  matrix:
+    os: [ubuntu-18.04, ubuntu-20.04]
+    node: [10, 12, 14]
+steps:
+  - uses: actions/setup-node@v2
+    with:
+      node-version: ${{ matrix.node }}
+</code></pre>
+<p>大家猜猜，这段代码会最终构建多少个作业？答案是 <code>2 * 3 = 6</code>，通过 <code>os</code> 和 <code>node</code> 进行组合，就可以得出这个结论，这也是 <code>matrix</code> 矩阵名称的来源。</p>
+<p>当然，<code>matrix</code> 能做的远不止这些，例如，你还可以定义自己想要的 <code>kv</code> 键值对，想要深入学习的话可以看看<a href="https://docs.github.com/en/actions/using-jobs/using-a-build-matrix-for-your-jobs">官方文档</a>。</p>
+<h4 id="strategy"><a class="header" href="#strategy">strategy</a></h4>
+<p>除了 <code>matrix</code> ，<code>strategy</code> 中还能设定以下内容：</p>
+<ul>
+<li><code>fail-fast</code> : 默认为 true ，即一旦某个矩阵任务失败则立即取消所有还在进行中的任务</li>
+<li><code>max-paraller</code> : 可同时执行的最大并发数，默认情况下 GitHub 会动态调整</li>
+</ul>
+<h4 id="env"><a class="header" href="#env">env</a></h4>
+<p>用于设定环境变量，可以用于以下地方:</p>
+<ul>
+<li>
+<p>env</p>
+</li>
+<li>
+<p>jobs.&lt;job_id&gt;.env</p>
+</li>
+<li>
+<p>jobs.&lt;job_id&gt;.steps.env</p>
+</li>
+</ul>
+<pre><code class="language-yml">env:
+  NODE_ENV: dev
+
+jobs:
+  job1:
+    env:
+      NODE_ENV: test
+
+    steps:
+      - name:
+        env:
+          NODE_ENV: prod
+</code></pre>
+<p>如果有多个 <code>env</code> 存在，会使用就近那个。</p>
+<p>至此，<code>GitHub Actions</code> 的常用内容大家已经基本了解，下面来看一个实用的示例。</p>
+<h2 id="真实示例生成-github-统计卡片"><a class="header" href="#真实示例生成-github-统计卡片">真实示例：生成 GitHub 统计卡片</a></h2>
+<p>相信大家看过不少用户都定制了自己的个性化 GitHub 首页，这个是通过在个人名下创建一个同名的仓库来实现的，该仓库中的 <code>Readme.md</code> 的内容会自动展示在你的个人首页中，例如 <code>Sunface</code> 的<a href="https://github.com/sunface">个人首页</a> 和内容所在的<a href="https://github.com/sunface/sunface">仓库</a>。</p>
+<p>大家可能会好奇上面链接中的 GitHub 统计卡片如何生成，其实有两种办法:</p>
+<ul>
+<li>使用 <a href="https://github.com/anuraghazra/github-readme-stats">github-readme-stats</a></li>
+<li>使用 <code>GitHub Actions</code> 来引用其它人提供的 <code>action</code> 生成对应的卡片，再嵌入进来， <code>Sunface</code> 的个人首页就是这么做的</li>
+</ul>
+<p>第一种的优点就是非常简单，缺点是样式不太容易统一，不能对齐对于强迫症来说实在难受 :( 而后者的优点是规规整整的卡片，缺点就是使用起来更加复杂，而我们正好借此来看看真实的 <code>GitHub Actions</code> 长什么样。</p>
+<p>首先，在你的同名项目下创建 <code>.github/workflows/profile-summary-cards.yml</code> 文件，然后填入以下内容:</p>
+<pre><code class="language-yml"># 工作流名称
+name: GitHub-Profile-Summary-Cards
+
+on:
+  schedule:
+    # 每24小时触发一次
+    - cron: "0 * * * *"
+  # 开启手动触发
+  workflow_dispatch:
+
+jobs:
+  # job id
+  build:
+    runs-on: ubuntu-latest
+    name: generate
+
+    steps:
+      # 第一步，checkout 当前项目
+      - uses: actions/checkout@v2
+      # 第二步，引入目标 action: vn7n24fzkq/github-profile-summary-cards仓库中的 `release` 分支
+      - uses: vn7n24fzkq/github-profile-summary-cards@release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          USERNAME: ${{ github.repository_owner }}
+</code></pre>
+<p>当提交后，该工作流会自动在当前项目中生成 <code>profile-summary-card-output</code> 目录，然后将所有卡片放入其中，当然我们这里使用了定时触发的机制，并没有基于 <code>pr</code> 或<code>push</code> 来触发，如果你在编写过程中，希望手动触发来看看结果，请参考前文的手动触发方式。</p>
+<p>这里我们引用了 <code>vn7n24fzkq/github-profile-summary-cards@release</code> 的 <code>action</code>，位于 <code>https://github.com/vn7n24fzkq/github-profile-summary-cards</code> 仓库中，并指定使用 <code>release</code> 分支。</p>
+<p>接下来就可以愉快的<a href="https://github.com/sunface/sunface/edit/master/Readme.md">使用这些卡片</a>来定制我们的主页了: )</p>
+<h2 id="使用-actions-来构建-rust-项目"><a class="header" href="#使用-actions-来构建-rust-项目">使用 Actions 来构建 Rust 项目</a></h2>
+<p>其实 Rust 项目也没有什么特别之处，我们只需要在 <code>steps</code> 逐步构建即可，下面给出该如何测试和构建的示例。</p>
+<h4 id="测试"><a class="header" href="#测试">测试</a></h4>
+<pre><code class="language-yml">on: [push, pull_request]
+
+name: Continuous integration
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - run: cargo check
+
+  test:
+    name: Test Suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - run: cargo test
+
+  fmt:
+    name: Rustfmt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - run: rustup component add rustfmt
+      - run: cargo fmt --all -- --check
+
+  clippy:
+    name: Clippy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - run: rustup component add clippy
+      - run: cargo clippy -- -D warnings
+</code></pre>
+<h2 id="构建"><a class="header" href="#构建">构建</a></h2>
+<pre><code class="language-yml">name: build
+on:
+  workflow_dispatch: {}
+jobs:
+  build:
+    name: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        build: [linux, macos, windows]
+        include:
+          - build: linux
+            os: ubuntu-18.04
+            rust: nightly
+            target: x86_64-unknown-linux-musl
+            archive-name: sgf-render-linux.tar.gz
+          - build: macos
+            os: macos-latest
+            rust: nightly
+            target: x86_64-apple-darwin
+            archive-name: sgf-render-macos.tar.gz
+          - build: windows
+            os: windows-2019
+            rust: nightly-x86_64-msvc
+            target: x86_64-pc-windows-msvc
+            archive-name: sgf-render-windows.7z
+      fail-fast: false
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust }}
+          profile: minimal
+          override: true
+          target: ${{ matrix.target }}
+
+      - name: Build binary
+        run: cargo build --verbose --release --target ${{ matrix.target }}
+        env:
+          RUST_BACKTRACE: 1
+
+      - name: Strip binary (linux and macos)
+        if: matrix.build == 'linux' || matrix.build == 'macos'
+        run: strip "target/${{ matrix.target }}/release/sgf-render"
+
+      - name: Build archive
+        shell: bash
+        run: |
+          mkdir archive
+          cp LICENSE README.md archive/
+          cd archive
+          if [ "${{ matrix.build }}" = "windows" ]; then
+            cp "../target/${{ matrix.target }}/release/sgf-render.exe" ./
+            7z a "${{ matrix.archive-name }}" LICENSE README.md sgf-render.exe
+          else
+            cp "../target/${{ matrix.target }}/release/sgf-render" ./
+            tar -czf "${{ matrix.archive-name }}" LICENSE README.md sgf-render
+          fi
+      - name: Upload archive
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{ matrix.archive-name }}
+          path: archive/${{ matrix.archive-name }}
+</code></pre>
+<p>限于文章篇幅有限，我们就不再多做解释，大家有疑问可以看看文中给出的文档链接，顺便说一句官方文档是支持中文的！</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../test/assertion.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../test/benchmark.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../test/assertion.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../test/benchmark.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

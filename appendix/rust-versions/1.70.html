@@ -1,0 +1,286 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>1.70 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/appendix/rust-versions/1.70.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="rust-新版解读--170--oncecell--isterminal"><a class="header" href="#rust-新版解读--170--oncecell--isterminal">Rust 新版解读 | 1.70 | <code>OnceCell</code> &amp;&amp; <code>IsTerminal</code></a></h1>
+<blockquote>
+<p>Rust 1.70 官方 release doc: <a href="https://blog.rust-lang.org/2023/06/01/Rust-1.70.0.html">Announcing Rust 1.70.0 | Rust Blog</a></p>
+</blockquote>
+<p>通过 <a href="https://www.rust-lang.org/tools/install">rustup</a> 安装的同学可以使用以下命令升级到 1.70 版本:</p>
+<pre><code class="language-shell">$ rustup update stable
+</code></pre>
+<h2 id="cratesio-默认使用稀疏注册协议-sparse-protocol"><a class="header" href="#cratesio-默认使用稀疏注册协议-sparse-protocol">crates.io 默认使用稀疏注册协议 （sparse protocol）</a></h2>
+<p>在 Rust 1.68.0 版本里稳定但需要手动配置来启用的特性，在这个版本中作为默认值了。如今在拉取 crates.io 索引信息时，应该能够观察到大幅性能提升。</p>
+<p>注意当用户处在有防火墙限制的网络环境下时，需要确保能够访问 <code>https://index.crates.io</code> 来使用该协议。如果因为某些原因需要继续使用原先由 Github 托管的 git 索引，可以配置 <code>registries.crates-io.protocol</code> 来实现。</p>
+<p>需要注意，两种访问方式依赖的本地缓存路径是不同的，所以更换访问方式会导致依赖被重新下载。当完全切换到稀疏注册协议后，或许你想要清理存储在 <code>$CARGO_HOME/registry/*/github.com-*</code> 的旧依赖项</p>
+<h2 id="oncecell-和-oncelock"><a class="header" href="#oncecell-和-oncelock"><code>OnceCell</code> 和 <code>OnceLock</code></a></h2>
+<p>稳定了 <code>OnceCell</code> 和多线程安全版本 <code>OnceLock</code> 两种共享数据类型，它们都能让数据不需要立刻初始化的同时保证仅初始化一次。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::OnceLock;
+
+static WINNER: OnceLock&lt;&amp;str&gt; = OnceLock::new();
+
+fn main() {
+    let winner = std::thread::scope(|s| {
+        s.spawn(|| WINNER.set("thread"));
+
+        std::thread::yield_now(); // give them a chance...
+
+        WINNER.get_or_init(|| "main")
+    });
+
+    println!("{winner} wins!");
+}</code></pre></pre>
+<p>在之前需要使用 <code>lazy_static</code> 或者 <code>once_cell</code> 来实现这种效果，如今标准库里从 <code>once_cell</code> 的 <code>unsync</code> 和 <code>sync</code> 模块吸收了这些基础组件。未来可能还会有更多方法被稳定下来，比如存储初始化函数的 <code>LazyCell</code> 和 <code>LazyLock</code> 类型。不过当前这第一步应该能够覆盖许多使用场景了。</p>
+<h2 id="isterminal"><a class="header" href="#isterminal"><code>IsTerminal</code></a></h2>
+<p>新稳定的 Trait，包含 <code>is_terminal</code> 一个方法，判断给定的文件描述符或者句柄是否代表一个终端/TTY。标准化了之前第三方crates如 <code>atty</code> <code>is-terminal</code> 实现的功能。一个常见的使用场景是，判断程序是通过脚本执行的还是交互模式执行的，以此在交互模式下实现一些诸如彩色输出、完整TUI的功能。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::io::{stdout, IsTerminal};
+
+fn main() {
+    let use_color = stdout().is_terminal();
+    // if so, add color codes to program output...
+}</code></pre></pre>
+<h2 id="调试信息级别的文本化"><a class="header" href="#调试信息级别的文本化">调试信息级别的文本化</a></h2>
+<p>之前 <code>-Cdebuginfo</code> 编译选项仅支持数字 0,1,2 来表示逐渐增多的 debug 调试信息。（Cargo 默认在dev和test配置里是 2，在release和bench配置里是 0）</p>
+<p>如今这些级别可以被文本代表："none" (0), "limited" (1), and "full" (2), 还有两个新级别："line-directives-only" and "line-tables-only"</p>
+<p>之前 Cargo 和 rustc 的文档都把级别 1 叫做 "line-tables-only"，但是级别 1 实际上比这种场景包含的调试信息更多。新的 "line-tables-only" 仅保留的文件名和行号信息的最少调试信息量，或许会在未来成为 <code>-Cdebuginfo=1</code> 。另外一个 "line-directives-only" 是为 NVPTX 场景准备的，不推荐使用。</p>
+<p>注意这些文本化的选项还无法在 <code>Cargo.toml</code> 里使用，预计会在下一个 1.71版本里实现。</p>
+<h2 id="others"><a class="header" href="#others">Others</a></h2>
+<p>其它更新细节，和稳定的API列表，参考<a href="https://blog.rust-lang.org/2023/06/01/Rust-1.70.0.html#stabilized-apis">原Blog</a></p>
+<p>注：可以看到常用的 <code>Option</code> <code>Result</code> 新增了一些方法：</p>
+<ul>
+<li><code>Option::is_some_and</code>
+<ul>
+<li><code>pub fn is_some_and(self, f: impl FnOnce(T) -&gt; bool) -&gt; bool</code></li>
+</ul>
+</li>
+<li><code>Result::is_ok_and</code>
+<ul>
+<li><code>pub fn is_ok_and(self, f: impl FnOnce(T) -&gt; bool) -&gt; bool</code></li>
+</ul>
+</li>
+<li><code>Result::is_err_and</code>
+<ul>
+<li><code>pub fn is_err_and(self, f: impl FnOnce(E) -&gt; bool) -&gt; bool</code></li>
+</ul>
+</li>
+</ul>
+<p>平时使用时可以试试。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../appendix/rust-versions/1.69.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../appendix/rust-versions/1.71.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../appendix/rust-versions/1.69.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../appendix/rust-versions/1.71.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

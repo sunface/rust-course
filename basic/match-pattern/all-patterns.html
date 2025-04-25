@@ -1,0 +1,721 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>全模式列表 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/basic/match-pattern/all-patterns.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="全模式列表"><a class="header" href="#全模式列表">全模式列表</a></h1>
+<p>在本书中我们已领略过许多不同类型模式的例子，本节的目标就是把这些模式语法都罗列出来，方便大家检索查阅（模式匹配在我们的开发中会经常用到）。</p>
+<h3 id="匹配字面值"><a class="header" href="#匹配字面值">匹配字面值</a></h3>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let x = 1;
+
+match x {
+    1 =&gt; println!("one"),
+    2 =&gt; println!("two"),
+    3 =&gt; println!("three"),
+    _ =&gt; println!("anything"),
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这段代码会打印 <code>one</code> 因为 <code>x</code> 的值是 1，如果希望代码获得特定的具体值，那么这种语法很有用。</p>
+<h3 id="匹配命名变量"><a class="header" href="#匹配命名变量">匹配命名变量</a></h3>
+<p>在 <a href="https://course.rs/basic/match-pattern/match-if-let.html#%E5%8F%98%E9%87%8F%E9%81%AE%E8%94%BD">match</a> 中，我们有讲过变量遮蔽的问题，这个在<strong>匹配命名变量</strong>时会遇到：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let x = Some(5);
+    let y = 10;
+
+    match x {
+        Some(50) =&gt; println!("Got 50"),
+        Some(y) =&gt; println!("Matched, y = {:?}", y),
+        _ =&gt; println!("Default case, x = {:?}", x),
+    }
+
+    println!("at the end: x = {:?}, y = {:?}", x, y);
+}</code></pre></pre>
+<p>让我们看看当 <code>match</code> 语句运行的时候发生了什么。第一个匹配分支的模式并不匹配 <code>x</code> 中定义的值，所以代码继续执行。</p>
+<p>第二个匹配分支中的模式引入了一个新变量 <code>y</code>，它会匹配任何 <code>Some</code> 中的值。因为这里的 <code>y</code> 在 <code>match</code> 表达式的作用域中，而不是之前 <code>main</code> 作用域中，所以这是一个新变量，不是开头声明为值 10 的那个 <code>y</code>。这个新的 <code>y</code> 绑定会匹配任何 <code>Some</code> 中的值，在这里是 <code>x</code> 中的值。因此这个 <code>y</code> 绑定了 <code>x</code> 中 <code>Some</code> 内部的值。这个值是 5，所以这个分支的表达式将会执行并打印出 <code>Matched，y = 5</code>。</p>
+<p>如果 <code>x</code> 的值是 <code>None</code> 而不是 <code>Some(5)</code>，头两个分支的模式不会匹配，所以会匹配模式 <code>_</code>。这个分支的模式中没有引入变量 <code>x</code>，所以此时表达式中的 <code>x</code> 会是外部没有被遮蔽的 <code>x</code>，也就是 <code>None</code>。</p>
+<p>一旦 <code>match</code> 表达式执行完毕，其作用域也就结束了，同理内部 <code>y</code> 的作用域也结束了。最后的 <code>println!</code> 会打印 <code>at the end: x = Some(5), y = 10</code>。</p>
+<p>如果你不想引入变量遮蔽，可以使用另一个变量名而非 <code>y</code>，或者使用匹配守卫(match guard)的方式，稍后在<a href="#%E5%8C%B9%E9%85%8D%E5%AE%88%E5%8D%AB%E6%8F%90%E4%BE%9B%E7%9A%84%E9%A2%9D%E5%A4%96%E6%9D%A1%E4%BB%B6">匹配守卫提供的额外条件</a>中会讲解。</p>
+<h3 id="单分支多模式"><a class="header" href="#单分支多模式">单分支多模式</a></h3>
+<p>在 <code>match</code> 表达式中，可以使用 <code>|</code> 语法匹配多个模式，它代表 <strong>或</strong>的意思。例如，如下代码将 <code>x</code> 的值与匹配分支相比较，第一个分支有 <strong>或</strong> 选项，意味着如果 <code>x</code> 的值匹配此分支的任何一个模式，它就会运行：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let x = 1;
+
+match x {
+    1 | 2 =&gt; println!("one or two"),
+    3 =&gt; println!("three"),
+    _ =&gt; println!("anything"),
+}
+<span class="boring">}</span></code></pre></pre>
+<p>上面的代码会打印 <code>one or two</code>。</p>
+<h3 id="通过序列--匹配值的范围"><a class="header" href="#通过序列--匹配值的范围">通过序列 <code>..=</code> 匹配值的范围</a></h3>
+<p>在<a href="https://course.rs/basic/base-type/numbers.html#%E5%BA%8F%E5%88%97range">数值类型</a>中我们有讲到一个序列语法，该语法不仅可以用于循环中，还能用于匹配模式。</p>
+<p><code>..=</code> 语法允许你匹配一个闭区间序列内的值。在如下代码中，当模式匹配任何在此序列内的值时，该分支会执行：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let x = 5;
+
+match x {
+    1..=5 =&gt; println!("one through five"),
+    _ =&gt; println!("something else"),
+}
+<span class="boring">}</span></code></pre></pre>
+<p>如果 <code>x</code> 是 1、2、3、4 或 5，第一个分支就会匹配。这相比使用 <code>|</code> 运算符表达相同的意思更为方便；相比 <code>1..=5</code>，使用 <code>|</code> 则不得不指定 <code>1 | 2 | 3 | 4 | 5</code> 这五个值，而使用 <code>..=</code> 指定序列就简短的多，比如希望匹配从 1 到 1000 的数字的时候！</p>
+<p>序列只允许用于数字或字符类型，原因是：它们可以连续，同时编译器在编译期可以检查该序列是否为空，字符和数字值是 Rust 中仅有的可以用于判断是否为空的类型。</p>
+<p>如下是一个使用字符类型序列的例子：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let x = 'c';
+
+match x {
+    'a'..='j' =&gt; println!("early ASCII letter"),
+    'k'..='z' =&gt; println!("late ASCII letter"),
+    _ =&gt; println!("something else"),
+}
+<span class="boring">}</span></code></pre></pre>
+<p>Rust 知道 <code>'c'</code> 位于第一个模式的序列内，所以会打印出 <code>early ASCII letter</code>。</p>
+<h3 id="解构并分解值"><a class="header" href="#解构并分解值">解构并分解值</a></h3>
+<p>也可以使用模式来解构结构体、枚举、元组、数组和引用。</p>
+<h4 id="解构结构体"><a class="header" href="#解构结构体">解构结构体</a></h4>
+<p>下面代码展示了如何用 <code>let</code> 解构一个带有两个字段 <code>x</code> 和 <code>y</code> 的结构体 <code>Point</code>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn main() {
+    let p = Point { x: 0, y: 7 };
+
+    let Point { x: a, y: b } = p;
+    assert_eq!(0, a);
+    assert_eq!(7, b);
+}</code></pre></pre>
+<p>这段代码创建了变量 <code>a</code> 和 <code>b</code> 来匹配结构体 <code>p</code> 中的 <code>x</code> 和 <code>y</code> 字段，这个例子展示了<strong>模式中的变量名不必与结构体中的字段名一致</strong>。不过通常希望变量名与字段名一致以便于理解变量来自于哪些字段。</p>
+<p>因为变量名匹配字段名是常见的，同时因为 <code>let Point { x: x, y: y } = p;</code> 中 <code>x</code> 和 <code>y</code> 重复了，所以对于匹配结构体字段的模式存在简写：只需列出结构体字段的名称，则模式创建的变量会有相同的名称。下例与上例有着相同行为的代码，不过 <code>let</code> 模式创建的变量为 <code>x</code> 和 <code>y</code> 而不是 <code>a</code> 和 <code>b</code>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn main() {
+    let p = Point { x: 0, y: 7 };
+
+    let Point { x, y } = p;
+    assert_eq!(0, x);
+    assert_eq!(7, y);
+}</code></pre></pre>
+<p>这段代码创建了变量 <code>x</code> 和 <code>y</code>，与结构体 <code>p</code> 中的 <code>x</code> 和 <code>y</code> 字段相匹配。其结果是变量 <code>x</code> 和 <code>y</code> 包含结构体 <code>p</code> 中的值。</p>
+<p>也可以使用字面值作为结构体模式的一部分进行解构，而不是为所有的字段创建变量。这允许我们测试一些字段为特定值的同时创建其他字段的变量。</p>
+<p>下文展示了固定某个字段的匹配方式：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">struct Point {
+</span><span class="boring">    x: i32,
+</span><span class="boring">    y: i32,
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn main() {
+    let p = Point { x: 0, y: 7 };
+
+    match p {
+        Point { x, y: 0 } =&gt; println!("On the x axis at {}", x),
+        Point { x: 0, y } =&gt; println!("On the y axis at {}", y),
+        Point { x, y } =&gt; println!("On neither axis: ({}, {})", x, y),
+    }
+}</code></pre></pre>
+<p>首先是 <code>match</code> 第一个分支，指定匹配 <code>y</code> 为 <code>0</code> 的 <code>Point</code>；
+然后第二个分支在第一个分支之后，匹配 <code>y</code> 不为 <code>0</code>，<code>x</code> 为 <code>0</code> 的 <code>Point</code>;
+最后一个分支匹配 <code>x</code> 不为 <code>0</code>，<code>y</code> 也不为 <code>0</code> 的 <code>Point</code>。</p>
+<p>在这个例子中，值 <code>p</code> 因为其 <code>x</code> 包含 0 而匹配第二个分支，因此会打印出 <code>On the y axis at 7</code>。</p>
+<h4 id="解构枚举"><a class="header" href="#解构枚举">解构枚举</a></h4>
+<p>下面代码以 <code>Message</code> 枚举为例，编写一个 <code>match</code> 使用模式解构每一个内部值：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+fn main() {
+    let msg = Message::ChangeColor(0, 160, 255);
+
+    match msg {
+        Message::Quit =&gt; {
+            println!("The Quit variant has no data to destructure.")
+        }
+        Message::Move { x, y } =&gt; {
+            println!(
+                "Move in the x direction {} and in the y direction {}",
+                x,
+                y
+            );
+        }
+        Message::Write(text) =&gt; println!("Text message: {}", text),
+        Message::ChangeColor(r, g, b) =&gt; {
+            println!(
+                "Change the color to red {}, green {}, and blue {}",
+                r,
+                g,
+                b
+            )
+        }
+    }
+}</code></pre></pre>
+<p>这里老生常谈一句话，模式匹配一样要类型相同，因此匹配 <code>Message::Move{1,2}</code> 这样的枚举值，就必须要用 <code>Message::Move{x,y}</code> 这样的同类型模式才行。</p>
+<p>这段代码会打印出 <code>Change the color to red 0, green 160, and blue 255</code>。尝试改变 <code>msg</code> 的值来观察其他分支代码的运行。</p>
+<p>对于像 <code>Message::Quit</code> 这样没有任何数据的枚举成员，不能进一步解构其值。只能匹配其字面值 <code>Message::Quit</code>，因此模式中没有任何变量。</p>
+<p>对于另外两个枚举成员，就用相同类型的模式去匹配出对应的值即可。</p>
+<h4 id="解构嵌套的结构体和枚举"><a class="header" href="#解构嵌套的结构体和枚举">解构嵌套的结构体和枚举</a></h4>
+<p>目前为止，所有的例子都只匹配了深度为一级的结构体或枚举。 <code>match</code> 也可以匹配嵌套的项！</p>
+<p>例如使用下面的代码来同时支持 RGB 和 HSV 色彩模式：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">enum Color {
+   Rgb(i32, i32, i32),
+   Hsv(i32, i32, i32),
+}
+
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(Color),
+}
+
+fn main() {
+    let msg = Message::ChangeColor(Color::Hsv(0, 160, 255));
+
+    match msg {
+        Message::ChangeColor(Color::Rgb(r, g, b)) =&gt; {
+            println!(
+                "Change the color to red {}, green {}, and blue {}",
+                r,
+                g,
+                b
+            )
+        }
+        Message::ChangeColor(Color::Hsv(h, s, v)) =&gt; {
+            println!(
+                "Change the color to hue {}, saturation {}, and value {}",
+                h,
+                s,
+                v
+            )
+        }
+        _ =&gt; ()
+    }
+}</code></pre></pre>
+<p><code>match</code> 第一个分支的模式匹配一个 <code>Message::ChangeColor</code> 枚举成员，该枚举成员又包含了一个 <code>Color::Rgb</code> 的枚举成员，最终绑定了 3 个内部的 <code>i32</code> 值。第二个，就交给亲爱的读者来思考完成。</p>
+<h4 id="解构结构体和元组"><a class="header" href="#解构结构体和元组">解构结构体和元组</a></h4>
+<p>我们甚至可以用复杂的方式来混合、匹配和嵌套解构模式。如下是一个复杂结构体的例子，其中结构体和元组嵌套在元组中，并将所有的原始类型解构出来：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Point {
+     x: i32,
+     y: i32,
+ }
+
+let ((feet, inches), Point {x, y}) = ((3, 10), Point { x: 3, y: -10 });
+<span class="boring">}</span></code></pre></pre>
+<p>这种将复杂类型分解匹配的方式，可以让我们单独得到感兴趣的某个值。</p>
+<h4 id="解构数组"><a class="header" href="#解构数组">解构数组</a></h4>
+<p>对于数组，我们可以用类似元组的方式解构，分为两种情况：</p>
+<p>定长数组</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let arr: [u16; 2] = [114, 514];
+let [x, y] = arr;
+
+assert_eq!(x, 114);
+assert_eq!(y, 514);
+<span class="boring">}</span></code></pre></pre>
+<p>不定长数组</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let arr: &amp;[u16] = &amp;[114, 514];
+
+if let [x, ..] = arr {
+    assert_eq!(x, &amp;114);
+}
+
+if let &amp;[.., y] = arr {
+    assert_eq!(y, 514);
+}
+
+let arr: &amp;[u16] = &amp;[];
+
+assert!(matches!(arr, [..]));
+assert!(!matches!(arr, [x, ..]));
+<span class="boring">}</span></code></pre></pre>
+<h3 id="忽略模式中的值"><a class="header" href="#忽略模式中的值">忽略模式中的值</a></h3>
+<p>有时忽略模式中的一些值是很有用的，比如在 <code>match</code> 中的最后一个分支使用 <code>_</code> 模式匹配所有剩余的值。 你也可以在另一个模式中使用 <code>_</code> 模式，使用一个以下划线开始的名称，或者使用 <code>..</code> 忽略所剩部分的值。</p>
+<h4 id="使用-_-忽略整个值"><a class="header" href="#使用-_-忽略整个值">使用 <code>_</code> 忽略整个值</a></h4>
+<p>虽然 <code>_</code> 模式作为 <code>match</code> 表达式最后的分支特别有用，但是它的作用还不限于此。例如可以将其用于函数参数中：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn foo(_: i32, y: i32) {
+    println!("This code only uses the y parameter: {}", y);
+}
+
+fn main() {
+    foo(3, 4);
+}</code></pre></pre>
+<p>这段代码会完全忽略作为第一个参数传递的值 <code>3</code>，并会打印出 <code>This code only uses the y parameter: 4</code>。</p>
+<p>大部分情况当你不再需要特定函数参数时，最好修改签名不再包含无用的参数。在一些情况下忽略函数参数会变得特别有用，比如实现特征时，当你需要特定类型签名但是函数实现并不需要某个参数时。此时编译器就<strong>不会警告说存在未使用的函数参数</strong>，就跟使用命名参数一样。</p>
+<h4 id="使用嵌套的-_-忽略部分值"><a class="header" href="#使用嵌套的-_-忽略部分值">使用嵌套的 <code>_</code> 忽略部分值</a></h4>
+<p>可以在一个模式内部使用 <code>_</code> 忽略部分值：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut setting_value = Some(5);
+let new_setting_value = Some(10);
+
+match (setting_value, new_setting_value) {
+    (Some(_), Some(_)) =&gt; {
+        println!("Can't overwrite an existing customized value");
+    }
+    _ =&gt; {
+        setting_value = new_setting_value;
+    }
+}
+
+println!("setting is {:?}", setting_value);
+<span class="boring">}</span></code></pre></pre>
+<p>这段代码会打印出 <code>Can't overwrite an existing customized value</code> 接着是 <code>setting is Some(5)</code>。</p>
+<p>第一个匹配分支，我们不关心里面的值，只关心元组中两个元素的类型，因此对于 <code>Some</code> 中的值，直接进行忽略。
+剩下的形如 <code>(Some(_),None)</code>，<code>(None, Some(_))</code>, <code>(None,None)</code> 形式，都由第二个分支 <code>_</code> 进行分配。</p>
+<p>还可以在一个模式中的多处使用下划线来忽略特定值，如下所示，这里忽略了一个五元元组中的第二和第四个值：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let numbers = (2, 4, 8, 16, 32);
+
+match numbers {
+    (first, _, third, _, fifth) =&gt; {
+        println!("Some numbers: {}, {}, {}", first, third, fifth)
+    },
+}
+<span class="boring">}</span></code></pre></pre>
+<p>老生常谈：模式匹配一定要类型相同，因此匹配 <code>numbers</code> 元组的模式，也必须有五个值（元组中元素的数量也属于元组类型的一部分）。</p>
+<p>这会打印出 <code>Some numbers: 2, 8, 32</code>, 值 4 和 16 会被忽略。</p>
+<h4 id="使用下划线开头忽略未使用的变量"><a class="header" href="#使用下划线开头忽略未使用的变量">使用下划线开头忽略未使用的变量</a></h4>
+<p>如果你创建了一个变量却不在任何地方使用它，Rust 通常会给你一个警告，因为这可能会是个 BUG。但是有时创建一个不会被使用的变量是有用的，比如你正在设计原型或刚刚开始一个项目。这时你希望告诉 Rust 不要警告未使用的变量，为此可以用下划线作为变量名的开头：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let _x = 5;
+    let y = 10;
+}</code></pre></pre>
+<p>这里得到了警告说未使用变量 <code>y</code>，至于 <code>x</code> 则没有警告。</p>
+<p>注意, 只使用 <code>_</code> 和使用以下划线开头的名称有些微妙的不同：比如 <strong><code>_x</code> 仍会将值绑定到变量，而 <code>_</code> 则完全不会绑定</strong>。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let s = Some(String::from("Hello!"));
+
+if let Some(_s) = s {
+    println!("found a string");
+}
+
+println!("{:?}", s);
+<span class="boring">}</span></code></pre></pre>
+<p><code>s</code> 是一个拥有所有权的动态字符串，在上面代码中，我们会得到一个错误，因为 <code>s</code> 的值会被转移给 <code>_s</code>，在 <code>println!</code> 中再次使用 <code>s</code> 会报错：</p>
+<pre><code class="language-console">error[E0382]: borrow of partially moved value: `s`
+ --&gt; src/main.rs:8:22
+  |
+4 |     if let Some(_s) = s {
+  |                 -- value partially moved here
+...
+8 |     println!("{:?}", s);
+  |                      ^ value borrowed here after partial move
+</code></pre>
+<p>只使用下划线本身，则并不会绑定值，因为 <code>s</code> 没有被移动进 <code>_</code>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let s = Some(String::from("Hello!"));
+
+if let Some(_) = s {
+    println!("found a string");
+}
+
+println!("{:?}", s);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="用--忽略剩余值"><a class="header" href="#用--忽略剩余值">用 <code>..</code> 忽略剩余值</a></h4>
+<p>对于有多个部分的值，可以使用 <code>..</code> 语法来只使用部分值而忽略其它值，这样也不用再为每一个被忽略的值都单独列出下划线。<code>..</code> 模式会忽略模式中剩余的任何没有显式匹配的值部分。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Point {
+    x: i32,
+    y: i32,
+    z: i32,
+}
+
+let origin = Point { x: 0, y: 0, z: 0 };
+
+match origin {
+    Point { x, .. } =&gt; println!("x is {}", x),
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这里列出了 <code>x</code> 值，接着使用了 <code>..</code> 模式来忽略其它字段，这样的写法要比一一列出其它字段，然后用 <code>_</code> 忽略简洁的多。</p>
+<p>还可以用 <code>..</code> 来忽略元组中间的某些值：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let numbers = (2, 4, 8, 16, 32);
+
+    match numbers {
+        (first, .., last) =&gt; {
+            println!("Some numbers: {}, {}", first, last);
+        },
+    }
+}</code></pre></pre>
+<p>这里用 <code>first</code> 和 <code>last</code> 来匹配第一个和最后一个值。<code>..</code> 将匹配并忽略中间的所有值。</p>
+<p>然而使用 <code>..</code> 必须是无歧义的。如果期望匹配和忽略的值是不明确的，Rust 会报错。下面代码展示了一个带有歧义的 <code>..</code> 例子，因此不能编译：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let numbers = (2, 4, 8, 16, 32);
+
+    match numbers {
+        (.., second, ..) =&gt; {
+            println!("Some numbers: {}", second)
+        },
+    }
+}</code></pre></pre>
+<p>如果编译上面的例子，会得到下面的错误：</p>
+<pre><code class="language-text">error: `..` can only be used once per tuple pattern // 每个元组模式只能使用一个 `..`
+ --&gt; src/main.rs:5:22
+  |
+5 |         (.., second, ..) =&gt; {
+  |          --          ^^ can only be used once per tuple pattern
+  |          |
+  |          previously used here // 上一次使用在这里
+
+error: could not compile `world_hello` due to previous error              ^^
+</code></pre>
+<p>Rust 无法判断，<code>second</code> 应该匹配 <code>numbers</code> 中的第几个元素，因此这里使用两个 <code>..</code> 模式，是有很大歧义的！</p>
+<h3 id="匹配守卫提供的额外条件"><a class="header" href="#匹配守卫提供的额外条件">匹配守卫提供的额外条件</a></h3>
+<p><strong>匹配守卫</strong>（<em>match guard</em>）是一个位于 <code>match</code> 分支模式之后的额外 <code>if</code> 条件，它能为分支模式提供更进一步的匹配条件。</p>
+<p>这个条件可以使用模式中创建的变量：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let num = Some(4);
+
+match num {
+    Some(x) if x &lt; 5 =&gt; println!("less than five: {}", x),
+    Some(x) =&gt; println!("{}", x),
+    None =&gt; (),
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这个例子会打印出 <code>less than five: 4</code>。当 <code>num</code> 与模式中第一个分支匹配时，<code>Some(4)</code> 可以与 <code>Some(x)</code> 匹配，接着匹配守卫检查 <code>x</code> 值是否小于 5，因为 4 小于 5，所以第一个分支被选择。</p>
+<p>相反如果 <code>num</code> 为 <code>Some(10)</code>，因为 10 不小于 5 ，所以第一个分支的匹配守卫为假。接着 Rust 会前往第二个分支，因为这里没有匹配守卫所以会匹配任何 <code>Some</code> 成员。</p>
+<p>模式中无法提供类如 <code>if x &lt; 5</code> 的表达能力，我们可以通过匹配守卫的方式来实现。</p>
+<p>在<a href="#%E5%8C%B9%E9%85%8D%E5%91%BD%E5%90%8D%E5%8F%98%E9%87%8F">之前</a>，我们提到可以使用匹配守卫来解决模式中变量覆盖的问题，那里 <code>match</code> 表达式的模式中新建了一个变量而不是使用 <code>match</code> 之外的同名变量。内部变量覆盖了外部变量，意味着此时不能够使用外部变量的值，下面代码展示了如何使用匹配守卫修复这个问题。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let x = Some(5);
+    let y = 10;
+
+    match x {
+        Some(50) =&gt; println!("Got 50"),
+        Some(n) if n == y =&gt; println!("Matched, n = {}", n),
+        _ =&gt; println!("Default case, x = {:?}", x),
+    }
+
+    println!("at the end: x = {:?}, y = {}", x, y);
+}</code></pre></pre>
+<p>上面代码会打印 <code>Default case, x = Some(5)</code>。其中，第二个匹配分支由于没有新建局部变量 <code>y</code>，因此在匹配守卫中使用的是外部的 <code>y</code>。</p>
+<p>匹配守卫 <code>if n == y</code> 并不是一个模式所以没有引入新变量。这个 <code>y</code> <strong>正是</strong> 外部的 <code>y</code> 而不是新的覆盖变量 <code>y</code>，这样就可以通过比较 <code>n</code> 和 <code>y</code> 来表达寻找一个与外部 <code>y</code> 相同的值的概念了。</p>
+<p>也可以在匹配守卫中使用 <strong>或</strong> 运算符 <code>|</code> 来指定多个模式，<strong>同时匹配守卫的条件会作用于所有的模式</strong>。下面代码展示了匹配守卫与 <code>|</code> 的优先级。这个例子中看起来好像 <code>if y</code> 只作用于 <code>6</code>，但实际上匹配守卫 <code>if y</code> 作用于 <code>4</code>、<code>5</code> <strong>和</strong> <code>6</code> ，在满足 <code>x</code> 属于 <code>4 | 5 | 6</code> 后才会判断 <code>y</code> 是否为 <code>true</code>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let x = 4;
+let y = false;
+
+match x {
+    4 | 5 | 6 if y =&gt; println!("yes"),
+    _ =&gt; println!("no"),
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这个匹配条件表明此分支只匹配 <code>x</code> 值为 <code>4</code>、<code>5</code> 或 <code>6</code> <strong>同时</strong> <code>y</code> 为 <code>true</code> 的情况。</p>
+<p>虽然在第一个分支中，<code>x</code> 匹配了模式 <code>4</code> ，但是对于匹配守卫 <code>if y</code> 来说，因为 <code>y</code> 是 <code>false</code>，因此该守卫条件的值永远是 <code>false</code>，也意味着第一个分支永远无法被匹配。</p>
+<p>下面的文字图解释了匹配守卫作用于多个模式时的优先级规则，第一张是正确的：</p>
+<pre><code class="language-text">(4 | 5 | 6) if y =&gt; ...
+</code></pre>
+<p>而第二张图是错误的</p>
+<pre><code class="language-text">4 | 5 | (6 if y) =&gt; ...
+</code></pre>
+<p>可以通过运行代码时的情况看出这一点：如果匹配守卫只作用于由 <code>|</code> 运算符指定的值列表的最后一个值，这个分支就会匹配且程序会打印出 <code>yes</code>。</p>
+<h2 id="绑定"><a class="header" href="#绑定">@绑定</a></h2>
+<p><code>@</code>（读作 at）运算符允许为一个字段绑定另外一个变量。下面例子中，我们希望测试 <code>Message::Hello</code> 的 <code>id</code> 字段是否位于 <code>3..=7</code> 范围内，同时也希望能将其值绑定到 <code>id_variable</code> 变量中以便此分支中相关的代码可以使用它。我们可以将 <code>id_variable</code> 命名为 <code>id</code>，与字段同名，不过出于示例的目的这里选择了不同的名称。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Message {
+    Hello { id: i32 },
+}
+
+let msg = Message::Hello { id: 5 };
+
+match msg {
+    Message::Hello { id: id_variable @ 3..=7 } =&gt; {
+        println!("Found an id in range: {}", id_variable)
+    },
+    Message::Hello { id: 10..=12 } =&gt; {
+        println!("Found an id in another range")
+    },
+    Message::Hello { id } =&gt; {
+        println!("Found some other id: {}", id)
+    },
+}
+<span class="boring">}</span></code></pre></pre>
+<p>上例会打印出 <code>Found an id in range: 5</code>。通过在 <code>3..=7</code> 之前指定 <code>id_variable @</code>，我们捕获了任何匹配此范围的值并同时将该值绑定到变量 <code>id_variable</code> 上。</p>
+<p>第二个分支只在模式中指定了一个范围，<code>id</code> 字段的值可以是 <code>10、11 或 12</code>，不过这个模式的代码并不知情也不能使用 <code>id</code> 字段中的值，因为没有将 <code>id</code> 值保存进一个变量。</p>
+<p>最后一个分支指定了一个没有范围的变量，此时确实拥有可以用于分支代码的变量 <code>id</code>，因为这里使用了结构体字段简写语法。不过此分支中没有像头两个分支那样对 <code>id</code> 字段的值进行测试：任何值都会匹配此分支。</p>
+<p>当你既想要限定分支范围，又想要使用分支的变量时，就可以用 <code>@</code> 来绑定到一个新的变量上，实现想要的功能。</p>
+<h4 id="前绑定后解构rust-156-新增"><a class="header" href="#前绑定后解构rust-156-新增">@前绑定后解构(Rust 1.56 新增)</a></h4>
+<p>使用 <code>@</code> 还可以在绑定新变量的同时，对目标进行解构：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn main() {
+    // 绑定新变量 `p`，同时对 `Point` 进行解构
+    let p @ Point {x: px, y: py } = Point {x: 10, y: 23};
+    println!("x: {}, y: {}", px, py);
+    println!("{:?}", p);
+
+
+    let point = Point {x: 10, y: 5};
+    if let p @ Point {x: 10, y} = point {
+        println!("x is 10 and y is {} in {:?}", y, p);
+    } else {
+        println!("x was not 10 :(");
+    }
+}</code></pre></pre>
+<h4 id="新特性rust-153-新增"><a class="header" href="#新特性rust-153-新增">@新特性(Rust 1.53 新增)</a></h4>
+<p>考虑下面一段代码:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    match 1 {
+        num @ 1 | 2 =&gt; {
+            println!("{}", num);
+        }
+        _ =&gt; {}
+    }
+}</code></pre></pre>
+<p>编译不通过，是因为 <code>num</code> 没有绑定到所有的模式上，只绑定了模式 <code>1</code>，你可能会试图通过这个方式来解决：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>num @ (1 | 2)
+<span class="boring">}</span></code></pre></pre>
+<p>但是，如果你用的是 Rust 1.53 之前的版本，那这种写法会报错，因为编译器不支持。</p>
+<p>至此，模式匹配的内容已经全部完结，复杂但是详尽，想要一次性全部记住属实不易，因此读者可以先留一个印象，等未来需要时，再来翻阅寻找具体的模式实现方式。</p>
+<h2 id="课后练习"><a class="header" href="#课后练习">课后练习</a></h2>
+<blockquote>
+<p><a href="https://practice-zh.course.rs/pattern-match/patterns.html">Rust By Practice</a>，支持代码在线编辑和运行，并提供详细的<a href="https://github.com/sunface/rust-by-practice/blob/master/solutions/pattern-match/patterns.md">习题解答</a>。</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../basic/match-pattern/pattern-match.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../basic/method.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../basic/match-pattern/pattern-match.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../basic/method.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

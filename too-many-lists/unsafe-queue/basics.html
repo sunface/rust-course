@@ -1,0 +1,451 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>基本操作 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/too-many-lists/unsafe-queue/basics.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="基本操作"><a class="header" href="#基本操作">基本操作</a></h1>
+<blockquote>
+<p>本章节的代码中有一个隐藏的 bug，因为它藏身于 unsafe 中，因此不会导致报错，我们会在后续章节解决这个问题，所以，请不要在生产环境使用此处的代码</p>
+</blockquote>
+<p>在开始之前，大家需要先了解 unsafe 的<a href="https://course.rs/advance/unsafe/intro.html">相关知识</a>。那么，言归正传，该如何构建一个链表？在之前我们是这么做的：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;T&gt; List&lt;T&gt; {
+    pub fn new() -&gt; Self {
+        List { head: None, tail: None }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>但是我们不再在 <code>tail</code> 中使用 <code>Option</code>:</p>
+<pre><code class="language-shell">$ cargo build
+
+error[E0308]: mismatched types
+  --&gt; src/fifth.rs:15:34
+   |
+15 |         List { head: None, tail: None }
+   |                                  ^^^^ expected *-ptr, found 
+   |                                       enum `std::option::Option`
+   |
+   = note: expected type `*mut fifth::Node&lt;T&gt;`
+              found type `std::option::Option&lt;_&gt;`
+</code></pre>
+<p>我们是可以使用 <code>Option</code> 包裹一层，但是 <code>*mut</code> 裸指针之所以裸，是因为它狂，它可以是 <code>null</code> ! 因此 <code>Option</code> 就变得没有意义:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::ptr;
+
+// defns...
+
+impl&lt;T&gt; List&lt;T&gt; {
+    pub fn new() -&gt; Self {
+        List { head: None, tail: ptr::null_mut() }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>如上所示，通过 <code>std::ptr::null_mut</code> 函数可以获取一个 <code>null</code>，当然，还可以使用 <code>0 as *mut _</code>，但是...已经这么不安全了，好歹我们要留一点代码可读性上的尊严吧 = , =</p>
+<p>好了，现在是时候去重新实现 <code>push</code> ，之前获取的是 <code>Option&lt;&amp;mut Node&lt;T&gt;&gt;</code> 成为我们的拦路虎，这次来看看如果是获取 <code>*mut Node&lt;T&gt;</code> 还会不会有类似的问题。</p>
+<p>首先，该如何将一个普通的引用变成裸指针？答案是：强制转换 Coercions。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let raw_tail: *mut _ = &amp;mut *new_tail;
+<span class="boring">}</span></code></pre></pre>
+<p>来看看 <code>push</code> 的实现:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn push(&amp;mut self, elem: T) {
+    let mut new_tail = Box::new(Node {
+        elem: elem,
+        next: None,
+    });
+
+    let raw_tail: *mut _ = &amp;mut *new_tail;
+
+    // .is_null 会检查是否为 null, 在功能上等价于 `None` 的检查
+    if !self.tail.is_null() {
+        // 如果 old tail 存在，那将其指向新的 tail
+        self.tail.next = Some(new_tail);
+    } else {
+        // 否则让 head 指向新的 tail
+        self.head = Some(new_tail);
+    }
+
+    self.tail = raw_tail;
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-shell">$ cargo build
+
+error[E0609]: no field `next` on type `*mut fifth::Node&lt;T&gt;`
+  --&gt; src/fifth.rs:31:23
+   |
+31 |             self.tail.next = Some(new_tail);
+   |             ----------^^^^
+   |             |
+   |             help: `self.tail` is a raw pointer; 
+   |             try dereferencing it: `(*self.tail).next`
+</code></pre>
+<p>当使用裸指针时，一些 Rust 提供的便利条件也将不复存在，例如由于不安全性的存在，裸指针需要我们手动去解引用( deref ):</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>*self.tail.next = Some(new_tail);
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-shell">$ cargo build
+
+error[E0609]: no field `next` on type `*mut fifth::Node&lt;T&gt;`
+  --&gt; src/fifth.rs:31:23
+   |
+31 |             *self.tail.next = Some(new_tail);
+   |             -----------^^^^
+   |             |
+   |             help: `self.tail` is a raw pointer; 
+   |             try dereferencing it: `(*self.tail).next`
+</code></pre>
+<p>哦哦，运算符的优先级问题:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>(*self.tail).next = Some(new_tail);
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-shell">$ cargo build
+
+error[E0133]: dereference of raw pointer is unsafe and requires 
+              unsafe function or block
+
+  --&gt; src/fifth.rs:31:13
+   |
+31 |             (*self.tail).next = Some(new_tail);
+   |             ^^^^^^^^^^^^^^^^^ dereference of raw pointer
+   |
+   = note: raw pointers may be NULL, dangling or unaligned; 
+     they can violate aliasing rules and cause data races: 
+     all of these are undefined behavior
+</code></pre>
+<p>哎...太难了，错误一个连一个，好在编译器给出了提示：由于我们在进行不安全的操作，因此需要使用 <code>unsafe</code> 语句块。那么问题来了，是将某几行代码包在 <code>unsafe</code> 中还是将整个函数包在 <code>unsafe</code> 中呢？如果大家不知道哪个是正确答案的话，证明<a href="https://course.rs/advance/unsafe/intro.html#%E6%8E%A7%E5%88%B6-unsafe-%E7%9A%84%E4%BD%BF%E7%94%A8%E8%BE%B9%E7%95%8C">之前的章节</a>还是没有仔细学，请回去再看一下，巩固巩固:)</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn push(&amp;mut self, elem: T) {
+    let mut new_tail = Box::new(Node {
+        elem: elem,
+        next: None,
+    });
+
+    let raw_tail: *mut _ = &amp;mut *new_tail;
+
+    if !self.tail.is_null() {
+        // 你好编译器，我知道我在做危险的事情，我向你保证：就算犯错了，也和你没有关系，都是我这个不优秀的程序员的责任
+        unsafe {
+            (*self.tail).next = Some(new_tail);
+        }
+    } else {
+        self.head = Some(new_tail);
+    }
+
+    self.tail = raw_tail;
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-shell">$ cargo build
+warning: field is never used: `elem`
+  --&gt; src/fifth.rs:11:5
+   |
+11 |     elem: T,
+   |     ^^^^^^^
+   |
+   = note: #[warn(dead_code)] on by default
+</code></pre>
+<p>细心的同学可能会发现:不是所有的裸指针代码都有 unsafe 的身影。原因在于：<strong>创建原生指针是安全的行为，而解引用原生指针才是不安全的行为</strong></p>
+<p>呼，长出了一口气，终于成功实现了 <code>push</code> ，下面来看看 <code>pop</code>:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn pop(&amp;mut self) -&gt; Option&lt;T&gt; {
+    self.head.take().map(|head| {
+        let head = *head;
+        self.head = head.next;
+
+        if self.head.is_none() {
+            self.tail = ptr::null_mut();
+        }
+
+        head.elem
+    })
+}
+<span class="boring">}</span></code></pre></pre>
+<p>测试下:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[cfg(test)]
+mod test {
+    use super::List;
+    #[test]
+    fn basics() {
+        let mut list = List::new();
+
+        // Check empty list behaves right
+        assert_eq!(list.pop(), None);
+
+        // Populate list
+        list.push(1);
+        list.push(2);
+        list.push(3);
+
+        // Check normal removal
+        assert_eq!(list.pop(), Some(1));
+        assert_eq!(list.pop(), Some(2));
+
+        // Push some more just to make sure nothing's corrupted
+        list.push(4);
+        list.push(5);
+
+        // Check normal removal
+        assert_eq!(list.pop(), Some(3));
+        assert_eq!(list.pop(), Some(4));
+
+        // Check exhaustion
+        assert_eq!(list.pop(), Some(5));
+        assert_eq!(list.pop(), None);
+
+        // Check the exhaustion case fixed the pointer right
+        list.push(6);
+        list.push(7);
+
+        // Check normal removal
+        assert_eq!(list.pop(), Some(6));
+        assert_eq!(list.pop(), Some(7));
+        assert_eq!(list.pop(), None);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>摊牌了，我们偷懒了，这些测试就是从之前的栈链表赋值过来的，但是依然做了些改变，例如在末尾增加了几个步骤以确保在 <code>pop</code> 中不会发生尾指针损坏( tail-pointer corruption  )的情况。</p>
+<pre><code class="language-shell">$ cargo test
+
+running 12 tests
+test fifth::test::basics ... ok
+test first::test::basics ... ok
+test fourth::test::basics ... ok
+test fourth::test::peek ... ok
+test second::test::basics ... ok
+test fourth::test::into_iter ... ok
+test second::test::into_iter ... ok
+test second::test::iter ... ok
+test second::test::iter_mut ... ok
+test second::test::peek ... ok
+test third::test::basics ... ok
+test third::test::iter ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../too-many-lists/unsafe-queue/layout.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../too-many-lists/unsafe-queue/miri.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../too-many-lists/unsafe-queue/layout.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../too-many-lists/unsafe-queue/miri.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

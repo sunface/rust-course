@@ -1,0 +1,577 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>动态数组 Vector - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/basic/collections/vector.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="动态数组-vector"><a class="header" href="#动态数组-vector">动态数组 Vector</a></h1>
+<p>动态数组类型用 <code>Vec&lt;T&gt;</code> 表示，事实上，在之前的章节，它的身影多次出现，我们一直没有细讲，只是简单的把它当作数组处理。</p>
+<p>动态数组允许你存储多个值，这些值在内存中一个紧挨着另一个排列，因此访问其中某个元素的成本非常低。动态数组只能存储相同类型的元素，如果你想存储不同类型的元素，可以使用之前讲过的枚举类型或者特征对象。</p>
+<p>总之，当我们想拥有一个列表，里面都是相同类型的数据时，动态数组将会非常有用。</p>
+<h2 id="创建动态数组"><a class="header" href="#创建动态数组">创建动态数组</a></h2>
+<p>在 Rust 中，有多种方式可以创建动态数组。</p>
+<h3 id="vecnew"><a class="header" href="#vecnew">Vec::new</a></h3>
+<p>使用 <code>Vec::new</code> 创建动态数组是最 rusty 的方式，它调用了 <code>Vec</code> 中的 <code>new</code> 关联函数：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v: Vec&lt;i32&gt; = Vec::new();
+<span class="boring">}</span></code></pre></pre>
+<p>这里，<code>v</code> 被显式地声明了类型 <code>Vec&lt;i32&gt;</code>，这是因为 Rust 编译器无法从 <code>Vec::new()</code> 中得到任何关于类型的暗示信息，因此也无法推导出 <code>v</code> 的具体类型，但是当你向里面增加一个元素后，一切又不同了：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut v = Vec::new();
+v.push(1);
+<span class="boring">}</span></code></pre></pre>
+<p>此时，<code>v</code> 就无需手动声明类型，因为编译器通过 <code>v.push(1)</code>，推测出 <code>v</code> 中的元素类型是 <code>i32</code>，因此推导出 <code>v</code> 的类型是 <code>Vec&lt;i32&gt;</code>。</p>
+<blockquote>
+<p>如果预先知道要存储的元素个数，可以使用 <code>Vec::with_capacity(capacity)</code> 创建动态数组，这样可以避免因为插入大量新数据导致频繁的内存分配和拷贝，提升性能</p>
+</blockquote>
+<h3 id="vec"><a class="header" href="#vec">vec![]</a></h3>
+<p>还可以使用宏 <code>vec!</code> 来创建数组，与 <code>Vec::new</code> 有所不同，前者能在创建同时给予初始化值：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v = vec![1, 2, 3];
+<span class="boring">}</span></code></pre></pre>
+<p>同样，此处的 <code>v</code> 也无需标注类型，编译器只需检查它内部的元素即可自动推导出 <code>v</code> 的类型是 <code>Vec&lt;i32&gt;</code> （Rust 中，整数默认类型是 <code>i32</code>，在<a href="https://course.rs/basic/base-type/numbers.html#%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B">数值类型</a>中有详细介绍）。</p>
+<h2 id="更新-vector"><a class="header" href="#更新-vector">更新 Vector</a></h2>
+<p>向数组尾部添加元素，可以使用 <code>push</code> 方法：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut v = Vec::new();
+v.push(1);
+<span class="boring">}</span></code></pre></pre>
+<p>与其它类型一样，必须将 <code>v</code> 声明为 <code>mut</code> 后，才能进行修改。</p>
+<h2 id="vector-与其元素共存亡"><a class="header" href="#vector-与其元素共存亡">Vector 与其元素共存亡</a></h2>
+<p>跟结构体一样，<code>Vector</code> 类型在超出作用域范围后，会被自动删除：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>{
+    let v = vec![1, 2, 3];
+
+    // ...
+} // &lt;- v超出作用域并在此处被删除
+<span class="boring">}</span></code></pre></pre>
+<p>当 <code>Vector</code> 被删除后，它内部存储的所有内容也会随之被删除。目前来看，这种解决方案简单直白，但是当 <code>Vector</code> 中的元素被引用后，事情可能会没那么简单。</p>
+<h2 id="从-vector-中读取元素"><a class="header" href="#从-vector-中读取元素">从 Vector 中读取元素</a></h2>
+<p>读取指定位置的元素有两种方式可选：</p>
+<ul>
+<li>通过下标索引访问。</li>
+<li>使用 <code>get</code> 方法。</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v = vec![1, 2, 3, 4, 5];
+
+let third: &amp;i32 = &amp;v[2];
+println!("第三个元素是 {}", third);
+
+match v.get(2) {
+    Some(third) =&gt; println!("第三个元素是 {third}"),
+    None =&gt; println!("去你的第三个元素，根本没有！"),
+}
+<span class="boring">}</span></code></pre></pre>
+<p>和其它语言一样，集合类型的索引下标都是从 <code>0</code> 开始，<code>&amp;v[2]</code> 表示借用 <code>v</code> 中的第三个元素，最终会获得该元素的引用。而 <code>v.get(2)</code> 也是访问第三个元素，但是有所不同的是，它返回了 <code>Option&lt;&amp;T&gt;</code>，因此还需要额外的 <code>match</code> 来匹配解构出具体的值。</p>
+<blockquote>
+<p>细心的同学会注意到这里使用了两种格式化输出的方式，其中第一种我们在之前已经见过，而第二种是后续新版本中引入的写法，也是更推荐的用法，具体介绍请参见<a href="https://course.rs/basic/formatted-output.html">格式化输出章节</a>。</p>
+</blockquote>
+<h3 id="下标索引与-get-的区别"><a class="header" href="#下标索引与-get-的区别">下标索引与 <code>.get</code> 的区别</a></h3>
+<p>这两种方式都能成功的读取到指定的数组元素，既然如此为什么会存在两种方法？何况 <code>.get</code> 还会增加使用复杂度，这就涉及到数组越界的问题了，让我们通过示例说明：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v = vec![1, 2, 3, 4, 5];
+
+let does_not_exist = &amp;v[100];
+let does_not_exist = v.get(100);
+<span class="boring">}</span></code></pre></pre>
+<p>运行以上代码，<code>&amp;v[100]</code> 的访问方式会导致程序无情报错退出，因为发生了数组越界访问。 但是 <code>v.get</code> 就不会，它在内部做了处理，有值的时候返回 <code>Some(T)</code>，无值的时候返回 <code>None</code>，因此 <code>v.get</code> 的使用方式非常安全。</p>
+<p>既然如此，为何不统一使用 <code>v.get</code> 的形式？因为实在是有些啰嗦，Rust 语言的设计者和使用者在审美这方面还是相当统一的：简洁即正义，何况性能上也会有轻微的损耗。</p>
+<p>既然有两个选择，肯定就有如何选择的问题，答案很简单，当你确保索引不会越界的时候，就用索引访问，否则用 <code>.get</code>。例如，访问第几个数组元素并不取决于我们，而是取决于用户的输入时，用 <code>.get</code> 会非常适合，天知道那些可爱的用户会输入一个什么样的数字进来！</p>
+<h2 id="同时借用多个数组元素"><a class="header" href="#同时借用多个数组元素">同时借用多个数组元素</a></h2>
+<p>既然涉及到借用数组元素，那么很可能会遇到同时借用多个数组元素的情况，还记得在<a href="https://course.rs/basic/ownership/borrowing.html#%E5%80%9F%E7%94%A8%E8%A7%84%E5%88%99%E6%80%BB%E7%BB%93">所有权和借用</a>章节咱们讲过的借用规则嘛？如果记得，就来看看下面的代码 :)</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut v = vec![1, 2, 3, 4, 5];
+
+let first = &amp;v[0];
+
+v.push(6);
+
+println!("The first element is: {first}");
+<span class="boring">}</span></code></pre></pre>
+<p>先不运行，来推断下结果，首先 <code>first = &amp;v[0]</code> 进行了不可变借用，<code>v.push</code> 进行了可变借用，如果 <code>first</code> 在 <code>v.push</code> 之后不再使用，那么该段代码可以成功编译（原因见<a href="https://course.rs/basic/ownership/borrowing.html#%E5%8F%AF%E5%8F%98%E5%BC%95%E7%94%A8%E4%B8%8E%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%BC%95%E7%94%A8%E4%B8%8D%E8%83%BD%E5%90%8C%E6%97%B6%E5%AD%98%E5%9C%A8">引用的作用域</a>）。</p>
+<p>可是上面的代码中，<code>first</code> 这个不可变借用在可变借用 <code>v.push</code> 后被使用了，那么妥妥的，编译器就会报错：</p>
+<pre><code class="language-console">$ cargo run
+Compiling collections v0.1.0 (file:///projects/collections)
+error[E0502]: cannot borrow `v` as mutable because it is also borrowed as immutable 无法对v进行可变借用，因此之前已经进行了不可变借用
+--&gt; src/main.rs:6:5
+|
+4 |     let first = &amp;v[0];
+|                  - immutable borrow occurs here // 不可变借用发生在此处
+5 |
+6 |     v.push(6);
+|     ^^^^^^^^^ mutable borrow occurs here // 可变借用发生在此处
+7 |
+8 |     println!("The first element is: {}", first);
+|                                          ----- immutable borrow later used here // 不可变借用在这里被使用
+
+For more information about this error, try `rustc --explain E0502`.
+error: could not compile `collections` due to previous error
+</code></pre>
+<p>其实，按理来说，这两个引用不应该互相影响的：一个是查询元素，一个是在数组尾部插入元素，完全不相干的操作，为何编译器要这么严格呢？</p>
+<p>原因在于：数组的大小是可变的，当旧数组的大小不够用时，Rust 会重新分配一块更大的内存空间，然后把旧数组拷贝过来。这种情况下，之前的引用显然会指向一块无效的内存，这非常 rusty —— 对用户进行严格的教育。</p>
+<p>其实想想，<strong>在长大之后，我们感激人生路上遇到过的严师益友，正是因为他们，我们才在正确的道路上不断前行，虽然在那个时候，并不能理解他们</strong>，而 Rust 就如那个良师益友，它不断的在纠正我们不好的编程习惯，直到某一天，你发现自己能写出一次性通过的漂亮代码时，就能明白它的良苦用心。</p>
+<blockquote>
+<p>若读者想要更深入的了解 <code>Vec&lt;T&gt;</code>，可以看看<a href="https://nomicon.purewhite.io/vec/vec.html">Rustonomicon</a>，其中从零手撸一个动态数组，非常适合深入学习。</p>
+</blockquote>
+<h2 id="迭代遍历-vector-中的元素"><a class="header" href="#迭代遍历-vector-中的元素">迭代遍历 Vector 中的元素</a></h2>
+<p>如果想要依次访问数组中的元素，可以使用迭代的方式去遍历数组，这种方式比用下标的方式去遍历数组更安全也更高效（每次下标访问都会触发数组边界检查）：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v = vec![1, 2, 3];
+for i in &amp;v {
+    println!("{i}");
+}
+<span class="boring">}</span></code></pre></pre>
+<p>也可以在迭代过程中，修改 <code>Vector</code> 中的元素：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut v = vec![1, 2, 3];
+for i in &amp;mut v {
+    *i += 10
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="存储不同类型的元素"><a class="header" href="#存储不同类型的元素">存储不同类型的元素</a></h2>
+<p>在本节开头，有讲到数组的元素必须类型相同，但是也提到了解决方案：那就是通过使用枚举类型和特征对象来实现不同类型元素的存储。先来看看通过枚举如何实现：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+enum IpAddr {
+    V4(String),
+    V6(String)
+}
+fn main() {
+    let v = vec![
+        IpAddr::V4("127.0.0.1".to_string()),
+        IpAddr::V6("::1".to_string())
+    ];
+
+    for ip in v {
+        show_addr(ip)
+    }
+}
+
+fn show_addr(ip: IpAddr) {
+    println!("{:?}",ip);
+}</code></pre></pre>
+<p>数组 <code>v</code> 中存储了两种不同的 <code>ip</code> 地址，但是这两种都属于 <code>IpAddr</code> 枚举类型的成员，因此可以存储在数组中。</p>
+<p>再来看看特征对象的实现：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">trait IpAddr {
+    fn display(&amp;self);
+}
+
+struct V4(String);
+impl IpAddr for V4 {
+    fn display(&amp;self) {
+        println!("ipv4: {:?}",self.0)
+    }
+}
+struct V6(String);
+impl IpAddr for V6 {
+    fn display(&amp;self) {
+        println!("ipv6: {:?}",self.0)
+    }
+}
+
+fn main() {
+    let v: Vec&lt;Box&lt;dyn IpAddr&gt;&gt; = vec![
+        Box::new(V4("127.0.0.1".to_string())),
+        Box::new(V6("::1".to_string())),
+    ];
+
+    for ip in v {
+        ip.display();
+    }
+}</code></pre></pre>
+<p>比枚举实现要稍微复杂一些，我们为 <code>V4</code> 和 <code>V6</code> 都实现了特征 <code>IpAddr</code>，然后将它俩的实例用 <code>Box::new</code> 包裹后，存在了数组 <code>v</code> 中，需要注意的是，这里必须手动地指定类型：<code>Vec&lt;Box&lt;dyn IpAddr&gt;&gt;</code>，表示数组 <code>v</code> 存储的是特征 <code>IpAddr</code> 的对象，这样就实现了在数组中存储不同的类型。</p>
+<p>在实际使用场景中，<strong>特征对象数组要比枚举数组常见很多</strong>，主要原因在于<a href="https://course.rs/basic/trait/trait-object.html">特征对象</a>非常灵活，而编译器对枚举的限制较多，且无法动态增加类型。</p>
+<h2 id="vector-常用方法"><a class="header" href="#vector-常用方法">Vector 常用方法</a></h2>
+<p>初始化 vec 的更多方式：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let v = vec![0; 3];   // 默认值为 0，初始长度为 3
+    let v_from = Vec::from([0, 0, 0]);
+    assert_eq!(v, v_from);
+}</code></pre></pre>
+<p>动态数组意味着我们增加元素时，如果<strong>容量不足就会导致 vector 扩容</strong>（目前的策略是重新申请一块 2 倍大小的内存，再将所有元素拷贝到新的内存位置，同时更新指针数据），显然，当频繁扩容或者当元素数量较多且需要扩容时，大量的内存拷贝会降低程序的性能。</p>
+<p>可以考虑在初始化时就指定一个实际的预估容量，尽量减少可能的内存拷贝：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let mut v = Vec::with_capacity(10);
+    v.extend([1, 2, 3]);    // 附加数据到 v
+    println!("Vector 长度是: {}, 容量是: {}", v.len(), v.capacity());
+
+    v.reserve(100);        // 调整 v 的容量，至少要有 100 的容量
+    println!("Vector（reserve） 长度是: {}, 容量是: {}", v.len(), v.capacity());
+
+    v.shrink_to_fit();     // 释放剩余的容量，一般情况下，不会主动去释放容量
+    println!("Vector（shrink_to_fit） 长度是: {}, 容量是: {}", v.len(), v.capacity());
+}</code></pre></pre>
+<p>Vector 常见的一些方法示例：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut v =  vec![1, 2];
+assert!(!v.is_empty());         // 检查 v 是否为空
+
+v.insert(2, 3);                 // 在指定索引插入数据，索引值不能大于 v 的长度， v: [1, 2, 3] 
+assert_eq!(v.remove(1), 2);     // 移除指定位置的元素并返回, v: [1, 3]
+assert_eq!(v.pop(), Some(3));   // 删除并返回 v 尾部的元素，v: [1]
+assert_eq!(v.pop(), Some(1));   // v: []
+assert_eq!(v.pop(), None);      // 记得 pop 方法返回的是 Option 枚举值
+v.clear();                      // 清空 v, v: []
+
+let mut v1 = [11, 22].to_vec(); // append 操作会导致 v1 清空数据，增加可变声明
+v.append(&amp;mut v1);              // 将 v1 中的所有元素附加到 v 中, v1: []
+v.truncate(1);                  // 截断到指定长度，多余的元素被删除, v: [11]
+v.retain(|x| *x &gt; 10);          // 保留满足条件的元素，即删除不满足条件的元素
+
+let mut v = vec![11, 22, 33, 44, 55];
+// 删除指定范围的元素，同时获取被删除元素的迭代器, v: [11, 55], m: [22, 33, 44]
+let mut m: Vec&lt;_&gt; = v.drain(1..=3).collect();    
+
+let v2 = m.split_off(1);        // 指定索引处切分成两个 vec, m: [22], v2: [33, 44]
+<span class="boring">}</span></code></pre></pre>
+<p>当然也可以像<a href="/basic/compound-type/array.html#%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87">数组切片</a>的方式获取 vec 的部分元素：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let v = vec![11, 22, 33, 44, 55];
+    let slice = &amp;v[1..=3];
+    assert_eq!(slice, &amp;[22, 33, 44]);
+}</code></pre></pre>
+<p>更多细节，阅读 Vector 的<a href="https://doc.rust-lang.org/std/vec/struct.Vec.html#">标准库文档</a>。</p>
+<h2 id="vector-的排序"><a class="header" href="#vector-的排序">Vector 的排序</a></h2>
+<p>在 rust 里，实现了两种排序算法，分别为稳定的排序 <code>sort</code> 和 <code>sort_by</code>，以及非稳定排序 <code>sort_unstable</code> 和 <code>sort_unstable_by</code>。</p>
+<p>当然，这个所谓的 <code>非稳定</code> 并不是指排序算法本身不稳定，而是指在排序过程中对相等元素的处理方式。在 <code>稳定</code> 排序算法里，对相等的元素，不会对其进行重新排序。而在 <code>不稳定</code> 的算法里则不保证这点。</p>
+<p>总体而言，<code>非稳定</code> 排序的算法的速度会优于 <code>稳定</code> 排序算法，同时，<code>稳定</code> 排序还会额外分配原数组一半的空间。</p>
+<h3 id="整数数组的排序"><a class="header" href="#整数数组的排序">整数数组的排序</a></h3>
+<p>以下是对整数列进行排序的例子。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let mut vec = vec![1, 5, 10, 2, 15];    
+    vec.sort_unstable();    
+    assert_eq!(vec, vec![1, 2, 5, 10, 15]);
+}</code></pre></pre>
+<h3 id="浮点数数组的排序"><a class="header" href="#浮点数数组的排序">浮点数数组的排序</a></h3>
+<p>我们尝试使用上面的方法来对浮点数进行排序：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let mut vec = vec![1.0, 5.6, 10.3, 2.0, 15f32];    
+    vec.sort_unstable();    
+    assert_eq!(vec, vec![1.0, 2.0, 5.6, 10.3, 15f32]);
+}</code></pre></pre>
+<p>结果，居然报错了，</p>
+<pre><code>error[E0277]: the trait bound `f32: Ord` is not satisfied
+    --&gt; src/main.rs:29:13
+     |
+29   |         vec.sort_unstable();
+     |             ^^^^^^^^^^^^^ the trait `Ord` is not implemented for `f32`
+     |
+     = help: the following other types implement trait `Ord`:
+               i128
+               i16
+               i32
+               i64
+               i8
+               isize
+               u128
+               u16
+             and 4 others
+note: required by a bound in `core::slice::&lt;impl [T]&gt;::sort_unstable`
+    --&gt; /home/keijack/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/mod.rs:2635:12
+     |
+2635 |         T: Ord,
+     |            ^^^ required by this bound in `core::slice::&lt;impl [T]&gt;::sort_unstable`
+
+For more information about this error, try `rustc --explain E0277`.
+</code></pre>
+<p>原来，在浮点数当中，存在一个 <code>NAN</code> 的值，这个值无法与其他的浮点数进行对比，因此，浮点数类型并没有实现全数值可比较 <code>Ord</code> 的特性，而是实现了部分可比较的特性 <code>PartialOrd</code>。</p>
+<p>如此，如果我们确定在我们的浮点数数组当中，不包含 <code>NAN</code> 值，那么我们可以使用 <code>partial_cmp</code> 来作为大小判断的依据。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let mut vec = vec![1.0, 5.6, 10.3, 2.0, 15f32];    
+    vec.sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());    
+    assert_eq!(vec, vec![1.0, 2.0, 5.6, 10.3, 15f32]);
+}</code></pre></pre>
+<p>OK，现在可以正确执行了。</p>
+<h3 id="对结构体数组进行排序"><a class="header" href="#对结构体数组进行排序">对结构体数组进行排序</a></h3>
+<p>有了上述浮点数排序的经验，我们推而广之，那么对结构体是否也可以使用这种自定义对比函数的方式来进行呢？马上来试一下：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+struct Person {
+    name: String,
+    age: u32,
+}
+
+impl Person {
+    fn new(name: String, age: u32) -&gt; Person {
+        Person { name, age }
+    }
+}
+
+fn main() {
+    let mut people = vec![
+        Person::new("Zoe".to_string(), 25),
+        Person::new("Al".to_string(), 60),
+        Person::new("John".to_string(), 1),
+    ];
+    // 定义一个按照年龄倒序排序的对比函数
+    people.sort_unstable_by(|a, b| b.age.cmp(&amp;a.age));
+
+    println!("{:?}", people);
+}</code></pre></pre>
+<p>执行后输出：</p>
+<pre><code>[Person { name: "Al", age: 60 }, Person { name: "Zoe", age: 25 }, Person { name: "John", age: 1 }]
+</code></pre>
+<p>结果正确。</p>
+<p>从上面我们学习过程当中，排序需要我们实现 <code>Ord</code> 特性，那么如果我们把我们的结构体实现了该特性，是否就不需要我们自定义对比函数了呢？</p>
+<p>是，但不完全是，实现 <code>Ord</code> 需要我们实现 <code>Ord</code>、<code>Eq</code>、<code>PartialEq</code>、<code>PartialOrd</code> 这些属性。好消息是，你可以 <code>derive</code> 这些属性：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug, Ord, Eq, PartialEq, PartialOrd)]
+struct Person {
+    name: String,
+    age: u32,
+}
+
+impl Person {
+    fn new(name: String, age: u32) -&gt; Person {
+        Person { name, age }
+    }
+}
+
+fn main() {
+    let mut people = vec![
+        Person::new("Zoe".to_string(), 25),
+        Person::new("Al".to_string(), 60),
+        Person::new("Al".to_string(), 30),
+        Person::new("John".to_string(), 1),
+        Person::new("John".to_string(), 25),
+    ];
+
+    people.sort_unstable();
+
+    println!("{:?}", people);
+}</code></pre></pre>
+<p>执行输出</p>
+<pre><code>[Person { name: "Al", age: 30 }, Person { name: "Al", age: 60 }, Person { name: "John", age: 1 }, Person { name: "John", age: 25 }, Person { name: "Zoe", age: 25 }]
+</code></pre>
+<p>需要 <code>derive</code> <code>Ord</code> 相关特性，需要确保你的结构体中所有的属性均实现了 <code>Ord</code> 相关特性，否则会发生编译错误。<code>derive</code> 的默认实现会依据属性的顺序依次进行比较，如上述例子中，当 <code>Person</code> 的 <code>name</code> 值相同，则会使用 <code>age</code> 进行比较。</p>
+<h2 id="课后练习"><a class="header" href="#课后练习">课后练习</a></h2>
+<blockquote>
+<p><a href="https://practice-zh.course.rs/collections/vector.html">Rust By Practice</a>，支持代码在线编辑和运行，并提供详细的<a href="https://github.com/sunface/rust-by-practice/blob/master/solutions/collections/Vector.md">习题解答</a>。</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../basic/collections/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../basic/collections/hashmap.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../basic/collections/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../basic/collections/hashmap.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

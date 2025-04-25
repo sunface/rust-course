@@ -1,0 +1,323 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>1.59 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/appendix/rust-versions/1.59.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="rust-新版解读--159--重点-内联汇编解构式赋值"><a class="header" href="#rust-新版解读--159--重点-内联汇编解构式赋值">Rust 新版解读 | 1.59 | 重点: 内联汇编、解构式赋值</a></h1>
+<p>Rust 团队于今天凌晨( 2022-02-25 )发布了最新的 1.59 版本，其中最引人瞩目的特性应该就是支持在代码中内联汇编了，一起来看看。</p>
+<h2 id="内联汇编-inline-assembly-"><a class="header" href="#内联汇编-inline-assembly-">内联汇编( inline assembly )</a></h2>
+<p>该特性对于需要底层控制的应用非常有用，例如想要控制底层执行、访问特定的机器指令等。</p>
+<p>例如，如果目标平台是 <code>x86-64</code> 时，你可以这么写：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::arch::asm;
+
+// 使用 shifts 和 adds 实现 x 乘以 6
+let mut x: u64 = 4;
+unsafe {``
+    asm!(
+        "mov {tmp}, {x}",
+        "shl {tmp}, 1",
+        "shl {x}, 2",
+        "add {x}, {tmp}",
+        x = inout(reg) x,
+        tmp = out(reg) _,
+    );
+}
+assert_eq!(x, 4 * 6);
+<span class="boring">}</span></code></pre></pre>
+<p>大家发现没，这里的格式化字符串的使用方式跟我们平时的 <code>println!</code>、<code>format!</code> 并无区别， 除了 <code>asm!</code> 之外， <code>global_asm!</code> 宏也可以这么使用。</p>
+<p>内联汇编中使用的汇编语言和指令取决于相应的机器平台，截至目前，Rust 支持以下平台的内联汇编：</p>
+<ul>
+<li>x86 和 x86-64</li>
+<li>ARM</li>
+<li>AArch64</li>
+<li>RISC-V</li>
+</ul>
+<p>如果大家希望深入了解，可以看官方的 <a href="https://doc.rust-lang.org/nightly/reference/inline-assembly.html">Reference</a> 文档，同时在 <a href="https://zh.exercise.rs/unsafe/inline-asm">Rust Exercise</a> 中提供了更多的示例(目前正在翻译中..)。</p>
+<h2 id="解构式赋值-destructuring-assignments"><a class="header" href="#解构式赋值-destructuring-assignments">解构式赋值( Destructuring assignments)</a></h2>
+<p>现在你可以在赋值语句的左式中使用元组、切片和结构体模式了。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let (a, b, c, d, e);
+
+(a, b) = (1, 2);
+[c, .., d, _] = [1, 2, 3, 4, 5];
+Struct { e, .. } = Struct { e: 5, f: 3 };
+
+assert_eq!([1, 2, 1, 4, 5], [a, b, c, d, e]);
+<span class="boring">}</span></code></pre></pre>
+<p>这种使用方式跟 <code>let</code> 保持了一致性，但是需要注意，使用 <code>+=</code> 的赋值语句还不支持解构式赋值。</p>
+<h2 id="const-泛型"><a class="header" href="#const-泛型">const 泛型</a></h2>
+<h4 id="为参数设置默认值"><a class="header" href="#为参数设置默认值">为参数设置默认值</a></h4>
+<p>现在我们可以为 const 泛型参数设置默认值：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct ArrayStorage&lt;T, const N: usize = 2&gt; {
+    arr: [T; N],
+}
+
+impl&lt;T&gt; ArrayStorage&lt;T&gt; {
+    fn new(a: T, b: T) -&gt; ArrayStorage&lt;T&gt; {
+        ArrayStorage {
+            arr: [a, b],
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="取消参数顺序的限制"><a class="header" href="#取消参数顺序的限制">取消参数顺序的限制</a></h4>
+<p>在之前版本中，类型参数必须要在所有的 const 泛型参数之前，现在，这个限制被放宽了，例如你可以这样交替排列它们：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn cartesian_product&lt;
+    T, const N: usize,
+    U, const M: usize,
+    V, F
+&gt;(a: [T; N], b: [U; M], f: F) -&gt; [[V; N]; M]
+where
+    F: FnMut(&amp;T, &amp;U) -&gt; V
+{
+    // ...
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="缩小二进制文件体积删除-debug-信息"><a class="header" href="#缩小二进制文件体积删除-debug-信息">缩小二进制文件体积：删除 debug 信息</a></h2>
+<p>对于受限的环境来说，缩小编译出的二进制文件体积是非常重要的。</p>
+<p>以往我们可以在二进制文件被创建后，手动的来完成。现在 cargo 和 rustc 支持在链接( linked )后就删除 debug 信息，在 <code>Cargo.toml</code> 中新增以下配置：</p>
+<pre><code class="language-toml">[profile.release]
+strip = "debuginfo"
+</code></pre>
+<p>以上配置会将 <code>release</code> 二进制文件中的 debug 信息移除。你也可以使用 <code>"symbols"</code> 或 <code>true</code> 选项来移除所有支持的 <code>symbol</code> 信息。</p>
+<p>根据 reddit 网友的测试，如果使用了 <code>strip = true</code>，那编译后的体积将大幅减少(50% 左右):</p>
+<ul>
+<li>先使用 <code>lto = true</code> : 4,397,320 bytes</li>
+<li>再使用 <code>strip = true</code> : 2,657,304 bytes</li>
+<li>最后 <code>opt-level = "z"</code> : 1,857,680 bytes</li>
+</ul>
+<p>如果是 WASM，还可以使用以下配置进一步减少体积:</p>
+<pre><code class="language-toml">[package.metadata.wasm-pack.profile.release]
+wasm-opt = ['-Os']
+</code></pre>
+<p><a href="https://github.com/rsadsb/adsb_deku/blob/master/CHANGELOG.md#unreleased">github 上一个开源仓库</a>也证明了这一点，总体来看，这个配置的效果是非常显著的！</p>
+<h2 id="默认关闭增量编译"><a class="header" href="#默认关闭增量编译">默认关闭增量编译</a></h2>
+<p>1.59.0 版本默认关闭了增量编译的功能（你可以通过环境变量显式地启用：<code>RUSTC_FORCE_INCREMENTAL=1</code> ），这会降低已知 Bug <a href="https://github.com/rust-lang/rust/issues/94124">#94124</a> 的影响，该 Bug 会导致增量编译过程中的反序列化错误和 <code>panic</code>。</p>
+<p>不过大家也不用担心，这个 Bug 会在 1.60.0 版本修复，也就是 6 周后，增量编译会重新设置为默认开启，如果没有意外的话 :)</p>
+<h2 id="稳定化的-api-列表"><a class="header" href="#稳定化的-api-列表">稳定化的 API 列表</a></h2>
+<p>一些方法和特征实现现在已经可以 stable 中使用，具体见<a href="https://blog.rust-lang.org/2022/02/24/Rust-1.59.0.html#stabilized-apis">官方发布说明</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../appendix/rust-versions/1.58.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../appendix/rust-versions/1.60.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../appendix/rust-versions/1.58.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../appendix/rust-versions/1.60.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

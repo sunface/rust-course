@@ -1,0 +1,475 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Weak 与循环引用 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/circle-self-ref/circle-reference.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="weak-与循环引用"><a class="header" href="#weak-与循环引用">Weak 与循环引用</a></h1>
+<p>Rust 的安全性是众所周知的，但是不代表它不会内存泄漏。一个典型的例子就是同时使用 <code>Rc&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> 创建循环引用，最终这些引用的计数都无法被归零，因此 <code>Rc&lt;T&gt;</code> 拥有的值也不会被释放清理。</p>
+<h2 id="何为循环引用"><a class="header" href="#何为循环引用">何为循环引用</a></h2>
+<p>关于内存泄漏，如果你没有充足的 Rust 经验，可能都无法造出一份代码来再现它：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use crate::List::{Cons, Nil};
+use std::cell::RefCell;
+use std::rc::Rc;
+
+#[derive(Debug)]
+enum List {
+    Cons(i32, RefCell&lt;Rc&lt;List&gt;&gt;),
+    Nil,
+}
+
+impl List {
+    fn tail(&amp;self) -&gt; Option&lt;&amp;RefCell&lt;Rc&lt;List&gt;&gt;&gt; {
+        match self {
+            Cons(_, item) =&gt; Some(item),
+            Nil =&gt; None,
+        }
+    }
+}
+
+fn main() {}</code></pre></pre>
+<p>这里我们创建一个有些复杂的枚举类型 <code>List</code>，这个类型很有意思，它的每个值都指向了另一个 <code>List</code>，此外，得益于 <code>Rc</code> 的使用还允许多个值指向一个 <code>List</code>：</p>
+<img alt="" src="https://pica.zhimg.com/80/v2-0db007dfb4167ebc22f50cf5b5a85f53_1440w.png" class="center"  />
+<p>如上图所示，每个矩形框节点都是一个 <code>List</code> 类型，它们或者是拥有值且指向另一个 <code>List</code> 的<code>Cons</code>，或者是一个没有值的终结点 <code>Nil</code>。同时，由于 <code>RefCell</code> 的使用，每个 <code>List</code> 所指向的 <code>List</code> 还能够被修改。</p>
+<p>下面来使用一下这个复杂的 <code>List</code> 枚举：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
+
+    println!("a的初始化rc计数 = {}", Rc::strong_count(&amp;a));
+    println!("a指向的节点 = {:?}", a.tail());
+
+    // 创建`b`到`a`的引用
+    let b = Rc::new(Cons(10, RefCell::new(Rc::clone(&amp;a))));
+
+    println!("在b创建后，a的rc计数 = {}", Rc::strong_count(&amp;a));
+    println!("b的初始化rc计数 = {}", Rc::strong_count(&amp;b));
+    println!("b指向的节点 = {:?}", b.tail());
+
+    // 利用RefCell的可变性，创建了`a`到`b`的引用
+    if let Some(link) = a.tail() {
+        *link.borrow_mut() = Rc::clone(&amp;b);
+    }
+
+    println!("在更改a后，b的rc计数 = {}", Rc::strong_count(&amp;b));
+    println!("在更改a后，a的rc计数 = {}", Rc::strong_count(&amp;a));
+
+    // 下面一行println!将导致循环引用
+    // 我们可怜的8MB大小的main线程栈空间将被它冲垮，最终造成栈溢出
+    // println!("a next item = {:?}", a.tail());
+}</code></pre></pre>
+<p>这个类型定义看着复杂，使用起来更复杂！不过排除这些因素，我们可以清晰看出：</p>
+<ol>
+<li>在创建了 <code>a</code> 后，紧接着就使用 <code>a</code> 创建了 <code>b</code>，因此 <code>b</code> 引用了 <code>a</code></li>
+<li>然后我们又利用 <code>Rc</code> 克隆了 <code>b</code>，然后通过 <code>RefCell</code> 的可变性，让 <code>a</code> 引用了 <code>b</code></li>
+</ol>
+<p>至此我们成功创建了循环引用<code>a</code>-&gt; <code>b</code> -&gt; <code>a</code> -&gt; <code>b</code> ····</p>
+<p>先来观察下引用计数：</p>
+<pre><code class="language-console">a的初始化rc计数 = 1
+a指向的节点 = Some(RefCell { value: Nil })
+在b创建后，a的rc计数 = 2
+b的初始化rc计数 = 1
+b指向的节点 = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
+在更改a后，b的rc计数 = 2
+在更改a后，a的rc计数 = 2
+</code></pre>
+<p>在 <code>main</code> 函数结束前，<code>a</code> 和 <code>b</code> 的引用计数均是 <code>2</code>，随后 <code>b</code> 触发 <code>Drop</code>，此时引用计数会变为 <code>1</code>，并不会归 <code>0</code>，因此 <code>b</code> 所指向内存不会被释放，同理可得 <code>a</code> 指向的内存也不会被释放，最终发生了内存泄漏。</p>
+<p>下面一张图很好的展示了这种引用循环关系：
+<img alt="" src="https://pic1.zhimg.com/80/v2-2dbfc981f05019bf70bf81c93f956c35_1440w.png" class="center"  /></p>
+<p>现在我们还需要轻轻的推一下，让塔米诺骨牌轰然倒塌。反注释最后一行代码，试着运行下：</p>
+<pre><code class="language-console">RefCell { value: Cons(5, RefCell { value: Cons(10, RefCell { value: Cons(5, RefCell { value: Cons(10, RefCell { value: Cons(5, RefCell { value: Cons(10, RefCell {
+...无穷无尽
+thread 'main' has overflowed its stack
+fatal runtime error: stack overflow
+</code></pre>
+<p>通过 <code>a.tail</code> 的调用，Rust 试图打印出 <code>a -&gt; b -&gt; a ···</code> 的所有内容，但是在不懈的努力后，<code>main</code> 线程终于不堪重负，发生了<a href="https://course.rs/pitfalls/stack-overflow.html">栈溢出</a>。</p>
+<p>以上的代码可能并不会造成什么大的问题，但是在一个更加复杂的程序中，类似的问题可能会造成你的程序不断地分配内存、泄漏内存，最终程序会不幸<strong>OOM</strong>，当然这其中的 CPU 损耗也不可小觑。</p>
+<p>总之，创建循环引用并不简单，但是也并不是完全遇不到，当你使用 <code>RefCell&lt;Rc&lt;T&gt;&gt;</code> 或者类似的类型嵌套组合（具备内部可变性和引用计数）时，就要打起万分精神，前面可能是深渊！</p>
+<p>那么问题来了？ 如果我们确实需要实现上面的功能，该怎么办？答案是使用 <code>Weak</code>。</p>
+<h2 id="weak"><a class="header" href="#weak">Weak</a></h2>
+<p><code>Weak</code> 非常类似于 <code>Rc</code>，但是与 <code>Rc</code> 持有所有权不同，<code>Weak</code> 不持有所有权，它仅仅保存一份指向数据的弱引用：如果你想要访问数据，需要通过 <code>Weak</code> 指针的 <code>upgrade</code> 方法实现，该方法返回一个类型为 <code>Option&lt;Rc&lt;T&gt;&gt;</code> 的值。</p>
+<p>看到这个返回，相信大家就懂了：何为弱引用？就是<strong>不保证引用关系依然存在</strong>，如果不存在，就返回一个 <code>None</code>！</p>
+<p>因为 <code>Weak</code> 引用不计入所有权，因此它<strong>无法阻止所引用的内存值被释放掉</strong>，而且 <code>Weak</code> 本身不对值的存在性做任何担保，引用的值还存在就返回 <code>Some</code>，不存在就返回 <code>None</code>。</p>
+<h4 id="weak-与-rc-对比"><a class="header" href="#weak-与-rc-对比">Weak 与 Rc 对比</a></h4>
+<p>我们来将 <code>Weak</code> 与 <code>Rc</code> 进行以下简单对比：</p>
+<div class="table-wrapper"><table><thead><tr><th><code>Weak</code></th><th><code>Rc</code></th></tr></thead><tbody>
+<tr><td>不计数</td><td>引用计数</td></tr>
+<tr><td>不拥有所有权</td><td>拥有值的所有权</td></tr>
+<tr><td>不阻止值被释放(drop)</td><td>所有权计数归零，才能 drop</td></tr>
+<tr><td>引用的值存在返回 <code>Some</code>，不存在返回 <code>None </code></td><td>引用的值必定存在</td></tr>
+<tr><td>通过 <code>upgrade</code> 取到 <code>Option&lt;Rc&lt;T&gt;&gt;</code>，然后再取值</td><td>通过 <code>Deref</code> 自动解引用，取值无需任何操作</td></tr>
+</tbody></table>
+</div>
+<p>通过这个对比，可以非常清晰的看出 <code>Weak</code> 为何这么弱，而这种弱恰恰非常适合我们实现以下的场景：</p>
+<ul>
+<li>持有一个 <code>Rc</code> 对象的临时引用，并且不在乎引用的值是否依然存在</li>
+<li>阻止 <code>Rc</code> 导致的循环引用，因为 <code>Rc</code> 的所有权机制，会导致多个 <code>Rc</code> 都无法计数归零</li>
+</ul>
+<p>使用方式简单总结下：<strong>对于父子引用关系，可以让父节点通过 <code>Rc</code> 来引用子节点，然后让子节点通过 <code>Weak</code> 来引用父节点</strong>。</p>
+<h4 id="weak-总结"><a class="header" href="#weak-总结">Weak 总结</a></h4>
+<p>因为 <code>Weak</code> 本身并不是很好理解，因此我们再来帮大家梳理总结下，然后再通过一个例子，来彻底掌握。</p>
+<p><code>Weak</code> 通过 <code>use std::rc::Weak</code> 来引入，它具有以下特点:</p>
+<ul>
+<li>可访问，但没有所有权，不增加引用计数，因此不会影响被引用值的释放回收</li>
+<li>可由 <code>Rc&lt;T&gt;</code> 调用 <code>downgrade</code> 方法转换成 <code>Weak&lt;T&gt;</code></li>
+<li><code>Weak&lt;T&gt;</code> 可使用 <code>upgrade</code> 方法转换成 <code>Option&lt;Rc&lt;T&gt;&gt;</code>，如果资源已经被释放，则 <code>Option</code> 的值是 <code>None</code></li>
+<li>常用于解决循环引用的问题</li>
+</ul>
+<p>一个简单的例子：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::rc::Rc;
+fn main() {
+    // 创建Rc，持有一个值5
+    let five = Rc::new(5);
+
+    // 通过Rc，创建一个Weak指针
+    let weak_five = Rc::downgrade(&amp;five);
+
+    // Weak引用的资源依然存在，取到值5
+    let strong_five: Option&lt;Rc&lt;_&gt;&gt; = weak_five.upgrade();
+    assert_eq!(*strong_five.unwrap(), 5);
+
+    // 手动释放资源`five`
+    drop(five);
+
+    // Weak引用的资源已不存在，因此返回None
+    let strong_five: Option&lt;Rc&lt;_&gt;&gt; = weak_five.upgrade();
+    assert_eq!(strong_five, None);
+}</code></pre></pre>
+<p>需要承认的是，使用 <code>Weak</code> 让 Rust 本来就堪忧的代码可读性又下降了不少，但是。。。真香，因为可以解决循环引用了。</p>
+<h2 id="使用-weak-解决循环引用"><a class="header" href="#使用-weak-解决循环引用">使用 Weak 解决循环引用</a></h2>
+<p>理论知识已经足够，现在用两个例子来模拟下真实场景下可能会遇到的循环引用。</p>
+<h4 id="工具间的故事"><a class="header" href="#工具间的故事">工具间的故事</a></h4>
+<p>工具间里，每个工具都有其主人，且多个工具可以拥有一个主人；同时一个主人也可以拥有多个工具，在这种场景下，就很容易形成循环引用，好在我们有 <code>Weak</code>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::rc::Rc;
+use std::rc::Weak;
+use std::cell::RefCell;
+
+// 主人
+struct Owner {
+    name: String,
+    gadgets: RefCell&lt;Vec&lt;Weak&lt;Gadget&gt;&gt;&gt;,
+}
+
+// 工具
+struct Gadget {
+    id: i32,
+    owner: Rc&lt;Owner&gt;,
+}
+
+fn main() {
+    // 创建一个 Owner
+    // 需要注意，该 Owner 也拥有多个 `gadgets`
+    let gadget_owner : Rc&lt;Owner&gt; = Rc::new(
+        Owner {
+            name: "Gadget Man".to_string(),
+            gadgets: RefCell::new(Vec::new()),
+        }
+    );
+
+    // 创建工具，同时与主人进行关联：创建两个 gadget，他们分别持有 gadget_owner 的一个引用。
+    let gadget1 = Rc::new(Gadget{id: 1, owner: gadget_owner.clone()});
+    let gadget2 = Rc::new(Gadget{id: 2, owner: gadget_owner.clone()});
+
+    // 为主人更新它所拥有的工具
+    // 因为之前使用了 `Rc`，现在必须要使用 `Weak`，否则就会循环引用
+    gadget_owner.gadgets.borrow_mut().push(Rc::downgrade(&amp;gadget1));
+    gadget_owner.gadgets.borrow_mut().push(Rc::downgrade(&amp;gadget2));
+
+    // 遍历 gadget_owner 的 gadgets 字段
+    for gadget_opt in gadget_owner.gadgets.borrow().iter() {
+
+        // gadget_opt 是一个 Weak&lt;Gadget&gt; 。 因为 weak 指针不能保证他所引用的对象
+        // 仍然存在。所以我们需要显式的调用 upgrade() 来通过其返回值(Option&lt;_&gt;)来判
+        // 断其所指向的对象是否存在。
+        // 当然，Option 为 None 的时候这个引用原对象就不存在了。
+        let gadget = gadget_opt.upgrade().unwrap();
+        println!("Gadget {} owned by {}", gadget.id, gadget.owner.name);
+    }
+
+    // 在 main 函数的最后，gadget_owner，gadget1 和 gadget2 都被销毁。
+    // 具体是，因为这几个结构体之间没有了强引用（`Rc&lt;T&gt;`），所以，当他们销毁的时候。
+    // 首先 gadget2 和 gadget1 被销毁。
+    // 然后因为 gadget_owner 的引用数量为 0，所以这个对象可以被销毁了。
+    // 循环引用问题也就避免了
+}</code></pre></pre>
+<h4 id="tree-数据结构"><a class="header" href="#tree-数据结构">tree 数据结构</a></h4>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::cell::RefCell;
+use std::rc::{Rc, Weak};
+
+#[derive(Debug)]
+struct Node {
+    value: i32,
+    parent: RefCell&lt;Weak&lt;Node&gt;&gt;,
+    children: RefCell&lt;Vec&lt;Rc&lt;Node&gt;&gt;&gt;,
+}
+
+fn main() {
+    let leaf = Rc::new(Node {
+        value: 3,
+        parent: RefCell::new(Weak::new()),
+        children: RefCell::new(vec![]),
+    });
+
+    println!(
+        "leaf strong = {}, weak = {}",
+        Rc::strong_count(&amp;leaf),
+        Rc::weak_count(&amp;leaf),
+    );
+
+    {
+        let branch = Rc::new(Node {
+            value: 5,
+            parent: RefCell::new(Weak::new()),
+            children: RefCell::new(vec![Rc::clone(&amp;leaf)]),
+        });
+
+        *leaf.parent.borrow_mut() = Rc::downgrade(&amp;branch);
+
+        println!(
+            "branch strong = {}, weak = {}",
+            Rc::strong_count(&amp;branch),
+            Rc::weak_count(&amp;branch),
+        );
+
+        println!(
+            "leaf strong = {}, weak = {}",
+            Rc::strong_count(&amp;leaf),
+            Rc::weak_count(&amp;leaf),
+        );
+    }
+
+    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+    println!(
+        "leaf strong = {}, weak = {}",
+        Rc::strong_count(&amp;leaf),
+        Rc::weak_count(&amp;leaf),
+    );
+}
+</code></pre></pre>
+<p>这个例子就留给读者自己解读和分析，我们就不画蛇添足了:）</p>
+<h2 id="unsafe-解决循环引用"><a class="header" href="#unsafe-解决循环引用">unsafe 解决循环引用</a></h2>
+<p>除了使用 Rust 标准库提供的这些类型，你还可以使用 <code>unsafe</code> 里的裸指针来解决这些棘手的问题，但是由于我们还没有讲解 <code>unsafe</code>，因此这里就不进行展开，只附上<a href="https://github.com/sunface/rust-algos/blob/fbcdccf3e8178a9039329562c0de0fd01a3372fb/src/unsafe/self-ref.md">源码链接</a>，挺长的，需要耐心 o_o</p>
+<p>虽然 <code>unsafe</code> 不安全，但是在各种库的代码中依然很常见用它来实现自引用结构，主要优点如下:</p>
+<ul>
+<li>性能高，毕竟直接用裸指针操作</li>
+<li>代码更简单更符合直觉: 对比下 <code>Option&lt;Rc&lt;RefCell&lt;Node&gt;&gt;&gt;</code></li>
+</ul>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p>本文深入讲解了何为循环引用以及如何使用 <code>Weak</code> 来解决，同时还结合 <code>Rc</code>、<code>RefCell</code>、<code>Weak</code> 等实现了两个有实战价值的例子，让大家对智能指针的使用更加融会贯通。</p>
+<p>至此，智能指针一章即将结束（严格来说还有一个 <code>Mutex</code> 放在多线程一章讲解），而 Rust 语言本身的学习之旅也即将结束，后面我们将深入多线程、项目工程、应用实践、性能分析等特色专题，来一睹 Rust 在这些领域的风采。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../advance/circle-self-ref/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../advance/circle-self-ref/self-referential.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../advance/circle-self-ref/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../advance/circle-self-ref/self-referential.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>进一步深入特征 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/basic/trait/advance-trait.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="深入了解特征"><a class="header" href="#深入了解特征">深入了解特征</a></h1>
+<p>特征之于 Rust 更甚于接口之于其他语言，因此特征在 Rust 中很重要也相对较为复杂，我们决定把特征分为两篇进行介绍，<a href="https://course.rs/basic/trait/trait.html">第一篇</a>在之前已经讲过，现在就是第二篇：关于特征的进阶篇，会讲述一些不常用到但是你该了解的特性。</p>
+<h2 id="关联类型"><a class="header" href="#关联类型">关联类型</a></h2>
+<p>在方法一章中，我们讲到了<a href="https://course.rs/basic/method#%E5%85%B3%E8%81%94%E5%87%BD%E6%95%B0">关联函数</a>，但是实际上关联类型和关联函数并没有任何交集，虽然它们的名字有一半的交集。</p>
+<p>关联类型是在特征定义的语句块中，声明一个自定义类型，这样就可以在特征的方法签名中使用该类型：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Iterator {
+    type Item;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt;;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>以上是标准库中的迭代器特征 <code>Iterator</code>，它有一个 <code>Item</code> 关联类型，用于替代遍历的值的类型。</p>
+<p>同时，<code>next</code> 方法也返回了一个 <code>Item</code> 类型，不过使用 <code>Option</code> 枚举进行了包裹，假如迭代器中的值是 <code>i32</code> 类型，那么调用 <code>next</code> 方法就将获取一个 <code>Option&lt;i32&gt;</code> 的值。</p>
+<p>还记得 <code>Self</code> 吧？在之前的章节<a href="https://course.rs/basic/trait/trait-object#self-%E4%B8%8E-self">提到过</a>， <strong><code>Self</code> 用来指代当前调用者的具体类型，那么 <code>Self::Item</code> 就用来指代该类型实现中定义的 <code>Item</code> 类型</strong>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">impl Iterator for Counter {
+    type Item = u32;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        // --snip--
+    }
+}
+
+fn main() {
+    let c = Counter{..}
+    c.next()
+}</code></pre></pre>
+<p>在上述代码中，我们为 <code>Counter</code> 类型实现了 <code>Iterator</code> 特征，变量 <code>c</code> 是特征 <code>Iterator</code> 的实例，也是 <code>next</code> 方法的调用者。 结合之前的黑体内容可以得出：对于 <code>next</code> 方法而言，<code>Self</code> 是调用者 <code>c</code> 的具体类型： <code>Counter</code>，而 <code>Self::Item</code> 是 <code>Counter</code> 中定义的 <code>Item</code> 类型: <code>u32</code>。</p>
+<p>聪明的读者之所以聪明，是因为你们喜欢联想和举一反三，同时你们也喜欢提问：为何不用泛型，例如如下代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Iterator&lt;Item&gt; {
+    fn next(&amp;mut self) -&gt; Option&lt;Item&gt;;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>答案其实很简单，为了代码的可读性，当你使用了泛型后，你需要在所有地方都写 <code>Iterator&lt;Item&gt;</code>，而使用了关联类型，你只需要写 <code>Iterator</code>，当类型定义复杂时，这种写法可以极大的增加可读性：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait CacheableItem: Clone + Default + fmt::Debug + Decodable + Encodable {
+  type Address: AsRef&lt;[u8]&gt; + Clone + fmt::Debug + Eq + Hash;
+  fn is_null(&amp;self) -&gt; bool;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>例如上面的代码，<code>Address</code> 的写法自然远比 <code>AsRef&lt;[u8]&gt; + Clone + fmt::Debug + Eq + Hash</code> 要简单的多，而且含义清晰。</p>
+<p>再例如，如果使用泛型，你将得到以下的代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>trait Container&lt;A,B&gt; {
+    fn contains(&amp;self,a: A,b: B) -&gt; bool;
+}
+
+fn difference&lt;A,B,C&gt;(container: &amp;C) -&gt; i32
+  where
+    C : Container&lt;A,B&gt; {...}
+<span class="boring">}</span></code></pre></pre>
+<p>可以看到，由于使用了泛型，导致函数头部也必须增加泛型的声明，而使用关联类型，将得到可读性好得多的代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>trait Container{
+    type A;
+    type B;
+    fn contains(&amp;self, a: &amp;Self::A, b: &amp;Self::B) -&gt; bool;
+}
+
+fn difference&lt;C: Container&gt;(container: &amp;C) {}
+<span class="boring">}</span></code></pre></pre>
+<p>关联类型还可以被其它特征进行约束，例如：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>trait Container{
+    type A：Display;
+    type B;
+    fn contains(&amp;self, a: &amp;Self::A, b: &amp;Self::B) -&gt; bool;
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="默认泛型类型参数"><a class="header" href="#默认泛型类型参数">默认泛型类型参数</a></h2>
+<p>当使用泛型类型参数时，可以为其指定一个默认的具体类型，例如标准库中的 <code>std::ops::Add</code> 特征：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>trait Add&lt;RHS=Self&gt; {
+    type Output;
+
+    fn add(self, rhs: RHS) -&gt; Self::Output;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>它有一个泛型参数 <code>RHS</code>，但是与我们以往的用法不同，这里它给 <code>RHS</code> 一个默认值，也就是当用户不指定 <code>RHS</code> 时，默认使用两个同样类型的值进行相加，然后返回一个关联类型 <code>Output</code>。</p>
+<p>可能上面那段不太好理解，下面我们用代码来举例：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::ops::Add;
+
+#[derive(Debug, PartialEq)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl Add for Point {
+    type Output = Point;
+
+    fn add(self, other: Point) -&gt; Point {
+        Point {
+            x: self.x + other.x,
+            y: self.y + other.y,
+        }
+    }
+}
+
+fn main() {
+    assert_eq!(Point { x: 1, y: 0 } + Point { x: 2, y: 3 },
+               Point { x: 3, y: 3 });
+}</code></pre></pre>
+<p>上面的代码主要干了一件事，就是为 <code>Point</code> 结构体提供 <code>+</code> 的能力，这就是<strong>运算符重载</strong>，不过 Rust 并不支持创建自定义运算符，你也无法为所有运算符进行重载，目前来说，只有定义在 <code>std::ops</code> 中的运算符才能进行重载。</p>
+<p>跟 <code>+</code> 对应的特征是 <code>std::ops::Add</code>，我们在之前也看过它的定义 <code>trait Add&lt;RHS=Self&gt;</code>，但是上面的例子中并没有为 <code>Point</code> 实现 <code>Add&lt;RHS&gt;</code> 特征，而是实现了 <code>Add</code> 特征（没有默认泛型类型参数），这意味着我们使用了 <code>RHS</code> 的默认类型，也就是 <code>Self</code>。换句话说，我们这里定义的是两个相同的 <code>Point</code> 类型相加，因此无需指定 <code>RHS</code>。</p>
+<p>与上面的例子相反，下面的例子，我们来创建两个不同类型的相加：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::ops::Add;
+
+struct Millimeters(u32);
+struct Meters(u32);
+
+impl Add&lt;Meters&gt; for Millimeters {
+    type Output = Millimeters;
+
+    fn add(self, other: Meters) -&gt; Millimeters {
+        Millimeters(self.0 + (other.0 * 1000))
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这里，是进行 <code>Millimeters + Meters</code> 两种数据类型的 <code>+</code> 操作，因此此时不能再使用默认的 <code>RHS</code>，否则就会变成 <code>Millimeters + Millimeters</code> 的形式。使用 <code>Add&lt;Meters&gt;</code> 可以将 <code>RHS</code> 指定为 <code>Meters</code>，那么 <code>fn add(self, rhs: RHS)</code> 自然而言的变成了 <code>Millimeters</code> 和 <code>Meters</code> 的相加。</p>
+<p>默认类型参数主要用于两个方面：</p>
+<ol>
+<li>减少实现的样板代码</li>
+<li>扩展类型但是无需大幅修改现有的代码</li>
+</ol>
+<p>之前的例子就是第一点，虽然效果也就那样。在 <code>+</code> 左右两边都是同样类型时，只需要 <code>impl Add</code> 即可，否则你需要 <code>impl Add&lt;SOME_TYPE&gt;</code>，嗯，会多写几个字:)</p>
+<p>对于第二点，也很好理解，如果你在一个复杂类型的基础上，新引入一个泛型参数，可能需要修改很多地方，但是如果新引入的泛型参数有了默认类型，情况就会好很多，添加泛型参数后，使用这个类型的代码需要逐个在类型提示部分添加泛型参数，就很麻烦；但是有了默认参数（且默认参数取之前的实现里假设的值的情况下）之后，原有的使用这个类型的代码就不需要做改动了。</p>
+<p>归根到底，默认泛型参数，是有用的，但是大多数情况下，咱们确实用不到，当需要用到时，大家再回头来查阅本章即可，<strong>手上有剑，心中不慌</strong>。</p>
+<h2 id="调用同名的方法"><a class="header" href="#调用同名的方法">调用同名的方法</a></h2>
+<p>不同特征拥有同名的方法是很正常的事情，你没有任何办法阻止这一点；甚至除了特征上的同名方法外，在你的类型上，也有同名方法：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>trait Pilot {
+    fn fly(&amp;self);
+}
+
+trait Wizard {
+    fn fly(&amp;self);
+}
+
+struct Human;
+
+impl Pilot for Human {
+    fn fly(&amp;self) {
+        println!("This is your captain speaking.");
+    }
+}
+
+impl Wizard for Human {
+    fn fly(&amp;self) {
+        println!("Up!");
+    }
+}
+
+impl Human {
+    fn fly(&amp;self) {
+        println!("*waving arms furiously*");
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这里，不仅仅两个特征 <code>Pilot</code> 和 <code>Wizard</code> 有 <code>fly</code> 方法，就连实现那两个特征的 <code>Human</code> 单元结构体，也拥有一个同名方法 <code>fly</code> (这世界怎么了，非要这么卷吗？程序员何苦难为程序员，哎)。</p>
+<p>既然代码已经不可更改，那下面我们来讲讲该如何调用这些 <code>fly</code> 方法。</p>
+<h4 id="优先调用类型上的方法"><a class="header" href="#优先调用类型上的方法">优先调用类型上的方法</a></h4>
+<p>当调用 <code>Human</code> 实例的 <code>fly</code> 时，编译器默认调用该类型中定义的方法：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let person = Human;
+    person.fly();
+}</code></pre></pre>
+<p>这段代码会打印 <code>*waving arms furiously*</code>，说明直接调用了类型上定义的方法。</p>
+<h4 id="调用特征上的方法"><a class="header" href="#调用特征上的方法">调用特征上的方法</a></h4>
+<p>为了能够调用两个特征的方法，需要使用显式调用的语法：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let person = Human;
+    Pilot::fly(&amp;person); // 调用Pilot特征上的方法
+    Wizard::fly(&amp;person); // 调用Wizard特征上的方法
+    person.fly(); // 调用Human类型自身的方法
+}</code></pre></pre>
+<p>运行后依次输出：</p>
+<pre><code class="language-console">This is your captain speaking.
+Up!
+*waving arms furiously*
+</code></pre>
+<p>因为 <code>fly</code> 方法的参数是 <code>self</code>，当显式调用时，编译器就可以根据调用的类型( <code>self</code> 的类型)决定具体调用哪个方法。</p>
+<p>这个时候问题又来了，如果方法没有 <code>self</code> 参数呢？稍等，估计有读者会问：还有方法没有 <code>self</code> 参数？看到这个疑问，作者的眼泪不禁流了下来，大明湖畔的<a href="https://course.rs/basic/method.html#%E5%85%B3%E8%81%94%E5%87%BD%E6%95%B0">关联函数</a>，你还记得嘛？</p>
+<p>但是成年人的世界，就算再伤心，事还得做，咱们继续：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">trait Animal {
+    fn baby_name() -&gt; String;
+}
+
+struct Dog;
+
+impl Dog {
+    fn baby_name() -&gt; String {
+        String::from("Spot")
+    }
+}
+
+impl Animal for Dog {
+    fn baby_name() -&gt; String {
+        String::from("puppy")
+    }
+}
+
+fn main() {
+    println!("A baby dog is called a {}", Dog::baby_name());
+}</code></pre></pre>
+<p>就像人类妈妈会给自己的宝宝起爱称一样，狗妈妈也会。狗妈妈称呼自己的宝宝为<strong>Spot</strong>，其它动物称呼狗宝宝为<strong>puppy</strong>，这个时候假如有动物不知道该如何称呼狗宝宝，它需要查询一下。</p>
+<p><code>Dog::baby_name()</code> 的调用方式显然不行，因为这只是狗妈妈对宝宝的爱称，可能你会想到通过下面的方式查询其他动物对狗狗的称呼：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    println!("A baby dog is called a {}", Animal::baby_name());
+}</code></pre></pre>
+<p>铛铛，无情报错了：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>error[E0283]: type annotations needed // 需要类型注释
+  --&gt; src/main.rs:20:43
+   |
+20 |     println!("A baby dog is called a {}", Animal::baby_name());
+   |                                           ^^^^^^^^^^^^^^^^^ cannot infer type // 无法推断类型
+   |
+   = note: cannot satisfy `_: Animal`
+<span class="boring">}</span></code></pre></pre>
+<p>因为单纯从 <code>Animal::baby_name()</code> 上，编译器无法得到任何有效的信息：实现 <code>Animal</code> 特征的类型可能有很多，你究竟是想获取哪个动物宝宝的名称？狗宝宝？猪宝宝？还是熊宝宝？</p>
+<p>此时，就需要使用<strong>完全限定语法</strong>。</p>
+<h5 id="完全限定语法"><a class="header" href="#完全限定语法">完全限定语法</a></h5>
+<p>完全限定语法是调用函数最为明确的方式：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    println!("A baby dog is called a {}", &lt;Dog as Animal&gt;::baby_name());
+}</code></pre></pre>
+<p>在尖括号中，通过 <code>as</code> 关键字，我们向 Rust 编译器提供了类型注解，也就是 <code>Animal</code> 就是 <code>Dog</code>，而不是其他动物，因此最终会调用 <code>impl Animal for Dog</code> 中的方法，获取到其它动物对狗宝宝的称呼：<strong>puppy</strong>。</p>
+<p>言归正题，完全限定语法定义为：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>&lt;Type as Trait&gt;::function(receiver_if_method, next_arg, ...);
+<span class="boring">}</span></code></pre></pre>
+<p>上面定义中，第一个参数是方法接收器 <code>receiver</code> （三种 <code>self</code>），只有方法才拥有，例如关联函数就没有 <code>receiver</code>。</p>
+<p>完全限定语法可以用于任何函数或方法调用，那么我们为何很少用到这个语法？原因是 Rust 编译器能根据上下文自动推导出调用的路径，因此大多数时候，我们都无需使用完全限定语法。只有当存在多个同名函数或方法，且 Rust 无法区分出你想调用的目标函数时，该用法才能真正有用武之地。</p>
+<h2 id="特征定义中的特征约束"><a class="header" href="#特征定义中的特征约束">特征定义中的特征约束</a></h2>
+<p>有时，我们会需要让某个特征 A 能使用另一个特征 B 的功能(另一种形式的特征约束)，这种情况下，不仅仅要为类型实现特征 A，还要为类型实现特征 B 才行，这就是基特征( super trait )。</p>
+<p>例如有一个特征 <code>OutlinePrint</code>，它有一个方法，能够对当前的实现类型进行格式化输出：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fmt::Display;
+
+trait OutlinePrint: Display {
+    fn outline_print(&amp;self) {
+        let output = self.to_string();
+        let len = output.len();
+        println!("{}", "*".repeat(len + 4));
+        println!("*{}*", " ".repeat(len + 2));
+        println!("* {} *", output);
+        println!("*{}*", " ".repeat(len + 2));
+        println!("{}", "*".repeat(len + 4));
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>等等，这里有一个眼熟的语法: <code>OutlinePrint: Display</code>，感觉很像之前讲过的<strong>特征约束</strong>，只不过用在了特征定义中而不是函数的参数中，是的，在某种意义上来说，这和特征约束非常类似，都用来说明一个特征需要实现另一个特征，这里就是：如果你想要实现 <code>OutlinePrint</code> 特征，首先你需要实现 <code>Display</code> 特征。</p>
+<p>想象一下，假如没有这个特征约束，那么 <code>self.to_string</code> 还能够调用吗（ <code>to_string</code> 方法会为实现 <code>Display</code> 特征的类型自动实现）？编译器肯定是不愿意的，会报错说当前作用域中找不到用于 <code>&amp;Self</code> 类型的方法 <code>to_string</code> ：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl OutlinePrint for Point {}
+<span class="boring">}</span></code></pre></pre>
+<p>因为 <code>Point</code> 没有实现 <code>Display</code> 特征，会得到下面的报错：</p>
+<pre><code class="language-console">error[E0277]: the trait bound `Point: std::fmt::Display` is not satisfied
+  --&gt; src/main.rs:20:6
+   |
+20 | impl OutlinePrint for Point {}
+   |      ^^^^^^^^^^^^ `Point` cannot be formatted with the default formatter;
+try using `:?` instead if you are using a format string
+   |
+   = help: the trait `std::fmt::Display` is not implemented for `Point`
+</code></pre>
+<p>既然我们有求于编译器，那只能选择满足它咯：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fmt;
+
+impl fmt::Display for Point {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
+        write!(f, "({}, {})", self.x, self.y)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>上面代码为 <code>Point</code> 实现了 <code>Display</code> 特征，那么 <code>to_string</code> 方法也将自动实现：最终获得字符串是通过这里的 <code>fmt</code> 方法获得的。</p>
+<h2 id="在外部类型上实现外部特征newtype"><a class="header" href="#在外部类型上实现外部特征newtype">在外部类型上实现外部特征(newtype)</a></h2>
+<p>在<a href="https://course.rs/basic/trait/trait#%E7%89%B9%E5%BE%81%E5%AE%9A%E4%B9%89%E4%B8%8E%E5%AE%9E%E7%8E%B0%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%AD%A4%E5%84%BF%E8%A7%84%E5%88%99">特征</a>章节中，有提到孤儿规则，简单来说，就是特征或者类型必需至少有一个是本地的，才能在此类型上定义特征。</p>
+<p>这里提供一个办法来绕过孤儿规则，那就是使用<strong>newtype 模式</strong>，简而言之：就是为一个<a href="https://course.rs/basic/compound-type/struct#%E5%85%83%E7%BB%84%E7%BB%93%E6%9E%84%E4%BD%93tuple-struct">元组结构体</a>创建新类型。该元组结构体封装有一个字段，该字段就是希望实现特征的具体类型。</p>
+<p>该封装类型是本地的，因此我们可以为此类型实现外部的特征。</p>
+<p><code>newtype</code> 不仅仅能实现以上的功能，而且它在运行时没有任何性能损耗，因为在编译期，该类型会被自动忽略。</p>
+<p>下面来看一个例子，我们有一个动态数组类型： <code>Vec&lt;T&gt;</code>，它定义在标准库中，还有一个特征 <code>Display</code>，它也定义在标准库中，如果没有 <code>newtype</code>，我们是无法为 <code>Vec&lt;T&gt;</code> 实现 <code>Display</code> 的：</p>
+<pre><code class="language-console">error[E0117]: only traits defined in the current crate can be implemented for arbitrary types
+--&gt; src/main.rs:5:1
+|
+5 | impl&lt;T&gt; std::fmt::Display for Vec&lt;T&gt; {
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^------
+| |                             |
+| |                             Vec is not defined in the current crate
+| impl doesn't use only types from inside the current crate
+|
+= note: define and implement a trait or new type instead
+</code></pre>
+<p>编译器给了我们提示： <code>define and implement a trait or new type instead</code>，重新定义一个特征，或者使用 <code>new type</code>，前者当然不可行，那么来试试后者：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::fmt;
+
+struct Wrapper(Vec&lt;String&gt;);
+
+impl fmt::Display for Wrapper {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
+        write!(f, "[{}]", self.0.join(", "))
+    }
+}
+
+fn main() {
+    let w = Wrapper(vec![String::from("hello"), String::from("world")]);
+    println!("w = {}", w);
+}</code></pre></pre>
+<p>其中，<code>struct Wrapper(Vec&lt;String&gt;)</code> 就是一个元组结构体，它定义了一个新类型 <code>Wrapper</code>，代码很简单，相信大家也很容易看懂。</p>
+<p>既然 <code>new type</code> 有这么多好处，它有没有不好的地方呢？答案是肯定的。注意到我们怎么访问里面的数组吗？<code>self.0.join(", ")</code>，是的，很啰嗦，因为需要先从 <code>Wrapper</code> 中取出数组: <code>self.0</code>，然后才能执行 <code>join</code> 方法。</p>
+<p>类似的，任何数组上的方法，你都无法直接调用，需要先用 <code>self.0</code> 取出数组，然后再进行调用。</p>
+<p>当然，解决办法还是有的，要不怎么说 Rust 是极其强大灵活的编程语言！Rust 提供了一个特征叫 <a href="https://course.rs/advance/smart-pointer/deref.html"><code>Deref</code></a>，实现该特征后，可以自动做一层类似类型转换的操作，可以将 <code>Wrapper</code> 变成 <code>Vec&lt;String&gt;</code> 来使用。这样就会像直接使用数组那样去使用 <code>Wrapper</code>，而无需为每一个操作都添加上 <code>self.0</code>。</p>
+<p>同时，如果不想 <code>Wrapper</code> 暴露底层数组的所有方法，我们还可以为 <code>Wrapper</code> 去重载这些方法，实现隐藏的目的。</p>
+<h2 id="课后练习"><a class="header" href="#课后练习">课后练习</a></h2>
+<blockquote>
+<p><a href="https://practice-zh.course.rs/generics-traits/advanced-traits.html">Rust By Practice</a>，支持代码在线编辑和运行，并提供详细的<a href="https://github.com/sunface/rust-by-practice/blob/master/solutions/generics-traits/advanced-trait.md">习题解答</a>。</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../basic/trait/trait-object.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../basic/collections/intro.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../basic/trait/trait-object.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../basic/collections/intro.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Send,Sync和编译测试 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/too-many-lists/production-unsafe-deque/send-sync-and-compile-tests.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="send-sync-and-compile-tests"><a class="header" href="#send-sync-and-compile-tests">Send, Sync, and Compile Tests</a></h1>
+<p>好吧，其实我们还有一对特征需要考虑，但它们很特别。我们必须对付 Rust 的神圣罗马帝国： unsafe 的 Opt-in Built-out 特征（OIBITs）： Send 和 Sync，它们实际上是（opt-out）和（built-out）（3 个中有 1 个已经很不错了！）。</p>
+<p>与 Copy 一样，这些特征完全没有相关代码，只是标记您的类型具有特定属性。Send 表示你的类型可以安全地发送到另一个线程。Sync 表示你的类型可以在线程间安全共享（&amp;Self: Send）。</p>
+<p>关于 LinkedList <em>covariant(协变的)</em> 论点在这里同样适用：一般来说，不使用花哨的内部可变技巧的普通集合可以安全地进行 Send 和 Sync。</p>
+<p>But I said they're <em>opt out</em>. So actually, are we already? How would we know?</p>
+<p>让我们在代码中添加一些新的魔法：随机的私有垃圾，除非我们的类型具有我们所期望的属性，否则将无法编译：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[allow(dead_code)]
+fn assert_properties() {
+    fn is_send&lt;T: Send&gt;() {}
+    fn is_sync&lt;T: Sync&gt;() {}
+
+    is_send::&lt;LinkedList&lt;i32&gt;&gt;();
+    is_sync::&lt;LinkedList&lt;i32&gt;&gt;();
+
+    is_send::&lt;IntoIter&lt;i32&gt;&gt;();
+    is_sync::&lt;IntoIter&lt;i32&gt;&gt;();
+
+    is_send::&lt;Iter&lt;i32&gt;&gt;();
+    is_sync::&lt;Iter&lt;i32&gt;&gt;();
+
+    is_send::&lt;IterMut&lt;i32&gt;&gt;();
+    is_sync::&lt;IterMut&lt;i32&gt;&gt;();
+
+    is_send::&lt;Cursor&lt;i32&gt;&gt;();
+    is_sync::&lt;Cursor&lt;i32&gt;&gt;();
+
+    fn linked_list_covariant&lt;'a, T&gt;(x: LinkedList&lt;&amp;'static T&gt;) -&gt; LinkedList&lt;&amp;'a T&gt; { x }
+    fn iter_covariant&lt;'i, 'a, T&gt;(x: Iter&lt;'i, &amp;'static T&gt;) -&gt; Iter&lt;'i, &amp;'a T&gt; { x }
+    fn into_iter_covariant&lt;'a, T&gt;(x: IntoIter&lt;&amp;'static T&gt;) -&gt; IntoIter&lt;&amp;'a T&gt; { x }
+}
+cargo build
+   Compiling linked-list v0.0.3 
+error[E0277]: `NonNull&lt;Node&lt;i32&gt;&gt;` cannot be sent between threads safely
+   --&gt; src\lib.rs:433:5
+    |
+433 |     is_send::&lt;LinkedList&lt;i32&gt;&gt;();
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^ `NonNull&lt;Node&lt;i32&gt;&gt;` cannot be sent between threads safely
+    |
+    = help: within `LinkedList&lt;i32&gt;`, the trait `Send` is not implemented for `NonNull&lt;Node&lt;i32&gt;&gt;`
+    = note: required because it appears within the type `Option&lt;NonNull&lt;Node&lt;i32&gt;&gt;&gt;`
+note: required because it appears within the type `LinkedList&lt;i32&gt;`
+   --&gt; src\lib.rs:8:12
+    |
+8   | pub struct LinkedList&lt;T&gt; {
+    |            ^^^^^^^^^^
+note: required by a bound in `is_send`
+   --&gt; src\lib.rs:430:19
+    |
+430 |     fn is_send&lt;T: Send&gt;() {}
+    |                   ^^^^ required by this bound in `is_send`
+
+&lt;a million more errors&gt;
+<span class="boring">}</span></code></pre></pre>
+<p>我骗你说原始指针只有一个安全保护：这是另一个。 <code>*const</code> 和 <code>*mut</code> explicitly opt out of Send and Sync to be safe, so we do <em>actually</em> have to opt back in:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe impl&lt;T: Send&gt; Send for LinkedList&lt;T&gt; {}
+unsafe impl&lt;T: Sync&gt; Sync for LinkedList&lt;T&gt; {}
+
+unsafe impl&lt;'a, T: Send&gt; Send for Iter&lt;'a, T&gt; {}
+unsafe impl&lt;'a, T: Sync&gt; Sync for Iter&lt;'a, T&gt; {}
+
+unsafe impl&lt;'a, T: Send&gt; Send for IterMut&lt;'a, T&gt; {}
+unsafe impl&lt;'a, T: Sync&gt; Sync for IterMut&lt;'a, T&gt; {}
+<span class="boring">}</span></code></pre></pre>
+<p>请注意，我们必须在这里编写不安全的 impl：这些是不安全的特征！不安全代码（如并发库）只能依靠我们正确地实现这些特征！由于没有实际代码，我们所做的保证只是：是的，我们在线程间发送或共享确实是安全的！</p>
+<p>别以为这些都是随便说说的，我可是经过认证的专业人士，我在这里要说：是的，这些都是完全没问题的。请注意，我们并不需要为 IntoIter 实现 Send 和 Sync：它只是包含 LinkedList，所以会自动生成 Send 和 Sync--我告诉过你它们实际上是 opt out！</p>
+<pre><code class="language-text">cargo build
+   Compiling linked-list v0.0.3
+    Finished dev [unoptimized + debuginfo] target(s) in 0.18s
+</code></pre>
+<p>很好</p>
+<p>IterMut 绝对不应该是协变的，因为它 "就像" <code>&amp;mut T</code>。</p>
+<p>用魔术！其实是用 rustdoc！好吧，我们不一定要使用 rustdoc，但这是最有趣的用法。你看，如果你写了一个 doccomment 并包含了一个代码块，那么 rustdoc 就会尝试编译并运行它，所以我们可以用它来创建新的匿名 "程序"，而这些程序不会影响主程序：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    /// ```
+    /// use linked_list::IterMut;
+    /// 
+    /// fn iter_mut_covariant&lt;'i, 'a, T&gt;(x: IterMut&lt;'i, &amp;'static T&gt;) -&gt; IterMut&lt;'i, &amp;'a T&gt; { x }
+    /// ```
+    fn iter_mut_invariant() {}
+cargo test
+
+...
+
+   Doc-tests linked-list
+
+running 1 test
+test src\lib.rs - assert_properties::iter_mut_invariant (line 458) ... FAILED
+
+failures:
+
+---- src\lib.rs - assert_properties::iter_mut_invariant (line 458) stdout ----
+error[E0308]: mismatched types
+ --&gt; src\lib.rs:461:86
+  |
+6 | fn iter_mut_covariant&lt;'i, 'a, T&gt;(x: IterMut&lt;'i, &amp;'static T&gt;) -&gt; IterMut&lt;'i, &amp;'a T&gt; { x }
+  |                                                                                      ^ lifetime mismatch
+  |
+  = note: expected struct `linked_list::IterMut&lt;'_, &amp;'a T&gt;`
+             found struct `linked_list::IterMut&lt;'_, &amp;'static T&gt;`
+<span class="boring">}</span></code></pre></pre>
+<p>好吧，我们已经证明了它是不变的，但现在我们的测试失败了。不用担心，rustdoc 会让你在栅栏上注释 compile_fail，说明这是意料之中的！</p>
+<p>(实际上，我们只证明了它 "不是<em>covariant(协变的)</em>"，但老实说，如果你能让一个类型 "意外地、错误地<em>contravariant(逆变的)</em> "，那么，恭喜你。）</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    /// ```compile_fail
+    /// use linked_list::IterMut;
+    /// 
+    /// fn iter_mut_covariant&lt;'i, 'a, T&gt;(x: IterMut&lt;'i, &amp;'static T&gt;) -&gt; IterMut&lt;'i, &amp;'a T&gt; { x }
+    /// ```
+    fn iter_mut_invariant() {}
+cargo test
+   Compiling linked-list v0.0.3
+    Finished test [unoptimized + debuginfo] target(s) in 0.49s
+     Running unittests src\lib.rs
+
+...
+
+   Doc-tests linked-list
+
+running 1 test
+test src\lib.rs - assert_properties::iter_mut_invariant (line 458) - compile fail ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+<span class="boring">}</span></code></pre></pre>
+<p>是的！我建议在进行测试时不要使用 compile_fail，这样你可以看到错误是不是和你预期的一致。例如，你忘记了使用 use 关键字，这是错误的，但因为 compile_fail通过了测试。如果不使用compile_fail，测试会因为没有使用 use 失败，这不是我们想要的， 我们想要的是：测试因为 <code>mut</code> 是*covariant(协变的)*的而失败！</p>
+<p>(哦，等等，我们其实可以在 compile_fail 旁边指定我们想要的错误代码，但这只适用于 nightly，而且由于上述原因，依赖它是个坏主意。在 not-nightly 版本运行时，它将被默默忽略）。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    /// ```compile_fail,E0308
+    /// use linked_list::IterMut;
+    /// 
+    /// fn iter_mut_covariant&lt;'i, 'a, T&gt;(x: IterMut&lt;'i, &amp;'static T&gt;) -&gt; IterMut&lt;'i, &amp;'a T&gt; { x }
+    /// ```
+    fn iter_mut_invariant() {}
+<span class="boring">}</span></code></pre></pre>
+<p>......还有，你注意到我们实际上把 IterMut 变成*invariant(不变的)*的那部分了吗？这很容易被忽略，因为我 "只是 "复制粘贴了 Iter 并把它放在了最后。这是最后一行：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct IterMut&lt;'a, T&gt; {
+    front: Link&lt;T&gt;,
+    back: Link&lt;T&gt;,
+    len: usize,
+    _boo: PhantomData&lt;&amp;'a mut T&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>我们试着去掉 PhantomData:</p>
+<pre><code class="language-text"> cargo build
+   Compiling linked-list v0.0.3 (C:\Users\ninte\dev\contain\linked-list)
+error[E0392]: parameter `'a` is never used
+  --&gt; src\lib.rs:30:20
+   |
+30 | pub struct IterMut&lt;'a, T&gt; {
+   |                    ^^ unused parameter
+   |
+   = help: consider removing `'a`, referring to it in a field, or using a marker such as `PhantomData`
+</code></pre>
+<p>哈！编译器在背后支持我们，提示我们未使用的 lifetime。让我们试着用一个错误的例子来代替：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    _boo: PhantomData&lt;&amp;'a T&gt;,
+cargo build
+   Compiling linked-list v0.0.3 (C:\Users\ninte\dev\contain\linked-list)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.17s
+<span class="boring">}</span></code></pre></pre>
+<p>它可以构建！我们的测试可以发现问题吗？</p>
+<pre><code class="language-text">cargo test
+
+...
+
+   Doc-tests linked-list
+
+running 1 test
+test src\lib.rs - assert_properties::iter_mut_invariant (line 458) - compile fail ... FAILED
+
+failures:
+
+---- src\lib.rs - assert_properties::iter_mut_invariant (line 458) stdout ----
+Test compiled successfully, but it's marked `compile_fail`.
+
+failures:
+    src\lib.rs - assert_properties::iter_mut_invariant (line 458)
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s
+</code></pre>
+<p>Eyyy!!.！这个系统真管用！我喜欢那些能真正完成任务的测试，这样我就不必为那些若隐若现的错误而感到恐惧了！</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../too-many-lists/production-unsafe-deque/testing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../too-many-lists/production-unsafe-deque/implementing-cursors.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../too-many-lists/production-unsafe-deque/testing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../too-many-lists/production-unsafe-deque/implementing-cursors.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

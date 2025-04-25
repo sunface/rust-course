@@ -1,0 +1,541 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>match 和 if let - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/basic/match-pattern/match-if-let.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="match-和-if-let"><a class="header" href="#match-和-if-let">match 和 if let</a></h1>
+<p>在 Rust 中，模式匹配最常用的就是 <code>match</code> 和 <code>if let</code>，本章节将对两者及相关的概念进行详尽介绍。</p>
+<p>先来看一个关于 <code>match</code> 的简单例子：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">enum Direction {
+    East,
+    West,
+    North,
+    South,
+}
+
+fn main() {
+    let dire = Direction::South;
+    match dire {
+        Direction::East =&gt; println!("East"),
+        Direction::North | Direction::South =&gt; {
+            println!("South or North");
+        },
+        _ =&gt; println!("West"),
+    };
+}</code></pre></pre>
+<p>这里我们想去匹配 <code>dire</code> 对应的枚举类型，因此在 <code>match</code> 中用三个匹配分支来完全覆盖枚举变量 <code>Direction</code> 的所有成员类型，有以下几点值得注意：</p>
+<ul>
+<li><code>match</code> 的匹配必须要穷举出所有可能，因此这里用 <code>_</code> 来代表未列出的所有可能性</li>
+<li><code>match</code> 的每一个分支都必须是一个表达式，且所有分支的表达式最终返回值的类型必须相同</li>
+<li><strong>X | Y</strong>，类似逻辑运算符 <code>或</code>，代表该分支可以匹配 <code>X</code> 也可以匹配 <code>Y</code>，只要满足一个即可</li>
+</ul>
+<p>其实 <code>match</code> 跟其他语言中的 <code>switch</code> 非常像，<code>_</code> 类似于 <code>switch</code> 中的 <code>default</code>。</p>
+<h2 id="match-匹配"><a class="header" href="#match-匹配"><code>match</code> 匹配</a></h2>
+<p>首先来看看 <code>match</code> 的通用形式：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>match target {
+    模式1 =&gt; 表达式1,
+    模式2 =&gt; {
+        语句1;
+        语句2;
+        表达式2
+    },
+    _ =&gt; 表达式3
+}
+<span class="boring">}</span></code></pre></pre>
+<p>该形式清晰的说明了何为模式，何为模式匹配：将模式与 <code>target</code> 进行匹配，即为模式匹配，而模式匹配不仅仅局限于 <code>match</code>，后面我们会详细阐述。</p>
+<p><code>match</code> 允许我们将一个值与一系列的模式相比较，并根据相匹配的模式执行对应的代码，下面让我们来一一详解，先看一个例子：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter,
+}
+
+fn value_in_cents(coin: Coin) -&gt; u8 {
+    match coin {
+        Coin::Penny =&gt;  {
+            println!("Lucky penny!");
+            1
+        },
+        Coin::Nickel =&gt; 5,
+        Coin::Dime =&gt; 10,
+        Coin::Quarter =&gt; 25,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p><code>value_in_cents</code> 函数根据匹配到的硬币，返回对应的美分数值。<code>match</code> 后紧跟着的是一个表达式，跟 <code>if</code> 很像，但是 <code>if</code> 后的表达式必须是一个布尔值，而 <code>match</code> 后的表达式返回值可以是任意类型，只要能跟后面的分支中的模式匹配起来即可，这里的 <code>coin</code> 是枚举 <code>Coin</code> 类型。</p>
+<p>接下来是 <code>match</code> 的分支。一个分支有两个部分：<strong>一个模式和针对该模式的处理代码</strong>。第一个分支的模式是 <code>Coin::Penny</code>，其后的 <code>=&gt;</code> 运算符将模式和将要运行的代码分开。这里的代码就仅仅是表达式 <code>1</code>，不同分支之间使用逗号分隔。</p>
+<p>当 <code>match</code> 表达式执行时，它将目标值 <code>coin</code> 按顺序依次与每一个分支的模式相比较，如果模式匹配了这个值，那么模式之后的代码将被执行。如果模式并不匹配这个值，将继续执行下一个分支。</p>
+<p>每个分支相关联的代码是一个表达式，而表达式的结果值将作为整个 <code>match</code> 表达式的返回值。如果分支有多行代码，那么需要用 <code>{}</code> 包裹，同时最后一行代码需要是一个表达式。</p>
+<h4 id="使用-match-表达式赋值"><a class="header" href="#使用-match-表达式赋值">使用 <code>match</code> 表达式赋值</a></h4>
+<p>还有一点很重要，<code>match</code> 本身也是一个表达式，因此可以用它来赋值：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">enum IpAddr {
+   Ipv4,
+   Ipv6
+}
+
+fn main() {
+    let ip1 = IpAddr::Ipv6;
+    let ip_str = match ip1 {
+        IpAddr::Ipv4 =&gt; "127.0.0.1",
+        _ =&gt; "::1",
+    };
+
+    println!("{}", ip_str);
+}</code></pre></pre>
+<p>因为这里匹配到 <code>_</code> 分支，所以将 <code>"::1"</code> 赋值给了 <code>ip_str</code>。</p>
+<h4 id="模式绑定"><a class="header" href="#模式绑定">模式绑定</a></h4>
+<p>模式匹配的另外一个重要功能是从模式中取出绑定的值，例如：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(Debug)]
+enum UsState {
+    Alabama,
+    Alaska,
+    // --snip--
+}
+
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter(UsState), // 25美分硬币
+}
+<span class="boring">}</span></code></pre></pre>
+<p>其中 <code>Coin::Quarter</code> 成员还存放了一个值：美国的某个州（因为在 1999 年到 2008 年间，美国在 25 美分(Quarter)硬币的背后为 50 个州印刷了不同的标记，其它硬币都没有这样的设计）。</p>
+<p>接下来，我们希望在模式匹配中，获取到 25 美分硬币上刻印的州的名称：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn value_in_cents(coin: Coin) -&gt; u8 {
+    match coin {
+        Coin::Penny =&gt; 1,
+        Coin::Nickel =&gt; 5,
+        Coin::Dime =&gt; 10,
+        Coin::Quarter(state) =&gt; {
+            println!("State quarter from {:?}!", state);
+            25
+        },
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>上面代码中，在匹配 <code>Coin::Quarter(state)</code> 模式时，我们把它内部存储的值绑定到了 <code>state</code> 变量上，因此 <code>state</code> 变量就是对应的 <code>UsState</code> 枚举类型。</p>
+<p>例如有一个印了阿拉斯加州标记的 25 分硬币：<code>Coin::Quarter(UsState::Alaska)</code>，它在匹配时，<code>state</code> 变量将被绑定 <code>UsState::Alaska</code> 的枚举值。</p>
+<p>再来看一个更复杂的例子：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">enum Action {
+    Say(String),
+    MoveTo(i32, i32),
+    ChangeColorRGB(u16, u16, u16),
+}
+
+fn main() {
+    let actions = [
+        Action::Say("Hello Rust".to_string()),
+        Action::MoveTo(1,2),
+        Action::ChangeColorRGB(255,255,0),
+    ];
+    for action in actions {
+        match action {
+            Action::Say(s) =&gt; {
+                println!("{}", s);
+            },
+            Action::MoveTo(x, y) =&gt; {
+                println!("point from (0, 0) move to ({}, {})", x, y);
+            },
+            Action::ChangeColorRGB(r, g, _) =&gt; {
+                println!("change color into '(r:{}, g:{}, b:0)', 'b' has been ignored",
+                    r, g,
+                );
+            }
+        }
+    }
+}</code></pre></pre>
+<p>运行后输出：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling world_hello v0.1.0 (/Users/sunfei/development/rust/world_hello)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.16s
+     Running `target/debug/world_hello`
+Hello Rust
+point from (0, 0) move to (1, 2)
+change color into '(r:255, g:255, b:0)', 'b' has been ignored
+</code></pre>
+<h4 id="穷尽匹配"><a class="header" href="#穷尽匹配">穷尽匹配</a></h4>
+<p>在文章的开头，我们简单总结过 <code>match</code> 的匹配必须穷尽所有情况，下面来举例说明，例如：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">enum Direction {
+    East,
+    West,
+    North,
+    South,
+}
+
+fn main() {
+    let dire = Direction::South;
+    match dire {
+        Direction::East =&gt; println!("East"),
+        Direction::North | Direction::South =&gt; {
+            println!("South or North");
+        },
+    };
+}</code></pre></pre>
+<p>我们没有处理 <code>Direction::West</code> 的情况，因此会报错：</p>
+<pre><code class="language-console">error[E0004]: non-exhaustive patterns: `West` not covered // 非穷尽匹配，`West` 没有被覆盖
+  --&gt; src/main.rs:10:11
+   |
+1  | / enum Direction {
+2  | |     East,
+3  | |     West,
+   | |     ---- not covered
+4  | |     North,
+5  | |     South,
+6  | | }
+   | |_- `Direction` defined here
+...
+10 |       match dire {
+   |             ^^^^ pattern `West` not covered // 模式 `West` 没有被覆盖
+   |
+   = help: ensure that all possible cases are being handled, possibly by adding wildcards or more match arms
+   = note: the matched value is of type `Direction`
+</code></pre>
+<p>不禁想感叹，Rust 的编译器<strong>真强大</strong>，忍不住想爆粗口了，sorry，如果你以后进一步深入使用 Rust 也会像我这样感叹的。Rust 编译器清晰地知道 <code>match</code> 中有哪些分支没有被覆盖，这种行为能强制我们处理所有的可能性，有效避免传说中价值<strong>十亿美金</strong>的 <code>null</code> 陷阱。</p>
+<h4 id="_-通配符"><a class="header" href="#_-通配符"><code>_</code> 通配符</a></h4>
+<p>当我们不想在匹配时列出所有值的时候，可以使用 Rust 提供的一个特殊<strong>模式</strong>，例如，<code>u8</code> 可以拥有 0 到 255 的有效的值，但是我们只关心 <code>1、3、5 和 7</code> 这几个值，不想列出其它的 <code>0、2、4、6、8、9 一直到 255</code> 的值。那么, 我们不必一个一个列出所有值, 因为可以使用特殊的模式 <code>_</code> 替代：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let some_u8_value = 0u8;
+match some_u8_value {
+    1 =&gt; println!("one"),
+    3 =&gt; println!("three"),
+    5 =&gt; println!("five"),
+    7 =&gt; println!("seven"),
+    _ =&gt; (),
+}
+<span class="boring">}</span></code></pre></pre>
+<p>通过将 <code>_</code> 其放置于其他分支后，<code>_</code> 将会匹配所有遗漏的值。<code>()</code> 表示返回<strong>单元类型</strong>与所有分支返回值的类型相同，所以当匹配到 <code>_</code> 后，什么也不会发生。</p>
+<p>除了<code>_</code>通配符，用一个变量来承载其他情况也是可以的。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+enum Direction {
+    East,
+    West,
+    North,
+    South,
+}
+
+fn main() {
+    let dire = Direction::South;
+    match dire {
+        Direction::East =&gt; println!("East"),
+        other =&gt; println!("other direction: {:?}", other),
+    };
+}</code></pre></pre>
+<p>然而，在某些场景下，我们其实只关心<strong>某一个值是否存在</strong>，此时 <code>match</code> 就显得过于啰嗦。</p>
+<h2 id="if-let-匹配"><a class="header" href="#if-let-匹配"><code>if let</code> 匹配</a></h2>
+<p>有时会遇到只有一个模式的值需要被处理，其它值直接忽略的场景，如果用 <code>match</code> 来处理就要写成下面这样：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    let v = Some(3u8);
+    match v {
+        Some(3) =&gt; println!("three"),
+        _ =&gt; (),
+    }
+<span class="boring">}</span></code></pre></pre>
+<p>我们只想要对 <code>Some(3)</code> 模式进行匹配, 不想处理任何其他 <code>Some&lt;u8&gt;</code> 值或 <code>None</code> 值。但是为了满足 <code>match</code> 表达式（穷尽性）的要求，写代码时必须在处理完这唯一的成员后加上 <code>_ =&gt; ()</code>，这样会增加不少无用的代码。</p>
+<p>俗话说“杀鸡焉用牛刀”，我们完全可以用 <code>if let</code> 的方式来实现：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>if let Some(3) = v {
+    println!("three");
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这两种匹配对于新手来说，可能有些难以抉择，但是只要记住一点就好：<strong>当你只要匹配一个条件，且忽略其他条件时就用 <code>if let</code> ，否则都用 <code>match</code></strong>。</p>
+<h2 id="matches宏"><a class="header" href="#matches宏">matches!宏</a></h2>
+<p>Rust 标准库中提供了一个非常实用的宏：<code>matches!</code>，它可以将一个表达式跟模式进行匹配，然后返回匹配的结果 <code>true</code> or <code>false</code>。</p>
+<p>例如，有一个动态数组，里面存有以下枚举：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">enum MyEnum {
+    Foo,
+    Bar
+}
+
+fn main() {
+    let v = vec![MyEnum::Foo,MyEnum::Bar,MyEnum::Foo];
+}</code></pre></pre>
+<p>现在如果想对 <code>v</code> 进行过滤，只保留类型是 <code>MyEnum::Foo</code> 的元素，你可能想这么写：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>v.iter().filter(|x| x == MyEnum::Foo);
+<span class="boring">}</span></code></pre></pre>
+<p>但是，实际上这行代码会报错，因为你无法将 <code>x</code> 直接跟一个枚举成员进行比较。好在，你可以使用 <code>match</code> 来完成，但是会导致代码更为啰嗦，是否有更简洁的方式？答案是使用 <code>matches!</code>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>v.iter().filter(|x| matches!(x, MyEnum::Foo));
+<span class="boring">}</span></code></pre></pre>
+<p>很简单也很简洁，再来看看更多的例子：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let foo = 'f';
+assert!(matches!(foo, 'A'..='Z' | 'a'..='z'));
+
+let bar = Some(4);
+assert!(matches!(bar, Some(x) if x &gt; 2));
+<span class="boring">}</span></code></pre></pre>
+<h2 id="变量遮蔽"><a class="header" href="#变量遮蔽">变量遮蔽</a></h2>
+<p>无论是 <code>match</code> 还是 <code>if let</code>，这里都是一个新的代码块，而且这里的绑定相当于新变量，如果你使用同名变量，会发生变量遮蔽：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+   let age = Some(30);
+   println!("在匹配前，age是{:?}",age);
+   if let Some(age) = age {
+       println!("匹配出来的age是{}",age);
+   }
+
+   println!("在匹配后，age是{:?}",age);
+}</code></pre></pre>
+<p><code>cargo run </code>运行后输出如下：</p>
+<pre><code class="language-console">在匹配前，age是Some(30)
+匹配出来的age是30
+在匹配后，age是Some(30)
+</code></pre>
+<p>可以看出在 <code>if let</code> 中，<code>=</code> 右边 <code>Some(i32)</code> 类型的 <code>age</code> 被左边 <code>i32</code> 类型的新 <code>age</code> 遮蔽了，该遮蔽一直持续到 <code>if let</code> 语句块的结束。因此第三个 <code>println!</code> 输出的 <code>age</code> 依然是 <code>Some(i32)</code> 类型。</p>
+<p>对于 <code>match</code> 类型也是如此:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+   let age = Some(30);
+   println!("在匹配前，age是{:?}",age);
+   match age {
+       Some(age) =&gt;  println!("匹配出来的age是{}",age),
+       _ =&gt; ()
+   }
+   println!("在匹配后，age是{:?}",age);
+}</code></pre></pre>
+<p>需要注意的是，<strong><code>match</code> 中的变量遮蔽其实不是那么的容易看出</strong>，因此要小心！其实这里最好不要使用同名，避免难以理解，如下。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+   let age = Some(30);
+   println!("在匹配前，age是{:?}", age);
+   match age {
+       Some(x) =&gt;  println!("匹配出来的age是{}", x),
+       _ =&gt; ()
+   }
+   println!("在匹配后，age是{:?}", age);
+}</code></pre></pre>
+<h2 id="课后练习"><a class="header" href="#课后练习">课后练习</a></h2>
+<blockquote>
+<p><a href="https://practice-zh.course.rs/pattern-match/match-iflet.html">Rust By Practice</a>，支持代码在线编辑和运行，并提供详细的<a href="https://github.com/sunface/rust-by-practice/blob/master/solutions/pattern-match/match.md">习题解答</a>。</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../basic/match-pattern/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../basic/match-pattern/option.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../basic/match-pattern/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../basic/match-pattern/option.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

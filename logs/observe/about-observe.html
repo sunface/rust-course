@@ -1,0 +1,274 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>可观测性 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/logs/observe/about-observe.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="可观测性"><a class="header" href="#可观测性">可观测性</a></h1>
+<p>在监控章节的<a href="https://course.rs/logs/observe/intro.html">引言</a>中，我们提到了老板、前端、后端眼中的监控是各不相同的，那么有没有办法将监控模型进行抽象、统一呢？</p>
+<p>来简单分析一下：</p>
+<ul>
+<li>业务指标实时展示，这是一个指标型的数据( metric )</li>
+<li>手机 APP 上传的数据，包含了日志( log )和指标类型( metric )，如果考虑到 APP 作为一次 HTTP 请求的发起端，那还涉及到请求链路的跟踪( trace)</li>
+<li>后端链路跟踪是 trace，请求错误率、QPS 是 metric，异常日志是 log</li>
+</ul>
+<p>喔，好像线索很明显哎，我们貌似可以把监控模型分为三种：指标 metric、日志 log 和 链路 trace。</p>
+<p>先别急，我们对总结出来的三种类型进行下对比，看看彼此之间是否存在关联性( 良好的模型设计，彼此之间应该是无关联的 ):</p>
+<ul>
+<li>指标：用于表示在某一段时间内，一个行为出现的次数和分布</li>
+<li>日志：记录在某一个时间点发生的一次事件</li>
+<li>链路：记录一次请求所经过的完整的服务链路，可能会横跨线程、进程，也可能会横跨服务( 分布式、微服务 )</li>
+</ul>
+<p>按照这个定义来看，三种类型几乎没有关联性，是不是意味着我们的监控模型非常成功？</p>
+<p>恭喜你，刚才总结出的监控模型正是这几年非常火热的可观测性监控的三大基础：Metrics / Log / Trace。</p>
+<h2 id="各自为战的三种模型"><a class="header" href="#各自为战的三种模型">各自为战的三种模型</a></h2>
+<p>但是如果按照这个模型，我们将监控分成三个部分开发，彼此没有关联，并且在使用之时，也带着孤立的观点去看待这些数据和功能，那可观测性就失去了其应有的意义。</p>
+<p>例如要看指标趋势变化就使用 metrics，查看详细问题使用 log，要看请求链路、链路各部分的耗时、服务依赖都使用 trace，虽然看起来很美好，但是它们都在各自为战。</p>
+<p>例如一个很常见的场景，现在我们通过 metrics 获得了一个告警，发现某个服务的 SLA 降低、错误率上升，此时该如何排查错误原因？ 查看日志？你如何确保日志跟错误率上升有内在的联系呢？而且一个大型服务，它的各种类型的日志、错误都是非常频繁的，要大海捞针般地找出特定的日志，非常难。</p>
+<p>由于缺乏数据模型上的关联，最后只能各自为战：发现了错误率上升，就人工去找日志和链路，运气好，就能很快地查明原因，运气不好？等待老板和用户的咆哮吧</p>
+<p>这个过程很不美好，需要工程师们充分理解每一项数据的底层逻辑，而在大型微服务架构中，没有一个工程师可以清晰的知道所有的底层逻辑，此时就需要分工协作去排查，那问题处理的复杂度和挑战性最终会急剧增加。</p>
+<h2 id="模型纽带"><a class="header" href="#模型纽带">模型纽带</a></h2>
+<p>看来，要解决这个问题，我们需要一个纽带，来把三个模型串联起来，目前来看，trace 是最适合的。</p>
+<p>因为问题的跟踪和解决其实就是沿着数据的流向来的，我们只要在 trace 流动的过程中，在沿途把相关的 log 收集上来，然后再针对收到的各种 trace，根据其标签去统计相应的指标。</p>
+<p>这样，是不是就成功地将三个模型关联在了一起？而且还不是强扭的瓜！</p>
+<p>再回到之前假设的场景：当我们对某个 Metric 波动发生兴趣时，可以直接将造成此波动的 Trace 关联检索出来，然后查看这些 Trace 在各个微服务中的所有执行细节，最后发现是底层某个微服务在执行请求过程中发生了 Panic，这个错误不断向上传播导致了服务对外 SLA 下降。</p>
+<p>如果可观测平台做得更完善一些，将微服务的变更事件数据也呈现出来，那么一个工程师就可以快速完成整个排障和根因定位的过程，甚至不需要人，通过机器就可以自动完成整个排障和根因定位过程。</p>
+<p>看到这里，相信大家都已经明白了 trace 的重要性以及可观测性监控到底优秀在哪里。那么问题来了，该如何落地？</p>
+<h2 id="数据采集"><a class="header" href="#数据采集">数据采集</a></h2>
+<p>首先，没有数据，就没有一切，因此我们需要先把监控数据采集上来。</p>
+<p>除了跨服务的数据统一规范外，由于现在的微服务往往使用多种语言实现，我们的数据采集还要支持不同的语言，选择一个合适的数据采集 SDK 就成了重中之重。</p>
+<p>目前来说，我们最推荐大家采用 <a href="https://opentelemetry.io">OpenTelemetry</a> 作为可观测性解决方案，它提供了完整的数据协议规范、API和多语言采集 SDK，我们将在下个章节进行详细介绍。</p>
+<h2 id="数据处理和存储"><a class="header" href="#数据处理和存储">数据处理和存储</a></h2>
+<p>虽然在我们之前的模型设计完善后，数据彼此之间存在内在关联性，但是不代表它们就能够按照同样的格式来存储了，甚至都无法保证使用同一个数据库来存储。</p>
+<p>就目前而言，对于三种模型的数据处理和存储推荐如下:</p>
+<ul>
+<li>Trace，使用 jaeger 接收采集上来的 trace 数据，经过处理后存储到一个分布式数据库中，例如 cassandra、scyllaDB 等</li>
+<li>Log，如果对日志的关键词索引有较高的要求，还是建议使用 ElasticeSearch，如果可以提前在日志中通过 kv 的形式打上标签，然后未来也只需要通过标签来索引，那可以考虑使用 loki</li>
+<li>Metrics，啥都不用说了，prometheus 走起，当然还可以使用 influxdb，后者正在使用 Rust 重写，期待未来的一飞冲天</li>
+</ul>
+<h2 id="数据查询和展示"><a class="header" href="#数据查询和展示">数据查询和展示</a></h2>
+<p>大家知道可观测性现在为什么很多人搞不清楚吗？就是因为你怎么做都可以，比如之前的存储，就有很多解决方案，而且还都不错。</p>
+<p>对于数据展示也是，你可以使用上面的 <code>jaeger</code>、<code>prometheus</code> 自带的 UI，也可以使用 <code>grafana</code> 这种统一性的 UI，而从我个人来说，更推荐使用 <code>grafana</code>，毕竟 UI 的统一性和内联性对于监控数据的查询是非常重要的。</p>
+<p>再说了，<code>grafana</code> 的 UI 做的好看啊，没人能拒绝美好的事物吧 :D</p>
+<p>好了，一篇口水文终于结束了，在后续章节我们将学习如何使用 <code>OpenTelemetry + Jaeger + Prometheus + Grafana</code> 搭建一套可用的监控服务，先来看看如何搭建和使用分布式追踪监控。</p>
+<blockquote>
+<p>"tracing 呢？你这个监控服务怎么没有它的身影，日志章节口口声声的爱，现在就忘记了吗？"</p>
+<p>"别急，我还记得呢，先卖个关子"</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../logs/observe/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../logs/observe/trace.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../logs/observe/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../logs/observe/trace.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,766 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>编写测试及控制执行 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/test/write-tests.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="编写测试及控制执行"><a class="header" href="#编写测试及控制执行">编写测试及控制执行</a></h1>
+<p>在 Rust 中，测试是通过函数的方式实现的，它可以用于验证被测试代码的正确性。测试函数往往依次执行以下三种行为：</p>
+<ol>
+<li>设置所需的数据或状态</li>
+<li>运行想要测试的代码</li>
+<li>判断( assert )返回的结果是否符合预期</li>
+</ol>
+<p>让我们来看看该如何使用 Rust 提供的特性来按照上述步骤编写测试用例。</p>
+<h2 id="测试函数"><a class="header" href="#测试函数">测试函数</a></h2>
+<p>当使用 <code>Cargo</code> 创建一个 <code>lib</code> 类型的包时，它会为我们自动生成一个测试模块。先来创建一个 <code>lib</code> 类型的 <code>adder</code> 包：</p>
+<pre><code class="language-shell">$ cargo new adder --lib
+     Created library `adder` project
+$ cd adder
+</code></pre>
+<p>创建成功后，在 <em>src/lib.rs</em> 文件中可以发现如下代码:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        assert_eq!(2 + 2, 4);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>其中，<code>tests</code> 就是一个测试模块，<code>it_works</code> 则是我们的主角：测试函数。</p>
+<p>可以看出，测试函数需要使用 <code>test</code> 属性进行标注。关于属性( <code>attribute</code> )，我们在之前的章节已经见过类似的 <code>derive</code>，使用它可以派生自动实现的 <code>Debug</code> 、<code>Copy</code> 等特征，同样的，使用 <code>test</code> 属性，我们也可以获取 Rust 提供的测试特性。</p>
+<p>经过 <code>test</code> 标记的函数就可以被测试执行器发现，并进行运行。当然，在测试模块 <code>tests</code> 中，还可以定义非测试函数，这些函数可以用于设置环境或执行一些通用操作：例如为部分测试函数提供某个通用的功能，这种功能就可以抽象为一个非测试函数。</p>
+<p>换而言之，正是因为测试模块既可以定义测试函数又可以定义非测试函数，导致了我们必须提供一个特殊的标记 <code>test</code>，用于告知哪个函数才是测试函数。</p>
+<h4 id="assert_eq"><a class="header" href="#assert_eq">assert_eq</a></h4>
+<p>在测试函数中，还使用到了一个内置的断言：<code>assert_eq</code>，该宏用于对结果进行断言：<code>2 + 2</code> 是否等于 <code>4</code>。与之类似，Rust 还内置了其它一些实用的断言，具体参见<a href="https://course.rs/test/assertion.html">后续章节</a>。</p>
+<h2 id="cargo-test"><a class="header" href="#cargo-test">cargo test</a></h2>
+<p>下面使用 <code>cargo test</code> 命令来运行项目中的所有测试:</p>
+<pre><code class="language-shell">$ cargo test
+   Compiling adder v0.1.0 (file:///projects/adder)
+    Finished test [unoptimized + debuginfo] target(s) in 0.57s
+     Running unittests (target/debug/deps/adder-92948b65e88960b4)
+
+running 1 test
+test tests::it_works ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests adder
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+</code></pre>
+<p>上面测试输出中，有几点值得注意:</p>
+<ul>
+<li>测试用例是分批执行的，<code>running 1 test</code> 表示下面的输出 <code>test result</code> 来自一个测试用例的运行结果。</li>
+<li><code>test tests::it_works</code> 中包含了测试用例的名称</li>
+<li><code>test result: ok</code> 中的 <code>ok</code> 表示测试成功通过</li>
+<li><code>1 passed</code> 代表成功通过一个测试用例(因为只有一个)，<code>0 failed</code> : 没有测试用例失败，<code>0 ignored</code> 说明我们没有将任何测试函数标记为运行时可忽略，<code>0 filtered</code> 意味着没有对测试结果做任何过滤，<code>0 measured</code> 代表<a href="https://course.rs/test/benchmark.html">基准测试(benchmark)</a>的结果</li>
+</ul>
+<p>关于 <code>filtered</code> 和 <code>ignored</code> 的使用，在本章节的后续内容我们会讲到，这里暂且略过。</p>
+<p>还有一个很重要的点，输出中的 <code>Doc-tests adder</code> 代表了文档测试，由于我们的代码中没有任何文档测试的内容，因此这里的测试用例数为 <code>0</code>，关于文档测试的详细介绍请参见<a href="https://course.rs/basic/comment.html#%E6%96%87%E6%A1%A3%E6%B3%A8%E9%87%8A">这里</a>。</p>
+<p>大家还可以尝试修改下测试函数的名称，例如修改为 <code>exploration</code>，看看运行结果将如何变化。</p>
+<h4 id="失败的测试用例"><a class="header" href="#失败的测试用例">失败的测试用例</a></h4>
+<p>是时候开始写自己的测试函数了，为了演示，这次我们来写一个会运行失败的:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[cfg(test)]
+mod tests {
+    #[test]
+    fn exploration() {
+        assert_eq!(2 + 2, 4);
+    }
+
+    #[test]
+    fn another() {
+        panic!("Make this test fail");
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>新的测试函数 <code>another</code> 相当简单粗暴，直接使用 <code>panic</code> 来报错，使用 <code>cargo test</code> 运行看看结果：</p>
+<pre><code class="language-shell">running 2 tests
+test tests::another ... FAILED
+test tests::exploration ... ok
+
+failures:
+
+---- tests::another stdout ----
+thread 'main' panicked at 'Make this test fail', src/lib.rs:10:9
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::another
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass '--lib'
+</code></pre>
+<p>从结果看，两个测试函数，一个成功，一个失败，同时在输出中准确的告知了失败的函数名: <code>failures: tests::another</code>，同时还给出了具体的失败原因： <code>tests::another stdout</code>。这两者虽然看起来存在重复，但是前者用于说明每个失败的具体原因，后者用于给出一眼可得结论的汇总信息。</p>
+<p>有同学可能会好奇，这两个测试函数以什么方式运行？ 它们会运行在同一个线程中吗？答案是否定的，Rust 在默认情况下会为每一个测试函数启动单独的线程去处理，当主线程 <code>main</code> 发现有一个测试线程死掉时，<code>main</code> 会将相应的测试标记为失败。</p>
+<p>事实上，多线程运行测试虽然性能高，但是存在数据竞争的风险，在后文我们会对其进行详细介绍并给出解决方案。</p>
+<h2 id="自定义失败信息"><a class="header" href="#自定义失败信息">自定义失败信息</a></h2>
+<p>默认的失败信息在有时候并不是我们想要的，来看一个例子：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn greeting(name: &amp;str) -&gt; String {
+    format!("Hello {}!", name)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn greeting_contains_name() {
+        let result = greeting("Sunface");
+        assert!(result.contains("孙飞"));
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>使用 <code>cargo test</code> 运行后，错误如下：</p>
+<pre><code class="language-shell">test tests::greeting_contains_name ... FAILED
+
+failures:
+
+---- tests::greeting_contains_name stdout ----
+thread 'tests::greeting_contains_name' panicked at 'assertion failed: result.contains(\"孙飞\")', src/lib.rs:12:9
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::greeting_contains_name
+</code></pre>
+<p>可以看出，这段报错除了告诉我们错误发生的地方，并没有更多的信息，那再来看看该如何提供一些更有用的信息：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn greeting_contains_name() {
+    let result = greeting("Sunface");
+    let target = "孙飞";
+    assert!(
+        result.contains(target),
+        "你的问候中并没有包含目标姓名 {} ，你的问候是 `{}`",
+        target,
+        result
+    );
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这段代码跟之前并无不同，只是为 <code>assert!</code> 新增了几个格式化参数，这种使用方式与 <code>format!</code> 并无区别。再次运行后，输出如下：</p>
+<pre><code class="language-shell">---- tests::greeting_contains_name stdout ----
+thread 'tests::greeting_contains_name' panicked at '你的问候中并没有包含目标姓名 孙飞 ，你的问候是 `Hello Sunface!`', src/lib.rs:14:9
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</code></pre>
+<p>这次的报错就清晰太多了，真棒！在测试用例少的时候，也许这种信息还无法体现最大的价值，但是一旦测试多了后，详尽的报错信息将帮助我们更好的进行 Debug。</p>
+<h2 id="测试-panic"><a class="header" href="#测试-panic">测试 panic</a></h2>
+<p>在之前的例子中，我们通过 <code>panic</code> 来触发报错，但是如果一个函数本来就会 <code>panic</code> ，而我们想要检查这种结果呢？</p>
+<p>也就是说，我们需要一个办法来测试一个函数是否会 <code>panic</code>，对此， Rust 提供了 <code>should_panic</code> 属性注解，和 <code>test</code> 注解一样，对目标测试函数进行标注即可：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Guess {
+    value: i32,
+}
+
+impl Guess {
+    pub fn new(value: i32) -&gt; Guess {
+        if value &lt; 1 || value &gt; 100 {
+            panic!("Guess value must be between 1 and 100, got {}.", value);
+        }
+
+        Guess { value }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    #[should_panic]
+    fn greater_than_100() {
+        Guess::new(200);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>上面是一个简单的猜数字游戏，<code>Guess</code> 结构体的 <code>new</code> 方法在传入的值不在 [1,100] 之间时，会直接 <code>panic</code>，而在测试函数 <code>greater_than_100</code> 中，我们传入的值 <code>200</code> 显然没有落入该区间，因此 <code>new</code> 方法会直接 <code>panic</code>，为了测试这个预期的 <code>panic</code> 行为，我们使用 <code>#[should_panic]</code> 对其进行了标注。</p>
+<pre><code class="language-shell">running 1 test
+test tests::greater_than_100 - should panic ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+</code></pre>
+<p>从输出可以看出， <code>panic</code> 的结果被准确的进行了测试，那如果测试函数中的代码不再 <code>panic</code> 呢？例如：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn greater_than_100() {
+    Guess::new(50);
+}
+<span class="boring">}</span></code></pre></pre>
+<p>此时显然会测试失败，因为我们预期一个 <code>panic</code>，但是 <code>new</code> 函数顺利的返回了一个 <code>Guess</code> 实例:</p>
+<pre><code class="language-shell">running 1 test
+test tests::greater_than_100 - should panic ... FAILED
+
+failures:
+
+---- tests::greater_than_100 stdout ----
+note: test did not panic as expected // 测试并没有按照预期发生 panic
+</code></pre>
+<h4 id="expected"><a class="header" href="#expected">expected</a></h4>
+<p>虽然 <code>panic</code> 被成功测试到，但是如果代码发生的 <code>panic</code> 和我们预期的 <code>panic</code> 不符合呢？因为一段糟糕的代码可能会在不同的代码行生成不同的 <code>panic</code>。</p>
+<p>鉴于此，我们可以使用可选的参数 <code>expected</code> 来说明预期的 <code>panic</code> 长啥样：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// --snip--
+impl Guess {
+    pub fn new(value: i32) -&gt; Guess {
+        if value &lt; 1 {
+            panic!(
+                "Guess value must be greater than or equal to 1, got {}.",
+                value
+            );
+        } else if value &gt; 100 {
+            panic!(
+                "Guess value must be less than or equal to 100, got {}.",
+                value
+            );
+        }
+
+        Guess { value }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    #[should_panic(expected = "Guess value must be less than or equal to 100")]
+    fn greater_than_100() {
+        Guess::new(200);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这段代码会通过测试，因为通过增加了 <code>expected</code> ，我们成功指定了期望的 <code>panic</code> 信息，大家可以顺着代码推测下：把 <code>200</code> 带入到 <code>new</code> 函数中看看会触发哪个 <code>panic</code>。</p>
+<p>如果注意看，你会发现 <code>expected</code> 的字符串和实际 <code>panic</code> 的字符串可以不同，前者只需要是后者的字符串前缀即可，如果改成 <code> #[should_panic(expected = "Guess value must be less than")]</code>，一样可以通过测试。</p>
+<p>这里由于篇幅有限，我们就不再展示测试失败的报错，大家可以自己修改下 <code>expected</code> 的信息，然后看看报错后的输出长啥样。</p>
+<h2 id="使用-resultt-e"><a class="header" href="#使用-resultt-e">使用 <code>Result&lt;T, E&gt;</code></a></h2>
+<p>在之前的例子中，<code>panic</code> 扫清一切障碍，但是它也不是万能的，例如你想在测试中使用 <code>?</code> 操作符进行链式调用该怎么办？那就得请出 <code>Result&lt;T, E&gt;</code> 了：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() -&gt; Result&lt;(), String&gt; {
+        if 2 + 2 == 4 {
+            Ok(())
+        } else {
+            Err(String::from("two plus two does not equal four"))
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>如上所示，测试函数不会再使用 <code>assert_eq!</code> 导致 <code>panic</code>，而是手动进行了逻辑判断，并返回一个 <code>Result</code>。当然，当这么实现时，<code>#[should_panic]</code> 将无法再被使用。</p>
+<p>至此，关于如何写测试的基本知识，大家已经了解的差不多了，下面来看看该如何控制测试的执行。</p>
+<h2 id="使用----分割命令行参数"><a class="header" href="#使用----分割命令行参数">使用 <code>--</code> 分割命令行参数</a></h2>
+<p>大家应该都知道 <code>cargo build</code> 可以将代码编译成一个可执行文件，那你知道 <code>cargo run</code> 和 <code>cargo test</code> 是如何运行的吗？其实道理都一样，这两个也是将代码编译成可执行文件，然后进行运行，唯一的区别就在于这个可执行文件随后会被删除。</p>
+<p>正因为如此，<code>cargo test</code> 也可以通过命令行参数来控制测试的执行，例如你可以通过参数来让默认的多线程测试变成单线程下的测试。需要注意的是命令行参数有两种，这两种通过 <code>--</code> 进行分割：</p>
+<ul>
+<li>第一种是提供给 <code>cargo test</code> 命令本身的，这些参数在 <code>--</code> 之前指定</li>
+<li>第二种是提供给编译后的可执行文件的，在 <code>--</code> 之后指定</li>
+</ul>
+<p>例如我们可以使用 <code>cargo test --help</code> 来查看第一种参数的帮助列表，还可以通过 <code>cargo test -- --help</code> 来查看第二种的帮助列表。</p>
+<p>先来看看第二种参数中的其中一个，它可以控制测试是并行运行还是顺序运行。</p>
+<h2 id="测试用例的并行或顺序执行"><a class="header" href="#测试用例的并行或顺序执行">测试用例的并行或顺序执行</a></h2>
+<p>当运行多个测试函数时，默认情况下是为每个测试都生成一个线程，然后通过主线程来等待它们的完成和结果。这种模式的优点很明显，那就是并行运行会让整体测试时间变短很多，运行过大量测试用例的同学都明白并行测试的重要性：生命苦短，我用并行。</p>
+<p>但是有利就有弊，并行测试最大的问题就在于共享状态的修改，因为你难以控制测试的运行顺序，因此如果多个测试共享一个数据，那么对该数据的使用也将变得不可控制。</p>
+<p>例如，我们有多个测试，它们每个都会往该文件中写入一些<strong>自己的数据</strong>，最后再从文件中读取这些数据进行对比。由于所有测试都是同时运行的，当测试 <code>A</code> 写入数据准备读取并对比时，很有可能会被测试 <code>B</code> 写入新的数据，导致 <code>A</code> 写入的数据被覆盖，然后 <code>A</code> 再读取到的就是 <code>B</code> 写入的数据。结果 <code>A</code> 测试就会失败，而且这种失败还不是因为测试代码不正确导致的！</p>
+<p>解决办法也有，我们可以让每个测试写入自己独立的文件中，当然，也可以让所有测试一个接着一个顺序运行:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>$ cargo test -- --test-threads=1
+<span class="boring">}</span></code></pre></pre>
+<p>首先能注意到的是该命令行参数是第二种类型：提供给编译后的可执行文件的，因为它在 <code>--</code> 之后进行传递。其次，细心的同学可能会想到，线程数不仅仅可以指定为 <code>1</code>，还可以指定为 <code>4</code>、<code>8</code>，当然，想要顺序运行，就必须是 <code>1</code>。</p>
+<h2 id="测试函数中的-println"><a class="header" href="#测试函数中的-println">测试函数中的 <code>println!</code></a></h2>
+<p>默认情况下，如果测试通过，那写入标准输出的内容是不会显示在测试结果中的:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn prints_and_returns_10(a: i32) -&gt; i32 {
+    println!("I got the value {}", a);
+    10
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn this_test_will_pass() {
+        let value = prints_and_returns_10(4);
+        assert_eq!(10, value);
+    }
+
+    #[test]
+    fn this_test_will_fail() {
+        let value = prints_and_returns_10(8);
+        assert_eq!(5, value);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>上面代码使用 <code>println!</code> 输出收到的参数值，来看看测试结果:</p>
+<pre><code class="language-shell">running 2 tests
+test tests::this_test_will_fail ... FAILED
+test tests::this_test_will_pass ... ok
+
+failures:
+
+---- tests::this_test_will_fail stdout ----
+I got the value 8
+thread 'main' panicked at 'assertion failed: `(left == right)`
+  left: `5`,
+ right: `10`', src/lib.rs:19:9
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::this_test_will_fail
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+</code></pre>
+<p>大家注意看，<code>I got the value 4</code> 并没有被输出，因为该测试顺利通过了，如果就是想要看所有的输出，该怎么办呢？</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>$ cargo test -- --show-output
+<span class="boring">}</span></code></pre></pre>
+<p>如上所示，只需要增加一个参数，具体的输出就不再展示，总之这次大家一定可以顺利看到 <code>I got the value 4</code> 的身影。</p>
+<h2 id="指定运行一部分测试"><a class="header" href="#指定运行一部分测试">指定运行一部分测试</a></h2>
+<p>在 Mysql 中有上百万的单元测试，如果使用类似 <code>cargo test</code> 的命令来运行全部的测试，那开发真的工作十分钟，吹牛八小时了。对于 Rust 的中大型项目也一样，每次都运行全部测试是不可接受的，特别是你的工作仅仅是项目中的一部分时。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn add_two(a: i32) -&gt; i32 {
+    a + 2
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn add_two_and_two() {
+        assert_eq!(4, add_two(2));
+    }
+
+    #[test]
+    fn add_three_and_two() {
+        assert_eq!(5, add_two(3));
+    }
+
+    #[test]
+    fn one_hundred() {
+        assert_eq!(102, add_two(100));
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>如果直接使用 <code>cargo test</code> 运行，那三个测试函数会同时并行的运行：</p>
+<pre><code class="language-shell">running 3 tests
+test tests::add_three_and_two ... ok
+test tests::add_two_and_two ... ok
+test tests::one_hundred ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests adder
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+</code></pre>
+<p>就不说上百万测试，就说几百个，想象一下结果会是怎么样，下面我们来看看该如何解决这个问题。</p>
+<h4 id="运行单个测试"><a class="header" href="#运行单个测试">运行单个测试</a></h4>
+<p>这个很简单，只需要将指定的测试函数名作为参数即可：</p>
+<pre><code class="language-shell">$ cargo test one_hundred
+running 1 test
+test tests::one_hundred ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+</code></pre>
+<p>此时，只有测试函数 <code>one_hundred</code> 会被运行，其它两个由于名称不匹配，会被直接忽略。同时，在上面的输出中，Rust 也通过 <code>2 filtered out</code> 提示我们：有两个测试函数被过滤了。</p>
+<p>但是，如果你试图同时指定多个名称，那抱歉:</p>
+<pre><code class="language-shell">$ cargo test one_hundred,add_two_and_two
+$ cargo test one_hundred add_two_and_two
+</code></pre>
+<p>这两种方式统统不行，此时就需要使用名称过滤的方式来实现了。</p>
+<h4 id="通过名称来过滤测试"><a class="header" href="#通过名称来过滤测试">通过名称来过滤测试</a></h4>
+<p>我们可以通过指定部分名称的方式来过滤运行相应的测试:</p>
+<pre><code class="language-shell">$ cargo test add
+running 2 tests
+test tests::add_three_and_two ... ok
+test tests::add_two_and_two ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+</code></pre>
+<p>事实上，你不仅可以使用前缀，还能使用名称中间的一部分：</p>
+<pre><code class="language-shell">$ cargo test and
+running 2 tests
+test tests::add_two_and_two ... ok
+test tests::add_three_and_two ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+</code></pre>
+<p>其中还有一点值得注意，那就是测试模块 <code>tests</code> 的名称也出现在了最终结果中：<code>tests::add_two_and_two</code>，这是非常贴心的细节，也意味着我们可以通过<strong>模块名称来过滤测试</strong>：</p>
+<pre><code class="language-shell">$ cargo test tests
+
+running 3 tests
+test tests::add_two_and_two ... ok
+test tests::add_three_and_two ... ok
+test tests::one_hundred ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+</code></pre>
+<h4 id="忽略部分测试"><a class="header" href="#忽略部分测试">忽略部分测试</a></h4>
+<p>有时候，一些测试会非常耗时间，因此我们希望在 <code>cargo test</code> 中对它进行忽略，如果使用之前的方式，我们需要将所有需要运行的名称指定一遍，这非常麻烦，好在 Rust 允许通过 <code>ignore</code> 关键字来忽略特定的测试用例:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[test]
+fn it_works() {
+    assert_eq!(2 + 2, 4);
+}
+
+#[test]
+#[ignore]
+fn expensive_test() {
+    // 这里的代码需要几十秒甚至几分钟才能完成
+}
+<span class="boring">}</span></code></pre></pre>
+<p>在这里，我们使用 <code>#[ignore]</code> 对 <code>expensive_test</code> 函数进行了标注，看看结果：</p>
+<pre><code class="language-shell">$ cargo test
+running 2 tests
+test expensive_test ... ignored
+test it_works ... ok
+
+test result: ok. 1 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests adder
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+</code></pre>
+<p>输出中的 <code>test expensive_test ... ignored</code> 意味着该测试函数被忽略了，因此并没有被执行。</p>
+<p>当然，也可以通过以下方式运行被忽略的测试函数：</p>
+<pre><code class="language-shell">$ cargo test -- --ignored
+running 1 test
+test expensive_test ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+   Doc-tests adder
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+</code></pre>
+<h4 id="组合过滤"><a class="header" href="#组合过滤">组合过滤</a></h4>
+<p>上面的方式虽然很强大，但是单独使用依然存在局限性。好在它们还能组合使用，例如还是之前的代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn it_works() {
+        assert_eq!(2 + 2, 4);
+    }
+
+    #[test]
+    #[ignore]
+    fn expensive_test() {
+        // 这里的代码需要几十秒甚至几分钟才能完成
+    }
+
+    #[test]
+    #[ignore]
+    fn expensive_run() {
+        // 这里的代码需要几十秒甚至几分钟才能完成
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>然后运行 <code>tests</code> 模块中的被忽略的测试函数</p>
+<pre><code class="language-shell">$ cargo test tests -- --ignored
+running 2 tests
+test tests::expensive_test ... ok
+test tests::expensive_run ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+</code></pre>
+<p>运行名称中带 <code>run</code> 且被忽略的测试函数：</p>
+<pre><code class="language-shell">$ cargo test run -- --ignored
+running 1 test
+test tests::expensive_run ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+</code></pre>
+<p>类似的还有很多，大家可以自己摸索研究下，总之，熟练掌握测试的使用是非常重要的，虽然包括我在内的很多开发并不喜欢写测试 :)</p>
+<h2 id="dev-dependencies"><a class="header" href="#dev-dependencies"><code>[dev-dependencies]</code></a></h2>
+<p>与 <code>package.json</code>( Nodejs )文件中的 <code>devDependencies</code> 一样， Rust 也能引入只在开发测试场景使用的外部依赖。</p>
+<p>其中一个例子就是 <a href="https://docs.rs/pretty_assertions/1.0.0/pretty_assertions/index.html"><code>pretty_assertions</code></a>，它可以用来扩展标准库中的 <code>assert_eq!</code> 和 <code>assert_ne!</code>，例如提供彩色字体的结果对比。</p>
+<p>在 <code>Cargo.toml</code> 文件中添加以下内容来引入 <code>pretty_assertions</code>：</p>
+<pre><code class="language-toml"># standard crate data is left out
+[dev-dependencies]
+pretty_assertions = "1"
+</code></pre>
+<p>然后在 <code>src/lib.rs</code> 中添加:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn add(a: i32, b: i32) -&gt; i32 {
+    a + b
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use pretty_assertions::assert_eq; // 该包仅能用于测试
+
+    #[test]
+    fn test_add() {
+        assert_eq!(add(2, 3), 5);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>在 <code>tests</code> 模块中，我们通过 <code>use pretty_assertions::assert_eq;</code> 成功的引入之前添加的包，由于 <code>tests</code> 模块明确的用于测试目的，这种引入并不会报错。 大家可以试试在正常代码(非测试代码)中引入该包，看看会发生什么。</p>
+<h2 id="生成测试二进制文件"><a class="header" href="#生成测试二进制文件">生成测试二进制文件</a></h2>
+<p>在有些时候，我们可能希望将测试与别人分享，这种情况下生成一个类似 <code>cargo build</code> 的可执行二进制文件是很好的选择。</p>
+<p>事实上，在 <code>cargo test</code> 运行的时候，系统会自动为我们生成一个可运行测试的二进制可执行文件:</p>
+<pre><code class="language-shell">$ cargo test
+ Finished test [unoptimized + debuginfo] target(s) in 0.00s
+     Running unittests (target/debug/deps/study_cargo-0d693f72a0f49166)
+</code></pre>
+<p>这里的 <code>target/debug/deps/study_cargo-0d693f72a0f49166</code> 就是可执行文件的路径和名称，我们直接运行该文件来执行编译好的测试:</p>
+<pre><code class="language-shell">$ target/debug/deps/study_cargo-0d693f72a0f49166
+
+running 3 tests
+test tests::add_two_and_two ... ok
+test tests::add_three_and_two ... ok
+test tests::one_hundred ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+</code></pre>
+<p>如果你只想生成编译生成文件，不想看 <code>cargo test</code> 的输出结果，还可以使用 <code>cargo test --no-run</code>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../test/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../test/unit-integration-test.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../test/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../test/unit-integration-test.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>1.72 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/appendix/rust-versions/1.72.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="rust-新版解读--172--feature启用提示"><a class="header" href="#rust-新版解读--172--feature启用提示">Rust 新版解读 | 1.72 | feature启用提示</a></h1>
+<blockquote>
+<p>Rust 1.72 官方 release doc: <a href="https://blog.rust-lang.org/2023/08/24/Rust-1.72.0.html">Announcing Rust 1.72.0 | Rust Blog</a></p>
+</blockquote>
+<p>通过 <a href="https://www.rust-lang.org/tools/install">rustup</a> 安装的同学可以使用以下命令升级到 1.72 版本:</p>
+<pre><code class="language-shell">$ rustup update stable
+</code></pre>
+<h2 id="警告可能有用的-cfg-禁用项"><a class="header" href="#警告可能有用的-cfg-禁用项">警告可能有用的 <code>cfg</code> 禁用项</a></h2>
+<p>一直以来都支持的通过 <code>cfg</code> 条件编译部分代码，例如在开启特定 feature 时的函数，或者针对特定平台的逻辑。之前编译器会直接无视掉这些代码，现在会记录这些符号名称和对应的 <code>cfg</code> 条件，因此可以警告你正在调用一个特定 feature 下的函数，需要启用 feature：</p>
+<pre><code class="language-text">   Compiling my-project v0.1.0 (/tmp/my-project)
+error[E0432]: unresolved import `rustix::io_uring`
+   --&gt; src/main.rs:1:5
+    |
+1   | use rustix::io_uring;
+    |     ^^^^^^^^^^^^^^^^ no `io_uring` in the root
+    |
+note: found an item that was configured out
+   --&gt; /home/username/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustix-0.38.8/src/lib.rs:213:9
+    |
+213 | pub mod io_uring;
+    |         ^^^^^^^^
+    = note: the item is gated behind the `io_uring` feature
+
+For more information about this error, try `rustc --explain E0432`.
+error: could not compile `my-project` (bin "my-project") due to previous error
+</code></pre>
+<h2 id="不受限制的常量计算时间"><a class="header" href="#不受限制的常量计算时间">不受限制的常量计算时间</a></h2>
+<p>之前为了避免用户自定义的常量在编译期间进行估算时，陷入死循环或占用无限制的时间，Rust 之前会限制用作常量计算的语句数目。然而一些特殊的有创造性的 Rust 代码还是会超过这个限制，进而产生编译错误；更糟糕的情况是，是否达到限制的是会随着用户调用库的不同而变化的。</p>
+<p>现在，可以在编译时执行无限制的常量计算。而为了避免长时间编译没有反馈，编译器会在编译时代码运行一段时间后发出一条消息，并在每次翻倍的一段时间后重复该消息。默认情况下，编译器还将在捕获无限循环的大量步骤后报错提示 <code>const_eval_long_run</code> ，但可以用 <code>allow(const_eval_long_run)</code> 允许特别长的常量计算。</p>
+<h2 id="clippy-lints-上升到-rustc"><a class="header" href="#clippy-lints-上升到-rustc">Clippy lints 上升到 rustc</a></h2>
+<p>几个原本由 Clippy 提供的 lints，提升到 rustc 里：</p>
+<ul>
+<li><a href="https://rust-lang.github.io/rust-clippy/rust-1.71.0/index.html#undropped_manually_drops"><code>clippy::undropped_manually_drops</code></a> =&gt; <a href="https://doc.rust-lang.org/1.72.0/rustc/lints/listing/deny-by-default.html#undropped-manually-drops"><code>undropped-manually-drops</code></a> (deny)
+<ul>
+<li>无作用的 <code>ManullyDrop</code></li>
+</ul>
+</li>
+<li><a href="https://rust-lang.github.io/rust-clippy/rust-1.71.0/index.html#invalid_utf8_in_unchecked"><code>clippy::invalid_utf8_in_unchecked</code></a> =&gt; <a href="https://doc.rust-lang.org/1.72.0/rustc/lints/listing/deny-by-default.html#invalid-from-utf8-unchecked"><code>invalid_from_utf8_unchecked</code></a> (deny) 或 <a href="https://doc.rust-lang.org/1.72.0/rustc/lints/listing/warn-by-default.html#invalid-from-utf8"><code>invalid_from_utf8</code></a> (warn)
+<ul>
+<li>检查调用 <code>std::str::from_utf8_unchecked</code> 和 <code>std::str::from_utf8_unchecked_mut</code> 转换不合法的 UTF-8 字面量，这会违反了 safety 前提，导致未定义行为</li>
+<li>检查 <code>std::str::from_utf8</code> 和 <code>std::str::from_utf8_mut</code> 转换不合法的 UTF-8 字面量，这会永远返回错误。</li>
+</ul>
+</li>
+<li><a href="https://rust-lang.github.io/rust-clippy/rust-1.71.0/index.html#cmp_nan"><code>clippy::cmp_nan</code></a> =&gt; <a href="https://doc.rust-lang.org/1.72.0/rustc/lints/listing/warn-by-default.html#invalid-nan-comparisons"><code>invalid_nan_comparisons</code></a> (warn)
+<ul>
+<li>检查使用 <code>f32::NAN</code> 或者 <code>f64::NAN</code> 参与比较，<code>NAN</code> 在比较时无任何意义，即使与自己比较也是无意义行为，建议使用 <code>is_nan()</code> 方法</li>
+</ul>
+</li>
+<li><a href="https://rust-lang.github.io/rust-clippy/rust-1.71.0/index.html#cast_ref_to_mut"><code>clippy::cast_ref_to_mut</code></a> =&gt; <a href="https://doc.rust-lang.org/1.72.0/rustc/lints/listing/allowed-by-default.html#invalid-reference-casting"><code>invalid_reference_casting</code></a> (allow)
+<ul>
+<li>检查不使用内部可变性的从 <code>&amp;T</code> 到 <code>&amp;mut T</code> 的转换，这会导致未定义行为。当前这个lint本身还有些问题，所以是 <code>allow</code> 级别，预计会在 1.73 版本修正后变为默认 <code>deny</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="未来对-windows-的支持"><a class="header" href="#未来对-windows-的支持">未来对 Windows 的支持</a></h2>
+<p>未来的 release 版本里会放弃对 win10 以前的系统的官方支持，Rust 1.75 将成为最后一个支持 windows 7,8,8.1的版本，2024 年 2 月起的 rust 1.76 将仅支持 win10 及后续版本 （ target : tier-1 ）。详情见提案 <a href="https://github.com/rust-lang/compiler-team/issues/651">MCP 651</a></p>
+<h2 id="others"><a class="header" href="#others">Others</a></h2>
+<p>其它更新细节，和稳定的API列表，参考<a href="https://blog.rust-lang.org/2023/08/24/Rust-1.72.0.html#stabilized-apis">原Blog</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../appendix/rust-versions/1.71.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../appendix/rust-versions/1.73.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../appendix/rust-versions/1.71.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../appendix/rust-versions/1.73.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

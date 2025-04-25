@@ -1,0 +1,517 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>模块 Module - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/basic/crate-module/module.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="模块-module"><a class="header" href="#模块-module">模块 Module</a></h1>
+<p>在本章节，我们将深入讲讲 Rust 的代码构成单元：模块。使用模块可以将包中的代码按照功能性进行重组，最终实现更好的可读性及易用性。同时，我们还能非常灵活地去控制代码的可见性，进一步强化 Rust 的安全性。</p>
+<h2 id="创建嵌套模块"><a class="header" href="#创建嵌套模块">创建嵌套模块</a></h2>
+<p>小旅馆，sorry，是小餐馆，相信大家都挺熟悉的，学校外的估计也没少去，那么咱就用小餐馆为例，来看看 Rust 的模块该如何使用。</p>
+<p>使用 <code>cargo new --lib restaurant</code> 创建一个小餐馆，注意，这里创建的是一个库类型的 <code>Package</code>，然后将以下代码放入 <code>src/lib.rs</code> 中：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 餐厅前厅，用于吃饭
+mod front_of_house {
+    mod hosting {
+        fn add_to_waitlist() {}
+
+        fn seat_at_table() {}
+    }
+
+    mod serving {
+        fn take_order() {}
+
+        fn serve_order() {}
+
+        fn take_payment() {}
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>以上的代码创建了三个模块，有几点需要注意的：</p>
+<ul>
+<li>使用 <code>mod</code> 关键字来创建新模块，后面紧跟着模块名称</li>
+<li>模块可以嵌套，这里嵌套的原因是招待客人和服务都发生在前厅，因此我们的代码模拟了真实场景</li>
+<li>模块中可以定义各种 Rust 类型，例如函数、结构体、枚举、特征等</li>
+<li>所有模块均定义在同一个文件中</li>
+</ul>
+<p>类似上述代码中所做的，使用模块，我们就能将功能相关的代码组织到一起，然后通过一个模块名称来说明这些代码为何被组织在一起。这样其它程序员在使用你的模块时，就可以更快地理解和上手。</p>
+<h2 id="模块树"><a class="header" href="#模块树">模块树</a></h2>
+<p>在<a href="https://course.rs/basic/crate-module/crate.html">上一节</a>中，我们提到过 <code>src/main.rs</code> 和 <code>src/lib.rs</code> 被称为包根(crate root)，这个奇葩名称的来源（我不想承认是自己翻译水平太烂-,-）是由于这两个文件的内容形成了一个模块 <code>crate</code>，该模块位于包的树形结构（由模块组成的树形结构）的根部：</p>
+<pre><code class="language-console">crate
+ └── front_of_house
+     ├── hosting
+     │   ├── add_to_waitlist
+     │   └── seat_at_table
+     └── serving
+         ├── take_order
+         ├── serve_order
+         └── take_payment
+</code></pre>
+<p>这颗树展示了模块之间<strong>彼此的嵌套</strong>关系，因此被称为<strong>模块树</strong>。其中 <code>crate</code> 包根是 <code>src/lib.rs</code> 文件，包根文件中的三个模块分别形成了模块树的剩余部分。</p>
+<h4 id="父子模块"><a class="header" href="#父子模块">父子模块</a></h4>
+<p>如果模块 <code>A</code> 包含模块 <code>B</code>，那么 <code>A</code> 是 <code>B</code> 的父模块，<code>B</code> 是 <code>A</code> 的子模块。在上例中，<code>front_of_house</code> 是 <code>hosting</code> 和 <code>serving</code> 的父模块，反之，后两者是前者的子模块。</p>
+<p>聪明的读者，应该能联想到，模块树跟计算机上文件系统目录树的相似之处。不仅仅是组织结构上的相似，就连使用方式都很相似：每个文件都有自己的路径，用户可以通过这些路径使用它们，在 Rust 中，我们也通过路径的方式来引用模块。</p>
+<h2 id="用路径引用模块"><a class="header" href="#用路径引用模块">用路径引用模块</a></h2>
+<p>想要调用一个函数，就需要知道它的路径，在 Rust 中，这种路径有两种形式：</p>
+<ul>
+<li><strong>绝对路径</strong>，从包根开始，路径名以包名或者 <code>crate</code> 作为开头</li>
+<li><strong>相对路径</strong>，从当前模块开始，以 <code>self</code>，<code>super</code> 或当前模块的标识符作为开头</li>
+</ul>
+<p>让我们继续经营那个惨淡的小餐馆，这次为它实现一个小功能：
+<span class="filename">文件名：src/lib.rs</span></p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>mod front_of_house {
+    mod hosting {
+        fn add_to_waitlist() {}
+    }
+}
+
+pub fn eat_at_restaurant() {
+    // 绝对路径
+    crate::front_of_house::hosting::add_to_waitlist();
+
+    // 相对路径
+    front_of_house::hosting::add_to_waitlist();
+}
+<span class="boring">}</span></code></pre></pre>
+<p>上面的代码为了简化实现，省去了其余模块和函数，这样可以把关注点放在函数调用上。<code>eat_at_restaurant</code> 是一个定义在包根中的函数，在该函数中使用了两种方式对 <code>add_to_waitlist</code> 进行调用。</p>
+<h4 id="绝对路径引用"><a class="header" href="#绝对路径引用">绝对路径引用</a></h4>
+<p>因为 <code>eat_at_restaurant</code> 和 <code>add_to_waitlist</code> 都定义在一个包中，因此在绝对路径引用时，可以直接以 <code>crate</code> 开头，然后逐层引用，每一层之间使用 <code>::</code> 分隔：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>crate::front_of_house::hosting::add_to_waitlist();
+<span class="boring">}</span></code></pre></pre>
+<p>对比下之前的模块树：</p>
+<pre><code class="language-console">crate
+ └── eat_at_restaurant
+ └── front_of_house
+     ├── hosting
+     │   ├── add_to_waitlist
+     │   └── seat_at_table
+     └── serving
+         ├── take_order
+         ├── serve_order
+         └── take_payment
+</code></pre>
+<p>可以看出，绝对路径的调用，完全符合了模块树的层级递进，非常符合直觉，如果类比文件系统，就跟使用绝对路径调用可执行程序差不多：<code>/front_of_house/hosting/add_to_waitlist</code>，使用 <code>crate</code> 作为开始就和使用 <code>/</code> 作为开始一样。</p>
+<h4 id="相对路径引用"><a class="header" href="#相对路径引用">相对路径引用</a></h4>
+<p>再回到模块树中，因为 <code>eat_at_restaurant</code> 和 <code>front_of_house</code> 都处于包根 <code>crate</code> 中，因此相对路径可以使用 <code>front_of_house</code> 作为开头：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>front_of_house::hosting::add_to_waitlist();
+<span class="boring">}</span></code></pre></pre>
+<p>如果类比文件系统，那么它类似于调用同一个目录下的程序，你可以这么做：<code>front_of_house/hosting/add_to_waitlist</code>，嗯也很符合直觉。</p>
+<h4 id="绝对还是相对"><a class="header" href="#绝对还是相对">绝对还是相对？</a></h4>
+<p>如果只是为了引用到指定模块中的对象，那么两种都可以，但是在实际使用时，需要遵循一个原则：<strong>当代码被挪动位置时，尽量减少引用路径的修改</strong>，相信大家都遇到过，修改了某处代码，导致所有路径都要挨个替换，这显然不是好的路径选择。</p>
+<p>回到之前的例子，如果我们把 <code>front_of_house</code> 模块和 <code>eat_at_restaurant</code> 移动到一个模块中 <code>customer_experience</code>，那么绝对路径的引用方式就必须进行修改：<code>crate::customer_experience::front_of_house ...</code>，但是假设我们使用的相对路径，那么该路径就无需修改，因为它们两个的相对位置其实没有变：</p>
+<pre><code class="language-console">crate
+ └── customer_experience
+    └── eat_at_restaurant
+    └── front_of_house
+        ├── hosting
+        │   ├── add_to_waitlist
+        │   └── seat_at_table
+</code></pre>
+<p>从新的模块树中可以很清晰的看出这一点。</p>
+<p>再比如，其它的都不动，把 <code>eat_at_restaurant</code> 移动到模块 <code>dining</code> 中，如果使用相对路径，你需要修改该路径，但如果使用的是绝对路径，就无需修改：</p>
+<pre><code class="language-console">crate
+ └── dining
+     └── eat_at_restaurant
+ └── front_of_house
+     ├── hosting
+     │   ├── add_to_waitlist
+</code></pre>
+<p>不过，如果不确定哪个好，你可以考虑优先使用绝对路径，因为调用的地方和定义的地方往往是分离的，而定义的地方较少会变动。</p>
+<h2 id="代码可见性"><a class="header" href="#代码可见性">代码可见性</a></h2>
+<p>让我们运行下面（之前）的代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>mod front_of_house {
+    mod hosting {
+        fn add_to_waitlist() {}
+    }
+}
+
+pub fn eat_at_restaurant() {
+    // 绝对路径
+    crate::front_of_house::hosting::add_to_waitlist();
+
+    // 相对路径
+    front_of_house::hosting::add_to_waitlist();
+}
+<span class="boring">}</span></code></pre></pre>
+<p>运行 <code>cargo build</code> 编译此库类型的 <code>Package</code>，意料之外的报错了，毕竟看上去确实很简单且没有任何问题：</p>
+<pre><code class="language-console">error[E0603]: module `hosting` is private
+ --&gt; src/lib.rs:9:28
+  |
+9 |     crate::front_of_house::hosting::add_to_waitlist();
+  |                            ^^^^^^^ private module
+</code></pre>
+<p>错误信息很清晰：<code>hosting</code> 模块是私有的，无法在包根进行访问，那么为何 <code>front_of_house</code> 模块就可以访问？因为它和 <code>eat_at_restaurant</code> 同属于一个包根作用域内，同一个模块内的代码自然不存在私有化问题（所以我们之前章节的代码都没有报过这个错误！）。</p>
+<p>模块不仅仅对于组织代码很有用，它还能定义代码的私有化边界：在这个边界内，什么内容能让外界看到，什么内容不能，都有很明确的定义。因此，如果希望让函数或者结构体等类型变成私有化的，可以使用模块。</p>
+<p>Rust 出于安全的考虑，默认情况下，所有的类型都是私有化的，包括函数、方法、结构体、枚举、常量，是的，就连模块本身也是私有化的。在中国，父亲往往不希望孩子拥有小秘密，但是在 Rust 中，<strong>父模块完全无法访问子模块中的私有项，但是子模块却可以访问父模块、父父..模块的私有项</strong>。</p>
+<h4 id="pub-关键字"><a class="header" href="#pub-关键字">pub 关键字</a></h4>
+<p>类似其它语言的 <code>public</code> 或者 Go 语言中的首字母大写，Rust 提供了 <code>pub</code> 关键字，通过它你可以控制模块和模块中指定项的可见性。</p>
+<p>由于之前的解释，我们知道了只需要将 <code>hosting</code> 模块标记为对外可见即可：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>mod front_of_house {
+    pub mod hosting {
+        fn add_to_waitlist() {}
+    }
+}
+
+/*--- snip ----*/
+<span class="boring">}</span></code></pre></pre>
+<p>但是不幸的是，又报错了：</p>
+<pre><code class="language-console">error[E0603]: function `add_to_waitlist` is private
+  --&gt; src/lib.rs:12:30
+   |
+12 |     front_of_house::hosting::add_to_waitlist();
+   |                              ^^^^^^^^^^^^^^^ private function
+</code></pre>
+<p>哦？难道模块可见还不够，还需要将函数 <code>add_to_waitlist</code> 标记为可见的吗？ 是的，没错，模块可见性不代表模块内部项的可见性，模块的可见性仅仅是允许其它模块去引用它，但是想要引用它内部的项，还得继续将对应的项标记为 <code>pub</code>。</p>
+<p>在实际项目中，一个模块需要对外暴露的数据和 API 往往就寥寥数个，如果将模块标记为可见代表着内部项也全部对外可见，那你是不是还得把那些不可见的，一个一个标记为 <code>private</code>？反而是更麻烦的多。</p>
+<p>既然知道了如何解决，那么我们为函数也标记上 <code>pub</code>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>mod front_of_house {
+    pub mod hosting {
+        pub fn add_to_waitlist() {}
+    }
+}
+
+/*--- snip ----*/
+<span class="boring">}</span></code></pre></pre>
+<p>Bang，顺利通过编译，感觉自己又变强了。</p>
+<h2 id="使用-super-引用模块"><a class="header" href="#使用-super-引用模块">使用 <code>super</code> 引用模块</a></h2>
+<p>在<a href="#%E7%94%A8%E8%B7%AF%E5%BE%84%E5%BC%95%E7%94%A8%E6%A8%A1%E5%9D%97">用路径引用模块</a>中，我们提到了相对路径有三种方式开始：<code>self</code>、<code>super</code>和 <code>crate</code> 或者模块名，其中第三种在前面已经讲到过，现在来看看通过 <code>super</code> 的方式引用模块项。</p>
+<p><code>super</code> 代表的是父模块为开始的引用方式，非常类似于文件系统中的 <code>..</code> 语法：<code>../a/b</code>
+<span class="filename">文件名：src/lib.rs</span></p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn serve_order() {}
+
+// 厨房模块
+mod back_of_house {
+    fn fix_incorrect_order() {
+        cook_order();
+        super::serve_order();
+    }
+
+    fn cook_order() {}
+}
+<span class="boring">}</span></code></pre></pre>
+<p>嗯，我们的小餐馆又完善了，终于有厨房了！看来第一个客人也快可以有了。。。在厨房模块中，使用 <code>super::serve_order</code> 语法，调用了父模块（包根）中的 <code>serve_order</code> 函数。</p>
+<p>那么你可能会问，为何不使用 <code>crate::serve_order</code> 的方式？额，其实也可以，不过如果你确定未来这种层级关系不会改变，那么 <code>super::serve_order</code> 的方式会更稳定，未来就算它们都不在包根了，依然无需修改引用路径。所以路径的选用，往往还是取决于场景，以及未来代码的可能走向。</p>
+<h2 id="使用-self-引用模块"><a class="header" href="#使用-self-引用模块">使用 <code>self</code> 引用模块</a></h2>
+<p><code>self</code> 其实就是引用自身模块中的项，也就是说和我们之前章节的代码类似，都调用同一模块中的内容，区别在于之前章节中直接通过名称调用即可，而 <code>self</code>，你得多此一举：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn serve_order() {
+    self::back_of_house::cook_order()
+}
+
+mod back_of_house {
+    fn fix_incorrect_order() {
+        cook_order();
+        crate::serve_order();
+    }
+
+    pub fn cook_order() {}
+}
+<span class="boring">}</span></code></pre></pre>
+<p>是的，多此一举，因为完全可以直接调用 <code>back_of_house</code>，但是 <code>self</code> 还有一个大用处，在下一节中我们会讲。</p>
+<h2 id="结构体和枚举的可见性"><a class="header" href="#结构体和枚举的可见性">结构体和枚举的可见性</a></h2>
+<p>为何要把结构体和枚举的可见性单独拎出来讲呢？因为这两个家伙的成员字段拥有完全不同的可见性：</p>
+<ul>
+<li>将结构体设置为 <code>pub</code>，但它的所有字段依然是私有的</li>
+<li>将枚举设置为 <code>pub</code>，它的所有字段也将对外可见</li>
+</ul>
+<p>原因在于，枚举和结构体的使用方式不一样。如果枚举的成员对外不可见，那该枚举将一点用都没有，因此枚举成员的可见性自动跟枚举可见性保持一致，这样可以简化用户的使用。</p>
+<p>而结构体的应用场景比较复杂，其中的字段也往往部分在 A 处被使用，部分在 B 处被使用，因此无法确定成员的可见性，那索性就设置为全部不可见，将选择权交给程序员。</p>
+<h2 id="模块与文件分离"><a class="header" href="#模块与文件分离">模块与文件分离</a></h2>
+<p>在之前的例子中，我们所有的模块都定义在 <code>src/lib.rs</code> 中，但是当模块变多或者变大时，需要将模块放入一个单独的文件中，让代码更好维护。</p>
+<p>现在，把 <code>front_of_house</code> 前厅分离出来，放入一个单独的文件中 <code>src/front_of_house.rs</code>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub mod hosting {
+    pub fn add_to_waitlist() {}
+}
+<span class="boring">}</span></code></pre></pre>
+<p>然后，将以下代码留在 <code>src/lib.rs</code> 中：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>mod front_of_house;
+
+pub use crate::front_of_house::hosting;
+
+pub fn eat_at_restaurant() {
+    hosting::add_to_waitlist();
+    hosting::add_to_waitlist();
+    hosting::add_to_waitlist();
+}
+<span class="boring">}</span></code></pre></pre>
+<p>so easy！其实跟之前在同一个文件中也没有太大的不同，但是有几点值得注意：</p>
+<ul>
+<li><code>mod front_of_house;</code> 告诉 Rust 从另一个和模块 <code>front_of_house</code> 同名的文件中加载该模块的内容</li>
+<li>使用绝对路径的方式来引用 <code>hosting</code> 模块：<code>crate::front_of_house::hosting;</code></li>
+</ul>
+<p>需要注意的是，和之前代码中 <code>mod front_of_house{..}</code> 的完整模块不同，现在的代码中，模块的声明和实现是分离的，实现是在单独的 <code>front_of_house.rs</code> 文件中，然后通过 <code>mod front_of_house;</code> 这条声明语句从该文件中把模块内容加载进来。因此我们可以认为，模块 <code>front_of_house</code> 的定义还是在 <code>src/lib.rs</code> 中，只不过模块的具体内容被移动到了 <code>src/front_of_house.rs</code> 文件中。</p>
+<p>在这里出现了一个新的关键字 <code>use</code>，联想到其它章节我们见过的标准库引入 <code>use std::fmt;</code>，可以大致猜测，该关键字用来将外部模块中的项引入到当前作用域中来，这样无需冗长的父模块前缀即可调用：<code>hosting::add_to_waitlist();</code>，在下节中，我们将对 <code>use</code> 进行详细的讲解。</p>
+<p>当一个模块有许多子模块时，我们也可以通过文件夹的方式来组织这些子模块。</p>
+<p>在上述例子中，我们可以创建一个目录 <code>front_of_house</code>，然后在文件夹里创建一个 <code>hosting.rs</code> 文件，<code>hosting.rs</code> 文件现在就剩下：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn add_to_waitlist() {}
+<span class="boring">}</span></code></pre></pre>
+<p>现在，我们尝试编译程序，很遗憾，编译器报错：</p>
+<pre><code>error[E0583]: file not found for module `front_of_house`
+ --&gt; src/lib.rs:3:1
+  |
+1 | mod front_of_house;
+  | ^^^^^^^^^^^^^^^^^^
+  |
+  = help: to create the module `front_of_house`, create file "src/front_of_house.rs" or "src/front_of_house/mod.rs"
+</code></pre>
+<p>是的，如果需要将文件夹作为一个模块，我们需要进行显示指定暴露哪些子模块。按照上述的报错信息，我们有两种方法：</p>
+<ul>
+<li>在 <code>front_of_house</code> 目录里创建一个 <code>mod.rs</code>，如果你使用的 <code>rustc</code> 版本 <code>1.30</code> 之前，这是唯一的方法。</li>
+<li>在 <code>front_of_house</code> <strong>同级</strong>目录里创建一个与模块（目录）<strong>同名</strong>的 rs 文件 <code>front_of_house.rs</code>，在新版本里，更建议使用这样的命名方式来避免项目中存在大量同名的 <code>mod.rs</code> 文件（ Python 点了个 <code>踩</code>）。</li>
+</ul>
+<p>如果使用第二种方式，文件结构将如下所示：</p>
+<pre><code class="language-shell">src
+├── front_of_house
+│   └── hosting.rs
+├── front_of_house.rs
+└── lib.rs
+</code></pre>
+<p>而无论是上述哪个方式创建的文件，其内容都是一样的，你需要在定义你(<code>mod.rs</code> 或 <code>front_of_house.rs</code>)的子模块（子模块名与文件名相同）：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub mod hosting;
+// pub mod serving;
+<span class="boring">}</span></code></pre></pre>
+<h2 id="课后练习"><a class="header" href="#课后练习">课后练习</a></h2>
+<blockquote>
+<p><a href="https://practice-zh.course.rs/crate-module/module.html">Rust By Practice</a>，支持代码在线编辑和运行，并提供详细的<a href="https://github.com/sunface/rust-by-practice/blob/master/solutions/crate-module/module.md">习题解答</a>。</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../basic/crate-module/crate.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../basic/crate-module/use.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../basic/crate-module/crate.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../basic/crate-module/use.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

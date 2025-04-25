@@ -1,0 +1,570 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>全局变量 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/global-variable.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="全局变量"><a class="header" href="#全局变量">全局变量</a></h1>
+<p>在一些场景，我们可能需要全局变量来简化状态共享的代码，包括全局 ID，全局数据存储等等，下面一起来看看有哪些创建全局变量的方法。</p>
+<p>首先，有一点可以肯定，全局变量的生命周期肯定是<code>'static</code>，但是不代表它需要用<code>static</code>来声明，例如常量、字符串字面值等无需使用<code>static</code>进行声明，原因是它们已经被打包到二进制可执行文件中。</p>
+<p>下面我们从编译期初始化及运行期初始化两个类别来介绍下全局变量有哪些类型及该如何使用。</p>
+<h2 id="编译期初始化"><a class="header" href="#编译期初始化">编译期初始化</a></h2>
+<p>我们大多数使用的全局变量都只需要在编译期初始化即可，例如静态配置、计数器、状态值等等。</p>
+<h4 id="静态常量"><a class="header" href="#静态常量">静态常量</a></h4>
+<p>全局常量可以在程序任何一部分使用，当然，如果它是定义在某个模块中，你需要引入对应的模块才能使用。常量，顾名思义它是不可变的，很适合用作静态配置：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">const MAX_ID: usize =  usize::MAX / 2;
+fn main() {
+   println!("用户ID允许的最大值是{}",MAX_ID);
+}</code></pre></pre>
+<p><strong>常量与普通变量的区别</strong></p>
+<ul>
+<li>关键字是<code>const</code>而不是<code>let</code></li>
+<li>定义常量必须指明类型（如 i32）不能省略</li>
+<li>定义常量时变量的命名规则一般是全部大写</li>
+<li>常量可以在任意作用域进行定义，其生命周期贯穿整个程序的生命周期。编译时编译器会尽可能将其内联到代码中，所以在不同地方对同一常量的引用并不能保证引用到相同的内存地址</li>
+<li>常量的赋值只能是常量表达式/数学表达式，也就是说必须是在编译期就能计算出的值，如果需要在运行时才能得出结果的值比如函数，则不能赋值给常量表达式</li>
+<li>对于变量出现重复的定义(绑定)会发生变量遮盖，后面定义的变量会遮住前面定义的变量，常量则不允许出现重复的定义</li>
+</ul>
+<h4 id="静态变量"><a class="header" href="#静态变量">静态变量</a></h4>
+<p>静态变量允许声明一个全局的变量，常用于全局数据统计，例如我们希望用一个变量来统计程序当前的总请求数：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">static mut REQUEST_RECV: usize = 0;
+fn main() {
+   unsafe {
+        REQUEST_RECV += 1;
+        assert_eq!(REQUEST_RECV, 1);
+   }
+}</code></pre></pre>
+<p>Rust 要求必须使用<code>unsafe</code>语句块才能访问和修改<code>static</code>变量，因为这种使用方式往往并不安全，其实编译器是对的，当在多线程中同时去修改时，会不可避免的遇到脏数据。</p>
+<p>只有在同一线程内或者不在乎数据的准确性时，才应该使用全局静态变量。</p>
+<p>和常量相同，定义静态变量的时候必须赋值为在编译期就可以计算出的值(常量表达式/数学表达式)，不能是运行时才能计算出的值(如函数)</p>
+<p><strong>静态变量和常量的区别</strong></p>
+<ul>
+<li>静态变量不会被内联，在整个程序中，静态变量只有一个实例，所有的引用都会指向同一个地址</li>
+<li>存储在静态变量中的值必须要实现 Sync trait</li>
+</ul>
+<h4 id="原子类型"><a class="header" href="#原子类型">原子类型</a></h4>
+<p>想要全局计数器、状态控制等功能，又想要线程安全的实现，原子类型是非常好的办法。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::atomic::{AtomicUsize, Ordering};
+static REQUEST_RECV: AtomicUsize  = AtomicUsize::new(0);
+fn main() {
+    for _ in 0..100 {
+        REQUEST_RECV.fetch_add(1, Ordering::Relaxed);
+    }
+
+    println!("当前用户请求数{:?}",REQUEST_RECV);
+}</code></pre></pre>
+<p>关于原子类型的讲解看<a href="https://course.rs/advance/concurrency-with-threads/sync2.html">这篇文章</a></p>
+<h4 id="示例全局-id-生成器"><a class="header" href="#示例全局-id-生成器">示例：全局 ID 生成器</a></h4>
+<p>来看看如何使用上面的内容实现一个全局 ID 生成器:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::sync::atomic::{Ordering, AtomicUsize};
+
+struct Factory{
+    factory_id: usize,
+}
+
+static GLOBAL_ID_COUNTER: AtomicUsize = AtomicUsize::new(0);
+const MAX_ID: usize = usize::MAX / 2;
+
+fn generate_id()-&gt;usize{
+    // 检查两次溢出，否则直接加一可能导致溢出
+    let current_val = GLOBAL_ID_COUNTER.load(Ordering::Relaxed);
+    if current_val &gt; MAX_ID{
+        panic!("Factory ids overflowed");
+    }
+    GLOBAL_ID_COUNTER.fetch_add(1, Ordering::Relaxed);
+    let next_id = GLOBAL_ID_COUNTER.load(Ordering::Relaxed);
+    if next_id &gt; MAX_ID{
+        panic!("Factory ids overflowed");
+    }
+    next_id
+}
+
+impl Factory{
+    fn new()-&gt;Self{
+        Self{
+            factory_id: generate_id()
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="运行期初始化"><a class="header" href="#运行期初始化">运行期初始化</a></h2>
+<p>以上的静态初始化有一个致命的问题：无法用函数进行静态初始化，例如你如果想声明一个全局的<code>Mutex</code>锁：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::Mutex;
+static NAMES: Mutex&lt;String&gt; = Mutex::new(String::from("Sunface, Jack, Allen"));
+
+fn main() {
+    let v = NAMES.lock().unwrap();
+    println!("{}",v);
+}</code></pre></pre>
+<p>运行后报错如下：</p>
+<pre><code class="language-console">error[E0015]: calls in statics are limited to constant functions, tuple structs and tuple variants
+ --&gt; src/main.rs:3:42
+  |
+3 | static NAMES: Mutex&lt;String&gt; = Mutex::new(String::from("sunface"));
+</code></pre>
+<p>但你又必须在声明时就对<code>NAMES</code>进行初始化，此时就陷入了两难的境地。好在天无绝人之路，我们可以使用<code>lazy_static</code>包来解决这个问题。</p>
+<h4 id="lazy_static"><a class="header" href="#lazy_static">lazy_static</a></h4>
+<p><a href="https://github.com/rust-lang-nursery/lazy-static.rs"><code>lazy_static</code></a>是社区提供的非常强大的宏，用于懒初始化静态变量，之前的静态变量都是在编译期初始化的，因此无法使用函数调用进行赋值，而<code>lazy_static</code>允许我们在运行期初始化静态变量！</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::Mutex;
+use lazy_static::lazy_static;
+lazy_static! {
+    static ref NAMES: Mutex&lt;String&gt; = Mutex::new(String::from("Sunface, Jack, Allen"));
+}
+
+fn main() {
+    let mut v = NAMES.lock().unwrap();
+    v.push_str(", Myth");
+    println!("{}",v);
+}</code></pre></pre>
+<p>当然，使用<code>lazy_static</code>在每次访问静态变量时，会有轻微的性能损失，因为其内部实现用了一个底层的并发原语<code>std::sync::Once</code>，在每次访问该变量时，程序都会执行一次原子指令用于确认静态变量的初始化是否完成。</p>
+<p><code>lazy_static</code>宏，匹配的是<code>static ref</code>，所以定义的静态变量都是不可变引用</p>
+<p>可能有读者会问，为何需要在运行期初始化一个静态变量，除了上面的全局锁，你会遇到最常见的场景就是：<strong>一个全局的动态配置，它在程序开始后，才加载数据进行初始化，最终可以让各个线程直接访问使用</strong></p>
+<p>再来看一个使用<code>lazy_static</code>实现全局缓存的例子:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use lazy_static::lazy_static;
+use std::collections::HashMap;
+
+lazy_static! {
+    static ref HASHMAP: HashMap&lt;u32, &amp;'static str&gt; = {
+        let mut m = HashMap::new();
+        m.insert(0, "foo");
+        m.insert(1, "bar");
+        m.insert(2, "baz");
+        m
+    };
+}
+
+fn main() {
+    // 首次访问`HASHMAP`的同时对其进行初始化
+    println!("The entry for `0` is \"{}\".", HASHMAP.get(&amp;0).unwrap());
+
+    // 后续的访问仅仅获取值，再不会进行任何初始化操作
+    println!("The entry for `1` is \"{}\".", HASHMAP.get(&amp;1).unwrap());
+}</code></pre></pre>
+<p>需要注意的是，<code>lazy_static</code>直到运行到<code>main</code>中的第一行代码时，才进行初始化，非常<code>lazy static</code>。</p>
+<h4 id="boxleak"><a class="header" href="#boxleak">Box::leak</a></h4>
+<p>在<code>Box</code>智能指针章节中，我们提到了<code>Box::leak</code>可以用于全局变量，例如用作运行期初始化的全局动态配置，先来看看如果不使用<code>lazy_static</code>也不使用<code>Box::leak</code>，会发生什么：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+struct Config {
+    a: String,
+    b: String,
+}
+static mut CONFIG: Option&lt;&amp;mut Config&gt; = None;
+
+fn main() {
+    unsafe {
+        CONFIG = Some(&amp;mut Config {
+            a: "A".to_string(),
+            b: "B".to_string(),
+        });
+
+        println!("{:?}", CONFIG)
+    }
+}</code></pre></pre>
+<p>以上代码我们声明了一个全局动态配置<code>CONFIG</code>，并且其值初始化为<code>None</code>，然后在程序开始运行后，给它赋予相应的值，运行后报错:</p>
+<pre><code class="language-console">error[E0716]: temporary value dropped while borrowed
+  --&gt; src/main.rs:10:28
+   |
+10 |            CONFIG = Some(&amp;mut Config {
+   |   _________-__________________^
+   |  |_________|
+   | ||
+11 | ||             a: "A".to_string(),
+12 | ||             b: "B".to_string(),
+13 | ||         });
+   | ||         ^-- temporary value is freed at the end of this statement
+   | ||_________||
+   |  |_________|assignment requires that borrow lasts for `'static`
+   |            creates a temporary which is freed while still in use
+</code></pre>
+<p>可以看到，Rust 的借用和生命周期规则限制了我们做到这一点，因为试图将一个局部生命周期的变量赋值给全局生命周期的<code>CONFIG</code>，这明显是不安全的。</p>
+<p>好在<code>Rust</code>为我们提供了<code>Box::leak</code>方法，它可以将一个变量从内存中泄漏(听上去怪怪的，竟然做主动内存泄漏)，然后将其变为<code>'static</code>生命周期，最终该变量将和程序活得一样久，因此可以赋值给全局静态变量<code>CONFIG</code>。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+struct Config {
+    a: String,
+    b: String
+}
+static mut CONFIG: Option&lt;&amp;mut Config&gt; = None;
+
+fn main() {
+    let c = Box::new(Config {
+        a: "A".to_string(),
+        b: "B".to_string(),
+    });
+
+    unsafe {
+        // 将`c`从内存中泄漏，变成`'static`生命周期
+        CONFIG = Some(Box::leak(c));
+        println!("{:?}", CONFIG);
+    }
+}</code></pre></pre>
+<h4 id="从函数中返回全局变量"><a class="header" href="#从函数中返回全局变量">从函数中返回全局变量</a></h4>
+<p>问题又来了，如果我们需要在运行期，从一个函数返回一个全局变量该如何做？例如：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+struct Config {
+    a: String,
+    b: String,
+}
+static mut CONFIG: Option&lt;&amp;mut Config&gt; = None;
+
+fn init() -&gt; Option&lt;&amp;'static mut Config&gt; {
+    Some(&amp;mut Config {
+        a: "A".to_string(),
+        b: "B".to_string(),
+    })
+}
+
+
+fn main() {
+    unsafe {
+        CONFIG = init();
+
+        println!("{:?}", CONFIG)
+    }
+}</code></pre></pre>
+<p>报错这里就不展示了，跟之前大同小异，还是生命周期引起的，那么该如何解决呢？依然可以用<code>Box::leak</code>:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+struct Config {
+    a: String,
+    b: String,
+}
+static mut CONFIG: Option&lt;&amp;mut Config&gt; = None;
+
+fn init() -&gt; Option&lt;&amp;'static mut Config&gt; {
+    let c = Box::new(Config {
+        a: "A".to_string(),
+        b: "B".to_string(),
+    });
+
+    Some(Box::leak(c))
+}
+
+
+fn main() {
+    unsafe {
+        CONFIG = init();
+
+        println!("{:?}", CONFIG)
+    }
+}</code></pre></pre>
+<h2 id="标准库中的-once-和-lazy"><a class="header" href="#标准库中的-once-和-lazy">标准库中的 Once 和 Lazy</a></h2>
+<p>在 Rust 1.70.0 版本之前，标准库通过实验性 API 提供 <code>lazy::OnceCell</code> 和 <code>lazy::SyncOnceCell</code> 来实现单次初始化容器，这时，懒初始化主要依靠 <code>lazy_static</code> 。
+随着 <code>cell::OnceCell</code> 和 <code>sync::OnceLock</code> 在 1.70.0 中稳定和 <code>LazyCell</code> 和 <code>LazyLock</code> 在 1.80.0 中稳定，只使用标准库实现懒加载成为可能。</p>
+<p>这4个容器可以这样区分：</p>
+<div class="table-wrapper"><table><thead><tr><th></th><th>单线程</th><th>多线程</th></tr></thead><tbody>
+<tr><td>Once</td><td>OnceCell</td><td>OnceLock</td></tr>
+<tr><td>Lazy</td><td>LazyCell</td><td>LazyLock</td></tr>
+</tbody></table>
+</div>
+<p>其中，<code>Lazy</code> 会自动按需加载内容，让代码更简洁，更人性化，而 <code>Once</code> 则可以手动指定初始化的时机或使用不同的方法初始化，更强大。
+<code>Cell</code> 的实现更简单，效率也更高，但是他并不保证线程安全，而 <code>Lock</code> 通过内部同步机制实现了线程安全。</p>
+<h4 id="once-使用方法"><a class="header" href="#once-使用方法">Once 使用方法</a></h4>
+<p>下面，我们先看一下 <code>Once</code> 的使用方法：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::{sync::OnceLock, thread};
+
+fn main() {
+    // 子线程中调用
+    let handle = thread::spawn(|| {
+        let logger = Logger::global();
+        logger.log("thread message".to_string());
+    });
+
+    // 主线程调用
+    let logger = Logger::global();
+    logger.log("some message".to_string());
+
+    let logger2 = Logger::global();
+    logger2.log("other message".to_string());
+
+    handle.join().unwrap();
+}
+
+#[derive(Debug)]
+struct Logger;
+
+static LOGGER: OnceLock&lt;Logger&gt; = OnceLock::new();
+
+impl Logger {
+    fn global() -&gt; &amp;'static Logger {
+        // 获取或初始化 Logger
+        LOGGER.get_or_init(|| {
+            println!("Logger is being created..."); // 初始化打印
+            Logger
+        })
+    }
+
+    fn log(&amp;self, message: String) {
+        println!("{}", message)
+    }
+}</code></pre></pre>
+<p>以上代码我们声明了一个 <code>global()</code> 关联函数，并在其内部调用 <code>get_or_init</code> 进行初始化 <code>Logger</code>，之后在不同线程上多次调用 <code>Logger::global()</code> 获取其实例。
+由于需要在多个线程中使用，所以我们使用了 <code>OnceLock</code>。以下是输出：</p>
+<pre><code class="language-console">Logger is being created...
+some message
+other message
+thread message
+</code></pre>
+<p>可以看到，<code>Logger is being created...</code> 在多个线程中使用也只被打印了一次。</p>
+<h4 id="lazy-使用方法"><a class="header" href="#lazy-使用方法">Lazy 使用方法</a></h4>
+<p>上述例子如果使用 <code>LazyLock</code> 来实现，则可以变得更加简洁：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::{sync::LazyLock, thread};
+
+fn main() {
+    // 子线程中调用
+    let handle = thread::spawn(|| {
+        let logger = &amp;LOGGER;
+        logger.log("thread message".to_string());
+    });
+
+    // 主线程调用
+    let logger = &amp;LOGGER;
+    logger.log("some message".to_string());
+
+    let logger2 = &amp;LOGGER;
+    logger2.log("other message".to_string());
+
+    handle.join().unwrap();
+}
+
+#[derive(Debug)]
+struct Logger;
+
+static LOGGER: LazyLock&lt;Logger&gt; = LazyLock::new(Logger::new);
+
+impl Logger {
+    fn new() -&gt; Logger {
+        println!("Logger is being created...");
+        Logger
+    }
+
+    fn log(&amp;self, message: String) {
+        println!("{}", message)
+    }
+}</code></pre></pre>
+<p>以上代码中，我们使用 <code>LazyLock::new</code> 方法直接对全局变量 <code>LOGGER</code> 进行赋值，并传入一个初始化函数。
+使用的时候，可以直接使用对全局变量的引用。在获取引用的时候， <code>LazyLock</code> 会自动检查初始化的状态并进行初始化。</p>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p>在 Rust 中有很多方式可以创建一个全局变量，本章也只是介绍了其中一部分，更多的还等待大家自己去挖掘学习(当然，未来可能本章节会不断完善，最后变成一个巨无霸- , -)。</p>
+<p>简单来说，全局变量可以分为两种：</p>
+<ul>
+<li>编译期初始化的全局变量，<code>const</code>创建常量，<code>static</code>创建静态变量，<code>Atomic</code>创建原子类型</li>
+<li>运行期初始化的全局变量，<code>lazy_static</code>用于懒初始化，<code>Box::leak</code>利用内存泄漏将一个变量的生命周期变为<code>'static</code></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../advance/concurrency-with-threads/send-sync.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../advance/errors.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../advance/concurrency-with-threads/send-sync.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../advance/errors.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

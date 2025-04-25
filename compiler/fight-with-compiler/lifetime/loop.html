@@ -1,0 +1,489 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>循环中的生命周期 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../../favicon.svg">
+        <link rel="shortcut icon" href="../../../favicon.png">
+        <link rel="stylesheet" href="../../../css/variables.css">
+        <link rel="stylesheet" href="../../../css/general.css">
+        <link rel="stylesheet" href="../../../css/chrome.css">
+        <link rel="stylesheet" href="../../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/compiler/fight-with-compiler/lifetime/loop.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="蠢笨编译器之循环生命周期"><a class="header" href="#蠢笨编译器之循环生命周期">蠢笨编译器之循环生命周期</a></h1>
+<p>当涉及生命周期时，Rust 编译器有时会变得不太聪明，如果再配合循环，蠢笨都不足以形容它，不信？那继续跟着我一起看看。</p>
+<h2 id="循环中的生命周期错误"><a class="header" href="#循环中的生命周期错误">循环中的生命周期错误</a></h2>
+<p>Talk is cheap, 一起来看个例子：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use rand::{thread_rng, Rng};
+
+#[derive(Debug, PartialEq)]
+enum Tile {
+    Empty,
+}
+
+fn random_empty_tile(arr: &amp;mut [Tile]) -&gt; &amp;mut Tile {
+    loop {
+        let i = thread_rng().gen_range(0..arr.len());
+        let tile = &amp;mut arr[i];
+        if Tile::Empty == *tile{
+            return tile;
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>我们来看看上面的代码中，<code>loop</code>循环有几个引用：</p>
+<ul>
+<li><code>arr.len()</code>, 一个不可变引用，生命周期随着函数调用的结束而结束</li>
+<li><code>tile</code>是可变引用，生命周期在下次循环开始前会结束</li>
+</ul>
+<p>根据以上的分析，可以得出个初步结论：在同一次循环间各个引用生命周期互不影响，在两次循环间，引用也互不影响。</p>
+<p>那就简单了，开心运行，开心。。。报错:</p>
+<pre><code class="language-console">error[E0502]: cannot borrow `*arr` as immutable because it is also borrowed as mutable
+  --&gt; src/main.rs:10:43
+   |
+8  | fn random_empty_tile(arr: &amp;mut [Tile]) -&gt; &amp;mut Tile {
+   |                           - let's call the lifetime of this reference `'1`
+9  |     loop {
+10 |         let i = thread_rng().gen_range(0..arr.len());
+   |                                           ^^^ immutable borrow occurs here
+11 |         let tile = &amp;mut arr[i];
+   |                    ----------- mutable borrow occurs here
+12 |         if Tile::Empty == *tile{
+13 |             return tile;
+   |                    ---- returning this value requires that `arr[_]` is borrowed for `'1`
+
+error[E0499]: cannot borrow `arr[_]` as mutable more than once at a time
+  --&gt; src/main.rs:11:20
+   |
+8  | fn random_empty_tile(arr: &amp;mut [Tile]) -&gt; &amp;mut Tile {
+   |                           - let's call the lifetime of this reference `'1`
+...
+11 |         let tile = &amp;mut arr[i];
+   |                    ^^^^^^^^^^^ `arr[_]` was mutably borrowed here in the previous iteration of the loop
+12 |         if Tile::Empty == *tile{
+13 |             return tile;
+   |                    ---- returning this value requires that `arr[_]` is borrowed for `'1`
+</code></pre>
+<p>不仅是错误，还是史诗级别的错误！无情刷屏了！只能想办法梳理下：</p>
+<ol>
+<li><code>arr.len()</code>报错，原因是它借用了不可变引用，但是在紧跟着的<code>&amp;mut arr[i]</code>中又借用了可变引用</li>
+<li><code>&amp;mut arr[i]</code>报错，因为在上一次循环中，已经借用过同样的可变引用<code>&amp;mut arr[i]</code></li>
+<li><code>tile</code>的生命周期跟<code>arr</code>不一致</li>
+</ol>
+<p>奇了怪了，跟我们之前的分析完全背道而驰，按理来说<code>arr.len()</code>的借用应该在调用后立刻结束，而不是持续到后面的代码行；同时可变借用<code>&amp;mut arr[i]</code>也应该随着每次循环的结束而结束，为什么会前后两次循环会因为同一处的引用而报错？</p>
+<h2 id="尝试去掉中间变量"><a class="header" href="#尝试去掉中间变量">尝试去掉中间变量</a></h2>
+<p>虽然报错复杂，不过可以看出，所有的错误都跟<code>tile</code>这个中间变量有关，我们试着移除它看看：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use rand::{thread_rng, Rng};
+
+#[derive(Debug, PartialEq)]
+enum Tile {
+    Empty,
+}
+
+fn random_empty_tile(arr: &amp;mut [Tile]) -&gt; &amp;mut Tile {
+    loop {
+        let i = thread_rng().gen_range(0..arr.len());
+        if Tile::Empty == arr[i] {
+            return &amp;mut arr[i];
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>见证奇迹的时刻，竟然编译通过了！到底发什么了什么？仅仅移除了中间变量，就编译通过了？是否可以大胆的猜测，因为中间变量，导致编译器变蠢了，因此无法正确的识别引用的生命周期。</p>
+<h2 id="循环展开"><a class="header" href="#循环展开">循环展开</a></h2>
+<p>如果不使用循环呢？会不会也有这样的错误？咱们试着把循环展开：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use rand::{thread_rng, Rng};
+
+#[derive(Debug, PartialEq)]
+enum Tile {
+    Empty,
+}
+
+fn random_empty_tile_2&lt;'arr&gt;(arr: &amp;'arr mut [Tile]) -&gt; &amp;'arr mut Tile {
+    let len = arr.len();
+
+    // First loop iteration
+    {
+        let i = thread_rng().gen_range(0..len);
+        let tile = &amp;mut arr[i]; // Lifetime: 'arr
+        if Tile::Empty == *tile {
+            return tile;
+        }
+    }
+
+    // Second loop iteration
+    {
+        let i = thread_rng().gen_range(0..len);
+        let tile = &amp;mut arr[i]; // Lifetime: 'arr
+         if Tile::Empty == *tile {
+            return tile;
+        }
+    }
+
+    unreachable!()
+}
+<span class="boring">}</span></code></pre></pre>
+<p>结果，编译器还是不给通过，报的错误几乎一样</p>
+<h2 id="深层原因"><a class="header" href="#深层原因">深层原因</a></h2>
+<p>令人沮丧的是，我找遍了网上，也没有具体的原因，大家都说这是编译器太笨导致的问题，但是关于深层的原因，也没人能说出个所有然。</p>
+<p>因此，我无法在本文中给出为什么编译器会这么笨的真实原因，如果以后有结果，会在这里进行更新。</p>
+<p>------2022 年 1 月 13 日更新-------
+兄弟们，我带着挖掘出的一些内容回来了，再来看段错误代码先：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct A {
+    a: i32
+}
+
+impl A {
+    fn one(&amp;mut self) -&gt; &amp;i32{
+        self.a = 10;
+        &amp;self.a
+    }
+    fn two(&amp;mut self) -&gt; &amp;i32 {
+        loop {
+            let k = self.one();
+            if *k &gt; 10i32 {
+                return k;
+            }
+
+            // 可能存在的剩余代码
+            // ...
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>我们来逐步深入分析下：</p>
+<ol>
+<li>首先为<code>two</code>方法增加一下生命周期标识: <code>fn two&lt;'a&gt;(&amp;'a mut self) -&gt; &amp;'a i32 { .. }</code>, 这里根据生命周期的<a href="https://course.rs/basic/lifetime.html#%E4%B8%89%E6%9D%A1%E6%B6%88%E9%99%A4%E8%A7%84%E5%88%99">消除规则</a>添加的</li>
+<li>根据生命周期标识可知：<code>two</code>中返回的<code>k</code>的生命周期必须是<code>'a</code></li>
+<li>根据第 2 条，又可知：<code>let k = self.one();</code>中对<code>self</code>的借用生命周期也是<code>'a</code></li>
+<li>因为<code>k</code>的借用发生在<code>loop</code>循环内，因此它需要小于等于循环的生命周期，但是根据之前的推断，它又要大于等于函数的生命周期<code>'a</code>，而函数的生命周期又大于等于循环生命周期，</li>
+</ol>
+<p>由上可以推出：<code>let k = self.one();</code>中<code>k</code>的生命周期要大于等于循环的生命周期，又要小于等于循环的生命周期, 唯一满足条件的就是：<code>k</code>的生命周期等于循环生命周期。</p>
+<p>但是我们的<code>two</code>方法在循环中对<code>k</code>进行了提前返回，编译器自然会认为存在其它代码，这会导致<code>k</code>的生命周期小于循环的生命周期。</p>
+<p>怎么办呢？很简单：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn two(&amp;mut self) -&gt; &amp;i32 {
+    loop {
+        let k = self.one();
+        return k;
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>不要在<code>if</code>分支中返回<code>k</code>，而是直接返回，这样就让它们的生命周期相等了，最终可以顺利编译通过。</p>
+<blockquote>
+<p>如果一个引用值从函数的某个路径提前返回了，那么该借用必须要在函数的所有返回路径都合法</p>
+</blockquote>
+<h2 id="解决方法"><a class="header" href="#解决方法">解决方法</a></h2>
+<p>虽然不能给出原因，但是我们可以看看解决办法，在上面，<strong>移除中间变量</strong>和<strong>消除代码分支</strong>都是可行的方法，还有一种方法就是将部分引用移到循环外面.</p>
+<h4 id="引用外移"><a class="header" href="#引用外移">引用外移</a></h4>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn random_empty_tile(arr: &amp;mut [Tile]) -&gt; &amp;mut Tile {
+    let len = arr.len();
+    let mut the_chosen_i = 0;
+    loop {
+        let i = rand::thread_rng().gen_range(0..len);
+        let tile = &amp;mut arr[i];
+        if Tile::Empty == *tile {
+            the_chosen_i = i;
+            break;
+        }
+    }
+    &amp;mut arr[the_chosen_i]
+}
+<span class="boring">}</span></code></pre></pre>
+<p>在上面代码中，我们只在循环中保留一个可变引用，剩下的<code>arr.len</code>和返回值引用，都移到循环外面，顺利通过编译.</p>
+<h2 id="一个更复杂的例子"><a class="header" href="#一个更复杂的例子">一个更复杂的例子</a></h2>
+<p>再来看一个例子，代码会更复杂，但是原因几乎相同：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::HashMap;
+
+enum Symbol {
+    A,
+}
+
+pub struct SymbolTable {
+    scopes: Vec&lt;Scope&gt;,
+    current: usize,
+}
+
+struct Scope {
+    parent: Option&lt;usize&gt;,
+    symbols: HashMap&lt;String, Symbol&gt;,
+}
+
+impl SymbolTable {
+    pub fn get_mut(&amp;mut self, name: &amp;String) -&gt; &amp;mut Symbol {
+        let mut current = Some(self.current);
+
+        while let Some(id) = current {
+            let scope = self.scopes.get_mut(id).unwrap();
+            if let Some(symbol) = scope.symbols.get_mut(name) {
+                return symbol;
+            }
+
+            current = scope.parent;
+        }
+
+        panic!("Value not found: {}", name);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>运行后报错如下：</p>
+<pre><code class="language-console">error[E0499]: cannot borrow `self.scopes` as mutable more than once at a time
+  --&gt; src/main.rs:22:25
+   |
+18 |     pub fn get_mut(&amp;mut self, name: &amp;String) -&gt; &amp;mut Symbol {
+   |                    - let's call the lifetime of this reference `'1`
+...
+22 |             let scope = self.scopes.get_mut(id).unwrap();
+   |                         ^^^^^^^^^^^ `self.scopes` was mutably borrowed here in the previous iteration of the loop
+23 |             if let Some(symbol) = scope.symbols.get_mut(name) {
+24 |                 return symbol;
+   |                        ------ returning this value requires that `self.scopes` is borrowed for `'1`
+</code></pre>
+<p>对于上述代码，只需要将返回值修改下，即可通过编译：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn get_mut(&amp;mut self, name: &amp;String) -&gt; &amp;mut Symbol {
+    let mut current = Some(self.current);
+
+    while let Some(id) = current {
+        let scope = self.scopes.get_mut(id).unwrap();
+        if scope.symbols.contains_key(name) {
+            return self.scopes.get_mut(id).unwrap().symbols.get_mut(name).unwrap();
+        }
+
+        current = scope.parent;
+    }
+
+    panic!("Value not found: {}", name);
+}
+<span class="boring">}</span></code></pre></pre>
+<p>其中的关键就在于返回的时候，新建一个引用，而不是使用中间状态的引用。</p>
+<h2 id="新借用检查器-polonius"><a class="header" href="#新借用检查器-polonius">新借用检查器 Polonius</a></h2>
+<p>针对现有借用检查器存在的各种问题，Rust 团队正在研发一个全新的借用检查器，名曰<a href="https://github.com/rust-lang/polonius"><code>polonius</code></a>,但是目前它仍然处在开发阶段，如果想在自己项目中使用，需要在<code>rustc/RUSTFLAGS</code>中增加标志<code>-Zpolonius</code>，但是可能会导致编译速度变慢，或者引入一些新的编译错误。</p>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p>编译器不是万能的，它也会迷茫，也会犯错。</p>
+<p>因此我们在循环中使用引用类型时要格外小心，特别是涉及可变引用，这种情况下，最好的办法就是避免中间状态，或者在返回时避免使用中间状态。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../compiler/fight-with-compiler/lifetime/too-long2.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../compiler/fight-with-compiler/lifetime/closure-with-static.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../compiler/fight-with-compiler/lifetime/too-long2.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../compiler/fight-with-compiler/lifetime/closure-with-static.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../../ace.js"></script>
+        <script src="../../../editor.js"></script>
+        <script src="../../../mode-rust.js"></script>
+        <script src="../../../theme-dawn.js"></script>
+        <script src="../../../theme-tomorrow_night.js"></script>
+
+        <script src="../../../elasticlunr.min.js"></script>
+        <script src="../../../mark.min.js"></script>
+        <script src="../../../searcher.js"></script>
+
+        <script src="../../../clipboard.min.js"></script>
+        <script src="../../../highlight.js"></script>
+        <script src="../../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../../assets/custom2.js"></script>
+        <script src="../../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

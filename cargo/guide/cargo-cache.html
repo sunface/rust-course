@@ -1,0 +1,285 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Cargo 缓存 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/cargo/guide/cargo-cache.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="cargo-缓存"><a class="header" href="#cargo-缓存">Cargo 缓存</a></h1>
+<p>Cargo 使用了缓存的方式提升构建效率，当构建时，Cargo 会将已下载的依赖包放在 <code>CARGO_HOME</code> 目录下，下面一起来看看。</p>
+<h2 id="cargo-home"><a class="header" href="#cargo-home">Cargo Home</a></h2>
+<p>默认情况下，Cargo Home 所在的目录是 <code>$HOME/.cargo/</code>，例如在 <code>macos</code> ，对应的目录是:</p>
+<pre><code class="language-shell">$ echo $HOME/.cargo/
+/Users/sunfei/.cargo/
+</code></pre>
+<p>我们也可以通过修改 <code>CARGO_HOME</code> 环境变量的方式来重新设定该目录的位置。若你需要在项目中通过代码的方式来获取 <code>CARGO_HOME</code> ，<a href="https://crates.io/crates/home"><code>home</code></a> 包提供了相应的 API。</p>
+<blockquote>
+<p>注意！ Cargo Home 目录的内部结构并没有稳定化，在未来可能会发生变化</p>
+</blockquote>
+<h2 id="文件"><a class="header" href="#文件">文件</a></h2>
+<ul>
+<li><code>config.toml</code> 是 Cargo 的全局配置文件，具体请查看<a href="https://course.rs/cargo/reference/configuration.html">这里</a></li>
+<li><code>credentials.toml</code> 为 <code>cargo login</code> 提供私有化登录证书，用于登录 <code>package</code> 注册中心，例如 <code>crates.io</code></li>
+<li><code>.crates.toml</code>, <code>.crates2.json</code> 这两个是隐藏文件，包含了通过 <code>cargo install</code> 安装的包的 <code>package</code> 信息，<strong>请不要手动修改！</strong></li>
+</ul>
+<h2 id="目录"><a class="header" href="#目录">目录</a></h2>
+<ul>
+<li><code>bin</code> 目录包含了通过 <code>cargo install</code> 或 <code>rustup</code> 下载的包编译出的可执行文件。你可以将该目录加入到 <code>$PATH</code> 环境变量中，以实现对这些可执行文件的直接访问</li>
+<li><code>git</code> 中存储了 <code>Git</code> 的资源文件:
+<ul>
+<li><code>git/db</code>，当一个包依赖某个 <code>git</code> 仓库时，<code>Cargo</code> 会将该仓库克隆到 <code>git/db</code> 目录下，如果未来需要还会对其进行更新</li>
+<li><code>git/checkouts</code>，若指定了 <code>git</code> 源和 <code>commit</code>，那相应的仓库就会从 <code>git/db</code> 中 <code>checkout</code> 到该目录下，因此同一个仓库的不同 <code>checkout</code> 共存成为了可能性</li>
+</ul>
+</li>
+<li><code>registry</code> 包含了注册中心( 例如 <code>crates.io</code> )的元数据 和 <code>packages</code>
+<ul>
+<li><code>registry/index</code> 是一个 git 仓库，包含了注册中心中所有可用包的元数据( 版本、依赖等 )</li>
+<li><code>registry/cache</code> 中保存了已下载的依赖，这些依赖包以 <code>gzip</code> 的压缩档案形式保存，后缀名为 <code>.crate</code></li>
+<li><code>registry/src</code>，若一个已下载的 <code>.crate</code> 档案被一个 <code>package</code> 所需要，该档案会被解压缩到 <code>registry/src</code> 文件夹下，最终 <code>rustc</code> 可以在其中找到所需的 <code>.rs</code> 文件</li>
+</ul>
+</li>
+</ul>
+<h2 id="在-ci-时缓存-cargo-home"><a class="header" href="#在-ci-时缓存-cargo-home">在 CI 时缓存 Cargo Home</a></h2>
+<p>为了避免持续集成时重复下载所有的包依赖，我们可以将 <code>$CARGO_HOME</code> 目录进行缓存，但缓存整个目录是效率低下的，原因是源文件可能会被缓存两次。</p>
+<p>例如我们依赖一个包 <code>serde 1.0.92</code>，如果将整个 <code>$CACHE_HOME</code> 目录缓存，那么<code>serde</code> 的源文件就会被缓存两次：在 <code>registry/cache</code> 中的 <code>serde-1.0.92.crate</code> 以及 <code>registry/src</code> 下被解压缩的 <code>.rs</code> 文件。</p>
+<p>因此，在 CI 构建时，出于效率的考虑，我们仅应该缓存以下目录:</p>
+<ul>
+<li><code>bin/</code></li>
+<li><code>registry/index/</code></li>
+<li><code>registry/cache/</code></li>
+<li><code>git/db/</code></li>
+</ul>
+<h2 id="清除缓存"><a class="header" href="#清除缓存">清除缓存</a></h2>
+<p>理论上，我们可以手动移除缓存中的任何一部分，当后续有包需要时 <code>Cargo</code> 会尽可能去恢复这些资源：</p>
+<ul>
+<li>解压缩 <code>registry/cache</code> 下的 <code>.crate</code> 档案</li>
+<li>从 <code>.git</code> 中 <code>checkout</code> 缓存的仓库</li>
+<li>如果以上都没了，会从网络上重新下载</li>
+</ul>
+<p>你也可以使用 <a href="https://crates.io/crates/cargo-cache">cargo-cache</a> 包来选择性的清除 <code>cache</code> 中指定的部分，当然，它还可以用来查看缓存中的组件大小。</p>
+<h2 id="构建时卡住blocking-waiting-for-file-lock-"><a class="header" href="#构建时卡住blocking-waiting-for-file-lock-">构建时卡住：Blocking waiting for file lock ..</a></h2>
+<p>在开发过程中，或多或少我们都会碰到这种问题，例如你同时打开了 VSCode IDE 和终端，然后在 <code>Cargo.toml</code> 中刚添加了一个新的依赖。</p>
+<p>此时 IDE 会捕捉到这个修改然后自动去重新下载依赖(这个过程可能还会更新 <code>crates.io</code> 使用的索引列表)，在此过程中， Cargo 会将相关信息写入到 <code>$HOME/.cargo/.package_cache</code> 下，并将其锁住。</p>
+<p>如果你试图在另一个地方(例如终端)对同一个项目进行构建，就会报错: <code>Blocking waiting for file lock on package cache</code>。</p>
+<p>解决办法很简单：</p>
+<ul>
+<li>既然下载慢，那就使用<a href="https://course.rs/cargo/reference/specify-deps.html#%E4%BB%8E%E5%85%B6%E5%AE%83%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1%E5%BC%95%E5%85%A5%E4%BE%9D%E8%B5%96%E5%8C%85">国内的注册服务</a>，不再使用 crates.io</li>
+<li>耐心等待持有锁的用户构建完成</li>
+<li>强行停止正在构建的进程，例如杀掉 IDE 使用的 rust-analyer 插件进程，然后删除 <code>$HOME/.cargo/.package_cache</code> 目录</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../cargo/guide/tests-ci.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../cargo/guide/build-cache.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../cargo/guide/tests-ci.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../cargo/guide/build-cache.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

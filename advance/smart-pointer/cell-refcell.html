@@ -1,0 +1,521 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Cell 与 RefCell 内部可变性 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/smart-pointer/cell-refcell.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="cell-和-refcell"><a class="header" href="#cell-和-refcell">Cell 和 RefCell</a></h1>
+<p>Rust 的编译器之严格，可以说是举世无双。特别是在所有权方面，Rust 通过严格的规则来保证所有权和借用的正确性，最终为程序的安全保驾护航。</p>
+<p>但是严格是一把双刃剑，带来安全提升的同时，损失了灵活性，有时甚至会让用户痛苦不堪、怨声载道。因此 Rust 提供了 <code>Cell</code> 和 <code>RefCell</code> 用于内部可变性，简而言之，可以在拥有不可变引用的同时修改目标数据，对于正常的代码实现来说，这个是不可能做到的（要么一个可变借用，要么多个不可变借用）。</p>
+<blockquote>
+<p>内部可变性的实现是因为 Rust 使用了 <code>unsafe</code> 来做到这一点，但是对于使用者来说，这些都是透明的，因为这些不安全代码都被封装到了安全的 API 中</p>
+</blockquote>
+<h2 id="cell"><a class="header" href="#cell">Cell</a></h2>
+<p><code>Cell</code> 和 <code>RefCell</code> 在功能上没有区别，区别在于 <code>Cell&lt;T&gt;</code> 适用于 <code>T</code> 实现 <code>Copy</code> 的情况：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::cell::Cell;
+fn main() {
+  let c = Cell::new("asdf");
+  let one = c.get();
+  c.set("qwer");
+  let two = c.get();
+  println!("{},{}", one, two);
+}</code></pre></pre>
+<p>以上代码展示了 <code>Cell</code> 的基本用法，有几点值得注意：</p>
+<ul>
+<li>"asdf" 是 <code>&amp;str</code> 类型，它实现了 <code>Copy</code> 特征</li>
+<li><code>c.get</code> 用来取值，<code>c.set</code> 用来设置新值</li>
+</ul>
+<p>取到值保存在 <code>one</code> 变量后，还能同时进行修改，这个违背了 Rust 的借用规则，但是由于 <code>Cell</code> 的存在，我们很优雅地做到了这一点，但是如果你尝试在 <code>Cell</code> 中存放<code>String</code>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span> let c = Cell::new(String::from("asdf"));
+<span class="boring">}</span></code></pre></pre>
+<p>编译器会立刻报错，因为 <code>String</code> 没有实现 <code>Copy</code> 特征：</p>
+<pre><code class="language-console">| pub struct String {
+| ----------------- doesn't satisfy `String: Copy`
+|
+= note: the following trait bounds were not satisfied:
+        `String: Copy`
+</code></pre>
+<h2 id="refcell"><a class="header" href="#refcell">RefCell</a></h2>
+<p>由于 <code>Cell</code> 类型针对的是实现了 <code>Copy</code> 特征的值类型，因此在实际开发中，<code>Cell</code> 使用的并不多，因为我们要解决的往往是可变、不可变引用共存导致的问题，此时就需要借助于 <code>RefCell</code> 来达成目的。</p>
+<p>我们可以将所有权、借用规则与这些智能指针做一个对比：</p>
+<div class="table-wrapper"><table><thead><tr><th>Rust 规则</th><th>智能指针带来的额外规则</th></tr></thead><tbody>
+<tr><td>一个数据只有一个所有者</td><td><code>Rc/Arc</code>让一个数据可以拥有多个所有者</td></tr>
+<tr><td>要么多个不可变借用，要么一个可变借用</td><td><code>RefCell</code>实现编译期可变、不可变引用共存</td></tr>
+<tr><td>违背规则导致<strong>编译错误</strong></td><td>违背规则导致<strong>运行时<code>panic</code></strong></td></tr>
+</tbody></table>
+</div>
+<p>可以看出，<code>Rc/Arc</code> 和 <code>RefCell</code> 合在一起，解决了 Rust 中严苛的所有权和借用规则带来的某些场景下难使用的问题。但是它们并不是银弹，例如 <code>RefCell</code> 实际上并没有解决可变引用和引用可以共存的问题，只是将报错从编译期推迟到运行时，从编译器错误变成了 <code>panic</code> 异常：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::cell::RefCell;
+
+fn main() {
+    let s = RefCell::new(String::from("hello, world"));
+    let s1 = s.borrow();
+    let s2 = s.borrow_mut();
+
+    println!("{},{}", s1, s2);
+}</code></pre></pre>
+<p>上面代码在编译期不会报任何错误，你可以顺利运行程序：</p>
+<pre><code class="language-console">thread 'main' panicked at 'already borrowed: BorrowMutError', src/main.rs:6:16
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</code></pre>
+<p>但是依然会因为违背了借用规则导致了运行期 <code>panic</code>，这非常像中国的天网，它也许会被罪犯蒙蔽一时，但是并不会被蒙蔽一世，任何导致安全风险的存在都将不能被容忍，法网恢恢，疏而不漏。</p>
+<h4 id="refcell-为何存在"><a class="header" href="#refcell-为何存在">RefCell 为何存在</a></h4>
+<p>相信肯定有读者有疑问了，这么做有任何意义吗？还不如在编译期报错，至少能提前发现问题，而且性能还更好。</p>
+<p>存在即合理，究其根因，在于 Rust 编译期的<strong>宁可错杀，绝不放过</strong>的原则，当编译器不能确定你的代码是否正确时，就统统会判定为错误，因此难免会导致一些误报。</p>
+<p>而 <code>RefCell</code> 正是<strong>用于你确信代码是正确的，而编译器却发生了误判时</strong>。</p>
+<p>对于大型的复杂程序，也可以选择使用 <code>RefCell</code> 来让事情简化。例如在 Rust 编译器的<a href="https://github.com/rust-lang/rust/blob/620d1ee5346bee10ba7ce129b2e20d6e59f0377d/src/librustc/middle/ty.rs#L803-L987"><code>ctxt结构体</code></a>中有大量的 <code>RefCell</code> 类型的 <code>map</code> 字段，主要的原因是：这些 <code>map</code> 会被分散在各个地方的代码片段所广泛使用或修改。由于这种分散在各处的使用方式，导致了管理可变和不可变成为一件非常复杂的任务（甚至不可能），你很容易就碰到编译器抛出来的各种错误。而且 <code>RefCell</code> 的运行时错误在这种情况下也变得非常可爱：一旦有人做了不正确的使用，代码会 <code>panic</code>，然后告诉我们哪些借用冲突了。</p>
+<p>总之，当你确信编译器误报但不知道该如何解决时，或者你有一个引用类型，需要被四处使用和修改然后导致借用关系难以管理时，都可以优先考虑使用 <code>RefCell</code>。</p>
+<h4 id="refcell-简单总结"><a class="header" href="#refcell-简单总结">RefCell 简单总结</a></h4>
+<ul>
+<li>与 <code>Cell</code> 用于可 <code>Copy</code> 的值不同，<code>RefCell</code> 用于引用</li>
+<li><code>RefCell</code> 只是将借用规则从编译期推迟到程序运行期，并不能帮你绕过这个规则</li>
+<li><code>RefCell</code> 适用于编译期误报或者一个引用被在多处代码使用、修改以至于难于管理借用关系时</li>
+<li>使用 <code>RefCell</code> 时，违背借用规则会导致运行期的 <code>panic</code></li>
+</ul>
+<h2 id="选择-cell-还是-refcell"><a class="header" href="#选择-cell-还是-refcell">选择 <code>Cell</code> 还是 <code>RefCell</code></a></h2>
+<p>根据本文的内容，我们可以大概总结下两者的区别：</p>
+<ul>
+<li><code>Cell</code> 只适用于 <code>Copy</code> 类型，用于提供值，而 <code>RefCell</code> 用于提供引用</li>
+<li><code>Cell</code> 不会 <code>panic</code>，而 <code>RefCell</code> 会</li>
+</ul>
+<h4 id="性能比较"><a class="header" href="#性能比较">性能比较</a></h4>
+<p><code>Cell</code> 没有额外的性能损耗，例如以下两段代码的性能其实是一致的：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// code snipet 1
+let x = Cell::new(1);
+let y = &amp;x;
+let z = &amp;x;
+x.set(2);
+y.set(3);
+z.set(4);
+println!("{}", x.get());
+
+// code snipet 2
+let mut x = 1;
+let y = &amp;mut x;
+let z = &amp;mut x;
+x = 2;
+*y = 3;
+*z = 4;
+println!("{}", x);
+<span class="boring">}</span></code></pre></pre>
+<p>虽然性能一致，但代码 <code>1</code> 拥有代码 <code>2</code> 不具有的优势：它能编译成功:)</p>
+<p>与 <code>Cell</code> 的 <code>zero cost</code> 不同，<code>RefCell</code> 其实是有一点运行期开销的，原因是它包含了一个字节大小的“借用状态”指示器，该指示器在每次运行时借用时都会被修改，进而产生一点开销。</p>
+<p>总之，当非要使用内部可变性时，首选 <code>Cell</code>，只有你的类型没有实现 <code>Copy</code> 时，才去选择 <code>RefCell</code>。</p>
+<h2 id="内部可变性"><a class="header" href="#内部可变性">内部可变性</a></h2>
+<p>之前我们提到 <code>RefCell</code> 具有内部可变性，何为内部可变性？简单来说，对一个不可变的值进行可变借用，但这个并不符合 Rust 的基本借用规则：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let x = 5;
+    let y = &amp;mut x;
+}</code></pre></pre>
+<p>上面的代码会报错，因为我们不能对一个不可变的值进行可变借用，这会破坏 Rust 的安全性保证，相反，你可以对一个可变值进行不可变借用。原因是：当值不可变时，可能会有多个不可变的引用指向它，此时若将其中一个修改为可变的，会造成可变引用与不可变引用共存的情况；而当值可变时，最多只会有一个可变引用指向它，将其修改为不可变，那么最终依然是只有一个不可变的引用指向它。</p>
+<p>虽然基本借用规则是 Rust 的基石，然而在某些场景中，一个值可以在其方法内部被修改，同时对于其它代码不可变，是很有用的：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 定义在外部库中的特征
+pub trait Messenger {
+    fn send(&amp;self, msg: String);
+}
+
+// --------------------------
+// 我们的代码中的数据结构和实现
+struct MsgQueue {
+    msg_cache: Vec&lt;String&gt;,
+}
+
+impl Messenger for MsgQueue {
+    fn send(&amp;self, msg: String) {
+        self.msg_cache.push(msg)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>如上所示，外部库中定义了一个消息发送器特征 <code>Messenger</code>，它只有一个发送消息的功能：<code>fn send(&amp;self, msg: String)</code>，因为发送消息不需要修改自身，因此原作者在定义时，使用了 <code>&amp;self</code> 的不可变借用，这个无可厚非。</p>
+<p>我们要在自己的代码中使用该特征实现一个异步消息队列，出于性能的考虑，消息先写到本地缓存(内存)中，然后批量发送出去，因此在 <code>send</code> 方法中，需要将消息先行插入到本地缓存 <code>msg_cache</code> 中。但是问题来了，该 <code>send</code> 方法的签名是 <code>&amp;self</code>，因此上述代码会报错：</p>
+<pre><code class="language-console">error[E0596]: cannot borrow `self.msg_cache` as mutable, as it is behind a `&amp;` reference
+  --&gt; src/main.rs:11:9
+   |
+2  |     fn send(&amp;self, msg: String);
+   |             ----- help: consider changing that to be a mutable reference: `&amp;mut self`
+...
+11 |         self.msg_cache.push(msg)
+   |         ^^^^^^^^^^^^^^^^^^ `self` is a `&amp;` reference, so the data it refers to cannot be borrowed as mutable
+</code></pre>
+<p>在报错的同时，编译器大聪明还善意地给出了提示：将 <code>&amp;self</code> 修改为 <code>&amp;mut self</code>，但是。。。我们实现的特征是定义在外部库中，因此该签名根本不能修改。值此危急关头， <code>RefCell</code> 闪亮登场：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::cell::RefCell;
+pub trait Messenger {
+    fn send(&amp;self, msg: String);
+}
+
+pub struct MsgQueue {
+    msg_cache: RefCell&lt;Vec&lt;String&gt;&gt;,
+}
+
+impl Messenger for MsgQueue {
+    fn send(&amp;self, msg: String) {
+        self.msg_cache.borrow_mut().push(msg)
+    }
+}
+
+fn main() {
+    let mq = MsgQueue {
+        msg_cache: RefCell::new(Vec::new()),
+    };
+    mq.send("hello, world".to_string());
+}</code></pre></pre>
+<p>这个 MQ 功能很弱，但是并不妨碍我们演示内部可变性的核心用法：通过包裹一层 <code>RefCell</code>，成功的让 <code>&amp;self</code> 中的 <code>msg_cache</code> 成为一个可变值，然后实现对其的修改。</p>
+<h2 id="rc--refcell-组合使用"><a class="header" href="#rc--refcell-组合使用">Rc + RefCell 组合使用</a></h2>
+<p>在 Rust 中，一个常见的组合就是 <code>Rc</code> 和 <code>RefCell</code> 在一起使用，前者可以实现一个数据拥有多个所有者，后者可以实现数据的可变性：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::cell::RefCell;
+use std::rc::Rc;
+fn main() {
+    let s = Rc::new(RefCell::new("我很善变，还拥有多个主人".to_string()));
+
+    let s1 = s.clone();
+    let s2 = s.clone();
+    // let mut s2 = s.borrow_mut();
+    s2.borrow_mut().push_str(", oh yeah!");
+
+    println!("{:?}\n{:?}\n{:?}", s, s1, s2);
+}
+</code></pre></pre>
+<p>上面代码中，我们使用 <code>RefCell&lt;String&gt;</code> 包裹一个字符串，同时通过 <code>Rc</code> 创建了它的三个所有者：<code>s</code>、<code>s1</code>和<code>s2</code>，并且通过其中一个所有者 <code>s2</code> 对字符串内容进行了修改。</p>
+<p>由于 <code>Rc</code> 的所有者们共享同一个底层的数据，因此当一个所有者修改了数据时，会导致全部所有者持有的数据都发生了变化。</p>
+<p>程序的运行结果也在预料之中：</p>
+<pre><code class="language-console">RefCell { value: "我很善变，还拥有多个主人, oh yeah!" }
+RefCell { value: "我很善变，还拥有多个主人, oh yeah!" }
+RefCell { value: "我很善变，还拥有多个主人, oh yeah!" }
+</code></pre>
+<h4 id="性能损耗"><a class="header" href="#性能损耗">性能损耗</a></h4>
+<p>相信这两者组合在一起使用时，很多人会好奇到底性能如何，下面我们来简单分析下。</p>
+<p>首先给出一个大概的结论，这两者结合在一起使用的性能其实非常高，大致相当于没有线程安全版本的 C++ <code>std::shared_ptr</code> 指针，事实上，C++ 这个指针的主要开销也在于原子性这个并发原语上，毕竟线程安全在哪个语言中开销都不小。</p>
+<h4 id="内存损耗"><a class="header" href="#内存损耗">内存损耗</a></h4>
+<p>两者结合的数据结构与下面类似：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Wrapper&lt;T&gt; {
+    // Rc
+    strong_count: usize,
+    weak_count: usize,
+
+    // Refcell
+    borrow_count: isize,
+
+    // 包裹的数据
+    item: T,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>从上面可以看出，从对内存的影响来看，仅仅多分配了三个<code>usize/isize</code>，并没有其它额外的负担。</p>
+<h4 id="cpu-损耗"><a class="header" href="#cpu-损耗">CPU 损耗</a></h4>
+<p>从 CPU 来看，损耗如下：</p>
+<ul>
+<li>对 <code>Rc&lt;T&gt;</code> 解引用是免费的（编译期），但是 <code>*</code> 带来的间接取值并不免费</li>
+<li>克隆 <code>Rc&lt;T&gt;</code> 需要将当前的引用计数跟 <code>0</code> 和 <code>usize::Max</code> 进行一次比较，然后将计数值加 1</li>
+<li>释放（drop） <code>Rc&lt;T&gt;</code> 需要将计数值减 1， 然后跟 <code>0</code> 进行一次比较</li>
+<li>对 <code>RefCell</code> 进行不可变借用，需要将 <code>isize</code> 类型的借用计数加 1，然后跟 <code>0</code> 进行比较</li>
+<li>对 <code>RefCell </code>的不可变借用进行释放，需要将 <code>isize</code> 减 1</li>
+<li>对 <code>RefCell</code> 的可变借用大致流程跟上面差不多，但是需要先跟 <code>0</code> 比较，然后再减 1</li>
+<li>对 <code>RefCell</code> 的可变借用进行释放，需要将 <code>isize</code> 加 1</li>
+</ul>
+<p>其实这些细节不必过于关注，只要知道 CPU 消耗也非常低，甚至编译器还会对此进行进一步优化！</p>
+<h4 id="cpu-缓存-miss"><a class="header" href="#cpu-缓存-miss">CPU 缓存 Miss</a></h4>
+<p>唯一需要担心的可能就是这种组合数据结构对于 CPU 缓存是否亲和，这个我们无法证明，只能提出来存在这个可能性，最终的性能影响还需要在实际场景中进行测试。</p>
+<p>总之，分析这两者组合的性能还挺复杂的，大概总结下：</p>
+<ul>
+<li>从表面来看，它们带来的内存和 CPU 损耗都不大</li>
+<li>但是由于 <code>Rc</code> 额外的引入了一次间接取值（<code>*</code>），在少数场景下可能会造成性能上的显著损失</li>
+<li>CPU 缓存可能也不够亲和</li>
+</ul>
+<h2 id="通过-cellfrom_mut-解决借用冲突"><a class="header" href="#通过-cellfrom_mut-解决借用冲突">通过 <code>Cell::from_mut</code> 解决借用冲突</a></h2>
+<p>在 Rust 1.37 版本中新增了两个非常实用的方法：</p>
+<ul>
+<li>Cell::from_mut，该方法将 <code>&amp;mut T</code> 转为 <code>&amp;Cell&lt;T&gt;</code></li>
+<li>Cell::as_slice_of_cells，该方法将 <code>&amp;Cell&lt;[T]&gt;</code> 转为 <code>&amp;[Cell&lt;T&gt;]</code></li>
+</ul>
+<p>这里我们不做深入的介绍，但是来看看如何使用这两个方法来解决一个常见的借用冲突问题：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn is_even(i: i32) -&gt; bool {
+    i % 2 == 0
+}
+
+fn retain_even(nums: &amp;mut Vec&lt;i32&gt;) {
+    let mut i = 0;
+    for num in nums.iter().filter(|&amp;num| is_even(*num)) {
+        nums[i] = *num;
+        i += 1;
+    }
+    nums.truncate(i);
+}
+<span class="boring">}</span></code></pre></pre>
+<p>以上代码会报错：</p>
+<pre><code class="language-console">error[E0502]: cannot borrow `*nums` as mutable because it is also borrowed as immutable
+ --&gt; src/main.rs:8:9
+  |
+7 |     for num in nums.iter().filter(|&amp;num| is_even(*num)) {
+  |                ----------------------------------------
+  |                |
+  |                immutable borrow occurs here
+  |                immutable borrow later used here
+8 |         nums[i] = *num;
+  |         ^^^^ mutable borrow occurs here
+</code></pre>
+<p>很明显，报错是因为同时借用了不可变与可变引用，你可以通过索引的方式来避免这个问题：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn retain_even(nums: &amp;mut Vec&lt;i32&gt;) {
+    let mut i = 0;
+    for j in 0..nums.len() {
+        if is_even(nums[j]) {
+            nums[i] = nums[j];
+            i += 1;
+        }
+    }
+    nums.truncate(i);
+}
+<span class="boring">}</span></code></pre></pre>
+<p>但是这样就违背我们的初衷了，毕竟迭代器会让代码更加简洁，那么还有其它的办法吗？</p>
+<p>这时就可以使用 <code>Cell</code> 新增的这两个方法：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::cell::Cell;
+
+fn retain_even(nums: &amp;mut Vec&lt;i32&gt;) {
+    let slice: &amp;[Cell&lt;i32&gt;] = Cell::from_mut(&amp;mut nums[..])
+        .as_slice_of_cells();
+
+    let mut i = 0;
+    for num in slice.iter().filter(|num| is_even(num.get())) {
+        slice[i].set(num.get());
+        i += 1;
+    }
+
+    nums.truncate(i);
+}
+<span class="boring">}</span></code></pre></pre>
+<p>此时代码将不会报错，因为 <code>Cell</code> 上的 <code>set</code> 方法获取的是不可变引用 <code>pub fn set(&amp;self, val: T)</code>。</p>
+<p>当然，以上代码的本质还是对 <code>Cell</code> 的运用，只不过这两个方法可以很方便的帮我们把 <code>&amp;mut [T]</code> 类型转换成 <code>&amp;[Cell&lt;T&gt;]</code> 类型。</p>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p><code>Cell</code> 和 <code>RefCell</code> 都为我们带来了内部可变性这个重要特性，同时还将借用规则的检查从编译期推迟到运行期，但是这个检查并不能被绕过，该来早晚还是会来，<code>RefCell</code> 在运行期的报错会造成 <code>panic</code>。</p>
+<p><code>RefCell</code> 适用于编译器误报或者一个引用被在多个代码中使用、修改以至于难于管理借用关系时，还有就是需要内部可变性时。</p>
+<p>从性能上看，<code>RefCell</code> 由于是非线程安全的，因此无需保证原子性，性能虽然有一点损耗，但是依然非常好，而 <code>Cell</code> 则完全不存在任何额外的性能损耗。</p>
+<p><code>Rc</code> 跟 <code>RefCell</code> 结合使用可以实现多个所有者共享同一份数据，非常好用，但是潜在的性能损耗也要考虑进去，建议对于热点代码使用时，做好 <code>benchmark</code>。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../advance/smart-pointer/rc-arc.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../advance/circle-self-ref/intro.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../advance/smart-pointer/rc-arc.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../advance/circle-self-ref/intro.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

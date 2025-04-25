@@ -1,0 +1,408 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>变量绑定与解构 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/basic/variable.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="变量绑定与解构"><a class="header" href="#变量绑定与解构">变量绑定与解构</a></h1>
+<p>鉴于本书的目标读者（别慌，来到这里就说明你就是目标读者）已经熟练掌握其它任意一门编程语言，因此这里就不再对何为变量进行赘述，让我们开门见山来谈谈，为何 Rust 选择了手动设定变量的可变性。</p>
+<h2 id="为何要手动设置变量的可变性"><a class="header" href="#为何要手动设置变量的可变性">为何要手动设置变量的可变性？</a></h2>
+<p>在其它大多数语言中，要么只支持声明可变的变量，要么只支持声明不可变的变量（例如函数式语言），前者为编程提供了灵活性，后者为编程提供了安全性，而 Rust 比较野，选择了两者我都要，既要灵活性又要安全性。</p>
+<p>能想要学习 Rust，说明我们的读者都是相当有水平的程序员了，你们应该能理解<strong>一切选择皆是权衡</strong>，那么两者都要的权衡是什么呢？这就是 Rust 开发团队为我们做出的贡献，两者都要意味着 Rust 语言底层代码的实现复杂度大幅提升，因此 Salute to The Rust Team!</p>
+<p>除了以上两个优点，还有一个很大的优点，那就是运行性能上的提升，因为将本身无需改变的变量声明为不可变在运行期会避免一些多余的 <code>runtime</code> 检查。</p>
+<h2 id="变量命名"><a class="header" href="#变量命名">变量命名</a></h2>
+<p>在命名方面，和其它语言没有区别，不过当给变量命名时，需要遵循 <a href="https://course.rs/practice/naming.html">Rust 命名规范</a>。</p>
+<blockquote>
+<p>Rust 语言有一些<strong>关键字</strong>（<em>keywords</em>），和其他语言一样，这些关键字都是被保留给 Rust 语言使用的，因此，它们不能被用作变量或函数的名称。在 <a href="https://course.rs/appendix/keywords.html">附录 A</a> 中可找到关键字列表。</p>
+</blockquote>
+<h2 id="变量绑定"><a class="header" href="#变量绑定">变量绑定</a></h2>
+<p>在其它语言中，我们用 <code>var a = "hello world"</code> 的方式给 <code>a</code> 赋值，也就是把等式右边的 <code>"hello world"</code> 字符串赋值给变量 <code>a</code> ，而在 Rust 中，我们这样写： <code>let a = "hello world"</code> ，同时给这个过程起了另一个名字：<strong>变量绑定</strong>。</p>
+<p>为何不用赋值而用绑定呢（其实你也可以称之为赋值，但是绑定的含义更清晰准确）？这里就涉及 Rust 最核心的原则——<strong>所有权</strong>，简单来讲，任何内存对象都是有主人的，而且一般情况下完全属于它的主人，绑定就是把这个对象绑定给一个变量，让这个变量成为它的主人（聪明的读者应该能猜到，在这种情况下，该对象之前的主人就会丧失对该对象的所有权），像极了我们的现实世界，不是吗？</p>
+<p>那为什么要引进“所有权”这个新的概念呢？请稍安勿躁，时机一旦成熟，我们就回来继续讨论这个话题。</p>
+<h2 id="变量可变性"><a class="header" href="#变量可变性">变量可变性</a></h2>
+<p>Rust 的变量在默认情况下是<strong>不可变的</strong>。前文提到，这是 Rust 团队为我们精心设计的语言特性之一，让我们编写的代码更安全，性能也更好。当然你可以通过 <code>mut</code> 关键字让变量变为<strong>可变的</strong>，让设计更灵活。</p>
+<p>如果变量 <code>a</code> 不可变，那么一旦为它绑定值，就不能再修改 <code>a</code>。举个例子，在我们的工程目录下使用 <code>cargo new variables</code> 新建一个项目，叫做 <em>variables</em> 。</p>
+<p>然后在新建的 <em>variables</em> 目录下，编辑 <em>src/main.rs</em> ，改为下面代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let x = 5;
+    println!("The value of x is: {}", x);
+    x = 6;
+    println!("The value of x is: {}", x);
+}</code></pre></pre>
+<p>保存文件，再使用 <code>cargo run</code> 运行它，迎面而来的是一条错误提示：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling variables v0.1.0 (file:///projects/variables)
+error[E0384]: cannot assign twice to immutable variable `x`
+ --&gt; src/main.rs:4:5
+  |
+2 |     let x = 5;
+  |         -
+  |         |
+  |         first assignment to `x`
+  |         help: consider making this binding mutable: `mut x`
+3 |     println!("The value of x is: {}", x);
+4 |     x = 6;
+  |     ^^^^^ cannot assign twice to immutable variable
+
+error: aborting due to previous error
+</code></pre>
+<p>具体的错误原因是 <code>cannot assign twice to immutable variable x</code>（无法对不可变的变量进行重复赋值），因为我们想为不可变的 <code>x</code> 变量再次赋值。</p>
+<p>这种错误是为了避免无法预期的错误发生在我们的变量上：一个变量往往被多处代码所使用，其中一部分代码假定该变量的值永远不会改变，而另外一部分代码却无情的改变了这个值，在实际开发过程中，这个错误是很难被发现的，特别是在多线程编程中。</p>
+<p>这种规则让我们的代码变得非常清晰，只有你想让你的变量改变时，它才能改变，这样就不会造成心智上的负担，也给别人阅读代码带来便利。</p>
+<p>但是可变性也非常重要，否则我们就要像 ClojureScript 那样，每次要改变，就要重新生成一个对象，在拥有大量对象的场景，性能会变得非常低下，内存拷贝的成本异常的高。</p>
+<p>在 Rust 中，可变性很简单，只要在变量名前加一个 <code>mut</code> 即可, 而且这种显式的声明方式还会给后来人传达这样的信息：嗯，这个变量在后面代码部分会发生改变。</p>
+<p>为了让变量声明为可变,将 <em>src/main.rs</em> 改为以下内容：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let mut x = 5;
+    println!("The value of x is: {}", x);
+    x = 6;
+    println!("The value of x is: {}", x);
+}</code></pre></pre>
+<p>运行程序将得到下面结果：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling variables v0.1.0 (file:///projects/variables)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.30s
+     Running `target/debug/variables`
+The value of x is: 5
+The value of x is: 6
+</code></pre>
+<p>选择可变还是不可变，更多的还是取决于你的使用场景，例如不可变可以带来安全性，但是丧失了灵活性和性能（如果你要改变，就要重新创建一个新的变量，这里涉及到内存对象的再分配）。而可变变量最大的好处就是使用上的灵活性和性能上的提升。</p>
+<p>例如，在使用大型数据结构或者热点代码路径（被大量频繁调用）的情形下，在同一内存位置更新实例可能比复制并返回新分配的实例要更快。使用较小的数据结构时，通常创建新的实例并以更具函数式的风格来编写程序，可能会更容易理解，所以值得以较低的性能开销来确保代码清晰。</p>
+<h2 id="使用下划线开头忽略未使用的变量"><a class="header" href="#使用下划线开头忽略未使用的变量">使用下划线开头忽略未使用的变量</a></h2>
+<p>如果你创建了一个变量却不在任何地方使用它，Rust 通常会给你一个警告，因为这可能会是个 BUG。但是有时创建一个不会被使用的变量是有用的，比如你正在设计原型或刚刚开始一个项目。这时<strong>你希望告诉 Rust 不要警告未使用的变量，为此可以用下划线作为变量名的开头</strong>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let _x = 5;
+    let y = 10;
+}</code></pre></pre>
+<p>使用 <code>cargo run</code> 运行下试试:</p>
+<pre><code class="language-shell">warning: unused variable: `y`
+ --&gt; src/main.rs:3:9
+  |
+3 |     let y = 10;
+  |         ^ help: 如果 y 故意不被使用，请添加一个下划线前缀: `_y`
+  |
+  = note: `#[warn(unused_variables)]` on by default
+</code></pre>
+<p>可以看到，两个变量都是只有声明，没有使用，但是编译器却独独给出了 <code>y</code> 未被使用的警告，充分说明了 <code>_</code> 变量名前缀在这里发挥的作用。</p>
+<p>值得注意的是，这里编译器还很善意的给出了提示（Rust 的编译器非常强大，这里的提示只是小意思）：将 <code>y</code> 修改 <code>_y</code> 即可。这里就不再给出代码，留给大家手动尝试并观察下运行结果。</p>
+<p>更多关于 <code>_x</code> 的使用信息，请阅读后面的<a href="https://course.rs/basic/match-pattern/all-patterns.html?highlight=_#%E4%BD%BF%E7%94%A8%E4%B8%8B%E5%88%92%E7%BA%BF%E5%BC%80%E5%A4%B4%E5%BF%BD%E7%95%A5%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E5%8F%98%E9%87%8F">模式匹配章节</a>。</p>
+<h2 id="变量解构"><a class="header" href="#变量解构">变量解构</a></h2>
+<p><code>let</code> 表达式不仅仅用于变量的绑定，还能进行复杂变量的解构：从一个相对复杂的变量中，匹配出该变量的一部分内容：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let (a, mut b): (bool,bool) = (true, false);
+    // a = true,不可变; b = false，可变
+    println!("a = {:?}, b = {:?}", a, b);
+
+    b = true;
+    assert_eq!(a, b);
+}</code></pre></pre>
+<h3 id="解构式赋值"><a class="header" href="#解构式赋值">解构式赋值</a></h3>
+<p>在 <a href="https://course.rs/appendix/rust-versions/1.59.html">Rust 1.59</a> 版本后，我们可以在赋值语句的左式中使用元组、切片和结构体模式了。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">struct Struct {
+    e: i32
+}
+
+fn main() {
+    let (a, b, c, d, e);
+
+    (a, b) = (1, 2);
+    // _ 代表匹配一个值，但是我们不关心具体的值是什么，因此没有使用一个变量名而是使用了 _
+    [c, .., d, _] = [1, 2, 3, 4, 5];
+    Struct { e, .. } = Struct { e: 5 };
+
+    assert_eq!([1, 2, 1, 4, 5], [a, b, c, d, e]);
+}</code></pre></pre>
+<p>这种使用方式跟之前的 <code>let</code> 保持了一致性，但是 <code>let</code> 会重新绑定，而这里仅仅是对之前绑定的变量进行再赋值。</p>
+<p>需要注意的是，使用 <code>+=</code> 的赋值语句还不支持解构式赋值。</p>
+<blockquote>
+<p>这里用到了模式匹配的一些语法，如果大家看不懂没关系，可以在学完模式匹配章节后，再回头来看。</p>
+</blockquote>
+<h2 id="变量和常量之间的差异"><a class="header" href="#变量和常量之间的差异">变量和常量之间的差异</a></h2>
+<p>变量的值不能更改可能让你想起其他另一个很多语言都有的编程概念：<strong>常量</strong>(<em>constant</em>)。与不可变变量一样，常量也是绑定到一个常量名且不允许更改的值，但是常量和变量之间存在一些差异：</p>
+<ul>
+<li>常量不允许使用 <code>mut</code>。<strong>常量不仅仅默认不可变，而且自始至终不可变</strong>，因为常量在编译完成后，已经确定它的值。</li>
+<li>常量使用 <code>const</code> 关键字而不是 <code>let</code> 关键字来声明，并且值的类型<strong>必须</strong>标注。</li>
+</ul>
+<p>我们将在下一节<a href="https://course.rs/basic/base-type/index.html">数据类型</a>中介绍，因此现在暂时无需关心细节。</p>
+<p>下面是一个常量声明的例子，其常量名为 <code>MAX_POINTS</code>，值设置为 <code>100,000</code>。（Rust 常量的命名约定是全部字母都使用大写，并使用下划线分隔单词，另外对数字字面量可插入下划线以提高可读性）：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>const MAX_POINTS: u32 = 100_000;
+<span class="boring">}</span></code></pre></pre>
+<p>常量可以在任意作用域内声明，包括全局作用域，在声明的作用域内，常量在程序运行的整个过程中都有效。对于需要在多处代码共享一个不可变的值时非常有用，例如游戏中允许玩家赚取的最大点数或光速。</p>
+<blockquote>
+<p>在实际使用中，最好将程序中用到的硬编码值都声明为常量，对于代码后续的维护有莫大的帮助。如果将来需要更改硬编码的值，你也只需要在代码中更改一处即可。</p>
+</blockquote>
+<h2 id="变量遮蔽shadowing"><a class="header" href="#变量遮蔽shadowing">变量遮蔽(shadowing)</a></h2>
+<p>Rust 允许声明相同的变量名，在后面声明的变量会遮蔽掉前面声明的，如下所示：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let x = 5;
+    // 在main函数的作用域内对之前的x进行遮蔽
+    let x = x + 1;
+
+    {
+        // 在当前的花括号作用域内，对之前的x进行遮蔽
+        let x = x * 2;
+        println!("The value of x in the inner scope is: {}", x);
+    }
+
+    println!("The value of x is: {}", x);
+}</code></pre></pre>
+<p>这个程序首先将数值 <code>5</code> 绑定到 <code>x</code>，然后通过重复使用 <code>let x =</code> 来遮蔽之前的 <code>x</code>，并取原来的值加上 <code>1</code>，所以 <code>x</code> 的值变成了 <code>6</code>。第三个 <code>let</code> 语句同样遮蔽前面的 <code>x</code>，取之前的值并乘上 <code>2</code>，得到的 <code>x</code> 最终值为 <code>12</code>。当运行此程序，将输出以下内容：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling variables v0.1.0 (file:///projects/variables)
+   ...
+The value of x in the inner scope is: 12
+The value of x is: 6
+</code></pre>
+<p>这和 <code>mut</code> 变量的使用是不同的，第二个 <code>let</code> 生成了完全不同的新变量，两个变量只是恰好拥有同样的名称，涉及一次内存对象的再分配
+，而 <code>mut</code> 声明的变量，可以修改同一个内存地址上的值，并不会发生内存对象的再分配，性能要更好。</p>
+<p>变量遮蔽的用处在于，如果你在某个作用域内无需再使用之前的变量（在被遮蔽后，无法再访问到之前的同名变量），就可以重复的使用变量名字，而不用绞尽脑汁去想更多的名字。</p>
+<p>例如，假设有一个程序要统计一个空格字符串的空格数量：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// 字符串类型
+let spaces = "   ";
+// usize数值类型
+let spaces = spaces.len();
+<span class="boring">}</span></code></pre></pre>
+<p>这种结构是允许的，因为第一个 <code>spaces</code> 变量是一个字符串类型，第二个 <code>spaces</code> 变量是一个全新的变量且和第一个具有相同的变量名，且是一个数值类型。所以变量遮蔽可以帮我们节省些脑细胞，不用去想如 <code>spaces_str</code> 和 <code>spaces_num</code> 此类的变量名；相反我们可以重复使用更简单的 <code>spaces</code> 变量名。如果你不用 <code>let</code> :</p>
+<pre><pre class="playground"><code class="language-rust  edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut spaces = "   ";
+spaces = spaces.len();
+<span class="boring">}</span></code></pre></pre>
+<p>运行一下，你就会发现编译器报错：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling variables v0.1.0 (file:///projects/variables)
+error[E0308]: mismatched types
+ --&gt; src/main.rs:3:14
+  |
+3 |     spaces = spaces.len();
+  |              ^^^^^^^^^^^^ expected `&amp;str`, found `usize`
+
+error: aborting due to previous error
+</code></pre>
+<p>显然，Rust 对类型的要求很严格，不允许将整数类型 <code>usize</code> 赋值给字符串类型。<code>usize</code> 是一种 CPU 相关的整数类型，在<a href="https://course.rs/basic/base-type/numbers.html#%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B">数值类型</a>中有详细介绍。</p>
+<p>万事开头难，到目前为止，都进展很顺利，那下面开始，咱们正式进入 Rust 的类型世界，看看有哪些挑战在前面等着大家。</p>
+<h2 id="课后练习"><a class="header" href="#课后练习">课后练习</a></h2>
+<blockquote>
+<p><a href="https://practice-zh.course.rs/variables.html">Rust By Practice</a>，支持代码在线编辑和运行，并提供详细的<a href="https://github.com/sunface/rust-by-practice/blob/master/solutions/variables.md">习题解答</a>。</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../basic/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../basic/base-type/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../basic/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../basic/base-type/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

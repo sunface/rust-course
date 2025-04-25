@@ -1,0 +1,338 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>进入 Rust 编程世界 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/into-rust.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <img src="https://pic1.zhimg.com/80/v2-e9cfbd08d2ebca51b588d1beaed3c0dd_1440w.jpg" />
+<div align="center">正在努力学 Rust 的 Ferris</div>
+<br />
+<h2 id="rust-发展历程"><a class="header" href="#rust-发展历程">Rust 发展历程</a></h2>
+<p>Rust 最早是 Mozilla 雇员 Graydon Hoare 的个人项目。从 2009 年开始，得到了 Mozilla 研究院的资助，2010 年项目对外公布，2010 ～ 2011 年间实现自举。自此以后，Rust 在部分重构 -&gt; 崩溃的边缘反复横跳（历程极其艰辛），终于，在 2015 年 5 月 15 日发布 1.0 版。</p>
+<p>在紧锣密鼓的开发过程中，Rust 建立了一个强大且活跃的社区，形成一整套完善稳定的项目贡献机制（Rust 能够飞速发展，与这一点密不可分）。Rust 现在由 <a href="https://github.com/rust-lang/rust">Rust 项目开发者社区</a> 维护， <a href="https://foundation.rust-lang.org">Rust 基金会</a>赞助支持。</p>
+<p>大家可能疑惑 Rust 为啥用了这么久才到 1.0 版本？与之相比，Go 语言 2009 年发布，却在 2012 年仅用 3 年就发布了 1.0 版本。</p>
+<ul>
+<li>首先，Rust 语言特性较为复杂，所以需要全盘考虑的问题非常多；</li>
+<li>其次，Rust 当时的参与者太多，七嘴八舌的声音很多，众口难调，而 Rust 开发团队又非常重视社区的意见；</li>
+<li>最后，一旦 1.0 快速发布，那绝大部分语言特性就无法再被修改，对于有完美强迫症的 Rust 开发者团队来说，某种程度上的不完美是不可接受的。</li>
+</ul>
+<p>因此，Rust 语言用了足足 6 年时间，才发布了尽善尽美的 1.0 版本。</p>
+<blockquote>
+<p>大家知道 Rust 的作者到底因为何事才痛下决心开发一门新的语言吗？</p>
+<p>说来挺有趣，在 2006 年的某天，作者工作到精疲力尽后，本想回公寓享受下生活，结果发现电梯的程序出 Bug 崩溃了，要知道在国外，修理工可不像在中国那样随时待岗，还要知道，他家在 20 多楼！</p>
+<p>最后，他选择了妥协，去酒店待几天等待电梯的修理。</p>
+<p>当然，一般人可能就这样算了，毕竟忍几天就过去了嘛。但是这名伟大的程序员显然也不是一般人，他面对害他流离失所的电梯拿起了屠龙宝刀 - Rust。</p>
+<p>自此，劈开一个全新的编程世界。</p>
+</blockquote>
+<h2 id="为何又来一门新语言"><a class="header" href="#为何又来一门新语言">为何又来一门新语言？</a></h2>
+<p>简而言之，<strong>因为还缺一门无 GC 且无需手动内存管理、性能高、工程性强、语言级安全性以及能同时得到工程派和学院派认可的语言</strong>，而 Rust 就是这样的语言。你也可以回忆下熟悉的语言，看是不是有另外一门可以同时满足这些需求：)</p>
+<p>至于 Rust 最为人诟病的点，那也就一个：学习曲线陡峭。不过当语言生态起来后，这都不算问题。</p>
+<h3 id="缓解内卷"><a class="header" href="#缓解内卷">缓解内卷</a></h3>
+<p>有人说 Rust 作为新语言会增加内卷，其实恰恰相反，Rust 可以缓解内卷。为何不说 C++ 内卷，而说 Java、Python、JS 内卷？不就是后几个相对简单、上手容易嘛？而 Rust 怎么看也是 C++ 级别的上手难度。</p>
+<p>其实从我内心不可告人的角度出发，并不希望 Rust 大众化，因为这样可以保饭碗、保薪资，还能拥有行业内的地位。但是从对 Rust 的喜爱角度出发，我还是希望能卷一些。不过，目前来看真的卷不动，现在全世界范围内 Rust 的需求都大于供给，特别是优秀的 Rust 程序员更是难寻。</p>
+<p>与 Go 语言相比，成为一名优秀的 Rust 程序员所需的门槛高得多，例如融汇贯通 Rust 语言各种中高级特性、闭着眼睛趟过各种坑、不用回忆无需查找就能立刻写出最合适的包/模块/方法、性能/安全/工程性的权衡选择信手拈来、深层性能优化易如反掌、异步编程小菜一碟，更别说 Rust 之外的操作系统、网络、算法等等相关知识。</p>
+<p>所以，Rust 可以缓解内卷，而不是增加内卷。可以说是程序员的福音，不再是被随意替换的螺丝钉。</p>
+<h3 id="效率"><a class="header" href="#效率">效率</a></h3>
+<p>下面从三个角度来谈谈 Rust 的效率：学习、运行、开发。</p>
+<h4 id="学习效率"><a class="header" href="#学习效率">学习效率</a></h4>
+<p>众所周知，Rust 的学习曲线相当陡峭。起初，对此说法我还嗤之以鼻，随着不断的深入，现在也很认可这个说法。Rust 之难，不在于语言特性，这些都可以很容易学到，而在于：</p>
+<ul>
+<li>实践中如何融会贯通的运用</li>
+<li>遇到了坑时（生命周期、借用错误，自引用等）如何迅速、正确的解决</li>
+<li>大量的标准库方法记忆及熟练使用，这些是保证开发效率的关键</li>
+<li>心智负担较重，特别是初中级阶段</li>
+</ul>
+<p>好在这本书就是干这个的，包君满意，不满意退... 要不还是骂我吧 :D</p>
+<h4 id="运行效率"><a class="header" href="#运行效率">运行效率</a></h4>
+<p>得益于各种零开销抽象、深入到底层的优化潜力、优质的标准库和第三方库实现，Rust 具备非常优秀的性能，和 C、C++ 是 <a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/rust.html">一个级别</a>。</p>
+<p>同时 Rust 有一个极大的优点：只要按照正确的方式使用 Rust，无需性能优化，就能有非常优秀的表现，不可谓不惊艳。</p>
+<p>现在有不少用 Rust 重写的工具、平台都超过了原来用 C、C++ 实现的版本，将老前辈拍死在沙滩上，俨然成为一种潮流～～</p>
+<h4 id="开发效率"><a class="header" href="#开发效率">开发效率</a></h4>
+<p>Rust 的开发效率可以用先抑后扬来形容。在最初上手写项目时，你的开发速度将显著慢于 Go、Java 等语言，不过，一旦开始熟悉标准库、熟悉生命周期和所有权的常用解决方法，开发效率将大幅提升，甚至当形成肌肉记忆后，开发效率将不会慢于这些语言，而且原生就能写出高质量、安全、高效的代码，可以说中高级 Rust 程序员就是高效程序员的代名词。</p>
+<h3 id="个人的好处"><a class="header" href="#个人的好处">个人的好处</a></h3>
+<p>学习 Rust 对个人也有极大的好处。</p>
+<h4 id="成为更好的程序员"><a class="header" href="#成为更好的程序员">成为更好的程序员</a></h4>
+<p>要学好 Rust，你需要深入理解内存、堆栈、引用、变量作用域等这些其它高级语言往往不会深入接触的内容。另外，Rust 会通过语法、编译器和 clippy 这些静态检查工具半帮助半强迫的让你成为更优秀的程序员，写出更好的代码。</p>
+<p>同时，当你掌握 Rust 后，就会自发性的想要去做一些更偏底层的开发，这些都可以帮助你更加了解操作系统、网络、性能优化等底层知识，也会间接或者直接的接触到各种算法和数据结构的实现。</p>
+<p>慢慢的，你就在成为那个更好的程序员，也是更优秀的自己。</p>
+<h4 id="增加不可替代性"><a class="header" href="#增加不可替代性">增加不可替代性</a></h4>
+<p>语言难学也有好处，一旦掌握，你将具备较强的不可替代性，不再是一个简单的工具人角色。看看现在内卷严重的 Java，工具人有多少！一个人离职，另外一个人很快就能替补上。</p>
+<p>当然，我不是说 Rust 会给公司带来这种隐形的维护成本，毕竟这其实是一种双赢，公司收获了更优秀的程序员（不可否认的是 Rust 程序员普遍来说水平确实更高，毕竟都是有很好的编程基础、也很有追求的自驱型人才），而你也收获了更稳定的工作环境，甚至是更高的收入。</p>
+<h3 id="团队的好处"><a class="header" href="#团队的好处">团队的好处</a></h3>
+<p>先不说安全、可靠性等对公司团队非常友好的特性，就说 Rust 程序只要能跑起来，那代码质量其实就是相当不错的，因为 Rust 编译器实在是一名严师厉友，甚至有些鸡毛。</p>
+<p>正因为这较高的质量下限，我们在代码 review 时不用过于担心潜在的各种坑，得益于此，可以实现更加高效的开发、review、merge 流程。</p>
+<p>由于 Rust 语言拥有异常强大的编译器和语言特性，Rust 的代码天然就会比其它语言拥有更少的 Bug。同时 Rust 拥有非常完善的工具链、最好的包管理工具，决定了 Rust 非常适合大型团队的协作开发。</p>
+<p>也许 Rust 在开发速度上不是最快的，但是从开发 + 维护的角度来看，这个成本在各个语言中绝对是很小的。当然，如果你的公司就追求做出来能用就行，那 Rust 确实有些灰姑娘的感觉。</p>
+<p>还有一点很重要，现在的 Rust 程序员往往拥有更出众的能力和学习自驱性，因此团队招到的人天然就保持了较高的底线。如果你有幸招到一个优秀的 Rust 程序员，那真是捡到宝了，他也会同时带动周围的人一起慢慢优秀（优秀的 Rust 程序员比较好辨别，门槛低的语言就并没有那么好辨别）。总之，一个这样的程序员会给团队带来远超他薪资的潜在回报和长远收益。</p>
+<h3 id="开源"><a class="header" href="#开源">开源</a></h3>
+<p>目前 Rust 的主战场是在开源上，Go 的成功也证明了农村包围城市( 开源包围商业 )的可行性。</p>
+<ul>
+<li>UI 层开发，Rust 的 WASM 发展的如火如荼，隐隐有王者风范，在 JS 的基础设施领域，Rust 也是如鱼得水，例如 <code>swc</code>、 <code>deno</code> 等。同时 <code>nextjs</code> 也是押宝 Rust，可以说 Rust 在前端的成功完全是无心插柳柳成荫。</li>
+<li>基础设施层、数据库、搜索引擎、网络设施、云原生等都在出现 Rust 的身影，而且还不少。</li>
+<li>系统开发，目前 Linux 已经将 Rust 语言纳入内核，是继 C 语言后第二门支持内核开发的语言，不过刚开始将主要支持驱动开发。</li>
+<li>系统工具，现在最流行的就是用 Rust 重写之前 C、C++ 写的一票系统工具，还都获得了挺高的关注和很好的效果，例如 sd, exa, ripgrep, fd, bat 等。</li>
+<li>操作系统，正在使用 Rust 开发的操作系统有好几个，其中最有名的可能就是谷歌的 Fuchsia，Rust 在其中扮演非常重要的角色。</li>
+<li>区块链，如果 Rust 的份额说第二，应该没人敢稳说自己是第一吧？</li>
+</ul>
+<p>类似的还有很多，我们就不一一列举。总之，现在有大量的项目正在被 Rust 重写，同时还有海量的项目在等待被重写，这些都是赚取 github 星星和认可的好机会。在其它语言杀成一片红海时，Rust 还留了一大片蓝海等待大家的探索！</p>
+<h3 id="相比其他语言-rust-的优势"><a class="header" href="#相比其他语言-rust-的优势">相比其他语言 Rust 的优势</a></h3>
+<p>由于篇幅有限，我们这里不会讲述详细的对比，就是简单介绍下 Rust 的优势，并不是说 Rust 优于这些语言，大家轻喷：)</p>
+<h4 id="go"><a class="header" href="#go">Go</a></h4>
+<p>Rust 语言表达能力更强，性能更高。同时线程安全方面 Rust 也更强，不容易写出错误的代码。包管理 Rust 也更好，Go 虽然在 1.10 版本后提供了包管理，但是目前还比不上 Rust 。</p>
+<h4 id="c"><a class="header" href="#c">C++</a></h4>
+<p>Rust 与 C++ 的性能旗鼓相当，但是在安全性方面 Rust 会更优，特别是使用第三方库时，Rust 的严格要求会让三方库的质量明显高很多。</p>
+<p>语言本身的学习，Rust 的前中期学习曲线会更陡峭，但是在实际的项目开发过程中，C++ 会更难，代码也更难以维护。</p>
+<h4 id="java"><a class="header" href="#java">Java</a></h4>
+<p>除了极少数纯粹的数字计算性能，Rust 的性能全面领先于 Java 。同时 Rust 占用内存小的多，因此实现同等规模的服务，Rust 所需的硬件成本会显著降低。</p>
+<h4 id="python"><a class="header" href="#python">Python</a></h4>
+<p>性能自然是 Rust 完胜，同时 Rust 对运行环境要求较低，这两点差不多就足够抉择了。不过 Python 和 Rust 的彼此适用面其实也不太冲突。</p>
+<h3 id="使用现状"><a class="header" href="#使用现状">使用现状</a></h3>
+<ul>
+<li>AWS 从 2017 年开始就用 Rust 实现了无服务器计算平台： AWS Lambda 和 AWS Fargate，并且用 Rust 重写了 Bottlerocket OS 和 AWS Nitro 系统，这两个是弹性计算云 (EC2) 的重要服务</li>
+<li>Cloudflare 是 Rust 的重度用户，DNS、无服务计算、网络包监控等基础设施都与 Rust 密不可分</li>
+<li>Dropbox 的底层存储服务完全由 Rust 重写，达到了数万 PB 的规模</li>
+<li>Google 除了在安卓系统的部分模块中使用 Rust 外，还在它最新的操作系统 Fuchsia 中重度使用 Rust</li>
+<li>Facebook 使用 Rust 来增强自己的网页端、移动端和 API 服务的性能，同时还写了 Hack 编程语言的虚拟机</li>
+<li>Microsoft 使用 Rust 为 Azure 平台提供一些组件，其中包括 IoT 的核心服务</li>
+<li>GitHub 和 npmjs.com，使用 Rust 提供高达每天 13 亿次的 npm 包下载</li>
+<li>Rust 目前已经成为全世界区块链平台的首选开发语言</li>
+<li>TiDB，国内最有名的开源分布式数据库</li>
+</ul>
+<p>尤其值得一提的是，AWS 实际上在押宝 Rust，内部对 Rust 的使用已经上升到头等公民 <strong>first-class</strong> 的地位。</p>
+<h2 id="rust-语言版本更新"><a class="header" href="#rust-语言版本更新">Rust 语言版本更新</a></h2>
+<p>与其它语言相比，Rust 的更新迭代较为频繁（得益于精心设计过的发布流程以及 Rust 语言开发者团队的严格管理）：</p>
+<ul>
+<li>每 6 周发布一个迭代版本</li>
+<li>2-3 年发布一个新的大版本，例如 Rust 2018 edition，Rust 2021 edition</li>
+</ul>
+<p>好处在于，可以满足不同的用户群体的需求：</p>
+<ul>
+<li>对于活跃的 Rust 用户，他们总是能很快获取到新的语言内容，毕竟，尝鲜是技术爱好者的共同特点：)</li>
+<li>对于一般的用户，edition 大版本的发布会告诉他们：Rust 语言相比上次大版本发布，有了重大的改进，值得一看</li>
+<li>对于 Rust 语言开发者，可以让他们的工作成果更快的被世人所知，不必锦衣夜行</li>
+</ul>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p>连续 8 年最受欢迎的语言当然不是浪得虚名。 无 GC、效率高、工程性强、强安全性以及能同时得到工程派和学院派认可，这些令 Rust 拥有了自己的特色和生存空间。社区的友善，生态的快速发展，大公司的重仓跟进，一切的一切都在说明 Rust 的璀璨未来。</p>
+<p>当然，语言毕竟只是工具，我们不能神话它，但是可以给它一个机会，也许，你最终能收获自己的真爱 ：)</p>
+<p>相信大家听了这么多 Rust 的优点，已经迫不及待想要开始学习旅程，那么容我引用一句 CS（Counter-Strike：反恐精英） 的经典台词：Ok, Let's Rust.</p>
+<blockquote>
+<p>本书是完全开源的，但是并不意味着质量上的妥协，这里的每一个章节都花费了大量的心血和时间才能完成，为此牺牲了陪伴家人、日常娱乐的时间，虽然我们并不后悔，但是如果能得到读者您的鼓励，我们将感激不尽。</p>
+<p>既然是开源，那最大的鼓励不是 money，而是 star:) <strong>如果大家觉得这本书作者真的用心了，就帮我们<a href="https://github.com/sunface/rust-course">点一个 🌟 </a>吧，这将是我们继续前行的最大动力</strong></p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="about-book.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="first-try/sth-you-should-not-do.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="about-book.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="first-try/sth-you-should-not-do.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace.js"></script>
+        <script src="editor.js"></script>
+        <script src="mode-rust.js"></script>
+        <script src="theme-dawn.js"></script>
+        <script src="theme-tomorrow_night.js"></script>
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="assets/custom2.js"></script>
+        <script src="assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Rust 版本说明 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/appendix/rust-version.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="附录-frust-版本发布"><a class="header" href="#附录-frust-版本发布">附录 F：Rust 版本发布</a></h1>
+<h2 id="rust-版本说明"><a class="header" href="#rust-版本说明">Rust 版本说明</a></h2>
+<p>早在第一章，我们见过 <code>cargo new</code> 在 <em>Cargo.toml</em> 中增加了一些有关 <code>edition</code> 的元数据。本附录将解释其意义！</p>
+<p>与其它语言相比，Rust 的更新迭代较为频繁（得益于精心设计过的发布流程以及 Rust 语言开发者团队管理）：</p>
+<ul>
+<li>每 6 周发布一个迭代版本</li>
+<li>2 - 3 年发布一个新的大版本：每一个版本会结合已经落地的功能，并提供一个清晰的带有完整更新文档和工具的功能包。新版本会作为常规的 6 周发布过程的一部分发布。</li>
+</ul>
+<p>好处在于，可以满足不同的用户群体的需求：</p>
+<ul>
+<li>对于活跃的 Rust 用户，他们总是能很快获取到新的语言内容，毕竟，尝鲜是技术爱好者的共同特点:)</li>
+<li>对于一般的用户，edition 的发布会告诉这些用户：Rust 语言相比上次大版本发布，有了重大的改进，值得一看</li>
+<li>对于 Rust 语言开发者，可以让他们的工作成果更快的被世人所知，不必锦衣夜行</li>
+</ul>
+<p>在本文档编写时，Rust 已经有三个版本：Rust 2015、2018、2021。本书基于 <code>Rust 2021 edition</code> 编写。</p>
+<p><em>Cargo.toml</em> 中的 <code>edition</code> 字段表明代码应该使用哪个版本编译。如果该字段不存在，其默认为 <code>2021</code> 以提供后向兼容性。</p>
+<p>每个项目都可以选择不同于默认的 <code>Rust 2021 edition</code> 的版本。这样，版本可能会包含不兼容的修改，比如新版本中新增的关键字可能会与老代码中的标识符冲突并导致错误。不过，除非你选择应用这些修改，否则旧代码依然能够被编译，即便你升级了编译器版本。</p>
+<p>所有 Rust 编译器都支持任何之前存在的编译器版本，并可以链接任何支持版本的包。编译器修改只影响最初的解析代码的过程。因此，如果你使用 <code>Rust 2021</code> 而某个依赖使用 <code>Rust 2018</code>，你的项目仍旧能够编译并使用该依赖。反之，若项目使用 <code>Rust 2018</code> 而依赖使用 <code>Rust 2021</code> 亦可工作。</p>
+<p>有一点需要明确：大部分功能在所有版本中都能使用。开发者使用任何 Rust 版本将能继续接收最新稳定版的改进。然而在一些情况，主要是增加了新关键字的时候，则可能出现了只能用于新版本的功能。只需切换版本即可利用新版本的功能。</p>
+<p>请查看 <a href="https://rust-lang-nursery.github.io/edition-guide/">Edition Guide</a> 了解更多细节，这是一个完全介绍版本的书籍，包括如何通过 <code>cargo fix</code> 自动将代码迁移到新版本。</p>
+<h2 id="rust-自身开发流程"><a class="header" href="#rust-自身开发流程">Rust 自身开发流程</a></h2>
+<p>本附录介绍 Rust 语言自身是如何开发的以及这如何影响作为 Rust 开发者的你。</p>
+<h3 id="无停滞稳定"><a class="header" href="#无停滞稳定">无停滞稳定</a></h3>
+<p>作为一个语言，Rust <strong>十分</strong> 注重代码的稳定性。我们希望 Rust 成为你代码坚实的基础，假如持续地有东西在变，这个希望就实现不了。但与此同时，如果不能实验新功能的话，在发布之前我们又无法发现其中重大的缺陷，而一旦发布便再也没有修改的机会了。</p>
+<p>对于这个问题我们的解决方案被称为 “无停滞稳定”（“stability without stagnation”），其指导性原则是：无需担心升级到最新的稳定版 Rust。每次升级应该是无痛的，并应带来新功能，更少的 Bug 和更快的编译速度。</p>
+<h3 id="choo-choo--小火车发布流程启动"><a class="header" href="#choo-choo--小火车发布流程启动">Choo, Choo! ~~ 小火车发布流程启动</a></h3>
+<p>开发 Rust 语言是基于一个<strong>火车时刻表</strong>来进行的：所有的开发工作在 Master 分支上完成，但是发布就像火车时刻表一样，拥有不同的时间，发布采用的软件发布列车模型，被用于思科 IOS 等其它软件项目。Rust 有三个 <strong>发布通道</strong>（<em>release channel</em>）：</p>
+<ul>
+<li>Nightly</li>
+<li>Beta</li>
+<li>Stable（稳定版）</li>
+</ul>
+<p>大部分 Rust 开发者主要采用稳定版通道，不过希望实验新功能的开发者可能会使用 nightly 或 beta 版。</p>
+<p>如下是一个开发和发布过程如何运转的例子：假设 Rust 团队正在进行 Rust 1.5 的发布工作。该版本发布于 2015 年 12 月，这个版本和时间显然比较老了，不过这里只是为了提供一个真实的版本。Rust 新增了一项功能：一个 <code>master</code> 分支的新提交。每天晚上，会产生一个新的 nightly 版本。每天都是发布版本的日子，而这些发布由发布基础设施自动完成。所以随着时间推移，发布轨迹看起来像这样，版本一天一发：</p>
+<pre><code class="language-text">nightly: * - - * - - *
+</code></pre>
+<p>每 6 周时间，是准备发布新版本的时候了！Rust 仓库的 <code>beta</code> 分支会从用于 nightly 的 <code>master</code> 分支产生。现在，有了两个发布版本：</p>
+<pre><code class="language-text">nightly: * - - * - - *
+                     |
+beta:                *
+</code></pre>
+<p>大部分 Rust 用户不会主要使用 beta 版本，不过在 CI 系统中对 beta 版本进行测试能够帮助 Rust 发现可能的回归缺陷（regression）。同时，每天仍产生 nightly 发布：</p>
+<pre><code class="language-text">nightly: * - - * - - * - - * - - *
+                     |
+beta:                *
+</code></pre>
+<p>比如我们发现了一个回归缺陷。好消息是在这些缺陷流入稳定发布之前还有一些时间来测试 beta 版本！fix 被合并到 <code>master</code>，为此 nightly 版本得到了修复，接着这些 fix 将 backport 到 <code>beta</code> 分支，一个新的 beta 发布就产生了：</p>
+<pre><code class="language-text">nightly: * - - * - - * - - * - - * - - *
+                     |
+beta:                * - - - - - - - - *
+</code></pre>
+<p>第一个 beta 版的 6 周后，是发布稳定版的时候了！<code>stable</code> 分支从 <code>beta</code> 分支生成：</p>
+<pre><code class="language-text">nightly: * - - * - - * - - * - - * - - * - * - *
+                     |
+beta:                * - - - - - - - - *
+                                       |
+stable:                                *
+</code></pre>
+<p>好的！Rust 1.5 发布了！然而，我们忘了些东西：因为又过了 6 周，我们还需发布 <strong>新版</strong> Rust 的 beta 版，Rust 1.6。所以从 <code>beta</code> 分支生成 <code>stable</code> 分支后，新版的 <code>beta</code> 分支也再次从 <code>nightly</code> 生成：</p>
+<pre><code class="language-text">nightly: * - - * - - * - - * - - * - - * - * - *
+                     |                         |
+beta:                * - - - - - - - - *       *
+                                       |
+stable:                                *
+</code></pre>
+<p>这被称为 “train model”，因为每 6 周，一个版本 “离开车站”（“leaves the station”），不过从 beta 通道到达稳定通道还有一段旅程。</p>
+<p>Rust 每 6 周发布一个版本，如时钟般准确。如果你知道了某个 Rust 版本的发布时间，就可以知道下个版本的时间：6 周后。每 6 周发布版本的一个好的方面是下一班车会来得更快。如果特定版本碰巧缺失某个功能也无需担心：另一个版本很快就会到来！这有助于减少因临近发版时间而偷偷释出未经完善的功能的压力。</p>
+<p>多亏了这个过程，你总是可以切换到下一版本的 Rust 并验证是否可以轻易的升级：如果 beta 版不能如期工作，你可以向 Rust 团队报告并在发布稳定版之前得到修复！beta 版造成的破坏是非常少见的，不过 <code>rustc</code> 也不过是一个软件，可能会存在 Bug。</p>
+<h3 id="不稳定功能"><a class="header" href="#不稳定功能">不稳定功能</a></h3>
+<p>这个发布模型中另一个值得注意的地方：不稳定功能（unstable features）。Rust 使用一个被称为 “功能标记”（“feature flags”）的技术来确定给定版本的某个功能是否启用。如果新功能正在积极地开发中，其提交到了 <code>master</code>，因此会出现在 nightly 版中，不过会位于一个 <strong>功能标记</strong> 之后。作为用户，如果你希望尝试这个正在开发的功能，则可以在源码中使用合适的标记来开启，不过必须使用 nightly 版。</p>
+<p>如果使用的是 beta 或稳定版 Rust，则不能使用任何功能标记。这是在新功能被宣布为永久稳定之前获得实用价值的关键。这既满足了希望使用最尖端技术的同学，那些坚持稳定版的同学也知道其代码不会被破坏。这就是无停滞稳定。</p>
+<p>本书只包含稳定的功能，因为还在开发中的功能仍可能改变，当其进入稳定版时肯定会与编写本书的时候有所不同。你可以在网上获取 nightly 版的文档。</p>
+<h3 id="rustup-和-rust-nightly-的职责"><a class="header" href="#rustup-和-rust-nightly-的职责">Rustup 和 Rust Nightly 的职责</a></h3>
+<h4 id="安装-rust-nightly-版本"><a class="header" href="#安装-rust-nightly-版本">安装 Rust Nightly 版本</a></h4>
+<p>Rustup 使得改变不同发布通道的 Rust 更为简单，其在全局或分项目的层次工作。其默认会安装稳定版 Rust。例如为了安装 nightly：</p>
+<pre><code class="language-text">$ rustup install nightly
+</code></pre>
+<p>你会发现 <code>rustup</code> 也安装了所有的 <strong>工具链</strong>（<em>toolchains</em>， Rust 和其相关组件）。如下是一位作者的 Windows 计算机上的例子：</p>
+<pre><code class="language-powershell">&gt; rustup toolchain list
+stable-x86_64-pc-windows-msvc (default)
+beta-x86_64-pc-windows-msvc
+nightly-x86_64-pc-windows-msvc
+</code></pre>
+<h4 id="在指定目录使用-rust-nightly"><a class="header" href="#在指定目录使用-rust-nightly">在指定目录使用 Rust Nightly</a></h4>
+<p>如你所见，默认是稳定版。大部分 Rust 用户在大部分时间使用稳定版。你可能也会这么做，不过如果你关心最新的功能，可以为特定项目使用 nightly 版。为此，可以在项目目录使用 <code>rustup override</code> 来设置当前目录 <code>rustup</code> 使用 nightly 工具链：</p>
+<pre><code class="language-text">$ cd ~/projects/needs-nightly
+$ rustup override set nightly
+</code></pre>
+<p>现在，每次在 *~/需要 nightly 的项目/*下(在项目的根目录下，也就是 <code>Cargo.toml</code> 所在的目录) 调用 <code>rustc</code> 或 <code>cargo</code>，<code>rustup</code> 会确保使用 nightly 版 Rust。在你有很多 Rust 项目时大有裨益！</p>
+<h3 id="rfc-过程和团队"><a class="header" href="#rfc-过程和团队">RFC 过程和团队</a></h3>
+<p>那么你如何了解这些新功能呢？Rust 开发模式遵循一个 <strong>Request For Comments (RFC) 过程</strong>。如果你希望改进 Rust，可以编写一个提议，也就是 RFC。</p>
+<p>任何人都可以编写 RFC 来改进 Rust，同时这些 RFC 会被 Rust 团队评审和讨论，他们由很多不同分工的子团队组成。这里是 <a href="https://www.rust-lang.org/governance">Rust 官网</a> 上所有团队的总列表，其包含了项目中每个领域的团队：语言设计、编译器实现、基础设施、文档等。各个团队会阅读相应的提议和评论，编写回复，并最终达成接受或回绝功能的一致。</p>
+<p>如果功能被接受了，在 Rust 仓库会打开一个 issue，人们就可以实现它。实现功能的人可能不是最初提议功能的人！当实现完成后，其会合并到 <code>master</code> 分支并位于一个特性开关（feature gate）之后，正如<a href="#%E4%B8%8D%E7%A8%B3%E5%AE%9A%E5%8A%9F%E8%83%BD">不稳定功能</a> 部分所讨论的。</p>
+<p>在稍后的某个时间，一旦使用 nightly 版的 Rust 团队能够尝试这个功能了，团队成员会讨论这个功能在 nightly 中运行的情况，并决定是否应该进入稳定版。如果决定继续推进，特性开关会移除，然后这个功能就被认为是稳定的了！乘着“发布的列车”，最终在新的稳定版 Rust 中出现。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../appendix/prelude.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../appendix/rust-versions/intro.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../appendix/prelude.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../appendix/rust-versions/intro.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

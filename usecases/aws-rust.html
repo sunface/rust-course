@@ -1,0 +1,279 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>AWS 为何这么喜欢 Rust? - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/usecases/aws-rust.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="使用-rust-来节约企业成本"><a class="header" href="#使用-rust-来节约企业成本">使用 Rust 来节约企业成本</a></h1>
+<p>夸 Rust 语言的方式至少有 3000 种，但是从环保和可持续发展角度去夸的大家见过嘛？这不，AWS 就给我们带来了一篇非常精彩的文章，一起来看看。</p>
+<blockquote>
+<p>原文链接： https://aws.amazon.com/cn/blogs/opensource/sustainability-with-rust/ ，由于原文过长，译文进行了适当的精简(例如夸 AWS 的部分 - , -)</p>
+</blockquote>
+<p>Rust 是一门完全开源的语言，在 2015 年发布了 1.0 版本，但是在 2020 年 才迎来了真正的大发展契机，这是由于 Rust 的开源支持由 Mozilla 移交给了 <a href="https://foundation.rust-lang.org/">Rust基金会</a>，后者是由 亚马逊云AWS、谷歌、华为、微软和 Mozilla 共同创建的非营利性组织。</p>
+<p>在 AWS，Rust 已经成为构建大规模基础设施的关键，其中一部分:</p>
+<ul>
+<li><a href="https://firecracker-microvm.github.io/">Firecraker</a> 是开源的虚拟化技术，用于支持 AWS Lambda 和其它无服务器计算</li>
+<li>为 Amazon S3 、Amazon EC2、Amazon CloudFront 等提供关键性服务</li>
+<li>在 2020 年发布了 <a href="https://aws.amazon.com/bottlerocket/">Bottlerocket</a> 一个基于 Linux 的容器化操作系统</li>
+</ul>
+<h2 id="云计算的能源效率"><a class="header" href="#云计算的能源效率">云计算的能源效率</a></h2>
+<img src="https://pica.zhimg.com/80/v2-f3be97bda5058c1b490bd393e5cd2910_1440w.png" />
+<p><em>来源: IEA(2021)，全球数据中心能源需求，2010-2022，https://www.iea.org/data-and-statistics/charts/global-data-centre-energy-demand-by-data-centre-type-2010-2022</em></p>
+<p>在全世界范围内，数据中心每年大概消耗 <a href="https://www.iea.org/data-and-statistics/charts/global-data-centre-energy-demand-by-data-centre-type-2010-2022">200 太瓦时</a> 的能源，大概占全球能源消耗总量的 1%。</p>
+<p>图中有几个有趣的点值得关注。首先，数据中心消耗的能源总量在过去 12 年间并没有显著的变化，这个其实蛮反直觉的，因为在这些年间，大数据、机器学习、边缘计算、区块链等等耗电大户发展速度都非常快。其次，虽然总量没有变，但是三种数据中心的能源占比分布发生了巨大的变化：超大规模(hyperscale)、传统服务、云计算。</p>
+<p>总量反直觉变化的关键，其实就在于这些年能源效率得到了大幅提升，以及很多传统服务都迁移到了云计算上，而后者通过多租户、智能硬件资源利用、优化驱动和存储、更高效的冷却系统等等一系列措施大幅降低了能源的消耗。</p>
+<p>尽管能源效率提升巨大，但是，依然存在两个问题。首先，当前的现状已经足够好了吗？例如让能源占比保持在 1% 的水准。其次，能源效率能否像过去一样继续快速提升？考虑到即将爆发的无人驾驶、机器人、机器学习领域，我们对此保持不乐观的态度，因为这个领域需要处理异常巨大的数据集。</p>
+<img src="https://pic2.zhimg.com/80/v2-5842ced7c60cdf549375b64a2c43804c_1440w.jpeg" />
+<p>当然，还能从能源本身入手来改善，例如 AWS 计划在 2025 年之前实现所有数据中心都使用可再生能源，但可再生能源并不意味着它没有环境影响，它依然需要 50 万英亩的太阳能板来生成 200 太瓦时的数据中心能源需求。总之，可再生能源不是一个设计上的概念，也不能替代设计上的优化，我们还需要其它方式。</p>
+<p>这些其它方式包括：为非关键服务放松 <code>SLA</code> 的要求和资源供给优先级，利用虚拟化实现更长的设备升级周期，更多的利用缓存、设置更长的 TTL ，对数据进行分类并通过自动化的策略来实现尽可能及时的数据删除，为加密和压缩选择更高效的算法等等，最后但也最重要的是：<strong>我们可以选择使用一门能源效率高的编程语言来实现基础服务和用户端的软件</strong>。</p>
+<h2 id="编程语言的能源效率"><a class="header" href="#编程语言的能源效率">编程语言的能源效率</a></h2>
+<p>对于开发者来说，估计没几个人能搞清楚自己服务的能源效率，那么该如何对比编程语言之间的能源效率呢？好在国外有专家做了相关的<a href="https://greenlab.di.uminho.pt/wp-content/uploads/2017/10/sleFinal.pdf">学术研究</a>。</p>
+<p>他精心设计了 10 个测试场景，然后衡量了 27 种不同的语言的执行时间、能源消耗、最大内存使用，最终得出了一个结论：C 和 Rust 在能源效率方面无可争议地击败了其它语言——比 Java 高出 98%， 是 Python 的近 76 倍。</p>
+<img src="https://pic1.zhimg.com/80/v2-f39a453280eba7365b684cd882df9f78_1440w.png" />
+<p>其实，C 和 Rust 的能效高很正常，但比其它语言高出这么多就相当出乎意料了：根据上图的数据，采用这两门语言后，程序的能耗将降低至少一倍。这还是与榜单中靠前的 Java 语言对比的结果。</p>
+<p>那么问题来了，既然这两个都可以，为何不选择历史更悠久的 C 语言呢？它的生态和社区都比 Rust 要更好。 好在，linux 创始人 Linus Torvalds 在 2021 年度的开源峰会上给出了答案：他承认，<a href="https://thenewstack.io/linus-torvalds-on-community-rust-and-linuxs-longevity/">使用 C 语言就像是拿着一把链锯在玩耍</a>，同时还说道："C 语言的类型互动并不总是合乎逻辑的，以至于对于绝大多数人来说，这种互动都可能存在陷阱"。</p>
+<p>作为侧面的证明，Rust 在去年下半年被纳入了 Linux 的官方开发语言，如果大家想知道其它的官方语言有哪些？我可以很轻松的列出一个列表：C 语言。。。这叫列表？这就结束了？其它的呢？别急，事实上，之前仅有 C 语言是官方支持的，可想而知 Rust 是多么的优秀才能从这么多竞争者中脱颖而出！</p>
+<p>总之，Linus Torvalds 亲口说过 Rust 是他见过的第一门可以称之为<strong>能很好的解决问题</strong>的编程语言，Rust 在比肩 C 的效率的同时，还能避免各种不安全的风险，对于能耗来说，我们就能在节省一半能耗的同时还不用担心安全性。</p>
+<p>多个分析报告也指出：七成以上的 C/C++ 的高风险 CVE 可以在 Rust 中得到有效的规避，且使用的是同样的解决方法！事实上，ISRG(非盈利组织，Let's Encrypt 项目发起者) 就有一个目标，希望能将所有对网络安全敏感的基础设施转移到 Rust 上。正在进行的项目包括: Linux 内核对 Rust 的进一步支持，以及将 curl 迁移到基于 TLS 和 HTTP 的 Rust 版本上。</p>
+<img src="https://pic2.zhimg.com/80/v2-c15207d4631d0ccfea6681de57b36725_1440w.png" />
+<p>不仅仅是能耗，上图中的中间列还提供了执行时间的测量指标，可以看出 Rust 和 C 在性能上也相当接近，而且两者都比其它语言也更快(其实对于 C++ 的结果，我个人不太理解，如果有大神阅读过之前提到的学术研究报告，欢迎给出答案 :D )。这意味着，当为了能效和安全选择了 Rust 后，我们依然可以获得类似 C 语言级别的性能，还是优化过的。</p>
+<h2 id="rust-成功案例"><a class="header" href="#rust-成功案例">Rust 成功案例</a></h2>
+<p>下面一起来看几个关于使用 Rust 后获得性能和成本双丰收的案例。</p>
+<h4 id="tenable"><a class="header" href="#tenable">Tenable</a></h4>
+<img src="https://pica.zhimg.com/80/v2-f631c943c213775f9532a31ceaadb3ff_1440w.png" />
+<p><em>https://medium.com/tenable-techblog/optimizing-700-cpus-away-with-rust-dc7a000dbdb2</em></p>
+<p>Tenable 是一家网络安全解决方案提供商，它提供了一套可视化工具，并通过一个 <code>sidecar agent</code> 来过滤采集到的指标数据。最开始，该公司使用 JavaScript 作为主要语言，当业务开始快速增长时，性能降级的问题就不可避免的发生了。</p>
+<p>因此，在经过一系列调研后，<code>Tenable</code> 最终决定使用 Rust 来重写该服务，以获取更好的性能和安全性。最终结果也没有让他们失望，在延迟方面获得了 50% 的提升，如上图所示。</p>
+<p>除了用户体验的提升之外，在 CPU 和内存占用方面也提升巨大，这可以帮助他们节省大量的硬件和能耗成本:</p>
+<img src="https://pic1.zhimg.com/80/v2-3f8bf46b5df67290b65409b3d1bd29ad_1440w.png" />
+<img src="https://pic1.zhimg.com/80/v2-95b121d6c38ced2841dc5ff2f82d1ceb_1440w.png" />
+<h4 id="discord"><a class="header" href="#discord">Discord</a></h4>
+<img src="https://pic3.zhimg.com/80/v2-29cdb47ea7efbce596038c647cdbd108_1440w.png" />
+<p><em>https://discord.com/blog/why-discord-is-switching-from-go-to-rust</em></p>
+<p>Discord 最初使用 Python、Go、Elixir 来实现，但是随即他们发现其中一个关键的 Go 服务存在一些问题。该服务很简单，但是会出现较慢的尾延迟现象，原因是 Go 语言拥有 GC 垃圾回收，当对象在快速创建和释放时，GC 会较为频繁的运行，然后导致整个程序的暂停，因此当 GC 发生时，程序是无法响应用户的请求的，从图中的不断起伏的峰值表现，你可以看出问题所在。</p>
+<p>为了解决问题，Discord 选择使用 Rust 来重写该服务，然后下图是结果对比，Go 语言是左边一列，Rust 是右边一列:</p>
+<img src="https://pic1.zhimg.com/80/v2-3cc17afdf0495fb57c25b1abfc629114_1440w.png">
+<p>从图中可以看出几点：</p>
+<ul>
+<li>由于 GC 导致的峰值起伏没有了</li>
+<li>Rust 版本比 Go 的版本响应时间降低了 10 倍以上，注意看，图中的时间单位是不一样的</li>
+</ul>
+<p>在重写后，由于性能的大幅提升，还帮助 Discord 降低了服务器资源的需求，变相节省了大笔金钱。</p>
+<p>从上面两个例子中，我们看到两个公司都是为了性能才去使用 Rust ，但是在性能之外他们还收获了能效上的提升和硬件成本上的降低，这不得不说是一种意外之喜了。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../usecases/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../logs/intro.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../usecases/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../logs/intro.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

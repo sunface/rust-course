@@ -1,0 +1,308 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>下载依赖太慢了？ - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/first-try/slowly-downloading.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="下载依赖很慢或卡住"><a class="header" href="#下载依赖很慢或卡住">下载依赖很慢或卡住？</a></h1>
+<p>在目前，大家还不需要自己搭建的镜像下载服务，因此只需知道下载依赖库的地址是 <a href="https://crates.io">crates.io</a>，是由 Rust 官方搭建的镜像下载和管理服务。</p>
+<p>但悲剧的是，它的默认镜像地址是在国外，这就导致了某些时候难免会遇到下载缓慢或者卡住的情况，下面我们一起来看看。</p>
+<h2 id="下载很慢"><a class="header" href="#下载很慢">下载很慢?</a></h2>
+<p>作为国外的语言，下载慢是正常的，隔壁的那位还被墙呢:)</p>
+<p>解决下载缓慢有两种途径：</p>
+<h3 id="开启命令行或者全局翻墙"><a class="header" href="#开启命令行或者全局翻墙">开启命令行或者全局翻墙</a></h3>
+<p>经常有同学反馈，我明明开启翻墙了，但是下载依然还是很慢，无论是命令行中下载还是 VSCode 的 rust-analyzer 插件自动拉取。</p>
+<p>事实上，翻墙工具默认开启的仅仅是浏览器的翻墙代理，对于命令行或者软件中的访问，并不会代理流量，因此这些访问还是通过正常网络进行的，自然会失败。</p>
+<p>因此，大家需要做的是在你使用的翻墙工具中 <code>复制终端代理命令</code> 或者开启全局翻墙。由于每个翻墙软件的使用方式不同，因此具体的还是需要自己研究下。以我使用的 <code>ClashX</code> 为例，点击 <code>复制终端代理命令</code> 后，会自动复制一些 <code>export</code> 文本，将这些文本复制到命令行终端中，执行一下，就可以自动完成代理了。</p>
+<pre><code class="language-shell">export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7891
+</code></pre>
+<h3 id="修改-rust-的下载镜像为国内的镜像地址"><a class="header" href="#修改-rust-的下载镜像为国内的镜像地址">修改 Rust 的下载镜像为国内的镜像地址</a></h3>
+<p>这个效果最直接，一劳永逸，但是就是配置起来略微麻烦。</p>
+<p>为了使用 <code>crates.io</code> 之外的注册服务，我们需要对 <code>$HOME/.cargo/config.toml</code> ($CARGO_HOME 下) 文件进行配置，添加新的服务提供商，有两种方式可以实现：增加新的镜像地址和覆盖默认的镜像地址。</p>
+<h3 id="新增镜像地址"><a class="header" href="#新增镜像地址">新增镜像地址</a></h3>
+<p><strong>首先是在 <code>crates.io</code> 之外添加新的注册服务</strong>，在 <code>$HOME/.cargo/config.toml</code> （如果文件不存在则手动创建一个）中添加以下内容：</p>
+<pre><code class="language-toml">[registries]
+ustc = { index = "https://mirrors.ustc.edu.cn/crates.io-index/" }
+</code></pre>
+<p>这种方式只会新增一个新的镜像地址，因此在引入依赖的时候，需要指定该地址，例如在项目中引入 <code>time</code> 包，你需要在 <code>Cargo.toml</code> 中使用以下方式引入:</p>
+<pre><code class="language-toml">[dependencies]
+time = {  registry = "ustc" }
+</code></pre>
+<p><strong>在重新配置后，初次构建可能要较久的时间</strong>，因为要下载更新 <code>ustc</code> 注册服务的索引文件，由于文件比较大，需要等待较长的时间。</p>
+<p>此处有两点需要注意：</p>
+<ol>
+<li>cargo 1.68 版本开始支持稀疏索引，不再需要完整克隆 crates.io-index 仓库，可以加快获取包的速度，如：</li>
+</ol>
+<pre><code class="language-toml">[source.ustc]
+registry = "sparse+https://mirrors.ustc.edu.cn/crates.io-index/"
+</code></pre>
+<ol start="2">
+<li>cargo search 无法使用镜像</li>
+</ol>
+<h4 id="科大镜像"><a class="header" href="#科大镜像">科大镜像</a></h4>
+<p>上面使用的是科大提供的注册服务，也是 Rust 最早期的注册服务，感谢大大们的贡献。除此之外，大家还可以选择下面的镜像服务：</p>
+<h4 id="字节跳动"><a class="header" href="#字节跳动">字节跳动</a></h4>
+<p>最大的优点就是不限速，当然，你的网速如果能跑到 1000Gbps，我们也可以认为它无情的限制了你，咳咳。</p>
+<pre><code class="language-toml">[source.crates-io]
+replace-with = 'rsproxy'
+
+[source.rsproxy]
+registry = "https://rsproxy.cn/crates.io-index"
+
+# 稀疏索引，要求 cargo &gt;= 1.68
+[source.rsproxy-sparse]
+registry = "sparse+https://rsproxy.cn/index/"
+
+[registries.rsproxy]
+index = "https://rsproxy.cn/crates.io-index"
+
+[net]
+git-fetch-with-cli = true
+</code></pre>
+<h3 id="覆盖默认的镜像地址"><a class="header" href="#覆盖默认的镜像地址">覆盖默认的镜像地址</a></h3>
+<p>事实上，我们更推荐第二种方式，因为第一种方式在项目大了后，实在是很麻烦，全部修改后，万一以后不用这个镜像了，你又要全部修改成其它的。</p>
+<p>而第二种方式，则不需要修改 <code>Cargo.toml</code> 文件，<strong>因为它是直接使用新注册服务来替代默认的 <code>crates.io</code></strong>。</p>
+<p>在 <code>$HOME/.cargo/config.toml</code> 添加以下内容：</p>
+<pre><code class="language-toml">[source.crates-io]
+replace-with = 'ustc'
+
+[source.ustc]
+registry = "git://mirrors.ustc.edu.cn/crates.io-index"
+</code></pre>
+<p>首先，创建一个新的镜像源 <code>[source.ustc]</code>，然后将默认的 <code>crates-io</code> 替换成新的镜像源: <code>replace-with = 'ustc'</code>。</p>
+<p>简单吧？只要这样配置后，以往需要去 <code>crates.io</code> 下载的包，会全部从科大的镜像地址下载，速度刷刷的... 我的 300M 大刀（宽带）终于有了用武之地。</p>
+<p><strong>这里强烈推荐大家在学习完后面的基本章节后，看一下 <a href="https://course.rs/cargo/intro.html">Cargo 使用指南章节</a>，对于你的 Rust 之旅会有莫大的帮助！</strong></p>
+<h2 id="下载卡住"><a class="header" href="#下载卡住">下载卡住</a></h2>
+<p>下载卡住其实就一个原因：下载太慢了。</p>
+<p>根据经验来看，卡住不动往往发生在更新索引时。毕竟 Rust 的包越来越多，索引也越来越大，如果不使用国内镜像，卡住还蛮正常的，好在，我们也无需经常更新索引 :P</p>
+<h3 id="blocking-waiting-for-file-lock-on-package-cache"><a class="header" href="#blocking-waiting-for-file-lock-on-package-cache">Blocking waiting for file lock on package cache</a></h3>
+<p>不过这里有一个坑，需要大家注意，如果你同时打开了 VSCODE 和命令行，然后修改了 <code>Cargo.toml</code>，此时 VSCODE 的 rust-analyzer 插件会自动检测到依赖的变更，去下载新的依赖。</p>
+<p>在 VSCODE 下载的过程中（特别是更新索引，可能会耗时很久），假如你又在命令行中运行类似 <code>cargo run</code> 或者 <code>cargo build</code> 的命令，就会提示一行有些看不太懂的内容：</p>
+<pre><code class="language-shell">$ cargo build
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+</code></pre>
+<p>其实这个报错就是因为 VSCODE 的下载太慢了，而且该下载构建还锁住了当前的项目，导致你无法在另一个地方再次进行构建。</p>
+<p>解决办法也很简单：</p>
+<ul>
+<li>增加下载速度，见前面内容</li>
+<li>耐心等待持有锁的用户构建完成</li>
+<li>强行停止正在构建的进程，例如杀掉 IDE 使用的 rust-analyzer 插件进程，然后删除 <code>$HOME/.cargo/.package_cache</code> 目录</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../first-try/hello-world.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../basic/intro.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../first-try/hello-world.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../basic/intro.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

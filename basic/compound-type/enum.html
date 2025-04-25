@@ -1,0 +1,455 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>枚举 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/basic/compound-type/enum.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="枚举"><a class="header" href="#枚举">枚举</a></h1>
+<p>枚举(enum 或 enumeration)允许你通过列举可能的成员来定义一个<strong>枚举类型</strong>，例如扑克牌花色：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum PokerSuit {
+  Clubs,
+  Spades,
+  Diamonds,
+  Hearts,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>如果在此之前你没有在其它语言中使用过枚举，那么可能需要花费一些时间来理解这些概念，一旦上手，就会发现枚举的强大，甚至对它爱不释手，枚举虽好，可不要滥用哦。</p>
+<p>再回到之前创建的 <code>PokerSuit</code>，扑克总共有四种花色，而这里我们枚举出所有的可能值，这也正是 <code>枚举</code> 名称的由来。</p>
+<p>任何一张扑克，它的花色肯定会落在四种花色中，而且也只会落在其中一个花色上，这种特性非常适合枚举的使用，因为<strong>枚举值</strong>只可能是其中某一个成员。抽象来看，四种花色尽管是不同的花色，但是它们都是扑克花色这个概念，因此当某个函数处理扑克花色时，可以把它们当作相同的类型进行传参。</p>
+<p>细心的读者应该注意到，我们对之前的 <code>枚举类型</code> 和 <code>枚举值</code> 进行了重点标注，这是因为对于新人来说容易混淆相应的概念，总而言之：
+<strong>枚举类型是一个类型，它会包含所有可能的枚举成员，而枚举值是该类型中的具体某个成员的实例。</strong></p>
+<h2 id="枚举值"><a class="header" href="#枚举值">枚举值</a></h2>
+<p>现在来创建 <code>PokerSuit</code> 枚举类型的两个成员实例：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let heart = PokerSuit::Hearts;
+let diamond = PokerSuit::Diamonds;
+<span class="boring">}</span></code></pre></pre>
+<p>我们通过 <code>::</code> 操作符来访问 <code>PokerSuit</code> 下的具体成员，从代码可以清晰看出，<code>heart</code> 和 <code>diamond</code> 都是 <code>PokerSuit</code> 枚举类型的，接着可以定义一个函数来使用它们：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let heart = PokerSuit::Hearts;
+    let diamond = PokerSuit::Diamonds;
+
+    print_suit(heart);
+    print_suit(diamond);
+}
+
+fn print_suit(card: PokerSuit) {
+    // 需要在定义 enum PokerSuit 的上面添加上 #[derive(Debug)]，否则会报 card 没有实现 Debug
+    println!("{:?}",card);
+}</code></pre></pre>
+<p><code>print_suit</code> 函数的参数类型是 <code>PokerSuit</code>，因此我们可以把 <code>heart</code> 和 <code>diamond</code> 传给它，虽然 <code>heart</code> 是基于 <code>PokerSuit</code> 下的 <code>Hearts</code> 成员实例化的，但是它是货真价实的 <code>PokerSuit</code> 枚举类型。</p>
+<p>接下来，我们想让扑克牌变得更加实用，那么需要给每张牌赋予一个值：<code>A</code>(1)-<code>K</code>(13)，这样再加上花色，就是一张真实的扑克牌了，例如红心 A。</p>
+<p>目前来说，枚举值还不能带有值，因此先用结构体来实现：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">enum PokerSuit {
+    Clubs,
+    Spades,
+    Diamonds,
+    Hearts,
+}
+
+struct PokerCard {
+    suit: PokerSuit,
+    value: u8
+}
+
+fn main() {
+   let c1 = PokerCard {
+       suit: PokerSuit::Clubs,
+       value: 1,
+   };
+   let c2 = PokerCard {
+       suit: PokerSuit::Diamonds,
+       value: 12,
+   };
+}</code></pre></pre>
+<p>这段代码很好的完成了它的使命，通过结构体 <code>PokerCard</code> 来代表一张牌，结构体的 <code>suit</code> 字段表示牌的花色，类型是 <code>PokerSuit</code> 枚举类型，<code>value</code> 字段代表扑克牌的数值。</p>
+<p>可以吗？可以！好吗？说实话，不咋地，因为还有简洁得多的方式来实现：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">enum PokerCard {
+    Clubs(u8),
+    Spades(u8),
+    Diamonds(u8),
+    Hearts(u8),
+}
+
+fn main() {
+   let c1 = PokerCard::Spades(5);
+   let c2 = PokerCard::Diamonds(13);
+}</code></pre></pre>
+<p>直接将数据信息关联到枚举成员上，省去近一半的代码，这种实现是不是更优雅？</p>
+<p>不仅如此，同一个枚举类型下的不同成员还能持有不同的数据类型，例如让某些花色打印 <code>1-13</code> 的字样，另外的花色打印上 <code>A-K</code> 的字样：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">enum PokerCard {
+    Clubs(u8),
+    Spades(u8),
+    Diamonds(char),
+    Hearts(char),
+}
+
+fn main() {
+   let c1 = PokerCard::Spades(5);
+   let c2 = PokerCard::Diamonds('A');
+}</code></pre></pre>
+<p>回想一下，遇到这种不同类型的情况，再用我们之前的结构体实现方式，可行吗？也许可行，但是会复杂很多。</p>
+<p>再来看一个来自标准库中的例子：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Ipv4Addr {
+    // --snip--
+}
+
+struct Ipv6Addr {
+    // --snip--
+}
+
+enum IpAddr {
+    V4(Ipv4Addr),
+    V6(Ipv6Addr),
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这个例子跟我们之前的扑克牌很像，只不过枚举成员包含的类型更复杂了，变成了结构体：分别通过 <code>Ipv4Addr</code> 和 <code>Ipv6Addr</code> 来定义两种不同的 IP 数据。</p>
+<p>从这些例子可以看出，<strong>任何类型的数据都可以放入枚举成员中</strong>：例如字符串、数值、结构体甚至另一个枚举。</p>
+<p>增加一些挑战？先看以下代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+fn main() {
+    let m1 = Message::Quit;
+    let m2 = Message::Move{x:1,y:1};
+    let m3 = Message::ChangeColor(255,255,0);
+}</code></pre></pre>
+<p>该枚举类型代表一条消息，它包含四个不同的成员：</p>
+<ul>
+<li><code>Quit</code> 没有任何关联数据</li>
+<li><code>Move</code> 包含一个匿名结构体</li>
+<li><code>Write</code> 包含一个 <code>String</code> 字符串</li>
+<li><code>ChangeColor</code> 包含三个 <code>i32</code></li>
+</ul>
+<p>当然，我们也可以用结构体的方式来定义这些消息：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct QuitMessage; // 单元结构体
+struct MoveMessage {
+    x: i32,
+    y: i32,
+}
+struct WriteMessage(String); // 元组结构体
+struct ChangeColorMessage(i32, i32, i32); // 元组结构体
+<span class="boring">}</span></code></pre></pre>
+<p>由于每个结构体都有自己的类型，因此我们无法在需要同一类型的地方进行使用，例如某个函数它的功能是接受消息并进行发送，那么用枚举的方式，就可以接收不同的消息，但是用结构体，该函数无法接受 4 个不同的结构体作为参数。</p>
+<p>而且从代码规范角度来看，枚举的实现更简洁，代码内聚性更强，不像结构体的实现，分散在各个地方。</p>
+<h2 id="同一化类型"><a class="header" href="#同一化类型">同一化类型</a></h2>
+<p>最后，再用一个实际项目中的简化片段，来结束枚举类型的语法学习。</p>
+<p>例如我们有一个 WEB 服务，需要接受用户的长连接，假设连接有两种：<code>TcpStream</code> 和 <code>TlsStream</code>，但是我们希望对这两个连接的处理流程相同，也就是用同一个函数来处理这两个连接，代码如下：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn new (stream: TcpStream) {
+  let mut s = stream;
+  if tls {
+    s = negotiate_tls(stream)
+  }
+
+  // websocket是一个WebSocket&lt;TcpStream&gt;或者
+  //   WebSocket&lt;native_tls::TlsStream&lt;TcpStream&gt;&gt;类型
+  websocket = WebSocket::from_raw_socket(
+    s, ......)
+}
+<span class="boring">}</span></code></pre></pre>
+<p>此时，枚举类型就能帮上大忙：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Websocket {
+  Tcp(Websocket&lt;TcpStream&gt;),
+  Tls(Websocket&lt;native_tls::TlsStream&lt;TcpStream&gt;&gt;),
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="option-枚举用于处理空值"><a class="header" href="#option-枚举用于处理空值">Option 枚举用于处理空值</a></h2>
+<p>在其它编程语言中，往往都有一个 <code>null</code> 关键字，该关键字用于表明一个变量当前的值为空（不是零值，例如整型的零值是 0），也就是不存在值。当你对这些 <code>null</code> 进行操作时，例如调用一个方法，就会直接抛出 <strong>null 异常</strong>，导致程序的崩溃，因此我们在编程时需要格外的小心去处理这些 <code>null</code> 空值。</p>
+<blockquote>
+<p>Tony Hoare， <code>null</code> 的发明者，曾经说过一段非常有名的话：</p>
+<p>我称之为我十亿美元的错误。当时，我在使用一个面向对象语言设计第一个综合性的面向引用的类型系统。我的目标是通过编译器的自动检查来保证所有引用的使用都应该是绝对安全的。不过在设计过程中，我未能抵抗住诱惑，引入了空引用的概念，因为它非常容易实现。就是因为这个决策，引发了无数错误、漏洞和系统崩溃，在之后的四十多年中造成了数十亿美元的苦痛和伤害。</p>
+</blockquote>
+<p>尽管如此，空值的表达依然非常有意义，因为空值表示当前时刻变量的值是缺失的。有鉴于此，Rust 吸取了众多教训，决定抛弃 <code>null</code>，而改为使用 <code>Option</code> 枚举变量来表述这种结果。</p>
+<p><code>Option</code> 枚举包含两个成员，一个成员表示含有值：<code>Some(T)</code>, 另一个表示没有值：<code>None</code>，定义如下：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Option&lt;T&gt; {
+    Some(T),
+    None,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>其中 <code>T</code> 是泛型参数，<code>Some(T)</code>表示该枚举成员的数据类型是 <code>T</code>，换句话说，<code>Some</code> 可以包含任何类型的数据。</p>
+<p><code>Option&lt;T&gt;</code> 枚举是如此有用以至于它被包含在了 <a href="https://course.rs/appendix/prelude.html"><code>prelude</code></a>（prelude 属于 Rust 标准库，Rust 会将最常用的类型、函数等提前引入其中，省得我们再手动引入）之中，你不需要将其显式引入作用域。另外，它的成员 <code>Some</code> 和 <code>None</code> 也是如此，无需使用 <code>Option::</code> 前缀就可直接使用 <code>Some</code> 和 <code>None</code>。总之，不能因为 <code>Some(T)</code> 和 <code>None</code> 中没有 <code>Option::</code> 的身影，就否认它们是 <code>Option</code> 下的卧龙凤雏。</p>
+<p>再来看以下代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let some_number = Some(5);
+let some_string = Some("a string");
+
+let absent_number: Option&lt;i32&gt; = None;
+<span class="boring">}</span></code></pre></pre>
+<p>如果使用 <code>None</code> 而不是 <code>Some</code>，需要告诉 Rust <code>Option&lt;T&gt;</code> 是什么类型的，因为编译器只通过 <code>None</code> 值无法推断出 <code>Some</code> 成员保存的值的类型。</p>
+<p>当有一个 <code>Some</code> 值时，我们就知道存在一个值，而这个值保存在 <code>Some</code> 中。当有个 <code>None</code> 值时，在某种意义上，它跟空值具有相同的意义：并没有一个有效的值。那么，<code>Option&lt;T&gt;</code> 为什么就比空值要好呢？</p>
+<p>简而言之，因为 <code>Option&lt;T&gt;</code> 和 <code>T</code>（这里 <code>T</code> 可以是任何类型）是不同的类型，例如，这段代码不能编译，因为它尝试将 <code>Option&lt;i8&gt;</code>(<code>Option&lt;T&gt;</code>) 与 <code>i8</code>(<code>T</code>) 相加：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let x: i8 = 5;
+let y: Option&lt;i8&gt; = Some(5);
+
+let sum = x + y;
+<span class="boring">}</span></code></pre></pre>
+<p>如果运行这些代码，将得到类似这样的错误信息：</p>
+<pre><code class="language-text">error[E0277]: the trait bound `i8: std::ops::Add&lt;std::option::Option&lt;i8&gt;&gt;` is
+not satisfied
+ --&gt;
+  |
+5 |     let sum = x + y;
+  |                 ^ no implementation for `i8 + std::option::Option&lt;i8&gt;`
+  |
+</code></pre>
+<p>很好！事实上，错误信息意味着 Rust 不知道该如何将 <code>Option&lt;i8&gt;</code> 与 <code>i8</code> 相加，因为它们的类型不同。当在 Rust 中拥有一个像 <code>i8</code> 这样类型的值时，编译器确保它总是有一个有效的值，我们可以放心使用而无需做空值检查。只有当使用 <code>Option&lt;i8&gt;</code>（或者任何用到的类型）的时候才需要担心可能没有值，而编译器会确保我们在使用值之前处理了为空的情况。</p>
+<p>换句话说，在对 <code>Option&lt;T&gt;</code> 进行 <code>T</code> 的运算之前必须将其转换为 <code>T</code>。通常这能帮助我们捕获到空值最常见的问题之一：期望某值不为空但实际上为空的情况。</p>
+<p>不再担心会错误地使用一个空值，会让你对代码更加有信心。为了拥有一个可能为空的值，你必须要显式的将其放入对应类型的 <code>Option&lt;T&gt;</code> 中。接着，当使用这个值时，必须明确的处理值为空的情况。只要一个值不是 <code>Option&lt;T&gt;</code> 类型，你就 <strong>可以</strong> 安全的认定它的值不为空。这是 Rust 的一个经过深思熟虑的设计决策，来限制空值的泛滥以增加 Rust 代码的安全性。</p>
+<p>那么当有一个 <code>Option&lt;T&gt;</code> 的值时，如何从 <code>Some</code> 成员中取出 <code>T</code> 的值来使用它呢？<code>Option&lt;T&gt;</code> 枚举拥有大量用于各种情况的方法：你可以查看<a href="https://doc.rust-lang.org/std/option/enum.Option.html">它的文档</a>。熟悉 <code>Option&lt;T&gt;</code> 的方法将对你的 Rust 之旅非常有用。</p>
+<p>总的来说，为了使用 <code>Option&lt;T&gt;</code> 值，需要编写处理每个成员的代码。你想要一些代码只当拥有 <code>Some(T)</code> 值时运行，允许这些代码使用其中的 <code>T</code>。也希望一些代码在值为 <code>None</code> 时运行，这些代码并没有一个可用的 <code>T</code> 值。<code>match</code> 表达式就是这么一个处理枚举的控制流结构：它会根据枚举的成员运行不同的代码，这些代码可以使用匹配到的值中的数据。</p>
+<p>这里先简单看一下 <code>match</code> 的大致模样，在<a href="https://course.rs/basic/match-pattern/intro.html">模式匹配</a>中，我们会详细讲解：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
+    match x {
+        None =&gt; None,
+        Some(i) =&gt; Some(i + 1),
+    }
+}
+
+let five = Some(5);
+let six = plus_one(five);
+let none = plus_one(None);
+<span class="boring">}</span></code></pre></pre>
+<p><code>plus_one</code> 通过 <code>match</code> 来处理不同 <code>Option</code> 的情况。</p>
+<h2 id="课后练习"><a class="header" href="#课后练习">课后练习</a></h2>
+<blockquote>
+<p><a href="https://practice-zh.course.rs/compound-types/enum.html">Rust By Practice</a>，支持代码在线编辑和运行，并提供详细的<a href="https://github.com/sunface/rust-by-practice/blob/master/solutions/compound-types/enum.md">习题解答</a>。</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../basic/compound-type/struct.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../basic/compound-type/array.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../basic/compound-type/struct.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../basic/compound-type/array.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

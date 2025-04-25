@@ -1,0 +1,549 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>五种兵器 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/unsafe/superpowers.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="五种兵器"><a class="header" href="#五种兵器">五种兵器</a></h1>
+<p>古龙有一部小说，名为"七种兵器"，其中每一种都精妙绝伦，令人闻风丧胆，而 <code>unsafe</code> 也有五种兵器，它们可以让你拥有其它代码无法实现的能力，同时它们也像七种兵器一样令人闻风丧胆，下面一起来看看庐山真面目。</p>
+<h2 id="解引用裸指针"><a class="header" href="#解引用裸指针">解引用裸指针</a></h2>
+<p>裸指针(raw pointer，又称原生指针) 在功能上跟引用类似，同时它也需要显式地注明可变性。但是又和引用有所不同，裸指针长这样: <code>*const T</code> 和 <code>*mut T</code>，它们分别代表了不可变和可变。</p>
+<p>大家在之前学过 <code>*</code> 操作符，知道它可以用于解引用，但是在裸指针 <code>*const T</code> 中，这里的 <code>*</code> 只是类型名称的一部分，并没有解引用的含义。</p>
+<p>至此，我们已经学过三种类似指针的概念：引用、智能指针和裸指针。与前两者不同，裸指针：</p>
+<ul>
+<li>可以绕过 Rust 的借用规则，可以同时拥有一个数据的可变、不可变指针，甚至还能拥有多个可变的指针</li>
+<li>并不能保证指向合法的内存</li>
+<li>可以是 <code>null</code></li>
+<li>没有实现任何自动的回收 (drop)</li>
+</ul>
+<p>总之，裸指针跟 C 指针是非常像的，使用它需要以牺牲安全性为前提，但我们获得了更好的性能，也可以跟其它语言或硬件打交道。</p>
+<h4 id="基于引用创建裸指针"><a class="header" href="#基于引用创建裸指针">基于引用创建裸指针</a></h4>
+<p>下面的代码<strong>基于值的引用</strong>同时创建了可变和不可变的裸指针：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut num = 5;
+
+let r1 = &amp;num as *const i32;
+let r2 = &amp;mut num as *mut i32;
+<span class="boring">}</span></code></pre></pre>
+<p><code>as</code> 可以用于强制类型转换，在<a href="https://course.rs/basic/converse.html">之前章节</a>中有讲解。在这里，我们将引用 <code>&amp;num / &amp;mut num</code> 强转为相应的裸指针 <code>*const i32 / *mut i32</code>。</p>
+<p>细心的同学可能会发现，在这段代码中并没有 <code>unsafe</code> 的身影，原因在于：<strong>创建裸指针是安全的行为，而解引用裸指针才是不安全的行为</strong> :</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let mut num = 5;
+
+    let r1 = &amp;num as *const i32;
+
+    unsafe {
+        println!("r1 is: {}", *r1);
+    }
+}</code></pre></pre>
+<h4 id="基于内存地址创建裸指针"><a class="header" href="#基于内存地址创建裸指针">基于内存地址创建裸指针</a></h4>
+<p>在上面例子中，我们基于现有的引用来创建裸指针，这种行为是很安全的。但是接下来的方式就不安全了：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let address = 0x012345usize;
+let r = address as *const i32;
+<span class="boring">}</span></code></pre></pre>
+<p>这里基于一个内存地址来创建裸指针，可以想像，这种行为是相当危险的。试图使用任意的内存地址往往是一种未定义的行为(undefined behavior)，因为该内存地址有可能存在值，也有可能没有，就算有值，也大概率不是你需要的值。</p>
+<p>同时编译器也有可能会优化这段代码，会造成没有任何内存访问发生，甚至程序还可能发生段错误(segmentation fault)。<strong>总之，你几乎没有好的理由像上面这样实现代码，虽然它是可行的</strong>。</p>
+<p>如果真的要使用内存地址，也是类似下面的用法，先取地址，再使用，而不是凭空捏造一个地址：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::{slice::from_raw_parts, str::from_utf8_unchecked};
+
+// 获取字符串的内存地址和长度
+fn get_memory_location() -&gt; (usize, usize) {
+  let string = "Hello World!";
+  let pointer = string.as_ptr() as usize;
+  let length = string.len();
+  (pointer, length)
+}
+
+// 在指定的内存地址读取字符串
+fn get_str_at_location(pointer: usize, length: usize) -&gt; &amp;'static str {
+  unsafe { from_utf8_unchecked(from_raw_parts(pointer as *const u8, length)) }
+}
+
+fn main() {
+  let (pointer, length) = get_memory_location();
+  let message = get_str_at_location(pointer, length);
+  println!(
+    "The {} bytes at 0x{:X} stored: {}",
+    length, pointer, message
+  );
+  // 如果大家想知道为何处理裸指针需要 `unsafe`，可以试着反注释以下代码
+  // let message = get_str_at_location(1000, 10);
+}</code></pre></pre>
+<p>以上代码同时还演示了访问非法内存地址会发生什么，大家可以试着去反注释这段代码试试。</p>
+<h4 id="使用--解引用"><a class="header" href="#使用--解引用">使用 * 解引用</a></h4>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let a = 1;
+let b: *const i32 = &amp;a as *const i32;
+let c: *const i32 = &amp;a;
+unsafe {
+    println!("{}", *c);
+}
+<span class="boring">}</span></code></pre></pre>
+<p>使用 <code>*</code> 可以对裸指针进行解引用，由于该指针的内存安全性并没有任何保证，因此我们需要使用 <code>unsafe</code> 来包裹解引用的逻辑(切记，<code>unsafe</code> 语句块的范围一定要尽可能的小，具体原因在上一章节有讲)。</p>
+<p>以上代码另一个值得注意的点就是：除了使用 <code>as</code> 来显式的转换，我们还使用了隐式的转换方式 <code>let c: *const i32 = &amp;a;</code>。在实际使用中，我们建议使用 <code>as</code> 来转换，因为这种显式的方式更有助于提醒用户：你在使用的指针是裸指针，需要小心。</p>
+<h4 id="基于智能指针创建裸指针"><a class="header" href="#基于智能指针创建裸指针">基于智能指针创建裸指针</a></h4>
+<p>还有一种创建裸指针的方式，那就是基于智能指针来创建:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let a: Box&lt;i32&gt; = Box::new(10);
+// 需要先解引用a
+let b: *const i32 = &amp;*a;
+// 使用 into_raw 来创建
+let c: *const i32 = Box::into_raw(a);
+<span class="boring">}</span></code></pre></pre>
+<h4 id="小结"><a class="header" href="#小结">小结</a></h4>
+<p>像之前代码演示的那样，使用裸指针可以让我们创建两个可变指针都指向同一个数据，如果使用安全的 Rust，你是无法做到这一点的，违背了借用规则，编译器会对我们进行无情的阻止。因此裸指针可以绕过借用规则，但是由此带来的数据竞争问题，就需要大家自己来处理了，总之，需要小心！</p>
+<p>既然这么危险，为何还要使用裸指针？除了之前提到的性能等原因，还有一个重要用途就是跟 <code>C</code> 语言的代码进行交互( FFI )，在讲解 FFI 之前，先来看看如何调用 unsafe 函数或方法。</p>
+<h2 id="调用-unsafe-函数或方法"><a class="header" href="#调用-unsafe-函数或方法">调用 unsafe 函数或方法</a></h2>
+<p><code>unsafe</code> 函数从外表上来看跟普通函数并无区别，唯一的区别就是它需要使用 <code>unsafe fn</code> 来进行定义。这种定义方式是为了告诉调用者：当调用此函数时，你需要注意它的相关需求，因为 Rust 无法担保调用者在使用该函数时能满足它所需的一切需求。</p>
+<p>强制调用者加上 <code>unsafe</code> 语句块，就可以让他清晰的认识到，正在调用一个不安全的函数，需要小心看看文档，看看函数有哪些特别的要求需要被满足。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">unsafe fn dangerous() {}
+fn main() {
+    dangerous();
+}</code></pre></pre>
+<p>如果试图像上面这样调用，编译器就会报错：</p>
+<pre><code class="language-shell">error[E0133]: call to unsafe function is unsafe and requires unsafe function or block
+ --&gt; src/main.rs:3:5
+  |
+3 |     dangerous();
+  |     ^^^^^^^^^^^ call to unsafe function
+</code></pre>
+<p>按照报错提示，加上 <code>unsafe</code> 语句块后，就能顺利执行了:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+    dangerous();
+}
+<span class="boring">}</span></code></pre></pre>
+<p>道理很简单，但一定要牢记在心：<strong>使用 unsafe 声明的函数时，一定要看看相关的文档，确定自己没有遗漏什么</strong>。</p>
+<p>还有，<code>unsafe</code> 无需俄罗斯套娃，在 <code>unsafe</code> 函数体中使用 <code>unsafe</code> 语句块是多余的行为。</p>
+<h2 id="用安全抽象包裹-unsafe-代码"><a class="header" href="#用安全抽象包裹-unsafe-代码">用安全抽象包裹 unsafe 代码</a></h2>
+<p>一个函数包含了 <code>unsafe</code> 代码不代表我们需要将整个函数都定义为 <code>unsafe fn</code>。事实上，在标准库中有大量的安全函数，它们内部都包含了 <code>unsafe</code> 代码块，下面我们一起来看看一个很好用的标准库函数：<code>split_at_mut</code>。</p>
+<p>大家可以想象一下这个场景：需要将一个数组分成两个切片，且每一个切片都要求是可变的。类似需求在安全 Rust 中是很难实现的，因为要对同一个数组做两个可变借用：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn split_at_mut(slice: &amp;mut [i32], mid: usize) -&gt; (&amp;mut [i32], &amp;mut [i32]) {
+    let len = slice.len();
+
+    assert!(mid &lt;= len);
+
+    (&amp;mut slice[..mid], &amp;mut slice[mid..])
+}
+
+fn main() {
+    let mut v = vec![1, 2, 3, 4, 5, 6];
+
+    let r = &amp;mut v[..];
+
+    let (a, b) = split_at_mut(r, 3);
+
+    assert_eq!(a, &amp;mut [1, 2, 3]);
+    assert_eq!(b, &amp;mut [4, 5, 6]);
+}</code></pre></pre>
+<p>上面代码一眼看过去就知道会报错，因为我们试图在自定义的 <code>split_at_mut</code> 函数中，可变借用 <code>slice</code> 两次：</p>
+<pre><code class="language-shell">error[E0499]: cannot borrow `*slice` as mutable more than once at a time
+ --&gt; src/main.rs:6:30
+  |
+1 | fn split_at_mut(slice: &amp;mut [i32], mid: usize) -&gt; (&amp;mut [i32], &amp;mut [i32]) {
+  |                        - let's call the lifetime of this reference `'1`
+...
+6 |     (&amp;mut slice[..mid], &amp;mut slice[mid..])
+  |     -------------------------^^^^^--------
+  |     |     |                  |
+  |     |     |                  second mutable borrow occurs here
+  |     |     first mutable borrow occurs here
+  |     returning this value requires that `*slice` is borrowed for `'1`
+</code></pre>
+<p>对于 Rust 的借用检查器来说，它无法理解我们是分别借用了同一个切片的两个不同部分，但事实上，这种行为是没任何问题的，毕竟两个借用没有任何重叠之处。总之，不太聪明的 Rust 编译器阻碍了我们用这种简单且安全的方式去实现，那只能剑走偏锋，试试 <code>unsafe</code> 了。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::slice;
+
+fn split_at_mut(slice: &amp;mut [i32], mid: usize) -&gt; (&amp;mut [i32], &amp;mut [i32]) {
+    let len = slice.len();
+    let ptr = slice.as_mut_ptr();
+
+    assert!(mid &lt;= len);
+
+    unsafe {
+        (
+            slice::from_raw_parts_mut(ptr, mid),
+            slice::from_raw_parts_mut(ptr.add(mid), len - mid),
+        )
+    }
+}
+
+fn main() {
+    let mut v = vec![1, 2, 3, 4, 5, 6];
+
+    let r = &amp;mut v[..];
+
+    let (a, b) = split_at_mut(r, 3);
+
+    assert_eq!(a, &amp;mut [1, 2, 3]);
+    assert_eq!(b, &amp;mut [4, 5, 6]);
+}</code></pre></pre>
+<p>相比安全实现，这段代码就显得没那么好理解了，甚至于我们还需要像 C 语言那样，通过指针地址的偏移去控制数组的分割。</p>
+<ul>
+<li><code>as_mut_ptr</code> 会返回指向 <code>slice</code> 首地址的裸指针 <code>*mut i32</code></li>
+<li><code>slice::from_raw_parts_mut</code> 函数通过指针和长度来创建一个新的切片，简单来说，该切片的初始地址是 <code>ptr</code>，长度为 <code>mid</code></li>
+<li><code>ptr.add(mid)</code> 可以获取第二个切片的初始地址，由于切片中的元素是 <code>i32</code> 类型，每个元素都占用了 4 个字节的内存大小，因此我们不能简单的用 <code>ptr + mid</code> 来作为初始地址，而应该使用 <code>ptr + 4 * mid</code>，但是这种使用方式并不安全，因此 <code>.add</code> 方法是最佳选择</li>
+</ul>
+<p>由于 <code>slice::from_raw_parts_mut</code> 使用裸指针作为参数，因此它是一个 <code>unsafe fn</code>，我们在使用它时，就必须用 <code>unsafe</code> 语句块进行包裹，类似的，<code>.add</code> 方法也是如此(还是那句话，不要将无关的代码包含在 <code>unsafe</code> 语句块中)。</p>
+<p>部分同学可能会有疑问，那这段代码我们怎么保证 <code>unsafe</code> 中使用的裸指针 <code>ptr</code> 和 <code>ptr.add(mid)</code> 是合法的呢？秘诀就在于 <code>assert!(mid &lt;= len);</code> ，通过这个断言，我们保证了裸指针一定指向了 <code>slice</code> 切片中的某个元素，而不是一个莫名其妙的内存地址。</p>
+<p>再回到我们的主题：<strong>虽然 split_at_mut 使用了 <code>unsafe</code>，但我们无需将其声明为 <code>unsafe fn</code></strong>，这种情况下就是使用安全的抽象包裹 <code>unsafe</code> 代码，这里的 <code>unsafe</code> 使用是非常安全的，因为我们从合法数据中创建了的合法指针。</p>
+<p>与之对比，下面的代码就非常危险了:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::slice;
+
+let address = 0x01234usize;
+let r = address as *mut i32;
+
+let slice: &amp;[i32] = unsafe { slice::from_raw_parts_mut(r, 10000) };
+println!("{:?}",slice);
+<span class="boring">}</span></code></pre></pre>
+<p>这段代码从一个任意的内存地址，创建了一个 10000 长度的 <code>i32</code> 切片，我们无法保证切片中的元素都是合法的 <code>i32</code> 值，这种访问就是一种未定义行为(UB = undefined behavior)。</p>
+<pre><code class="language-shell">zsh: segmentation fault
+</code></pre>
+<p>不出所料，运行后看到了一个段错误。</p>
+<h2 id="ffi"><a class="header" href="#ffi">FFI</a></h2>
+<p><code>FFI</code>（Foreign Function Interface）可以用来与其它语言进行交互，但是并不是所有语言都这么称呼，例如 Java 称之为 <code>JNI（Java Native Interface）</code>。</p>
+<p><code>FFI</code> 之所以存在是由于现实中很多代码库都是由不同语言编写的，如果我们需要使用某个库，但是它是由其它语言编写的，那么往往只有两个选择：</p>
+<ul>
+<li>对该库进行重写或者移植</li>
+<li>使用 <code>FFI</code></li>
+</ul>
+<p>前者相当不错，但是在很多时候，并没有那么多时间去重写，因此 <code>FFI</code> 就成了最佳选择。回到 Rust 语言上，由于这门语言依然很年轻，一些生态是缺失的，我们在写一些不是那么大众的项目时，可能会同时遇到没有相应的 Rust 库可用的尴尬境况，此时通过 <code>FFI</code> 去调用 C 语言的库就成了相当棒的选择。</p>
+<p>还有在将 C/C++ 的代码重构为 Rust 时，先将相关代码引入到 Rust 项目中，然后逐步重构，也是不错的(为什么用不错来形容？因为重构一个有一定规模的 C/C++ 项目远没有想象中美好，因此最好的选择还是对于新项目使用 Rust 实现，老项目。。就让它先运行着吧)。</p>
+<p>当然，除了 <code>FFI</code> 还有一个办法可以解决跨语言调用的问题，那就是将其作为一个独立的服务，然后使用网络调用的方式去访问，HTTP，gRPC 都可以。</p>
+<p>言归正传，之前我们提到 <code>unsafe</code> 的另一个重要目的就是对 <code>FFI</code> 提供支持，它的全称是 <code>Foreign Function Interface</code>，顾名思义，通过 <code>FFI</code> , 我们的 Rust 代码可以跟其它语言的外部代码进行交互。</p>
+<p>下面的例子演示了如何调用 C 标准库中的 <code>abs</code> 函数：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">extern "C" {
+    fn abs(input: i32) -&gt; i32;
+}
+
+fn main() {
+    unsafe {
+        println!("Absolute value of -3 according to C: {}", abs(-3));
+    }
+}</code></pre></pre>
+<p>C 语言的代码定义在了 <code>extern</code> 代码块中， 而 <code>extern</code> 必须使用 <code>unsafe</code> 才能进行进行调用，原因在于其它语言的代码并不会强制执行 Rust 的规则，因此 Rust 无法对这些代码进行检查，最终还是要靠开发者自己来保证代码的正确性和程序的安全性。</p>
+<h4 id="abi"><a class="header" href="#abi">ABI</a></h4>
+<p>在 <code>extern "C"</code> 代码块中，我们列出了想要调用的外部函数的签名。其中 <code>"C"</code> 定义了外部函数所使用的<strong>应用二进制接口</strong><code>ABI</code> (Application Binary Interface)：<code>ABI</code> 定义了如何在汇编层面来调用该函数。在所有 <code>ABI</code> 中，C 语言的是最常见的。</p>
+<h4 id="在其它语言中调用-rust-函数"><a class="header" href="#在其它语言中调用-rust-函数">在其它语言中调用 Rust 函数</a></h4>
+<p>在 Rust 中调用其它语言的函数是让 Rust 利用其他语言的生态，那反过来可以吗？其他语言可以利用 Rust 的生态不？答案是肯定的。</p>
+<p>我们可以使用 <code>extern</code> 来创建一个接口，其它语言可以通过该接口来调用相关的 Rust 函数。但是此处的语法与之前有所不同，之前用的是语句块，而这里是在函数定义时加上 <code>extern</code> 关键字，当然，别忘了指定相应的 <code>ABI</code>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[no_mangle]
+pub extern "C" fn call_from_c() {
+    println!("Just called a Rust function from C!");
+}
+<span class="boring">}</span></code></pre></pre>
+<p>上面的代码可以让 <code>call_from_c</code> 函数被 <code>C</code> 语言的代码调用，当然，前提是将其编译成一个共享库，然后链接到 C 语言中。</p>
+<p>这里还有一个比较奇怪的注解 <code>#[no_mangle]</code>，它用于告诉 Rust 编译器：不要乱改函数的名称。 <code>Mangling</code> 的定义是：当 Rust 因为编译需要去修改函数的名称，例如为了让名称包含更多的信息，这样其它的编译部分就能从该名称获取相应的信息，这种修改会导致函数名变得相当不可读。</p>
+<p>因此，为了让 Rust 函数能顺利被其它语言调用，我们必须要禁止掉该功能。</p>
+<h2 id="访问或修改一个可变的静态变量"><a class="header" href="#访问或修改一个可变的静态变量">访问或修改一个可变的静态变量</a></h2>
+<p>这部分我们在之前的<a href="https://course.rs/advance/global-variable.html#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F">全局变量章节</a>中有过详细介绍，这里就不再赘述，大家可以前往此章节阅读。</p>
+<h2 id="实现-unsafe-特征"><a class="header" href="#实现-unsafe-特征">实现 unsafe 特征</a></h2>
+<p>说实话，<code>unsafe</code> 的特征确实不多见，如果大家还记得的话，我们在之前的 <a href="https://course.rs/advance/concurrency-with-threads/send-sync.html#%E4%B8%BA%E8%A3%B8%E6%8C%87%E9%92%88%E5%AE%9E%E7%8E%B0sync">Send 和 Sync</a> 章节中实现过 <code>unsafe</code> 特征 <code>Send</code>。</p>
+<p>之所以会有 <code>unsafe</code> 的特征，是因为该特征至少有一个方法包含有编译器无法验证的内容。<code>unsafe</code> 特征的声明很简单：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">unsafe trait Foo {
+    // 方法列表
+}
+
+unsafe impl Foo for i32 {
+    // 实现相应的方法
+}
+
+fn main() {}</code></pre></pre>
+<p>通过 <code>unsafe impl</code> 的使用，我们告诉编译器：相应的正确性由我们自己来保证。</p>
+<p>再回到刚提到的 <code>Send</code> 特征，若我们的类型中的所有字段都实现了 <code>Send</code> 特征，那该类型也会自动实现 <code>Send</code>。但是如果我们想要为某个类型手动实现 <code>Send</code> ，例如为裸指针，那么就必须使用 <code>unsafe</code>，相关的代码在之前的链接中也有，大家可以移步查看。</p>
+<p>总之，<code>Send</code> 特征标记为 <code>unsafe</code> 是因为 Rust 无法验证我们的类型是否能在线程间安全的传递，因此就需要通过 <code>unsafe</code> 来告诉编译器，它无需操心，剩下的交给我们自己来处理。</p>
+<h2 id="访问-union-中的字段"><a class="header" href="#访问-union-中的字段">访问 union 中的字段</a></h2>
+<p>截止目前，我们还没有介绍过 <code>union</code> ，原因很简单，它主要用于跟 <code>C</code> 代码进行交互。</p>
+<p>访问 <code>union</code> 的字段是不安全的，因为 Rust 无法保证当前存储在 <code>union</code> 实例中的数据类型。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[repr(C)]
+union MyUnion {
+    f1: u32,
+    f2: f32,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>上从可以看出，<code>union</code> 的使用方式跟结构体确实很相似，但是前者的所有字段都共享同一个存储空间，意味着往 <code>union</code> 的某个字段写入值，会导致其它字段的值会被覆盖。</p>
+<p>关于 <code>union</code> 的更多信息，可以在<a href="https://doc.rust-lang.org/reference/items/unions.html">这里查看</a>。</p>
+<h2 id="一些实用工具库"><a class="header" href="#一些实用工具库">一些实用工具(库)</a></h2>
+<p>由于 <code>unsafe</code> 和 <code>FFI</code> 在 Rust 的使用场景中是相当常见的(例如相对于 Go 的 <code>unsafe</code> 来说)，因此社区已经开发出了相当一部分实用的工具，可以改善相应的开发体验。</p>
+<h4 id="rust-bindgen-和-cbindgen"><a class="header" href="#rust-bindgen-和-cbindgen">rust-bindgen 和 cbindgen</a></h4>
+<p>对于 <code>FFI</code> 调用来说，保证接口的正确性是非常重要的，这两个库可以帮我们自动生成相应的接口，其中 <a href="https://github.com/rust-lang/rust-bindgen"><code>rust-bindgen</code></a> 用于在 Rust 中访问 C 代码，而 <a href="https://github.com/eqrion/cbindgen/"><code>cbindgen</code></a>则反之。</p>
+<p>下面以 <code>rust-bindgen</code> 为例，来看看如何自动生成调用 C 的代码，首先下面是 C 代码:</p>
+<pre><code class="language-c">typedef struct Doggo {
+    int many;
+    char wow;
+} Doggo;
+
+void eleven_out_of_ten_majestic_af(Doggo* pupper);
+</code></pre>
+<p>下面是自动生成的可以调用上面代码的 Rust 代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/* automatically generated by rust-bindgen 0.99.9 */
+
+#[repr(C)]
+pub struct Doggo {
+    pub many: ::std::os::raw::c_int,
+    pub wow: ::std::os::raw::c_char,
+}
+
+extern "C" {
+    pub fn eleven_out_of_ten_majestic_af(pupper: *mut Doggo);
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="cxx"><a class="header" href="#cxx">cxx</a></h4>
+<p>如果需要跟 C++ 代码交互，非常推荐使用 <a href="https://github.com/dtolnay/cxx"><code>cxx</code></a>，它提供了双向的调用，最大的优点就是安全：是的，你无需通过 <code>unsafe</code> 来使用它！</p>
+<h4 id="miri"><a class="header" href="#miri">Miri</a></h4>
+<p><a href="https://github.com/rust-lang/miri"><code>miri</code></a> 可以生成 Rust 的中间层表示 MIR，对于编译器来说，我们的 Rust 代码首先会被编译为 MIR ，然后再提交给 LLVM 进行处理。</p>
+<p>可以通过 <code>rustup component add miri</code> 来安装它，并通过 <code>cargo miri</code> 来使用，同时还可以使用 <code>cargo miri test</code> 来运行测试代码。</p>
+<p><code>miri</code> 可以帮助我们检查常见的未定义行为(UB = Undefined Behavior)，以下列出了一部分:</p>
+<ul>
+<li>内存越界检查和内存释放后再使用(use-after-free)</li>
+<li>使用未初始化的数据</li>
+<li>数据竞争</li>
+<li>内存对齐问题</li>
+</ul>
+<p>但是需要注意的是，它只能帮助识别被执行代码路径的风险，那些未被执行到的代码是没办法被识别的。</p>
+<h4 id="clippy"><a class="header" href="#clippy">Clippy</a></h4>
+<p>官方的 <a href="https://github.com/rust-lang/rust-clippy"><code>clippy</code></a> 检查器提供了有限的 <code>unsafe</code> 支持，虽然不多，但是至少有一定帮助。例如 <code>missing_safety_docs</code> 检查可以帮助我们检查哪些 <code>unsafe</code> 函数遗漏了文档。</p>
+<p>需要注意的是： Rust 编译器并不会默认开启所有检查，大家可以调用 <code>rustc -W help</code> 来看看最新的信息。</p>
+<h4 id="prusti"><a class="header" href="#prusti">Prusti</a></h4>
+<p><a href="https://viperproject.github.io/prusti-dev/user-guide/"><code>prusti</code></a> 需要大家自己来构建一个证明，然后通过它证明代码中的不变量是正确被使用的，当你在安全代码中使用不安全的不变量时，就会非常有用。具体的使用文档见<a href="https://viperproject.github.io/prusti-dev/user-guide/">这里</a>。</p>
+<h4 id="模糊测试fuzz-testing"><a class="header" href="#模糊测试fuzz-testing">模糊测试(fuzz testing)</a></h4>
+<p>在 <a href="https://rust-fuzz.github.io/book/">Rust Fuzz Book</a> 中列出了一些 Rust 可以使用的模糊测试方法。</p>
+<p>同时，我们还可以使用 <a href="https://github.com/jakubadamw/rutenspitz"><code>rutenspitz</code></a> 这个过程宏来测试有状态的代码，例如数据结构。</p>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p>至此，<code>unsafe</code> 的五种兵器已介绍完毕，大家是否意犹未尽？我想说的是，就算意犹未尽，也没有其它兵器了。</p>
+<p>就像上一章中所提到的，<code>unsafe</code> 只应该用于这五种场景，其它场景，你应该坚决的使用安全的代码，否则就会像 <code>actix-web</code> 的前作者一样，被很多人议论，甚至被喷。。。</p>
+<p>总之，能不使用 <code>unsafe</code> 一定不要使用，就算使用也要控制好边界，让范围尽可能的小，就像本章的例子一样，只有真的需要 <code>unsafe</code> 的代码，才应该包含其中, 而不是将无关代码也纳入进来。</p>
+<h2 id="进一步学习"><a class="header" href="#进一步学习">进一步学习</a></h2>
+<ol>
+<li><a href="https://blog.logrocket.com/unsafe-rust-how-and-when-not-to-use-it/">Unsafe Rust: How and when (not) to use it</a></li>
+</ol>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../advance/unsafe/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../advance/unsafe/inline-asm.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../advance/unsafe/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../advance/unsafe/inline-asm.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

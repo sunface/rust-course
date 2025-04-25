@@ -1,0 +1,952 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>实现游标 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/too-many-lists/production-unsafe-deque/implementing-cursors.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="implementing-cursors"><a class="header" href="#implementing-cursors">Implementing Cursors</a></h1>
+<p>好了，我们现在讨论 CursorMut。就像我最初的设计一样，它有一个包含 None 的 "幽灵 "元素，用来指示列表的开始/结束，你可以 "跨过它"，绕到列表的另一边。要实现它，我们需要</p>
+<ul>
+<li>指向当前节点的指针</li>
+<li>指向列表的指针</li>
+<li>当前索引</li>
+</ul>
+<p>等等，当我们指向 "幽灵 "时，索引是多少？</p>
+<p>好吧，游标 (cursors)上的索引返回一个 <code>Option&lt;usize&gt;</code>，这很合理。Std 的实现做了一堆垃圾来避免将其存储为一个 Option，但是...... 我们是一个链接列表，这很好。此外，std 还有 cursor_front/cursor_back 功能，它可以在前/后元素上启动光标，感觉很直观，但当列表为空时，又要做一些奇怪的事情。</p>
+<p>如果你愿意，也可以实现这些东西，但我打算减少所有重复的垃圾和角落情况，只做一个从 ghost 处开始的 cursor_mut 方法，人们可以使用 move_next/move_prev 来获取他们想要的元素（如果你真的愿意，也可以将其封装为 cursor_front）。</p>
+<p>让我们开始吧：</p>
+<p>非常简单直接，上面的需求列表每一项都有一个字段！</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct CursorMut&lt;'a, T&gt; {
+    cur: Link&lt;T&gt;,
+    list: &amp;'a mut LinkedList&lt;T&gt;,
+    index: Option&lt;usize&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>现在是<code>cursor_mut</code> 方法:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;T&gt; LinkedList&lt;T&gt; {
+    pub fn cursor_mut(&amp;mut self) -&gt; CursorMut&lt;T&gt; {
+        CursorMut { 
+            list: self, 
+            cur: None, 
+            index: None,
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>既然我们从幽灵节点开始，我们所以开始节点都是 <code>None</code>，简单明了！下一个是 <code>move_next</code>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;'a, T&gt; CursorMut&lt;'a, T&gt; {
+    pub fn index(&amp;self) -&gt; Option&lt;usize&gt; {
+        self.index
+    }
+
+    pub fn move_next(&amp;mut self) {
+        if let Some(cur) = self.cur {
+            unsafe {
+                // We're on a real element, go to its next (back)
+                self.cur = (*cur.as_ptr()).back;
+                if self.cur.is_some() {
+                    *self.index.as_mut().unwrap() += 1;
+                } else {
+                    // We just walked to the ghost, no more index
+                    self.index = None;
+                }
+            }
+        } else if !self.list.is_empty() {
+            // We're at the ghost, and there is a real front, so move to it!
+            self.cur = self.list.front;
+            self.index = Some(0)
+        } else {
+            // We're at the ghost, but that's the only element... do nothing.
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>所以这有4种有趣的情况：</p>
+<ul>
+<li>正常情况</li>
+<li>正常情况，但我们移动到了幽灵节点</li>
+<li>幽灵节点开始，向列表头部节点移动</li>
+<li>幽灵节点开始，列表是空的，所以什么都不做</li>
+</ul>
+<p><code>move_prev</code>  的逻辑完全相同，但前后颠倒，索引变化也颠倒：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn move_prev(&amp;mut self) {
+    if let Some(cur) = self.cur {
+        unsafe {
+            // We're on a real element, go to its previous (front)
+            self.cur = (*cur.as_ptr()).front;
+            if self.cur.is_some() {
+                *self.index.as_mut().unwrap() -= 1;
+            } else {
+                // We just walked to the ghost, no more index
+                self.index = None;
+            }
+        }
+    } else if !self.list.is_empty() {
+        // We're at the ghost, and there is a real back, so move to it!
+        self.cur = self.list.back;
+        self.index = Some(self.list.len - 1)
+    } else {
+        // We're at the ghost, but that's the only element... do nothing.
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>接下来，让我们添加一些方法来查看游标周围的元素：<code>current</code>、<code>peek_next</code> 和 <code>peek_prev</code>。 <strong>一个非常重要的注意事项</strong>：这些方法必须通过 <code>&amp;mut self</code> 借用我们的游标，并且结果必须与借用绑定。我们不能让用户获得可变引用的多个副本，也不能让他们在持有该引用的情况下使用我们的 insert/remove/split/splice API！</p>
+<p>值得庆幸的是，这是 rust 在使用生命周期省略规则时的默认设置，因此我们将默认做正确的事情！</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn current(&amp;mut self) -&gt; Option&lt;&amp;mut T&gt; {
+    unsafe {
+        self.cur.map(|node| &amp;mut (*node.as_ptr()).elem)
+    }
+}
+
+pub fn peek_next(&amp;mut self) -&gt; Option&lt;&amp;mut T&gt; {
+    unsafe {
+        self.cur
+            .and_then(|node| (*node.as_ptr()).back)
+            .map(|node| &amp;mut (*node.as_ptr()).elem)
+    }
+}
+
+pub fn peek_prev(&amp;mut self) -&gt; Option&lt;&amp;mut T&gt; {
+    unsafe {
+        self.cur
+            .and_then(|node| (*node.as_ptr()).front)
+            .map(|node| &amp;mut (*node.as_ptr()).elem)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h1 id="split"><a class="header" href="#split"><a href="https://rust-unofficial.github.io/too-many-lists/sixth-cursors-impl.html#split">Split</a></a></h1>
+<p>首先是 split_before 和 split_after，它们会将当前元素之前/之后的所有内容以 LinkedList 的形式返回（在幽灵元素处停止，在这种情况下，我们只返回整个 List，光标现在指向一个空 list）：</p>
+<p>这个逻辑其实并不复杂，所以我们得一步一步来。</p>
+<p>我发现 split_before 有四种潜在的情况：</p>
+<ul>
+<li>正常情况</li>
+<li>正常情况，但 prev 是幽灵节点</li>
+<li>幽灵节点情况，我们返回整个列表，然后变成空列表</li>
+<li>幽灵节点情况，但列表是空的，所以什么也不做，返回空列表</li>
+</ul>
+<p>让我们先从极端情况开始。我认为第三种情况</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>mem::replace(self.list, LinkedList::new())
+<span class="boring">}</span></code></pre></pre>
+<p>对不对？我们是空的了，并返回了整个列表，而我们的字段都应该是 "None"，所以没什么可更新的。不错。哦，嘿嘿，这在第四种情况下也对！</p>
+<p>现在是普通情况......，我需要画下图。最常见的情况是这样的</p>
+<pre><code class="language-text">list.front -&gt; A &lt;-&gt; B &lt;-&gt; C &lt;-&gt; D &lt;- list.back
+                          ^
+                         cur
+</code></pre>
+<p>我们想变成这样：</p>
+<pre><code class="language-text">list.front -&gt; C &lt;-&gt; D &lt;- list.back
+              ^
+             cur
+
+return.front -&gt; A &lt;-&gt; B &lt;- return.back
+</code></pre>
+<p>因此，我们需要打破当前数据和前一个数据之间的联系，而且......天哪，需要改变的东西太多了。好吧，我只需要把它分成几个步骤，这样我就能说服自己这是有意义的。虽然有点啰嗦，但我至少能说得通：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn split_before(&amp;mut self) -&gt; LinkedList&lt;T&gt; {
+    if let Some(cur) = self.cur {
+        // We are pointing at a real element, so the list is non-empty.
+        unsafe {
+            // Current state
+            let old_len = self.list.len;
+            let old_idx = self.index.unwrap();
+            let prev = (*cur.as_ptr()).front;
+            
+            // What self will become
+            let new_len = old_len - old_idx;
+            let new_front = self.cur;
+            let new_idx = Some(0);
+
+            // What the output will become
+            let output_len = old_len - new_len;
+            let output_front = self.list.front;
+            let output_back = prev;
+
+            // Break the links between cur and prev
+            if let Some(prev) = prev {
+                (*cur.as_ptr()).front = None;
+                (*prev.as_ptr()).back = None;
+            }
+
+            // Produce the result:
+            self.list.len = new_len;
+            self.list.front = new_front;
+            self.index = new_idx;
+
+            LinkedList {
+                front: output_front,
+                back: output_back,
+                len: output_len,
+                _boo: PhantomData,
+            }
+        }
+    } else {
+        // We're at the ghost, just replace our list with an empty one.
+        // No other state needs to be changed.
+        std::mem::replace(self.list, LinkedList::new())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>你可能注意到，我们没有处理 prev 是幽灵节点的情况。但据我所知，其他一切都只是顺便做了正确的事。等我们写测试的时候就知道了！（复制粘贴完成 split_after）。</p>
+<h1 id="splice"><a class="header" href="#splice"><a href="https://rust-unofficial.github.io/too-many-lists/sixth-cursors-impl.html#splice">Splice</a></a></h1>
+<p>还有一个老大难，那就是 splice_before 和 splice_after，我估计这是最容易出错的一个。这两个函数接收一个 LinkedList，并将其内容嫁接到我们的列表中。我们的列表可能是空的，他们的列表也可能是空的，我们还有幽灵节点要处理......叹口气，让我们一步一步来吧，从 splice_before 开始。</p>
+<ul>
+<li>如果他们的列表是空的，我们就什么都不用做。</li>
+<li>如果我们的列表是空的，那么我们的列表就变成了他们的列表。</li>
+<li>如果我们指向的是幽灵节点，则追加到后面（更改 list.back）</li>
+<li>如果我们指向的是第一个元素（0），则追加到前面（更改 list.front）</li>
+<li>一般情况下，我们会进行大量的指针操作</li>
+</ul>
+<p>一般情况：</p>
+<pre><code class="language-text">input.front -&gt; 1 &lt;-&gt; 2 &lt;- input.back
+
+ list.front -&gt; A &lt;-&gt; B &lt;-&gt; C &lt;- list.back
+                     ^
+                    cur
+</code></pre>
+<p>变成这样：</p>
+<pre><code class="language-text">list.front -&gt; A &lt;-&gt; 1 &lt;-&gt; 2 &lt;-&gt; B &lt;-&gt; C &lt;- list.back
+</code></pre>
+<p>好的，让我们来写一下：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    pub fn splice_before(&amp;mut self, mut input: LinkedList&lt;T&gt;) {
+        unsafe {
+            if input.is_empty() {
+                // Input is empty, do nothing.
+            } else if let Some(cur) = self.cur {
+                if let Some(0) = self.index {
+                    // We're appending to the front, see append to back
+                    (*cur.as_ptr()).front = input.back.take();
+                    (*input.back.unwrap().as_ptr()).back = Some(cur);
+                    self.list.front = input.front.take();
+
+                    // Index moves forward by input length
+                    *self.index.as_mut().unwrap() += input.len;
+                    self.list.len += input.len;
+                    input.len = 0;
+                } else {
+                    // General Case, no boundaries, just internal fixups
+                    let prev = (*cur.as_ptr()).front.unwrap();
+                    let in_front = input.front.take().unwrap();
+                    let in_back = input.back.take().unwrap();
+
+                    (*prev.as_ptr()).back = Some(in_front);
+                    (*in_front.as_ptr()).front = Some(prev);
+                    (*cur.as_ptr()).front = Some(in_back);
+                    (*in_back.as_ptr()).back = Some(cur);
+
+                    // Index moves forward by input length
+                    *self.index.as_mut().unwrap() += input.len;
+                    self.list.len += input.len;
+                    input.len = 0;
+                }
+            } else if let Some(back) = self.list.back {
+                // We're on the ghost but non-empty, append to the back
+                // We can either `take` the input's pointers or `mem::forget`
+                // it. Using take is more responsible in case we do custom
+                // allocators or something that also needs to be cleaned up!
+                (*back.as_ptr()).back = input.front.take();
+                (*input.front.unwrap().as_ptr()).front = Some(back);
+                self.list.back = input.back.take();
+                self.list.len += input.len;
+                // Not necessary but Polite To Do
+                input.len = 0;
+            } else {
+                // We're empty, become the input, remain on the ghost
+                *self.list = input;
+            }
+        }
+    }
+<span class="boring">}</span></code></pre></pre>
+<p>好吧，这个程序真的很可怕，现在真的感觉到 <code>Option&lt;NonNull&gt;</code> 的痛苦了。但我们可以做很多清理工作。首先，我们可以把这段代码拖到最后。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>self.list.len += input.len;
+input.len = 0;
+<span class="boring">}</span></code></pre></pre>
+<p>好了，现在在分支 "we're empty" 中有以下错误。所以我们应该使用 <code>swap</code>:</p>
+<blockquote>
+<p>Use of moved value: <code>input</code></p>
+</blockquote>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// We're empty, become the input, remain on the ghost
+std::mem::swap(self.list, &amp;mut input);
+<span class="boring">}</span></code></pre></pre>
+<p>在我反向思考下面这种情况时，我发现了这个 <code>unwrap</code> 有问题(因为 cur 的 front 在前面已经被设置为其它值了)：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>if let Some(0) = self.index {
+
+} else {
+    let prev = (*cur.as_ptr()).front.unwrap();
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这行也是重复的，可以提升:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>*self.index.as_mut().unwrap() += input.len;
+<span class="boring">}</span></code></pre></pre>
+<p>好了，把上面的问题修改后得到这些：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>if input.is_empty() {
+    // Input is empty, do nothing.
+} else if let Some(cur) = self.cur {
+    // Both lists are non-empty
+    if let Some(prev) = (*cur.as_ptr()).front {
+        // General Case, no boundaries, just internal fixups
+        let in_front = input.front.take().unwrap();
+        let in_back = input.back.take().unwrap();
+
+        (*prev.as_ptr()).back = Some(in_front);
+        (*in_front.as_ptr()).front = Some(prev);
+        (*cur.as_ptr()).front = Some(in_back);
+        (*in_back.as_ptr()).back = Some(cur);
+    } else {
+        // We're appending to the front, see append to back below
+        (*cur.as_ptr()).front = input.back.take();
+        (*input.back.unwrap().as_ptr()).back = Some(cur);
+        self.list.front = input.front.take();
+    }
+    // Index moves forward by input length
+    *self.index.as_mut().unwrap() += input.len;
+} else if let Some(back) = self.list.back {
+    // We're on the ghost but non-empty, append to the back
+    // We can either `take` the input's pointers or `mem::forget`
+    // it. Using take is more responsible in case we do custom
+    // allocators or something that also needs to be cleaned up!
+    (*back.as_ptr()).back = input.front.take();
+    (*input.front.unwrap().as_ptr()).front = Some(back);
+    self.list.back = input.back.take();
+
+} else {
+    // We're empty, become the input, remain on the ghost
+    std::mem::swap(self.list, &amp;mut input);
+}
+
+self.list.len += input.len;
+// Not necessary but Polite To Do
+input.len = 0;
+
+// Input dropped here
+<span class="boring">}</span></code></pre></pre>
+<p>还是不对，下面的代码存在bug：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    (*back.as_ptr()).back = input.front.take();
+    (*input.front.unwrap().as_ptr()).front = Some(back);
+<span class="boring">}</span></code></pre></pre>
+<p>我们使用 <code>take</code> 拿走了 input.front 的值，然后在下一行将其 <code>unwrap</code>！boom，panic！</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// We can either `take` the input's pointers or `mem::forget`
+// it. Using `take` is more responsible in case we ever do custom
+// allocators or something that also needs to be cleaned up!
+if input.is_empty() {
+    // Input is empty, do nothing.
+} else if let Some(cur) = self.cur {
+    // Both lists are non-empty
+    let in_front = input.front.take().unwrap();
+    let in_back = input.back.take().unwrap();
+
+    if let Some(prev) = (*cur.as_ptr()).front {
+        // General Case, no boundaries, just internal fixups
+        (*prev.as_ptr()).back = Some(in_front);
+        (*in_front.as_ptr()).front = Some(prev);
+        (*cur.as_ptr()).front = Some(in_back);
+        (*in_back.as_ptr()).back = Some(cur);
+    } else {
+        // No prev, we're appending to the front
+        (*cur.as_ptr()).front = Some(in_back);
+        (*in_back.as_ptr()).back = Some(cur);
+        self.list.front = Some(in_front);
+    }
+    // Index moves forward by input length
+    *self.index.as_mut().unwrap() += input.len;
+} else if let Some(back) = self.list.back {
+    // We're on the ghost but non-empty, append to the back
+    let in_front = input.front.take().unwrap();
+    let in_back = input.back.take().unwrap();
+
+    (*back.as_ptr()).back = Some(in_front);
+    (*in_front.as_ptr()).front = Some(back);
+    self.list.back = Some(in_back);
+} else {
+    // We're empty, become the input, remain on the ghost
+    std::mem::swap(self.list, &amp;mut input);
+}
+
+self.list.len += input.len;
+// Not necessary but Polite To Do
+input.len = 0;
+
+// Input dropped here
+<span class="boring">}</span></code></pre></pre>
+<p>总之，我已经筋疲力尽了，所以 <code>insert</code> 和 <code>remove</code> 以及所有其他应用程序接口就留给读者练习。
+下面是 Cursor 的最终代码，我做对了吗？我只有在写下一章并测试这个怪东西时才能知道！</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct CursorMut&lt;'a, T&gt; {
+    list: &amp;'a mut LinkedList&lt;T&gt;,
+    cur: Link&lt;T&gt;,
+    index: Option&lt;usize&gt;,
+}
+
+impl&lt;T&gt; LinkedList&lt;T&gt; {
+    pub fn cursor_mut(&amp;mut self) -&gt; CursorMut&lt;T&gt; {
+        CursorMut { 
+            list: self, 
+            cur: None, 
+            index: None,
+        }
+    }
+}
+
+impl&lt;'a, T&gt; CursorMut&lt;'a, T&gt; {
+    pub fn index(&amp;self) -&gt; Option&lt;usize&gt; {
+        self.index
+    }
+
+    pub fn move_next(&amp;mut self) {
+        if let Some(cur) = self.cur {
+            unsafe {
+                // We're on a real element, go to its next (back)
+                self.cur = (*cur.as_ptr()).back;
+                if self.cur.is_some() {
+                    *self.index.as_mut().unwrap() += 1;
+                } else {
+                    // We just walked to the ghost, no more index
+                    self.index = None;
+                }
+            }
+        } else if !self.list.is_empty() {
+            // We're at the ghost, and there is a real front, so move to it!
+            self.cur = self.list.front;
+            self.index = Some(0)
+        } else {
+            // We're at the ghost, but that's the only element... do nothing.
+        }
+    }
+
+    pub fn move_prev(&amp;mut self) {
+        if let Some(cur) = self.cur {
+            unsafe {
+                // We're on a real element, go to its previous (front)
+                self.cur = (*cur.as_ptr()).front;
+                if self.cur.is_some() {
+                    *self.index.as_mut().unwrap() -= 1;
+                } else {
+                    // We just walked to the ghost, no more index
+                    self.index = None;
+                }
+            }
+        } else if !self.list.is_empty() {
+            // We're at the ghost, and there is a real back, so move to it!
+            self.cur = self.list.back;
+            self.index = Some(self.list.len - 1)
+        } else {
+            // We're at the ghost, but that's the only element... do nothing.
+        }
+    }
+
+    pub fn current(&amp;mut self) -&gt; Option&lt;&amp;mut T&gt; {
+        unsafe {
+            self.cur.map(|node| &amp;mut (*node.as_ptr()).elem)
+        }
+    }
+
+    pub fn peek_next(&amp;mut self) -&gt; Option&lt;&amp;mut T&gt; {
+        unsafe {
+            self.cur
+                .and_then(|node| (*node.as_ptr()).back)
+                .map(|node| &amp;mut (*node.as_ptr()).elem)
+        }
+    }
+
+    pub fn peek_prev(&amp;mut self) -&gt; Option&lt;&amp;mut T&gt; {
+        unsafe {
+            self.cur
+                .and_then(|node| (*node.as_ptr()).front)
+                .map(|node| &amp;mut (*node.as_ptr()).elem)
+        }
+    }
+
+    pub fn split_before(&amp;mut self) -&gt; LinkedList&lt;T&gt; {
+        // We have this:
+        //
+        //     list.front -&gt; A &lt;-&gt; B &lt;-&gt; C &lt;-&gt; D &lt;- list.back
+        //                               ^
+        //                              cur
+        // 
+        //
+        // And we want to produce this:
+        // 
+        //     list.front -&gt; C &lt;-&gt; D &lt;- list.back
+        //                   ^
+        //                  cur
+        //
+        // 
+        //    return.front -&gt; A &lt;-&gt; B &lt;- return.back
+        //
+        if let Some(cur) = self.cur {
+            // We are pointing at a real element, so the list is non-empty.
+            unsafe {
+                // Current state
+                let old_len = self.list.len;
+                let old_idx = self.index.unwrap();
+                let prev = (*cur.as_ptr()).front;
+                
+                // What self will become
+                let new_len = old_len - old_idx;
+                let new_front = self.cur;
+                let new_back = self.list.back;
+                let new_idx = Some(0);
+
+                // What the output will become
+                let output_len = old_len - new_len;
+                let output_front = self.list.front;
+                let output_back = prev;
+
+                // Break the links between cur and prev
+                if let Some(prev) = prev {
+                    (*cur.as_ptr()).front = None;
+                    (*prev.as_ptr()).back = None;
+                }
+
+                // Produce the result:
+                self.list.len = new_len;
+                self.list.front = new_front;
+                self.list.back = new_back;
+                self.index = new_idx;
+
+                LinkedList {
+                    front: output_front,
+                    back: output_back,
+                    len: output_len,
+                    _boo: PhantomData,
+                }
+            }
+        } else {
+            // We're at the ghost, just replace our list with an empty one.
+            // No other state needs to be changed.
+            std::mem::replace(self.list, LinkedList::new())
+        }
+    }
+
+    pub fn split_after(&amp;mut self) -&gt; LinkedList&lt;T&gt; {
+        // We have this:
+        //
+        //     list.front -&gt; A &lt;-&gt; B &lt;-&gt; C &lt;-&gt; D &lt;- list.back
+        //                         ^
+        //                        cur
+        // 
+        //
+        // And we want to produce this:
+        // 
+        //     list.front -&gt; A &lt;-&gt; B &lt;- list.back
+        //                         ^
+        //                        cur
+        //
+        // 
+        //    return.front -&gt; C &lt;-&gt; D &lt;- return.back
+        //
+        if let Some(cur) = self.cur {
+            // We are pointing at a real element, so the list is non-empty.
+            unsafe {
+                // Current state
+                let old_len = self.list.len;
+                let old_idx = self.index.unwrap();
+                let next = (*cur.as_ptr()).back;
+                
+                // What self will become
+                let new_len = old_idx + 1;
+                let new_back = self.cur;
+                let new_front = self.list.front;
+                let new_idx = Some(old_idx);
+
+                // What the output will become
+                let output_len = old_len - new_len;
+                let output_front = next;
+                let output_back = self.list.back;
+
+                // Break the links between cur and next
+                if let Some(next) = next {
+                    (*cur.as_ptr()).back = None;
+                    (*next.as_ptr()).front = None;
+                }
+
+                // Produce the result:
+                self.list.len = new_len;
+                self.list.front = new_front;
+                self.list.back = new_back;
+                self.index = new_idx;
+
+                LinkedList {
+                    front: output_front,
+                    back: output_back,
+                    len: output_len,
+                    _boo: PhantomData,
+                }
+            }
+        } else {
+            // We're at the ghost, just replace our list with an empty one.
+            // No other state needs to be changed.
+            std::mem::replace(self.list, LinkedList::new())
+        }
+    }
+
+    pub fn splice_before(&amp;mut self, mut input: LinkedList&lt;T&gt;) {
+        // We have this:
+        //
+        // input.front -&gt; 1 &lt;-&gt; 2 &lt;- input.back
+        //
+        // list.front -&gt; A &lt;-&gt; B &lt;-&gt; C &lt;- list.back
+        //                     ^
+        //                    cur
+        //
+        //
+        // Becoming this:
+        //
+        // list.front -&gt; A &lt;-&gt; 1 &lt;-&gt; 2 &lt;-&gt; B &lt;-&gt; C &lt;- list.back
+        //                                 ^
+        //                                cur
+        //
+        unsafe {
+            // We can either `take` the input's pointers or `mem::forget`
+            // it. Using `take` is more responsible in case we ever do custom
+            // allocators or something that also needs to be cleaned up!
+            if input.is_empty() {
+                // Input is empty, do nothing.
+            } else if let Some(cur) = self.cur {
+                // Both lists are non-empty
+                let in_front = input.front.take().unwrap();
+                let in_back = input.back.take().unwrap();
+
+                if let Some(prev) = (*cur.as_ptr()).front {
+                    // General Case, no boundaries, just internal fixups
+                    (*prev.as_ptr()).back = Some(in_front);
+                    (*in_front.as_ptr()).front = Some(prev);
+                    (*cur.as_ptr()).front = Some(in_back);
+                    (*in_back.as_ptr()).back = Some(cur);
+                } else {
+                    // No prev, we're appending to the front
+                    (*cur.as_ptr()).front = Some(in_back);
+                    (*in_back.as_ptr()).back = Some(cur);
+                    self.list.front = Some(in_front);
+                }
+                // Index moves forward by input length
+                *self.index.as_mut().unwrap() += input.len;
+            } else if let Some(back) = self.list.back {
+                // We're on the ghost but non-empty, append to the back
+                let in_front = input.front.take().unwrap();
+                let in_back = input.back.take().unwrap();
+
+                (*back.as_ptr()).back = Some(in_front);
+                (*in_front.as_ptr()).front = Some(back);
+                self.list.back = Some(in_back);
+            } else {
+                // We're empty, become the input, remain on the ghost
+                std::mem::swap(self.list, &amp;mut input);
+            }
+
+            self.list.len += input.len;
+            // Not necessary but Polite To Do
+            input.len = 0;
+            
+            // Input dropped here
+        }        
+    }
+
+    pub fn splice_after(&amp;mut self, mut input: LinkedList&lt;T&gt;) {
+        // We have this:
+        //
+        // input.front -&gt; 1 &lt;-&gt; 2 &lt;- input.back
+        //
+        // list.front -&gt; A &lt;-&gt; B &lt;-&gt; C &lt;- list.back
+        //                     ^
+        //                    cur
+        //
+        //
+        // Becoming this:
+        //
+        // list.front -&gt; A &lt;-&gt; B &lt;-&gt; 1 &lt;-&gt; 2 &lt;-&gt; C &lt;- list.back
+        //                     ^
+        //                    cur
+        //
+        unsafe {
+            // We can either `take` the input's pointers or `mem::forget`
+            // it. Using `take` is more responsible in case we ever do custom
+            // allocators or something that also needs to be cleaned up!
+            if input.is_empty() {
+                // Input is empty, do nothing.
+            } else if let Some(cur) = self.cur {
+                // Both lists are non-empty
+                let in_front = input.front.take().unwrap();
+                let in_back = input.back.take().unwrap();
+
+                if let Some(next) = (*cur.as_ptr()).back {
+                    // General Case, no boundaries, just internal fixups
+                    (*next.as_ptr()).front = Some(in_back);
+                    (*in_back.as_ptr()).back = Some(next);
+                    (*cur.as_ptr()).back = Some(in_front);
+                    (*in_front.as_ptr()).front = Some(cur);
+                } else {
+                    // No next, we're appending to the back
+                    (*cur.as_ptr()).back = Some(in_front);
+                    (*in_front.as_ptr()).front = Some(cur);
+                    self.list.back = Some(in_back);
+                }
+                // Index doesn't change
+            } else if let Some(front) = self.list.front {
+                // We're on the ghost but non-empty, append to the front
+                let in_front = input.front.take().unwrap();
+                let in_back = input.back.take().unwrap();
+
+                (*front.as_ptr()).front = Some(in_back);
+                (*in_back.as_ptr()).back = Some(front);
+                self.list.front = Some(in_front);
+            } else {
+                // We're empty, become the input, remain on the ghost
+                std::mem::swap(self.list, &amp;mut input);
+            }
+
+            self.list.len += input.len;
+            // Not necessary but Polite To Do
+            input.len = 0;
+            
+            // Input dropped here
+        }        
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../too-many-lists/production-unsafe-deque/send-sync-and-compile-tests.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../too-many-lists/production-unsafe-deque/testing-cursors.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../too-many-lists/production-unsafe-deque/send-sync-and-compile-tests.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../too-many-lists/production-unsafe-deque/testing-cursors.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

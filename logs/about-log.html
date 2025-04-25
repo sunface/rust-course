@@ -1,0 +1,272 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>日志详解 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/logs/about-log.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="详解日志"><a class="header" href="#详解日志">详解日志</a></h1>
+<p>相比起监控，日志好理解的多：在某个时间点向指定的地方输出一条信息，里面记录着重要性、时间、地点和发生的事件，这就是日志。</p>
+<blockquote>
+<p>注意，本文和 Rust 无关，我们争取从一个中立的角度去介绍何为日志</p>
+</blockquote>
+<h2 id="日志级别和输出位置"><a class="header" href="#日志级别和输出位置">日志级别和输出位置</a></h2>
+<h4 id="日志级别"><a class="header" href="#日志级别">日志级别</a></h4>
+<p>日志级别是对基本的“滚动文本”式日志记录的一个重要补充。每条日志消息都会基于其重要性或严重程度分配到一个日志级别。例如，对于某个程序，“你的电脑着火了”是一个非常重要的消息，而“无法找到配置文件”的重要等级可能就低一些；但对于另外一些程序，"无法找到配置文件" 可能才是最严重的错误，会直接导致程序无法正常启动，而“电脑着火”? 我们可能会记录为一条 <code>Debug</code> 日志(参见下文) :D。</p>
+<p>至于到底该如何定义日志级别，这是仁者见仁的事情，并没有一个约定俗成的方式，就连很多大公司，都无法保证自己的开发者严格按照它所制定的规则来输出日志。而下面是我认为的日志级别以及相关定义:</p>
+<ul>
+<li>
+<p>Fatal: 程序发生致命错误，祝你好运。这种错误往往来自于程序逻辑的严重异常，例如之前提到的“无法找到配置文件”，再比如无法分配足够的硬盘空间、内存不够用等。遇到这种错误，建议立即退出或者重启程序，然后记录下相应的错误信息</p>
+</li>
+<li>
+<p>Error: 错误，一般指的是程序级别的错误或者严重的业务错误，但这种错误并不会影响程序的运行。一般的用户错误，例如用户名、密码错误等，不使用 Error 级别</p>
+</li>
+<li>
+<p>Warn: 警告，说明这条记录信息需要注意，但是不确定是否发生了错误，因此需要相关的开发来辨别下。或者这条信息既不是错误，但是级别又没有低到 info 级别，就可以用 Warn 来给出警示。例如某条用户连接异常关闭、无法找到相关的配置只能使用默认配置、XX秒后重试等</p>
+</li>
+<li>
+<p>Info: 信息，这种类型的日志往往用于记录程序的运行信息，例如用户操作或者状态的变化，再比如之前的用户名、密码错误，用户请求的开始和结束都可以记录为这个级别</p>
+</li>
+<li>
+<p>Debug: 调试信息，顾名思义是给开发者用的，用于了解程序当前的详细运行状况， 例如用户请求详细信息跟踪、读取到的配置信息、连接握手发包(连接的建立和结束往往是 Info 级别)，就可以记录为 Debug 信息</p>
+</li>
+</ul>
+<p>可以看出，日志级别很多，特别是 Debug 日志，如果在生产环境中开启，简直就是一场灾难，每秒几百上千条都很正常。因此我们需要控制日志的最低级别：将最低级别设置为 Info 时，意味着低于 Info 的日志都不会输出，对于上面的分级来说，Debug 日志将不会被输出。</p>
+<p>有些开发为了让特定的日志在控制上显示更明显，还会为不同的级别使用不同颜色的文字。</p>
+<h4 id="输出位置"><a class="header" href="#输出位置">输出位置</a></h4>
+<p>通常来说，日志可以输出两个地方：终端控制台和文件。对于前者，我们还有一个称呼标准输出，例如使用 <code>println!</code> 打印到终端的信息就是输出到标准输出中。</p>
+<p>如果没有日志持久化的需求，你只是为了调试程序，建议输出到控制台即可。悄悄的说一句，我们还可以为不同的级别设定不同的输出位置，例如 <code>Debug</code> 日志输出到控制台，既方便开发查看，但又不会占用硬盘，而 <code>Info</code> 和 <code>Warning</code> 日志可以输出到文件 <code>info.log</code> 中，至于 <code>Error</code>、<code>Fatal</code> 则可以输出到 <code>error.log</code> 中。</p>
+<p>但是如果大家以为只有输出到文件才能持久化日志，那你就错了，在后面的日志采集我们会详细介绍，先来看看日志查看。</p>
+<h2 id="日志查看"><a class="header" href="#日志查看">日志查看</a></h2>
+<p>关于如何查看日志，相信大家都非常熟悉了，常用的方式有三种(事实上，可能也只有这三种):</p>
+<ul>
+<li>在控制台查看，即可以直接查看输出到标准输出的日志，还可以使用 tail、cat、grep 等命令从日志文件中搜索查询或者以实时滚动的方式查看最新的日志</li>
+<li>最简单的，进入到日志文件中，进行字符串搜索，或者从头到尾、从尾到头进行逐行查看</li>
+<li>在可视化界面上查看，但是这个往往要配合日志采集工具，将日志采集到 ElasticSearch 或者其它搜索平台、数据中，然后再通过 kibana、grafana 等图形化服务进行搜索、查看，最重要的是可以进行日志的聚合统计，例如可以很方便的在 kibana 中查询满足指定条件的日志在某段时间内出现了多少次。</li>
+</ul>
+<p>大家现在知道了，可视化，首先需要将日志集中采集起来，那么该如何采集日志呢？</p>
+<h2 id="日志采集"><a class="header" href="#日志采集">日志采集</a></h2>
+<p>之前我们提到，不是只有输出到文件才能持久化日志，事实上，输出到控制台也能持久化日志。</p>
+<p>其中的<strong>秘诀就在于使用一个日志采集工具去从控制台的标准输出读取日志数据，然后将读取到的数据发送到日志存储平台</strong>，例如 ElasticSearch，进行集中存储。当然，在存储前，还需要进行日志格式、数据的处理，以便只保留我们需要的格式和日志数据。</p>
+<p>最典型的就是容器或容器云环境的日志采集，基本都是通过上面的方式进行的：容器中的进程将日志输出到标准输出，然后一个单独的日志采集服务直接读取标准输出中的日志，再通过网络发送到日志处理、存储的平台。大家发现了吗？这个流程完全不会在应用运行的本地或宿主机上存储任何日志，所以特别适合容器环境！</p>
+<p>目前常用的日志采集工具有 filebeat、vector( Rust 开发，功能强大，性能非常高 ) 等，它们都是以 agent 的形式运行在你的应用程序旁边( 在同一个 pod 或虚拟机上 )，提供贴心的服务。</p>
+<h2 id="中心化日志存储"><a class="header" href="#中心化日志存储">中心化日志存储</a></h2>
+<p>最后，我们再来简单介绍下日志存储。提到存储，首先不得不提的就是日志使用方式。</p>
+<p>其实，除了 Debug 的时候，我们使用日志基本都是基于某个关键字进行搜索的，将日志存储在各台主机上的硬盘文件中，然后逐个去查询显然是非常非常低效的，最好的方式就是将日志集中收集上来后，存储在一个搜索平台中，例如 ElasticSearch。</p>
+<p>当然，存储的时候肯定也不是简单的一行一行存储，而是需要将一条日志的多个关键词切取出来，然后以关键词索引的方式进行存储( 简化模型 )，这样我们就可以在后续使用时，通过关键词来搜索日志了。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../logs/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../logs/log.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../logs/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../logs/log.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>关于本书 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/about-book.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <img src="https://github.com/sunface/rust-course/blob/main/assets/banner.jpg?raw=true" />
+<p>Rust 语言真的好：连续八年成为全世界最受欢迎的语言、没有 GC 也无需手动内存管理、性能比肩 C++/C 还能直接调用它们的代码、安全性极高 - 总有公司说使用 Rust 后以前的大部分 bug 都将自动消失、全世界最好的包管理工具 Cargo 等等。但...</p>
+<p><strong>有人说: "Rust 太难了，学了也没用"</strong></p>
+<p>对于后面一句话我们持保留意见，如果以找工作为标准，那国内环境确实还不好，但如果你想成为更优秀的程序员或者是玩转开源，那 Rust 还真是不错的选择，具体原因见<a href="https://course.rs/into-rust.html">下一章</a>。</p>
+<p>至于 Rust 难学，那正是本书要解决的问题，如果看完后，你觉得没有学会 Rust，可以找我们退款，哦抱歉，这是开源书，那就退 🌟 吧 :)</p>
+<p>如果看到这里，大家觉得这本书的介绍并没有吸引到你，不要立即放弃，强烈建议读一下<a href="https://course.rs/into-rust.html">进入 Rust 编程世界</a>，那里会有不一样的精彩。</p>
+<h2 id="配套练习题"><a class="header" href="#配套练习题">配套练习题</a></h2>
+<p>对于学习编程而言，读一篇文章不如做几道练习题，此话虽然夸张，但是也不无道理。既然如此，既读书又做练习题，效果会不会更好？再加上练习题是书本的配套呢？ :P</p>
+<ul>
+<li><a href="https://github.com/sunface/rust-by-practice">Rust 语言实战</a>, Rust 语言圣经配套习题，支持中英双语，可以在右上角切换</li>
+</ul>
+<h2 id="创作感悟"><a class="header" href="#创作感悟">创作感悟</a></h2>
+<p>截至目前，Rust 语言圣经已写了 170 余章，110 余万字，历经 1000 多个小时，每一个章节都是手动写就，没有任何机翻和质量上的妥协( 相信深入阅读过的读者都能体会到这一点 )。</p>
+<p>曾经有读者问过 "这么好的书为何要开源，而不是出版?"，原因很简单：<strong>只有完全开源才能完美地呈现出我想要的教学效果</strong>。</p>
+<p>总之，Rust 要在国内真正发展起来，必须得有一些追逐梦想的人在做着不计付出的事情，而我希望自己能贡献一份微薄之力。</p>
+<p>但是要说完全无欲无求，那也是不可能的，看到项目多了一颗 🌟，那感觉...棒极了，因为它代表了读者的认可和称赞。</p>
+<p>你们用指尖绘制的星空，那里繁星点点，每一颗都在鼓励着怀揣着开源梦想的程序员披荆斩棘、不断前行，不夸张的说，没有你们，开源世界就没有星光，自然也就不会有今天的开源盛世。</p>
+<p>因此，<strong>我恳请大家，如果觉得书还可以，就在你的指尖星空绘制一颗新的 🌟，指引我们继续砥砺前行</strong>。这个人世间，因善意而美好。</p>
+<p>最后，能通过开源在茫茫人海中与大家相识，这感觉真好 :D</p>
+<h2 id="-贡献者"><a class="header" href="#-贡献者">🏆 贡献者</a></h2>
+<p>非常感谢本教程的<a href="https://github.com/sunface/rust-course/graphs/contributors">所有贡献者</a>，正是有了你们，才有了现在的高质量 Rust 教程!</p>
+<br />
+<p>🏆</p>
+<table>
+    <tbody>
+    <tr>
+        <td align="center">
+            <a href="https://github.com/EluvK">
+                <img src="https://avatars.githubusercontent.com/u/36977935?v=4" width="160px" alt=""/>
+                <br />
+                <sub><b>EluvK</b></sub>
+            </a>
+        </td>
+        <td align="center">
+            <a href="https://github.com/AllanDowney">
+                <img src="https://avatars.githubusercontent.com/u/82752697?v=4?s=100"  width="160px" alt=""/>
+                <br />
+                <sub><b>AllanDowney</b></sub>
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br />
+<p>🏅</p>
+<table>
+    <tbody>
+    <tr>
+        <td align="center">
+            <a href="https://github.com/JesseAtSZ">
+                <img src="https://avatars.githubusercontent.com/u/35264598?v=4?s=100" width="100px" alt=""/>
+                <br />
+                <sub><b>JesseAtSZ</b></sub>
+            </a>
+        </td>
+        <td align="center">
+            <a href="https://github.com/Rustln">
+                <img src="https://avatars.githubusercontent.com/u/100085326?v=4?s=100" width="100px" alt=""/>
+                <br />
+                <sub><b>Rustln</b></sub>
+            </a>
+        </td>
+        <td align="center">
+            <a href="https://github.com/1132719438">
+                <img src="https://avatars.githubusercontent.com/u/10138791?v=4?s=100" width="100px" alt=""/>
+                <br />
+                <sub><b>1132719438</b></sub>
+            </a>
+        </td>
+        <td align="center">
+            <a href="https://github.com/zongzi531">
+                <img src="https://avatars.githubusercontent.com/u/22429236?v=4?s=100" width="100px" alt=""/>
+                <br />
+                <sub><b>zongzi531</b></sub>
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+                            <a rel="next prefetch" href="into-rust.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+                    <a rel="next prefetch" href="into-rust.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace.js"></script>
+        <script src="editor.js"></script>
+        <script src="mode-rust.js"></script>
+        <script src="theme-dawn.js"></script>
+        <script src="theme-tomorrow_night.js"></script>
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="assets/custom2.js"></script>
+        <script src="assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

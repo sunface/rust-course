@@ -1,0 +1,573 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>格式化输出 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/basic/formatted-output.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="格式化输出"><a class="header" href="#格式化输出">格式化输出</a></h1>
+<p>提到格式化输出，可能很多人立刻就想到 <code>"{}"</code>，但是 Rust 能做到的远比这个多的多，本章节我们将深入讲解格式化输出的各个方面。</p>
+<h2 id="满分初印象"><a class="header" href="#满分初印象">满分初印象</a></h2>
+<p>先来一段代码，看看格式化输出的初印象：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>println!("Hello");                 // =&gt; "Hello"
+println!("Hello, {}!", "world");   // =&gt; "Hello, world!"
+println!("The number is {}", 1);   // =&gt; "The number is 1"
+println!("{:?}", (3, 4));          // =&gt; "(3, 4)"
+println!("{value}", value=4);      // =&gt; "4"
+println!("{} {}", 1, 2);           // =&gt; "1 2"
+println!("{:04}", 42);             // =&gt; "0042" with leading zeros
+<span class="boring">}</span></code></pre></pre>
+<p>可以看到 <code>println!</code> 宏接受的是可变参数，第一个参数是一个字符串常量，它表示最终输出字符串的格式，包含其中形如 <code>{}</code> 的符号是<strong>占位符</strong>，会被 <code>println!</code> 后面的参数依次替换。</p>
+<h2 id="printprintlnformat"><a class="header" href="#printprintlnformat"><code>print!</code>，<code>println!</code>，<code>format!</code></a></h2>
+<p>它们是 Rust 中用来格式化输出的三大金刚，用途如下：</p>
+<ul>
+<li><code>print!</code> 将格式化文本输出到标准输出，不带换行符</li>
+<li><code>println!</code> 同上，但是在行的末尾添加换行符</li>
+<li><code>format!</code> 将格式化文本输出到 <code>String</code> 字符串</li>
+</ul>
+<p>在实际项目中，最常用的是 <code>println!</code> 及 <code>format!</code>，前者常用来调试输出，后者常用来生成格式化的字符串：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let s = "hello";
+    println!("{}, world", s);
+    let s1 = format!("{}, world", s);
+    print!("{}", s1);
+    print!("{}\n", "!");
+}</code></pre></pre>
+<p>其中，<code>s1</code> 是通过 <code>format!</code> 生成的 <code>String</code> 字符串，最终输出如下：</p>
+<pre><code class="language-console">hello, world
+hello, world!
+</code></pre>
+<h4 id="eprinteprintln"><a class="header" href="#eprinteprintln"><code>eprint!</code>，<code>eprintln!</code></a></h4>
+<p>除了三大金刚外，还有两大护法，使用方式跟 <code>print!</code>，<code>println!</code> 很像，但是它们输出到标准错误输出：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>eprintln!("Error: Could not complete task")
+<span class="boring">}</span></code></pre></pre>
+<p>它们仅应该被用于输出错误信息和进度信息，其它场景都应该使用 <code>print!</code> 系列。</p>
+<h2 id="-与-"><a class="header" href="#-与-"><code>{}</code> 与 <code>{:?}</code></a></h2>
+<p>与其它语言常用的 <code>%d</code>，<code>%s</code> 不同，Rust 特立独行地选择了 <code>{}</code> 作为格式化占位符（说到这个，有点想吐槽下，Rust 中自创的概念其实还挺多的，真不知道该夸奖还是该吐槽-,-），事实证明，这种选择非常正确，它帮助用户减少了很多使用成本，你无需再为特定的类型选择特定的占位符，统一用 <code>{}</code> 来替代即可，剩下的类型推导等细节只要交给 Rust 去做。</p>
+<p>与 <code>{}</code> 类似，<code>{:?}</code> 也是占位符：</p>
+<ul>
+<li><code>{}</code> 适用于实现了 <code>std::fmt::Display</code> 特征的类型，用来以更优雅、更友好的方式格式化文本，例如展示给用户</li>
+<li><code>{:?}</code> 适用于实现了 <code>std::fmt::Debug</code> 特征的类型，用于调试场景</li>
+</ul>
+<p>其实两者的选择很简单，当你在写代码需要调试时，使用 <code>{:?}</code>，剩下的场景，选择 <code>{}</code>。</p>
+<h4 id="debug-特征"><a class="header" href="#debug-特征"><code>Debug</code> 特征</a></h4>
+<p>事实上，为了方便我们调试，大多数 Rust 类型都实现了 <code>Debug</code> 特征或者支持派生该特征：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+struct Person {
+    name: String,
+    age: u8
+}
+
+fn main() {
+    let i = 3.1415926;
+    let s = String::from("hello");
+    let v = vec![1, 2, 3];
+    let p = Person{name: "sunface".to_string(), age: 18};
+    println!("{:?}, {:?}, {:?}, {:?}", i, s, v, p);
+}</code></pre></pre>
+<p>对于数值、字符串、数组，可以直接使用 <code>{:?}</code> 进行输出，但是对于结构体，需要<a href="https://course.rs/appendix/derive.html">派生<code>Debug</code></a>特征后，才能进行输出，总之很简单。</p>
+<h4 id="display-特征"><a class="header" href="#display-特征"><code>Display</code> 特征</a></h4>
+<p>与大部分类型实现了 <code>Debug</code> 不同，实现了 <code>Display</code> 特征的 Rust 类型并没有那么多，往往需要我们自定义想要的格式化方式：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let i = 3.1415926;
+let s = String::from("hello");
+let v = vec![1, 2, 3];
+let p = Person {
+    name: "sunface".to_string(),
+    age: 18,
+};
+println!("{}, {}, {}, {}", i, s, v, p);
+<span class="boring">}</span></code></pre></pre>
+<p>运行后可以看到 <code>v</code> 和 <code>p</code> 都无法通过编译，因为没有实现 <code>Display</code> 特征，但是你又不能像派生 <code>Debug</code> 一般派生 <code>Display</code>，只能另寻他法：</p>
+<ul>
+<li>使用 <code>{:?}</code> 或 <code>{:#?}</code></li>
+<li>为自定义类型实现 <code>Display</code> 特征</li>
+<li>使用 <code>newtype</code> 为外部类型实现 <code>Display</code> 特征</li>
+</ul>
+<p>下面来一一看看这三种方式。</p>
+<h4 id=""><a class="header" href="#"><code>{:#?}</code></a></h4>
+<p><code>{:#?}</code> 与 <code>{:?}</code> 几乎一样，唯一的区别在于它能更优美地输出内容：</p>
+<pre><code class="language-console">// {:?}
+[1, 2, 3], Person { name: "sunface", age: 18 }
+
+// {:#?}
+[
+    1,
+    2,
+    3,
+], Person {
+    name: "sunface",
+}
+</code></pre>
+<p>因此对于 <code>Display</code> 不支持的类型，可以考虑使用 <code>{:#?}</code> 进行格式化，虽然理论上它更适合进行调试输出。</p>
+<h4 id="为自定义类型实现-display-特征"><a class="header" href="#为自定义类型实现-display-特征">为自定义类型实现 <code>Display</code> 特征</a></h4>
+<p>如果你的类型是定义在当前作用域中的，那么可以为其实现 <code>Display</code> 特征，即可用于格式化输出：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">struct Person {
+    name: String,
+    age: u8,
+}
+
+use std::fmt;
+impl fmt::Display for Person {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
+        write!(
+            f,
+            "大佬在上，请受我一拜，小弟姓名{}，年芳{}，家里无田又无车，生活苦哈哈",
+            self.name, self.age
+        )
+    }
+}
+fn main() {
+    let p = Person {
+        name: "sunface".to_string(),
+        age: 18,
+    };
+    println!("{}", p);
+}</code></pre></pre>
+<p>如上所示，只要实现 <code>Display</code> 特征中的 <code>fmt</code> 方法，即可为自定义结构体 <code>Person</code> 添加自定义输出：</p>
+<pre><code class="language-console">大佬在上，请受我一拜，小弟姓名sunface，年芳18，家里无田又无车，生活苦哈哈
+</code></pre>
+<h4 id="为外部类型实现-display-特征"><a class="header" href="#为外部类型实现-display-特征">为外部类型实现 <code>Display</code> 特征</a></h4>
+<p>在 Rust 中，无法直接为外部类型实现外部特征，但是可以使用<a href="https://course.rs/advance/into-types/custom-type.html#newtype"><code>newtype</code></a>解决此问题：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">struct Array(Vec&lt;i32&gt;);
+
+use std::fmt;
+impl fmt::Display for Array {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
+        write!(f, "数组是：{:?}", self.0)
+    }
+}
+fn main() {
+    let arr = Array(vec![1, 2, 3]);
+    println!("{}", arr);
+}</code></pre></pre>
+<p><code>Array</code> 就是我们的 <code>newtype</code>，它将想要格式化输出的 <code>Vec</code> 包裹在内，最后只要为 <code>Array</code> 实现 <code>Display</code> 特征，即可进行格式化输出：</p>
+<pre><code class="language-console">数组是：[1, 2, 3]
+</code></pre>
+<p>至此，关于 <code>{}</code> 与 <code>{:?}</code> 的内容已介绍完毕，下面让我们正式开始格式化输出的旅程。</p>
+<h2 id="位置参数"><a class="header" href="#位置参数">位置参数</a></h2>
+<p>除了按照依次顺序使用值去替换占位符之外，还能让指定位置的参数去替换某个占位符，例如 <code>{1}</code>，表示用第二个参数替换该占位符（索引从 0 开始）：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    println!("{}{}", 1, 2); // =&gt;"12"
+    println!("{1}{0}", 1, 2); // =&gt;"21"
+    // =&gt; Alice, this is Bob. Bob, this is Alice
+    println!("{0}, this is {1}. {1}, this is {0}", "Alice", "Bob");
+    println!("{1}{}{0}{}", 1, 2); // =&gt; 2112
+}</code></pre></pre>
+<h2 id="具名参数"><a class="header" href="#具名参数">具名参数</a></h2>
+<p>除了像上面那样指定位置外，我们还可以为参数指定名称：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    println!("{argument}", argument = "test"); // =&gt; "test"
+    println!("{name} {}", 1, name = 2); // =&gt; "2 1"
+    println!("{a} {c} {b}", a = "a", b = 'b', c = 3); // =&gt; "a 3 b"
+}</code></pre></pre>
+<p>需要注意的是：<strong>带名称的参数必须放在不带名称参数的后面</strong>，例如下面代码将报错：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>println!("{abc} {1}", abc = "def", 2);
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>error: positional arguments cannot follow named arguments
+ --&gt; src/main.rs:4:36
+   |
+ 4 | println!("{abc} {1}", abc = "def", 2);
+   |                             -----  ^ positional arguments must be before named arguments
+   |                             |
+   |                             named argument
+<span class="boring">}</span></code></pre></pre>
+<h2 id="格式化参数"><a class="header" href="#格式化参数">格式化参数</a></h2>
+<p>格式化输出，意味着对输出格式会有更多的要求，例如只输出浮点数的小数点后两位：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let v = 3.1415926;
+    // Display =&gt; 3.14
+    println!("{:.2}", v);
+    // Debug =&gt; 3.14
+    println!("{:.2?}", v);
+}</code></pre></pre>
+<p>上面代码只输出小数点后两位。同时我们还展示了 <code>{}</code> 和 <code>{:?}</code> 的用法，后面如无特殊区别，就只针对 <code>{}</code> 提供格式化参数说明。</p>
+<p>接下来，让我们一起来看看 Rust 中有哪些格式化参数。</p>
+<h3 id="宽度"><a class="header" href="#宽度">宽度</a></h3>
+<p>宽度用来指示输出目标的长度，如果长度不够，则进行填充和对齐：</p>
+<h4 id="字符串填充"><a class="header" href="#字符串填充">字符串填充</a></h4>
+<p>字符串格式化默认使用空格进行填充，并且进行左对齐。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    //-----------------------------------
+    // 以下全部输出 "Hello x    !"
+    // 为"x"后面填充空格，补齐宽度5
+    println!("Hello {:5}!", "x");
+    // 使用参数5来指定宽度
+    println!("Hello {:1$}!", "x", 5);
+    // 使用x作为占位符输出内容，同时使用5作为宽度
+    println!("Hello {1:0$}!", 5, "x");
+    // 使用有名称的参数作为宽度
+    println!("Hello {:width$}!", "x", width = 5);
+    //-----------------------------------
+
+    // 使用参数5为参数x指定宽度，同时在结尾输出参数5 =&gt; Hello x    !5
+    println!("Hello {:1$}!{}", "x", 5);
+}</code></pre></pre>
+<h4 id="数字填充符号和-0"><a class="header" href="#数字填充符号和-0">数字填充:符号和 0</a></h4>
+<p>数字格式化默认也是使用空格进行填充，但与字符串左对齐不同的是，数字是右对齐。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    // 宽度是5 =&gt; Hello     5!
+    println!("Hello {:5}!", 5);
+    // 显式的输出正号 =&gt; Hello +5!
+    println!("Hello {:+}!", 5);
+    // 宽度5，使用0进行填充 =&gt; Hello 00005!
+    println!("Hello {:05}!", 5);
+    // 负号也要占用一位宽度 =&gt; Hello -0005!
+    println!("Hello {:05}!", -5);
+}</code></pre></pre>
+<h3 id="对齐"><a class="header" href="#对齐">对齐</a></h3>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    // 以下全部都会补齐5个字符的长度
+    // 左对齐 =&gt; Hello x    !
+    println!("Hello {:&lt;5}!", "x");
+    // 右对齐 =&gt; Hello     x!
+    println!("Hello {:&gt;5}!", "x");
+    // 居中对齐 =&gt; Hello   x  !
+    println!("Hello {:^5}!", "x");
+
+    // 对齐并使用指定符号填充 =&gt; Hello x&amp;&amp;&amp;&amp;!
+    // 指定符号填充的前提条件是必须有对齐字符
+    println!("Hello {:&amp;&lt;5}!", "x");
+}</code></pre></pre>
+<h3 id="精度"><a class="header" href="#精度">精度</a></h3>
+<p>精度可以用于控制浮点数的精度或者字符串的长度</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let v = 3.1415926;
+    // 保留小数点后两位 =&gt; 3.14
+    println!("{:.2}", v);
+    // 带符号保留小数点后两位 =&gt; +3.14
+    println!("{:+.2}", v);
+    // 不带小数 =&gt; 3
+    println!("{:.0}", v);
+    // 通过参数来设定精度 =&gt; 3.1416，相当于{:.4}
+    println!("{:.1$}", v, 4);
+
+    let s = "hi我是Sunface孙飞";
+    // 保留字符串前三个字符 =&gt; hi我
+    println!("{:.3}", s);
+    // {:.*}接收两个参数，第一个是精度，第二个是被格式化的值 =&gt; Hello abc!
+    println!("Hello {:.*}!", 3, "abcdefg");
+}</code></pre></pre>
+<h3 id="进制"><a class="header" href="#进制">进制</a></h3>
+<p>可以使用 <code>#</code> 号来控制数字的进制输出：</p>
+<ul>
+<li><code>#b</code>, 二进制</li>
+<li><code>#o</code>, 八进制</li>
+<li><code>#x</code>, 小写十六进制</li>
+<li><code>#X</code>, 大写十六进制</li>
+<li><code>x</code>, 不带前缀的小写十六进制</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    // 二进制 =&gt; 0b11011!
+    println!("{:#b}!", 27);
+    // 八进制 =&gt; 0o33!
+    println!("{:#o}!", 27);
+    // 十进制 =&gt; 27!
+    println!("{}!", 27);
+    // 小写十六进制 =&gt; 0x1b!
+    println!("{:#x}!", 27);
+    // 大写十六进制 =&gt; 0x1B!
+    println!("{:#X}!", 27);
+
+    // 不带前缀的十六进制 =&gt; 1b!
+    println!("{:x}!", 27);
+
+    // 使用0填充二进制，宽度为10 =&gt; 0b00011011!
+    println!("{:#010b}!", 27);
+}</code></pre></pre>
+<h3 id="指数"><a class="header" href="#指数">指数</a></h3>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    println!("{:2e}", 1000000000); // =&gt; 1e9
+    println!("{:2E}", 1000000000); // =&gt; 1E9
+}</code></pre></pre>
+<h3 id="指针地址"><a class="header" href="#指针地址">指针地址</a></h3>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v= vec![1, 2, 3];
+println!("{:p}", v.as_ptr()) // =&gt; 0x600002324050
+<span class="boring">}</span></code></pre></pre>
+<h3 id="转义"><a class="header" href="#转义">转义</a></h3>
+<p>有时需要输出 <code>{</code>和<code>}</code>，但这两个字符是特殊字符，需要进行转义：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    // "{{" 转义为 '{'   "}}" 转义为 '}'   "\"" 转义为 '"'
+    // =&gt; Hello "{World}" 
+    println!(" Hello \"{{World}}\" ");
+
+    // 下面代码会报错，因为占位符{}只有一个右括号}，左括号被转义成字符串的内容
+    // println!(" {{ Hello } ");
+    // 也不可使用 '\' 来转义 "{}"
+    // println!(" \{ Hello \} ")
+}</code></pre></pre>
+<h2 id="在格式化字符串时捕获环境中的值rust-158-新增"><a class="header" href="#在格式化字符串时捕获环境中的值rust-158-新增">在格式化字符串时捕获环境中的值（Rust 1.58 新增）</a></h2>
+<p>在以前，想要输出一个函数的返回值，你需要这么做：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn get_person() -&gt; String {
+    String::from("sunface")
+}
+fn main() {
+    let p = get_person();
+    println!("Hello, {}!", p);                // implicit position
+    println!("Hello, {0}!", p);               // explicit index
+    println!("Hello, {person}!", person = p);
+}</code></pre></pre>
+<p>问题倒也不大，但是一旦格式化字符串长了后，就会非常冗余，而在 1.58 后，我们可以这么写：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn get_person() -&gt; String {
+    String::from("sunface")
+}
+fn main() {
+    let person = get_person();
+    println!("Hello, {person}!");
+}</code></pre></pre>
+<p>是不是清晰、简洁了很多？甚至还可以将环境中的值用于格式化参数:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let (width, precision) = get_format();
+for (name, score) in get_scores() {
+  println!("{name}: {score:width$.precision$}");
+}
+<span class="boring">}</span></code></pre></pre>
+<p>但也有局限，它只能捕获普通的变量，对于更复杂的类型（例如表达式），可以先将它赋值给一个变量或使用以前的 <code>name = expression</code> 形式的格式化参数。
+目前除了 <code>panic!</code> 外，其它接收格式化参数的宏，都可以使用新的特性。对于 <code>panic!</code> 而言，如果还在使用 <code>2015版本</code> 或 <code>2018版本</code>，那 <code>panic!("{ident}")</code> 依然会被当成 正常的字符串来处理，同时编译器会给予 <code>warn</code> 提示。而对于 <code>2021版本</code> ，则可以正常使用:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn get_person() -&gt; String {
+    String::from("sunface")
+}
+fn main() {
+    let person = get_person();
+    panic!("Hello, {person}!");
+}</code></pre></pre>
+<p>输出:</p>
+<pre><code class="language-console">thread 'main' panicked at 'Hello, sunface!', src/main.rs:6:5
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</code></pre>
+<h2 id="课后练习"><a class="header" href="#课后练习">课后练习</a></h2>
+<blockquote>
+<p><a href="https://practice-zh.course.rs/formatted-output.html">Rust By Practice</a>，支持代码在线编辑和运行，并提供详细的习题解答。（本节暂无习题解答）</p>
+</blockquote>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p>把这些格式化都牢记在脑中是不太现实的，也没必要，我们要做的就是知道 Rust 支持相应的格式化输出，在需要之时，读者再来查阅本文即可。</p>
+<p>还是那句话，<a href="https://github.com/sunface/rust-course">&lt;&lt;Rust 语言圣经&gt;&gt;</a>不仅仅是 Rust 学习书籍，还是一本厚重的工具书！</p>
+<p>至此，Rust 的基础内容学习已经全部完成，下面我们将学习 Rust 的高级进阶内容，正式开启你的高手之路。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../basic/comment.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../basic-practice/intro.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../basic/comment.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../basic-practice/intro.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

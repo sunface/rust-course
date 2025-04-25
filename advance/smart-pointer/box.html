@@ -1,0 +1,429 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Box&lt;T&gt; 堆对象分配 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/smart-pointer/box.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="boxt-堆对象分配"><a class="header" href="#boxt-堆对象分配"><code>Box&lt;T&gt;</code> 堆对象分配</a></h1>
+<p>关于作者帅不帅，估计争议还挺多的，但是如果说 <code>Box&lt;T&gt;</code> 是不是 Rust 中最常见的智能指针，那估计没有任何争议。因为 <code>Box&lt;T&gt;</code> 允许你将一个值分配到堆上，然后在栈上保留一个智能指针指向堆上的数据。</p>
+<p>之前我们在<a href="https://course.rs/basic/ownership/ownership.html#%E6%A0%88stack%E4%B8%8E%E5%A0%86heap">所有权章节</a>简单讲过堆栈的概念，这里再补充一些。</p>
+<h2 id="rust-中的堆栈"><a class="header" href="#rust-中的堆栈">Rust 中的堆栈</a></h2>
+<p>高级语言 Python/Java 等往往会弱化堆栈的概念，但是要用好 C/C++/Rust，就必须对堆栈有深入的了解，原因是两者的内存管理方式不同：前者有 GC 垃圾回收机制，因此无需你去关心内存的细节。</p>
+<p>栈内存从高位地址向下增长，且栈内存是连续分配的，一般来说<strong>操作系统对栈内存的大小都有限制</strong>，因此 C 语言中无法创建任意长度的数组。在 Rust 中，<code>main</code> 线程的<a href="https://course.rs/compiler/pitfalls/stack-overflow.html">栈大小是 <code>8MB</code></a>，普通线程是 <code>2MB</code>，在函数调用时会在其中创建一个临时栈空间，调用结束后 Rust 会让这个栈空间里的对象自动进入 <code>Drop</code> 流程，最后栈顶指针自动移动到上一个调用栈顶，无需程序员手动干预，因而栈内存申请和释放是非常高效的。</p>
+<p>与栈相反，堆上内存则是从低位地址向上增长，<strong>堆内存通常只受物理内存限制</strong>，而且通常是不连续的，因此从性能的角度看，栈往往比堆更高。</p>
+<p>相比其它语言，Rust 堆上对象还有一个特殊之处，它们都拥有一个所有者，因此受所有权规则的限制：当赋值时，发生的是所有权的转移（只需浅拷贝栈上的引用或智能指针即可），例如以下代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let b = foo("world");
+    println!("{}", b);
+}
+
+fn foo(x: &amp;str) -&gt; String {
+    let a = "Hello, ".to_string() + x;
+    a
+}</code></pre></pre>
+<p>在 <code>foo</code> 函数中，<code>a</code> 是 <code>String</code> 类型，它其实是一个智能指针结构体，该智能指针存储在函数栈中，指向堆上的字符串数据。当被从 <code>foo</code> 函数转移给 <code>main</code> 中的 <code>b</code> 变量时，栈上的智能指针被复制一份赋予给 <code>b</code>，而底层数据无需发生改变，这样就完成了所有权从 <code>foo</code> 函数内部到 <code>b</code> 的转移。</p>
+<h4 id="堆栈的性能"><a class="header" href="#堆栈的性能">堆栈的性能</a></h4>
+<p>很多人可能会觉得栈的性能肯定比堆高，其实未必。 由于我们在后面的性能专题会专门讲解堆栈的性能问题，因此这里就大概给出结论：</p>
+<ul>
+<li>小型数据，在栈上的分配性能和读取性能都要比堆上高</li>
+<li>中型数据，栈上分配性能高，但是读取性能和堆上并无区别，因为无法利用寄存器或 CPU 高速缓存，最终还是要经过一次内存寻址</li>
+<li>大型数据，只建议在堆上分配和使用</li>
+</ul>
+<p>总之，栈的分配速度肯定比堆上快，但是读取速度往往取决于你的数据能不能放入寄存器或 CPU 高速缓存。 因此不要仅仅因为堆上性能不如栈这个印象，就总是优先选择栈，导致代码更复杂的实现。</p>
+<h2 id="box-的使用场景"><a class="header" href="#box-的使用场景">Box 的使用场景</a></h2>
+<p>由于 <code>Box</code> 是简单的封装，除了将值存储在堆上外，并没有其它性能上的损耗。而性能和功能往往是鱼和熊掌，因此 <code>Box</code> 相比其它智能指针，功能较为单一，可以在以下场景中使用它：</p>
+<ul>
+<li>特意的将数据分配在堆上</li>
+<li>数据较大时，又不想在转移所有权时进行数据拷贝</li>
+<li>类型的大小在编译期无法确定，但是我们又需要固定大小的类型时</li>
+<li>特征对象，用于说明对象实现了一个特征，而不是某个特定的类型</li>
+</ul>
+<p>以上场景，我们在本章将一一讲解，后面车速较快，请系好安全带。</p>
+<h4 id="使用-boxt-将数据存储在堆上"><a class="header" href="#使用-boxt-将数据存储在堆上">使用 <code>Box&lt;T&gt;</code> 将数据存储在堆上</a></h4>
+<p>如果一个变量拥有一个数值 <code>let a = 3</code>，那变量 <code>a</code> 必然是存储在栈上的，那如果我们想要 <code>a</code> 的值存储在堆上就需要使用 <code>Box&lt;T&gt;</code>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let a = Box::new(3);
+    println!("a = {}", a); // a = 3
+
+    // 下面一行代码将报错
+    // let b = a + 1; // cannot add `{integer}` to `Box&lt;{integer}&gt;`
+}</code></pre></pre>
+<p>这样就可以创建一个智能指针指向了存储在堆上的 <code>3</code>，并且 <code>a</code> 持有了该指针。在本章的引言中，我们提到了智能指针往往都实现了 <code>Deref</code> 和 <code>Drop</code> 特征，因此：</p>
+<ul>
+<li><code>println!</code> 可以正常打印出 <code>a</code> 的值，是因为它隐式地调用了 <code>Deref</code> 对智能指针 <code>a</code> 进行了解引用</li>
+<li>最后一行代码 <code> let b = a + 1</code> 报错，是因为在表达式中，我们无法自动隐式地执行 <code>Deref</code> 解引用操作，你需要使用 <code>*</code> 操作符 <code>let b = *a + 1</code>，来显式的进行解引用</li>
+<li><code>a</code> 持有的智能指针将在作用域结束（<code>main</code> 函数结束）时，被释放掉，这是因为 <code>Box&lt;T&gt;</code> 实现了 <code>Drop</code> 特征</li>
+</ul>
+<p>以上的例子在实际代码中其实很少会存在，因为将一个简单的值分配到堆上并没有太大的意义。将其分配在栈上，由于寄存器、CPU 缓存的原因，它的性能将更好，而且代码可读性也更好。</p>
+<h4 id="避免栈上数据的拷贝"><a class="header" href="#避免栈上数据的拷贝">避免栈上数据的拷贝</a></h4>
+<p>当栈上数据转移所有权时，实际上是把数据拷贝了一份，最终新旧变量各自拥有不同的数据，因此所有权并未转移。</p>
+<p>而堆上则不然，底层数据并不会被拷贝，转移所有权仅仅是复制一份栈中的指针，再将新的指针赋予新的变量，然后让拥有旧指针的变量失效，最终完成了所有权的转移：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    // 在栈上创建一个长度为1000的数组
+    let arr = [0;1000];
+    // 将arr所有权转移arr1，由于 `arr` 分配在栈上，因此这里实际上是直接重新深拷贝了一份数据
+    let arr1 = arr;
+
+    // arr 和 arr1 都拥有各自的栈上数组，因此不会报错
+    println!("{:?}", arr.len());
+    println!("{:?}", arr1.len());
+
+    // 在堆上创建一个长度为1000的数组，然后使用一个智能指针指向它
+    let arr = Box::new([0;1000]);
+    // 将堆上数组的所有权转移给 arr1，由于数据在堆上，因此仅仅拷贝了智能指针的结构体，底层数据并没有被拷贝
+    // 所有权顺利转移给 arr1，arr 不再拥有所有权
+    let arr1 = arr;
+    println!("{:?}", arr1.len());
+    // 由于 arr 不再拥有底层数组的所有权，因此下面代码将报错
+    // println!("{:?}", arr.len());
+}</code></pre></pre>
+<p>从以上代码，可以清晰看出大块的数据为何应该放入堆中，此时 <code>Box</code> 就成为了我们最好的帮手。</p>
+<h4 id="将动态大小类型变为-sized-固定大小类型"><a class="header" href="#将动态大小类型变为-sized-固定大小类型">将动态大小类型变为 Sized 固定大小类型</a></h4>
+<p>Rust 需要在编译时知道类型占用多少空间，如果一种类型在编译时无法知道具体的大小，那么被称为动态大小类型 DST。</p>
+<p>其中一种无法在编译时知道大小的类型是<strong>递归类型</strong>：在类型定义中又使用到了自身，或者说该类型的值的一部分可以是相同类型的其它值，这种值的嵌套理论上可以无限进行下去，所以 Rust 不知道递归类型需要多少空间：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum List {
+    Cons(i32, List),
+    Nil,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>以上就是函数式语言中常见的 <code>Cons List</code>，它的每个节点包含一个 <code>i32</code> 值，还包含了一个新的 <code>List</code>，因此这种嵌套可以无限进行下去，Rust 认为该类型是一个 DST 类型，并给予报错：</p>
+<pre><code class="language-console">error[E0072]: recursive type `List` has infinite size //递归类型 `List` 拥有无限长的大小
+ --&gt; src/main.rs:3:1
+  |
+3 | enum List {
+  | ^^^^^^^^^ recursive type has infinite size
+4 |     Cons(i32, List),
+  |               ---- recursive without indirection
+</code></pre>
+<p>此时若想解决这个问题，就可以使用我们的 <code>Box&lt;T&gt;</code>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum List {
+    Cons(i32, Box&lt;List&gt;),
+    Nil,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>只需要将 <code>List</code> 存储到堆上，然后使用一个智能指针指向它，即可完成从 DST 到 Sized 类型(固定大小类型)的华丽转变。</p>
+<h4 id="特征对象"><a class="header" href="#特征对象">特征对象</a></h4>
+<p>在 Rust 中，想实现不同类型组成的数组只有两个办法：枚举和特征对象，前者限制较多，因此后者往往是最常用的解决办法。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">trait Draw {
+    fn draw(&amp;self);
+}
+
+struct Button {
+    id: u32,
+}
+impl Draw for Button {
+    fn draw(&amp;self) {
+        println!("这是屏幕上第{}号按钮", self.id)
+    }
+}
+
+struct Select {
+    id: u32,
+}
+
+impl Draw for Select {
+    fn draw(&amp;self) {
+        println!("这个选择框贼难用{}", self.id)
+    }
+}
+
+fn main() {
+    let elems: Vec&lt;Box&lt;dyn Draw&gt;&gt; = vec![Box::new(Button { id: 1 }), Box::new(Select { id: 2 })];
+
+    for e in elems {
+        e.draw()
+    }
+}</code></pre></pre>
+<p>以上代码将不同类型的 <code>Button</code> 和 <code>Select</code> 包装成 <code>Draw</code> 特征的特征对象，放入一个数组中，<code>Box&lt;dyn Draw&gt;</code> 就是特征对象。</p>
+<p>其实，特征也是 DST 类型，而特征对象在做的就是将 DST 类型转换为固定大小类型。</p>
+<h2 id="box-内存布局"><a class="header" href="#box-内存布局">Box 内存布局</a></h2>
+<p>先来看看 <code>Vec&lt;i32&gt;</code> 的内存布局：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>(stack)    (heap)
+┌──────┐   ┌───┐
+│ vec1 │──→│ 1 │
+└──────┘   ├───┤
+           │ 2 │
+           ├───┤
+           │ 3 │
+           ├───┤
+           │ 4 │
+           └───┘
+<span class="boring">}</span></code></pre></pre>
+<p>之前提到过 <code>Vec</code> 和 <code>String</code> 都是智能指针，从上图可以看出，该智能指针存储在栈中，然后指向堆上的数组数据。</p>
+<p>那如果数组中每个元素都是一个 <code>Box</code> 对象呢？来看看 <code>Vec&lt;Box&lt;i32&gt;&gt;</code> 的内存布局：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>                    (heap)
+(stack)    (heap)   ┌───┐
+┌──────┐   ┌───┐ ┌─→│ 1 │
+│ vec2 │──→│B1 │─┘  └───┘
+└──────┘   ├───┤    ┌───┐
+           │B2 │───→│ 2 │
+           ├───┤    └───┘
+           │B3 │─┐  ┌───┐
+           ├───┤ └─→│ 3 │
+           │B4 │─┐  └───┘
+           └───┘ │  ┌───┐
+                 └─→│ 4 │
+                    └───┘
+<span class="boring">}</span></code></pre></pre>
+<p>上面的 <code>B1</code> 代表被 <code>Box</code> 分配到堆上的值 <code>1</code>。</p>
+<p>可以看出智能指针 <code>vec2</code> 依然是存储在栈上，然后指针指向一个堆上的数组，该数组中每个元素都是一个 <code>Box</code> 智能指针，最终 <code>Box</code> 智能指针又指向了存储在堆上的实际值。</p>
+<p>因此当我们从数组中取出某个元素时，取到的是对应的智能指针 <code>Box</code>，需要对该智能指针进行解引用，才能取出最终的值：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let arr = vec![Box::new(1), Box::new(2)];
+    let (first, second) = (&amp;arr[0], &amp;arr[1]);
+    let sum = **first + **second;
+}</code></pre></pre>
+<p>以上代码有几个值得注意的点：</p>
+<ul>
+<li>使用 <code>&amp;</code> 借用数组中的元素，否则会报所有权错误</li>
+<li>表达式不能隐式的解引用，因此必须使用 <code>**</code> 做两次解引用，第一次将 <code>&amp;Box&lt;i32&gt;</code> 类型转成 <code>Box&lt;i32&gt;</code>，第二次将 <code>Box&lt;i32&gt;</code> 转成 <code>i32</code></li>
+</ul>
+<h2 id="boxleak"><a class="header" href="#boxleak">Box::leak</a></h2>
+<p><code>Box</code> 中还提供了一个非常有用的关联函数：<code>Box::leak</code>，它可以消费掉 <code>Box</code> 并且强制目标值从内存中泄漏，读者可能会觉得，这有啥用啊？</p>
+<p>其实还真有点用，例如，你可以把一个 <code>String</code> 类型，变成一个 <code>'static</code> 生命周期的 <code>&amp;str</code> 类型：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+   let s = gen_static_str();
+   println!("{}", s);
+}
+
+fn gen_static_str() -&gt; &amp;'static str{
+    let mut s = String::new();
+    s.push_str("hello, world");
+
+    Box::leak(s.into_boxed_str())
+}</code></pre></pre>
+<p>在之前的代码中，如果 <code>String</code> 创建于函数中，那么返回它的唯一方法就是转移所有权给调用者 <code>fn move_str() -&gt; String</code>，而通过 <code>Box::leak</code> 我们不仅返回了一个 <code>&amp;str</code> 字符串切片，它还是 <code>'static</code> 生命周期的！</p>
+<p>要知道真正具有 <code>'static</code> 生命周期的往往都是编译期就创建的值，例如 <code>let v = "hello, world"</code>，这里 <code>v</code> 是直接打包到二进制可执行文件中的，因此该字符串具有 <code>'static</code> 生命周期，再比如 <code>const</code> 常量。</p>
+<p>又有读者要问了，我还可以手动为变量标注 <code>'static</code> 啊。其实你标注的 <code>'static</code> 只是用来忽悠编译器的，但是超出作用域，一样被释放回收。而使用 <code>Box::leak</code> 就可以将一个运行期的值转为 <code>'static</code>。</p>
+<h4 id="使用场景"><a class="header" href="#使用场景">使用场景</a></h4>
+<p>光看上面的描述，大家可能还是云里雾里、一头雾水。</p>
+<p>那么我说一个简单的场景，<strong>你需要一个在运行期初始化的值，但是可以全局有效，也就是和整个程序活得一样久</strong>，那么就可以使用 <code>Box::leak</code>，例如有一个存储配置的结构体实例，它是在运行期动态插入内容，那么就可以将其转为全局有效，虽然 <code>Rc/Arc</code> 也可以实现此功能，但是 <code>Box::leak</code> 是性能最高的。</p>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p><code>Box</code> 背后是调用 <code>jemalloc</code> 来做内存管理，所以堆上的空间无需我们的手动管理。与此类似，带 GC 的语言中的对象也是借助于 <code>Box</code> 概念来实现的，<strong>一切皆对象 = 一切皆 Box</strong>， 只不过我们无需自己去 <code>Box</code> 罢了。</p>
+<p>其实很多时候，编译器的鞭笞可以助我们更快的成长，例如所有权规则里的借用、move、生命周期就是编译器在教我们做人，哦不是，是教我们深刻理解堆栈、内存布局、作用域等等你在其它 GC 语言无需去关注的东西。刚开始是很痛苦，但是一旦熟悉了这套规则，写代码的效率和代码本身的质量将飞速上升，直到你可以用 Java 开发的效率写出 Java 代码不可企及的性能和安全性，最终 Rust 语言所谓的开发效率低、心智负担高，对你来说终究不是个事。</p>
+<p>因此，不要怪 Rust，<strong>它只是在帮我们成为那个更好的程序员，而这些苦难终究成为我们走向优秀的垫脚石</strong>。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../advance/smart-pointer/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../advance/smart-pointer/deref.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../advance/smart-pointer/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../advance/smart-pointer/deref.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

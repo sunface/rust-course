@@ -1,0 +1,667 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>泛型 Generics - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/basic/trait/generic.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="泛型-generics"><a class="header" href="#泛型-generics">泛型 Generics</a></h1>
+<p>Go 语言在 2022 年，就要正式引入泛型，被视为在 1.0 版本后，语言特性发展迈出的一大步，为什么泛型这么重要？到底什么是泛型？Rust 的泛型有几种？
+本章将一一为你讲解。</p>
+<p>我们在编程中，经常有这样的需求：用同一功能的函数处理不同类型的数据，例如两个数的加法，无论是整数还是浮点数，甚至是自定义类型，都能进行支持。在不支持泛型的编程语言中，通常需要为每一种类型编写一个函数：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn add_i8(a:i8, b:i8) -&gt; i8 {
+    a + b
+}
+fn add_i32(a:i32, b:i32) -&gt; i32 {
+    a + b
+}
+fn add_f64(a:f64, b:f64) -&gt; f64 {
+    a + b
+}
+
+fn main() {
+    println!("add i8: {}", add_i8(2i8, 3i8));
+    println!("add i32: {}", add_i32(20, 30));
+    println!("add f64: {}", add_f64(1.23, 1.23));
+}</code></pre></pre>
+<p>上述代码可以正常运行，但是很啰嗦，如果你要支持更多的类型，那么会更繁琐。程序员或多或少都有强迫症，一个好程序员的公认特征就是 —— 懒，这么勤快的写一大堆代码，显然不是咱们的优良传统，是不？</p>
+<p>在开始讲解 Rust 的泛型之前，先来看看什么是多态。</p>
+<p>在编程的时候，我们经常利用多态。通俗的讲，多态就是好比坦克的炮管，既可以发射普通弹药，也可以发射制导炮弹（导弹），也可以发射贫铀穿甲弹，甚至发射子母弹，没有必要为每一种炮弹都在坦克上分别安装一个专用炮管，即使生产商愿意，炮手也不愿意，累死人啊。所以在编程开发中，我们也需要这样“通用的炮管”，这个“通用的炮管”就是多态。</p>
+<p>实际上，泛型就是一种多态。泛型主要目的是为程序员提供编程的便利，减少代码的臃肿，同时可以极大地丰富语言本身的表达能力，为程序员提供了一个合适的炮管。想想，一个函数，可以代替几十个，甚至数百个函数，是一件多么让人兴奋的事情：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn add&lt;T&gt;(a:T, b:T) -&gt; T {
+    a + b
+}
+
+fn main() {
+    println!("add i8: {}", add(2i8, 3i8));
+    println!("add i32: {}", add(20, 30));
+    println!("add f64: {}", add(1.23, 1.23));
+}</code></pre></pre>
+<p>将之前的代码改成上面这样，就是 Rust 泛型的初印象，这段代码虽然很简洁，但是并不能编译通过，我们会在后面进行详细讲解，现在只要对泛型有个大概的印象即可。</p>
+<h2 id="泛型详解"><a class="header" href="#泛型详解">泛型详解</a></h2>
+<p>上面代码的 <code>T</code> 就是<strong>泛型参数</strong>，实际上在 Rust 中，泛型参数的名称你可以任意起，但是出于惯例，我们都用 <code>T</code> （<code>T</code> 是 <code>type</code> 的首字母）来作为首选，这个名称越短越好，除非需要表达含义，否则一个字母是最完美的。</p>
+<p>使用泛型参数，有一个先决条件，必需在使用前对其进行声明：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn largest&lt;T&gt;(list: &amp;[T]) -&gt; T {
+<span class="boring">}</span></code></pre></pre>
+<p>该泛型函数的作用是从列表中找出最大的值，其中列表中的元素类型为 T。首先 <code>largest&lt;T&gt;</code> 对泛型参数 <code>T</code> 进行了声明，然后才在函数参数中进行使用该泛型参数 <code>list: &amp;[T]</code> （还记得 <code>&amp;[T]</code> 类型吧？这是<a href="https://course.rs/basic/compound-type/array.html#%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87">数组切片</a>）。</p>
+<p>总之，我们可以这样理解这个函数定义：函数 <code>largest</code> 有泛型类型 <code>T</code>，它有个参数 <code>list</code>，其类型是元素为 <code>T</code> 的数组切片，最后，该函数返回值的类型也是 <code>T</code>。</p>
+<p>下面是一个错误的泛型函数的实现：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn largest&lt;T&gt;(list: &amp;[T]) -&gt; T {
+    let mut largest = list[0];
+
+    for &amp;item in list.iter() {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let result = largest(&amp;number_list);
+    println!("The largest number is {}", result);
+
+    let char_list = vec!['y', 'm', 'a', 'q'];
+
+    let result = largest(&amp;char_list);
+    println!("The largest char is {}", result);
+}</code></pre></pre>
+<p>运行后报错：</p>
+<pre><code class="language-console">error[E0369]: binary operation `&gt;` cannot be applied to type `T` // `&gt;`操作符不能用于类型`T`
+ --&gt; src/main.rs:5:17
+  |
+5 |         if item &gt; largest {
+  |            ---- ^ ------- T
+  |            |
+  |            T
+  |
+help: consider restricting type parameter `T` // 考虑对T进行类型上的限制 :
+  |
+1 | fn largest&lt;T: std::cmp::PartialOrd&gt;(list: &amp;[T]) -&gt; T {
+  |             ++++++++++++++++++++++
+</code></pre>
+<p>因为 <code>T</code> 可以是任何类型，但不是所有的类型都能进行比较，因此上面的错误中，编译器建议我们给 <code>T</code> 添加一个类型限制：使用 <code>std::cmp::PartialOrd</code> 特征（Trait）对 <code>T</code> 进行限制，特征在下一节会详细介绍，现在你只要理解，该特征的目的就是让<strong>类型实现可比较的功能</strong>。</p>
+<p>还记得我们一开始的 <code>add</code> 泛型函数吗？如果你运行它，会得到以下的报错：</p>
+<pre><code class="language-console">error[E0369]: cannot add `T` to `T` // 无法将 `T` 类型跟 `T` 类型进行相加
+ --&gt; src/main.rs:2:7
+  |
+2 |     a + b
+  |     - ^ - T
+  |     |
+  |     T
+  |
+help: consider restricting type parameter `T`
+  |
+1 | fn add&lt;T: std::ops::Add&lt;Output = T&gt;&gt;(a:T, b:T) -&gt; T {
+  |         +++++++++++++++++++++++++++
+</code></pre>
+<p>同样的，不是所有 <code>T</code> 类型都能进行相加操作，因此我们需要用 <code>std::ops::Add&lt;Output = T&gt;</code> 对 <code>T</code> 进行限制：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn add&lt;T: std::ops::Add&lt;Output = T&gt;&gt;(a:T, b:T) -&gt; T {
+    a + b
+}
+<span class="boring">}</span></code></pre></pre>
+<p>进行如上修改后，就可以正常运行。</p>
+<h3 id="显式地指定泛型的类型参数"><a class="header" href="#显式地指定泛型的类型参数">显式地指定泛型的类型参数</a></h3>
+<p>有时候，编译器无法推断你想要的泛型参数：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::fmt::Display;
+
+fn create_and_print&lt;T&gt;() where T: From&lt;i32&gt; + Display {
+    let a: T = 100.into(); // 创建了类型为 T 的变量 a，它的初始值由 100 转换而来
+    println!("a is: {}", a);
+}
+
+fn main() {
+    create_and_print();
+}</code></pre></pre>
+<p>如果运行以上代码，会得到报错：</p>
+<pre><code class="language-console">error[E0283]: type annotations needed // 需要标明类型
+ --&gt; src/main.rs:9:5
+  |
+9 |     create_and_print();
+  |     ^^^^^^^^^^^^^^^^ cannot infer type of the type parameter `T` declared on the function `create_and_print` // 无法推断函数 `create_and_print` 的类型参数 `T` 的类型
+  |
+  = note: multiple `impl`s satisfying `_: From&lt;i32&gt;` found in the `core` crate:
+          - impl From&lt;i32&gt; for AtomicI32;
+          - impl From&lt;i32&gt; for f64;
+          - impl From&lt;i32&gt; for i128;
+          - impl From&lt;i32&gt; for i64;
+note: required by a bound in `create_and_print`
+ --&gt; src/main.rs:3:35
+  |
+3 | fn create_and_print&lt;T&gt;() where T: From&lt;i32&gt; + Display {
+  |                                   ^^^^^^^^^ required by this bound in `create_and_print`
+help: consider specifying the generic argument // 尝试指定泛型参数
+  |
+9 |     create_and_print::&lt;T&gt;();
+  |                     +++++
+</code></pre>
+<p>报错里说得很清楚，编译器不知道 <code>T</code> 到底应该是什么类型。不过好心的编译器已经帮我们列出了满足条件的类型，然后告诉我们解决方法：显式指定类型：<code>create_and_print::&lt;T&gt;()</code>。</p>
+<p>于是，我们修改代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::fmt::Display;
+
+fn create_and_print&lt;T&gt;() where T: From&lt;i32&gt; + Display {
+    let a: T = 100.into(); // 创建了类型为 T 的变量 a，它的初始值由 100 转换而来
+    println!("a is: {}", a);
+}
+
+fn main() {
+    create_and_print::&lt;i64&gt;();
+}</code></pre></pre>
+<p>即可成功运行。</p>
+<h2 id="结构体中使用泛型"><a class="header" href="#结构体中使用泛型">结构体中使用泛型</a></h2>
+<p>结构体中的字段类型也可以用泛型来定义，下面代码定义了一个坐标点 <code>Point</code>，它可以存放任何类型的坐标值：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+fn main() {
+    let integer = Point { x: 5, y: 10 };
+    let float = Point { x: 1.0, y: 4.0 };
+}</code></pre></pre>
+<p>这里有两点需要特别的注意：</p>
+<ul>
+<li><strong>提前声明</strong>，跟泛型函数定义类似，首先我们在使用泛型参数之前必需要进行声明 <code>Point&lt;T&gt;</code>，接着就可以在结构体的字段类型中使用 <code>T</code> 来替代具体的类型</li>
+<li><strong>x 和 y 是相同的类型</strong></li>
+</ul>
+<p>第二点非常重要，如果使用不同的类型，那么它会导致下面代码的报错：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+fn main() {
+    let p = Point{x: 1, y :1.1};
+}</code></pre></pre>
+<p>错误如下：</p>
+<pre><code class="language-console">error[E0308]: mismatched types //类型不匹配
+ --&gt; src/main.rs:7:28
+  |
+7 |     let p = Point{x: 1, y :1.1};
+  |                            ^^^ expected integer, found floating-point number //期望y是整数，但是却是浮点数
+
+</code></pre>
+<p>当把 <code>1</code> 赋值给 <code>x</code> 时，变量 <code>p</code> 的 <code>T</code> 类型就被确定为整数类型，因此 <code>y</code> 也必须是整数类型，但是我们却给它赋予了浮点数，因此导致报错。</p>
+<p>如果想让 <code>x</code> 和 <code>y</code> 既能类型相同，又能类型不同，就需要使用不同的泛型参数：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">struct Point&lt;T,U&gt; {
+    x: T,
+    y: U,
+}
+fn main() {
+    let p = Point{x: 1, y :1.1};
+}</code></pre></pre>
+<p>切记，所有的泛型参数都要提前声明：<code>Point&lt;T,U&gt;</code> ! 但是如果你的结构体变成这鬼样：<code>struct Woo&lt;T,U,V,W,X&gt;</code>，那么你需要考虑拆分这个结构体，减少泛型参数的个数和代码复杂度。</p>
+<h2 id="枚举中使用泛型"><a class="header" href="#枚举中使用泛型">枚举中使用泛型</a></h2>
+<p>提到枚举类型，<code>Option</code> 永远是第一个应该被想起来的，在之前的章节中，它也多次出现：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Option&lt;T&gt; {
+    Some(T),
+    None,
+}
+<span class="boring">}</span></code></pre></pre>
+<p><code>Option&lt;T&gt;</code> 是一个拥有泛型 <code>T</code> 的枚举类型，它第一个成员是 <code>Some(T)</code>，存放了一个类型为 <code>T</code> 的值。得益于泛型的引入，我们可以在任何一个需要返回值的函数中，去使用 <code>Option&lt;T&gt;</code> 枚举类型来做为返回值，用于返回一个任意类型的值 <code>Some(T)</code>，或者没有值 <code>None</code>。</p>
+<p>对于枚举而言，卧龙凤雏永远是绕不过去的存在：如果是 <code>Option</code> 是卧龙，那么 <code>Result</code> 就一定是凤雏，得两者可得天下：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Result&lt;T, E&gt; {
+    Ok(T),
+    Err(E),
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这个枚举和 <code>Option</code> 一样，主要用于函数返回值，与 <code>Option</code> 用于值的存在与否不同，<code>Result </code>关注的主要是值的正确性。</p>
+<p>如果函数正常运行，则最后返回一个 <code>Ok(T)</code>，<code>T</code> 是函数具体的返回值类型，如果函数异常运行，则返回一个 <code>Err(E)</code>，<code>E</code> 是错误类型。例如打开一个文件：如果成功打开文件，则返回 <code>Ok(std::fs::File)</code>，因此 <code>T</code> 对应的是 <code>std::fs::File</code> 类型；而当打开文件时出现问题时，返回 <code>Err(std::io::Error)</code>，<code>E</code> 对应的就是 <code>std::io::Error</code> 类型。</p>
+<h2 id="方法中使用泛型"><a class="header" href="#方法中使用泛型">方法中使用泛型</a></h2>
+<p>上一章中，我们讲到什么是方法以及如何在结构体和枚举上定义方法。方法上也可以使用泛型：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+impl&lt;T&gt; Point&lt;T&gt; {
+    fn x(&amp;self) -&gt; &amp;T {
+        &amp;self.x
+    }
+}
+
+fn main() {
+    let p = Point { x: 5, y: 10 };
+
+    println!("p.x = {}", p.x());
+}</code></pre></pre>
+<p>使用泛型参数前，依然需要提前声明：<code>impl&lt;T&gt;</code>，只有提前声明了，我们才能在<code>Point&lt;T&gt;</code>中使用它，这样 Rust 就知道 <code>Point</code> 的尖括号中的类型是泛型而不是具体类型。需要注意的是，这里的 <code>Point&lt;T&gt;</code> 不再是泛型声明，而是一个完整的结构体类型，因为我们定义的结构体就是 <code>Point&lt;T&gt;</code> 而不再是 <code>Point</code>。</p>
+<p>除了结构体中的泛型参数，我们还能在该结构体的方法中定义额外的泛型参数，就跟泛型函数一样：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">struct Point&lt;T, U&gt; {
+    x: T,
+    y: U,
+}
+
+impl&lt;T, U&gt; Point&lt;T, U&gt; {
+    fn mixup&lt;V, W&gt;(self, other: Point&lt;V, W&gt;) -&gt; Point&lt;T, W&gt; {
+        Point {
+            x: self.x,
+            y: other.y,
+        }
+    }
+}
+
+fn main() {
+    let p1 = Point { x: 5, y: 10.4 };
+    let p2 = Point { x: "Hello", y: 'c'};
+
+    let p3 = p1.mixup(p2);
+
+    println!("p3.x = {}, p3.y = {}", p3.x, p3.y);
+}</code></pre></pre>
+<p>这个例子中，<code>T,U</code> 是定义在结构体 <code>Point</code> 上的泛型参数，<code>V,W</code> 是单独定义在方法 <code>mixup</code> 上的泛型参数，它们并不冲突，说白了，你可以理解为，一个是结构体泛型，一个是函数泛型。</p>
+<h4 id="为具体的泛型类型实现方法"><a class="header" href="#为具体的泛型类型实现方法">为具体的泛型类型实现方法</a></h4>
+<p>对于 <code>Point&lt;T&gt;</code> 类型，你不仅能定义基于 <code>T</code> 的方法，还能针对特定的具体类型，进行方法定义：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl Point&lt;f32&gt; {
+    fn distance_from_origin(&amp;self) -&gt; f32 {
+        (self.x.powi(2) + self.y.powi(2)).sqrt()
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这段代码意味着 <code>Point&lt;f32&gt;</code> 类型会有一个方法 <code>distance_from_origin</code>，而其他 <code>T</code> 不是 <code>f32</code> 类型的 <code>Point&lt;T&gt; </code>实例则没有定义此方法。这个方法计算点实例与坐标<code>(0.0, 0.0)</code> 之间的距离，并使用了只能用于浮点型的数学运算符。</p>
+<p>这样我们就能针对特定的泛型类型实现某个特定的方法，对于其它泛型类型则没有定义该方法。</p>
+<h2 id="const-泛型rust-151-版本引入的重要特性"><a class="header" href="#const-泛型rust-151-版本引入的重要特性">const 泛型（Rust 1.51 版本引入的重要特性）</a></h2>
+<p>在之前的泛型中，可以抽象为一句话：针对类型实现的泛型，所有的泛型都是为了抽象不同的类型，那有没有针对值的泛型？可能很多同学感觉很难理解，值怎么使用泛型？不急，我们先从数组讲起。</p>
+<p>在<a href="https://course.rs/basic/compound-type/array.html">数组</a>那节，有提到过很重要的一点：<code>[i32; 2]</code> 和 <code>[i32; 3]</code> 是不同的数组类型，比如下面的代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn display_array(arr: [i32; 3]) {
+    println!("{:?}", arr);
+}
+fn main() {
+    let arr: [i32; 3] = [1, 2, 3];
+    display_array(arr);
+
+    let arr: [i32; 2] = [1, 2];
+    display_array(arr);
+}</code></pre></pre>
+<p>运行后报错：</p>
+<pre><code class="language-console">error[E0308]: mismatched types // 类型不匹配
+  --&gt; src/main.rs:10:19
+   |
+10 |     display_array(arr);
+   |                   ^^^ expected an array with a fixed size of 3 elements, found one with 2 elements
+                          // 期望一个长度为3的数组，却发现一个长度为2的
+</code></pre>
+<p>结合代码和报错，可以很清楚的看出，<code>[i32; 3]</code> 和 <code>[i32; 2]</code> 确实是两个完全不同的类型，因此无法用同一个函数调用。</p>
+<p>首先，让我们修改代码，让 <code>display_array</code> 能打印任意长度的 <code>i32</code> 数组：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn display_array(arr: &amp;[i32]) {
+    println!("{:?}", arr);
+}
+fn main() {
+    let arr: [i32; 3] = [1, 2, 3];
+    display_array(&amp;arr);
+
+    let arr: [i32; 2] = [1, 2];
+    display_array(&amp;arr);
+}</code></pre></pre>
+<p>很简单，只要使用数组切片，然后传入 <code>arr</code> 的不可变引用即可。</p>
+<p>接着，将 <code>i32</code> 改成所有类型的数组：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn display_array&lt;T: std::fmt::Debug&gt;(arr: &amp;[T]) {
+    println!("{:?}", arr);
+}
+fn main() {
+    let arr: [i32; 3] = [1, 2, 3];
+    display_array(&amp;arr);
+
+    let arr: [i32; 2] = [1, 2];
+    display_array(&amp;arr);
+}</code></pre></pre>
+<p>也不难，唯一要注意的是需要对 <code>T</code> 加一个限制 <code>std::fmt::Debug</code>，该限制表明 <code>T</code> 可以用在 <code>println!("{:?}", arr)</code> 中，因为 <code>{:?}</code> 形式的格式化输出需要 <code>arr</code> 实现该特征。</p>
+<p>通过引用，我们可以很轻松的解决处理任何类型数组的问题，但是如果在某些场景下引用不适宜用或者干脆不能用呢？你们知道为什么以前 Rust 的一些数组库，在使用的时候都限定长度不超过 32 吗？因为它们会为每个长度都单独实现一个函数，简直。。。毫无人性。难道没有什么办法可以解决这个问题吗？</p>
+<p>好在，现在咱们有了 const 泛型，也就是针对值的泛型，正好可以用于处理数组长度的问题：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn display_array&lt;T: std::fmt::Debug, const N: usize&gt;(arr: [T; N]) {
+    println!("{:?}", arr);
+}
+fn main() {
+    let arr: [i32; 3] = [1, 2, 3];
+    display_array(arr);
+
+    let arr: [i32; 2] = [1, 2];
+    display_array(arr);
+}</code></pre></pre>
+<p>如上所示，我们定义了一个类型为 <code>[T; N]</code> 的数组，其中 <code>T</code> 是一个基于类型的泛型参数，这个和之前讲的泛型没有区别，而重点在于 <code>N</code> 这个泛型参数，它是一个基于值的泛型参数！因为它用来替代的是数组的长度。</p>
+<p><code>N</code> 就是 const 泛型，定义的语法是 <code>const N: usize</code>，表示 const 泛型 <code>N</code> ，它基于的值类型是 <code>usize</code>。</p>
+<p>在泛型参数之前，Rust 完全不适合复杂矩阵的运算，自从有了 const 泛型，一切即将改变。</p>
+<h4 id="const-泛型表达式"><a class="header" href="#const-泛型表达式">const 泛型表达式</a></h4>
+<p>假设我们某段代码需要在内存很小的平台上工作，因此需要限制函数参数占用的内存大小，此时就可以使用 const 泛型表达式来实现：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">// 目前只能在nightly版本下使用
+#![allow(incomplete_features)]
+#![feature(generic_const_exprs)]
+
+fn something&lt;T&gt;(val: T)
+where
+    Assert&lt;{ core::mem::size_of::&lt;T&gt;() &lt; 768 }&gt;: IsTrue,
+    //       ^-----------------------------^ 这里是一个 const 表达式，换成其它的 const 表达式也可以
+{
+    //
+}
+
+fn main() {
+    something([0u8; 0]); // ok
+    something([0u8; 512]); // ok
+    something([0u8; 1024]); // 编译错误，数组长度是1024字节，超过了768字节的参数长度限制
+}
+
+// ---
+
+pub enum Assert&lt;const CHECK: bool&gt; {
+    //
+}
+
+pub trait IsTrue {
+    //
+}
+
+impl IsTrue for Assert&lt;true&gt; {
+    //
+}</code></pre></pre>
+<h4 id="const-fn"><a class="header" href="#const-fn">const fn</a></h4>
+<p>在讨论完 <code>const</code> 泛型后，不得不提及另一个与之密切相关且强大的特性：<code>const fn</code>，即常量函数。<code>const fn</code> 允许我们在编译期对函数进行求值，从而实现更高效、更灵活的代码设计。</p>
+<h5 id="为什么需要-const-fn"><a class="header" href="#为什么需要-const-fn">为什么需要 const fn</a></h5>
+<p>通常情况下，函数是在运行时被调用和执行的。然而，在某些场景下，我们希望在编译期就计算出一些值，以提高运行时的性能或满足某些编译期的约束条件。例如，定义数组的长度、计算常量值等。</p>
+<p>有了 <code>const fn</code>，我们可以在编译期执行这些函数，从而将计算结果直接嵌入到生成的代码中。这不仅提高了运行时的性能，还使代码更加简洁和安全。</p>
+<h5 id="const-fn-的基本用法"><a class="header" href="#const-fn-的基本用法">const fn 的基本用法</a></h5>
+<p>要定义一个常量函数，只需要在函数声明前加上 <code>const</code> 关键字。例如：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">const fn add(a: usize, b: usize) -&gt; usize {
+    a + b
+}
+
+const RESULT: usize = add(5, 10);
+
+fn main() {
+    println!("The result is: {}", RESULT);
+}</code></pre></pre>
+<h5 id="const-fn-的限制"><a class="header" href="#const-fn-的限制">const fn 的限制</a></h5>
+<p>虽然 <code>const fn</code> 提供了很多便利，但是由于其在编译期执行，以确保函数能在编译期被安全地求值，因此有一些限制，例如，不可将随机数生成器写成 <code>const fn</code>。</p>
+<p>无论在编译时还是运行时调用 <code>const fn</code>，它们的结果总是相同，即使多次调用也是如此。唯一的例外是，如果你在极端情况下进行复杂的浮点操作，你可能会得到（非常轻微的）不同结果。因此，不建议使 <code>数组长度 (arr.len())</code> 和 <code>Enum判别式</code> 依赖于浮点计算。</p>
+<h5 id="结合-const-fn-与-const-泛型"><a class="header" href="#结合-const-fn-与-const-泛型">结合 const fn 与 const 泛型</a></h5>
+<p>将 <code>const fn</code> 与 <code>const 泛型</code> 结合，可以实现更加灵活和高效的代码设计。例如，创建一个固定大小的缓冲区结构，其中缓冲区大小由编译期计算确定：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">struct Buffer&lt;const N: usize&gt; {
+    data: [u8; N],
+}
+
+const fn compute_buffer_size(factor: usize) -&gt; usize {
+    factor * 1024
+}
+
+fn main() {
+    const SIZE: usize = compute_buffer_size(4);
+    let buffer = Buffer::&lt;SIZE&gt; {
+        data: [0; SIZE],
+    };
+    println!("Buffer size: {} bytes", buffer.data.len());
+}</code></pre></pre>
+<p>在这个例子中，<code>compute_buffer_size</code> 是一个常量函数，它根据传入的 <code>factor</code> 计算缓冲区的大小。在 <code>main</code> 函数中，我们使用 <code>compute_buffer_size(4)</code> 来计算缓冲区大小为 4096 字节，并将其作为泛型参数传递给 <code>Buffer</code> 结构体。这样，缓冲区的大小在编译期就被确定下来，避免了运行时的计算开销。</p>
+<h2 id="泛型的性能"><a class="header" href="#泛型的性能">泛型的性能</a></h2>
+<p>在 Rust 中泛型是零成本的抽象，意味着你在使用泛型时，完全不用担心性能上的问题。</p>
+<p>但是任何选择都是权衡得失的，既然我们获得了性能上的巨大优势，那么又失去了什么呢？Rust 是在编译期为泛型对应的多个类型，生成各自的代码，因此损失了编译速度和增大了最终生成文件的大小。</p>
+<p>具体来说：</p>
+<p>Rust 通过在编译时进行泛型代码的 <strong>单态化</strong>(<em>monomorphization</em>)来保证效率。单态化是一个通过填充编译时使用的具体类型，将通用代码转换为特定代码的过程。</p>
+<p>编译器所做的工作正好与我们创建泛型函数的步骤相反，编译器寻找所有泛型代码被调用的位置并针对具体类型生成代码。</p>
+<p>让我们看看一个使用标准库中 <code>Option</code> 枚举的例子：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let integer = Some(5);
+let float = Some(5.0);
+<span class="boring">}</span></code></pre></pre>
+<p>当 Rust 编译这些代码的时候，它会进行单态化。编译器会读取传递给 <code>Option&lt;T&gt;</code> 的值并发现有两种 <code>Option&lt;T&gt;</code>：一种对应 <code>i32</code> 另一种对应 <code>f64</code>。为此，它会将泛型定义 <code>Option&lt;T&gt;</code> 展开为 <code>Option_i32</code> 和 <code>Option_f64</code>，接着将泛型定义替换为这两个具体的定义。</p>
+<p>编译器生成的单态化版本的代码看起来像这样：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">enum Option_i32 {
+    Some(i32),
+    None,
+}
+
+enum Option_f64 {
+    Some(f64),
+    None,
+}
+
+fn main() {
+    let integer = Option_i32::Some(5);
+    let float = Option_f64::Some(5.0);
+}</code></pre></pre>
+<p>我们可以使用泛型来编写不重复的代码，而 Rust 将会为每一个实例编译其特定类型的代码。这意味着在使用泛型时没有运行时开销；当代码运行，它的执行效率就跟好像手写每个具体定义的重复代码一样。这个单态化过程正是 Rust 泛型在运行时极其高效的原因。</p>
+<h2 id="课后练习"><a class="header" href="#课后练习">课后练习</a></h2>
+<blockquote>
+<p>Rust By Practice，支持代码在线编辑和运行，并提供详细的习题解答。</p>
+<ul>
+<li><a href="https://practice-zh.course.rs/generics-traits/generics.html">泛型</a>
+<ul>
+<li><a href="https://github.com/sunface/rust-by-practice/blob/master/solutions/generics-traits/generics.md">习题解答</a></li>
+</ul>
+</li>
+<li><a href="https://practice-zh.course.rs/generics-traits/const-generics.html">const 泛型</a>
+<ul>
+<li><a href="https://github.com/sunface/rust-by-practice/blob/master/solutions/generics-traits/const-generics.md">习题解答</a></li>
+</ul>
+</li>
+</ul>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../basic/trait/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../basic/trait/trait.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../basic/trait/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../basic/trait/trait.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

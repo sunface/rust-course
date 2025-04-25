@@ -1,0 +1,694 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>特征 Trait - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/basic/trait/trait.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="特征-trait"><a class="header" href="#特征-trait">特征 Trait</a></h1>
+<p>如果我们想定义一个文件系统，那么把该系统跟底层存储解耦是很重要的。文件操作主要包含四个：<code>open</code> 、<code>write</code>、<code>read</code>、<code>close</code>，这些操作可以发生在硬盘，可以发生在内存，还可以发生在网络 IO 甚至（...我实在编不下去了，大家来帮帮我）。总之如果你要为每一种情况都单独实现一套代码，那这种实现将过于繁杂，而且也没那个必要。</p>
+<p>要解决上述问题，需要把这些行为抽象出来，就要使用 Rust 中的特征 <code>trait</code> 概念。可能你是第一次听说这个名词，但是不要怕，如果学过其他语言，那么大概率你听说过接口，没错，特征跟接口很类似。</p>
+<p>在之前的代码中，我们也多次见过特征的使用，例如 <code>#[derive(Debug)]</code>，它在我们定义的类型(<code>struct</code>)上自动派生 <code>Debug</code> 特征，接着可以使用 <code>println!("{:?}", x)</code> 打印这个类型；再例如：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn add&lt;T: std::ops::Add&lt;Output = T&gt;&gt;(a:T, b:T) -&gt; T {
+    a + b
+}
+<span class="boring">}</span></code></pre></pre>
+<p>通过 <code>std::ops::Add</code> 特征来限制 <code>T</code>，只有 <code>T</code> 实现了 <code>std::ops::Add</code> 才能进行合法的加法操作，毕竟不是所有的类型都能进行相加。</p>
+<p>这些都说明一个道理，特征定义了<strong>一组可以被共享的行为，只要实现了特征，你就能使用这组行为</strong>。</p>
+<h2 id="定义特征"><a class="header" href="#定义特征">定义特征</a></h2>
+<p>如果不同的类型具有相同的行为，那么我们就可以定义一个特征，然后为这些类型实现该特征。<strong>定义特征</strong>是把一些方法组合在一起，目的是定义一个实现某些目标所必需的行为的集合。</p>
+<p>例如，我们现在有文章 <code>Post</code> 和微博 <code>Weibo</code> 两种内容载体，而我们想对相应的内容进行总结，也就是无论是文章内容，还是微博内容，都可以在某个时间点进行总结，那么总结这个行为就是共享的，因此可以用特征来定义：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Summary {
+    fn summarize(&amp;self) -&gt; String;
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这里使用 <code>trait</code> 关键字来声明一个特征，<code>Summary</code> 是特征名。在大括号中定义了该特征的所有方法，在这个例子中是： <code>fn summarize(&amp;self) -&gt; String</code>。</p>
+<p>特征只定义行为看起来是什么样的，而不定义行为具体是怎么样的。因此，我们只定义特征方法的签名，而不进行实现，此时方法签名结尾是 <code>;</code>，而不是一个 <code>{}</code>。</p>
+<p>接下来，每一个实现这个特征的类型都需要具体实现该特征的相应方法，编译器也会确保任何实现 <code>Summary</code> 特征的类型都拥有与这个签名的定义完全一致的 <code>summarize</code> 方法。</p>
+<h2 id="为类型实现特征"><a class="header" href="#为类型实现特征">为类型实现特征</a></h2>
+<p>因为特征只定义行为看起来是什么样的，因此我们需要为类型实现具体的特征，定义行为具体是怎么样的。</p>
+<p>首先来为 <code>Post</code> 和 <code>Weibo</code> 实现 <code>Summary</code> 特征：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Summary {
+    fn summarize(&amp;self) -&gt; String;
+}
+pub struct Post {
+    pub title: String, // 标题
+    pub author: String, // 作者
+    pub content: String, // 内容
+}
+
+impl Summary for Post {
+    fn summarize(&amp;self) -&gt; String {
+        format!("文章{}, 作者是{}", self.title, self.author)
+    }
+}
+
+pub struct Weibo {
+    pub username: String,
+    pub content: String
+}
+
+impl Summary for Weibo {
+    fn summarize(&amp;self) -&gt; String {
+        format!("{}发表了微博{}", self.username, self.content)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>实现特征的语法与为结构体、枚举实现方法很像：<code>impl Summary for Post</code>，读作“为 <code>Post</code> 类型实现 <code>Summary</code> 特征”，然后在 <code>impl</code> 的花括号中实现该特征的具体方法。</p>
+<p>接下来就可以在这个类型上调用特征的方法：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let post = Post{title: "Rust语言简介".to_string(),author: "Sunface".to_string(), content: "Rust棒极了!".to_string()};
+    let weibo = Weibo{username: "sunface".to_string(),content: "好像微博没Tweet好用".to_string()};
+
+    println!("{}",post.summarize());
+    println!("{}",weibo.summarize());
+}</code></pre></pre>
+<p>运行输出：</p>
+<pre><code class="language-console">文章 Rust 语言简介, 作者是Sunface
+sunface发表了微博好像微博没Tweet好用
+</code></pre>
+<p>说实话，如果特征仅仅如此，你可能会觉得花里胡哨没啥用，接下来就让你见识下 <code>trait</code> 真正的威力。</p>
+<h4 id="特征定义与实现的位置孤儿规则"><a class="header" href="#特征定义与实现的位置孤儿规则">特征定义与实现的位置(孤儿规则)</a></h4>
+<p>上面我们将 <code>Summary</code> 定义成了 <code>pub</code> 公开的。这样，如果他人想要使用我们的 <code>Summary</code> 特征，则可以引入到他们的包中，然后再进行实现。</p>
+<p>关于特征实现与定义的位置，有一条非常重要的原则：<strong>如果你想要为类型</strong> <code>A</code> <strong>实现特征</strong> <code>T</code><strong>，那么</strong> <code>A</code> <strong>或者</strong> <code>T</code> <strong>至少有一个是在当前作用域中定义的！</strong> 例如我们可以为上面的 <code>Post</code> 类型实现标准库中的 <code>Display</code> 特征，这是因为 <code>Post</code> 类型定义在当前的作用域中。同时，我们也可以在当前包中为 <code>String</code> 类型实现 <code>Summary</code> 特征，因为 <code>Summary</code> 定义在当前作用域中。</p>
+<p>但是你无法在当前作用域中，为 <code>String</code> 类型实现 <code>Display</code> 特征，因为它们俩都定义在标准库中，其定义所在的位置都不在当前作用域，跟你半毛钱关系都没有，看看就行了。</p>
+<p>该规则被称为<strong>孤儿规则</strong>，可以确保其它人编写的代码不会破坏你的代码，也确保了你不会莫名其妙就破坏了风马牛不相及的代码。</p>
+<h4 id="默认实现"><a class="header" href="#默认实现">默认实现</a></h4>
+<p>你可以在特征中定义具有<strong>默认实现</strong>的方法，这样其它类型无需再实现该方法，或者也可以选择重写该方法：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Summary {
+    fn summarize(&amp;self) -&gt; String {
+        String::from("(Read more...)")
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>上面为 <code>Summary</code> 定义了一个默认实现，下面我们编写段代码来测试下：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl Summary for Post {}
+
+impl Summary for Weibo {
+    fn summarize(&amp;self) -&gt; String {
+        format!("{}发表了微博{}", self.username, self.content)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>可以看到，<code>Post</code> 选择了默认实现，而 <code>Weibo</code> 重写了该方法，调用和输出如下：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    println!("{}",post.summarize());
+    println!("{}",weibo.summarize());
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-console">(Read more...)
+sunface发表了微博好像微博没Tweet好用
+</code></pre>
+<p>默认实现允许调用相同特征中的其他方法，哪怕这些方法没有默认实现。如此，特征可以提供很多有用的功能而只需要实现指定的一小部分内容。例如，我们可以定义 <code>Summary</code> 特征，使其具有一个需要实现的 <code>summarize_author</code> 方法，然后定义一个 <code>summarize</code> 方法，此方法的默认实现调用 <code>summarize_author</code> 方法：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Summary {
+    fn summarize_author(&amp;self) -&gt; String;
+
+    fn summarize(&amp;self) -&gt; String {
+        format!("(Read more from {}...)", self.summarize_author())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>为了使用 <code>Summary</code>，只需要实现 <code>summarize_author</code> 方法即可：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl Summary for Weibo {
+    fn summarize_author(&amp;self) -&gt; String {
+        format!("@{}", self.username)
+    }
+}
+println!("1 new weibo: {}", weibo.summarize());
+
+<span class="boring">}</span></code></pre></pre>
+<p><code>weibo.summarize()</code> 会先调用 <code>Summary</code> 特征默认实现的 <code>summarize</code> 方法，通过该方法进而调用 <code>Weibo</code> 为 <code>Summary</code> 实现的 <code>summarize_author</code> 方法，最终输出：<code>1 new weibo: (Read more from @horse_ebooks...)</code>。</p>
+<h2 id="使用特征作为函数参数"><a class="header" href="#使用特征作为函数参数">使用特征作为函数参数</a></h2>
+<p>之前提到过，特征如果仅仅是用来实现方法，那真的有些大材小用，现在我们来讲下，真正可以让特征大放光彩的地方。</p>
+<p>现在，先定义一个函数，使用特征作为函数参数：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn notify(item: &amp;impl Summary) {
+    println!("Breaking news! {}", item.summarize());
+}
+<span class="boring">}</span></code></pre></pre>
+<p><code>impl Summary</code>，只能说想出这个类型的人真的是起名鬼才，简直太贴切了，顾名思义，它的意思是 <strong>实现了<code>Summary</code>特征</strong> 的 <code>item</code> 参数。</p>
+<p>你可以使用任何实现了 <code>Summary</code> 特征的类型作为该函数的参数，同时在函数体内，还可以调用该特征的方法，例如 <code>summarize</code> 方法。具体的说，可以传递 <code>Post</code> 或 <code>Weibo</code> 的实例来作为参数，而其它类如 <code>String</code> 或者 <code>i32</code> 的类型则不能用做该函数的参数，因为它们没有实现 <code>Summary</code> 特征。</p>
+<h2 id="特征约束trait-bound"><a class="header" href="#特征约束trait-bound">特征约束(trait bound)</a></h2>
+<p>虽然 <code>impl Trait</code> 这种语法非常好理解，但是实际上它只是一个语法糖：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn notify&lt;T: Summary&gt;(item: &amp;T) {
+    println!("Breaking news! {}", item.summarize());
+}
+<span class="boring">}</span></code></pre></pre>
+<p>真正的完整书写形式如上所述，形如 <code>T: Summary</code> 被称为<strong>特征约束</strong>。</p>
+<p>在简单的场景下 <code>impl Trait</code> 这种语法糖就足够使用，但是对于复杂的场景，特征约束可以让我们拥有更大的灵活性和语法表现能力，例如一个函数接受两个 <code>impl Summary</code> 的参数：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn notify(item1: &amp;impl Summary, item2: &amp;impl Summary) {}
+<span class="boring">}</span></code></pre></pre>
+<p>如果函数两个参数是不同的类型，那么上面的方法很好，只要这两个类型都实现了 <code>Summary</code> 特征即可。但是如果我们想要强制函数的两个参数是同一类型呢？上面的语法就无法做到这种限制，此时我们只能使特征约束来实现：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn notify&lt;T: Summary&gt;(item1: &amp;T, item2: &amp;T) {}
+<span class="boring">}</span></code></pre></pre>
+<p>泛型类型 <code>T</code> 说明了 <code>item1</code> 和 <code>item2</code> 必须拥有同样的类型，同时 <code>T: Summary</code> 说明了 <code>T</code> 必须实现 <code>Summary</code> 特征。</p>
+<h4 id="多重约束"><a class="header" href="#多重约束">多重约束</a></h4>
+<p>除了单个约束条件，我们还可以指定多个约束条件，例如除了让参数实现 <code>Summary</code> 特征外，还可以让参数实现 <code>Display</code> 特征以控制它的格式化输出：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn notify(item: &amp;(impl Summary + Display)) {}
+<span class="boring">}</span></code></pre></pre>
+<p>除了上述的语法糖形式，还能使用特征约束的形式：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn notify&lt;T: Summary + Display&gt;(item: &amp;T) {}
+<span class="boring">}</span></code></pre></pre>
+<p>通过这两个特征，就可以使用 <code>item.summarize</code> 方法，以及通过 <code>println!("{}", item)</code> 来格式化输出 <code>item</code>。</p>
+<h4 id="where-约束"><a class="header" href="#where-约束">Where 约束</a></h4>
+<p>当特征约束变得很多时，函数的签名将变得很复杂：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn some_function&lt;T: Display + Clone, U: Clone + Debug&gt;(t: &amp;T, u: &amp;U) -&gt; i32 {}
+<span class="boring">}</span></code></pre></pre>
+<p>严格来说，上面的例子还是不够复杂，但是我们还是能对其做一些形式上的改进，通过 <code>where</code>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn some_function&lt;T, U&gt;(t: &amp;T, u: &amp;U) -&gt; i32
+    where T: Display + Clone,
+          U: Clone + Debug
+{}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="使用特征约束有条件地实现方法或特征"><a class="header" href="#使用特征约束有条件地实现方法或特征">使用特征约束有条件地实现方法或特征</a></h4>
+<p>特征约束，可以让我们在指定类型 + 指定特征的条件下去实现方法，例如：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fmt::Display;
+
+struct Pair&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+impl&lt;T&gt; Pair&lt;T&gt; {
+    fn new(x: T, y: T) -&gt; Self {
+        Self {
+            x,
+            y,
+        }
+    }
+}
+
+impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
+    fn cmp_display(&amp;self) {
+        if self.x &gt;= self.y {
+            println!("The largest member is x = {}", self.x);
+        } else {
+            println!("The largest member is y = {}", self.y);
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p><code>cmp_display</code> 方法，并不是所有的 <code>Pair&lt;T&gt;</code> 结构体对象都可以拥有，只有 <code>T</code> 同时实现了 <code>Display + PartialOrd</code> 的 <code>Pair&lt;T&gt;</code> 才可以拥有此方法。
+该函数可读性会更好，因为泛型参数、参数、返回值都在一起，可以快速的阅读，同时每个泛型参数的特征也在新的代码行中通过<strong>特征约束</strong>进行了约束。</p>
+<p><strong>也可以有条件地实现特征</strong>，例如，标准库为任何实现了 <code>Display</code> 特征的类型实现了 <code>ToString</code> 特征：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;T: Display&gt; ToString for T {
+    // --snip--
+}
+<span class="boring">}</span></code></pre></pre>
+<p>我们可以对任何实现了 <code>Display</code> 特征的类型调用由 <code>ToString</code> 定义的 <code>to_string</code> 方法。例如，可以将整型转换为对应的 <code>String</code> 值，因为整型实现了 <code>Display</code>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let s = 3.to_string();
+<span class="boring">}</span></code></pre></pre>
+<h2 id="函数返回中的-impl-trait"><a class="header" href="#函数返回中的-impl-trait">函数返回中的 <code>impl Trait</code></a></h2>
+<p>可以通过 <code>impl Trait</code> 来说明一个函数返回了一个类型，该类型实现了某个特征：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn returns_summarizable() -&gt; impl Summary {
+    Weibo {
+        username: String::from("sunface"),
+        content: String::from(
+            "m1 max太厉害了，电脑再也不会卡",
+        )
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>因为 <code>Weibo</code> 实现了 <code>Summary</code>，因此这里可以用它来作为返回值。要注意的是，虽然我们知道这里是一个 <code>Weibo</code> 类型，但是对于 <code>returns_summarizable</code> 的调用者而言，他只知道返回了一个实现了 <code>Summary</code> 特征的对象，但是并不知道返回了一个 <code>Weibo</code> 类型。</p>
+<p>这种 <code>impl Trait</code> 形式的返回值，在一种场景下非常非常有用，那就是返回的真实类型非常复杂，你不知道该怎么声明时（毕竟 Rust 要求你必须标出所有的类型），此时就可以用 <code>impl Trait</code> 的方式简单返回。例如，闭包和迭代器就是很复杂，只有编译器才知道那玩意的真实类型，如果让你写出来它们的具体类型，估计内心有一万只草泥马奔腾，好在你可以用 <code>impl Iterator</code> 来告诉调用者，返回了一个迭代器，因为所有迭代器都会实现 <code>Iterator</code> 特征。</p>
+<p>但是这种返回值方式有一个很大的限制：只能有一个具体的类型，例如：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn returns_summarizable(switch: bool) -&gt; impl Summary {
+    if switch {
+        Post {
+            title: String::from(
+                "Penguins win the Stanley Cup Championship!",
+            ),
+            author: String::from("Iceburgh"),
+            content: String::from(
+                "The Pittsburgh Penguins once again are the best \
+                 hockey team in the NHL.",
+            ),
+        }
+    } else {
+        Weibo {
+            username: String::from("horse_ebooks"),
+            content: String::from(
+                "of course, as you probably already know, people",
+            ),
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>以上的代码就无法通过编译，因为它返回了两个不同的类型 <code>Post</code> 和 <code>Weibo</code>。</p>
+<pre><code class="language-console">`if` and `else` have incompatible types
+expected struct `Post`, found struct `Weibo`
+</code></pre>
+<p>报错提示我们 <code>if</code> 和 <code>else</code> 返回了不同的类型。如果想要实现返回不同的类型，需要使用下一章节中的<a href="https://course.rs/basic/trait/trait-object.html">特征对象</a>。</p>
+<h2 id="修复上一节中的-largest-函数"><a class="header" href="#修复上一节中的-largest-函数">修复上一节中的 <code>largest</code> 函数</a></h2>
+<p>还记得上一节中的<a href="https://course.rs/basic/trait/generic.html#%E6%B3%9B%E5%9E%8B%E8%AF%A6%E8%A7%A3">例子</a>吧，当时留下一个疑问，该如何解决编译报错：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>error[E0369]: binary operation `&gt;` cannot be applied to type `T` // 无法在 `T` 类型上应用`&gt;`运算符
+ --&gt; src/main.rs:5:17
+  |
+5 |         if item &gt; largest {
+  |            ---- ^ ------- T
+  |            |
+  |            T
+  |
+help: consider restricting type parameter `T` // 考虑使用以下的特征来约束 `T`
+  |
+1 | fn largest&lt;T: std::cmp::PartialOrd&gt;(list: &amp;[T]) -&gt; T {
+  |             ^^^^^^^^^^^^^^^^^^^^^^
+<span class="boring">}</span></code></pre></pre>
+<p>在 <code>largest</code> 函数体中我们想要使用大于运算符（<code>&gt;</code>）比较两个 <code>T</code> 类型的值。这个运算符是标准库中特征 <code>std::cmp::PartialOrd</code> 的一个默认方法。所以需要在 <code>T</code> 的特征约束中指定 <code>PartialOrd</code>，这样 <code>largest</code> 函数可以用于内部元素类型可比较大小的数组切片。</p>
+<p>由于 <code>PartialOrd</code> 位于 <code>prelude</code> 中所以并不需要通过 <code>std::cmp</code> 手动将其引入作用域。所以可以将 <code>largest</code> 的签名修改为如下：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn largest&lt;T: PartialOrd&gt;(list: &amp;[T]) -&gt; T {}
+<span class="boring">}</span></code></pre></pre>
+<p>但是此时编译，又会出现新的错误：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>error[E0508]: cannot move out of type `[T]`, a non-copy slice
+ --&gt; src/main.rs:2:23
+  |
+2 |     let mut largest = list[0];
+  |                       ^^^^^^^
+  |                       |
+  |                       cannot move out of here
+  |                       help: consider using a reference instead: `&amp;list[0]`
+
+error[E0507]: cannot move out of borrowed content
+ --&gt; src/main.rs:4:9
+  |
+4 |     for &amp;item in list.iter() {
+  |         ^----
+  |         ||
+  |         |hint: to prevent move, use `ref item` or `ref mut item`
+  |         cannot move out of borrowed content
+<span class="boring">}</span></code></pre></pre>
+<p>错误的核心是 <code>cannot move out of type [T], a non-copy slice</code>，原因是 <code>T</code> 没有<a href="https://course.rs/basic/ownership/ownership.html#%E6%8B%B7%E8%B4%9D%E6%B5%85%E6%8B%B7%E8%B4%9D">实现 <code>Copy</code> 特性</a>，因此我们只能把所有权进行转移，毕竟只有 <code>i32</code> 等基础类型才实现了 <code>Copy</code> 特性，可以存储在栈上，而 <code>T</code> 可以指代任何类型（严格来说是实现了 <code>PartialOrd</code> 特征的所有类型）。</p>
+<p>因此，为了让 <code>T</code> 拥有 <code>Copy</code> 特性，我们可以增加特征约束：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn largest&lt;T: PartialOrd + Copy&gt;(list: &amp;[T]) -&gt; T {
+    let mut largest = list[0];
+
+    for &amp;item in list.iter() {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let result = largest(&amp;number_list);
+    println!("The largest number is {}", result);
+
+    let char_list = vec!['y', 'm', 'a', 'q'];
+
+    let result = largest(&amp;char_list);
+    println!("The largest char is {}", result);
+}</code></pre></pre>
+<p>如果并不希望限制 <code>largest</code> 函数只能用于实现了 <code>Copy</code> 特征的类型，我们可以在 <code>T</code> 的特征约束中指定 <a href="https://course.rs/basic/ownership/ownership.html#%E5%85%8B%E9%9A%86%E6%B7%B1%E6%8B%B7%E8%B4%9D"><code>Clone</code> 特征</a> 而不是 <code>Copy</code> 特征。并克隆 <code>list</code> 中的每一个值使得 <code>largest</code> 函数拥有其所有权。使用 <code>clone</code> 函数意味着对于类似 <code>String</code> 这样拥有堆上数据的类型，会潜在地分配更多堆上空间，而堆分配在涉及大量数据时可能会相当缓慢。</p>
+<p>另一种 <code>largest</code> 的实现方式是返回在 <code>list</code> 中 <code>T</code> 值的引用。如果我们将函数返回值从 <code>T</code> 改为 <code>&amp;T</code> 并改变函数体使其能够返回一个引用，我们将不需要任何 <code>Clone</code> 或 <code>Copy</code> 的特征约束而且也不会有任何的堆分配。尝试自己实现这种替代解决方式吧！</p>
+<h2 id="通过-derive-派生特征"><a class="header" href="#通过-derive-派生特征">通过 <code>derive</code> 派生特征</a></h2>
+<p>在本书中，形如 <code>#[derive(Debug)]</code> 的代码已经出现了很多次，这种是一种特征派生语法，被 <code>derive</code> 标记的对象会自动实现对应的默认特征代码，继承相应的功能。</p>
+<p>例如 <code>Debug</code> 特征，它有一套自动实现的默认代码，当你给一个结构体标记后，就可以使用 <code>println!("{:?}", s)</code> 的形式打印该结构体的对象。</p>
+<p>再如 <code>Copy</code> 特征，它也有一套自动实现的默认代码，当标记到一个类型上时，可以让这个类型自动实现 <code>Copy</code> 特征，进而可以调用 <code>copy</code> 方法，进行自我复制。</p>
+<p>总之，<code>derive</code> 派生出来的是 Rust 默认给我们提供的特征，在开发过程中极大的简化了自己手动实现相应特征的需求，当然，如果你有特殊的需求，还可以自己手动重写该实现。</p>
+<p>详细的 <code>derive</code> 列表参见<a href="https://course.rs/appendix/derive.html">附录-派生特征</a>。</p>
+<h2 id="调用方法需要引入特征"><a class="header" href="#调用方法需要引入特征">调用方法需要引入特征</a></h2>
+<p>在一些场景中，使用 <code>as</code> 关键字做类型转换会有比较大的限制，因为你想要在类型转换上拥有完全的控制，例如处理转换错误，那么你将需要 <code>TryInto</code>：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::convert::TryInto;
+
+fn main() {
+  let a: i32 = 10;
+  let b: u16 = 100;
+
+  let b_ = b.try_into()
+            .unwrap();
+
+  if a &lt; b_ {
+    println!("Ten is less than one hundred.");
+  }
+}</code></pre></pre>
+<p>上面代码中引入了 <code>std::convert::TryInto</code> 特征，但是却没有使用它，可能有些同学会为此困惑，主要原因在于<strong>如果你要使用一个特征的方法，那么你需要将该特征引入当前的作用域中</strong>，我们在上面用到了 <code>try_into</code> 方法，因此需要引入对应的特征。</p>
+<p>但是 Rust 又提供了一个非常便利的办法，即把最常用的标准库中的特征通过 <a href="https://course.rs/appendix/prelude.html"><code>std::prelude</code></a> 模块提前引入到当前作用域中，其中包括了 <code>std::convert::TryInto</code>，你可以尝试删除第一行的代码 <code>use ...</code>，看看是否会报错。</p>
+<h2 id="几个综合例子"><a class="header" href="#几个综合例子">几个综合例子</a></h2>
+<h4 id="为自定义类型实现--操作"><a class="header" href="#为自定义类型实现--操作">为自定义类型实现 <code>+</code> 操作</a></h4>
+<p>在 Rust 中除了数值类型的加法，<code>String</code> 也可以做<a href="https://course.rs/basic/compound-type/string-slice.html#%E6%93%8D%E4%BD%9C%E5%AD%97%E7%AC%A6%E4%B8%B2">加法</a>，因为 Rust 为该类型实现了 <code>std::ops::Add</code> 特征，同理，如果我们为自定义类型实现了该特征，那就可以自己实现 <code>Point1 + Point2</code> 的操作:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::ops::Add;
+
+// 为Point结构体派生Debug特征，用于格式化输出
+#[derive(Debug)]
+struct Point&lt;T: Add&lt;T, Output = T&gt;&gt; { //限制类型T必须实现了Add特征，否则无法进行+操作。
+    x: T,
+    y: T,
+}
+
+impl&lt;T: Add&lt;T, Output = T&gt;&gt; Add for Point&lt;T&gt; {
+    type Output = Point&lt;T&gt;;
+
+    fn add(self, p: Point&lt;T&gt;) -&gt; Point&lt;T&gt; {
+        Point{
+            x: self.x + p.x,
+            y: self.y + p.y,
+        }
+    }
+}
+
+fn add&lt;T: Add&lt;T, Output=T&gt;&gt;(a:T, b:T) -&gt; T {
+    a + b
+}
+
+fn main() {
+    let p1 = Point{x: 1.1f32, y: 1.1f32};
+    let p2 = Point{x: 2.1f32, y: 2.1f32};
+    println!("{:?}", add(p1, p2));
+
+    let p3 = Point{x: 1i32, y: 1i32};
+    let p4 = Point{x: 2i32, y: 2i32};
+    println!("{:?}", add(p3, p4));
+}</code></pre></pre>
+<h4 id="自定义类型的打印输出"><a class="header" href="#自定义类型的打印输出">自定义类型的打印输出</a></h4>
+<p>在开发过程中，往往只要使用 <code>#[derive(Debug)]</code> 对我们的自定义类型进行标注，即可实现打印输出的功能：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+struct Point{
+    x: i32,
+    y: i32
+}
+fn main() {
+    let p = Point{x:3,y:3};
+    println!("{:?}",p);
+}</code></pre></pre>
+<p>但是在实际项目中，往往需要对我们的自定义类型进行自定义的格式化输出，以让用户更好的阅读理解我们的类型，此时就要为自定义类型实现 <code>std::fmt::Display</code> 特征：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">#![allow(dead_code)]
+
+use std::fmt;
+use std::fmt::{Display};
+
+#[derive(Debug,PartialEq)]
+enum FileState {
+  Open,
+  Closed,
+}
+
+#[derive(Debug)]
+struct File {
+  name: String,
+  data: Vec&lt;u8&gt;,
+  state: FileState,
+}
+
+impl Display for FileState {
+   fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
+     match *self {
+         FileState::Open =&gt; write!(f, "OPEN"),
+         FileState::Closed =&gt; write!(f, "CLOSED"),
+     }
+   }
+}
+
+impl Display for File {
+   fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
+      write!(f, "&lt;{} ({})&gt;",
+             self.name, self.state)
+   }
+}
+
+impl File {
+  fn new(name: &amp;str) -&gt; File {
+    File {
+        name: String::from(name),
+        data: Vec::new(),
+        state: FileState::Closed,
+    }
+  }
+}
+
+fn main() {
+  let f6 = File::new("f6.txt");
+  //...
+  println!("{:?}", f6);
+  println!("{}", f6);
+}</code></pre></pre>
+<p>以上两个例子较为复杂，目的是为读者展示下真实的使用场景长什么样，因此需要读者细细阅读，最终消化这些知识对于你的 Rust 之路会有莫大的帮助。</p>
+<p>最后，特征和特征约束，是 Rust 中极其重要的概念，如果你还是没搞懂，强烈建议回头再看一遍，或者寻找相关的资料进行补充学习。如果已经觉得掌握了，那么就可以进入下一节的学习。</p>
+<h2 id="课后练习"><a class="header" href="#课后练习">课后练习</a></h2>
+<blockquote>
+<p><a href="https://practice-zh.course.rs/generics-traits/traits.html">Rust By Practice</a>，支持代码在线编辑和运行，并提供详细的<a href="https://github.com/sunface/rust-by-practice/blob/master/solutions/generics-traits/traits.md">习题解答</a>。</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../basic/trait/generic.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../basic/trait/trait-object.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../basic/trait/generic.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../basic/trait/trait-object.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

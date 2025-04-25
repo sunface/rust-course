@@ -1,0 +1,483 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>异步跟同步共存 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance-practice/bridging-with-sync.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="异步跟同步共存"><a class="header" href="#异步跟同步共存">异步跟同步共存</a></h1>
+<p>一些异步程序例如 tokio 指南 章节中的绝大多数例子，它们整个程序都是异步的，包括程序入口 <code>main</code> 函数：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">#[tokio::main]
+async fn main() {
+    println!("Hello world");
+}</code></pre></pre>
+<p>在一些场景中，你可能只想在异步程序中运行一小部分同步代码，这种需求可以考虑下 <a href="https://docs.rs/tokio/1.16.1/tokio/task/fn.spawn_blocking.html"><code>spawn_blocking</code></a>。</p>
+<p>但是在很多场景中，我们只想让程序的某一个部分成为异步的，也许是因为同步代码更好实现，又或许是同步代码可读性、兼容性都更好。例如一个 <code>GUI</code> 应用可能想要让 <code>UI</code> 相关的代码在主线程中，然后通过另一个线程使用 <code>tokio</code> 的运行时来处理一些异步任务。</p>
+<p>因此本章节的目标很纯粹：如何在同步代码中使用一小部分异步代码。</p>
+<h2 id="tokiomain-的展开"><a class="header" href="#tokiomain-的展开"><code>#[tokio::main]</code> 的展开</a></h2>
+<p>在 Rust 中， <code>main</code> 函数不能是异步的，有同学肯定不愿意了，我们在之前章节..不对，就在开头，你还用到了 <code>async fn main</code> 的声明方式，怎么就不能异步了呢？</p>
+<p>其实，<code>#[tokio::main]</code> 该宏仅仅是提供语法糖，目的是让大家可以更简单、更一致的去写异步代码，它会将你写下的<code>async fn main</code> 函数替换为：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    tokio::runtime::Builder::new_multi_thread()
+        .enable_all()
+        .build()
+        .unwrap()
+        .block_on(async {
+            println!("Hello world");
+        })
+}</code></pre></pre>
+<p>注意到上面的 <code>block_on</code> 方法了嘛？在我们自己的同步代码中，可以使用它开启一个 <code>async/await</code> 世界。</p>
+<h2 id="mini-redis-的同步接口"><a class="header" href="#mini-redis-的同步接口">mini-redis 的同步接口</a></h2>
+<p>在下面，我们将一起构建一个同步的 <code>mini-redis</code> ，为了实现这一点，需要将 <code>Runtime</code> 对象存储起来，然后利用上面提到的 <code>block_on</code> 方法。</p>
+<p>首先，创建一个文件 <code>src/blocking_client.rs</code>，然后使用下面代码将异步的 <code>Client</code> 结构体包裹起来:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use tokio::net::ToSocketAddrs;
+use tokio::runtime::Runtime;
+
+pub use crate::client::Message;
+
+/// 建立到 redis 服务端的连接
+pub struct BlockingClient {
+    /// 之前实现的异步客户端 `Client`
+    inner: crate::client::Client,
+
+    /// 一个 `current_thread` 模式的 `tokio` 运行时，
+    /// 使用阻塞的方式来执行异步客户端 `Client` 上的操作
+    rt: Runtime,
+}
+
+pub fn connect&lt;T: ToSocketAddrs&gt;(addr: T) -&gt; crate::Result&lt;BlockingClient&gt; {
+    // 构建一个 tokio 运行时： Runtime
+    let rt = tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()?;
+
+    // 使用运行时来调用异步的连接方法
+    let inner = rt.block_on(crate::client::connect(addr))?;
+
+    Ok(BlockingClient { inner, rt })
+}
+<span class="boring">}</span></code></pre></pre>
+<p>在这里，我们使用了一个构造器函数用于在同步代码中执行异步的方法：使用 <code>Runtime</code> 上的 <code>block_on</code> 方法来执行一个异步方法并返回结果。</p>
+<p>有一个很重要的点，就是我们还使用了 <a href="https://docs.rs/tokio/1.16.1/tokio/runtime/struct.Builder.html#method.new_current_thread"><code>current_thread</code></a> 模式的运行时。这个可不常见，原因是异步程序往往要利用多线程的威力来实现更高的吞吐性能，相对应的模式就是 <a href="https://docs.rs/tokio/1.16.1/tokio/runtime/struct.Builder.html#method.new_multi_thread"><code>multi_thread</code></a>，该模式会生成多个运行在后台的线程，它们可以高效的实现多个任务的同时并行处理。</p>
+<p>但是对于我们的使用场景来说，在同一时间点只需要做一件事，无需并行处理，多个线程并不能帮助到任何事情，因此 <code>current_thread</code> 此时成为了最佳的选择。</p>
+<p>在构建 <code>Runtime</code> 的过程中还有一个 <a href="https://docs.rs/tokio/1.16.1/tokio/runtime/struct.Builder.html#method.enable_all"><code>enable_all</code></a> 方法调用，它可以开启 <code>Tokio</code> 运行时提供的 IO 和定时器服务。</p>
+<blockquote>
+<p>由于 <code>current_thread</code> 运行时并不生成新的线程，只是运行在已有的主线程上，因此只有当 <code>block_on</code> 被调用后，该运行时才能执行相应的操作。一旦 <code>block_on</code> 返回，那运行时上所有生成的任务将再次冻结，直到 <code>block_on</code> 的再次调用。</p>
+<p>如果这种模式不符合使用场景的需求，那大家还是需要用 <code>multi_thread</code> 运行时来代替。事实上，在 tokio 之前的章节中，我们默认使用的就是 <code>multi_thread</code> 模式。</p>
+</blockquote>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use bytes::Bytes;
+use std::time::Duration;
+
+impl BlockingClient {
+    pub fn get(&amp;mut self, key: &amp;str) -&gt; crate::Result&lt;Option&lt;Bytes&gt;&gt; {
+        self.rt.block_on(self.inner.get(key))
+    }
+
+    pub fn set(&amp;mut self, key: &amp;str, value: Bytes) -&gt; crate::Result&lt;()&gt; {
+        self.rt.block_on(self.inner.set(key, value))
+    }
+
+    pub fn set_expires(
+        &amp;mut self,
+        key: &amp;str,
+        value: Bytes,
+        expiration: Duration,
+    ) -&gt; crate::Result&lt;()&gt; {
+        self.rt.block_on(self.inner.set_expires(key, value, expiration))
+    }
+
+    pub fn publish(&amp;mut self, channel: &amp;str, message: Bytes) -&gt; crate::Result&lt;u64&gt; {
+        self.rt.block_on(self.inner.publish(channel, message))
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这代码看上去挺长，实际上很简单，通过 <code>block_on</code> 将异步形式的 <code>Client</code> 的方法变成同步调用的形式。例如 <code>BlockingClient</code> 的 <code>get</code> 方法实际上是对内部的异步 <code>get</code> 方法的同步调用。</p>
+<p>与上面的平平无奇相比，下面的代码将更有趣，因为它将 <code>Client</code> 转变成一个 <code>Subscriber</code> 对象:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// 下面的客户端可以进入 pub/sub (发布/订阅) 模式
+///
+/// 一旦客户端订阅了某个消息通道，那就只能执行 pub/sub 相关的命令。
+/// 将`BlockingClient` 类型转换成 `BlockingSubscriber` 是为了防止非 `pub/sub` 方法被调用
+pub struct BlockingSubscriber {
+    /// 异步版本的 `Subscriber`
+    inner: crate::client::Subscriber,
+
+    /// 一个 `current_thread` 模式的 `tokio` 运行时，
+    /// 使用阻塞的方式来执行异步客户端 `Client` 上的操作
+    rt: Runtime,
+}
+
+impl BlockingClient {
+    pub fn subscribe(self, channels: Vec&lt;String&gt;) -&gt; crate::Result&lt;BlockingSubscriber&gt; {
+        let subscriber = self.rt.block_on(self.inner.subscribe(channels))?;
+        Ok(BlockingSubscriber {
+            inner: subscriber,
+            rt: self.rt,
+        })
+    }
+}
+
+impl BlockingSubscriber {
+    pub fn get_subscribed(&amp;self) -&gt; &amp;[String] {
+        self.inner.get_subscribed()
+    }
+
+    pub fn next_message(&amp;mut self) -&gt; crate::Result&lt;Option&lt;Message&gt;&gt; {
+        self.rt.block_on(self.inner.next_message())
+    }
+
+    pub fn subscribe(&amp;mut self, channels: &amp;[String]) -&gt; crate::Result&lt;()&gt; {
+        self.rt.block_on(self.inner.subscribe(channels))
+    }
+
+    pub fn unsubscribe(&amp;mut self, channels: &amp;[String]) -&gt; crate::Result&lt;()&gt; {
+        self.rt.block_on(self.inner.unsubscribe(channels))
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>由上可知，<code>subscribe</code> 方法会使用运行时将一个异步的 <code>Client</code> 转变成一个异步的 <code>Subscriber</code>，此外，<code>Subscriber</code> 结构体有一个非异步的方法 <code>get_subscribed</code>，对于这种方法，只需直接调用即可，而无需使用运行时。</p>
+<h2 id="其它方法"><a class="header" href="#其它方法">其它方法</a></h2>
+<p>上面介绍的是最简单的方法，但是，如果只有这一种， tokio 也不会如此大名鼎鼎。</p>
+<h4 id="runtimespawn"><a class="header" href="#runtimespawn">runtime.spawn</a></h4>
+<p>可以通过 <code>Runtime</code> 的 <code>spawn</code> 方法来创建一个基于该运行时的后台任务：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use tokio::runtime::Builder;
+use tokio::time::{sleep, Duration};
+
+fn main() {
+    let runtime = Builder::new_multi_thread()
+        .worker_threads(1)
+        .enable_all()
+        .build()
+        .unwrap();
+
+    let mut handles = Vec::with_capacity(10);
+    for i in 0..10 {
+        handles.push(runtime.spawn(my_bg_task(i)));
+    }
+
+    // 在后台任务运行的同时做一些耗费时间的事情
+    std::thread::sleep(Duration::from_millis(750));
+    println!("Finished time-consuming task.");
+
+    // 等待这些后台任务的完成
+    for handle in handles {
+        // `spawn` 方法返回一个 `JoinHandle`，它是一个 `Future`，因此可以通过  `block_on` 来等待它完成
+        runtime.block_on(handle).unwrap();
+    }
+}
+
+async fn my_bg_task(i: u64) {
+    let millis = 1000 - 50 * i;
+    println!("Task {} sleeping for {} ms.", i, millis);
+
+    sleep(Duration::from_millis(millis)).await;
+
+    println!("Task {} stopping.", i);
+}</code></pre></pre>
+<p>运行该程序，输出如下:</p>
+<pre><code class="language-console">Task 0 sleeping for 1000 ms.
+Task 1 sleeping for 950 ms.
+Task 2 sleeping for 900 ms.
+Task 3 sleeping for 850 ms.
+Task 4 sleeping for 800 ms.
+Task 5 sleeping for 750 ms.
+Task 6 sleeping for 700 ms.
+Task 7 sleeping for 650 ms.
+Task 8 sleeping for 600 ms.
+Task 9 sleeping for 550 ms.
+Task 9 stopping.
+Task 8 stopping.
+Task 7 stopping.
+Task 6 stopping.
+Finished time-consuming task.
+Task 5 stopping.
+Task 4 stopping.
+Task 3 stopping.
+Task 2 stopping.
+Task 1 stopping.
+Task 0 stopping.
+</code></pre>
+<p>在此例中，我们生成了 10 个后台任务在运行时中运行，然后等待它们的完成。作为一个例子，想象一下在图形渲染应用( GUI )中，有时候需要通过网络访问远程服务来获取一些数据，那上面的这种模式就非常适合，因为这些网络访问比较耗时，而且不会影响图形的主体渲染，因此可以在主线程中渲染图形，然后使用其它线程来运行 Tokio 的运行时，并通过该运行时使用异步的方式完成网络访问，最后将这些网络访问的结果发送到 GUI 进行数据渲染，例如一个进度条。</p>
+<p>还有一点很重要，在本例子中只能使用 <code>multi_thread</code> 运行时。如果我们使用了 <code>current_thread</code>，你会发现主线程的耗时任务会在后台任务开始之前就完成了。因为在 <code>current_thread</code> 模式下，生成的任务只会在 <code>block_on</code> 期间才执行。</p>
+<p>在 <code>multi_thread</code> 模式下，我们并不需要通过 <code>block_on</code> 来触发任务的运行，这里仅仅是用来阻塞并等待最终的结果。而除了通过 <code>block_on</code> 等待结果外，你还可以：</p>
+<ul>
+<li>使用消息传递的方式，例如 <code>tokio::sync::mpsc</code>，让异步任务将结果发送到主线程，然后主线程通过 <code>.recv</code>方法等待这些结果</li>
+<li>通过共享变量的方式，例如 <code>Mutex</code>，这种方式非常适合实现 GUI 的进度条: GUI 在每个渲染帧读取该变量即可。</li>
+</ul>
+<h4 id="发送消息"><a class="header" href="#发送消息">发送消息</a></h4>
+<p>在同步代码中使用异步的另一个方法就是生成一个运行时，然后使用消息传递的方式跟它进行交互。这个方法虽然更啰嗦一些，但是相对于之前的两种方法更加灵活：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use tokio::runtime::Builder;
+use tokio::sync::mpsc;
+
+pub struct Task {
+    name: String,
+    // 一些信息用于描述该任务
+}
+
+async fn handle_task(task: Task) {
+    println!("Got task {}", task.name);
+}
+
+#[derive(Clone)]
+pub struct TaskSpawner {
+    spawn: mpsc::Sender&lt;Task&gt;,
+}
+
+impl TaskSpawner {
+    pub fn new() -&gt; TaskSpawner {
+        // 创建一个消息通道用于通信
+        let (send, mut recv) = mpsc::channel(16);
+
+        let rt = Builder::new_current_thread()
+            .enable_all()
+            .build()
+            .unwrap();
+
+        std::thread::spawn(move || {
+            rt.block_on(async move {
+                while let Some(task) = recv.recv().await {
+                    tokio::spawn(handle_task(task));
+                }
+
+                // 一旦所有的发送端超出作用域被 drop 后，`.recv()` 方法会返回 None，同时 while 循环会退出，然后线程结束
+            });
+        });
+
+        TaskSpawner {
+            spawn: send,
+        }
+    }
+
+    pub fn spawn_task(&amp;self, task: Task) {
+        match self.spawn.blocking_send(task) {
+            Ok(()) =&gt; {},
+            Err(_) =&gt; panic!("The shared runtime has shut down."),
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>为何说这种方法比较灵活呢？以上面代码为例，它可以在很多方面进行配置。例如，可以使用信号量 <a href="https://docs.rs/tokio/1.16.1/tokio/sync/struct.Semaphore.html"><code>Semaphore</code></a>来限制当前正在进行的任务数，或者你还可以使用一个消息通道将消息反向发送回任务生成器 <code>spawner</code>。</p>
+<p>抛开细节，抽象来看，这是不是很像一个 Actor ？</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../advance-practice/graceful-shutdown.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../difficulties/intro.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../advance-practice/graceful-shutdown.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../difficulties/intro.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

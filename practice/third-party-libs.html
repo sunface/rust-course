@@ -1,0 +1,498 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>日常开发三方库精选 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/practice/third-party-libs.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="日常开发三方库精选"><a class="header" href="#日常开发三方库精选">日常开发三方库精选</a></h1>
+<p>对计算机、编程、架构的理解决定一个程序员的上限，而工具则决定了他的下限，三尺森寒利剑在手，问世间谁敢一战。</p>
+<p>本文就分门别类的精心挑选了一些非常适合日常开发使用的三方库，同时针对优缺点、社区活跃等进行了评价，同一个类别的库，按照<strong>推荐度优先级降序排列</strong>，希望大家能喜欢。</p>
+<blockquote>
+<p>本文节选自<a href="https://cook.rs">Cook Rust</a></p>
+</blockquote>
+<h2 id="目录"><a class="header" href="#目录">目录</a></h2>
+<ul>
+<li>日常开发常用的Rust库:
+<ul>
+<li><a href="#webhttp">Web/HTTP</a>,  <a href="#SQL%E5%AE%A2%E6%88%B7%E7%AB%AF">SQL客户端</a>, <a href="#NoSql%E5%AE%A2%E6%88%B7%E7%AB%AF">NoSql客户端</a>， <a href="#%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE">网络通信协议</a>, <a href="#%E5%BC%82%E6%AD%A5%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B">异步网络编程</a></li>
+<li><a href="#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0">服务发现</a>, <a href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97">消息队列</a>, <a href="#%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E">搜索引擎</a></li>
+<li><a href="#%E7%BC%96%E8%A7%A3%E7%A0%81">编解码</a>, <a href="#Email">Email</a>, <a href="#%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E6%A8%A1%E7%89%88">常用正则模版</a></li>
+<li><a href="#%E6%97%A5%E5%BF%97%E7%9B%91%E6%8E%A7">日志监控</a>, <a href="#%E4%BB%A3%E7%A0%81Debug">代码Debug</a>, <a href="#%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">性能优化</a></li>
+</ul>
+</li>
+<li><a href="#%E7%B2%BE%E9%80%89%E4%B8%AD%E6%96%87%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99">精选中文学习资料</a></li>
+<li><a href="#%E7%B2%BE%E9%80%89Rust%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE">精选Rust开源项目</a></li>
+</ul>
+<h2 id="日常开发常用rust库"><a class="header" href="#日常开发常用rust库">日常开发常用Rust库</a></h2>
+<h3 id="webhttp"><a class="header" href="#webhttp">Web/HTTP</a></h3>
+<ul>
+<li>
+<p>HTTP客户端</p>
+<ul>
+<li><a href="https://github.com/seanmonstar/reqwest">reqwest</a> 一个简单又强大的HTTP客户端，<code>reqwest</code>是目前使用最多的HTTP库</li>
+</ul>
+</li>
+<li>
+<p>Web框架</p>
+<ul>
+<li><a href="https://github.com/tokio-rs/axum">axum</a> 基于Tokio和Hyper打造，模块化设计较好，目前口碑很好，值得使用Ergonomic and modular web framework built with Tokio, Tower, and Hyper</li>
+<li><a href="https://github.com/SergioBenitez/Rocket">Rocket</a> 功能强大，API简单的Web框架，但是主要开发者目前因为个人原因无法进行后续开发，未来存在不确定性</li>
+<li><a href="https://github.com/actix/actix-web">actix-web</a> 性能极高的Web框架，就是团队内部有些问题，未来存在一定的不确定性</li>
+<li>总体来说，上述三个web框架都有很深的用户基础，其实都可以选用，如果让我推荐，顺序如下: <code>axum</code> &gt; <code>Rocket</code> &gt; <code>actix-web</code>。 不过如果你不需要多么完善的web功能，只需要一个性能极高的http库，那么<code>actix-web</code>是非常好的选择，它的性能非常非常非常高！</li>
+</ul>
+</li>
+</ul>
+<h3 id="日志监控"><a class="header" href="#日志监控">日志监控</a></h3>
+<ul>
+<li>日志
+[<a href="https://crates.io/keywords/log">crates.io</a>] [<a href="https://github.com/search?q=rust+log">github</a>]
+<ul>
+<li><a href="https://github.com/tokio-rs/tracing">tokio-rs/tracing</a> 强大的日志框架，同时还支持OpenTelemetry格式，无缝打通未来的监控</li>
+<li><a href="https://github.com/rust-lang/log">rust-lang/log</a> 官方日志库，事实上的API标准, 但是三方库未必遵循</li>
+<li><a href="https://github.com/estk/log4rs">estk/log4rs</a> 模仿JAVA <code>logback</code>和<code>log4j</code>实现的日志库, 可配置性较强</li>
+<li>在其它文章中，也许会推荐<code>slog</code>，但是我们不推荐，一个是因为近半年未更新，一个是<code>slog</code>自己也推荐使用<code>tracing</code>。</li>
+</ul>
+</li>
+<li>监控
+<ul>
+<li><a href="https://github.com/open-telemetry/opentelemetry-rust">OpenTelemetry</a> 是现在非常火的可观测性解决方案，提供了协议、API、SDK等核心工具，用于收集监控数据，最后将这些metrics/logs/traces数据写入到<code>prometheus</code>, <code>jaeger</code>等监控平台中。最主要是，它后台很硬，后面有各大公司作为背书，未来非常看好！</li>
+<li><a href="https://github.com/vectordotdev/vector">vectordotdev/vector</a> 一个性能很高的数据采集agent，采集本地的日志、监控等数据，发送到远程的kafka、jaeger等数据下沉端，它最大的优点就是能从多种数据源(包括Opentelemetry)收集数据，然后推送到多个数据处理或者存储等下沉端。</li>
+</ul>
+</li>
+</ul>
+<h3 id="sql客户端"><a class="header" href="#sql客户端">SQL客户端</a></h3>
+<ul>
+<li>
+<p>通用</p>
+<ul>
+<li><a href="https://github.com/launchbadge/sqlx">launchbadge/sqlx</a> 异步实现、高性能、纯Rust代码的SQL库，支持<code>PostgreSQL</code>, <code>MySQL</code>, <code>SQLite</code>,和 <code>MSSQL</code>.</li>
+</ul>
+</li>
+<li>
+<p>ORM</p>
+<ul>
+<li><a href="https://github.com/rbatis/rbatis">rbatis/rbatis</a> 国内团队开发的ORM，异步、性能高、简单易上手</li>
+<li><a href="https://github.com/diesel-rs/diesel">diesel-rs/diesel</a> 安全、扩展性强的Rust ORM库，支持<code>MySQL</code>、<code>PostgreSQL</code>、<code>SQLite</code></li>
+</ul>
+</li>
+<li>
+<p>MySQL</p>
+<ul>
+<li><a href="https://github.com/blackbeam/rust-mysql-simple">blackbeam/rust-mysql-simple</a> 纯Rust实现的MySQL驱动,提供连接池</li>
+<li><a href="https://github.com/blackbeam/mysql_async">blackbeam/mysql_async</a> 基于Tokio实现的异步MySQL驱动</li>
+<li>上面两个都是一个团队出品，前者文档更全、star更多，建议使用前者</li>
+</ul>
+</li>
+<li>
+<p>PostgreSQL</p>
+<ul>
+<li><a href="https://github.com/sfackler/rust-postgres">sfackler/rust-postgres</a> 纯Rust实现的PostgreSQL客户端</li>
+</ul>
+</li>
+<li>
+<p>SQLite</p>
+<ul>
+<li><a href="https://github.com/rusqlite/rusqlite">rusqlite</a> 用于<a href="https://www.sqlite.org/index.html">Sqlite3</a>的Rust客户端</li>
+</ul>
+</li>
+</ul>
+<h3 id="nosql客户端"><a class="header" href="#nosql客户端">NoSQL客户端</a></h3>
+<ul>
+<li>
+<p>Redis</p>
+<ul>
+<li><a href="https://github.com/mitsuhiko/redis-rs">mitsuhiko/redis-rs</a> 虽然最近更新不太活跃，但是它依然是最好的Redis客户端，说实话，我期待更好的，可能这也是Rust生态的未来可期之处吧</li>
+</ul>
+</li>
+<li>
+<p>Canssandra</p>
+<ul>
+<li><a href="https://github.com/krojew/cdrs-tokio">krojew/cdrs-tokio</a> [<a href="https://crates.io/crates/cdrs-tokio">cdrs-tokio</a>] 生产可用的Cassandra客户端，异步、纯Rust实现，就是个人项目 + star较少，未来不确定会不会不维护</li>
+<li><a href="https://github.com/scylladb/scylla-rust-driver">scylla-rust-driver</a> ScyllaDB提供的官方库，支持cql协议，由于背靠大山，未来非常可期</li>
+</ul>
+</li>
+<li>
+<p>MongoDB</p>
+<ul>
+<li><a href="https://github.com/mongodb/mongo-rust-driver">mongodb/mongo-rust-driver</a> 官方MongoDB客户端，闭着眼睛选就对了</li>
+</ul>
+</li>
+</ul>
+<h3 id="分布式"><a class="header" href="#分布式">分布式</a></h3>
+<h4 id="服务发现"><a class="header" href="#服务发现">服务发现</a></h4>
+<ul>
+<li><a href="https://github.com/luncj/etcd-rs">luncj/etcd-rs</a> 异步实现的Rust etcd客户端，优点是有一定的文档、作者较为活跃,意味着你提问题他可能会回答，不过，如果你不放心，还是考虑使用HTTP的方式访问etcd</li>
+</ul>
+<h4 id="消息队列"><a class="header" href="#消息队列">消息队列</a></h4>
+<ul>
+<li>
+<p>Kafka</p>
+<ul>
+<li><a href="https://github.com/fede1024/rust-rdkafka">fede1024/rust-rdkafka</a> Rust Kafka客户端，基于C版本的Kafka库[librdkafka]实现，文档较全、功能较为全面</li>
+<li><a href="https://github.com/kafka-rust/kafka-rust">kafka-rust/kafka-rust</a> 相比上一个库，它算是纯Rust实现，文档还行，支持Kafka0.8.2及以后的版本，但是对于部分0.9版本的特性还不支持。同时有一个问题：最初的作者不维护了，转给了现在的作者，但是感觉好像也不是很活跃</li>
+</ul>
+</li>
+<li>
+<p>Nats</p>
+<ul>
+<li><a href="https://github.com/nats-io/nats.rs">nats-io/nats.rs</a> Nats官方提供的客户端</li>
+</ul>
+</li>
+</ul>
+<h3 id="网络通信协议"><a class="header" href="#网络通信协议">网络、通信协议</a></h3>
+<ul>
+<li>
+<p>WebSocket</p>
+<ul>
+<li><a href="https://github.com/snapview/tokio-tungstenite">snapview/tokio-tungstenite</a> 更适合Web应用使用的生产级Websocket库，它是异步非阻塞的，基于下面的<code>tungstenite-rs</code>库和tokio实现</li>
+<li><a href="https://github.com/websockets-rs/rust-websocket">rust-websocket</a> 老牌Websocket库，提供了客户端和服务器端实现，但是。。。很久没更新了</li>
+<li><a href="https://github.com/snapview/tungstenite-rs">snapview/tungstenite-rs</a> 轻量级的Websocket流实现，该库更偏底层，例如，你可以用来构建其它网络库</li>
+</ul>
+</li>
+<li>
+<p>gRPC</p>
+<ul>
+<li><a href="https://github.com/hyperium/tonic">hyperium/tonic</a> 纯Rust实现的gRPC客户端和服务器端，支持async/await异步调用，文档和示例较为清晰</li>
+<li><a href="https://github.com/tikv/grpc-rs">tikv/grpc-rs</a> 国产开源之光Tidb团队出品的gRPC框架, 基于C的代码实现, 就是最近好像不是很活跃</li>
+<li>其实这两个实现都很优秀，把<code>tonic</code>放在第一位，主要是因为它是纯Rust实现，同时社区也更为活跃，但是并不代表它比<code>tikv</code>的更好！</li>
+</ul>
+</li>
+<li>
+<p>QUIC</p>
+<ul>
+<li><a href="https://github.com/cloudflare/quiche">cloudflare/quiche</a> 大名鼎鼎<code>cloudflare</code>提供的QUIC实现，据说在公司内部重度使用，有了大规模生产级别的验证，非常值得信任，同时该库还实现了HTTP/3</li>
+<li><a href="https://github.com/quinn-rs/quinn">quinn-rs/quinn</a> 提供异步API调用，纯Rust实现，同时提供了几个有用的网络库</li>
+</ul>
+</li>
+<li>
+<p>MQTT</p>
+<ul>
+<li><a href="https://github.com/bytebeamio/rumqtt">bytebeamio/rumqtt</a> MQTT3.1.1/5协议库，同时实现了客户端与服务器端broker</li>
+<li><a href="https://github.com/ntex-rs/ntex-mqtt">ntex-rs/ntex-mqtt</a> 客户端与服务端框架，支持MQTT3.1.1与5协议</li>
+<li><a href="https://github.com/eclipse/paho.mqtt.rust">eclipse/paho.mqtt.rust</a> 老牌MQTT框架，对MQTT支持较全, 其它各语言的实现也有</li>
+</ul>
+</li>
+</ul>
+<h3 id="异步网络编程"><a class="header" href="#异步网络编程">异步网络编程</a></h3>
+<ul>
+<li><a href="https://github.com/tokio-rs/tokio">tokio-rs/tokio</a> 最火的异步网络库，除了复杂上手难度高一些外，没有其它大的问题。同时tokio团队提供了多个非常优秀的Rust库，整个生态欣欣向荣，用户认可度很高</li>
+<li><a href="https://async.rs/">async-std</a> 跟标准库API很像的异步网络库，相对简单易用，但是貌似开发有些停滞，还有就是功能上不够完善。但是对于普通用户来说，这个库非常值得一试，它在功能和简单易用上取得了很好的平衡</li>
+<li><a href="https://github.com/actix/actix">actix</a> 基于Actor模型的异步网络库，但这个库的开发貌似已经停滞，他们团队一直在专注于<code>actix-web</code>的开发</li>
+<li><a href="https://github.com/tokio-rs/mio">mio</a> 严格来说，MIO与之前三个不是同一个用途的，MIO = Meta IO，是一个底层IO库，往往用于构建其它网络库，当然如果你对应用网络性能有非常极限的要求，可以考虑它，因为它的层次比较低，所带来的抽象负担小，所以性能损耗小</li>
+<li>如果你要开发生产级别的项目，我推荐使用<code>tokio</code>，稳定可靠，功能丰富，控制粒度细；自己的学习项目或者没有那么严肃的开源项目，我推荐<code>async-std</code>，简单好用，值得学习；当你确切知道需要Actor网络模型时，就用<code>actix</code></li>
+</ul>
+<h3 id="搜索引擎"><a class="header" href="#搜索引擎">搜索引擎</a></h3>
+<ul>
+<li>
+<p>ElasticSearch客户端</p>
+<ul>
+<li><a href="https://github.com/elastic/elasticsearch-rs">elastic/elasticsearch</a> 官方es客户端，目前第三方的基本都处于停滞状态，所以不管好坏，用呗</li>
+</ul>
+</li>
+<li>
+<p>Rust搜索引擎</p>
+<ul>
+<li><a href="https://github.com/quickwit-inc/tantivy">Tantivy</a> Tantivy是Rust实现的本地搜索库，功能对标<code>lucene</code>，如果你不需要分布式，那么引入tantivy作为自己本地Rust服务的一个搜索，是相当不错的选择，该库作者一直很活跃，而且最近还创立了搜索引擎公司，感觉大有作为。该库的优点在于纯Rust实现，性能高(lucene的2-3倍)，资源占用低(对比java自然不是一个数量级)，社区活跃。</li>
+</ul>
+</li>
+<li>
+<p>Rust搜索平台</p>
+<ul>
+<li><a href="https://github.com/quickwit-inc/quickwit">quickwit</a> 对标ElasticSearch，一个通用目的的分布式搜索平台，目前还在起步阶段(0.2版本)，未来非常可期，目前还不建议使用</li>
+<li><a href="https://github.com/meilisearch/MeiliSearch">MeiliSearch</a> 虽然也是一个搜索平台，但是并不是通用目的的，<code>MeiliSearch</code>目标是为终端用户提供边输入边提示的即刻搜索功能，因此是一个轻量级搜索平台，不适用于数据量大时的搜索目的。总之，如果你需要在网页端或者APP为用户提供一个搜索条，然后支持输入容错、前缀搜索时，就可以使用它。</li>
+</ul>
+</li>
+</ul>
+<h3 id="代码debug"><a class="header" href="#代码debug">代码Debug</a></h3>
+<ul>
+<li>
+<p>GDB</p>
+<ul>
+<li><a href="https://github.com/cs01/gdbgui">gdbgui</a> 提供浏览器支持的gdb debug工具，支持C，C++，Rust和Go.</li>
+</ul>
+</li>
+<li>
+<p>LLDB</p>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb">CodeLLDB</a> 专门为VSCode设计的LLDB Debug扩展</li>
+</ul>
+</li>
+</ul>
+<h3 id="性能优化"><a class="header" href="#性能优化">性能优化</a></h3>
+<ul>
+<li><a href="https://github.com/bheisler/criterion.rs">bheisler/criterion.rs</a> 比官方提供的benchmark库更好，目前已经成为事实上标准的性能测试工具</li>
+<li><a href="https://github.com/koute/bytehound">Bytehound</a> Linux下的内存分析工具，可以用来分析：内存泄漏、内存分配、调用栈追踪，甚至它还有一个浏览器UI！懂的人都懂，性能测试工具的UI服务是多么稀缺和珍贵！</li>
+<li><a href="https://github.com/llogiq/flame">llogiq/flame</a> 专为Rust打造的火焰图分析工具，可以告诉你程序在哪些代码上花费的时间过多，非常适合用于代码性能瓶颈的分析。与<code>perf</code>不同，<code>flame</code>库允许你自己定义想要测试的代码片段，只需要在代码前后加上相应的指令即可，非常好用</li>
+<li><a href="https://github.com/sharkdp/hyperfine">sharkdp/hyperfine</a> 一个命令行benchmark工具，支持任意shell命令，支持缓存清除、预热、多次运行统计分析等，尽量保证结果的准确性</li>
+</ul>
+<h3 id="编解码"><a class="header" href="#编解码">编解码</a></h3>
+<ul>
+<li>
+<p><a href="https://github.com/serde-rs/serde">Serde</a> 一个超高性能的通用序列化/反序列化框架，可以跟多种协议的库联合使用，实现统一编解码格式</p>
+</li>
+<li>
+<p>CSV</p>
+<ul>
+<li><a href="https://github.com/BurntSushi/rust-csv">BurntSushi/rust-csv</a> 高性能CSV读写库，支持<a href="https://github.com/serde-rs/serde">Serde</a></li>
+</ul>
+</li>
+<li>
+<p>JSON</p>
+<ul>
+<li><a href="https://github.com/serde-rs/json">serde-rs/json</a> 快到上天的JSON库，也是Rust事实上的标准JSON库，你也可以使用它的大哥<a href="https://github.com/serde-rs/serde">Serde</a>，一个更通用的序列化/反序列化库</li>
+</ul>
+</li>
+<li>
+<p>MsgPack</p>
+<ul>
+<li><a href="https://github.com/3Hren/msgpack-rust">3Hren/msgpack-rust</a> 纯Rust实现的MessagePack编解码协议</li>
+</ul>
+</li>
+<li>
+<p>Protocol Buffers</p>
+<ul>
+<li><a href="https://github.com/tokio-rs/prost">tokio-rs/prost</a> tokio出品，基本都属精品，此库也不例外，简单易用，文档详细</li>
+<li><a href="https://github.com/stepancheg/rust-protobuf">stepancheg/rust-protobuf</a> 纯Rust实现</li>
+</ul>
+</li>
+<li>
+<p>TOML</p>
+<ul>
+<li><a href="https://github.com/alexcrichton/toml-rs">alexcrichton/toml-rs</a> TOML编码/解码，可以配合<code>serde</code>使用</li>
+</ul>
+</li>
+<li>
+<p>XML</p>
+<ul>
+<li><a href="https://github.com/tafia/quick-xml">tafia/quick-xml</a> 高性能XML库，可以配合<code>serde</code>使用，文档较为详细</li>
+</ul>
+</li>
+<li>
+<p>YAML</p>
+<ul>
+<li><a href="https://github.com/dtolnay/serde-yaml">dtolnay/serde-yaml</a> 使用<code>serde</code>编解码<code>YAML</code>格式的数据</li>
+</ul>
+</li>
+</ul>
+<h3 id="email"><a class="header" href="#email">Email</a></h3>
+<ul>
+<li><a href="https://github.com/lettre/lettre">lettre/lettre</a> — Rust SMTP库</li>
+</ul>
+<h3 id="常用正则模版"><a class="header" href="#常用正则模版">常用正则模版</a></h3>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../practice/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../practice/naming.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../practice/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../practice/naming.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>墙推 VSCode! - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/first-try/editor.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="墙推-vscode"><a class="header" href="#墙推-vscode">墙推 VSCode!</a></h2>
+<p><code>VSCode</code> 从 15 年刚开始推出，我就在使用了。做为第一个吃螃蟹的人，可以说见证了它一路的快速发展，直到现在它已经成为开源世界最火的 IDE 之一（弱弱的说一句，之一也许可以去掉）。</p>
+<p>顺便歪楼说一句：我预言过三件事：</p>
+<ol>
+<li>在 13 年预言 <code>Golang</code> 会火遍全世界。同时创建了 14-19 年最火的 Golang 隐修会社区，可惜因为某些原因被封停了，甚是遗憾。</li>
+<li>在 15 年预言 <code>VSCode</code> 会成为世界上最好的 IDE；同时我还是 <code>jaeger tracing</code> 项目的第一个 star 用户（是的，比作者还早），当时就很看好这个项目的后续发展。</li>
+<li>现在呢，我在这里正式预言： <strong>未来 <code>Rust</code> 会成为主流编程语言之一，在几乎所有开发领域都将大放光彩</strong>。总之牛逼已吹下，希望不要被打脸。：(</li>
+</ol>
+<p>下面继续简单介绍下 VSCode，以下内容引用于官网：</p>
+<blockquote>
+<p>Visual Studio Code(VSCode) 是微软 2015 年推出的一个轻量但功能强大的源代码编辑器，基于 Electron 开发，支持 Windows、Linux 和 macOS 操作系统。它内置了对 JavaScript，TypeScript 和 Node.js 的支持并且具有丰富的其它语言和扩展的支持，功能超级强大。Visual Studio Code 是一款免费开源的现代化轻量级代码编辑器，支持几乎所有主流的开发语言的语法高亮、智能代码补全、自定义快捷键、括号匹配和颜色区分、代码片段、代码对比 Diff、GIT 命令等特性，支持插件扩展，并针对网页开发和云端应用开发做了优化。</p>
+</blockquote>
+<h2 id="安装-vscode-的-rust-插件"><a class="header" href="#安装-vscode-的-rust-插件">安装 VSCode 的 Rust 插件</a></h2>
+<p>在 VSCode 的左侧扩展目录里，搜索 <code>rust</code>, 你能看到两个 Rust 插件，如果没有意外，这两个应该分别排名第一和第二：</p>
+<ol>
+<li>官方的 <code>Rust</code>，作者是 <code>The Rust Programming Language</code>, 官方出品，牛逼就完了，但是……我们并不推荐（事实上已经不再维护了，官方收编了第二个插件，现在第二个插件的作者也是 <code>The Rust Programming Language</code>），这个插件有几个问题：</li>
+</ol>
+<ul>
+<li>首先是在代码跳转上支持的很烂，只能在自己的代码库中跳转，一旦跳到别的三方库，那就无法继续跳转，对于查看标准库和三方库的源码带来了极大的困扰</li>
+<li>其次，不支持类型自动标注，对于 Rust 语言而言，类型说明是非常重要的，特别是在你不知道给变量一个什么类型时，这种 IDE 的自动提示就变得弥足珍贵</li>
+<li>代码提示不太好用，有些方法既不会提示，也不能跳转</li>
+</ul>
+<ol start="2">
+<li>社区驱动的 <code>rust-analyzer</code>，非常推荐，上面说的所有问题，在这个插件上都得到了解决，不得不说，Rust 社区 yyds!</li>
+</ol>
+<p>所以，综上所述，我们选择 <code>rust-analyzer</code> 作为 Rust 语言的插件，具体的安装很简单，点击插件，选择安装即可，根据提示可能需要重新加载 IDE。</p>
+<blockquote>
+<p>在搜索 VSCode 插件时，报错：<code>提取扩展出错，XHR failed</code>，这个报错是因为网络原因导致，很可能是你的网络不行或者翻墙工具阻拦你的访问，试着关掉翻墙，再进行尝试。</p>
+</blockquote>
+<p>安装完成后，在第一次打开 Rust 项目时，需要安装一些依赖，具体的状态在左下角会进行提示，包括下载、代码构建、building 等。</p>
+<p>当插件使用默认设置时，每一次保存代码，都会进行一次重新编译。</p>
+<blockquote>
+<p>如果你的电脑慢，有一点一定要注意：</p>
+<p>在编译器构建代码的同时，不要在终端再运行 <code>cargo run</code> 等命令进行编译，不然会获得一个报错提示，大意是当前文件目录已经被锁定，等待其它使用者释放。如果等了很久 IDE 还是没有释放（虽然我没遇到过，但是存在这个可能性），你可以关掉 IDE，并手动 <code>kill</code> 掉 <code>rust-analyzer</code>，然后重新尝试。</p>
+</blockquote>
+<h2 id="安装其它好用的插件"><a class="header" href="#安装其它好用的插件">安装其它好用的插件</a></h2>
+<p>在此，再推荐大家几个好用的插件：</p>
+<ol>
+<li><code>Even Better TOML</code>，支持 .toml 文件完整特性</li>
+<li><code>Error Lens</code>, 更好的获得错误展示</li>
+<li><code>One Dark Pro</code>, 非常好看的 VSCode 主题</li>
+<li><code>CodeLLDB</code>, Debugger 程序</li>
+</ol>
+<p>好了，至此，VSCode 的配置就已经全部结束，是不是很简单？下面让我们来用 <code>Cargo</code> 创建一个 Rust 项目，然后用 VSCode 打开。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../first-try/installation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../first-try/cargo.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../first-try/installation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../first-try/cargo.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

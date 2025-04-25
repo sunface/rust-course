@@ -1,0 +1,779 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>自定义 tracing 的输出格式 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/logs/tracing-logger.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="使用-tracing-输出自定义的-rust-日志"><a class="header" href="#使用-tracing-输出自定义的-rust-日志">使用 tracing 输出自定义的 Rust 日志</a></h1>
+<p>在 <a href="https://docs.rs/crate/tracing/latest">tracing</a> 包出来前，Rust 的日志也就 <code>log</code> 有一战之力，但是 <code>log</code> 的功能相对来说还是简单一些。在大名鼎鼎的 tokio 开发团队推出 <code>tracing</code> 后，我现在坚定的认为 <code>tracing</code> 就是未来！</p>
+<blockquote>
+<p>截至目前，rust编译器团队、GraphQL 都在使用 tracing，而且 tokio 在密谋一件大事：基于 tracing 开发一套终端交互式 debug 工具: <a href="https://github.com/tokio-rs/console">console</a>！</p>
+</blockquote>
+<p>基于这种坚定的信仰，我们决定将公司之前使用的 <code>log</code> 包替换成 <code>tracing</code> ，但是有一个问题：后者提供的 JSON logger 总感觉不是那个味儿。这意味着，对于程序员来说，最快乐的时光又要到来了：定制自己的开发工具。</p>
+<p>好了，闲话少说，下面我们一起来看看该如何构建自己的 logger，以及深入了解 tracing 的一些原理，当然你也可以只选择来凑个热闹，总之，开始吧！</p>
+<h2 id="打地基1"><a class="header" href="#打地基1">打地基(1)</a></h2>
+<p>首先，使用 <code>cargo new --bin test-tracing</code> 创建一个新的二进制类型( binary )的项目。</p>
+<p>然后引入以下依赖：</p>
+<pre><code class="language-toml"># in cargo.toml
+
+[dependencies]
+serde_json = "1"
+tracing = "0.1"
+tracing-subscriber = "0.3"
+</code></pre>
+<p>其中 <code>tracing-subscriber</code> 用于订阅正在发生的日志、监控事件，然后可以对它们进行进一步的处理。<code>serde_json</code> 可以帮我们更好的处理格式化的 JSON，毕竟咱们要解决的问题就来自于 JSON logger。</p>
+<p>下面来实现一个基本功能：设置自定义的 logger，并使用 <code>info!</code> 来打印一行日志。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">// in examples/figure_0/main.rs
+
+use tracing::info;
+use tracing_subscriber::prelude::*;
+
+mod custom_layer;
+use custom_layer::CustomLayer;
+
+fn main() {
+    // 设置 `tracing-subscriber` 对 tracing 数据的处理方式
+    tracing_subscriber::registry().with(CustomLayer).init();
+
+    // 打印一条简单的日志。用 `tracing` 的行话来说，`info!` 将创建一个事件
+    info!(a_bool = true, answer = 42, message = "first example");
+}</code></pre></pre>
+<p>大家会发现，上面引入了一个模块 <code>custom_layer</code>， 下面从该模块开始，来实现我们的自定义 logger。首先，<code>tracing-subscriber</code> 提供了一个特征 <a href="https://docs.rs/tracing-subscriber/0.3/tracing_subscriber/layer/trait.Layer.html"><code>Layer</code></a> 专门用于处理 <code>tracing</code> 的各种事件( span, event )。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// in examples/figure_0/custom_layer.rs
+
+use tracing_subscriber::Layer;
+
+pub struct CustomLayer;
+
+impl&lt;S&gt; Layer&lt;S&gt; for CustomLayer where S: tracing::Subscriber {}
+<span class="boring">}</span></code></pre></pre>
+<p>由于还没有填入任何代码，运行该示例比你打的水漂还无力 - 毫无效果。</p>
+<h2 id="捕获事件"><a class="header" href="#捕获事件">捕获事件</a></h2>
+<p>在 <code>tracing</code> 中，当 <code>info!</code>、<code>error!</code> 等日志宏被调用时，就会产生一个相应的<a href="https://docs.rs/tracing/0.1/tracing/event/struct.Event.html">事件 Event</a>。</p>
+<p>而我们首先，就要为之前的 <code>Layer</code> 特征实现 <code>on_event</code> 方法。</p>
+<pre><pre class="playground"><code class="language-rust editable edition2021">// in examples/figure_0/custom_layer.rs
+
+where
+    S: tracing::Subscriber,
+{
+    fn on_event(
+        &amp;self,
+        event: &amp;tracing::Event&lt;'_&gt;,
+        _ctx: tracing_subscriber::layer::Context&lt;'_, S&gt;,
+    ) {
+        println!("Got event!");
+        println!("  level={:?}", event.metadata().level());
+        println!("  target={:?}", event.metadata().target());
+        println!("  name={:?}", event.metadata().name());
+        for field in event.fields() {
+            println!("  field={}", field.name());
+        }
+    }
+}</code></pre></pre>
+<p>从代码中可以看出，我们打印了事件中包含的事件名、日志等级以及事件发生的代码路径。运行后，可以看到以下输出:</p>
+<pre><code class="language-properties">$ cargo run --example figure_1
+
+Got event!
+  level=Level(Info)
+  target="figure_1"
+  name="event examples/figure_1/main.rs:10"
+  field=a_bool
+  field=answer
+  field=message
+</code></pre>
+<p>但是奇怪的是，我们无法通过 API 来获取到具体的 <code>field</code> 值。还有就是，上面的输出还不是 JSON 格式。</p>
+<p>现在问题来了，要创建自己的 logger，不能获取 <code>filed</code> 显然是不靠谱的。</p>
+<h3 id="访问者模式"><a class="header" href="#访问者模式">访问者模式</a></h3>
+<p>在设计上，<code>tracing</code> 作出了一个选择：永远不会自动存储产生的事件数据( spans, events )。如果我们要获取这些数据，就必须自己手动存储。</p>
+<p>解决办法就是使用访问者模式(Visitor Pattern)：手动实现 <code>Visit</code> 特征去获取事件中的值。<code>Visit</code> 为每个 <code>tracing</code> 可以处理的类型都提供了对应的 <code>record_X</code> 方法。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// in examples/figure_2/custom_layer.rs
+
+struct PrintlnVisitor;
+
+impl tracing::field::Visit for PrintlnVisitor {
+    fn record_f64(&amp;mut self, field: &amp;tracing::field::Field, value: f64) {
+        println!("  field={} value={}", field.name(), value)
+    }
+
+    fn record_i64(&amp;mut self, field: &amp;tracing::field::Field, value: i64) {
+        println!("  field={} value={}", field.name(), value)
+    }
+
+    fn record_u64(&amp;mut self, field: &amp;tracing::field::Field, value: u64) {
+        println!("  field={} value={}", field.name(), value)
+    }
+
+    fn record_bool(&amp;mut self, field: &amp;tracing::field::Field, value: bool) {
+        println!("  field={} value={}", field.name(), value)
+    }
+
+    fn record_str(&amp;mut self, field: &amp;tracing::field::Field, value: &amp;str) {
+        println!("  field={} value={}", field.name(), value)
+    }
+
+    fn record_error(
+        &amp;mut self,
+        field: &amp;tracing::field::Field,
+        value: &amp;(dyn std::error::Error + 'static),
+    ) {
+        println!("  field={} value={}", field.name(), value)
+    }
+
+    fn record_debug(&amp;mut self, field: &amp;tracing::field::Field, value: &amp;dyn std::fmt::Debug) {
+        println!("  field={} value={:?}", field.name(), value)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>然后在之前的 <code>on_event</code> 中来使用这个新的访问者： <code>event.record(&amp;mut visitor)</code> 可以访问其中的所有值。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// in examples/figure_2/custom_layer.rs
+
+fn on_event(
+    &amp;self,
+    event: &amp;tracing::Event&lt;'_&gt;,
+    _ctx: tracing_subscriber::layer::Context&lt;'_, S&gt;,
+) {
+    println!("Got event!");
+    println!("  level={:?}", event.metadata().level());
+    println!("  target={:?}", event.metadata().target());
+    println!("  name={:?}", event.metadata().name());
+    let mut visitor = PrintlnVisitor;
+    event.record(&amp;mut visitor);
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这段代码看起来有模有样，来运行下试试：</p>
+<pre><code class="language-properties">$ cargo run --example figure_2
+
+Got event!
+  level=Level(Info)
+  target="figure_2"
+  name="event examples/figure_2/main.rs:10"
+  field=a_bool value=true
+  field=answer value=42
+  field=message value=first example
+</code></pre>
+<p>Bingo ! 一切完美运行 ！</p>
+<h3 id="构建-json-logger"><a class="header" href="#构建-json-logger">构建 JSON logger</a></h3>
+<p>目前为止，离我们想要的 JSON logger 只差一步了。下面来实现一个 <code>JsonVisitor</code> 替代之前的 <code>PrintlnVisitor</code> 用于构建一个 JSON 对象。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// in  examples/figure_3/custom_layer.rs
+
+
+impl&lt;'a&gt; tracing::field::Visit for JsonVisitor&lt;'a&gt; {
+    fn record_f64(&amp;mut self, field: &amp;tracing::field::Field, value: f64) {
+        self.0
+            .insert(field.name().to_string(), serde_json::json!(value));
+    }
+
+    fn record_i64(&amp;mut self, field: &amp;tracing::field::Field, value: i64) {
+        self.0
+            .insert(field.name().to_string(), serde_json::json!(value));
+    }
+
+    fn record_u64(&amp;mut self, field: &amp;tracing::field::Field, value: u64) {
+        self.0
+            .insert(field.name().to_string(), serde_json::json!(value));
+    }
+
+    fn record_bool(&amp;mut self, field: &amp;tracing::field::Field, value: bool) {
+        self.0
+            .insert(field.name().to_string(), serde_json::json!(value));
+    }
+
+    fn record_str(&amp;mut self, field: &amp;tracing::field::Field, value: &amp;str) {
+        self.0
+            .insert(field.name().to_string(), serde_json::json!(value));
+    }
+
+    fn record_error(
+        &amp;mut self,
+        field: &amp;tracing::field::Field,
+        value: &amp;(dyn std::error::Error + 'static),
+    ) {
+        self.0.insert(
+            field.name().to_string(),
+            serde_json::json!(value.to_string()),
+        );
+    }
+
+    fn record_debug(&amp;mut self, field: &amp;tracing::field::Field, value: &amp;dyn std::fmt::Debug) {
+        self.0.insert(
+            field.name().to_string(),
+            serde_json::json!(format!("{:?}", value)),
+        );
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// in examples/figure_3/custom_layer.rs
+
+fn on_event(
+    &amp;self,
+    event: &amp;tracing::Event&lt;'_&gt;,
+    _ctx: tracing_subscriber::layer::Context&lt;'_, S&gt;,
+) {
+    // Covert the values into a JSON object
+    let mut fields = BTreeMap::new();
+    let mut visitor = JsonVisitor(&amp;mut fields);
+    event.record(&amp;mut visitor);
+
+    // Output the event in JSON
+    let output = serde_json::json!({
+        "target": event.metadata().target(),
+        "name": event.metadata().name(),
+        "level": format!("{:?}", event.metadata().level()),
+        "fields": fields,
+    });
+    println!("{}", serde_json::to_string_pretty(&amp;output).unwrap());
+}
+<span class="boring">}</span></code></pre></pre>
+<p>继续运行:</p>
+<pre><code class="language-properties">$ cargo run --example figure_3
+
+{
+  "fields": {
+    "a_bool": true,
+    "answer": 42,
+    "message": "first example"
+  },
+  "level": "Level(Info)",
+  "name": "event examples/figure_3/main.rs:10",
+  "target": "figure_3"
+}
+</code></pre>
+<p>终于，我们实现了自己的 logger，并且成功地输出了一条 JSON 格式的日志。并且新实现的 <code>Layer</code> 就可以添加到 <code>tracing-subscriber</code> 中用于记录日志事件。</p>
+<p>下面再来一起看看如何使用<code>tracing</code> 提供的 <code>period-of-time spans</code> 为日志增加更详细的上下文信息。</p>
+<h3 id="何为-span"><a class="header" href="#何为-span">何为 span</a></h3>
+<p>在之前我们多次提到 span 这个词，但是何为 span？</p>
+<p>不知道大家知道分布式追踪不？在分布式系统中每一个请求从开始到返回，会经过多个服务，这条请求路径被称为请求跟踪链路( trace )，可以看出，一条链路是由多个部分组成，我们可以简单的把其中一个部分认为是一个 span。</p>
+<p>跟 log 是对某个时间点的记录不同，span 记录的是一个时间段。当程序开始执行一系列任务时，span 就会开始，当这一系列任务结束后，span 也随之结束。</p>
+<p>由此可见，tracing 其实不仅仅是一个日志库，它还是一个分布式追踪的库，可以帮助我们采集信息，然后上传给 jaeger 等分布式追踪平台，最终实现对指定应用程序的监控。</p>
+<p>在理解后，再来看看该如何为自定义的 logger 实现 spans。</p>
+<h3 id="打地基2"><a class="header" href="#打地基2">打地基(2)</a></h3>
+<p>先来创建一个外部 span 和一个内部 span，从概念上来说，spans 和 events 创建的东东类似以下嵌套结构：</p>
+<ul>
+<li>进入外部 span
+<ul>
+<li>进入内部 span
+<ul>
+<li>事件已创建，内部 span 是它的父 span，外部 span 是它的祖父 span</li>
+</ul>
+</li>
+<li>结束内部 span</li>
+</ul>
+</li>
+<li>结束外部 span</li>
+</ul>
+<blockquote>
+<p>有些同学可能还是不太理解，你就把 span 理解成为监控埋点，进入 span == 埋点开始，结束 span == 埋点结束</p>
+</blockquote>
+<p>在下面的代码中，当使用 <code>span.enter()</code> 创建的 span 超出作用域时，将自动退出：根据 <code>Drop</code> 特征触发的顺序，<code>inner_span</code> 将先退出，然后才是 <code>outer_span</code> 的退出。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">// in examples/figure_5/main.rs
+
+use tracing::{debug_span, info, info_span};
+use tracing_subscriber::prelude::*;
+
+mod custom_layer;
+use custom_layer::CustomLayer;
+
+fn main() {
+    tracing_subscriber::registry().with(CustomLayer).init();
+
+    let outer_span = info_span!("outer", level = 0);
+    let _outer_entered = outer_span.enter();
+
+    let inner_span = debug_span!("inner", level = 1);
+    let _inner_entered = inner_span.enter();
+
+    info!(a_bool = true, answer = 42, message = "first example");
+}</code></pre></pre>
+<p>再回到事件处理部分，通过使用 <code>examples/figure_0/main.rs</code> 我们能获取到事件的父 span，当然，前提是它存在。但是在实际场景中，直接使用 <code>ctx.event_scope(event)</code> 来迭代所有 span 会更加简单好用。</p>
+<p>注意，这种迭代顺序类似于栈结构，以上面的代码为例，先被迭代的是 <code>inner_span</code>，然后才是 <code>outer_span</code>。</p>
+<p>当然，如果你不想以类似于出栈的方式访问，还可以使用 <code>scope.from_root()</code> 直接反转，此时的访问将从最外层开始： <code>outer -&gt; innter</code>。</p>
+<p>对了，为了使用 <code>ctx.event_scope()</code>，我们的订阅者还需实现 <code>LookupRef</code>。提前给出免责声明：这里的实现方式有些诡异，大家可能难以理解，但是..我们其实也无需理解，只要这么用即可。</p>
+<blockquote>
+<p>译者注：这里用到了高阶生命周期 HRTB( Higher Ranke Trait Bounds ) 的概念，一般的读者无需了解，感兴趣的可以看看(这里)[https://doc.rust-lang.org/nomicon/hrtb.html]</p>
+</blockquote>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// in examples/figure_5/custom_layer.rs
+
+impl&lt;S&gt; Layer&lt;S&gt; for CustomLayer
+where
+    S: tracing::Subscriber,
+    // 好可怕! 还好我们不需要理解它，只要使用即可
+    S: for&lt;'lookup&gt; tracing_subscriber::registry::LookupSpan&lt;'lookup&gt;,
+{
+    fn on_event(&amp;self, event: &amp;tracing::Event&lt;'_&gt;, ctx: tracing_subscriber::layer::Context&lt;'_, S&gt;) {
+        // 父 span
+        let parent_span = ctx.event_span(event).unwrap();
+        println!("parent span");
+        println!("  name={}", parent_span.name());
+        println!("  target={}", parent_span.metadata().target());
+
+        println!();
+
+        // 迭代范围内的所有的 spans
+        let scope = ctx.event_scope(event).unwrap();
+        for span in scope.from_root() {
+            println!("an ancestor span");
+            println!("  name={}", span.name());
+            println!("  target={}", span.metadata().target());
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>运行下看看效果:</p>
+<pre><code class="language-properties">$ cargo run --example figure_5
+
+parent span
+  name=inner
+  target=figure_5
+
+an ancestor span
+  name=outer
+  target=figure_5
+an ancestor span
+  name=inner
+  target=figure_5
+</code></pre>
+<p>细心的同学可能会发现，这里怎么也没有 field 数据？没错，而且恰恰是这些 field 包含的数据才让日志和监控有意义。那我们可以像之前一样，使用访问器 Visitor 来解决吗？</p>
+<h3 id="span-的数据在哪里"><a class="header" href="#span-的数据在哪里">span 的数据在哪里</a></h3>
+<p>答案是：No。因为 <code>ctx.event_scope </code> 返回的东东没有任何办法可以访问其中的字段。</p>
+<p>不知道大家还记得我们为何之前要使用访问器吗？很简单，因为 <code>tracing</code> 默认不会去存储数据，既然如此，那 <code>span</code> 这种跨了某个时间段的，就更不可能去存储数据了。</p>
+<p>现在只能看看 <code>Layer</code> 特征有没有提供其它的方法了，哦呦，发现了一个 <code>on_new_span</code>，从名字可以看出，该方法是在 <code>span</code> 创建时调用的。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// in  examples/figure_6/custom_layer.rs
+
+impl&lt;S&gt; Layer&lt;S&gt; for CustomLayer
+where
+    S: tracing::Subscriber,
+    S: for&lt;'lookup&gt; tracing_subscriber::registry::LookupSpan&lt;'lookup&gt;,
+{
+    fn on_new_span(
+        &amp;self,
+        attrs: &amp;tracing::span::Attributes&lt;'_&gt;,
+        id: &amp;tracing::span::Id,
+        ctx: tracing_subscriber::layer::Context&lt;'_, S&gt;,
+    ) {
+        let span = ctx.span(id).unwrap();
+        println!("Got on_new_span!");
+        println!("  level={:?}", span.metadata().level());
+        println!("  target={:?}", span.metadata().target());
+        println!("  name={:?}", span.metadata().name());
+
+        // Our old friend, `println!` exploration.
+        let mut visitor = PrintlnVisitor;
+        attrs.record(&amp;mut visitor);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-properties">$ cargo run --example figure_6
+Got on_new_span!
+  level=Level(Info)
+  target="figure_7"
+  name="outer"
+  field=level value=0
+Got on_new_span!
+  level=Level(Debug)
+  target="figure_7"
+  name="inner"
+  field=level value=1
+</code></pre>
+<p>芜湖! 我们的数据回来了！但是这里有一个隐患：只能在创建的时候去访问数据。如果仅仅是为了记录 spans，那没什么大问题，但是如果我们随后需要记录事件然后去尝试访问之前的 span 呢？此时 span 的数据已经不存在了！</p>
+<p>如果 <code>tracing</code> 不能存储数据，那我们这些可怜的开发者该怎么办？</p>
+<h3 id="自己存储-span-数据"><a class="header" href="#自己存储-span-数据">自己存储 span 数据</a></h3>
+<p>何为一个优秀的程序员？能偷懒的时候绝不多动半跟手指，但是需要勤快的时候，也是自己动手丰衣足食的典型。</p>
+<p>因此，既然 <code>tracing</code> 不支持，那就自己实现吧。先确定一个目标：捕获 span 的数据，然后存储在某个地方以便后续访问。</p>
+<p>好在 <code>tracing-subscriber</code> 提供了扩展 extensions 的方式，可以让我们轻松地存储自己的数据，该扩展甚至可以跟每一个 span 联系在一起！</p>
+<p>虽然我们可以把之前见过的 <code>BTreeMap&lt;String, serde_json::Value&gt;</code> 存在扩展中，但是由于扩展数据是被 registry 中的所有layers 所共享的，因此出于私密性的考虑，还是只保存私有字段比较合适。这里使用一个 newtype 模式来创建新的类型:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// in examples/figure_8/custom_layer.rs
+
+#[derive(Debug)]
+struct CustomFieldStorage(BTreeMap&lt;String, serde_json::Value&gt;);
+<span class="boring">}</span></code></pre></pre>
+<p>每次发现一个新的 span 时，都基于它来构建一个 JSON 对象，然后将其存储在扩展数据中。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// in examples/figure_8/custom_layer.rs
+
+fn on_new_span(
+    &amp;self,
+    attrs: &amp;tracing::span::Attributes&lt;'_&gt;,
+    id: &amp;tracing::span::Id,
+    ctx: tracing_subscriber::layer::Context&lt;'_, S&gt;,
+) {
+    // 基于 field 值来构建我们自己的 JSON 对象
+    let mut fields = BTreeMap::new();
+    let mut visitor = JsonVisitor(&amp;mut fields);
+    attrs.record(&amp;mut visitor);
+
+    // 使用之前创建的 newtype 包裹下
+    let storage = CustomFieldStorage(fields);
+
+    // 获取内部 span 数据的引用
+    let span = ctx.span(id).unwrap();
+    // 获取扩展，用于存储我们的 span 数据
+    let mut extensions = span.extensions_mut();
+    // 存储！
+    extensions.insert::&lt;CustomFieldStorage&gt;(storage);
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这样，未来任何时候我们都可以取到该 span 包含的数据( 例如在 <code>on_event</code> 方法中 )。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// in examples/figure_8/custom_layer.rs
+
+fn on_event(&amp;self, event: &amp;tracing::Event&lt;'_&gt;, ctx: tracing_subscriber::layer::Context&lt;'_, S&gt;) {
+    let scope = ctx.event_scope(event).unwrap();
+    println!("Got event!");
+    for span in scope.from_root() {
+        let extensions = span.extensions();
+        let storage = extensions.get::&lt;CustomFieldStorage&gt;().unwrap();
+        println!("  span");
+        println!("    target={:?}", span.metadata().target());
+        println!("    name={:?}", span.metadata().name());
+        println!("    stored fields={:?}", storage);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="功能齐全的-json-logger"><a class="header" href="#功能齐全的-json-logger">功能齐全的 JSON logger</a></h3>
+<p>截至目前，我们已经学了不少东西，下面来利用这些知识实现最后的 JSON logger。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// in examples/figure_9/custom_layer.rs
+
+fn on_event(&amp;self, event: &amp;tracing::Event&lt;'_&gt;, ctx: tracing_subscriber::layer::Context&lt;'_, S&gt;) {
+    // All of the span context
+    let scope = ctx.event_scope(event).unwrap();
+    let mut spans = vec![];
+    for span in scope.from_root() {
+        let extensions = span.extensions();
+        let storage = extensions.get::&lt;CustomFieldStorage&gt;().unwrap();
+        let field_data: &amp;BTreeMap&lt;String, serde_json::Value&gt; = &amp;storage.0;
+        spans.push(serde_json::json!({
+            "target": span.metadata().target(),
+            "name": span.name(),
+            "level": format!("{:?}", span.metadata().level()),
+            "fields": field_data,
+        }));
+    }
+
+    // The fields of the event
+    let mut fields = BTreeMap::new();
+    let mut visitor = JsonVisitor(&amp;mut fields);
+    event.record(&amp;mut visitor);
+
+    // And create our output
+    let output = serde_json::json!({
+        "target": event.metadata().target(),
+        "name": event.metadata().name(),
+        "level": format!("{:?}", event.metadata().level()),
+        "fields": fields,
+        "spans": spans,
+    });
+    println!("{}", serde_json::to_string_pretty(&amp;output).unwrap());
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-properties">$ cargo run --example figure_9
+
+{
+  "fields": {
+    "a_bool": true,
+    "answer": 42,
+    "message": "first example"
+  },
+  "level": "Level(Info)",
+  "name": "event examples/figure_9/main.rs:16",
+  "spans": [
+    {
+      "fields": {
+        "level": 0
+      },
+      "level": "Level(Info)",
+      "name": "outer",
+      "target": "figure_9"
+    },
+    {
+      "fields": {
+        "level": 1
+      },
+      "level": "Level(Debug)",
+      "name": "inner",
+      "target": "figure_9"
+    }
+  ],
+  "target": "figure_9"
+}
+</code></pre>
+<p>嗯，完美。</p>
+<h3 id="等等你说功能齐全"><a class="header" href="#等等你说功能齐全">等等，你说功能齐全？</a></h3>
+<p>上面的代码在发布到生产环境后，依然运行地相当不错，但是我发现还缺失了一个功能: span 在创建之后，依然要能记录数据。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// in examples/figure_10/main.rs
+
+let outer_span = info_span!("outer", level = 0, other_field = tracing::field::Empty);
+let _outer_entered = outer_span.enter();
+// Some code...
+outer_span.record("other_field", &amp;7);
+<span class="boring">}</span></code></pre></pre>
+<p>如果基于之前的代码运行上面的代码，我们将不会记录 <code>other_field</code>，因为该字段在收到 <code>on_new_span</code> 事件时，还不存在。</p>
+<p>对此，<code>Layer</code> 提供了 <code>on_record</code> 方法：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// in examples/figure_10/custom_layer.rs
+
+fn on_record(
+    &amp;self,
+    id: &amp;tracing::span::Id,
+    values: &amp;tracing::span::Record&lt;'_&gt;,
+    ctx: tracing_subscriber::layer::Context&lt;'_, S&gt;,
+) {
+    // 获取正在记录数据的 span
+    let span = ctx.span(id).unwrap();
+
+    // 获取数据的可变引用，该数据是在 on_new_span 中创建的
+    let mut extensions_mut = span.extensions_mut();
+    let custom_field_storage: &amp;mut CustomFieldStorage =
+        extensions_mut.get_mut::&lt;CustomFieldStorage&gt;().unwrap();
+    let json_data: &amp;mut BTreeMap&lt;String, serde_json::Value&gt; = &amp;mut custom_field_storage.0;
+
+    // 使用我们的访问器老朋友
+    let mut visitor = JsonVisitor(json_data);
+    values.record(&amp;mut visitor);
+}
+<span class="boring">}</span></code></pre></pre>
+<p>终于，在最后，我们拥有了一个功能齐全的自定义的 JSON logger，大家快去尝试下吧。当然，你也可以根据自己的需求来定制专属于你的 logger，毕竟方法是一通百通的。</p>
+<blockquote>
+<p>在以下 github 仓库，可以找到完整的代码: https://github.com/bryanburgers/tracing-blog-post</p>
+<p>本文由 Rustt 提供翻译
+原文链接: https://github.com/studyrs/Rustt/blob/main/Articles/%5B2022-04-07%5D%20在%20Rust%20中使用%20tracing%20自定义日志.md</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../logs/tracing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../logs/observe/intro.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../logs/tracing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../logs/observe/intro.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

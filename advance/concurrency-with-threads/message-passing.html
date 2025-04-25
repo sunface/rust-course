@@ -1,0 +1,531 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>线程同步：消息传递 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/concurrency-with-threads/message-passing.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="线程间的消息传递"><a class="header" href="#线程间的消息传递">线程间的消息传递</a></h1>
+<p>在多线程间有多种方式可以共享、传递数据，最常用的方式就是通过消息传递或者将锁和<code>Arc</code>联合使用，而对于前者，在编程界还有一个大名鼎鼎的<code>Actor线程模型</code>为其背书，典型的有 Erlang 语言，还有 Go 语言中很经典的一句话：</p>
+<blockquote>
+<p>Do not communicate by sharing memory; instead, share memory by communicating</p>
+</blockquote>
+<p>而对于后者，我们将在下一节中进行讲述。</p>
+<h2 id="消息通道"><a class="header" href="#消息通道">消息通道</a></h2>
+<p>与 Go 语言内置的<code>chan</code>不同，Rust 是在标准库里提供了消息通道(<code>channel</code>)，你可以将其想象成一场直播，多个主播联合起来在搞一场直播，最终内容通过通道传输给屏幕前的我们，其中主播被称之为<strong>发送者</strong>，观众被称之为<strong>接收者</strong>，显而易见的是：一个通道应该支持多个发送者和接收者。</p>
+<p>但是，在实际使用中，我们需要使用不同的库来满足诸如：<strong>多发送者 -&gt; 单接收者，多发送者 -&gt; 多接收者</strong>等场景形式，此时一个标准库显然就不够了，不过别急，让我们先从标准库讲起。</p>
+<h2 id="多发送者单接收者"><a class="header" href="#多发送者单接收者">多发送者，单接收者</a></h2>
+<p>标准库提供了通道<code>std::sync::mpsc</code>，其中<code>mpsc</code>是<em>multiple producer, single consumer</em>的缩写，代表了该通道支持多个发送者，但是只支持唯一的接收者。 当然，支持多个发送者也意味着支持单个发送者，我们先来看看单发送者、单接收者的简单例子:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::mpsc;
+use std::thread;
+
+fn main() {
+    // 创建一个消息通道, 返回一个元组：(发送者，接收者)
+    let (tx, rx) = mpsc::channel();
+
+    // 创建线程，并发送消息
+    thread::spawn(move || {
+        // 发送一个数字1, send方法返回Result&lt;T,E&gt;，通过unwrap进行快速错误处理
+        tx.send(1).unwrap();
+
+        // 下面代码将报错，因为编译器自动推导出通道传递的值是i32类型，那么Option&lt;i32&gt;类型将产生不匹配错误
+        // tx.send(Some(1)).unwrap()
+    });
+
+    // 在主线程中接收子线程发送的消息并输出
+    println!("receive {}", rx.recv().unwrap());
+}</code></pre></pre>
+<p>以上代码并不复杂，但仍有几点需要注意：</p>
+<ul>
+<li><code>tx</code>,<code>rx</code>对应发送者和接收者，它们的类型由编译器自动推导: <code>tx.send(1)</code>发送了整数，因此它们分别是<code>mpsc::Sender&lt;i32&gt;</code>和<code>mpsc::Receiver&lt;i32&gt;</code>类型，需要注意，由于内部是泛型实现，一旦类型被推导确定，该通道就只能传递对应类型的值, 例如此例中非<code>i32</code>类型的值将导致编译错误</li>
+<li>接收消息的操作<code>rx.recv()</code>会阻塞当前线程，直到读取到值，或者通道被关闭</li>
+<li>需要使用<code>move</code>将<code>tx</code>的所有权转移到子线程的闭包中</li>
+</ul>
+<p>在注释中提到<code>send</code>方法返回一个<code>Result&lt;T,E&gt;</code>，说明它有可能返回一个错误，例如接收者被<code>drop</code>导致了发送的值不会被任何人接收，此时继续发送毫无意义，因此返回一个错误最为合适，在代码中我们仅仅使用<code>unwrap</code>进行了快速处理，但在实际项目中你需要对错误进行进一步的处理。</p>
+<p>同样的，对于<code>recv</code>方法来说，当发送者关闭时，它也会接收到一个错误，用于说明不会再有任何值被发送过来。</p>
+<h2 id="不阻塞的-try_recv-方法"><a class="header" href="#不阻塞的-try_recv-方法">不阻塞的 try_recv 方法</a></h2>
+<p>除了上述<code>recv</code>方法，还可以使用<code>try_recv</code>尝试接收一次消息，该方法并<strong>不会阻塞线程</strong>，当通道中没有消息时，它会立刻返回一个错误：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::mpsc;
+use std::thread;
+
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn(move || {
+        tx.send(1).unwrap();
+    });
+
+    println!("receive {:?}", rx.try_recv());
+}</code></pre></pre>
+<p>由于子线程的创建需要时间，因此<code>println!</code>和<code>try_recv</code>方法会先执行，而此时子线程的<strong>消息还未被发出</strong>。<code>try_recv</code>会尝试立即读取一次消息，因为消息没有发出，此次读取最终会报错，且主线程运行结束(可悲的是，相对于主线程中的代码，子线程的创建速度实在是过慢，直到主线程结束，都无法完成子线程的初始化。。):</p>
+<pre><code class="language-console">receive Err(Empty)
+</code></pre>
+<p>如上，<code>try_recv</code>返回了一个错误，错误内容是<code>Empty</code>，代表通道并没有消息。如果你尝试把<code>println!</code>复制一些行，就会发现一个有趣的输出：</p>
+<pre><code class="language-console">···
+receive Err(Empty)
+receive Ok(1)
+receive Err(Disconnected)
+···
+</code></pre>
+<p>如上，当子线程创建成功且发送消息后，主线程会接收到<code>Ok(1)</code>的消息内容，紧接着子线程结束，发送者也随着被<code>drop</code>，此时接收者又会报错，但是这次错误原因有所不同：<code>Disconnected</code>代表发送者已经被关闭。</p>
+<h2 id="传输具有所有权的数据"><a class="header" href="#传输具有所有权的数据">传输具有所有权的数据</a></h2>
+<p>使用通道来传输数据，一样要遵循 Rust 的所有权规则：</p>
+<ul>
+<li>若值的类型实现了<code>Copy</code>特征，则直接复制一份该值，然后传输过去，例如之前的<code>i32</code>类型</li>
+<li>若值没有实现<code>Copy</code>，则它的所有权会被转移给接收端，在发送端继续使用该值将报错</li>
+</ul>
+<p>一起来看看第二种情况:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::mpsc;
+use std::thread;
+
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn(move || {
+        let s = String::from("我，飞走咯!");
+        tx.send(s).unwrap();
+        println!("val is {}", s);
+    });
+
+    let received = rx.recv().unwrap();
+    println!("Got: {}", received);
+}</code></pre></pre>
+<p>以上代码中，<code>String</code>底层的字符串是存储在堆上，并没有实现<code>Copy</code>特征，当它被发送后，会将所有权从发送端的<code>s</code>转移给接收端的<code>received</code>，之后<code>s</code>将无法被使用:</p>
+<pre><code class="language-console">error[E0382]: borrow of moved value: `s`
+  --&gt; src/main.rs:10:31
+   |
+8  |         let s = String::from("我，飞走咯!");
+   |             - move occurs because `s` has type `String`, which does not implement the `Copy` trait // 所有权被转移，由于`String`没有实现`Copy`特征
+9  |         tx.send(s).unwrap();
+   |                 - value moved here // 所有权被转移走
+10 |         println!("val is {}", s);
+   |                               ^ value borrowed here after move // 所有权被转移后，依然对s进行了借用
+</code></pre>
+<p>各种细节不禁令人感叹：Rust 还是安全！假如没有所有权的保护，<code>String</code>字符串将被两个线程同时持有，任何一个线程对字符串内容的修改都会导致另外一个线程持有的字符串被改变，除非你故意这么设计，否则这就是不安全的隐患。</p>
+<h2 id="使用-for-进行循环接收"><a class="header" href="#使用-for-进行循环接收">使用 for 进行循环接收</a></h2>
+<p>下面来看看如何连续接收通道中的值:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::mpsc;
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn(move || {
+        let vals = vec![
+            String::from("hi"),
+            String::from("from"),
+            String::from("the"),
+            String::from("thread"),
+        ];
+
+        for val in vals {
+            tx.send(val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+
+    for received in rx {
+        println!("Got: {}", received);
+    }
+}</code></pre></pre>
+<p>在上面代码中，主线程和子线程是并发运行的，子线程在不停的<strong>发送消息 -&gt; 休眠 1 秒</strong>，与此同时，主线程使用<code>for</code>循环<strong>阻塞</strong>的从<code>rx</code><strong>迭代器</strong>中接收消息，当子线程运行完成时，发送者<code>tx</code>会随之被<code>drop</code>，此时<code>for</code>循环将被终止，最终<code>main</code>线程成功结束。</p>
+<h3 id="使用多发送者"><a class="header" href="#使用多发送者">使用多发送者</a></h3>
+<p>由于子线程会拿走发送者的所有权，因此我们必须对发送者进行克隆，然后让每个线程拿走它的一份拷贝:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::mpsc;
+use std::thread;
+
+fn main() {
+    let (tx, rx) = mpsc::channel();
+    let tx1 = tx.clone();
+    thread::spawn(move || {
+        tx.send(String::from("hi from raw tx")).unwrap();
+    });
+
+    thread::spawn(move || {
+        tx1.send(String::from("hi from cloned tx")).unwrap();
+    });
+
+    for received in rx {
+        println!("Got: {}", received);
+    }
+}</code></pre></pre>
+<p>代码并无太大区别，就多了一个对发送者的克隆<code>let tx1 = tx.clone();</code>，然后一个子线程拿走<code>tx</code>的所有权，另一个子线程拿走<code>tx1</code>的所有权，皆大欢喜。</p>
+<p>但是有几点需要注意:</p>
+<ul>
+<li>需要所有的发送者都被<code>drop</code>掉后，接收者<code>rx</code>才会收到错误，进而跳出<code>for</code>循环，最终结束主线程</li>
+<li>这里虽然用了<code>clone</code>但是并不会影响性能，因为它并不在热点代码路径中，仅仅会被执行一次</li>
+<li>由于两个子线程谁先创建完成是未知的，因此哪条消息先发送也是未知的，最终主线程的输出顺序也不确定</li>
+</ul>
+<h2 id="消息顺序"><a class="header" href="#消息顺序">消息顺序</a></h2>
+<p>上述第三点的消息顺序仅仅是因为线程创建引起的，并不代表通道中的消息是无序的，对于通道而言，消息的发送顺序和接收顺序是一致的，满足<code>FIFO</code>原则(先进先出)。</p>
+<p>由于篇幅有限，具体的代码这里就不再给出，感兴趣的读者可以自己验证下。</p>
+<h2 id="同步和异步通道"><a class="header" href="#同步和异步通道">同步和异步通道</a></h2>
+<p>Rust 标准库的<code>mpsc</code>通道其实分为两种类型：同步和异步。</p>
+<h4 id="异步通道"><a class="header" href="#异步通道">异步通道</a></h4>
+<p>之前我们使用的都是异步通道：无论接收者是否正在接收消息，消息发送者在发送消息时都不会阻塞:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::mpsc;
+use std::thread;
+use std::time::Duration;
+fn main() {
+    let (tx, rx)= mpsc::channel();
+
+    let handle = thread::spawn(move || {
+        println!("发送之前");
+        tx.send(1).unwrap();
+        println!("发送之后");
+    });
+
+    println!("睡眠之前");
+    thread::sleep(Duration::from_secs(3));
+    println!("睡眠之后");
+
+    println!("receive {}", rx.recv().unwrap());
+    handle.join().unwrap();
+}</code></pre></pre>
+<p>运行后输出如下:</p>
+<pre><code class="language-console">睡眠之前
+发送之前
+发送之后
+//···睡眠3秒
+睡眠之后
+receive 1
+</code></pre>
+<p>主线程因为睡眠阻塞了 3 秒，因此并没有进行消息接收，而子线程却在此期间轻松完成了消息的发送。等主线程睡眠结束后，才姗姗来迟的从通道中接收了子线程老早之前发送的消息。</p>
+<p>从输出还可以看出，<code>发送之前</code>和<code>发送之后</code>是连续输出的，没有受到接收端主线程的任何影响，因此通过<code>mpsc::channel</code>创建的通道是异步通道。</p>
+<h4 id="同步通道"><a class="header" href="#同步通道">同步通道</a></h4>
+<p>与异步通道相反，同步通道<strong>发送消息是阻塞的，只有在消息被接收后才解除阻塞</strong>，例如：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::mpsc;
+use std::thread;
+use std::time::Duration;
+fn main() {
+    let (tx, rx)= mpsc::sync_channel(0);
+
+    let handle = thread::spawn(move || {
+        println!("发送之前");
+        tx.send(1).unwrap();
+        println!("发送之后");
+    });
+
+    println!("睡眠之前");
+    thread::sleep(Duration::from_secs(3));
+    println!("睡眠之后");
+
+    println!("receive {}", rx.recv().unwrap());
+    handle.join().unwrap();
+}</code></pre></pre>
+<p>运行后输出如下：</p>
+<pre><code class="language-console">睡眠之前
+发送之前
+//···睡眠3秒
+睡眠之后
+receive 1
+发送之后
+</code></pre>
+<p>可以看出，主线程由于睡眠被阻塞导致无法接收消息，因此子线程的发送也一直被阻塞，直到主线程结束睡眠并成功接收消息后，发送才成功：<strong>发送之后</strong>的输出是在<strong>receive 1</strong>之后，说明<strong>只有接收消息彻底成功后，发送消息才算完成</strong>。</p>
+<h4 id="消息缓存"><a class="header" href="#消息缓存">消息缓存</a></h4>
+<p>细心的读者可能已经发现在创建同步通道时，我们传递了一个参数<code>0</code>: <code>mpsc::sync_channel(0);</code>，这是什么意思呢？</p>
+<p>答案不急给出，先将<code>0</code>改成<code>1</code>，然后再运行试试:</p>
+<pre><code class="language-console">睡眠之前
+发送之前
+发送之后
+睡眠之后
+receive 1
+</code></pre>
+<p>纳尼。。竟然得到了和异步通道一样的效果：根本没有等待主线程的接收开始，消息发送就立即完成了！ 难道同步通道变成了异步通道？ 别急，将子线程中的代码修改下试试：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>println!("首次发送之前");
+tx.send(1).unwrap();
+println!("首次发送之后");
+tx.send(1).unwrap();
+println!("再次发送之后");
+<span class="boring">}</span></code></pre></pre>
+<p>在子线程中，我们又多发了一条消息，此时输出如下：</p>
+<pre><code class="language-console">睡眠之前
+首次发送之前
+首次发送之后
+//···睡眠3秒
+睡眠之后
+receive 1
+再次发送之后
+</code></pre>
+<p>Bingo，更奇怪的事出现了，第一条消息瞬间发送完成，没有阻塞，而发送第二条消息时却符合同步通道的特点：阻塞了，直到主线程接收后，才发送完成。</p>
+<p>其实，一切的关键就在于<code>1</code>上，该值可以用来指定同步通道的消息缓存条数，当你设定为<code>N</code>时，发送者就可以无阻塞的往通道中发送<code>N</code>条消息，当消息缓冲队列满了后，新的消息发送将被阻塞(如果没有接收者消费缓冲队列中的消息，那么第<code>N+1</code>条消息就将触发发送阻塞)。</p>
+<p>问题又来了，异步通道创建时完全没有这个缓冲值参数<code>mpsc::channel()</code>，它的缓冲值怎么设置呢？ 额。。。都异步了，都可以无限发送了，都有摩托车了，还要自行车做啥子哦？事实上异步通道的缓冲上限取决于你的内存大小，不要撑爆就行。</p>
+<p>因此，使用异步消息虽然能非常高效且不会造成发送线程的阻塞，但是存在消息未及时消费，最终内存过大的问题。在实际项目中，可以考虑使用一个带缓冲值的同步通道来避免这种风险。</p>
+<h2 id="关闭通道"><a class="header" href="#关闭通道">关闭通道</a></h2>
+<p>之前我们数次提到了通道关闭，并且提到了当通道关闭后，发送消息或接收消息将会报错。那么如何关闭通道呢？ 很简单：<strong>所有发送者被<code>drop</code>或者所有接收者被<code>drop</code>后，通道会自动关闭</strong>。</p>
+<p>神奇的是，这件事是在编译期实现的，完全没有运行期性能损耗！只能说 Rust 的<code>Drop</code>特征 YYDS!</p>
+<h2 id="传输多种类型的数据"><a class="header" href="#传输多种类型的数据">传输多种类型的数据</a></h2>
+<p>之前提到过，一个消息通道只能传输一种类型的数据，如果你想要传输多种类型的数据，可以为每个类型创建一个通道，你也可以使用枚举类型来实现：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::mpsc::{self, Receiver, Sender};
+
+enum Fruit {
+    Apple(u8),
+    Orange(String)
+}
+
+fn main() {
+    let (tx, rx): (Sender&lt;Fruit&gt;, Receiver&lt;Fruit&gt;) = mpsc::channel();
+
+    tx.send(Fruit::Orange("sweet".to_string())).unwrap();
+    tx.send(Fruit::Apple(2)).unwrap();
+
+    for _ in 0..2 {
+        match rx.recv().unwrap() {
+            Fruit::Apple(count) =&gt; println!("received {} apples", count),
+            Fruit::Orange(flavor) =&gt; println!("received {} oranges", flavor),
+        }
+    }
+}</code></pre></pre>
+<p>如上所示，枚举类型还能让我们带上想要传输的数据，但是有一点需要注意，Rust 会按照枚举中占用内存最大的那个成员进行内存对齐，这意味着就算你传输的是枚举中占用内存最小的成员，它占用的内存依然和最大的成员相同, 因此会造成内存上的浪费。</p>
+<h2 id="新手容易遇到的坑"><a class="header" href="#新手容易遇到的坑">新手容易遇到的坑</a></h2>
+<p><code>mpsc</code>虽然相当简洁明了，但是在使用起来还是可能存在坑：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::mpsc;
+fn main() {
+
+    use std::thread;
+
+    let (send, recv) = mpsc::channel();
+    let num_threads = 3;
+    for i in 0..num_threads {
+        let thread_send = send.clone();
+        thread::spawn(move || {
+            thread_send.send(i).unwrap();
+            println!("thread {:?} finished", i);
+        });
+    }
+
+    // 在这里drop send...
+
+    for x in recv {
+        println!("Got: {}", x);
+    }
+    println!("finished iterating");
+}</code></pre></pre>
+<p>以上代码看起来非常正常，但是运行后主线程会一直阻塞，最后一行打印输出也不会被执行，原因在于： 子线程拿走的是复制后的<code>send</code>的所有权，这些拷贝会在子线程结束后被<code>drop</code>，因此无需担心，但是<code>send</code>本身却直到<code>main</code>函数的结束才会被<code>drop</code>。</p>
+<p>之前提到，通道关闭的两个条件：发送者全部<code>drop</code>或接收者被<code>drop</code>，要结束<code>for</code>循环显然是要求发送者全部<code>drop</code>，但是由于<code>send</code>自身没有被<code>drop</code>，会导致该循环永远无法结束，最终主线程会一直阻塞。</p>
+<p>解决办法很简单，<code>drop</code>掉<code>send</code>即可：在代码中的注释下面添加一行<code>drop(send);</code>。</p>
+<h2 id="mpmc-更好的性能"><a class="header" href="#mpmc-更好的性能">mpmc 更好的性能</a></h2>
+<p>如果你需要 mpmc(多发送者，多接收者)或者需要更高的性能，可以考虑第三方库:</p>
+<ul>
+<li><a href="https://github.com/crossbeam-rs/crossbeam/tree/master/crossbeam-channel"><strong>crossbeam-channel</strong></a>, 老牌强库，功能较全，性能较强，之前是独立的库，但是后面合并到了<code>crossbeam</code>主仓库中</li>
+<li><a href="https://github.com/zesterer/flume"><strong>flume</strong></a>, 官方给出的性能数据某些场景要比 crossbeam 更好些</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../advance/concurrency-with-threads/thread.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../advance/concurrency-with-threads/sync1.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../advance/concurrency-with-threads/thread.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../advance/concurrency-with-threads/sync1.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

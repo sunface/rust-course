@@ -1,0 +1,308 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>关键字 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/appendix/keywords.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="附录-a关键字"><a class="header" href="#附录-a关键字">附录 A：关键字</a></h2>
+<p>下面的列表包含 Rust 中正在使用或者以后会用到的关键字。因此，这些关键字不能被用作标识符（除了<a href="#%E5%8E%9F%E7%94%9F%E6%A0%87%E8%AF%86%E7%AC%A6">原生标识符</a>），包括函数、变量、参数、结构体字段、模块、包、常量、宏、静态值、属性、类型、特征或生命周期。</p>
+<h3 id="目前正在使用的关键字"><a class="header" href="#目前正在使用的关键字">目前正在使用的关键字</a></h3>
+<p>如下关键字目前有对应其描述的功能。</p>
+<ul>
+<li><code>as</code> - 强制类型转换，或<code>use</code> 和 <code>extern crate</code>包和模块引入语句中的重命名</li>
+<li><code>break</code> - 立刻退出循环</li>
+<li><code>const</code> - 定义常量或原生常量指针（constant raw pointer）</li>
+<li><code>continue</code> - 继续进入下一次循环迭代</li>
+<li><code>crate</code> - 链接外部包</li>
+<li><code>dyn</code> - 动态分发特征对象</li>
+<li><code>else</code> - 作为 <code>if</code> 和 <code>if let</code> 控制流结构的 fallback</li>
+<li><code>enum</code> - 定义一个枚举类型</li>
+<li><code>extern</code> - 链接一个外部包,或者一个宏变量(该变量定义在另外一个包中)</li>
+<li><code>false</code> - 布尔值 <code>false</code></li>
+<li><code>fn</code> - 定义一个函数或 <strong>函数指针类型</strong> (<em>function pointer type</em>)</li>
+<li><code>for</code> - 遍历一个迭代器或实现一个 trait 或者指定一个更高级的生命周期</li>
+<li><code>if</code> - 基于条件表达式的结果来执行相应的分支</li>
+<li><code>impl</code> - 为结构体或者特征实现具体功能</li>
+<li><code>in</code> - <code>for</code> 循环语法的一部分</li>
+<li><code>let</code> - 绑定一个变量</li>
+<li><code>loop</code> - 无条件循环</li>
+<li><code>match</code> - 模式匹配</li>
+<li><code>mod</code> - 定义一个模块</li>
+<li><code>move</code> - 使闭包获取其所捕获项的所有权</li>
+<li><code>mut</code> - 在引用、裸指针或模式绑定中使用，表明变量是可变的</li>
+<li><code>pub</code> - 表示结构体字段、<code>impl</code> 块或模块的公共可见性</li>
+<li><code>ref</code> - 通过引用绑定</li>
+<li><code>return</code> - 从函数中返回</li>
+<li><code>Self</code> - 实现特征类型的类型别名</li>
+<li><code>self</code> - 表示方法本身或当前模块</li>
+<li><code>static</code> - 表示全局变量或在整个程序执行期间保持其生命周期</li>
+<li><code>struct</code> - 定义一个结构体</li>
+<li><code>super</code> - 表示当前模块的父模块</li>
+<li><code>trait</code> - 定义一个特征</li>
+<li><code>true</code> - 布尔值 <code>true</code></li>
+<li><code>type</code> - 定义一个类型别名或关联类型</li>
+<li><code>unsafe</code> - 表示不安全的代码、函数、特征或实现</li>
+<li><code>use</code> - 在当前代码范围内(模块或者花括号对)引入外部的包、模块等</li>
+<li><code>where</code> - 表示一个约束类型的从句</li>
+<li><code>while</code> - 基于一个表达式的结果判断是否继续循环</li>
+</ul>
+<h3 id="保留做将来使用的关键字"><a class="header" href="#保留做将来使用的关键字">保留做将来使用的关键字</a></h3>
+<p>如下关键字没有任何功能，不过由 Rust 保留以备将来的应用。</p>
+<ul>
+<li><code>abstract</code></li>
+<li><code>async</code></li>
+<li><code>await</code></li>
+<li><code>become</code></li>
+<li><code>box</code></li>
+<li><code>do</code></li>
+<li><code>final</code></li>
+<li><code>macro</code></li>
+<li><code>override</code></li>
+<li><code>priv</code></li>
+<li><code>try</code></li>
+<li><code>typeof</code></li>
+<li><code>unsized</code></li>
+<li><code>virtual</code></li>
+<li><code>yield</code></li>
+</ul>
+<h3 id="原生标识符"><a class="header" href="#原生标识符">原生标识符</a></h3>
+<p>原生标识符（Raw identifiers）允许你使用通常不能使用的关键字，其带有 <code>r#</code> 前缀。</p>
+<p>例如，<code>match</code> 是关键字。如果尝试编译如下使用 <code>match</code> 作为名字的函数：</p>
+<pre><code class="language-rust ignore does_not_compile">fn match(needle: &amp;str, haystack: &amp;str) -&gt; bool {
+    haystack.contains(needle)
+}</code></pre>
+<p>会得到这个错误：</p>
+<pre><code class="language-text">error: expected identifier, found keyword `match`
+ --&gt; src/main.rs:4:4
+  |
+4 | fn match(needle: &amp;str, haystack: &amp;str) -&gt; bool {
+  |    ^^^^^ expected identifier, found keyword
+</code></pre>
+<p>该错误表示你不能将关键字 <code>match</code> 用作函数标识符。你可以使用原生标识符将 <code>match</code> 作为函数名称使用：</p>
+<p><span class="filename">文件名: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn r#match(needle: &amp;str, haystack: &amp;str) -&gt; bool {
+    haystack.contains(needle)
+}
+
+fn main() {
+    assert!(r#match("foo", "foobar"));
+}</code></pre></pre>
+<p>此代码编译没有任何错误。注意 <code>r#</code> 前缀需同时用于函数名定义和 <code>main</code> 函数中的调用。</p>
+<p>原生标识符允许使用你选择的任何单词作为标识符，即使该单词恰好是保留关键字。 此外，原生标识符允许你使用其它 Rust 版本编写的库。比如，<code>try</code> 在 Rust 2015 edition 中不是关键字，却在 Rust 2018 edition 是关键字。所以如果用 2015 edition 编写的库中带有 <code>try</code> 函数，在 2018 edition 中调用时就需要使用原始标识符语法，在这里是 <code>r#try</code>。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../profiling/compiler/optimization/option.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../appendix/operators.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../profiling/compiler/optimization/option.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../appendix/operators.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

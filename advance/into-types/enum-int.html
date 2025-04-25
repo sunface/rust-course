@@ -1,0 +1,392 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>枚举和整数 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/into-types/enum-int.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="整数转换为枚举"><a class="header" href="#整数转换为枚举">整数转换为枚举</a></h1>
+<p>在 Rust 中，从枚举到整数的转换很容易，但是反过来，就没那么容易，甚至部分实现还挺邪恶, 例如使用<code>transmute</code>。</p>
+<h2 id="一个真实场景的需求"><a class="header" href="#一个真实场景的需求">一个真实场景的需求</a></h2>
+<p>在实际场景中，从整数到枚举的转换有时还是非常需要的，例如你有一个枚举类型，然后需要从外面传入一个整数，用于控制后续的流程走向，此时就需要用整数去匹配相应的枚举(你也可以用整数匹配整数-, -，看看会不会被喷)。</p>
+<p>既然有了需求，剩下的就是看看该如何实现，这篇文章的水远比你想象的要深，且看八仙过海各显神通。</p>
+<h2 id="c-语言的实现"><a class="header" href="#c-语言的实现">C 语言的实现</a></h2>
+<p>对于 C 语言来说，万物皆邪恶，因此我们不讨论安全，只看实现，不得不说很简洁：</p>
+<pre><code class="language-C">#include &lt;stdio.h&gt;
+
+enum atomic_number {
+    HYDROGEN = 1,
+    HELIUM = 2,
+    // ...
+    IRON = 26,
+};
+
+int main(void)
+{
+    enum atomic_number element = 26;
+
+    if (element == IRON) {
+        printf("Beware of Rust!\n");
+    }
+
+    return 0;
+}
+</code></pre>
+<p>但是在 Rust 中，以下代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">enum MyEnum {
+    A = 1,
+    B,
+    C,
+}
+
+fn main() {
+    // 将枚举转换成整数，顺利通过
+    let x = MyEnum::C as i32;
+
+    // 将整数转换为枚举，失败
+    match x {
+        MyEnum::A =&gt; {}
+        MyEnum::B =&gt; {}
+        MyEnum::C =&gt; {}
+        _ =&gt; {}
+    }
+}</code></pre></pre>
+<p>就会报错: <code>MyEnum::A =&gt; {} mismatched types, expected i32, found enum MyEnum</code>。</p>
+<h2 id="使用三方库"><a class="header" href="#使用三方库">使用三方库</a></h2>
+<p>首先可以想到的肯定是三方库，毕竟 Rust 的生态目前已经发展的很不错，类似的需求总是有的，这里我们先使用<code>num-traits</code>和<code>num-derive</code>来试试。</p>
+<p>在<code>Cargo.toml</code>中引入：</p>
+<pre><code class="language-toml">[dependencies]
+num-traits = "0.2.14"
+num-derive = "0.3.3"
+</code></pre>
+<p>代码如下:</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use num_derive::FromPrimitive;
+use num_traits::FromPrimitive;
+
+#[derive(FromPrimitive)]
+enum MyEnum {
+    A = 1,
+    B,
+    C,
+}
+
+fn main() {
+    let x = 2;
+
+    match FromPrimitive::from_i32(x) {
+        Some(MyEnum::A) =&gt; println!("Got A"),
+        Some(MyEnum::B) =&gt; println!("Got B"),
+        Some(MyEnum::C) =&gt; println!("Got C"),
+        None            =&gt; println!("Couldn't convert {}", x),
+    }
+}</code></pre></pre>
+<p>除了上面的库，还可以使用一个较新的库: <a href="https://github.com/illicitonion/num_enum"><code>num_enums</code></a>。</p>
+<h2 id="tryfrom--宏"><a class="header" href="#tryfrom--宏">TryFrom + 宏</a></h2>
+<p>在 Rust 1.34 后，可以实现<code>TryFrom</code>特征来做转换:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::convert::TryFrom;
+
+impl TryFrom&lt;i32&gt; for MyEnum {
+    type Error = ();
+
+    fn try_from(v: i32) -&gt; Result&lt;Self, Self::Error&gt; {
+        match v {
+            x if x == MyEnum::A as i32 =&gt; Ok(MyEnum::A),
+            x if x == MyEnum::B as i32 =&gt; Ok(MyEnum::B),
+            x if x == MyEnum::C as i32 =&gt; Ok(MyEnum::C),
+            _ =&gt; Err(()),
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>以上代码定义了从<code>i32</code>到<code>MyEnum</code>的转换，接着就可以使用<code>TryInto</code>来实现转换：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::convert::TryInto;
+
+fn main() {
+    let x = MyEnum::C as i32;
+
+    match x.try_into() {
+        Ok(MyEnum::A) =&gt; println!("a"),
+        Ok(MyEnum::B) =&gt; println!("b"),
+        Ok(MyEnum::C) =&gt; println!("c"),
+        Err(_) =&gt; eprintln!("unknown number"),
+    }
+}</code></pre></pre>
+<p>但是上面的代码有个问题，你需要为每个枚举成员都实现一个转换分支，非常麻烦。好在可以使用宏来简化，自动根据枚举的定义来实现<code>TryFrom</code>特征:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[macro_export]
+macro_rules! back_to_enum {
+    ($(#[$meta:meta])* $vis:vis enum $name:ident {
+        $($(#[$vmeta:meta])* $vname:ident $(= $val:expr)?,)*
+    }) =&gt; {
+        $(#[$meta])*
+        $vis enum $name {
+            $($(#[$vmeta])* $vname $(= $val)?,)*
+        }
+
+        impl std::convert::TryFrom&lt;i32&gt; for $name {
+            type Error = ();
+
+            fn try_from(v: i32) -&gt; Result&lt;Self, Self::Error&gt; {
+                match v {
+                    $(x if x == $name::$vname as i32 =&gt; Ok($name::$vname),)*
+                    _ =&gt; Err(()),
+                }
+            }
+        }
+    }
+}
+
+back_to_enum! {
+    enum MyEnum {
+        A = 1,
+        B,
+        C,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="邪恶之王-stdmemtransmute"><a class="header" href="#邪恶之王-stdmemtransmute">邪恶之王 std::mem::transmute</a></h2>
+<p><strong>这个方法原则上并不推荐，但是有其存在的意义，如果要使用，你需要清晰的知道自己为什么使用</strong>。</p>
+<p>在之前的类型转换章节，我们提到过非常邪恶的<a href="https://course.rs/advance/into-types/converse.html#%E5%8F%98%E5%BD%A2%E8%AE%B0transmutes"><code>transmute</code>转换</a>，其实，当你知道数值一定不会超过枚举的范围时(例如枚举成员对应 1，2，3，传入的整数也在这个范围内)，就可以使用这个方法完成变形。</p>
+<blockquote>
+<p>最好使用#[repr(..)]来控制底层类型的大小，免得本来需要 i32，结果传入 i64，最终内存无法对齐，产生奇怪的结果</p>
+</blockquote>
+<pre><pre class="playground"><code class="language-rust edition2021">#[repr(i32)]
+enum MyEnum {
+    A = 1, B, C
+}
+
+fn main() {
+    let x = MyEnum::C;
+    let y = x as i32;
+    let z: MyEnum = unsafe { std::mem::transmute(y) };
+
+    // match the enum that came from an int
+    match z {
+        MyEnum::A =&gt; { println!("Found A"); }
+        MyEnum::B =&gt; { println!("Found B"); }
+        MyEnum::C =&gt; { println!("Found C"); }
+    }
+}</code></pre></pre>
+<p>既然是邪恶之王，当然得有真本事，无需标准库、也无需 unstable 的 Rust 版本，我们就完成了转换！awesome!??</p>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p>本文列举了常用(其实差不多也是全部了，还有一个 unstable 特性没提到)的从整数转换为枚举的方式，推荐度按照出现的先后顺序递减。</p>
+<p>但是推荐度最低，不代表它就没有出场的机会，只要使用边界清晰，一样可以大放光彩，例如最后的<code>transmute</code>函数.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../advance/into-types/sized.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../advance/smart-pointer/intro.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../advance/into-types/sized.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../advance/smart-pointer/intro.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,526 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>栈上的链表 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/too-many-lists/advanced-lists/stack-allocated.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="栈上的链表"><a class="header" href="#栈上的链表">栈上的链表</a></h1>
+<p>在之前的章节中，无一例外，我们创建的都是数据存储在堆上的链表，这种链表最常见也最实用：堆内存在动态分配的场景非常好用。</p>
+<p>但是，既然是高级技巧章节，那栈链表也应该拥有一席之地。但与堆内存的简单分配相比，栈内存就没那么友好了，你们猜大名鼎鼎的 C 语言的 <code>alloca</code> 是因为什么而出名的 :)</p>
+<p>限于章节篇幅，这里我们使用一个简单的栈分配方法：调用一个函数，获取一个新的、拥有更多空间的栈帧。说实话，该解决方法要多愚蠢有多愚蠢，但是它确实相当实用，甚至...有用。</p>
+<p>任何时候，当我们在做一些递归的任务时，都可以将当前步骤状态的指针传递给下一个步骤。如果指针本身就是状态的一部分，那恭喜你：你在创建一个栈上分配的链表！</p>
+<p>新的链表类型本身就是一个 Node，并且包含一个引用指向另一个 Node:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct List&lt;'a, T&gt; {
+    pub data: T,
+    pub prev: Option&lt;&amp;'a List&lt;'a, T&gt;&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>该链表只有一个操作 <code>push</code>，需要注意的是，跟其它链表不同，这里的 <code>push</code> 是通过回调的方式来完成新元素推入，并将回调返回的值直接返回给 <code>push</code> 的调用者:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;'a, T&gt; List&lt;'a, T&gt; {
+    pub fn push&lt;U&gt;(
+        prev: Option&lt;&amp;'a List&lt;'a, T&gt;&gt;, 
+        data: T, 
+        callback: impl FnOnce(&amp;List&lt;'a, T&gt;) -&gt; U,
+    ) -&gt; U {
+        let list = List { data, prev };
+        callback(&amp;list)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>搞定，提前问一句：你见过回调地狱吗？</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>List::push(None, 3, |list| {
+    println!("{}", list.data);
+    List::push(Some(list), 5, |list| {
+        println!("{}", list.data);
+        List::push(Some(list), 13, |list| {
+            println!("{}", list.data);
+        })
+    })
+})
+<span class="boring">}</span></code></pre></pre>
+<p>不禁让人感叹，这段回调代码多么的美丽动人😿。</p>
+<p>用户还可以简单地使用 <code>while-let</code> 的方式来编译遍历链表，但是为了增加一些趣味，咱们还是继续使用迭代器:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;'a, T&gt; List&lt;'a, T&gt; {
+    pub fn iter(&amp;'a self) -&gt; Iter&lt;'a, T&gt; {
+        Iter { next: Some(self) }
+    }
+}
+
+impl&lt;'a, T&gt; Iterator for Iter&lt;'a, T&gt; {
+    type Item = &amp;'a T;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        self.next.map(|node| {
+            self.next = node.prev;
+            &amp;node.data
+        })
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>测试下：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[cfg(test)]
+mod test {
+    use super::List;
+
+    #[test]
+    fn elegance() {
+        List::push(None, 3, |list| {
+            assert_eq!(list.iter().copied().sum::&lt;i32&gt;(), 3);
+            List::push(Some(list), 5, |list| {
+                assert_eq!(list.iter().copied().sum::&lt;i32&gt;(), 5 + 3);
+                List::push(Some(list), 13, |list| {
+                    assert_eq!(list.iter().copied().sum::&lt;i32&gt;(), 13 + 5 + 3);
+                })
+            })
+        })
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-shell">$ cargo test
+
+running 18 tests
+test fifth::test::into_iter ... ok
+test fifth::test::iter ... ok
+test fifth::test::iter_mut ... ok
+test fifth::test::basics ... ok
+test fifth::test::miri_food ... ok
+test first::test::basics ... ok
+test second::test::into_iter ... ok
+test fourth::test::peek ... ok
+test fourth::test::into_iter ... ok
+test second::test::iter_mut ... ok
+test fourth::test::basics ... ok
+test second::test::basics ... ok
+test second::test::iter ... ok
+test third::test::basics ... ok
+test silly1::test::walk_aboot ... ok
+test silly2::test::elegance ... ok
+test second::test::peek ... ok
+test third::test::iter ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out;
+</code></pre>
+<p>部分读者此时可能会有一些大胆的想法：咦？我能否修改 Node 中的值？大胆但貌似可行，不妨来试试。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct List&lt;'a, T&gt; {
+    pub data: T,
+    pub prev: Option&lt;&amp;'a mut List&lt;'a, T&gt;&gt;,
+}
+
+pub struct Iter&lt;'a, T&gt; {
+    next: Option&lt;&amp;'a List&lt;'a, T&gt;&gt;,
+}
+
+impl&lt;'a, T&gt; List&lt;'a, T&gt; {
+    pub fn push&lt;U&gt;(
+        prev: Option&lt;&amp;'a mut List&lt;'a, T&gt;&gt;, 
+        data: T, 
+        callback: impl FnOnce(&amp;mut List&lt;'a, T&gt;) -&gt; U,
+    ) -&gt; U {
+        let mut list = List { data, prev };
+        callback(&amp;mut list)
+    }
+
+    pub fn iter(&amp;'a self) -&gt; Iter&lt;'a, T&gt; {
+        Iter { next: Some(self) }
+    }
+}
+
+impl&lt;'a, T&gt; Iterator for Iter&lt;'a, T&gt; {
+    type Item = &amp;'a T;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        self.next.map(|node| {
+            self.next = node.prev.as_ref().map(|prev| &amp;**prev);
+            &amp;node.data
+        })
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-shell">$ cargo test
+
+error[E0521]: borrowed data escapes outside of closure
+  --&gt; src\silly2.rs:47:32
+   |
+46 |  List::push(Some(list), 13, |list| {
+   |                              ----
+   |                              |
+   |              `list` declared here, outside of the closure body
+   |              `list` is a reference that is only valid in the closure body
+47 |      assert_eq!(list.iter().copied().sum::&lt;i32&gt;(), 13 + 5 + 3);
+   |                 ^^^^^^^^^^^ `list` escapes the closure body here
+
+error[E0521]: borrowed data escapes outside of closure
+  --&gt; src\silly2.rs:45:28
+   |
+44 |  List::push(Some(list), 5, |list| {
+   |                             ----
+   |                             |
+   |              `list` declared here, outside of the closure body
+   |              `list` is a reference that is only valid in the closure body
+45 |      assert_eq!(list.iter().copied().sum::&lt;i32&gt;(), 5 + 3);
+   |                 ^^^^^^^^^^^ `list` escapes the closure body here
+
+
+&lt;ad infinitum&gt;
+</code></pre>
+<p>嗯，没想到是浓眉大眼的迭代器背叛了我们，为了验证到底是哪里出了问题，我们来修改下测试:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[test]
+fn elegance() {
+    List::push(None, 3, |list| {
+        assert_eq!(list.data, 3);
+        List::push(Some(list), 5, |list| {
+            assert_eq!(list.data, 5);
+            List::push(Some(list), 13, |list| {
+                assert_eq!(list.data, 13);
+            })
+        })
+    })
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-shell">$ cargo test
+
+error[E0521]: borrowed data escapes outside of closure
+  --&gt; src\silly2.rs:46:17
+   |
+44 |   List::push(Some(list), 5, |list| {
+   |                              ----
+   |                              |
+   |              `list` declared here, outside of the closure body
+   |              `list` is a reference that is only valid in the closure body
+45 |       assert_eq!(list.data, 5);
+46 | /     List::push(Some(list), 13, |list| {
+47 | |         assert_eq!(list.data, 13);
+48 | |     })
+   | |______^ `list` escapes the closure body here
+
+error[E0521]: borrowed data escapes outside of closure
+  --&gt; src\silly2.rs:44:13
+   |
+42 |   List::push(None, 3, |list| {
+   |                        ----
+   |                        |
+   |              `list` declared here, outside of the closure body
+   |              `list` is a reference that is only valid in the closure body
+43 |       assert_eq!(list.data, 3);
+44 | /     List::push(Some(list), 5, |list| {
+45 | |         assert_eq!(list.data, 5);
+46 | |         List::push(Some(list), 13, |list| {
+47 | |             assert_eq!(list.data, 13);
+48 | |         })
+49 | |     })
+   | |______________^ `list` escapes the closure body here
+</code></pre>
+<p>原因在于我们的链表不小心依赖了<ruby>型变<rt>variance</rt></ruby>。型变是一个<a href="https://doc.rust-lang.org/nomicon/subtyping.html">相当复杂的概念</a>，下面来简单了解下。</p>
+<p>每一个节点( Node )都包含一个引用，该引用指向另一个节点， 且这两个节点是同一个类型。如果从最里面的节点角度来看，那所有外部的节点都在使用和它一样的生命周期，但这个显然是不对的：链表中的每一个节点都会比它指向的节点活得更久，因为它们的作用域是嵌套存在的。</p>
+<p>那之前的不可变引用版本为何可以正常工作呢？原因是在大多数时候，编译器都能自己判断：虽然某些东东活得太久了，但是这是安全的。当我们把一个 List 塞入另一个时，编译器会迅速将生命周期进行收缩以满足新的 List 的需求，<strong>这种生命周期收缩就是一种型变</strong>。</p>
+<p>如果大家还是觉得不太理解，我们来考虑下其它拥有继承特性的编程语言。在该语言中，当你将一个 <code>Cat</code> 传递给需要 <code>Animal</code> 的地方时( <code>Animal</code> 是 <code>Cat</code> 的父类型)，型变就发生了。从字面来说，将一只猫传给需要动物的地方，也是合适的，毕竟猫确实是动物的一种。</p>
+<p>总之，可以看出无论是从大的生命周期收缩为小的生命周期，还是从 <code>Cat</code> 到 <code>Animal</code>，型变的典型特征就是：范围在减小，毕竟子类型的功能肯定是比父类型多的。</p>
+<p>既然有型变，为何可变引用的版本会报错呢？其实在于型变不总是安全的，假如之前的代码可以编译，那我们可以写出<ruby>释放后再使用<rt>use-after-free</rt></ruby> 的代码:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>List::push(None, 3, |list| {
+    List::push(Some(list), 5, |list| {
+        List::push(Some(list), 13, |list| {
+            // 哈哈，好爽，由于所有的生命周期都是相同的，因此编译器允许我重写父节点，并让它持有一个可变指针指向我自己。
+            // 我将创建所有的 use-after-free !
+            *list.prev.as_mut().unwrap().prev = Some(list);
+        })
+    })
+})
+<span class="boring">}</span></code></pre></pre>
+<p>一旦引入可变性，型变就会造成这样的隐患：意外修改了不该被修改的代码，但这些代码的调用者还在期待着和往常一样的结果！例如以下例子：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut my_kitty = Cat;                  // Make a Cat (long lifetime)
+let animal: &amp;mut Animal = &amp;mut my_kitty; // Forget it's a Cat (shorten lifetime)
+*animal = Dog;                           // Write a Dog (short lifetime)
+my_kitty.meow();                         // Meowing Dog! (Use After Free)
+<span class="boring">}</span></code></pre></pre>
+<p>我们将长生命周期的猫转换成短生命周期的动物，可变的！然后通过短生命周期的动物将指针重新指向一只狗。此时我们想去撸软萌猫的时候，就听到：<code>旺旺...呜嗷嗷嗷</code>，对，你没听错，不仅没有了猫叫，甚至于狗还没叫完，就可能在某个地方又被修改成狼了。</p>
+<p>因此，<strong>虽然你可以修改可变引用的生命周期，但是一旦开始嵌套，它们就将失去型变，变成<code>不变( invariant )</code></strong>。此时，就再也无法对生命周期进行收缩了。</p>
+<p>具体来说: <code>&amp;mut &amp;'big mut T</code> 无法被转换成 <code>&amp;mut &amp;'small mut T</code>，这里 <code>'big</code> 代表比 <code>'small</code> 更大的生命周期。或者用更正式的说法：<code>&amp;'a mut T</code> 对于 <code>'a</code> 来说是协变( <code>covariant</code> )的，但是对于 <code>T</code> 是不变的( <code>invariant</code> )。</p>
+<hr />
+<p>说了这么多高深的理论，那么该如何改变链表的数据呢？答案就是：使用老本行 - 内部可变性。</p>
+<p>下面让我们回滚到之前的不可变版本，然后使用 <code>Cell</code> 来替代 <code>&amp;mut</code>。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[test]
+fn cell() {
+    use std::cell::Cell;
+
+    List::push(None, Cell::new(3), |list| {
+        List::push(Some(list), Cell::new(5), |list| {
+            List::push(Some(list), Cell::new(13), |list| {
+                // Multiply every value in the list by 10
+                for val in list.iter() {
+                    val.set(val.get() * 10)
+                }
+
+                let mut vals = list.iter();
+                assert_eq!(vals.next().unwrap().get(), 130);
+                assert_eq!(vals.next().unwrap().get(), 50);
+                assert_eq!(vals.next().unwrap().get(), 30);
+                assert_eq!(vals.next(), None);
+                assert_eq!(vals.next(), None);
+            })
+        })
+    })
+}
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-shell">$ cargo test
+
+running 19 tests
+test fifth::test::into_iter ... ok
+test fifth::test::basics ... ok
+test fifth::test::iter_mut ... ok
+test fifth::test::iter ... ok
+test fourth::test::basics ... ok
+test fourth::test::into_iter ... ok
+test second::test::into_iter ... ok
+test first::test::basics ... ok
+test fourth::test::peek ... ok
+test second::test::basics ... ok
+test fifth::test::miri_food ... ok
+test silly2::test::cell ... ok
+test third::test::iter ... ok
+test second::test::iter_mut ... ok
+test second::test::peek ... ok
+test silly1::test::walk_aboot ... ok
+test silly2::test::elegance ... ok
+test third::test::basics ... ok
+test second::test::iter ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out;
+</code></pre>
+<p>简简单单搞定，虽然之前我们嫌弃内部可变性，但是在这里：真香！</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../too-many-lists/advanced-lists/double-singly.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../compiler/intro.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../too-many-lists/advanced-lists/double-singly.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../compiler/intro.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

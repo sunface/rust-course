@@ -1,0 +1,391 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>运算符与符号 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/appendix/operators.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="附录-b运算符与符号"><a class="header" href="#附录-b运算符与符号">附录 B：运算符与符号</a></h2>
+<p>该附录包含了 Rust 目前出现过的各种符号，这些符号之前都分散在各个章节中。</p>
+<h3 id="运算符"><a class="header" href="#运算符">运算符</a></h3>
+<p>表 B-1 包含了 Rust 中的运算符、上下文中的示例、简短解释以及该运算符是否可重载。如果一个运算符是可重载的，则该运算符上用于重载的特征也会列出。</p>
+<p>下表中，<code>expr</code> 是表达式，<code>ident</code> 是标识符，<code>type</code> 是类型，<code>var</code> 是变量，<code>trait</code> 是特征，<code>pat</code> 是匹配分支(pattern)。</p>
+<p><span class="caption">表 B-1：运算符</span></p>
+<div class="table-wrapper"><table><thead><tr><th>运算符</th><th>示例</th><th>解释</th><th>是否可重载</th></tr></thead><tbody>
+<tr><td><code>!</code></td><td><code>ident!(...)</code>, <code>ident!{...}</code>, <code>ident![...]</code></td><td>宏展开</td><td></td></tr>
+<tr><td><code>!</code></td><td><code>!expr</code></td><td>按位非或逻辑非</td><td><code>Not</code></td></tr>
+<tr><td><code>!=</code></td><td><code>var != expr</code></td><td>不等比较</td><td><code>PartialEq</code></td></tr>
+<tr><td><code>%</code></td><td><code>expr % expr</code></td><td>算术求余</td><td><code>Rem</code></td></tr>
+<tr><td><code>%=</code></td><td><code>var %= expr</code></td><td>算术求余与赋值</td><td><code>RemAssign</code></td></tr>
+<tr><td><code>&amp;</code></td><td><code>&amp;expr</code>, <code>&amp;mut expr</code></td><td>借用</td><td></td></tr>
+<tr><td><code>&amp;</code></td><td><code>&amp;type</code>, <code>&amp;mut type</code>, <code>&amp;'a type</code>, <code>&amp;'a mut type</code></td><td>借用指针类型</td><td></td></tr>
+<tr><td><code>&amp;</code></td><td><code>expr &amp; expr</code></td><td>按位与</td><td><code>BitAnd</code></td></tr>
+<tr><td><code>&amp;=</code></td><td><code>var &amp;= expr</code></td><td>按位与及赋值</td><td><code>BitAndAssign</code></td></tr>
+<tr><td><code>&amp;&amp;</code></td><td><code>expr &amp;&amp; expr</code></td><td>逻辑与</td><td></td></tr>
+<tr><td><code>*</code></td><td><code>expr * expr</code></td><td>算术乘法</td><td><code>Mul</code></td></tr>
+<tr><td><code>*=</code></td><td><code>var *= expr</code></td><td>算术乘法与赋值</td><td><code>MulAssign</code></td></tr>
+<tr><td><code>*</code></td><td><code>*expr</code></td><td>解引用</td><td></td></tr>
+<tr><td><code>*</code></td><td><code>*const type</code>, <code>*mut type</code></td><td>裸指针</td><td></td></tr>
+<tr><td><code>+</code></td><td><code>trait + trait</code>, <code>'a + trait</code></td><td>复合类型限制</td><td></td></tr>
+<tr><td><code>+</code></td><td><code>expr + expr</code></td><td>算术加法</td><td><code>Add</code></td></tr>
+<tr><td><code>+=</code></td><td><code>var += expr</code></td><td>算术加法与赋值</td><td><code>AddAssign</code></td></tr>
+<tr><td><code>,</code></td><td><code>expr, expr</code></td><td>参数以及元素分隔符</td><td></td></tr>
+<tr><td><code>-</code></td><td><code>- expr</code></td><td>算术取负</td><td><code>Neg</code></td></tr>
+<tr><td><code>-</code></td><td><code>expr - expr</code></td><td>算术减法</td><td><code>Sub</code></td></tr>
+<tr><td><code>-=</code></td><td><code>var -= expr</code></td><td>算术减法与赋值</td><td><code>SubAssign</code></td></tr>
+<tr><td><code>-&gt;</code></td><td><code>fn(...) -&gt; type</code>, <code>|...| -&gt; type</code></td><td>函数与闭包，返回类型</td><td></td></tr>
+<tr><td><code>.</code></td><td><code>expr.ident</code></td><td>成员访问</td><td></td></tr>
+<tr><td><code>..</code></td><td><code>..</code>, <code>expr..</code>, <code>..expr</code>, <code>expr..expr</code></td><td>右半开区间</td><td>PartialOrd</td></tr>
+<tr><td><code>..=</code></td><td><code>..=expr</code>, <code>expr..=expr</code></td><td>闭合区间</td><td>PartialOrd</td></tr>
+<tr><td><code>..</code></td><td><code>..expr</code></td><td>结构体更新语法</td><td></td></tr>
+<tr><td><code>..</code></td><td><code>variant(x, ..)</code>, <code>struct_type { x, .. }</code></td><td>“代表剩余部分”的模式绑定</td><td></td></tr>
+<tr><td><code>...</code></td><td><code>expr...expr</code></td><td>(不推荐使用，用<code>..=</code>替代) 闭合区间</td><td></td></tr>
+<tr><td><code>/</code></td><td><code>expr / expr</code></td><td>算术除法</td><td><code>Div</code></td></tr>
+<tr><td><code>/=</code></td><td><code>var /= expr</code></td><td>算术除法与赋值</td><td><code>DivAssign</code></td></tr>
+<tr><td><code>:</code></td><td><code>pat: type</code>, <code>ident: type</code></td><td>约束</td><td></td></tr>
+<tr><td><code>:</code></td><td><code>ident: expr</code></td><td>结构体字段初始化</td><td></td></tr>
+<tr><td><code>:</code></td><td><code>'a: loop {...}</code></td><td>循环标志</td><td></td></tr>
+<tr><td><code>;</code></td><td><code>expr;</code></td><td>语句和语句结束符</td><td></td></tr>
+<tr><td><code>;</code></td><td><code>[...; len]</code></td><td>固定大小数组语法的部分</td><td></td></tr>
+<tr><td><code>&lt;&lt;</code></td><td><code>expr &lt;&lt; expr</code></td><td>左移</td><td><code>Shl</code></td></tr>
+<tr><td><code>&lt;&lt;=</code></td><td><code>var &lt;&lt;= expr</code></td><td>左移与赋值</td><td><code>ShlAssign</code></td></tr>
+<tr><td><code>&lt;</code></td><td><code>expr &lt; expr</code></td><td>小于比较</td><td><code>PartialOrd</code></td></tr>
+<tr><td><code>&lt;=</code></td><td><code>expr &lt;= expr</code></td><td>小于等于比较</td><td><code>PartialOrd</code></td></tr>
+<tr><td><code>=</code></td><td><code>var = expr</code>, <code>ident = type</code></td><td>赋值/等值</td><td></td></tr>
+<tr><td><code>==</code></td><td><code>expr == expr</code></td><td>等于比较</td><td><code>PartialEq</code></td></tr>
+<tr><td><code>=&gt;</code></td><td><code>pat =&gt; expr</code></td><td>匹配分支语法的部分</td><td></td></tr>
+<tr><td><code>&gt;</code></td><td><code>expr &gt; expr</code></td><td>大于比较</td><td><code>PartialOrd</code></td></tr>
+<tr><td><code>&gt;=</code></td><td><code>expr &gt;= expr</code></td><td>大于等于比较</td><td><code>PartialOrd</code></td></tr>
+<tr><td><code>&gt;&gt;</code></td><td><code>expr &gt;&gt; expr</code></td><td>右移</td><td><code>Shr</code></td></tr>
+<tr><td><code>&gt;&gt;=</code></td><td><code>var &gt;&gt;= expr</code></td><td>右移与赋值</td><td><code>ShrAssign</code></td></tr>
+<tr><td><code>@</code></td><td><code>ident @ pat</code></td><td>模式绑定</td><td></td></tr>
+<tr><td><code>^</code></td><td><code>expr ^ expr</code></td><td>按位异或</td><td><code>BitXor</code></td></tr>
+<tr><td><code>^=</code></td><td><code>var ^= expr</code></td><td>按位异或与赋值</td><td><code>BitXorAssign</code></td></tr>
+<tr><td><code>|</code></td><td><code>pat | pat</code></td><td>模式匹配中的多个可选条件</td><td></td></tr>
+<tr><td><code>|</code></td><td><code>expr | expr</code></td><td>按位或</td><td><code>BitOr</code></td></tr>
+<tr><td><code>|=</code></td><td><code>var |= expr</code></td><td>按位或与赋值</td><td><code>BitOrAssign</code></td></tr>
+<tr><td><code>||</code></td><td><code>expr || expr</code></td><td>逻辑或</td><td></td></tr>
+<tr><td><code>?</code></td><td><code>expr?</code></td><td>错误传播</td><td></td></tr>
+</tbody></table>
+</div>
+<h3 id="非运算符符号"><a class="header" href="#非运算符符号">非运算符符号</a></h3>
+<p><span class="caption">表 B-2：独立语法</span></p>
+<div class="table-wrapper"><table><thead><tr><th>符号</th><th>解释</th></tr></thead><tbody>
+<tr><td><code>'ident</code></td><td>生命周期名称或循环标签</td></tr>
+<tr><td><code>...u8</code>, <code>...i32</code>, <code>...f64</code>, <code>...usize</code>, 等</td><td>指定类型的数值常量</td></tr>
+<tr><td><code>"..."</code></td><td>字符串常量</td></tr>
+<tr><td><code>r"..."</code>, <code>r#"..."#</code>, <code>r##"..."##</code>, etc.</td><td>原生字符串, 未转义字符</td></tr>
+<tr><td><code>b"..."</code></td><td>将 <code>&amp;str</code> 转换成 <code>&amp;[u8; N]</code> 类型的数组</td></tr>
+<tr><td><code>br"..."</code>, <code>br#"..."#</code>, <code>br##"..."##</code>, 等</td><td>原生字节字符串，原生和字节字符串字面值的结合</td></tr>
+<tr><td><code>'...'</code></td><td>Char 字符</td></tr>
+<tr><td><code>b'...'</code></td><td>ASCII 字节</td></tr>
+<tr><td><code>|...| expr</code></td><td>闭包</td></tr>
+<tr><td><code>!</code></td><td>代表总是空的类型，用于发散函数(无返回值函数)</td></tr>
+<tr><td><code>_</code></td><td>模式绑定中表示忽略的意思；也用于增强整型字面值的可读性</td></tr>
+</tbody></table>
+</div>
+<p>表 B-3 展示了模块和对象调用路径的语法。</p>
+<p><span class="caption">表 B-3：路径相关语法</span></p>
+<div class="table-wrapper"><table><thead><tr><th>符号</th><th>解释</th></tr></thead><tbody>
+<tr><td><code>ident::ident</code></td><td>命名空间路径</td></tr>
+<tr><td><code>::path</code></td><td>从当前的包的根路径开始的相对路径</td></tr>
+<tr><td><code>self::path</code></td><td>与当前模块相对的路径（如一个显式相对路径）</td></tr>
+<tr><td><code>super::path</code></td><td>与父模块相对的路径</td></tr>
+<tr><td><code>type::ident</code>, <code>&lt;type as trait&gt;::ident</code></td><td>关联常量、关联函数、关联类型</td></tr>
+<tr><td><code>&lt;type&gt;::...</code></td><td>不可以被直接命名的关联项类型（如 <code>&lt;&amp;T&gt;::...</code>，<code>&lt;[T]&gt;::...</code>， 等）</td></tr>
+<tr><td><code>trait::method(...)</code></td><td>使用特征名进行方法调用，以消除方法调用的二义性</td></tr>
+<tr><td><code>type::method(...)</code></td><td>使用类型名进行方法调用, 以消除方法调用的二义性</td></tr>
+<tr><td><code>&lt;type as trait&gt;::method(...)</code></td><td>将类型转换为特征，再进行方法调用,以消除方法调用的二义性</td></tr>
+</tbody></table>
+</div>
+<p>表 B-4 展示了使用泛型参数时用到的符号。</p>
+<p><span class="caption">表 B-4：泛型</span></p>
+<div class="table-wrapper"><table><thead><tr><th>符号</th><th>解释</th></tr></thead><tbody>
+<tr><td><code>path&lt;...&gt;</code></td><td>为一个类型中的泛型指定具体参数（如 <code>Vec&lt;u8&gt;</code>）</td></tr>
+<tr><td><code>path::&lt;...&gt;</code>, <code>method::&lt;...&gt;</code></td><td>为一个泛型、函数或表达式中的方法指定具体参数，通常指双冒号(turbofish)（如 <code>"42".parse::&lt;i32&gt;()</code>）</td></tr>
+<tr><td><code>fn ident&lt;...&gt; ...</code></td><td>泛型函数定义</td></tr>
+<tr><td><code>struct ident&lt;...&gt; ...</code></td><td>泛型结构体定义</td></tr>
+<tr><td><code>enum ident&lt;...&gt; ...</code></td><td>泛型枚举定义</td></tr>
+<tr><td><code>impl&lt;...&gt; ...</code></td><td>实现泛型</td></tr>
+<tr><td><code>for&lt;...&gt; type</code></td><td>高阶生命周期限制</td></tr>
+<tr><td><code>type&lt;ident=type&gt;</code></td><td>泛型，其一个或多个相关类型必须被指定为特定类型（如 <code>Iterator&lt;Item=T&gt;</code>）</td></tr>
+</tbody></table>
+</div>
+<p>表 B-5 展示了使用特征约束来限制泛型参数的符号。</p>
+<p><span class="caption">表 B-5：特征约束</span></p>
+<div class="table-wrapper"><table><thead><tr><th>符号</th><th>解释</th></tr></thead><tbody>
+<tr><td><code>T: U</code></td><td>泛型参数 <code>T</code>需实现<code>U</code>类型</td></tr>
+<tr><td><code>T: 'a</code></td><td>泛型 <code>T</code> 的生命周期必须长于 <code>'a</code>（意味着该类型不能传递包含生命周期短于 <code>'a</code> 的任何引用）</td></tr>
+<tr><td><code>T : 'static</code></td><td>泛型 T 只能使用声明周期为'static 的引用</td></tr>
+<tr><td><code>'b: 'a</code></td><td>生命周期<code>'b</code>必须长于生命周期<code>'a</code></td></tr>
+<tr><td><code>T: ?Sized</code></td><td>使用一个不定大小的泛型类型</td></tr>
+<tr><td><code>'a + trait</code>, <code>trait + trait</code></td><td>多个类型组成的复合类型限制</td></tr>
+</tbody></table>
+</div>
+<p>表 B-6 展示了宏以及在一个对象上定义属性的符号。</p>
+<p><span class="caption">表 B-6：宏与属性</span></p>
+<div class="table-wrapper"><table><thead><tr><th>符号</th><th>解释</th></tr></thead><tbody>
+<tr><td><code>#[meta]</code></td><td>外部属性</td></tr>
+<tr><td><code>#![meta]</code></td><td>内部属性</td></tr>
+<tr><td><code>$ident</code></td><td>宏替换</td></tr>
+<tr><td><code>$ident:kind</code></td><td>宏捕获</td></tr>
+<tr><td><code>$(…)…</code></td><td>宏重复</td></tr>
+<tr><td><code>ident!(...)</code>, <code>ident!{...}</code>, <code>ident![...]</code></td><td>宏调用</td></tr>
+</tbody></table>
+</div>
+<p>表 B-7 展示了写注释的符号。</p>
+<p><span class="caption">表 B-7：注释</span></p>
+<div class="table-wrapper"><table><thead><tr><th>符号</th><th>注释</th></tr></thead><tbody>
+<tr><td><code>//</code></td><td>行注释</td></tr>
+<tr><td><code>//!</code></td><td>内部行(hang)文档注释</td></tr>
+<tr><td><code>///</code></td><td>外部行文档注释</td></tr>
+<tr><td><code>/*...*/</code></td><td>块注释</td></tr>
+<tr><td><code>/*!...*/</code></td><td>内部块文档注释</td></tr>
+<tr><td><code>/**...*/</code></td><td>外部块文档注释</td></tr>
+</tbody></table>
+</div>
+<p>表 B-8 展示了出现在使用元组时的符号。</p>
+<p><span class="caption">表 B-8：元组</span></p>
+<div class="table-wrapper"><table><thead><tr><th>符号</th><th>解释</th></tr></thead><tbody>
+<tr><td><code>()</code></td><td>空元组（亦称单元），即是字面值也是类型</td></tr>
+<tr><td><code>(expr)</code></td><td>括号表达式</td></tr>
+<tr><td><code>(expr,)</code></td><td>单一元素元组表达式</td></tr>
+<tr><td><code>(type,)</code></td><td>单一元素元组类型</td></tr>
+<tr><td><code>(expr, ...)</code></td><td>元组表达式</td></tr>
+<tr><td><code>(type, ...)</code></td><td>元组类型</td></tr>
+<tr><td><code>expr(expr, ...)</code></td><td>函数调用表达式；也用于初始化元组结构体 <code>struct</code> 以及元组枚举 <code>enum</code> 变体</td></tr>
+<tr><td><code>expr.0</code>, <code>expr.1</code>, etc.</td><td>元组索引</td></tr>
+</tbody></table>
+</div>
+<p>表 B-9 展示了使用大括号的上下文。</p>
+<p><span class="caption">表 B-9：大括号</span></p>
+<div class="table-wrapper"><table><thead><tr><th>符号</th><th>解释</th></tr></thead><tbody>
+<tr><td><code>{...}</code></td><td>代码块表达式</td></tr>
+<tr><td><code>Type {...}</code></td><td>结构体字面值</td></tr>
+</tbody></table>
+</div>
+<p>表 B-10 展示了使用方括号的上下文。</p>
+<p><span class="caption">表 B-10：方括号</span></p>
+<div class="table-wrapper"><table><thead><tr><th>符号</th><th>解释</th></tr></thead><tbody>
+<tr><td><code>[...]</code></td><td>数组</td></tr>
+<tr><td><code>[expr; len]</code></td><td>数组里包含<code>len</code>个<code>expr</code></td></tr>
+<tr><td><code>[type; len]</code></td><td>数组里包含了<code>len</code>个<code>type</code>类型的对象</td></tr>
+<tr><td><code>expr[expr]</code></td><td>集合索引。 重载（<code>Index</code>, <code>IndexMut</code>）</td></tr>
+<tr><td><code>expr[..]</code>, <code>expr[a..]</code>, <code>expr[..b]</code>, <code>expr[a..b]</code></td><td>集合索引，也称为集合切片，索引要实现以下特征中的其中一个：<code>Range</code>，<code>RangeFrom</code>，<code>RangeTo</code> 或 <code>RangeFull</code></td></tr>
+</tbody></table>
+</div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../appendix/keywords.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../appendix/expressions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../appendix/keywords.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../appendix/expressions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js"></script>
+        <script src="../editor.js"></script>
+        <script src="../mode-rust.js"></script>
+        <script src="../theme-dawn.js"></script>
+        <script src="../theme-tomorrow_night.js"></script>
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../assets/custom2.js"></script>
+        <script src="../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

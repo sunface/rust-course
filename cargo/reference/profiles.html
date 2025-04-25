@@ -1,0 +1,425 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>发布配置 Profile - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/cargo/reference/profiles.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="发布配置-profile"><a class="header" href="#发布配置-profile">发布配置 Profile</a></h1>
+<p>细心的同学可能发现了迄今为止我们已经为 Cargo 引入了不少新的名词，而且这些名词有一个共同的特点，不容易或不适合翻译成中文，因为难以表达的很准确，例如 Cargo Target, Feature 等，这不现在又多了一个 Profile。</p>
+<h2 id="默认的-profile"><a class="header" href="#默认的-profile">默认的 profile</a></h2>
+<p>Profile 其实是一种发布配置，例如它默认包含四种: <code>dev</code>、 <code>release</code>、 <code>test</code> 和 <code>bench</code>，正常情况下，我们无需去指定，<code>Cargo</code> 会根据我们使用的命令来自动进行选择</p>
+<ul>
+<li>例如 <code>cargo build</code> 自动选择 <code>dev</code> profile，而 <code>cargo test</code> 则是 <code>test</code> profile, 出于历史原因，这两个 profile 输出的结果都存放在项目根目录下的 <code>target/debug</code> 目录中，结果往往用于开发/测试环境</li>
+<li>而 <code>cargo build --release</code> 自动选择 <code>release</code> profile，并将输出结果存放在 <code>target/release</code> 目录中，结果往往用于生产环境</li>
+</ul>
+<p>可以看出 Profile 跟 Nodejs 的 <code>dev</code> 和 <code>prod</code> 很像，都是通过不同的配置来为目标环境构建最终编译后的结果: <code>dev</code> 编译输出的结果用于开发环境，<code>prod</code> 则用于生产环境。</p>
+<p>针对不同的 profile，编译器还会提供不同的优化级别，例如 <code>dev</code> 用于开发环境，因此构建速度是最重要的：此时，我们可以牺牲运行性能来换取编译性能，那么优化级别就会使用最低的。而 <code>release</code> 则相反，优化级别会使用最高，导致的结果就是运行得非常快，但是编译速度大幅降低。</p>
+<blockquote>
+<p>初学者一个常见的错误，就是使用非 <code>release</code> profile 去测试性能，例如 <code>cargo run</code>，这种方式显然无法得到正确的结果，我们应该使用 <code>cargo run --release</code> 的方式测试性能</p>
+</blockquote>
+<p>profile 可以通过 <code>Cargo.toml</code> 中的 <code>[profile]</code> 部分进行设置和改变:</p>
+<pre><code class="language-toml">[profile.dev]
+opt-level = 1               # 使用稍高一些的优化级别，最低是0，最高是3
+overflow-checks = false     # 关闭整数溢出检查
+</code></pre>
+<p>需要注意的是，每一种 profile 都可以单独的进行设置，例如上面的 <code>[profile.dev]</code>。</p>
+<p>如果是工作空间的话，只有根 package 的 <code>Cargo.toml</code> 中的 <code>[profile]</code> 设置才会被使用，其它成员或依赖包中的设置会被自动忽略。</p>
+<p>另外，profile 还能在 Cargo 自身的配置文件中进行覆盖，总之，通过 <code>.cargo/config.toml</code> 或环境变量的方式所指定的 <code>profile</code> 配置会覆盖项目的 <code>Cargo.toml</code> 中相应的配置。</p>
+<h2 id="自定义-profile"><a class="header" href="#自定义-profile">自定义 profile</a></h2>
+<p>除了默认的四种 profile，我们还可以定义自己的。对于大公司来说，这个可能会非常有用，自定义的 profile 可以帮助我们建立更灵活的工作发布流和构建模型。</p>
+<p>当定义 profile 时，你必须指定 <code>inherits</code> 用于说明当配置缺失时，该 profile 要从哪个 profile 那里继承配置。</p>
+<p>例如，我们想在 release profile 的基础上增加 <a href="#lto">LTO</a> 优化，那么可以在 <code>Cargo.toml</code> 中添加如下内容：</p>
+<pre><code class="language-toml">[profile.release-lto]
+inherits = "release"
+lto = true
+</code></pre>
+<p>然后在构建时使用 <code>--profile</code> 来指定想要选择的自定义 profile ：</p>
+<pre><code class="language-shell">$ cargo build --profile release-lto
+</code></pre>
+<p>与默认的 profile 相同，自定义 profile 的编译结果也存放在 <a href="https://course.rs/cargo/guide/build-cache.html"><code>target/</code></a> 下的同名目录中，例如 <code>--profile release-lto</code> 的输出结果存储在 <code>target/release-lto</code> 中。</p>
+<h2 id="选择-profile"><a class="header" href="#选择-profile">选择 profile</a></h2>
+<ul>
+<li>默认使用 <code>dev</code> : <code>cargo build</code>, <code>cargo rustc</code>, <code>cargo check</code>, 和 <code>cargo run</code></li>
+<li>默认使用 <code>test</code>: <code>cargo test</code></li>
+<li>默认使用 <code>bench</code>: <code>cargo bench</code></li>
+<li>默认使用 <code>release</code>： <code>cargo install</code>, <code>cargo build --release</code>, <code>cargo run --release</code></li>
+<li>使用自定义 profile: <code>cargo build --profile release-lto</code></li>
+</ul>
+<h2 id="profile-设置"><a class="header" href="#profile-设置">profile 设置</a></h2>
+<p>下面我们来看看 profile 中可以进行哪些优化设置。</p>
+<h4 id="opt-level"><a class="header" href="#opt-level">opt-level</a></h4>
+<p>该字段用于控制 <a href="https://doc.rust-lang.org/stable/rustc/codegen-options/index.html#opt-level"><code>-C opt-level</code></a> 标志的优化级别。更高的优化级别往往意味着运行更快的代码，但是也意味着更慢的编译速度。</p>
+<p>同时，更高的编译级别甚至会造成编译代码的改变和再排列，这会为 debug 带来更高的复杂度。</p>
+<p><code>opt-level</code> 支持的选项包括:</p>
+<ul>
+<li><code>0</code>: 无优化</li>
+<li><code>1</code>: 基本优化</li>
+<li><code>2</code>: 一些优化</li>
+<li><code>3</code>: 全部优化</li>
+<li>"s": 优化输出的二进制文件的大小</li>
+<li>"z": 优化二进制文件大小，但也会关闭循环向量化</li>
+</ul>
+<p>我们非常推荐你根据自己的需求来找到最适合的优化级别(例如，平衡运行和编译速度)。而且有一点值得注意，有的时候优化级别和性能的关系可能会出乎你的意料之外，例如 <code>3</code> 比 <code>2</code> 更慢，再比如 <code>"s"</code> 并没有让你的二进制文件变得更小。</p>
+<p>而且随着 <code>rustc</code> 版本的更新，你之前的配置也可能要随之变化，总之，为项目的热点路径做好基准性能测试是不错的选择，不然总不能每次都手动重写代码来测试吧 :)</p>
+<p>如果想要了解更多，可以参考 <a href="https://doc.rust-lang.org/stable/rustc/profile-guided-optimization.html">rustc 文档</a>，这里有更高级的优化技巧。</p>
+<h4 id="debug"><a class="header" href="#debug">debug</a></h4>
+<p><code>debug</code> 控制 <a href="https://doc.rust-lang.org/stable/rustc/codegen-options/index.html#debuginfo"><code>-C debuginfo</code></a> 标志，而后者用于控制最终二进制文件输出的 <code>debug</code> 信息量。</p>
+<p>支持的选项包括:</p>
+<ul>
+<li><code>0</code> 或 <code>false</code>：不输出任何 debug 信息</li>
+<li><code>1</code>: 行信息</li>
+<li><code>2</code>: 完整的 debug 信息</li>
+</ul>
+<h4 id="split-debuginfo"><a class="header" href="#split-debuginfo">split-debuginfo</a></h4>
+<p><code>split-debuginfo</code> 控制 <a href="https://doc.rust-lang.org/stable/rustc/codegen-options/index.html#split-debuginfo">-C split-debuginfo</a> 标志，用于决定输出的 debug 信息是存放在二进制可执行文件里还是邻近的文件中。</p>
+<h4 id="debug-assertions"><a class="header" href="#debug-assertions">debug-assertions</a></h4>
+<p>该字段控制 <a href="https://doc.rust-lang.org/stable/rustc/codegen-options/index.html#debug-assertions">-C debug-assertions</a> 标志，可以开启或关闭其中一个<a href="https://doc.rust-lang.org/stable/reference/conditional-compilation.html#debug_assertions">条件编译</a>选项： <code>cfg(debug_assertions)</code>。</p>
+<p><code>debug-assertion</code> 会提供运行时的检查，该检查只能用于 <code>debug</code> 模式，原因是对于 <code>release</code> 来说，这种检查的成本较为高昂。</p>
+<p>大家熟悉的 <a href="https://course.rs/test/assertion.html#debug_assert-%E7%B3%BB%E5%88%97"><code>debug_assert!</code></a> 宏也是通过该标志开启的。</p>
+<p>支持的选项包括 :</p>
+<ul>
+<li><code>true</code>: 开启</li>
+<li><code>false</code>: 关闭</li>
+</ul>
+<h4 id="overflow-checks"><a class="header" href="#overflow-checks">overflow-checks</a></h4>
+<p>用于控制 <a href="https://doc.rust-lang.org/stable/rustc/codegen-options/index.html#overflow-checks">-C overflow-checks</a> 标志，该标志可以控制运行时的整数溢出行为。<strong>当开启后，整数溢出会导致 <code>panic</code></strong>。</p>
+<p>支持的选项包括 :</p>
+<ul>
+<li><code>true</code>: 开启</li>
+<li><code>false</code>: 关闭</li>
+</ul>
+<h4 id="lto"><a class="header" href="#lto">lto</a></h4>
+<p><code>lto</code> 用于控制 <a href="https://doc.rust-lang.org/stable/rustc/codegen-options/index.html#lto"><code>-C lto</code></a> 标志，而后者可以控制 LLVM 的<a href="https://llvm.org/docs/LinkTimeOptimization.html">链接时优化( link time optimizations )</a>。通过对整个程序进行分析，并以增加链接时间为代价，LTO 可以生成更加优化的代码。</p>
+<p>支持的选项包括：</p>
+<ul>
+<li><code>false</code>: 只会对代码生成单元中的本地包进行 <code>"thin" LTO</code> 优化，若代码生成单元数为 1 或者 <code>opt-level</code> 为 0，则不会进行任何 LTO 优化</li>
+<li><code>true</code> 或 <code>"fat"</code>：对依赖图中的所有包进行 <code>"fat" LTO</code> 优化</li>
+<li><code>"thin"</code>：对依赖图的所有包进行 <a href="http://blog.llvm.org/2016/06/thinlto-scalable-and-incremental-lto.html"><code>"thin" LTO</code></a>，相比 <code>"fat"</code> 来说，它仅牺牲了一点性能，但是换来了链接时间的可观减少</li>
+<li><code>off</code>： 禁用 LTO</li>
+</ul>
+<p>如果大家想了解跨语言 LTO，可以看下 <a href="https://doc.rust-lang.org/stable/rustc/codegen-options/index.html#linker-plugin-lto">-C linker-plugin-lto</a> 标志。</p>
+<h4 id="panic"><a class="header" href="#panic">panic</a></h4>
+<p><code>panic</code> 控制 <a href="https://doc.rust-lang.org/stable/cargo/reference/profiles.html#codegen-units">-C panic</a> 标志，它可以控制 <code>panic</code> 策略的选择。</p>
+<p>支持的选项包括:</p>
+<ul>
+<li><code>"unwind"</code>: 遇到 panic 后对栈进行展开( unwind )</li>
+<li><code>"abort"</code>: 遇到 panic 后直接停止程序</li>
+</ul>
+<p>当设置为 <code>"unwind"</code> 时，具体的栈展开信息取决于特定的平台，例如 <code>NVPTX</code> 不支持 <code>unwind</code>，因此程序只能 "abort"。</p>
+<p>测试、基准性能测试、构建脚本和过程宏会忽略 <code>panic</code> 设置，目前来说它们要求是 <code>"unwind"</code>，如果大家希望修改成 <code>"abort"</code>，可以看看 <a href="https://doc.rust-lang.org/stable/cargo/reference/unstable.html#panic-abort-tests">panic-abort-tests </a>。</p>
+<p>另外，当你使用 <code>"abort"</code> 策略且在执行测试时，由于上述的要求，除了测试代码外，所有的依赖库也会忽略该 <code>"abort"</code> 设置而使用 <code>"unwind"</code> 策略。</p>
+<h4 id="incremental"><a class="header" href="#incremental">incremental</a></h4>
+<p><code>incremental</code> 控制 <a href="https://doc.rust-lang.org/stable/rustc/codegen-options/index.html#incremental">-C incremental</a> 标志，用于开启或关闭增量编译。开启增量编译时，<code>rustc</code> 会将必要的信息存放到硬盘中( <code>target</code> 目录中 )，当下次编译时，这些信息可以被复用以改善编译时间。</p>
+<p>支持的选项包括:</p>
+<ul>
+<li><code>true</code>： 启用</li>
+<li><code>false</code>: 关闭</li>
+</ul>
+<p><strong>增量编译只能用于工作空间的成员和通过 <code>path</code> 引入的本地依赖。</strong></p>
+<p>大家还可以通过<a href="https://doc.rust-lang.org/stable/cargo/reference/environment-variables.html">环境变量</a> <code>CARGO_INCREMENTAL</code> 或 Cargo 配置 <a href="https://doc.rust-lang.org/stable/cargo/reference/config.html#buildincremental">build.incremental</a> 在全局对 <code>incremental</code> 进行覆盖。</p>
+<h4 id="codegen-units"><a class="header" href="#codegen-units">codegen-units</a></h4>
+<p><code>codegen-units</code> 控制 <a href="https://doc.rust-lang.org/stable/rustc/codegen-options/index.html#codegen-units">-C codegen-units</a> 标志，可以指定一个包会被分隔为多少个代码生成单元。<strong>更多的代码生成单元会提升代码的并行编译速度，但是可能会降低运行速度。</strong></p>
+<p>对于增量编译，默认值是 256，非增量编译是 16。</p>
+<h4 id="r-path"><a class="header" href="#r-path">r-path</a></h4>
+<p>用于控制 <a href="https://doc.rust-lang.org/stable/rustc/codegen-options/index.html#rpath">-C rpath</a>标志，可以控制 <a href="https://en.wikipedia.org/wiki/Rpath"><code>rpath</code></a> 的启用与关闭。</p>
+<p><code>rpath</code> 代表硬编码到二进制可执行文件或库文件中的<strong>运行时代码搜索(runtime search path)</strong>，动态链接库的加载器就通过它来搜索所需的库。</p>
+<h2 id="默认-profile"><a class="header" href="#默认-profile">默认 profile</a></h2>
+<h4 id="dev"><a class="header" href="#dev">dev</a></h4>
+<p><code>dev</code> profile 往往用于开发和 debug，<code>cargo build</code> 或 <code>cargo run</code> 默认使用的就是 <code>dev</code> profile，<code>cargo build --debug</code> 也是。</p>
+<blockquote>
+<p>注意：<code>dev</code> profile 的结果并没有输出到 <code>target/dev</code> 同名目录下，而是 <code>target/debug</code> ，这是历史遗留问题</p>
+</blockquote>
+<p>默认的 <code>dev</code> profile 设置如下：</p>
+<pre><code class="language-toml">[profile.dev]
+opt-level = 0
+debug = true
+split-debuginfo = '...'  # Platform-specific.
+debug-assertions = true
+overflow-checks = true
+lto = false
+panic = 'unwind'
+incremental = true
+codegen-units = 256
+rpath = false
+</code></pre>
+<h4 id="release"><a class="header" href="#release">release</a></h4>
+<p><code>release</code> 往往用于预发/生产环境或性能测试，以下命令使用的就是 <code>release</code> profile:</p>
+<ul>
+<li><code>cargo build --release</code></li>
+<li><code>cargo run --release</code></li>
+<li><code>cargo install</code></li>
+</ul>
+<p>默认的 <code>release</code> profile 设置如下：</p>
+<pre><code class="language-toml">[profile.release]
+opt-level = 3
+debug = false
+split-debuginfo = '...'  # Platform-specific.
+debug-assertions = false
+overflow-checks = false
+lto = false
+panic = 'unwind'
+incremental = false
+codegen-units = 16
+rpath = false
+</code></pre>
+<h4 id="test"><a class="header" href="#test">test</a></h4>
+<p>该 profile 用于构建测试，它的设置是继承自 <code>dev</code></p>
+<h4 id="bench"><a class="header" href="#bench">bench</a></h4>
+<p><code>bench</code> profile 用于构建基准测试 benchmark，它的设计默认继承自 <code>release</code></p>
+<h4 id="构建本身依赖"><a class="header" href="#构建本身依赖">构建本身依赖</a></h4>
+<p>默认情况下，所有的 profile 都不会对构建过程本身所需的依赖进行优化，构建过程本身包括构建脚本、过程宏。</p>
+<p>默认的设置是：</p>
+<pre><code class="language-toml">[profile.dev.build-override]
+opt-level = 0
+codegen-units = 256
+
+[profile.release.build-override]
+opt-level = 0
+codegen-units = 256
+</code></pre>
+<p>如果是自定义 profile，那它会自动从当前正在使用的 profile 继承相应的设置，但不会修改。</p>
+<h2 id="重写-profile"><a class="header" href="#重写-profile">重写 profile</a></h2>
+<p>我们还可以对特定的包使用的 profile 进行重写(override):</p>
+<pre><code class="language-toml"># `foo` package 将使用 -Copt-level=3 标志.
+[profile.dev.package.foo]
+opt-level = 3
+</code></pre>
+<p>这里的 <code>package</code> 名称实际上是一个 <a href="https://course.rs/cargo/reference/package-id.html"><code>Package ID</code></a>，因此我们还可以通过版本号来选择: <code>[profile.dev.package."foo:2.1.0"]</code>。</p>
+<p>如果要为所有依赖包重写(不包括工作空间的成员):</p>
+<pre><code class="language-toml">[profile.dev.package."*"]
+opt-level = 2
+</code></pre>
+<p>为构建脚本、过程宏和它们的依赖重写：</p>
+<pre><code class="language-toml">[profile.dev.build-override]
+opt-level = 3
+</code></pre>
+<blockquote>
+<p>注意：如果一个依赖同时被正常代码和构建脚本所使用，当 <code>--target</code> 没有指定时，Cargo 只会构建该依赖一次。</p>
+<p>但是当使用了 <code>build-override</code> 后，该依赖会被构建两次，一次为正常代码，一次为构建脚本，因此会增加一些编译时间</p>
+</blockquote>
+<p>重写的优先级按以下顺序执行(第一个匹配获胜):</p>
+<ul>
+<li><code>[profile.dev.package.name]</code>，指定名称进行重写</li>
+<li><code>[profile.dev.package."*"]</code>，对所有非工作空间成员的 package 进行重写</li>
+<li><code>[profile.dev.build-override]</code>，对构建脚本、过程宏及它们的依赖进行重写</li>
+<li><code>[profile.dev]</code></li>
+<li>Cargo 内置的默认值</li>
+</ul>
+<p>重写无法使用 <code>panic</code>、<code>lto</code> 或 <code>rpath</code> 设置。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../cargo/reference/features/examples.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../cargo/reference/configuration.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../cargo/reference/features/examples.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../cargo/reference/configuration.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>智能指针引起的重复借用错误 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../../favicon.svg">
+        <link rel="shortcut icon" href="../../../favicon.png">
+        <link rel="stylesheet" href="../../../css/variables.css">
+        <link rel="stylesheet" href="../../../css/general.css">
+        <link rel="stylesheet" href="../../../css/chrome.css">
+        <link rel="stylesheet" href="../../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/compiler/fight-with-compiler/borrowing/borrow-distinct-fields-of-struct.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="智能指针引起的重复借用错误"><a class="header" href="#智能指针引起的重复借用错误">智能指针引起的重复借用错误</a></h1>
+<p>本文将彻底解决一个困扰广大 Rust 用户已久的常见错误： 当智能指针和结构体一起使用时导致的借用错误: <code>cannot borrow</code>mut_s<code> as mutable because it is also borrowed as immutable</code>.</p>
+<p>相信看过<a href="https://course.rs/fight-with-compiler/intro.html">&lt;&lt;对抗 Rust 编译检查系列&gt;&gt;</a>的读者都知道结构体中的不同字段可以独立借用吧？</p>
+<h2 id="结构体中的字段借用"><a class="header" href="#结构体中的字段借用">结构体中的字段借用</a></h2>
+<p>不知道也没关系，我们这里再简单回顾一下:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Test {
+    a : u32,
+    b : u32
+}
+
+impl Test {
+    fn increase(&amp;mut self) {
+        let mut a = &amp;mut self.a;
+        let mut b = &amp;mut self.b;
+        *b += 1;
+        *a += 1;
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>这段代码看上去像是重复借用了<code>&amp;mut self</code>,违反了 Rust 的借用规则，实际上在聪明的 Rust 编译器面前，这都不是事。它能发现我们其实借用了目标结构体的不同字段，因此完全可以将其借用权分离开来。</p>
+<p>因此，虽然我们不能同时对整个结构体进行多次可变借用，但是我们可以分别对结构体中的不同字段进行可变借用，当然，一个字段至多也只能存在一个可变借用，这个最基本的所有权规则还是不能违反的。变量<code>a</code>引用结构体字段<code>a</code>，变量<code>b</code>引用结构体字段<code>b</code>，从底层来说，这种方式也不会造成两个可变引用指向了同一块内存。</p>
+<h2 id="refcell"><a class="header" href="#refcell">RefCell</a></h2>
+<p>如果你还不知道 RefCell，可以看看<a href="https://course.rs/advance/smart-pointer/cell-refcell.html">这篇文章</a>，当然不看也行，简而言之，RefCell 能够实现：</p>
+<ul>
+<li>将借用规则从编译期推迟到运行期，但是并不会绕过借用规则，当不符合时，程序直接<code>panic</code></li>
+<li>实现内部可变性：简单来说，对一个不可变的值进行可变借用，然后修改内部的值</li>
+</ul>
+<h2 id="被-refcell-包裹的结构体"><a class="header" href="#被-refcell-包裹的结构体">被 RefCell 包裹的结构体</a></h2>
+<p>既然了解了结构体的借用规则和<code>RefCell</code>, 我们来看一段结合了两者的代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::cell::RefCell;
+use std::io::Write;
+
+struct Data {
+    string: String,
+}
+
+struct S {
+    data: Data,
+    writer: Vec&lt;u8&gt;,
+}
+
+fn write(s: RefCell&lt;S&gt;) {
+    let mut mut_s = s.borrow_mut();
+    let str = &amp;mut_s.data.string;
+    mut_s.writer.write(str.as_bytes());
+}
+<span class="boring">}</span></code></pre></pre>
+<p>以上代码从<code>s</code>中可变借用出结构体<code>S</code>，随后又对结构体中的两个字段进行了分别借用，按照之前的规则这段代码应该顺利通过编译：</p>
+<pre><code class="language-console">error[E0502]: cannot borrow `mut_s` as mutable because it is also borrowed as immutable
+  --&gt; src/main.rs:16:5
+   |
+15 |     let str = &amp;mut_s.data.string;
+   |                ----- immutable borrow occurs here
+16 |     mut_s.writer.write(str.as_bytes());
+   |     ^^^^^              --- immutable borrow later used here
+   |     |
+   |     mutable borrow occurs here
+</code></pre>
+<p>只能说，还好它报错了，否则本篇文章已经可以结束。。。错误很简单，首先对结构体<code>S</code>的<code>data</code>字段进行了不可变借用，其次又对<code>writer</code>字段进行了可变借用，这个符合之前的规则：对结构体不同字段分开借用，为何报错了？</p>
+<h2 id="深入分析"><a class="header" href="#深入分析">深入分析</a></h2>
+<p>第一感觉，问题是出在<code>borrow_mut</code>方法返回的类型上，先来看看:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn borrow_mut(&amp;self) -&gt; RefMut&lt;'_, T&gt;
+<span class="boring">}</span></code></pre></pre>
+<p>可以看出，该方法并没有直接返回我们的结构体，而是一个<code>RefMut</code>类型，而要使用该类型，需要经过编译器为我们做一次隐式的<code>Deref</code>转换，编译器展开后的代码大概如下:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::cell::RefMut;
+use std::ops::{Deref, DerefMut};
+
+fn write(s: RefCell&lt;S&gt;) {
+    let mut mut_s: RefMut&lt;S&gt; = s.borrow_mut();
+    let str = &amp;Deref::deref(&amp;mut_s).data.string;
+    DerefMut::deref_mut(&amp;mut mut_s).writer.write(str.as_bytes());
+}
+<span class="boring">}</span></code></pre></pre>
+<p>可以看出，对结构体字段的调用，实际上经过一层函数，一层函数！？我相信你应该想起了什么，是的，在<a href="https://course.rs/fight-with-compiler/borrowing/ref-exist-in-out-fn.html">上一篇文章</a>中讲过类似的问题， 大意就是<strong>编译器对于函数往往只会分析签名，并不关心内部到底如何使用结构体</strong>。</p>
+<p>而上面的<code>&amp;Deref::deref(&amp;mut_s)</code>和<code>DerefMut::deref_mut(&amp;mut mut_s)</code>函数，签名全部使用的是结构体，并不是结构体中的某一个字段，因此对于编译器来说，该结构体明显是被重复借用了！</p>
+<h2 id="解决方法"><a class="header" href="#解决方法">解决方法</a></h2>
+<p>因此要解决这个问题，我们得把之前的展开形式中的<code>Deref::deref</code>消除掉，这样没有了函数签名，编译器也将不再懒政。</p>
+<p>既然两次<code>Deref::deref</code>调用都是对智能指针的自动<code>Deref</code>，那么可以提前手动的把它<code>Deref</code>了，只做一次！</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn write(s: RefCell&lt;S&gt;) {
+    let mut mut_s = s.borrow_mut();
+    let mut tmp = &amp;mut *mut_s; // Here
+    let str = &amp;tmp.data.string;
+    tmp.writer.write(str.as_bytes());
+}
+<span class="boring">}</span></code></pre></pre>
+<p>以上代码通过<code>*</code>对<code>mut_s</code>进行了解引用，获得结构体，然后又对结构体进行了可变借用<code>&amp;mut</code>，最终赋予<code>tmp</code>变量，那么该变量就持有了我们的结构体的可变引用，而不再是持有一个智能指针。</p>
+<p>此后对<code>tmp</code>的使用就回归到文章开头的那段代码：分别借用结构体的不同字段，成功通过编译！</p>
+<h4 id="展开代码"><a class="header" href="#展开代码">展开代码</a></h4>
+<p>我们再来模拟编译器对正确的代码进行一次展开:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::cell::RefMut;
+use std::ops::DerefMut;
+
+fn write(s: RefCell&lt;S&gt;) {
+    let mut mut_s: RefMut&lt;S&gt; = s.borrow_mut();
+    let tmp: &amp;mut S = DerefMut::deref_mut(&amp;mut mut_s);
+    let str = &amp;tmp.data.string;
+    tmp.writer.write(str.as_bytes());
+}
+<span class="boring">}</span></code></pre></pre>
+<p>可以看出，此时对结构体的使用不再有<code>DerefMut::deref</code>的身影，我们成功消除了函数边界对编译器的影响！</p>
+<h2 id="不仅仅是-refcell"><a class="header" href="#不仅仅是-refcell">不仅仅是 RefCell</a></h2>
+<p>事实上，除了 RefCell 外，还有不少会导致这种问题的智能指针，当然原理都是互通的，我们这里就不再进行一一深入讲解，只简单列举下：</p>
+<ul>
+<li><code>Box</code></li>
+<li><code>MutexGuard</code>(来源于 Mutex)</li>
+<li><code>PeekMut</code>(来源于 BinaryHeap)</li>
+<li><code>RwLockWriteGuard</code>(来源于 RwLock)</li>
+<li><code>String</code></li>
+<li><code>Vec</code></li>
+<li><code>Pin</code></li>
+</ul>
+<h2 id="一个练习"><a class="header" href="#一个练习">一个练习</a></h2>
+<p>下面再来一个练习巩固一下，强烈建议大家按照文章的思路进行分析和解决：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::rc::Rc;
+use std::cell::RefCell;
+
+pub struct Foo {
+    pub foo1: Vec&lt;bool&gt;,
+    pub foo2: Vec&lt;i32&gt;,
+}
+fn main() {
+    let foo_cell = Rc::new(RefCell::new(Foo {
+        foo1: vec![true, false],
+        foo2: vec![1, 2]
+
+    }));
+
+    let borrow = foo_cell.borrow_mut();
+    let foo1 = &amp;borrow.foo1;
+    // 下面代码会报错,因为`foo1`和`foo2`发生了重复借用
+    borrow.foo2.iter_mut().enumerate().for_each(|(idx, foo2)| {
+        if foo1[idx] {
+            *foo2 *= -1;
+        }
+    });
+}</code></pre></pre>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p>当结构体的引用穿越函数边界时，我们要格外小心，因为编译器只会对函数签名进行检查，并不关心内部到底用了结构体的哪个字段，当签名都使用了结构体时，会立即报错。</p>
+<p>而智能指针由于隐式解引用<code>Deref</code>的存在，导致了两次<code>Deref</code>时都让结构体穿越了函数边界<code>Deref::deref</code>，结果造成了重复借用的错误。</p>
+<p>解决办法就是提前对智能指针进行手动解引用，然后对内部的值进行借用后，再行使用。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../compiler/fight-with-compiler/borrowing/ref-exist-in-out-fn.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../compiler/fight-with-compiler/unconstrained.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../compiler/fight-with-compiler/borrowing/ref-exist-in-out-fn.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../compiler/fight-with-compiler/unconstrained.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../../ace.js"></script>
+        <script src="../../../editor.js"></script>
+        <script src="../../../mode-rust.js"></script>
+        <script src="../../../theme-dawn.js"></script>
+        <script src="../../../theme-tomorrow_night.js"></script>
+
+        <script src="../../../elasticlunr.min.js"></script>
+        <script src="../../../mark.min.js"></script>
+        <script src="../../../searcher.js"></script>
+
+        <script src="../../../clipboard.min.js"></script>
+        <script src="../../../highlight.js"></script>
+        <script src="../../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../../assets/custom2.js"></script>
+        <script src="../../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>并发和并行 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/concurrency-with-threads/concurrency-parallelism.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="并发和并行"><a class="header" href="#并发和并行">并发和并行</a></h1>
+<blockquote>
+<p>并发是同一时间应对多件事情的能力 - <a href="https://en.wikipedia.org/wiki/Rob_Pike">Rob Pike</a></p>
+</blockquote>
+<p>并行和并发其实并不难，但是也给一些用户造成了困扰，因此我们专门开辟一个章节，用于讲清楚这两者的区别。</p>
+<p><code>Erlang</code> 之父 <a href="https://en.wikipedia.org/wiki/Joe_Armstrong_(programmer)"><code>Joe Armstrong</code></a>（伟大的异步编程先驱，开创一个时代的殿堂级计算机科学家，我还犹记得当年刚学到 <code>Erlang</code> 时的震撼，respect！）用一张 5 岁小孩都能看懂的图片解释了并发与并行的区别：</p>
+<img alt="" src="https://pic1.zhimg.com/80/f37dd89173715d0e21546ea171c8a915_1440w.png" class="center"  />
+<p>上图很直观的体现了：</p>
+<ul>
+<li><strong>并发(Concurrent)</strong> 是多个队列使用同一个咖啡机，然后两个队列轮换着使用（未必是 1:1 轮换，也可能是其它轮换规则），最终每个人都能接到咖啡</li>
+<li><strong>并行(Parallel)</strong> 是每个队列都拥有一个咖啡机，最终也是每个人都能接到咖啡，但是效率更高，因为同时可以有两个人在接咖啡</li>
+</ul>
+<p>当然，我们还可以对比下串行：只有一个队列且仅使用一台咖啡机，前面哪个人接咖啡时突然发呆了几分钟，后面的人就只能等他结束才能继续接。可能有读者有疑问了，从图片来看，并发也存在这个问题啊，前面的人发呆了几分钟不接咖啡怎么办？很简单，另外一个队列的人把他推开就行了，自己队友不能在背后开枪，但是其它队的可以:)</p>
+<p>在正式开始之前，先给出一个结论：<strong>并发和并行都是对“多任务”处理的描述，其中并发是轮流处理，而并行是同时处理</strong>。</p>
+<h2 id="cpu-多核"><a class="header" href="#cpu-多核">CPU 多核</a></h2>
+<p>现在的个人计算机动辄拥有十来个核心（M1 Max/Intel 12 代），如果使用串行的方式那真是太低效了，因此我们把各种任务简单分成多个队列，每个队列都交给一个 CPU 核心去执行，当某个 CPU 核心没有任务时，它还能去其它核心的队列中偷任务（真·老黄牛），这样就实现了并行化处理。</p>
+<h4 id="单核心并发"><a class="header" href="#单核心并发">单核心并发</a></h4>
+<p>那问题来了，在早期只有一个 CPU 核心时，我们的任务是怎么处理的呢？其实聪明的读者应该已经想到，是的，并发解君愁。当然，这里还得提到操作系统的多线程，正是操作系统多线程 + CPU 核心，才实现了现代化的多任务操作系统。</p>
+<p>在 OS 级别，多线程负责管理我们的任务队列，你可以简单认为一个线程管理着一个任务队列，然后线程之间还能根据空闲度进行任务调度。我们的程序只会跟 OS 线程打交道，并不关心 CPU 到底有多少个核心，真正关心的只是 OS，当线程把任务交给 CPU 核心去执行时，如果只有一个 CPU 核心，那么它就只能同时处理一个任务。</p>
+<p>相信大家都看出来了：<strong>CPU 核心</strong>对应的是上图的咖啡机，而<strong>多个线程的任务队列</strong>就对应的多个排队的队列，由于终受限于 CPU 核心数，每个队列每次只会有一个任务被处理。</p>
+<p>和排队一样，假如某个任务执行时间过长，就会导致用户界面的假死（相信使用 Windows 的同学或多或少都碰到过假死的问题）， 那么就需要 CPU 的任务调度了（真实 CPU 的调度很复杂，我们这里做了简化），有一个调度器会按照某些条件从队列中选择任务进行执行，并且当一个任务执行时间过长时，会强行切换该任务到后台中（或者放入任务队列，真实情况很复杂！），去执行新的任务。</p>
+<p>不断这样的快速任务切换，对用户而言就实现了表面上的多任务同时处理，但是实际上最终也只有一个 CPU 核心在不停的工作。</p>
+<p>因此并发的关键在于：<strong>快速轮换处理不同的任务</strong>，给用户带来所有任务同时在运行的假象。</p>
+<h4 id="多核心并行"><a class="header" href="#多核心并行">多核心并行</a></h4>
+<p>当 CPU 核心增多到 <code>N</code> 时，那么同一时间就能有 <code>N</code> 个任务被处理，那么我们的并行度就是 <code>N</code>，相应的处理效率也变成了单核心的 <code>N</code> 倍（实际情况并没有这么高）。</p>
+<h4 id="多核心并发"><a class="header" href="#多核心并发">多核心并发</a></h4>
+<p>当核心增多到 <code>N</code> 时，操作系统同时在进行的任务肯定远不止 <code>N</code> 个，这些任务将被放入 <code>M</code> 个线程队列中，接着交给 <code>N</code> 个 CPU 核心去执行，最后实现了 <code>M:N</code> 的处理模型，在这种情况下，<strong>并发与并行是同时在发生的，所有用户任务从表面来看都在并发的运行，但实际上，同一时刻只有 <code>N</code> 个任务能被同时并行的处理</strong>。</p>
+<p>看到这里，相信大家已经明白两者的区别，那么我们下面给出一个正式的定义（该定义摘选自&lt;&lt;并发的艺术&gt;&gt;）。</p>
+<h2 id="正式的定义"><a class="header" href="#正式的定义">正式的定义</a></h2>
+<p>如果某个系统支持两个或者多个动作的<strong>同时存在</strong>，那么这个系统就是一个并发系统。如果某个系统支持两个或者多个动作<strong>同时执行</strong>，那么这个系统就是一个并行系统。并发系统与并行系统这两个定义之间的关键差异在于 <strong>“存在”</strong> 这个词。</p>
+<p>在并发程序中可以同时拥有两个或者多个线程。这意味着，如果程序在单核处理器上运行，那么这两个线程将交替地换入或者换出内存。这些线程是 <strong>同时“存在”</strong> 的——每个线程都处于执行过程中的某个状态。如果程序能够并行执行，那么就一定是运行在多核处理器上。此时，程序中的每个线程都将分配到一个独立的处理器核上，因此可以同时运行。</p>
+<p>相信你已经能够得出结论——<strong>“并行”概念是“并发”概念的一个子集</strong>。也就是说，你可以编写一个拥有多个线程或者进程的并发程序，但如果没有多核处理器来执行这个程序，那么就不能以并行方式来运行代码。因此，凡是在求解单个问题时涉及多个执行流程的编程模式或者执行行为，都属于并发编程的范畴。</p>
+<h2 id="编程语言的并发模型"><a class="header" href="#编程语言的并发模型">编程语言的并发模型</a></h2>
+<p>如果大家学过其它语言的多线程，可能就知道不同语言对于线程的实现可能大相径庭：</p>
+<ul>
+<li>由于操作系统提供了创建线程的 API，因此部分语言会直接调用该 API 来创建线程，因此最终程序内的线程数和该程序占用的操作系统线程数相等，一般称之为<strong>1:1 线程模型</strong>，例如 Rust。</li>
+<li>还有些语言在内部实现了自己的线程模型（绿色线程、协程），程序内部的 M 个线程最后会以某种映射方式使用 N 个操作系统线程去运行，因此称之为<strong>M:N 线程模型</strong>，其中 M 和 N 并没有特定的彼此限制关系。一个典型的代表就是 Go 语言。</li>
+<li>还有些语言使用了 Actor 模型，基于消息传递进行并发，例如 Erlang 语言。</li>
+</ul>
+<p>总之，每一种模型都有其优缺点及选择上的权衡，而 Rust 在设计时考虑的权衡就是运行时(Runtime)。出于 Rust 的系统级使用场景，且要保证调用 C 时的极致性能，它最终选择了尽量小的运行时实现。</p>
+<blockquote>
+<p>运行时是那些会被打包到所有程序可执行文件中的 Rust 代码，根据每个语言的设计权衡，运行时虽然有大有小（例如 Go 语言由于实现了协程和 GC，运行时相对就会更大一些），但是除了汇编之外，每个语言都拥有它。小运行时的其中一个好处在于最终编译出的可执行文件会相对较小，同时也让该语言更容易被其它语言引入使用。</p>
+</blockquote>
+<p>而绿色线程/协程的实现会显著增大运行时的大小，因此 Rust 只在标准库中提供了 <code>1:1</code> 的线程模型，如果你愿意牺牲一些性能来换取更精确的线程控制以及更小的线程上下文切换成本，那么可以选择 Rust 中的 <code>M:N</code> 模型，这些模型由三方库提供了实现，例如大名鼎鼎的 <code>tokio</code>。</p>
+<p>在了解了并发和并行后，我们可以正式开始 Rust 的多线程之旅。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../advance/concurrency-with-threads/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../advance/concurrency-with-threads/thread.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../advance/concurrency-with-threads/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../advance/concurrency-with-threads/thread.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

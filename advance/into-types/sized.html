@@ -1,0 +1,321 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Sized 和不定长类型 DST - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/into-types/sized.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="sized-和不定长类型-dst"><a class="header" href="#sized-和不定长类型-dst">Sized 和不定长类型 DST</a></h1>
+<p>在 Rust 中类型有多种抽象的分类方式，例如本书之前章节的：基本类型、集合类型、复合类型等。再比如说，如果从编译器何时能获知类型大小的角度出发，可以分成两类:</p>
+<ul>
+<li>定长类型( sized )，这些类型的大小在编译时是已知的</li>
+<li>不定长类型( unsized )，与定长类型相反，它的大小只有到了程序运行时才能动态获知，这种类型又被称之为 DST</li>
+</ul>
+<p>首先，我们来深入看看何为 DST。</p>
+<h2 id="动态大小类型-dst"><a class="header" href="#动态大小类型-dst">动态大小类型 DST</a></h2>
+<p>读者大大们之前学过的几乎所有类型，都是固定大小的类型，包括集合 <code>Vec</code>、<code>String</code> 和 <code>HashMap</code> 等，而动态大小类型刚好与之相反：<strong>编译器无法在编译期得知该类型值的大小，只有到了程序运行时，才能动态获知</strong>。对于动态类型，我们使用 <code>DST</code>(dynamically sized types)或者 <code>unsized</code> 类型来称呼它。</p>
+<p>上述的这些集合虽然底层数据可动态变化，感觉像是动态大小的类型。但是实际上，<strong>这些底层数据只是保存在堆上，在栈中还存有一个引用类型</strong>，该引用包含了集合的内存地址、元素数目、分配空间信息，通过这些信息，编译器对于该集合的实际大小了若指掌，最最重要的是：<strong>栈上的引用类型是固定大小的</strong>，因此它们依然是固定大小的类型。</p>
+<p><strong>正因为编译器无法在编译期获知类型大小，若你试图在代码中直接使用 DST 类型，将无法通过编译。</strong></p>
+<p>现在给你一个挑战：想出几个 DST 类型。俺厚黑地说一句，估计大部分人都想不出这样的一个类型，就连我，如果不是查询着资料在写，估计一时半会儿也想不到一个。</p>
+<p>先来看一个最直白的：</p>
+<h4 id="试图创建动态大小的数组"><a class="header" href="#试图创建动态大小的数组">试图创建动态大小的数组</a></h4>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn my_function(n: usize) {
+    let array = [123; n];
+}
+<span class="boring">}</span></code></pre></pre>
+<p>以上代码就会报错(错误输出的内容并不是因为 DST，但根本原因是类似的)，因为 <code>n</code> 在编译期无法得知，而数组类型的一个组成部分就是长度，长度变为动态的，自然类型就变成了 unsized 。</p>
+<h4 id="切片"><a class="header" href="#切片">切片</a></h4>
+<p>切片也是一个典型的 DST 类型，具体详情参见另一篇文章: <a href="https://course.rs/difficulties/slice.html">易混淆的切片和切片引用</a>。</p>
+<h4 id="str"><a class="header" href="#str">str</a></h4>
+<p>考虑一下这个类型：<code>str</code>，感觉有点眼生？是的，它既不是 <code>String</code> 动态字符串，也不是 <code>&amp;str</code> 字符串切片，而是一个 <code>str</code>。它是一个动态类型，同时还是 <code>String</code> 和 <code>&amp;str</code> 的底层数据类型。 由于 <code>str</code> 是动态类型，因此它的大小直到运行期才知道，下面的代码会因此报错：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// error
+let s1: str = "Hello there!";
+let s2: str = "How's it going?";
+
+// ok
+let s3: &amp;str = "on?"
+<span class="boring">}</span></code></pre></pre>
+<p>Rust 需要明确地知道一个特定类型的值占据了多少内存空间，同时该类型的所有值都必须使用相同大小的内存。如果 Rust 允许我们使用这种动态类型，那么这两个 <code>str</code> 值就需要占用同样大小的内存，这显然是不现实的: <code>s1</code> 占用了 12 字节，<code>s2</code> 占用了 15 字节，总不至于为了满足同样的内存大小，用空白字符去填补字符串吧？</p>
+<p>所以，我们只有一条路走，那就是给它们一个固定大小的类型：<code>&amp;str</code>。那么为何字符串切片 <code>&amp;str</code> 就是固定大小呢？因为它的引用存储在栈上，具有固定大小(类似指针)，同时它指向的数据存储在堆中，也是已知的大小，再加上 <code>&amp;str</code> 引用中包含有堆上数据内存地址、长度等信息，因此最终可以得出字符串切片是固定大小类型的结论。</p>
+<p>与 <code>&amp;str</code> 类似，<code>String</code> 字符串也是固定大小的类型。</p>
+<p>正是因为 <code>&amp;str</code> 的引用有了底层堆数据的明确信息，它才是固定大小类型。假设如果它没有这些信息呢？那它也将变成一个动态类型。因此，将动态数据固定化的秘诀就是<strong>使用引用指向这些动态数据，然后在引用中存储相关的内存位置、长度等信息</strong>。</p>
+<h4 id="特征对象"><a class="header" href="#特征对象">特征对象</a></h4>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn foobar_1(thing: &amp;dyn MyThing) {}     // OK
+fn foobar_2(thing: Box&lt;dyn MyThing&gt;) {} // OK
+fn foobar_3(thing: MyThing) {}          // ERROR!
+<span class="boring">}</span></code></pre></pre>
+<p>如上所示，只能通过引用或 <code>Box</code> 的方式来使用特征对象，直接使用将报错！</p>
+<h4 id="总结只能间接使用的-dst"><a class="header" href="#总结只能间接使用的-dst">总结：只能间接使用的 DST</a></h4>
+<p>Rust 中常见的 <code>DST</code> 类型有: <code>str</code>、<code>[T]</code>、<code>dyn Trait</code>，<strong>它们都无法单独被使用，必须要通过引用或者 <code>Box</code> 来间接使用</strong> 。</p>
+<p>我们之前已经见过，使用 <code>Box</code> 将一个没有固定大小的特征变成一个有固定大小的特征对象，那能否故技重施，将 <code>str</code> 封装成一个固定大小类型？留个悬念先，我们来看看 <code>Sized</code> 特征。</p>
+<h2 id="sized-特征"><a class="header" href="#sized-特征">Sized 特征</a></h2>
+<p>既然动态类型的问题这么大，那么在使用泛型时，Rust 如何保证我们的泛型参数是固定大小的类型呢？例如以下泛型函数：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn generic&lt;T&gt;(t: T) {
+    // --snip--
+}
+<span class="boring">}</span></code></pre></pre>
+<p>该函数很简单，就一个泛型参数 T，那么如何保证 <code>T</code> 是固定大小的类型？仔细回想下，貌似在之前的课程章节中，我们也没有做过任何事情去做相关的限制，那 <code>T</code> 怎么就成了固定大小的类型了？奥秘在于编译器自动帮我们加上了 <code>Sized</code> 特征约束：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn generic&lt;T: Sized&gt;(t: T) {
+    // --snip--
+}
+<span class="boring">}</span></code></pre></pre>
+<p>在上面，Rust 自动添加的特征约束 <code>T: Sized</code>，表示泛型函数只能用于一切实现了 <code>Sized</code> 特征的类型上，而<strong>所有在编译时就能知道其大小的类型，都会自动实现 <code>Sized</code> 特征</strong>，例如。。。。也没啥好例如的，你能想到的几乎所有类型都实现了 <code>Sized</code> 特征，除了上面那个坑坑的 <code>str</code>，哦，还有特征。</p>
+<p><strong>每一个特征都是一个可以通过名称来引用的动态大小类型</strong>。因此如果想把特征作为具体的类型来传递给函数，你必须将其转换成一个特征对象：诸如 <code>&amp;dyn Trait</code> 或者 <code>Box&lt;dyn Trait&gt;</code> (还有 <code>Rc&lt;dyn Trait&gt;</code>)这些引用类型。</p>
+<p>现在还有一个问题：假如想在泛型函数中使用动态数据类型怎么办？可以使用 <code>?Sized</code> 特征(不得不说这个命名方式很 Rusty，竟然有点幽默)：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn generic&lt;T: ?Sized&gt;(t: &amp;T) {
+    // --snip--
+}
+<span class="boring">}</span></code></pre></pre>
+<p><code>?Sized</code> 特征用于表明类型 <code>T</code> 既有可能是固定大小的类型，也可能是动态大小的类型。还有一点要注意的是，函数参数类型从 <code>T</code> 变成了 <code>&amp;T</code>，因为 <code>T</code> 可能是动态大小的，因此需要用一个固定大小的指针(引用)来包裹它。</p>
+<h2 id="boxstr"><a class="header" href="#boxstr"><code>Box&lt;str&gt;</code></a></h2>
+<p>在结束前，再来看看之前遗留的问题：使用 <code>Box</code> 可以将一个动态大小的特征变成一个具有固定大小的特征对象，能否故技重施，将 <code>str</code> 封装成一个固定大小类型？</p>
+<p>先回想下，章节前面的内容介绍过该如何把一个动态大小类型转换成固定大小的类型： <strong>使用引用指向这些动态数据，然后在引用中存储相关的内存位置、长度等信息</strong>。</p>
+<p>好的，根据这个，我们来一起推测。首先，<code>Box&lt;str&gt;</code> 使用了一个引用来指向 <code>str</code>，嗯，满足了第一个条件。但是第二个条件呢？<code>Box</code> 中有该 <code>str</code> 的长度信息吗？显然是 <code>No</code>。那为什么特征就可以变成特征对象？其实这个还蛮复杂的，简单来说，对于特征对象，编译器无需知道它具体是什么类型，只要知道它能调用哪几个方法即可，因此编译器帮我们实现了剩下的一切。</p>
+<p>来验证下我们的推测：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let s1: Box&lt;str&gt; = Box::new("Hello there!" as str);
+}</code></pre></pre>
+<p>报错如下：</p>
+<pre><code>error[E0277]: the size for values of type `str` cannot be known at compilation time
+ --&gt; src/main.rs:2:24
+  |
+2 |     let s1: Box&lt;str&gt; = Box::new("Hello there!" as str);
+  |                        ^^^^^^^^ doesn't have a size known at compile-time
+  |
+  = help: the trait `Sized` is not implemented for `str`
+  = note: all function arguments must have a statically known size
+</code></pre>
+<p>提示得很清晰，不知道 <code>str</code> 的大小，因此无法使用这种语法进行 <code>Box</code> 进装，但是你可以这么做:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let s1: Box&lt;str&gt; = "Hello there!".into();
+<span class="boring">}</span></code></pre></pre>
+<p>主动转换成 <code>str</code> 的方式不可行，但是可以让编译器来帮我们完成，只要告诉它我们需要的类型即可。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../advance/into-types/custom-type.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../advance/into-types/enum-int.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../advance/into-types/custom-type.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../advance/into-types/enum-int.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,653 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>使用多线程 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/concurrency-with-threads/thread.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="使用线程"><a class="header" href="#使用线程">使用线程</a></h1>
+<p>放在十年前，多线程编程可能还是一个少数人才掌握的核心概念，但是在今天，随着编程语言的不断发展，多线程、多协程、Actor 等并发编程方式已经深入人心，同时多线程编程的门槛也在不断降低，本章节我们来看看在 Rust 中该如何使用多线程。</p>
+<h2 id="多线程编程的风险"><a class="header" href="#多线程编程的风险">多线程编程的风险</a></h2>
+<p>由于多线程的代码是同时运行的，因此我们无法保证线程间的执行顺序，这会导致一些问题：</p>
+<ul>
+<li>竞态条件(race conditions)，多个线程以非一致性的顺序同时访问数据资源</li>
+<li>死锁(deadlocks)，两个线程都想使用某个资源，但是又都在等待对方释放资源后才能使用，结果最终都无法继续执行</li>
+<li>一些因为多线程导致的很隐晦的 BUG，难以复现和解决</li>
+</ul>
+<p>虽然 Rust 已经通过各种机制减少了上述情况的发生，但是依然无法完全避免上述情况，因此我们在编程时需要格外的小心，同时本书也会列出多线程编程时常见的陷阱，让你提前规避可能的风险。</p>
+<h2 id="创建线程"><a class="header" href="#创建线程">创建线程</a></h2>
+<p>使用 <code>thread::spawn</code> 可以创建线程：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::thread;
+use std::time::Duration;
+
+fn main() {
+    thread::spawn(|| {
+        for i in 1..10 {
+            println!("hi number {} from the spawned thread!", i);
+            thread::sleep(Duration::from_millis(1));
+        }
+    });
+
+    for i in 1..5 {
+        println!("hi number {} from the main thread!", i);
+        thread::sleep(Duration::from_millis(1));
+    }
+}</code></pre></pre>
+<p>有几点值得注意：</p>
+<ul>
+<li>线程内部的代码使用闭包来执行</li>
+<li><code>main</code> 线程一旦结束，程序就立刻结束，因此需要保持它的存活，直到其它子线程完成自己的任务</li>
+<li><code>thread::sleep</code> 会让当前线程休眠指定的时间，随后其它线程会被调度运行（上一节并发与并行中有简单介绍过），因此就算你的电脑只有一个 CPU 核心，该程序也会表现的如同多 CPU 核心一般，这就是并发！</li>
+</ul>
+<p>来看看输出：</p>
+<pre><code class="language-console">hi number 1 from the main thread!
+hi number 1 from the spawned thread!
+hi number 2 from the main thread!
+hi number 2 from the spawned thread!
+hi number 3 from the main thread!
+hi number 3 from the spawned thread!
+hi number 4 from the spawned thread!
+hi number 4 from the main thread!
+hi number 5 from the spawned thread!
+</code></pre>
+<p>如果多运行几次，你会发现好像每次输出会不太一样，因为：虽说线程往往是轮流执行的，但是这一点无法被保证！线程调度的方式往往取决于你使用的操作系统。总之，<strong>千万不要依赖线程的执行顺序</strong>。</p>
+<h2 id="等待子线程的结束"><a class="header" href="#等待子线程的结束">等待子线程的结束</a></h2>
+<p>上面的代码你不但可能无法让子线程从 1 顺序打印到 10，而且可能打印的数字会变少，因为主线程会提前结束，导致子线程也随之结束，更过分的是，如果当前系统繁忙，甚至该子线程还没被创建，主线程就已经结束了！</p>
+<p>因此我们需要一个方法，让主线程安全、可靠地等所有子线程完成任务后，再 kill self：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let handle = thread::spawn(|| {
+        for i in 1..5 {
+            println!("hi number {} from the spawned thread!", i);
+            thread::sleep(Duration::from_millis(1));
+        }
+    });
+
+    handle.join().unwrap();
+
+    for i in 1..5 {
+        println!("hi number {} from the main thread!", i);
+        thread::sleep(Duration::from_millis(1));
+    }
+}</code></pre></pre>
+<p>通过调用 <code>handle.join</code>，可以让当前线程阻塞，直到它等待的子线程的结束，在上面代码中，由于 <code>main</code> 线程会被阻塞，因此它直到子线程结束后才会输出自己的 <code>1..5</code>：</p>
+<pre><code class="language-console">hi number 1 from the spawned thread!
+hi number 2 from the spawned thread!
+hi number 3 from the spawned thread!
+hi number 4 from the spawned thread!
+hi number 1 from the main thread!
+hi number 2 from the main thread!
+hi number 3 from the main thread!
+hi number 4 from the main thread!
+</code></pre>
+<p>以上输出清晰的展示了线程阻塞的作用，如果你将 <code>handle.join</code> 放置在 <code>main</code> 线程中的 <code>for</code> 循环后面，那就是另外一个结果：两个线程交替输出。</p>
+<h2 id="在线程闭包中使用-move"><a class="header" href="#在线程闭包中使用-move">在线程闭包中使用 move</a></h2>
+<p>在<a href="https://course.rs/advance/functional-programing/closure.html#move-%E5%92%8C-fn">闭包</a>章节中，有讲过 <code>move</code> 关键字在闭包中的使用可以让该闭包拿走环境中某个值的所有权，同样地，你可以使用 <code>move</code> 来将所有权从一个线程转移到另外一个线程。</p>
+<p>首先，来看看在一个线程中直接使用另一个线程中的数据会如何：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::thread;
+
+fn main() {
+    let v = vec![1, 2, 3];
+
+    let handle = thread::spawn(|| {
+        println!("Here's a vector: {:?}", v);
+    });
+
+    handle.join().unwrap();
+}</code></pre></pre>
+<p>以上代码在子线程的闭包中捕获了环境中的 <code>v</code> 变量，来看看结果：</p>
+<pre><code class="language-console">error[E0373]: closure may outlive the current function, but it borrows `v`, which is owned by the current function
+ --&gt; src/main.rs:6:32
+  |
+6 |     let handle = thread::spawn(|| {
+  |                                ^^ may outlive borrowed value `v`
+7 |         println!("Here's a vector: {:?}", v);
+  |                                           - `v` is borrowed here
+  |
+note: function requires argument type to outlive `'static`
+ --&gt; src/main.rs:6:18
+  |
+6 |       let handle = thread::spawn(|| {
+  |  __________________^
+7 | |         println!("Here's a vector: {:?}", v);
+8 | |     });
+  | |______^
+help: to force the closure to take ownership of `v` (and any other referenced variables), use the `move` keyword
+  |
+6 |     let handle = thread::spawn(move || {
+  |                                ++++
+</code></pre>
+<p>其实代码本身并没有什么问题，问题在于 Rust 无法确定新的线程会活多久（多个线程的结束顺序并不是固定的），所以也无法确定新线程所引用的 <code>v</code> 是否在使用过程中一直合法：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::thread;
+
+fn main() {
+    let v = vec![1, 2, 3];
+
+    let handle = thread::spawn(|| {
+        println!("Here's a vector: {:?}", v);
+    });
+
+    drop(v); // oh no!
+
+    handle.join().unwrap();
+}</code></pre></pre>
+<p>大家要记住，线程的启动时间点和结束时间点是不确定的，因此存在一种可能，当主线程执行完， <code>v</code> 被释放掉时，新的线程很可能还没有结束甚至还没有被创建成功，此时新线程对 <code>v</code> 的引用立刻就不再合法！</p>
+<p>好在报错里进行了提示：<code>to force the closure to take ownership of v (and any other referenced variables), use the `move` keyword</code>，让我们使用 <code>move</code> 关键字拿走 <code>v</code> 的所有权即可：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::thread;
+
+fn main() {
+    let v = vec![1, 2, 3];
+
+    let handle = thread::spawn(move || {
+        println!("Here's a vector: {:?}", v);
+    });
+
+    handle.join().unwrap();
+
+    // 下面代码会报错borrow of moved value: `v`
+    // println!("{:?}",v);
+}</code></pre></pre>
+<p>如上所示，很简单的代码，而且 Rust 的所有权机制保证了数据使用上的安全：<code>v</code> 的所有权被转移给新的线程后，<code>main</code> 线程将无法继续使用：最后一行代码将报错。</p>
+<h2 id="线程是如何结束的"><a class="header" href="#线程是如何结束的">线程是如何结束的</a></h2>
+<p>之前我们提到 <code>main</code> 线程是程序的主线程，一旦结束，则程序随之结束，同时各个子线程也将被强行终止。那么有一个问题，如果父线程不是 <code>main</code> 线程，那么父线程的结束会导致什么？自生自灭还是被干掉？</p>
+<p>在系统编程中，操作系统提供了直接杀死线程的接口，简单粗暴，但是 Rust 并没有提供这样的接口，原因在于，粗暴地终止一个线程可能会导致资源没有释放、状态混乱等不可预期的结果，一向以安全自称的 Rust，自然不会砸自己的饭碗。</p>
+<p>那么 Rust 中线程是如何结束的呢？答案很简单：线程的代码执行完，线程就会自动结束。但是如果线程中的代码不会执行完呢？那么情况可以分为两种进行讨论：</p>
+<ul>
+<li>线程的任务是一个循环 IO 读取，任务流程类似：IO 阻塞，等待读取新的数据 -&gt; 读到数据，处理完成 -&gt; 继续阻塞等待 ··· -&gt; 收到 socket 关闭的信号 -&gt; 结束线程，在此过程中，绝大部分时间线程都处于阻塞的状态，因此虽然看上去是循环，CPU 占用其实很小，也是网络服务中最最常见的模型</li>
+<li>线程的任务是一个循环，里面没有任何阻塞，包括休眠这种操作也没有，此时 CPU 很不幸的会被跑满，而且你如果没有设置终止条件，该线程将持续跑满一个 CPU 核心，并且不会被终止，直到 <code>main</code> 线程的结束</li>
+</ul>
+<p>第一情况很常见，我们来模拟看看第二种情况：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::thread;
+use std::time::Duration;
+fn main() {
+    // 创建一个线程A
+    let new_thread = thread::spawn(move || {
+        // 再创建一个线程B
+        thread::spawn(move || {
+            loop {
+                println!("I am a new thread.");
+            }
+        })
+    });
+
+    // 等待新创建的线程执行完成
+    new_thread.join().unwrap();
+    println!("Child thread is finish!");
+
+    // 睡眠一段时间，看子线程创建的子线程是否还在运行
+    thread::sleep(Duration::from_millis(100));
+}</code></pre></pre>
+<p>以上代码中，<code>main</code> 线程创建了一个新的线程 <code>A</code>，同时该新线程又创建了一个新的线程 <code>B</code>，可以看到 <code>A</code> 线程在创建完 <code>B</code> 线程后就立即结束了，而 <code>B</code> 线程则在不停地循环输出。</p>
+<p>从之前的线程结束规则，我们可以猜测程序将这样执行：<code>A</code> 线程结束后，由它创建的 <code>B</code> 线程仍在疯狂输出，直到 <code>main</code> 线程在 100 毫秒后结束。如果你把该时间增加到几十秒，就可以看到你的 CPU 核心 100% 的盛况了-,-</p>
+<h2 id="多线程的性能"><a class="header" href="#多线程的性能">多线程的性能</a></h2>
+<p>下面我们从多个方面来看看多线程的性能大概是怎么样的。</p>
+<h4 id="创建线程的性能"><a class="header" href="#创建线程的性能">创建线程的性能</a></h4>
+<p>据不精确估算，创建一个线程大概需要 0.24 毫秒，随着线程的变多，这个值会变得更大，因此线程的创建耗时是不可忽略的，只有当真的需要处理一个值得用线程去处理的任务时，才使用线程，一些鸡毛蒜皮的任务，就无需创建线程了。</p>
+<h4 id="创建多少线程合适"><a class="header" href="#创建多少线程合适">创建多少线程合适</a></h4>
+<p>因为 CPU 的核心数限制，当任务是 CPU 密集型时，就算线程数超过了 CPU 核心数，也并不能帮你获得更好的性能，因为每个线程的任务都可以轻松让 CPU 的某个核心跑满，既然如此，让线程数等于 CPU 核心数是最好的。</p>
+<p>但是当你的任务大部分时间都处于阻塞状态时，就可以考虑增多线程数量，这样当某个线程处于阻塞状态时，会被切走，进而运行其它的线程，典型就是网络 IO 操作，我们可以为每一个进来的用户连接创建一个线程去处理，该连接绝大部分时间都是处于 IO 读取阻塞状态，因此有限的 CPU 核心完全可以处理成百上千的用户连接线程，但是事实上，对于这种网络 IO 情况，一般都不再使用多线程的方式了，毕竟操作系统的线程数是有限的，意味着并发数也很容易达到上限，而且过多的线程也会导致线程上下文切换的代价过大，使用 <code>async/await</code> 的 <code>M:N</code> 并发模型，就没有这个烦恼。</p>
+<h4 id="多线程的开销"><a class="header" href="#多线程的开销">多线程的开销</a></h4>
+<p>下面的代码是一个无锁实现(CAS)的 <code>Hashmap</code> 在多线程下的使用：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>for i in 0..num_threads {
+    let ht = Arc::clone(&amp;ht);
+
+    let handle = thread::spawn(move || {
+        for j in 0..adds_per_thread {
+            let key = thread_rng().gen::&lt;u32&gt;();
+            let value = thread_rng().gen::&lt;u32&gt;();
+            ht.set_item(key, value);
+        }
+    });
+
+    handles.push(handle);
+}
+
+for handle in handles {
+    handle.join().unwrap();
+}
+<span class="boring">}</span></code></pre></pre>
+<p>按理来说，既然是无锁实现了，那么锁的开销应该几乎没有，性能会随着线程数的增加接近线性增长，但是真的是这样吗？</p>
+<p>下图是该代码在 <code>48</code> 核机器上的运行结果：</p>
+<img alt="" src="https://pic3.zhimg.com/80/v2-af225672de09c0e377023f5f39dd87eb_1440w.png" class="center"  />
+<p>从图上可以明显的看出：吞吐并不是线性增长，尤其从 <code>16</code> 核开始，甚至开始肉眼可见的下降，这是为什么呢？</p>
+<p>限于书本的篇幅有限，我们只能给出大概的原因：</p>
+<ul>
+<li>虽然是无锁，但是内部是 CAS 实现，大量线程的同时访问，会让 CAS 重试次数大幅增加</li>
+<li>线程过多时，CPU 缓存的命中率会显著下降，同时多个线程竞争一个 CPU Cache-line 的情况也会经常发生</li>
+<li>大量读写可能会让内存带宽也成为瓶颈</li>
+<li>读和写不一样，无锁数据结构的读往往可以很好地线性增长，但是写不行，因为写竞争太大</li>
+</ul>
+<p>总之，多线程的开销往往是在锁、数据竞争、缓存失效上，这些限制了现代化软件系统随着 CPU 核心的增多性能也线性增加的野心。</p>
+<h2 id="线程屏障barrier"><a class="header" href="#线程屏障barrier">线程屏障(Barrier)</a></h2>
+<p>在 Rust 中，可以使用 <code>Barrier</code> 让多个线程都执行到某个点后，才继续一起往后执行：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::{Arc, Barrier};
+use std::thread;
+
+fn main() {
+    let mut handles = Vec::with_capacity(6);
+    let barrier = Arc::new(Barrier::new(6));
+
+    for _ in 0..6 {
+        let b = barrier.clone();
+        handles.push(thread::spawn(move|| {
+            println!("before wait");
+            b.wait();
+            println!("after wait");
+        }));
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+}</code></pre></pre>
+<p>上面代码，我们在线程打印出 <code>before wait</code> 后增加了一个屏障，目的就是等所有的线程都打印出<strong>before wait</strong>后，各个线程再继续执行：</p>
+<pre><code class="language-console">before wait
+before wait
+before wait
+before wait
+before wait
+before wait
+after wait
+after wait
+after wait
+after wait
+after wait
+after wait
+</code></pre>
+<h2 id="线程局部变量thread-local-variable"><a class="header" href="#线程局部变量thread-local-variable">线程局部变量(Thread Local Variable)</a></h2>
+<p>对于多线程编程，线程局部变量在一些场景下非常有用，而 Rust 通过标准库和三方库对此进行了支持。</p>
+<h4 id="标准库-thread_local"><a class="header" href="#标准库-thread_local">标准库 thread_local</a></h4>
+<p>使用 <code>thread_local</code> 宏可以初始化线程局部变量，然后在线程内部使用该变量的 <code>with</code> 方法获取变量值：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::cell::RefCell;
+use std::thread;
+
+thread_local!(static FOO: RefCell&lt;u32&gt; = RefCell::new(1));
+
+FOO.with(|f| {
+    assert_eq!(*f.borrow(), 1);
+    *f.borrow_mut() = 2;
+});
+
+// 每个线程开始时都会拿到线程局部变量的FOO的初始值
+let t = thread::spawn(move|| {
+    FOO.with(|f| {
+        assert_eq!(*f.borrow(), 1);
+        *f.borrow_mut() = 3;
+    });
+});
+
+// 等待线程完成
+t.join().unwrap();
+
+// 尽管子线程中修改为了3，我们在这里依然拥有main线程中的局部值：2
+FOO.with(|f| {
+    assert_eq!(*f.borrow(), 2);
+});
+<span class="boring">}</span></code></pre></pre>
+<p>上面代码中，<code>FOO</code> 即是我们创建的<strong>线程局部变量</strong>，每个新的线程访问它时，都会使用它的初始值作为开始，各个线程中的 <code>FOO</code> 值彼此互不干扰。注意 <code>FOO</code> 使用 <code>static</code> 声明为生命周期为 <code>'static</code> 的静态变量。</p>
+<p>可以注意到，线程中对 <code>FOO</code> 的使用是通过借用的方式，但是若我们需要每个线程独自获取它的拷贝，最后进行汇总，就有些强人所难了。</p>
+<p>你还可以在结构体中使用线程局部变量：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::cell::RefCell;
+
+struct Foo;
+impl Foo {
+    thread_local! {
+        static FOO: RefCell&lt;usize&gt; = RefCell::new(0);
+    }
+}
+
+fn main() {
+    Foo::FOO.with(|x| println!("{:?}", x));
+}</code></pre></pre>
+<p>或者通过引用的方式使用它:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::cell::RefCell;
+use std::thread::LocalKey;
+
+thread_local! {
+    static FOO: RefCell&lt;usize&gt; = RefCell::new(0);
+}
+struct Bar {
+    foo: &amp;'static LocalKey&lt;RefCell&lt;usize&gt;&gt;,
+}
+impl Bar {
+    fn constructor() -&gt; Self {
+        Self {
+            foo: &amp;FOO,
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="三方库-thread-local"><a class="header" href="#三方库-thread-local">三方库 thread-local</a></h4>
+<p>除了标准库外，一位大神还开发了 <a href="https://github.com/Amanieu/thread_local-rs">thread-local</a> 库，它允许每个线程持有值的独立拷贝：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use thread_local::ThreadLocal;
+use std::sync::Arc;
+use std::cell::Cell;
+use std::thread;
+
+let tls = Arc::new(ThreadLocal::new());
+let mut v = vec![];
+// 创建多个线程
+for _ in 0..5 {
+    let tls2 = tls.clone();
+    let handle = thread::spawn(move || {
+        // 将计数器加1
+        // 请注意，由于线程 ID 在线程退出时会被回收，因此一个线程有可能回收另一个线程的对象
+        // 这只能在线程退出后发生，因此不会导致任何竞争条件
+        let cell = tls2.get_or(|| Cell::new(0));
+        cell.set(cell.get() + 1);
+    });
+    v.push(handle);
+}
+for handle in v {
+    handle.join().unwrap();
+}
+// 一旦所有子线程结束，收集它们的线程局部变量中的计数器值，然后进行求和
+let tls = Arc::try_unwrap(tls).unwrap();
+let total = tls.into_iter().fold(0, |x, y| {
+    // 打印每个线程局部变量中的计数器值，发现不一定有5个线程，
+    // 因为一些线程已退出，并且其他线程会回收退出线程的对象
+    println!("x: {}, y: {}", x, y.get());
+    x + y.get()
+});
+
+// 和为5
+assert_eq!(total, 5);
+<span class="boring">}</span></code></pre></pre>
+<p>该库不仅仅使用了值的拷贝，而且还能自动把多个拷贝汇总到一个迭代器中，最后进行求和，非常好用。</p>
+<h2 id="用条件控制线程的挂起和执行"><a class="header" href="#用条件控制线程的挂起和执行">用条件控制线程的挂起和执行</a></h2>
+<p>条件变量(Condition Variables)经常和 <code>Mutex</code> 一起使用，可以让线程挂起，直到某个条件发生后再继续执行：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::thread;
+use std::sync::{Arc, Mutex, Condvar};
+
+fn main() {
+    let pair = Arc::new((Mutex::new(false), Condvar::new()));
+    let pair2 = pair.clone();
+
+    thread::spawn(move|| {
+        let (lock, cvar) = &amp;*pair2;
+        let mut started = lock.lock().unwrap();
+        println!("changing started");
+        *started = true;
+        cvar.notify_one();
+    });
+
+    let (lock, cvar) = &amp;*pair;
+    let mut started = lock.lock().unwrap();
+    while !*started {
+        started = cvar.wait(started).unwrap();
+    }
+
+    println!("started changed");
+}</code></pre></pre>
+<p>上述代码流程如下：</p>
+<ol>
+<li><code>main</code> 线程首先进入 <code>while</code> 循环，调用 <code>wait</code> 方法挂起等待子线程的通知，并释放了锁 <code>started</code></li>
+<li>子线程获取到锁，并将其修改为 <code>true</code>，然后调用条件变量的 <code>notify_one</code> 方法来通知主线程继续执行</li>
+</ol>
+<h2 id="只被调用一次的函数"><a class="header" href="#只被调用一次的函数">只被调用一次的函数</a></h2>
+<p>有时，我们会需要某个函数在多线程环境下只被调用一次，例如初始化全局变量，无论是哪个线程先调用函数来初始化，都会保证全局变量只会被初始化一次，随后的其它线程调用就会忽略该函数：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">use std::thread;
+use std::sync::Once;
+
+static mut VAL: usize = 0;
+static INIT: Once = Once::new();
+
+fn main() {
+    let handle1 = thread::spawn(move || {
+        INIT.call_once(|| {
+            unsafe {
+                VAL = 1;
+            }
+        });
+    });
+
+    let handle2 = thread::spawn(move || {
+        INIT.call_once(|| {
+            unsafe {
+                VAL = 2;
+            }
+        });
+    });
+
+    handle1.join().unwrap();
+    handle2.join().unwrap();
+
+    println!("{}", unsafe { VAL });
+}</code></pre></pre>
+<p>代码运行的结果取决于哪个线程先调用 <code>INIT.call_once</code> （虽然代码具有先后顺序，但是线程的初始化顺序并无法被保证！因为线程初始化是异步的，且耗时较久），若 <code>handle1</code> 先，则输出 <code>1</code>，否则输出 <code>2</code>。</p>
+<p><strong>call_once 方法</strong></p>
+<p>执行初始化过程一次，并且只执行一次。</p>
+<p>如果当前有另一个初始化过程正在运行，线程将阻止该方法被调用。</p>
+<p>当这个函数返回时，保证一些初始化已经运行并完成，它还保证由执行的闭包所执行的任何内存写入都能被其他线程在这时可靠地观察到。</p>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p><a href="https://course.rs/advance/concurrency-with-threads/intro.html">Rust 的线程模型</a>是 <code>1:1</code> 模型，因为 Rust 要保持尽量小的运行时。</p>
+<p>我们可以使用 <code>thread::spawn</code> 来创建线程，创建出的多个线程之间并不存在执行顺序关系，因此代码逻辑千万不要依赖于线程间的执行顺序。</p>
+<p><code>main</code> 线程若是结束，则所有子线程都将被终止，如果希望等待子线程结束后，再结束 <code>main</code> 线程，你需要使用创建线程时返回的句柄的 <code>join</code> 方法。</p>
+<p>在线程中无法直接借用外部环境中的变量值，因为新线程的启动时间点和结束时间点是不确定的，所以 Rust 无法保证该线程中借用的变量在使用过程中依然是合法的。你可以使用 <code>move</code> 关键字将变量的所有权转移给新的线程，来解决此问题。</p>
+<p>父线程结束后，子线程仍在持续运行，直到子线程的代码运行完成或者 <code>main</code> 线程的结束。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../advance/concurrency-with-threads/concurrency-parallelism.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../advance/concurrency-with-threads/message-passing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../advance/concurrency-with-threads/concurrency-parallelism.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../advance/concurrency-with-threads/message-passing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

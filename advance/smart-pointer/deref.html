@@ -1,0 +1,503 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Deref 解引用 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/smart-pointer/deref.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="deref-解引用"><a class="header" href="#deref-解引用">Deref 解引用</a></h1>
+<p>在开始之前，我们先来看一段代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(Debug)]
+struct Person {
+    name: String,
+    age: u8
+}
+
+impl Person {
+    fn new(name: String, age: u8) -&gt; Self {
+        Person { name, age}
+    }
+
+    fn display(self: &amp;mut Person, age: u8) {
+        let Person{name, age} = &amp;self;
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>以上代码有一个很奇怪的地方：在 <code>display</code> 方法中，<code>self</code> 是 <code>&amp;mut Person</code> 的类型，接着我们对其取了一次引用 <code>&amp;self</code>，此时 <code>&amp;self</code> 的类型是 <code>&amp;&amp;mut Person</code>，然后我们又将其和 <code>Person</code> 类型进行匹配，取出其中的值。</p>
+<p>那么问题来了，Rust 不是号称安全的语言吗？为何允许将 <code>&amp;&amp;mut Person</code> 跟 <code>Person</code> 进行匹配呢？答案就在本章节中，等大家学完后，再回头自己来解决这个问题 :) 下面正式开始咱们的新章节学习。</p>
+<p>何为智能指针？能不让你写出 <code>****s</code> 形式的解引用，我认为就是智能: )，智能指针的名称来源，主要就在于它实现了 <code>Deref</code> 和 <code>Drop</code> 特征，这两个特征可以智能地帮助我们节省使用上的负担：</p>
+<ul>
+<li><code>Deref</code> 可以让智能指针像引用那样工作，这样你就可以写出同时支持智能指针和引用的代码，例如 <code>*T</code></li>
+<li><code>Drop</code> 允许你指定智能指针超出作用域后自动执行的代码，例如做一些数据清除等收尾工作</li>
+</ul>
+<p>先来看看 <code>Deref</code> 特征是如何工作的。</p>
+<h2 id="通过--获取引用背后的值"><a class="header" href="#通过--获取引用背后的值">通过 <code>*</code> 获取引用背后的值</a></h2>
+<p>在正式讲解 <code>Deref</code> 之前，我们先来看下常规引用的解引用。</p>
+<p>常规引用是一个指针类型，包含了目标数据存储的内存地址。对常规引用使用 <code>*</code> 操作符，就可以通过解引用的方式获取到内存地址对应的数据值：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let x = 5;
+    let y = &amp;x;
+
+    assert_eq!(5, x);
+    assert_eq!(5, *y);
+}</code></pre></pre>
+<p>这里 <code>y</code> 就是一个常规引用，包含了值 <code>5</code> 所在的内存地址，然后通过解引用 <code>*y</code>，我们获取到了值 <code>5</code>。如果你试图执行 <code>assert_eq!(5, y);</code>，代码就会无情报错，因为你无法将一个引用与一个数值做比较：</p>
+<pre><code class="language-console">error[E0277]: can't compare `{integer}` with `&amp;{integer}` //无法将{integer} 与&amp;{integer}进行比较
+ --&gt; src/main.rs:6:5
+  |
+6 |     assert_eq!(5, y);
+  |     ^^^^^^^^^^^^^^^^^ no implementation for `{integer} == &amp;{integer}`
+  |
+  = help: the trait `PartialEq&lt;&amp;{integer}&gt;` is not implemented for `{integer}`
+                    // 你需要为{integer}实现用于比较的特征PartialEq&lt;&amp;{integer}&gt;
+</code></pre>
+<h2 id="智能指针解引用"><a class="header" href="#智能指针解引用">智能指针解引用</a></h2>
+<p>上面所说的解引用方式和其它大多数语言并无区别，但是 Rust 中将解引用提升到了一个新高度。考虑一下智能指针，它是一个结构体类型，如果你直接对它进行 <code>*myStruct</code>，显然编译器不知道该如何办，因此我们可以为智能指针结构体实现 <code>Deref</code> 特征。</p>
+<p>实现 <code>Deref</code> 后的智能指针结构体，就可以像普通引用一样，通过 <code>*</code> 进行解引用，例如 <code>Box&lt;T&gt;</code> 智能指针：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let x = Box::new(1);
+    let sum = *x + 1;
+}</code></pre></pre>
+<p>智能指针 <code>x</code> 被 <code>*</code> 解引用为 <code>i32</code> 类型的值 <code>1</code>，然后再进行求和。</p>
+<h4 id="定义自己的智能指针"><a class="header" href="#定义自己的智能指针">定义自己的智能指针</a></h4>
+<p>现在，让我们一起来实现一个智能指针，功能上类似 <code>Box&lt;T&gt;</code>。由于 <code>Box&lt;T&gt;</code> 本身很简单，并没有包含类如长度、最大长度等信息，因此用一个元组结构体即可。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct MyBox&lt;T&gt;(T);
+
+impl&lt;T&gt; MyBox&lt;T&gt; {
+    fn new(x: T) -&gt; MyBox&lt;T&gt; {
+        MyBox(x)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>跟 <code>Box&lt;T&gt;</code> 一样，我们的智能指针也持有一个 <code>T</code> 类型的值，然后使用关联函数 <code>MyBox::new</code> 来创建智能指针。由于还未实现 <code>Deref</code> 特征，此时使用 <code>*</code> 肯定会报错：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let y = MyBox::new(5);
+
+    assert_eq!(5, *y);
+}</code></pre></pre>
+<p>运行后，报错如下：</p>
+<pre><code class="language-console">error[E0614]: type `MyBox&lt;{integer}&gt;` cannot be dereferenced
+  --&gt; src/main.rs:12:19
+   |
+12 |     assert_eq!(5, *y);
+   |                   ^^
+</code></pre>
+<h5 id="为智能指针实现-deref-特征"><a class="header" href="#为智能指针实现-deref-特征">为智能指针实现 Deref 特征</a></h5>
+<p>现在来为 <code>MyBox</code> 实现 <code>Deref</code> 特征，以支持 <code>*</code> 解引用操作符：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::ops::Deref;
+
+impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
+    type Target = T;
+
+    fn deref(&amp;self) -&gt; &amp;Self::Target {
+        &amp;self.0
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>很简单，当解引用 <code>MyBox</code> 智能指针时，返回元组结构体中的元素 <code>&amp;self.0</code>，有几点要注意的：</p>
+<ul>
+<li>在 <code>Deref</code> 特征中声明了关联类型 <code>Target</code>，在之前章节中介绍过，关联类型主要是为了提升代码可读性</li>
+<li><code>deref</code> 返回的是一个常规引用，可以被 <code>*</code> 进行解引用</li>
+</ul>
+<p>之前报错的代码此时已能顺利编译通过。当然，标准库实现的智能指针要考虑很多边边角角情况，肯定比我们的实现要复杂。</p>
+<h2 id="-背后的原理"><a class="header" href="#-背后的原理"><code>*</code> 背后的原理</a></h2>
+<p>当我们对智能指针 <code>Box</code> 进行解引用时，实际上 Rust 为我们调用了以下方法：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>*(y.deref())
+<span class="boring">}</span></code></pre></pre>
+<p>首先调用 <code>deref</code> 方法返回值的常规引用，然后通过 <code>*</code> 对常规引用进行解引用，最终获取到目标值。</p>
+<p>至于 Rust 为何要使用这个有点啰嗦的方式实现，原因在于所有权系统的存在。如果 <code>deref</code> 方法直接返回一个值，而不是引用，那么该值的所有权将被转移给调用者，而我们不希望调用者仅仅只是 <code>*T</code> 一下，就拿走了智能指针中包含的值。</p>
+<p>需要注意的是，<code>*</code> 不会无限递归替换，从 <code>*y</code> 到 <code>*(y.deref())</code> 只会发生一次，而不会继续进行替换然后产生形如 <code>*((y.deref()).deref())</code> 的怪物。</p>
+<h2 id="函数和方法中的隐式-deref-转换"><a class="header" href="#函数和方法中的隐式-deref-转换">函数和方法中的隐式 Deref 转换</a></h2>
+<p>对于函数和方法的传参，Rust 提供了一个极其有用的隐式转换：<code>Deref </code>转换。若一个类型实现了 <code>Deref</code> 特征，那它的引用在传给函数或方法时，会根据参数签名来决定是否进行隐式的 <code>Deref</code> 转换，例如：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let s = String::from("hello world");
+    display(&amp;s)
+}
+
+fn display(s: &amp;str) {
+    println!("{}",s);
+}</code></pre></pre>
+<p>以上代码有几点值得注意：</p>
+<ul>
+<li><code>String</code> 实现了 <code>Deref</code> 特征，可以在需要时自动被转换为 <code>&amp;str</code> 类型</li>
+<li><code>&amp;s</code> 是一个 <code>&amp;String</code> 类型，当它被传给 <code>display</code> 函数时，自动通过 <code>Deref</code> 转换成了 <code>&amp;str</code></li>
+<li>必须使用 <code>&amp;s</code> 的方式来触发 <code>Deref</code>(仅引用类型的实参才会触发自动解引用)</li>
+</ul>
+<h4 id="连续的隐式-deref-转换"><a class="header" href="#连续的隐式-deref-转换">连续的隐式 Deref 转换</a></h4>
+<p>如果你以为 <code>Deref</code> 仅仅这点作用，那就大错特错了。<code>Deref</code> 可以支持连续的隐式转换，直到找到适合的形式为止：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let s = MyBox::new(String::from("hello world"));
+    display(&amp;s)
+}
+
+fn display(s: &amp;str) {
+    println!("{}",s);
+}</code></pre></pre>
+<p>这里我们使用了之前自定义的智能指针 <code>MyBox</code>，并将其通过连续的隐式转换变成 <code>&amp;str</code> 类型：首先 <code>MyBox</code> 被 <code>Deref</code> 成 <code>String</code> 类型，结果并不能满足 <code>display</code> 函数参数的要求，编译器发现 <code>String</code> 还可以继续 <code>Deref</code> 成 <code>&amp;str</code>，最终成功的匹配了函数参数。</p>
+<p>想象一下，假如 <code>Rust</code> 没有提供这种隐式转换，我们该如何调用 <code>display</code> 函数？</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let m = MyBox::new(String::from("Rust"));
+    display(&amp;(*m)[..]);
+}</code></pre></pre>
+<p>结果不言而喻，肯定是 <code>&amp;s</code> 的方式优秀得多。总之，当参与其中的类型定义了 <code>Deref</code> 特征时，Rust 会分析该类型并且连续使用 <code>Deref</code> 直到最终获得一个引用来匹配函数或者方法的参数类型，这种行为完全不会造成任何的性能损耗，因为完全是在编译期完成。</p>
+<p>但是 <code>Deref</code> 并不是没有缺点，缺点就是：如果你不知道某个类型是否实现了 <code>Deref</code> 特征，那么在看到某段代码时，并不能在第一时间反应过来该代码发生了隐式的 <code>Deref</code> 转换。事实上，不仅仅是 <code>Deref</code>，在 Rust 中还有各种 <code>From/Into</code> 等等会给阅读代码带来一定负担的特征。还是那句话，一切选择都是权衡，有得必有失，得了代码的简洁性，往往就失去了可读性，Go 语言就是一个刚好相反的例子。</p>
+<p>再来看一下在方法、赋值中自动应用 <code>Deref</code> 的例子：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let s = MyBox::new(String::from("hello, world"));
+    let s1: &amp;str = &amp;s;
+    let s2: String = s.to_string();
+}</code></pre></pre>
+<p>对于 <code>s1</code>，我们通过两次 <code>Deref</code> 将 <code>&amp;str</code> 类型的值赋给了它（<strong>赋值操作需要手动解引用</strong>）；而对于 <code>s2</code>，我们在其上直接调用方法 <code>to_string</code>，实际上 <code>MyBox</code> 根本没有没有实现该方法，能调用 <code>to_string</code>，完全是因为编译器对 <code>MyBox</code> 应用了 <code>Deref</code> 的结果（<strong>方法调用会自动解引用</strong>）。</p>
+<h2 id="deref-规则总结"><a class="header" href="#deref-规则总结">Deref 规则总结</a></h2>
+<p>在上面，我们零碎的介绍了不少关于 <code>Deref</code> 特征的知识，下面来通过较为正式的方式来对其规则进行下总结。</p>
+<p>一个类型为 <code>T</code> 的对象 <code>foo</code>，如果 <code>T: Deref&lt;Target=U&gt;</code>，那么，相关 <code>foo</code> 的引用 <code>&amp;foo</code> 在应用的时候会自动转换为 <code>&amp;U</code>。</p>
+<p>粗看这条规则，貌似有点类似于 <code>AsRef</code>，而跟 <code>解引用</code> 似乎风马牛不相及，实际里面有些玄妙之处。</p>
+<h4 id="引用归一化"><a class="header" href="#引用归一化">引用归一化</a></h4>
+<p>Rust 编译器实际上只能对 <code>&amp;v</code> 形式的引用进行解引用操作，那么问题来了，如果是一个智能指针或者 <code>&amp;&amp;&amp;&amp;v</code> 类型的呢？ 该如何对这两个进行解引用？</p>
+<p>答案是：Rust 会在解引用时自动把智能指针和 <code>&amp;&amp;&amp;&amp;v</code> 做引用归一化操作，转换成 <code>&amp;v</code> 形式，最终再对 <code>&amp;v</code> 进行解引用：</p>
+<ul>
+<li>把智能指针（比如在库中定义的，Box、Rc、Arc、Cow 等）从结构体脱壳为内部的引用类型，也就是转成结构体内部的 <code>&amp;v</code></li>
+<li>把多重<code>&amp;</code>，例如 <code>&amp;&amp;&amp;&amp;&amp;&amp;&amp;v</code>，归一成 <code>&amp;v</code></li>
+</ul>
+<p>关于第二种情况，这么干巴巴的说，也许大家会迷迷糊糊的，我们来看一段标准库源码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;T: ?Sized&gt; Deref for &amp;T {
+    type Target = T;
+
+    fn deref(&amp;self) -&gt; &amp;T {
+        *self
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p>在这段源码中，<code>&amp;T</code> 被自动解引用为 <code>T</code>，也就是 <code>&amp;T: Deref&lt;Target=T&gt;</code> 。 按照这个代码，<code>&amp;&amp;&amp;&amp;T</code> 会被自动解引用为 <code>&amp;&amp;&amp;T</code>，然后再自动解引用为 <code>&amp;&amp;T</code>，以此类推， 直到最终变成 <code>&amp;T</code>。</p>
+<p>PS: 以下是 <code>LLVM</code> 编译后的部分中间层代码：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Rust 代码
+let mut _2: &amp;i32;
+let _3: &amp;&amp;&amp;&amp;i32;
+
+bb0: {
+    _2 = (*(*(*_3)))
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="几个例子"><a class="header" href="#几个例子">几个例子</a></h4>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    fn foo(s: &amp;str) {}
+
+    // 由于 String 实现了 Deref&lt;Target=str&gt;
+    let owned = "Hello".to_string();
+
+    // 因此下面的函数可以正常运行：
+    foo(&amp;owned);
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    use std::rc::Rc;
+
+    fn foo(s: &amp;str) {}
+
+    // String 实现了 Deref&lt;Target=str&gt;
+    let owned = "Hello".to_string();
+    // 且 Rc 智能指针可以被自动脱壳为内部的 `owned` 引用： &amp;String ，然后 &amp;String 再自动解引用为 &amp;str
+    let counted = Rc::new(owned);
+
+    // 因此下面的函数可以正常运行:
+    foo(&amp;counted);
+<span class="boring">}</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    struct Foo;
+
+    impl Foo {
+        fn foo(&amp;self) { println!("Foo"); }
+    }
+
+    let f = &amp;&amp;Foo;
+
+    f.foo();
+    (&amp;f).foo();
+    (&amp;&amp;f).foo();
+    (&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;f).foo();
+<span class="boring">}</span></code></pre></pre>
+<h2 id="三种-deref-转换"><a class="header" href="#三种-deref-转换">三种 Deref 转换</a></h2>
+<p>在之前，我们讲的都是不可变的 <code>Deref</code> 转换，实际上 Rust 还支持将一个可变的引用转换成另一个可变的引用以及将一个可变引用转换成不可变的引用，规则如下：</p>
+<ul>
+<li>当 <code>T: Deref&lt;Target=U&gt;</code>，可以将 <code>&amp;T</code> 转换成 <code>&amp;U</code>，也就是我们之前看到的例子</li>
+<li>当 <code>T: DerefMut&lt;Target=U&gt;</code>，可以将 <code>&amp;mut T</code> 转换成 <code>&amp;mut U</code></li>
+<li>当 <code>T: Deref&lt;Target=U&gt;</code>，可以将 <code>&amp;mut T</code> 转换成 <code>&amp;U</code></li>
+</ul>
+<p>来看一个关于 <code>DerefMut</code> 的例子：</p>
+<pre><pre class="playground"><code class="language-rust edition2021">struct MyBox&lt;T&gt; {
+    v: T,
+}
+
+impl&lt;T&gt; MyBox&lt;T&gt; {
+    fn new(x: T) -&gt; MyBox&lt;T&gt; {
+        MyBox { v: x }
+    }
+}
+
+use std::ops::Deref;
+
+impl&lt;T&gt; Deref for MyBox&lt;T&gt; {
+    type Target = T;
+
+    fn deref(&amp;self) -&gt; &amp;Self::Target {
+        &amp;self.v
+    }
+}
+
+use std::ops::DerefMut;
+
+impl&lt;T&gt; DerefMut for MyBox&lt;T&gt; {
+    fn deref_mut(&amp;mut self) -&gt; &amp;mut Self::Target {
+        &amp;mut self.v
+    }
+}
+
+fn main() {
+    let mut s = MyBox::new(String::from("hello, "));
+    display(&amp;mut s)
+}
+
+fn display(s: &amp;mut String) {
+    s.push_str("world");
+    println!("{}", s);
+}</code></pre></pre>
+<p>以上代码有几点值得注意:</p>
+<ul>
+<li>要实现 <code>DerefMut</code> 必须要先实现 <code>Deref</code> 特征：<code>pub trait DerefMut: Deref</code></li>
+<li><code>T: DerefMut&lt;Target=U&gt;</code> 解读：将 <code>&amp;mut T</code> 类型通过 <code>DerefMut</code> 特征的方法转换为 <code>&amp;mut U</code> 类型，对应上例中，就是将 <code>&amp;mut MyBox&lt;String&gt;</code> 转换为 <code>&amp;mut String</code></li>
+</ul>
+<p>对于上述三条规则中的第三条，它比另外两条稍微复杂了点：Rust 可以把可变引用隐式的转换成不可变引用，但反之则不行。</p>
+<p>如果从 Rust 的所有权和借用规则的角度考虑，当你拥有一个可变的引用，那该引用肯定是对应数据的唯一借用，那么此时将可变引用变成不可变引用并不会破坏借用规则；但是如果你拥有一个不可变引用，那同时可能还存在其它几个不可变的引用，如果此时将其中一个不可变引用转换成可变引用，就变成了可变引用与不可变引用的共存，最终破坏了借用规则。</p>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p><code>Deref</code> 可以说是 Rust 中最常见的隐式类型转换，而且它可以连续的实现如 <code>Box&lt;String&gt; -&gt; String -&gt; &amp;str</code> 的隐式转换，只要链条上的类型实现了 <code>Deref</code> 特征。</p>
+<p>我们也可以为自己的类型实现 <code>Deref</code> 特征，但是原则上来说，只应该为自定义的智能指针实现 <code>Deref</code>。例如，虽然你可以为自己的自定义数组类型实现 <code>Deref</code> 以避免 <code>myArr.0[0]</code> 的使用形式，但是 Rust 官方并不推荐这么做，特别是在你开发三方库时。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../advance/smart-pointer/box.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../advance/smart-pointer/drop.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../advance/smart-pointer/box.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../advance/smart-pointer/drop.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>

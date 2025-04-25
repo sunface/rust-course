@@ -1,0 +1,369 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>依赖覆盖 - Rust语言圣经(Rust Course)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../theme/style.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust语言圣经(Rust Course)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/cargo/reference/deps-overriding.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="依赖覆盖"><a class="header" href="#依赖覆盖">依赖覆盖</a></h1>
+<p>依赖覆盖对于本地开发来说，是很常见的，大部分原因都是我们希望在某个包发布到 <code>crates.io</code> 之前使用它，例如：</p>
+<ul>
+<li>你正在同时开发一个包和一个项目，而后者依赖于前者，你希望能在该项目中对正在开发的包进行测试</li>
+<li>你引入的一个依赖包在 <code>master</code> 分支发布了新的代码，恰好修复了某个 bug，因此你希望能单独对该分支进行下测试</li>
+<li>你即将发布一个包的新版本，为了确保新版本正常工作，你需要对其进行集成测试</li>
+<li>你为项目的某个依赖包提了一个 PR 并解决了一个重要 bug，在等待合并到 <code>master</code> 分支，但是时间不等人，因此你决定先使用自己修改的版本，等未来合并后，再继续使用官方版本</li>
+</ul>
+<p>下面我们来具体看看类似的问题该如何解决。</p>
+<blockquote>
+<p>上一章节中我们讲了如果通过<a href="https://course.rs/cargo/reference/specify-deps/intro.html#%E5%A4%9A%E5%BC%95%E7%94%A8%E6%96%B9%E5%BC%8F%E6%B7%B7%E5%90%88">多种引用方式</a>来引入一个包，其实这也是一种依赖覆盖。</p>
+</blockquote>
+<h2 id="测试-bugfix-版本"><a class="header" href="#测试-bugfix-版本">测试 bugfix 版本</a></h2>
+<p>假设我们有一个项目正在使用 <a href="https://crates.io/crates/uuid"><code>uuid</code></a> 依赖包，但是却不幸地发现了一个 bug，由于这个 bug 影响了使用，没办法等到官方提交新版本，因此还是自己修复为好。</p>
+<p>我们项目的 <code>Cargo.toml</code> 内容如下：</p>
+<pre><code class="language-toml">[package]
+name = "my-library"
+version = "0.1.0"
+
+[dependencies]
+uuid = "0.8.2"
+</code></pre>
+<p>为了修复 <code>bug</code>，首先需要将 <code>uuid</code> 的源码克隆到本地，笔者是克隆到和项目同级的目录下:</p>
+<pre><code class="language-shell">git clone https://github.com/uuid-rs/uuid
+</code></pre>
+<p>下面，修改项目的 <code>Cargo.toml</code> 添加以下内容以引入本地克隆的版本:</p>
+<pre><code class="language-toml">[patch.crates-io]
+uuid = { path = "../uuid" }
+</code></pre>
+<p>这里我们使用自己修改过的 <code>patch</code> 来覆盖来自 <code>crates.io</code> 的版本，由于克隆下来的 <code>uuid</code> 目录和我们的项目同级，因此通过相对路径 "../uuid" 即可定位到。</p>
+<p>在成功为 <code>uuid</code> 打了本地补丁后，现在尝试在项目下运行 <code>cargo build</code>，但是却报错了，而且报错内容有一些看不太懂：</p>
+<pre><code class="language-shell">$ cargo build
+    Updating crates.io index
+warning: Patch `uuid v1.0.0-alpha.1 (/Users/sunfei/development/rust/demos/uuid)` was not used in the crate graph.
+Check that the patched package version and available features are compatible
+with the dependency requirements. If the patch has a different version from
+what is locked in the Cargo.lock file, run `cargo update` to use the new
+version. This may also occur with an optional dependency that is not enabled.
+</code></pre>
+<p>具体原因比较复杂，但是仔细观察，会发现克隆下来的 <code>uuid</code> 的版本是 <code>v1.0.0-alpha.1</code> (在 <code>"../uuid/Cargo.toml"</code> 中可以查看)，然后我们本地引入的 <code>uuid</code> 版本是 <code>0.8.2</code>，根据之前讲过的 <code>crates.io</code> 的<a href="https://course.rs/cargo/reference/specify-deps/intro.html#%E4%BB%8E-cratesio-%E5%BC%95%E5%85%A5%E4%BE%9D%E8%B5%96%E5%8C%85">版本规则</a>，这两者是不兼容的，<code>0.8.2</code> 只能升级到 <code>0.8.z</code>，例如 <code>0.8.3</code>。</p>
+<p>既然如此，我们先将 "../uuid/Cargo.toml" 中的 <code>version = "1.0.0-alpha.1"</code> 修改为 <code>version = "0.8.3"</code> ，然后看看结果先:</p>
+<pre><code class="language-shell">$ cargo build
+    Updating crates.io index
+   Compiling uuid v0.8.3 (/Users/sunfei/development/rust/demos/uuid)
+</code></pre>
+<p>大家注意到最后一行了吗？我们成功使用本地的 <code>0.8.3</code> 版本的 <code>uuid</code> 作为最新的依赖，因此也侧面证明了，补丁 <code>patch</code> 的版本也必须遵循相应的版本兼容规则！</p>
+<p>如果修改后还是有问题，大家可以试试以下命令，指定版本进行更新:</p>
+<pre><code class="language-shell">% cargo update -p uuid --precise 0.8.3
+    Updating crates.io index
+    Updating uuid v0.8.3 (/Users/sunfei/development/rust/demos/uuid) -&gt; v0.8.3
+</code></pre>
+<p>修复 bug 后，我们可以提交 pr 给 <code>uuid</code>，一旦 pr 被合并到了 <code>master</code> 分支，你可以直接通过以下方式来使用补丁:</p>
+<pre><code class="language-toml">[patch.crates-io]
+uuid = { git = 'https://github.com/uuid-rs/uuid' }
+</code></pre>
+<p>等未来新的内容更新到 <code>crates.io</code> 后，大家就可以移除这个补丁，直接更新 <code>[dependencies]</code> 中的 <code>uuid</code> 版本即可！</p>
+<h2 id="使用未发布的小版本"><a class="header" href="#使用未发布的小版本">使用未发布的小版本</a></h2>
+<p>还是 <code>uuid</code> 包，这次假设我们要为它新增一个特性，同时我们已经修改完毕，在本地测试过，并提交了相应的 pr，下面一起来看看该如何在它发布到 <code>crates.io</code> 之前继续使用。</p>
+<p>再做一个假设，对于 <code>uuid</code> 来说，目前 <code>crates.io</code> 上的版本是 <code>1.0.0</code>，在我们提交了 pr 并合并到 <code>master</code> 分支后，<code>master</code> 上的版本变成了 <code>1.0.1</code>，这意味着未来 <code>crates.io</code> 上的版本也将变成 <code>1.0.1</code>。</p>
+<p>为了使用新加的特性，同时当该包在未来发布到 <code>crates.io</code> 后，我们可以自动使用 <code>crates.io</code> 上的新版本，而无需再使用 <code>patch</code> 补丁，可以这样修改 <code>Cargo.toml</code>：</p>
+<pre><code class="language-toml">[package]
+name = "my-library"
+version = "0.1.0"
+
+[dependencies]
+uuid = "1.0.1"
+
+[patch.crates-io]
+uuid = { git = 'https://github.com/uuid-rs/uuid' }
+</code></pre>
+<p>注意，我们将 <code>[dependencies]</code> 中的 <code>uuid</code> 版本提前修改为 <code>1.0.1</code>，由于该版本在 <code>crates.io</code> 尚未发布，因此 <code>patch</code> 版本会被使用。</p>
+<p>现在，我们的项目是基于 <code>patch</code> 版本的 <code>uuid</code> 来构建，也就是从 <code>gihtub</code> 的 <code>master</code> 分支中拉取最新的 <code>commit</code> 来构建。一旦未来 <code>crates.io</code> 上有了 <code>1.0.1</code> 版本，那项目就会继续基于 <code>crates.io</code> 来构建，此时，<code>patch</code> 就可以删除了。</p>
+<h4 id="间接使用-patch"><a class="header" href="#间接使用-patch">间接使用 <code>patch</code></a></h4>
+<p>现在假设项目 <code>A</code> 的依赖是 <code>B</code> 和 <code>uuid</code>，而 <code>B</code> 的依赖也是 <code>uuid</code>，此时我们可以让 <code>A</code> 和 <code>B</code> 都使用来自 <code>GitHub</code> 的 <code>patch</code> 版本，配置如下:</p>
+<pre><code class="language-toml">[package]
+name = "my-binary"
+version = "0.1.0"
+
+[dependencies]
+my-library = { git = 'https://example.com/git/my-library' }
+uuid = "1.0.1"
+
+[patch.crates-io]
+uuid = { git = 'https://github.com/uuid-rs/uuid' }
+</code></pre>
+<p>如上所示，<code>patch</code> 不仅仅对于 <code>my-binary</code> 项目有用，对于 <code>my-binary</code> 的依赖 <code>my-library</code> 来说，一样可以间接生效。</p>
+<h4 id="非-cratesio-的-patch"><a class="header" href="#非-cratesio-的-patch">非 crates.io 的 patch</a></h4>
+<p>若我们想要覆盖的依赖并不是来自 <code>crates.io</code> ，就需要对 <code>[patch]</code> 做一些修改。例如依赖是 <code>git</code> 仓库，然后使用本地路径来覆盖它:</p>
+<pre><code class="language-toml">[patch."https://github.com/your/repository"]
+my-library = { path = "../my-library/path" }
+</code></pre>
+<p>easy，轻松搞定!</p>
+<h2 id="使用未发布的大版本"><a class="header" href="#使用未发布的大版本">使用未发布的大版本</a></h2>
+<p>现在假设我们要发布一个大版本 <code>2.0.0</code>，与之前类似，可以将 <code>Cargo.toml</code> 修改如下:</p>
+<pre><code class="language-toml">[dependencies]
+uuid = "2.0"
+
+[patch.crates-io]
+uuid = { git = "https://github.com/uuid-rs/uuid", branch = "2.0.0" }
+</code></pre>
+<p>此时 <code>2.0</code> 版本在 <code>crates.io</code> 上还不存在，因此我们使用了 <code>patch</code> 版本且指定了 <code>branch = "2.0.0"</code>。</p>
+<h4 id="间接使用-patch-1"><a class="header" href="#间接使用-patch-1">间接使用 <code>patch</code></a></h4>
+<p>这里需要注意，<strong>与之前的小版本不同，大版本的 <code>patch</code> 不会发生间接的传递！</strong>，例如：</p>
+<pre><code class="language-toml">[package]
+name = "my-binary"
+version = "0.1.0"
+
+[dependencies]
+my-library = { git = 'https://example.com/git/my-library' }
+uuid = "1.0"
+
+[patch.crates-io]
+uuid = { git = 'https://github.com/uuid-rs/uuid', branch = '2.0.0' }
+</code></pre>
+<p>以上配置中, <code>my-binary</code> 将继续使用 <code>1.x.y</code> 系列的版本，而 <code>my-library</code> 将使用最新的 <code>2.0.0</code> patch。</p>
+<p>原因是，大版本更新往往会带来破坏性的功能，Rust 为了让我们平稳的升级，采用了滚动的方式：在依赖图中逐步推进更新，而不是一次性全部更新。</p>
+<h2 id="多版本patch"><a class="header" href="#多版本patch">多版本[patch]</a></h2>
+<p>在之前章节，我们介绍过如何使用 <code>package key</code> 来<a href="https://course.rs/cargo/reference/specify-deps/intro.html#%E5%9C%A8-cargotoml-%E4%B8%AD%E9%87%8D%E5%91%BD%E5%90%8D%E4%BE%9D%E8%B5%96">重命名依赖包</a>，现在来看看如何使用它同时引入多个 <code>patch</code>。</p>
+<p>假设，我们对 <code>serde</code> 有两个新的 <code>patch</code> 需求:</p>
+<ul>
+<li><code>serde</code> 官方解决了一个 <code>bug</code> 但是还没发布到 <code>crates.io</code>，我们想直接从 <code>git</code> 仓库的最新 <code>commit</code> 拉取版本 <code>1.*</code></li>
+<li>我们自己为 <code>serde</code> 添加了新的功能，命名为 <code>2.0.0</code> 版本，并将该版本上传到自己的 <code>git</code> 仓库中</li>
+</ul>
+<p>为了满足这两个 <code>patch</code>，可以使用如下内容的 <code>Cargo.toml</code>：</p>
+<pre><code class="language-toml">[patch.crates-io]
+serde = { git = 'https://github.com/serde-rs/serde' }
+serde2 = { git = 'https://github.com/example/serde', package = 'serde', branch = 'v2' }
+</code></pre>
+<p>第一行说明，第一个 <code>patch</code> 从官方仓库 <code>main</code> 分支的最新 <code>commit</code> 拉取，而第二个则从我们自己的仓库拉取 <code>v2</code> 分支，同时将其重命名为 <code>serde2</code>。</p>
+<p>这样，在代码中就可以分别通过 <code>serde</code> 和 <code>serde2</code> 引用不同版本的依赖库了。</p>
+<h2 id="通过path来覆盖依赖"><a class="header" href="#通过path来覆盖依赖">通过[path]来覆盖依赖</a></h2>
+<p>有时我们只是临时性地对一个项目进行处理，因此并不想去修改它的 <code>Cargo.toml</code>。此时可以使用 <code>Cargo</code> 提供的路径覆盖方法: <strong>注意，这个方法限制较多，如果可以，还是要使用 [patch]</strong>。</p>
+<p>与 <code>[patch]</code> 修改 <code>Cargo.toml</code> 不同，路径覆盖修改的是 <code>Cargo</code> 自身的<a href="https://course.rs/cargo/guide/cargo-cache.html#cargo-home">配置文件</a> <code>$Home/.cargo/config.toml</code>:</p>
+<pre><code class="language-toml">paths = ["/path/to/uuid"]
+</code></pre>
+<p><code>paths</code> 数组中的元素是一个包含 <code>Cargo.toml</code> 的目录(依赖包)，在当前例子中，由于我们只有一个 <code>uuid</code>，因此只需要覆盖它即可。目标路径可以是相对的，也是绝对的，需要注意，如果是相对路径，那是相对包含 <code>.cargo</code> 的 <code>$Home</code> 来说的。</p>
+<h2 id="不推荐的replace"><a class="header" href="#不推荐的replace">不推荐的[replace]</a></h2>
+<blockquote>
+<p><code>[replace]</code> 已经被标记为 <code>deprecated</code>，并将在未来被移除，请使用 <code>[patch]</code> 替代</p>
+</blockquote>
+<p>虽然不建议使用，但是如果大家阅读其它项目时依然可能会碰到这种用法:</p>
+<pre><code class="language-toml">[replace]
+"foo:0.1.0" = { git = 'https://github.com/example/foo' }
+"bar:1.0.2" = { path = 'my/local/bar' }
+</code></pre>
+<p>语法看上去还是很清晰的，<code>[replace]</code> 中的每一个 <code>key</code> 都是 <code>Package ID</code> 格式，通过这种写法可以在依赖图中任意挑选一个节点进行覆盖。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../cargo/reference/specify-deps.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../cargo/reference/manifest.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../cargo/reference/specify-deps.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../cargo/reference/manifest.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../../ace.js"></script>
+        <script src="../../editor.js"></script>
+        <script src="../../mode-rust.js"></script>
+        <script src="../../theme-dawn.js"></script>
+        <script src="../../theme-tomorrow_night.js"></script>
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../assets/custom2.js"></script>
+        <script src="../../assets/bigPicture.js"></script>
+
+
+    </div>
+    </body>
+</html>
