@@ -69,7 +69,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 - 测试用例是分批执行的，`running 1 test` 表示下面的输出 `test result` 来自一个测试用例的运行结果。
 - `test tests::it_works` 中包含了测试用例的名称
 - `test result: ok` 中的 `ok` 表示测试成功通过
-- `1 passed` 代表成功通过一个测试用例(因为只有一个)，`0 failed` : 没有测试用例失败，`0 ignored` 说明我们没有将任何测试函数标记为运行时可忽略，`0 filtered` 意味着没有对测试结果做任何过滤，`0 mesasured` 代表[基准测试(benchmark)](https://course.rs/test/benchmark.html)的结果
+- `1 passed` 代表成功通过一个测试用例(因为只有一个)，`0 failed` : 没有测试用例失败，`0 ignored` 说明我们没有将任何测试函数标记为运行时可忽略，`0 filtered` 意味着没有对测试结果做任何过滤，`0 measured` 代表[基准测试(benchmark)](https://course.rs/test/benchmark.html)的结果
 
 关于 `filtered` 和 `ignored` 的使用，在本章节的后续内容我们会讲到，这里暂且略过。
 
