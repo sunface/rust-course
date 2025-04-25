@@ -313,22 +313,27 @@ fn main() {
 }
 ```
 
-## 标准库中的 OnceCell
+## 标准库中的 Once 和 Lazy
 
-在 `Rust` 标准库中提供了实验性的 `lazy::OnceCell` 和 `lazy::SyncOnceCell` (在 `Rust`
-1.70.0版本及以上的标准库中，替换为稳定的 `cell::OnceCell` 和 `sync::OnceLock` )两种
-`Cell` ，前者用于单线程，后者用于多线程，它们用来存储堆上的信息，并且具有最
-多只能赋值一次的特性。 如实现一个多线程的日志组件 `Logger`：
+在 Rust 1.70.0 版本之前，标准库通过实验性 API 提供 `lazy::OnceCell` 和 `lazy::SyncOnceCell` 来实现单次初始化容器，这时，懒初始化主要依靠 `lazy_static` 。
+随着 `cell::OnceCell` 和 `sync::OnceLock` 在 1.70.0 中稳定和 `LazyCell` 和 `LazyLock` 在 1.80.0 中稳定，只使用标准库实现懒加载成为可能。
 
+这4个容器可以这样区分：
+
+|      | 单线程   | 多线程   |
+|------|----------|----------|
+| Once | OnceCell | OnceLock |
+| Lazy | LazyCell | LazyLock |
+
+其中，`Lazy` 会自动按需加载内容，让代码更简洁，更人性化，而 `Once` 则可以手动指定初始化的时机或使用不同的方法初始化，更强大。
+`Cell` 的实现更简单，效率也更高，但是他并不保证线程安全，而 `Lock` 通过内部同步机制实现了线程安全。
+
+#### Once 使用方法
+
+下面，我们先看一下 `Once` 的使用方法：
 
 ```rust
-// 低于Rust 1.70版本中， OnceCell 和 SyncOnceCell 的API为实验性的 ，
-// 需启用特性 `#![feature(once_cell)]`。
-#![feature(once_cell)]
-use std::{lazy::SyncOnceCell, thread};
-
-// Rust 1.70版本以上,
-// use std::{sync::OnceLock, thread};
+use std::{sync::OnceLock, thread};
 
 fn main() {
     // 子线程中调用
@@ -350,11 +355,7 @@ fn main() {
 #[derive(Debug)]
 struct Logger;
 
-// 低于Rust 1.70版本
-static LOGGER: SyncOnceCell<Logger> = SyncOnceCell::new();
-
-// Rust 1.70版本以上
-// static LOGGER: OnceLock<Logger> = OnceLock::new();
+static LOGGER: OnceLock<Logger> = OnceLock::new();
 
 impl Logger {
     fn global() -> &'static Logger {
@@ -371,7 +372,8 @@ impl Logger {
 }
 ```
 
-以上代码我们声明了一个 `global()` 关联函数，并在其内部调用 `get_or_init` 进行初始化 `Logger`，之后在不同线程上多次调用 `Logger::global()` 获取其实例：
+以上代码我们声明了一个 `global()` 关联函数，并在其内部调用 `get_or_init` 进行初始化 `Logger`，之后在不同线程上多次调用 `Logger::global()` 获取其实例。
+由于需要在多个线程中使用，所以我们使用了 `OnceLock`。以下是输出：
 
 ```console
 Logger is being created...
@@ -382,7 +384,49 @@ thread message
 
 可以看到，`Logger is being created...` 在多个线程中使用也只被打印了一次。
 
-特别注意，目前 `OnceCell` 和 `SyncOnceCell` API 暂未稳定，需启用特性 `#![feature(once_cell)]`。
+#### Lazy 使用方法
+
+上述例子如果使用 `LazyLock` 来实现，则可以变得更加简洁：
+
+```rust
+use std::{sync::LazyLock, thread};
+
+fn main() {
+    // 子线程中调用
+    let handle = thread::spawn(|| {
+        let logger = &LOGGER;
+        logger.log("thread message".to_string());
+    });
+
+    // 主线程调用
+    let logger = &LOGGER;
+    logger.log("some message".to_string());
+
+    let logger2 = &LOGGER;
+    logger2.log("other message".to_string());
+
+    handle.join().unwrap();
+}
+
+#[derive(Debug)]
+struct Logger;
+
+static LOGGER: LazyLock<Logger> = LazyLock::new(Logger::new);
+
+impl Logger {
+    fn new() -> Logger {
+        println!("Logger is being created...");
+        Logger
+    }
+
+    fn log(&self, message: String) {
+        println!("{}", message)
+    }
+}
+```
+
+以上代码中，我们使用 `LazyLock::new` 方法直接对全局变量 `LOGGER` 进行赋值，并传入一个初始化函数。
+使用的时候，可以直接使用对全局变量的引用。在获取引用的时候， `LazyLock` 会自动检查初始化的状态并进行初始化。
 
 ## 总结
 
