@@ -120,7 +120,7 @@ Rust 中的裸指针其实就是让你可以做任何事情，但它们只有一
 
 作为一个花了大量时间在 Rust 中编写集合的人，这让我感到厌烦。这就是为什么我在制作 [std::ptr::NonNull](https://doc.rust-lang.org/std/ptr/struct.NonNull.html), 时添加了这个小魔法：
 
-> 与 *mut T 不同，NonNull<T> 在 T 上是 *covariant(协变的)*。这使得使用 NonNull<T> 构建*covariant(协变的)*类型成为可能，但如果在不应该是 *covariant(协变的)* 的地方中使用，则会带来不健全的风险。
+> 与 *mut T 不同，`NonNull<T>` 在 T 上是 *covariant(协变的)*。这使得使用 `NonNull<T>` 构建*covariant(协变的)*类型成为可能，但如果在不应该是 *covariant(协变的)* 的地方中使用，则会带来不健全的风险。
 
 这是一个围绕着 `*mut T` 构建的类型。真的是魔法吗？让我们来看一下：
 
@@ -140,7 +140,7 @@ impl<T> NonNull<T> {
 
 不，这里没有魔法！NonNull 只是滥用了 *const T 是 *covariant(协变的)* 这一事实，并将其存储起来。这就是 Rust 中集合的协变方式！这可真是惨不忍睹！所以我为你做了这个 Good Pointer Type ！不客气好好享受子类型吧
 
-解决你所有问题的办法就是使用 NonNull，然后如果你想再次使用可空指针，就使用 Option<NonNull<T>>。我们真的要这么做吗？
+解决你所有问题的办法就是使用 NonNull，然后如果你想再次使用可空指针，就使用 `Option<NonNull<T>>`。我们真的要这么做吗？
 
 是的！这很糟糕，但我们要做的是生产级的链表，所以我们要吃尽千辛万苦（我们可以直接使用裸*const T，然后在任何地方都进行转换，但我真的想看看这样做有多痛苦......为了人体工程学科学）。
 

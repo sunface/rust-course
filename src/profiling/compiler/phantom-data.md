@@ -59,7 +59,7 @@ struct Vec<T> {
 让裸指针拥有数据是一个很普遍的设计，以至于标准库为它自己创造了一个叫`Unique<T>`的组件，它可以：
 
 - 封装一个`*const T`处理变性
-- 包含一个PhantomData<T>
+- 包含一个 `PhantomData<T>`
 - 自动实现`Send`/`Sync`，模拟和包含T时一样的行为
 - 将指针标记为`NonZero`以便空指针优化
 
