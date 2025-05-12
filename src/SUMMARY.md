@@ -100,7 +100,7 @@
     - [Cell 与 RefCell 内部可变性](advance/smart-pointer/cell-refcell.md)
   - [循环引用与自引用](advance/circle-self-ref/intro.md)
     - [Weak 与循环引用](advance/circle-self-ref/circle-reference.md)
-    - [结构体中的自引用](advance/circle-self-ref/self-referential.md))
+    - [结构体中的自引用](advance/circle-self-ref/self-referential.md)
   - [多线程并发编程](advance/concurrency-with-threads/intro.md)
     - [并发和并行](advance/concurrency-with-threads/concurrency-parallelism.md)
     - [使用多线程](advance/concurrency-with-threads/thread.md)
@@ -140,7 +140,7 @@
   - [解析数据帧](advance-practice/frame.md)
   - [深入 async](advance-practice/async.md)
   - [select](advance-practice/select.md)
-  - [类似迭代器的 Stream](advance-practice/stream.md))
+  - [类似迭代器的 Stream](advance-practice/stream.md)
   - [优雅的关闭](advance-practice/graceful-shutdown.md)
   - [异步跟同步共存](advance-practice/bridging-with-sync.md)
 
