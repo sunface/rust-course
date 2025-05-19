@@ -353,21 +353,15 @@ impl Future for Delay {
 
 > 关于 `Send` 和 `Sync` 的具体讲解见[这里](https://course.rs/advance/concurrency-with-threads/send-sync.html)
 
-基于以上理由，我们选择使用来自于 `crossbeam` 的消息通道，因为标准库中的消息通道不是 `Sync` 的。在 `Cargo.toml` 中添加以下依赖：
-
-```toml
-crossbeam = "0.8"
-```
-
-再来更新下 `MiniTokio` 结构体：
+现在更新下 `MiniTokio` 结构体：
 
 ```rust
-use crossbeam::channel;
+use std::sync::mpsc;
 use std::sync::Arc;
 
 struct MiniTokio {
-    scheduled: channel::Receiver<Arc<Task>>,
-    sender: channel::Sender<Arc<Task>>,
+    scheduled: mpsc::Receiver<Arc<Task>>,
+    sender: mpsc::Sender<Arc<Task>>,
 }
 
 struct Task {
@@ -386,7 +380,7 @@ struct Task {
     // `Mutex` 是为了让 `Task` 实现 `Sync` 特征，它能保证同一时间只有一个线程可以访问 `Future`。
     // 事实上 `Mutex` 并没有在 Tokio 中被使用，这里我们只是为了简化： Tokio 的真实代码实在太长了 :D
     future: Mutex<Pin<Box<dyn Future<Output = ()> + Send>>>,
-    executor: channel::Sender<Arc<Task>>,
+    executor: mpsc::Sender<Arc<Task>>,
 }
 
 impl Task {
@@ -429,7 +423,7 @@ impl MiniTokio {
 
     /// 初始化一个新的 mini-tokio 实例
     fn new() -> MiniTokio {
-        let (sender, scheduled) = channel::unbounded();
+        let (sender, scheduled) = mpsc::channel();
 
         MiniTokio { scheduled, sender }
     }
@@ -460,7 +454,7 @@ impl Task {
     // 使用给定的 future 来生成新的任务
     //
     // 新的任务会被推到 `sender` 中，接着该消息通道的接收端就可以获取该任务，然后执行
-    fn spawn<F>(future: F, sender: &channel::Sender<Arc<Task>>)
+    fn spawn<F>(future: F, sender: &mpsc::Sender<Arc<Task>>)
     where
         F: Future<Output = ()> + Send + 'static,
     {
