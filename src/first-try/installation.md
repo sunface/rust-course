@@ -43,6 +43,21 @@ Linux 用户一般应按照相应发行版的文档来安装 `GCC` 或 `Clang`�
 
 例如，如果你使用 Ubuntu，则可安装 `build-essential`。
 
+## 在 FreeBSD 上安装 `rustup`
+
+- 使用 pkg 安装：
+
+```sh
+# pkg install rustup-init
+```
+
+- 使用 Ports 安装：
+
+```sh
+# cd /usr/ports/devel/rustup-init/ 
+# make install clean
+```
+
 ## 在 Windows 上安装 `rustup`
 
 Windows 上安装 Rust 需要有 `C++` 环境，以下为安装的两种方式：
