@@ -353,7 +353,7 @@ impl Future for Delay {
 
 > 关于 `Send` 和 `Sync` 的具体讲解见[这里](https://course.rs/advance/concurrency-with-threads/send-sync.html)
 
-现在更新下 `MiniTokio` 结构体：
+基于以上理由，选择 `std::sync::mpsc`  重新实现 `MiniTokio` 结构体：
 
 ```rust
 use std::sync::mpsc;
