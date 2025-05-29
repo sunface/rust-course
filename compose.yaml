@@ -1,0 +1,7 @@
+services:
+  web:
+    image: rust-course:latest
+    container_name: rust-course
+    ports:
+      - 3001:80
+    restart: unless-stopped
