@@ -36,6 +36,17 @@
 
 总之在写作过程中我们始终铭记初心：为中国用户打造一门**全面的、深入的、持续更新的** Rust 教程。 新手用来入门，老手用来提高，高手用来提升生产力。
 
+### docker
+
+使用 docker 部署本教程：
+
+```sh
+docker build -t rust-course .
+docker-compose up -d
+```
+
+随后即可通过浏览器在 http://localhost:3001 中阅读。
+
 ## 🏆 贡献者
 
 非常感谢本教程的[所有贡献者](https://github.com/sunface/rust-course/graphs/contributors)，正是有了你们，才有了现在的高质量 Rust 教程!
