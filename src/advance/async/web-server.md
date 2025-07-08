@@ -323,6 +323,8 @@ async fn test_handle_connection() {
         write_data: Vec::new(),
     };
 
+     // let mut buf = [0u8; 1024];
+    // stream.read(&mut buf).await.unwrap();
     handle_connection(&mut stream).await;
 
     let expected_contents = fs::read_to_string("hello.html").unwrap();
