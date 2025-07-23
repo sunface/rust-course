@@ -37,6 +37,17 @@ struct Node<T> {
 }
 ```
 
+细心的同学可能会发现，此时 `Link<T>` 和 `tail` 的类型 `*mut Node<T>` 一致了。我们可以把 `tail` 的类型也改为 `Link<T>` ，让代码更一致。
+
+```rust
+pub struct List<T> {
+    head: LinkT>,
+    // tail: *mut Node<T>,
+    tail: Link<T>, // 新老好人卡此时一致了
+}
+```
+
+
 请大家牢记：当使用裸指针时，`Option` 对我们是相当不友好的，所以这里不再使用。在后面还将引入 `NonNull` 类型，但是现在还无需操心。
 
 ## 基本操作
@@ -89,31 +100,31 @@ struct Node<T> {
 > 将裸指针转换成 `Box` 以实现自动的清理:
 >
 > ```rust
->
 > let x = Box::new(String::from("Hello"));
 > let ptr = Box::into_raw(x);
 > let x = unsafe { Box::from_raw(ptr) };
 
 太棒了，简直为我们量身定制。而且它还很符合我们试图遵循的规则： 从安全的东东开始，将其转换成裸指针，最后再将裸指针转回安全的东东以实现安全的 drop。
 
-现在，我们就可以到处使用裸指针，也无需再注意 unsafe 的范围，反正现在都是 unsafe 了，无所谓。
+现在，我们就可以到处使用裸指针，只不过要注意 unsafe 的范围要尽可能小。大家可以再看下[之前的章节](https://course.rs/advance/unsafe/intro.html#控制-unsafe-的使用边界) 巩固巩固。
+
 ```rust
 pub fn push(&mut self, elem: T) {
-    unsafe {
-        // 一开始就将 Box 转换成裸指针
-        let new_tail = Box::into_raw(Box::new(Node {
-            elem: elem,
-            next: ptr::null_mut(),
-        }));
+    // 一开始就将 Box 转换成裸指针
+    let new_tail = Box::into_raw(Box::new(Node {
+        elem: elem,
+        next: ptr::null_mut(),
+    }));
 
-        if !self.tail.is_null() {
+    if !self.tail.is_null() {
+        unsafe {
             (*self.tail).next = new_tail;
-        } else {
-            self.head = new_tail;
         }
-
-        self.tail = new_tail;
+    } else {
+        self.head = new_tail;
     }
+
+    self.tail = new_tail;
 }
 ```
 
@@ -126,7 +137,10 @@ pub fn pop(&mut self) -> Option<T> {
         if self.head.is_null() {
             None
         } else {
-            let head = Box::from_raw(self.head);
+            let head;
+            unsafe {
+                head = Box::from_raw(self.head);
+            }
             self.head = head.next;
 
             if self.head.is_null() {
