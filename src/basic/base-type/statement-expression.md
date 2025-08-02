@@ -41,7 +41,7 @@ let b = (let a = 8);
 error: expected expression, found `let` statement // 期望表达式，却发现`let`语句
  --> src/main.rs:3:10
   |
-3 | let b = (let a = 8);;
+3 | let b = (let a = 8);
   |          ^^^
   |
   = note: only supported directly in conditions of `if` and `while` expressions // 允许通过 if let 和 while let 语法进行模式匹配
