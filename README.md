@@ -16,7 +16,7 @@
 
 </div>
 
-此书不满作者久矣，准备自我革命了，欢迎大家拍砖指导: https://github.com/sunface/rust-course/issues/1563
+**号外号外，特大新闻！本书苦作者久矣，准备自我革命了，欢迎大家跟鄙书一起向作者拍砖**: https://github.com/sunface/rust-course/issues/1563
 
 
 ## 教程简介
