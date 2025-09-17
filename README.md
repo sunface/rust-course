@@ -16,6 +16,9 @@
 
 </div>
 
+本书准备自我革命了，所以欢迎大家拍砖: https://github.com/sunface/rust-course/issues/1563。
+
+
 ## 教程简介
 
 - 在线阅读: https://course.rs
