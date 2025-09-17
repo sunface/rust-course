@@ -16,7 +16,7 @@
 
 </div>
 
-本书准备自我革命了，所以欢迎大家拍砖指导: https://github.com/sunface/rust-course/issues/1563。
+本书准备自我革命了，所以欢迎大家拍砖指导: https://github.com/sunface/rust-course/issues/1563
 
 
 ## 教程简介
