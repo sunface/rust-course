@@ -38,27 +38,17 @@ let b = (let a = 8);
 错误如下:
 
 ```console
-error: expected expression, found statement (`let`) // 期望表达式，却发现`let`语句
- --> src/main.rs:2:13
+error: expected expression, found `let` statement // 期望表达式，却发现`let`语句
+ --> src/main.rs:3:10
   |
-2 |     let b = let a = 8;
-  |             ^^^^^^^^^
+3 | let b = (let a = 8);
+  |          ^^^
   |
-  = note: variable declaration using `let` is a statement `let`是一条语句
-
-error[E0658]: `let` expressions in this position are experimental
-          // 下面的 `let` 用法目前是试验性的，在稳定版中尚不能使用
- --> src/main.rs:2:13
-  |
-2 |     let b = let a = 8;
-  |             ^^^^^^^^^
-  |
-  = note: see issue #53667 <https://github.com/rust-lang/rust/issues/53667> for more information
-  = help: you can write `matches!(<expr>, <pattern>)` instead of `let <pattern> = <expr>`
+  = note: only supported directly in conditions of `if` and `while` expressions // 允许通过 if let 和 while let 语法进行模式匹配
 
 ```
 
-以上的错误告诉我们 `let` 是语句，不是表达式，因此它不返回值，也就不能给其它变量赋值。但是该错误还透漏了一个重要的信息， `let` 作为表达式已经是试验功能了，也许不久的将来，我们在 [`stable rust`](https://course.rs/appendix/rust-version.html) 下可以这样使用。
+以上的错误告诉我们 `let` 是语句，不是表达式，因此它不返回值，也就不能给其它变量赋值。试图将 let 语句作为值赋给变量，违反了语法规则。
 
 ## 表达式
 
