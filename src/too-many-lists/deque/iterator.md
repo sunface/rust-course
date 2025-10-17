@@ -14,7 +14,7 @@ impl<T> List<T> {
 
 impl<T> Iterator for IntoIter<T> {
     type Item = T;
-    fn next(&mut self) -> Option<T> {
+    fn next(&mut self) -> Option<Self::Item> {
         self.0.pop_front()
     }
 }
@@ -28,7 +28,7 @@ impl<T> Iterator for IntoIter<T> {
 
 ```rust
 impl<T> DoubleEndedIterator for IntoIter<T> {
-    fn next_back(&mut self) -> Option<T> {
+    fn next_back(&mut self) -> Option<Self::Item> {
         self.0.pop_back()
     }
 }
