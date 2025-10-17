@@ -334,10 +334,10 @@ loop {
 
 总之，在 Tokio 中我们必须要显式地引入并发和队列:
 
-- `tokio::spawn`
-- `select!`
-- `join!`
-- `mpsc::channel`
+- `tokio::spawn`  (生成新任务)
+- `select!`  (在多个 Future 中选择最先完成的一个)
+- `join!` (等待多个 Future 全部完成)
+- `mpsc::channel` (消息通道)
 
 当这么做时，我们需要小心的控制并发度来确保系统的安全。例如，当使用一个循环去接收 TCP 连接时，你要确保当前打开的 `socket` 数量在可控范围内，而不是毫无原则的接收连接。 再比如，当使用 `mpsc::channel` 时，要设置一个缓冲值。
 
