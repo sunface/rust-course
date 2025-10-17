@@ -229,7 +229,7 @@ fn handle_connection(mut stream: TcpStream) {
     let length = contents.len();
 
     let response =
-        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n\n{contents}");
+        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
 
     stream.write_all(response.as_bytes()).unwrap();
 }
@@ -259,7 +259,7 @@ fn handle_connection(mut stream: TcpStream) {
         let length = contents.len();
 
         let response = format!(
-            "{status_line}\r\nContent-Length: {length}\r\n\r\n\n{contents}"
+            "{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}"
         );
 
         stream.write_all(response.as_bytes()).unwrap();
@@ -285,7 +285,7 @@ fn handle_connection(mut stream: TcpStream) {
         let length = contents.len();
 
         let response = format!(
-            "{status_line}\r\nContent-Length: {length}\r\n\r\n\n{contents}"
+            "{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}"
         );
 
         stream.write_all(response.as_bytes()).unwrap();
@@ -326,7 +326,7 @@ fn handle_connection(mut stream: TcpStream) {
     let length = contents.len();
 
     let response =
-        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n\n{contents}");
+        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
 
     stream.write_all(response.as_bytes()).unwrap();
 }
