@@ -43,7 +43,7 @@ struct Foo;
 
 impl Drop for Foo {
     fn drop(&mut self) {
-        println!("Dropping Foo!")
+        println!("Dropping Foo!");
     }
 }
 
