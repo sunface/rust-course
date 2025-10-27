@@ -27,7 +27,7 @@ fn main(){
 }
 ```
 
-运行后报错：
+编译时报错：
 
 ```console
  let v = SelfRef {
