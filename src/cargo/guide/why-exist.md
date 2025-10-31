@@ -27,7 +27,7 @@ Hello, world!
 
 总之，`Cargo` 为了实现目标，做了四件事：
 
-- 引入两个元数据文件，包含项目的方方面面信息: `Cargo.toml` 和 `Cargo.lock`
+- 引入两个元数据文件，包含项目方方面面的信息: `Cargo.toml` 和 `Cargo.lock`
 - 获取和构建项目的依赖，例如 `Cargo.toml` 中的依赖包版本描述，以及从 `crates.io` 下载包
 - 调用 `rustc` (或其它编译器) 并使用的正确的参数来构建项目，例如 `cargo build`
 - 引入一些惯例，让项目的使用更加简单
