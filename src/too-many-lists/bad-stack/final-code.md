@@ -171,7 +171,7 @@ test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured
 <details>
   <summary>点击这里展开答案</summary>
 
-`self.pop()` 的会返回 `Option<i32>`, 而我们之前的实现仅仅对智能指针 `Box<Node>` 进行操作。前者会对值进行拷贝，而后者仅仅使用的是指针类型。
+`self.pop()` 会返回 `Option<i32>`, 而我们之前的实现仅仅对智能指针 `Box<Node>` 进行操作。前者会对值进行拷贝，而后者仅仅使用的是指针类型。
 
 当链表中包含的值是其他较大的类型时，那这个拷贝的开销将变得非常高昂。
 </details>
