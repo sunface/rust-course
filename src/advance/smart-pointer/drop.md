@@ -95,7 +95,7 @@ impl Drop for HasTwoDrops {
 
 原因在于，Rust 自动为几乎所有类型都实现了 `Drop` 特征，因此就算你不手动为结构体实现 `Drop`，它依然会调用默认实现的 `drop` 函数，同时再调用每个字段的 `drop` 方法，最终打印出：
 
-```cnosole
+```console
 Dropping HasDrop1!
 Dropping HasDrop2!
 ```
