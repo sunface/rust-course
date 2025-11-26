@@ -62,7 +62,7 @@ async fn process(socket: TcpStream) {
 
 现在运行我们的简单服务器 :
 
-```shel
+```shell
 cargo run
 ```
 

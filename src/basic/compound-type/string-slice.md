@@ -15,9 +15,9 @@ fn greet(name: String) {
 }
 ```
 
-`greet` 函数接受一个字符串类型的 `name` 参数，然后打印到终端控制台中，非常好理解，你们猜猜，这段代码能否通过编译？
+`greet` 函数接受字符串类型的 `name` 参数，打印到终端控制台中，非常好理解。但大家猜猜，这段代码能否通过编译？
 
-```conole
+```console
 error[E0308]: mismatched types
  --> src/main.rs:3:11
   |
