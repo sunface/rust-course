@@ -147,7 +147,7 @@ impl SelfRef {
 
     fn pointer_to_value(&self) -> &String {
         assert!(!self.pointer_to_value.is_null(),
-            "Test::b called without Test::init being called first");
+            "SelfRef::pointer_to_value called without SelfRef::init being called first");
         unsafe { &*(self.pointer_to_value) }
     }
 }
@@ -189,7 +189,8 @@ impl SelfRef {
     }
 
     fn pointer_to_value(&self) -> &String {
-        assert!(!self.pointer_to_value.is_null(), "Test::b called without Test::init being called first");
+        assert!(!self.pointer_to_value.is_null(),
+            "SelfRef::pointer_to_value called without SelfRef::init being called first");
         unsafe { &*(self.pointer_to_value) }
     }
 }
