@@ -132,7 +132,7 @@ impl Draw for f64 {
 
 // 若 T 实现了 Draw 特征， 则调用该函数时传入的 Box<T> 可以被隐式转换成函数参数签名中的 Box<dyn Draw>
 fn draw1(x: Box<dyn Draw>) {
-    // 由于实现了 Deref 特征，Box 智能指针会自动解引用为它所包裹的值，然后调用该值对应的类型上定义的 `draw` 方法
+    // 由于实现了 Draw 特征，Box 智能指针会自动解引用为它所包裹的值，然后调用该值对应的类型上定义的 `draw` 方法
     x.draw();
 }
 
