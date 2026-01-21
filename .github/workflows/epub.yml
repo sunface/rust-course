@@ -1,0 +1,55 @@
+name: epub
+
+on:
+    push:
+        branches:
+            - epub
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+jobs:
+    build:
+        name: Build EPUB and PDF
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Install Tectonic
+              uses: wtfjoke/setup-tectonic@v1
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Install Pandoc and Fonts
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y pandoc fonts-noto-cjk
+
+            - name: Install mdbook
+              uses: peaceiris/actions-mdbook@v1
+              with:
+                  mdbook-version: "latest"
+
+            - name: Install mdbook-pandoc
+              run: |
+                  cargo install mdbook-pandoc
+
+            - name: Build Book
+              run: mdbook build
+
+            - name: List Output Directory
+              if: always()
+              run: find book -maxdepth 4
+
+            - name: Upload EPUB
+              uses: actions/upload-artifact@v4
+              with:
+                  name: rust-course-epub
+                  path: book/pandoc/epub/rust-course.epub
+
+            - name: Upload PDF
+              uses: actions/upload-artifact@v4
+              with:
+                  name: rust-course-pdf
+                  path: book/pandoc/pdf/rust-course.pdf
