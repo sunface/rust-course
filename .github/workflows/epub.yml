@@ -3,6 +3,7 @@ name: epub
 on:
     push:
         branches:
+            - main
             - epub
     workflow_dispatch:
 
