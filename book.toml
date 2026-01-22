@@ -29,7 +29,7 @@ disabled = false
 [output.pandoc.profile.pdf]
 output-file = "rust-course.pdf"
 pdf-engine = "tectonic"
-pdf-engine-opt = ["-k"]
+pdf-engine-opt = ["-Z", "continue-on-errors"]
 to = "pdf"
 variables = { mainfont = "Noto Sans CJK SC", sansfont = "Noto Sans CJK SC", CJKmainfont = "Noto Sans CJK SC" }
 
