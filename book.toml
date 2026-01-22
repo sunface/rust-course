@@ -29,7 +29,7 @@ disabled = false
 output-file = "rust-course.pdf"
 pdf-engine = "tectonic"
 to = "pdf"
-variables = { mainfont = "Noto Sans CJK SC", sansfont = "Noto Sans CJK SC" }
+variables = { mainfont = "Noto Sans CJK SC", sansfont = "Noto Sans CJK SC", CJKmainfont = "Noto Sans CJK SC" }
 
 [output.pandoc.profile.epub]
 output-file = "rust-course.epub"
