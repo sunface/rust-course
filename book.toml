@@ -12,6 +12,7 @@ additional-css = ["theme/style.css"]
 additional-js = ["assets/custom.js", "assets/bigPicture.js"]
 git-repository-url = "https://github.com/sunface/rust-course"
 edit-url-template = "https://github.com/sunface/rust-course/edit/main/{path}"
+site-url = "https://course.rs/"
 
 [output.html.playground]
 editable = true
