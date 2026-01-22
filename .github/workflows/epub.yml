@@ -21,6 +21,11 @@ jobs:
         with:
           mdbook-version: "latest"
 
+      - name: Install FUSE (required for AppImages)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libfuse2
+
       - name: Install Tectonic
         uses: wtfjoke/setup-tectonic@v1
         with:
@@ -28,7 +33,6 @@ jobs:
 
       - name: Install Pandoc and fonts
         run: |
-          sudo apt-get update
           sudo apt-get install -y pandoc fonts-noto-cjk fonts-noto-cjk-extra
 
       - name: Install mdbook-pandoc
