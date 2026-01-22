@@ -22,7 +22,7 @@ jobs:
           mdbook-version: "latest"
 
       - name: Install Pandoc
-        uses: pandoc/actions/setup@v3
+        uses: pandoc/actions/setup@v1
         with:
           version: "3.1"
 
