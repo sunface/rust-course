@@ -45,7 +45,7 @@ jobs:
 
       - name: Install Pandoc and fonts
         run: |
-          sudo apt-get install -y pandoc fonts-noto-cjk fonts-noto-cjk-extra
+          sudo apt-get install -y pandoc fonts-noto-cjk fonts-noto-cjk-extra fonts-noto-color-emoji fonts-dejavu
 
       - name: Install mdbook-pandoc
         run: |
