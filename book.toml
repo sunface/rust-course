@@ -28,10 +28,9 @@ disabled = false
 
 [output.pandoc.profile.pdf]
 output-file = "rust-course.pdf"
-pdf-engine = "tectonic"
-pdf-engine-opt = ["-Z", "continue-on-errors"]
+pdf-engine = "lualatex"
 to = "pdf"
-variables = { mainfont = "Noto Sans CJK SC", sansfont = "Noto Sans CJK SC", CJKmainfont = "Noto Sans CJK SC", monofont = "DejaVu Sans Mono", monofontfallback = ["DejaVu Sans Mono:", "Noto Color Emoji:"], mainfontfallback = ["Noto Sans CJK SC:", "Noto Color Emoji:"] }
+variables = { mainfont = "Noto Sans CJK SC", sansfont = "Noto Sans CJK SC", CJKmainfont = "Noto Sans CJK SC", monofont = "DejaVu Sans Mono", monofontfallback = ["DejaVu Sans Mono:", "Noto Color Emoji:mode=harf"], mainfontfallback = ["Noto Sans CJK SC:", "Noto Color Emoji:mode=harf"] }
 
 [output.pandoc.profile.epub]
 output-file = "rust-course.epub"
