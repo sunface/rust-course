@@ -21,20 +21,15 @@ jobs:
         with:
           mdbook-version: "latest"
 
-      - name: Install Pandoc
-        uses: pandoc/actions/setup@v1
-        with:
-          version: "3.1"
-
       - name: Install Tectonic
         uses: wtfjoke/setup-tectonic@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install fonts
+      - name: Install Pandoc and fonts
         run: |
           sudo apt-get update
-          sudo apt-get install -y fonts-noto-cjk fonts-noto-cjk-extra
+          sudo apt-get install -y pandoc fonts-noto-cjk fonts-noto-cjk-extra
 
       - name: Install mdbook-pandoc
         run: |
