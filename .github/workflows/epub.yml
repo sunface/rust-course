@@ -45,7 +45,7 @@ jobs:
 
       - name: Install Pandoc, LaTeX and fonts
         run: |
-          sudo apt-get install -y pandoc texlive-xetex texlive-luatex fonts-noto-cjk fonts-noto-cjk-extra fonts-noto-color-emoji fonts-dejavu
+          sudo apt-get install -y pandoc texlive-xetex texlive-luatex texlive-lang-japanese fonts-noto-cjk fonts-noto-cjk-extra fonts-noto-color-emoji fonts-dejavu
 
       - name: Install mdbook-pandoc
         run: |
