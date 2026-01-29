@@ -12,24 +12,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="../../favicon.svg">
-        <link rel="shortcut icon" href="../../favicon.png">
-        <link rel="stylesheet" href="../../css/variables.css">
-        <link rel="stylesheet" href="../../css/general.css">
-        <link rel="stylesheet" href="../../css/chrome.css">
-        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <link rel="icon" href="../../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/style.css">
+        <link rel="stylesheet" href="../../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -37,12 +36,24 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-4a1a74fa.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc.js"></script>
+        <script src="../../toc-42887675.js"></script>
     </head>
     <body>
-    <div id="body-container">
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -71,56 +82,59 @@
             html.classList.add("js");
         </script>
 
-        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
                 <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
             </noscript>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <div id="page-wrapper" class="page-wrapper">
+        <div id="mdbook-page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
                         </label>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
                         </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
                         </button>
                     </div>
 
@@ -128,39 +142,44 @@
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
-                            <i id="print-button" class="fa fa-print"></i>
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
                         <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
-                            <i id="git-repository-button" class="fa fa-github"></i>
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
                         </a>
-                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/into-types/converse.md" title="Suggest an edit" aria-label="Suggest an edit">
-                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/into-types/converse.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                         </a>
 
                     </div>
                 </div>
 
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
                     </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
                         </ul>
                     </div>
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script>
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
                         link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
                     });
                 </script>
 
-                <div id="content" class="content">
+                <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="类型转换"><a class="header" href="#类型转换">类型转换</a></h1>
 <p>Rust 是类型安全的语言，因此在 Rust 中做类型转换不是一件简单的事，这一章节我们将对 Rust 中的类型转换进行详尽讲解。</p>
@@ -169,35 +188,35 @@
 </blockquote>
 <h2 id="as转换"><a class="header" href="#as转换"><code>as</code>转换</a></h2>
 <p>先来看一段代码：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
   let a: i32 = 10;
   let b: u16 = 100;
 
   if a &lt; b {
     println!("Ten is less than one hundred.");
   }
-}</code></pre></pre>
+}</code></pre>
 <p>能跟着这本书一直学习到这里，说明你对 Rust 已经有了一定的理解，那么一眼就能看出这段代码注定会报错，因为 <code>a</code> 和 <code>b</code> 拥有不同的类型，Rust 不允许两种不同的类型进行比较。</p>
 <p>解决办法很简单，只要把 <code>b</code> 转换成 <code>i32</code> 类型即可，Rust 中内置了一些基本类型之间的转换，这里使用 <code>as</code> 操作符来完成： <code>if a &lt; (b as i32) {...}</code>。那么为什么不把 <code>a</code> 转换成 <code>u16</code> 类型呢？</p>
 <p>因为每个类型能表达的数据范围不同，如果把范围较大的类型转换成较小的类型，会造成错误，因此我们需要把范围较小的类型转换成较大的类型，来避免这些问题的发生。</p>
 <blockquote>
 <p>使用类型转换需要小心，因为如果执行以下操作 <code>300_i32 as i8</code>，你将获得 <code>44</code> 这个值，而不是 <code>300</code>，因为 <code>i8</code> 类型能表达的的最大值为 <code>2^7 - 1</code>，使用以下代码可以查看 <code>i8</code> 的最大值：</p>
 </blockquote>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let a = i8::MAX;
 println!("{}",a);
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>下面列出了常用的转换形式：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
    let a = 3.1 as i8;
    let b = 100_i8 as i32;
    let c = 'a' as u8; // 将字符'a'转换为整数，97
 
    println!("{},{},{}",a,b,c)
-}</code></pre></pre>
+}</code></pre>
 <h4 id="内存地址转换为指针"><a class="header" href="#内存地址转换为指针">内存地址转换为指针</a></h4>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let mut values: [i32; 2] = [1, 2];
 let p1: *mut i32 = values.as_mut_ptr();
@@ -208,7 +227,7 @@ unsafe {
     *p2 += 1;
 }
 assert_eq!(values[1], 3);
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <h4 id="强制类型转换的边角知识"><a class="header" href="#强制类型转换的边角知识">强制类型转换的边角知识</a></h4>
 <ol>
 <li>转换不具有传递性
@@ -216,7 +235,7 @@ assert_eq!(values[1], 3);
 </ol>
 <h2 id="tryinto-转换"><a class="header" href="#tryinto-转换">TryInto 转换</a></h2>
 <p>在一些场景中，使用 <code>as</code> 关键字会有比较大的限制。如果你想要在类型转换上拥有完全的控制而不依赖内置的转换，例如处理转换错误，那么可以使用 <code>TryInto</code> ：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::convert::TryInto;
+<pre class="playground"><code class="language-rust edition2021">use std::convert::TryInto;
 
 fn main() {
    let a: u8 = 10;
@@ -227,11 +246,11 @@ fn main() {
    if a &lt; b_ {
      println!("Ten is less than one hundred.");
    }
-}</code></pre></pre>
+}</code></pre>
 <p>上面代码中引入了 <code>std::convert::TryInto</code> 特征，但是却没有使用它，可能有些同学会为此困惑，主要原因在于<strong>如果你要使用一个特征的方法，那么你需要引入该特征到当前的作用域中</strong>，我们在上面用到了 <code>try_into</code> 方法，因此需要引入对应的特征。但是 Rust 又提供了一个非常便利的办法，把最常用的标准库中的特征通过<a href="https://course.rs/appendix/prelude.html"><code>std::prelude</code></a>模块提前引入到当前作用域中，其中包括了 <code>std::convert::TryInto</code>，你可以尝试删除第一行的代码 <code>use ...</code>，看看是否会报错。</p>
-<p><code>try_into</code> 会尝试进行一次转换，并返回一个 <code>Result</code>，此时就可以对其进行相应的错误处理。由于我们的例子只是为了快速测试，因此使用了 <code>unwrap</code> 方法，该方法在发现错误时，会直接调用 <code>panic</code> 导致程序的崩溃退出，在实际项目中，请不要这么使用，具体见<a href="https://course.rs/basic/result-error/panic.html#%E8%B0%83%E7%94%A8-panic">panic</a>部分。</p>
+<p><code>try_into</code> 会尝试进行一次转换，并返回一个 <code>Result</code>，此时就可以对其进行相应的错误处理。由于我们的例子只是为了快速测试，因此使用了 <code>unwrap</code> 方法，该方法在发现错误时，会直接调用 <code>panic</code> 导致程序的崩溃退出，在实际项目中，请不要这么使用，具体见<a href="https://course.rs/basic/result-error/panic.html#调用-panic">panic</a>部分。</p>
 <p>最主要的是 <code>try_into</code> 转换会捕获大类型向小类型转换时导致的溢出错误：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     let b: i16 = 1500;
 
     let b_: u8 = match b.try_into() {
@@ -241,11 +260,11 @@ fn main() {
             0
         }
     };
-}</code></pre></pre>
+}</code></pre>
 <p>运行后输出如下 <code>"out of range integral type conversion attempted"</code>，在这里我们程序捕获了错误，编译器告诉我们类型范围超出的转换是不被允许的，因为我们试图把 <code>1500_i16</code> 转换为 <code>u8</code> 类型，后者明显不足以承载这么大的值。</p>
 <h2 id="通用类型转换"><a class="header" href="#通用类型转换">通用类型转换</a></h2>
 <p>虽然 <code>as</code> 和 <code>TryInto</code> 很强大，但是只能应用在数值类型上，可是 Rust 有如此多的类型，想要为这些类型实现转换，我们需要另谋出路，先来看看在一个笨办法，将一个结构体转换为另外一个结构体：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct Foo {
     x: u32,
@@ -261,12 +280,12 @@ fn reinterpret(foo: Foo) -&gt; Bar {
     let Foo { x, y } = foo;
     Bar { a: x, b: y }
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>简单粗暴，但是从另外一个角度来看，也挺啰嗦的，好在 Rust 为我们提供了更通用的方式来完成这个目的。</p>
 <h4 id="强制类型转换"><a class="header" href="#强制类型转换">强制类型转换</a></h4>
 <p>在某些情况下，类型是可以进行隐式强制转换的，虽然这些转换弱化了 Rust 的类型系统，但是它们的存在是为了让 Rust 在大多数场景可以工作(说白了，帮助用户省事)，而不是报各种类型上的编译错误。</p>
 <p>首先，在匹配特征时，不会做任何强制转换(除了方法)。一个类型 <code>T</code> 可以强制转换为 <code>U</code>，不代表 <code>impl T</code> 可以强制转换为 <code>impl U</code>，例如下面的代码就无法通过编译检查：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">trait Trait {}
+<pre class="playground"><code class="language-rust edition2021">trait Trait {}
 
 fn foo&lt;X: Trait&gt;(t: X) {}
 
@@ -275,7 +294,7 @@ impl&lt;'a&gt; Trait for &amp;'a i32 {}
 fn main() {
     let t: &amp;mut i32 = &amp;mut 0;
     foo(t);
-}</code></pre></pre>
+}</code></pre>
 <p>报错如下：</p>
 <pre><code class="language-console">error[E0277]: the trait bound `&amp;mut i32: Trait` is not satisfied
 --&gt; src/main.rs:9:9
@@ -291,20 +310,20 @@ fn main() {
 <h4 id="点操作符"><a class="header" href="#点操作符">点操作符</a></h4>
 <p>方法调用的点操作符看起来简单，实际上非常不简单，它在调用时，会发生很多魔法般的类型转换，例如：自动引用、自动解引用，强制类型转换直到类型能匹配等。</p>
 <p>假设有一个方法 <code>foo</code>，它有一个接收器(接收器就是 <code>self</code>、<code>&amp;self</code>、<code>&amp;mut self</code> 参数)。如果调用 <code>value.foo()</code>，编译器在调用 <code>foo</code> 之前，需要决定到底使用哪个 <code>Self</code> 类型来调用。现在假设 <code>value</code> 拥有类型 <code>T</code>。</p>
-<p>再进一步，我们使用<a href="https://course.rs/basic/trait/advance-trait.html#%E5%AE%8C%E5%85%A8%E9%99%90%E5%AE%9A%E8%AF%AD%E6%B3%95">完全限定语法</a>来进行准确的函数调用:</p>
+<p>再进一步，我们使用<a href="https://course.rs/basic/trait/advance-trait.html#完全限定语法">完全限定语法</a>来进行准确的函数调用:</p>
 <ol>
 <li>首先，编译器检查它是否可以直接调用 <code>T::foo(value)</code>，称之为<strong>值方法调用</strong></li>
 <li>如果上一步调用无法完成(例如方法类型错误或者特征没有针对 <code>Self</code> 进行实现，上文提到过特征不能进行强制转换)，那么编译器会尝试增加自动引用，例如会尝试以下调用： <code>&lt;&amp;T&gt;::foo(value)</code> 和 <code>&lt;&amp;mut T&gt;::foo(value)</code>，称之为<strong>引用方法调用</strong></li>
 <li>若上面两个方法依然不工作，编译器会试着解引用 <code>T</code> ，然后再进行尝试。这里使用了 <code>Deref</code> 特征 —— 若 <code>T: Deref&lt;Target = U&gt;</code> (<code>T</code> 可以被解引用为 <code>U</code>)，那么编译器会使用 <code>U</code> 类型进行尝试，称之为<strong>解引用方法调用</strong></li>
 <li>若 <code>T</code> 不能被解引用，且 <code>T</code> 是一个定长类型(在编译期类型长度是已知的)，那么编译器也会尝试将 <code>T</code> 从定长类型转为不定长类型，例如将 <code>[i32; 2]</code> 转为 <code>[i32]</code></li>
-<li>若还是不行，那...没有那了，最后编译器大喊一声：汝欺我甚，不干了！</li>
+<li>若还是不行，那…没有那了，最后编译器大喊一声：汝欺我甚，不干了！</li>
 </ol>
 <p>下面我们来用一个例子来解释上面的方法查找算法:</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let array: Rc&lt;Box&lt;[T; 3]&gt;&gt; = ...;
 let first_entry = array[0];
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p><code>array</code> 数组的底层数据隐藏在了重重封锁之后，那么编译器如何使用 <code>array[0]</code> 这种数组原生访问语法通过重重封锁，准确的访问到数组中的第一个元素？</p>
 <ol>
 <li>首先， <code>array[0]</code> 只是<a href="https://doc.rust-lang.org/std/ops/trait.Index.html"><code>Index</code></a>特征的语法糖：编译器会将 <code>array[0]</code> 转换为 <code>array.index(0)</code> 调用，当然在调用之前，编译器会先检查 <code>array</code> 是否实现了 <code>Index</code> 特征。</li>
@@ -315,25 +334,25 @@ let first_entry = array[0];
 </ol>
 <p>过程看起来很复杂，但是也还好，挺好理解，如果你现在不能彻底理解，也不要紧，等以后对 Rust 理解更深了，同时需要深入理解类型转换时，再来细细品读本章。</p>
 <p>再来看看以下更复杂的例子：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn do_stuff&lt;T: Clone&gt;(value: &amp;T) {
     let cloned = value.clone();
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>上面例子中 <code>cloned</code> 的类型是什么？首先编译器检查能不能进行<strong>值方法调用</strong>， <code>value</code> 的类型是 <code>&amp;T</code>，同时 <code>clone</code> 方法的签名也是 <code>&amp;T</code> ： <code>fn clone(&amp;T) -&gt; T</code>，因此可以进行值方法调用，再加上编译器知道了 <code>T</code> 实现了 <code>Clone</code>，因此 <code>cloned</code> 的类型是 <code>T</code>。</p>
 <p>如果 <code>T: Clone</code> 的特征约束被移除呢？</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn do_stuff&lt;T&gt;(value: &amp;T) {
     let cloned = value.clone();
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>首先，从直觉上来说，该方法会报错，因为 <code>T</code> 没有实现 <code>Clone</code> 特征，但是真实情况是什么呢？</p>
 <p>我们先来推导一番。 首先通过值方法调用就不再可行，因为 <code>T</code> 没有实现 <code>Clone</code> 特征，也就无法调用 <code>T</code> 的 <code>clone</code> 方法。接着编译器尝试<strong>引用方法调用</strong>，此时 <code>T</code> 变成 <code>&amp;T</code>，在这种情况下， <code>clone</code> 方法的签名如下： <code>fn clone(&amp;&amp;T) -&gt; &amp;T</code>，接着我们现在对 <code>value</code> 进行了引用。 编译器发现 <code>&amp;T</code> 实现了 <code>Clone</code> 类型(所有的引用类型都可以被复制，因为其实就是复制一份地址)，因此可以推出 <code>cloned</code> 也是 <code>&amp;T</code> 类型。</p>
 <p>最终，我们复制出一份引用指针，这很合理，因为值类型 <code>T</code> 没有实现 <code>Clone</code>，只能去复制一个指针了。</p>
 <p>下面的例子也是自动引用生效的地方：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(Clone)]
 struct Container&lt;T&gt;(Arc&lt;T&gt;);
@@ -342,30 +361,30 @@ fn clone_containers&lt;T&gt;(foo: &amp;Container&lt;i32&gt;, bar: &amp;Container
     let foo_cloned = foo.clone();
     let bar_cloned = bar.clone();
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>推断下上面的 <code>foo_cloned</code> 和 <code>bar_cloned</code> 是什么类型？提示: 关键在 <code>Container</code> 的泛型参数，一个是 <code>i32</code> 的具体类型，一个是泛型类型，其中 <code>i32</code> 实现了 <code>Clone</code>，但是 <code>T</code> 并没有。</p>
 <p>首先要复习一下复杂类型派生 <code>Clone</code> 的规则：一个复杂类型能否派生 <code>Clone</code>，需要它内部的所有子类型都能进行 <code>Clone</code>。因此 <code>Container&lt;T&gt;(Arc&lt;T&gt;)</code> 是否实现 <code>Clone</code> 的关键在于 <code>T</code> 类型是否实现了 <code>Clone</code> 特征。</p>
 <p>上面代码中，<code>Container&lt;i32&gt;</code> 实现了 <code>Clone</code> 特征，因此编译器可以直接进行值方法调用，此时相当于直接调用 <code>foo.clone</code>，其中 <code>clone</code> 的函数签名是 <code>fn clone(&amp;T) -&gt; T</code>，由此可以看出 <code>foo_cloned</code> 的类型是 <code>Container&lt;i32&gt;</code>。</p>
 <p>然而，<code>bar_cloned</code> 的类型却是 <code>&amp;Container&lt;T&gt;</code>，这个不合理啊，明明我们为 <code>Container&lt;T&gt;</code> 派生了 <code>Clone</code> 特征，因此它也应该是 <code>Container&lt;T&gt;</code> 类型才对。万事皆有因，我们先来看下 <code>derive</code> 宏最终生成的代码大概是啥样的：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl&lt;T&gt; Clone for Container&lt;T&gt; where T: Clone {
     fn clone(&amp;self) -&gt; Self {
         Self(Arc::clone(&amp;self.0))
     }
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>从上面代码可以看出，派生 <code>Clone</code> 能实现的根本是 <code>T</code> 实现了<a href="https://doc.rust-lang.org/std/clone/trait.Clone.html#derivable"><code>Clone</code>特征</a>：<code>where T: Clone</code>， 因此 <code>Container&lt;T&gt;</code> 就没有实现 <code>Clone</code> 特征。</p>
 <p>编译器接着会去尝试引用方法调用，此时 <code>&amp;Container&lt;T&gt;</code> 引用实现了 <code>Clone</code>，最终可以得出 <code>bar_cloned</code> 的类型是 <code>&amp;Container&lt;T&gt;</code>。</p>
 <p>当然，也可以为 <code>Container&lt;T&gt;</code> 手动实现 <code>Clone</code> 特征：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl&lt;T&gt; Clone for Container&lt;T&gt; {
     fn clone(&amp;self) -&gt; Self {
         Self(Arc::clone(&amp;self.0))
     }
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>此时，编译器首次尝试值方法调用即可通过，因此 <code>bar_cloned</code> 的类型变成 <code>Container&lt;T&gt;</code>。</p>
 <p>这一块儿内容真的挺复杂，每一个坚持看完的读者都是真正的勇士，我也是：为了写好这块儿内容，作者足足花了 <strong>4</strong> 个小时！</p>
 <h4 id="变形记transmutes"><a class="header" href="#变形记transmutes">变形记(Transmutes)</a></h4>
@@ -385,14 +404,14 @@ fn clone_containers&lt;T&gt;(foo: &amp;Container&lt;i32&gt;, bar: &amp;Container
 <li>变形为一个未指定生命周期的引用会导致<a href="https://course.rs/advance/lifetime/advance.html">无界生命周期</a></li>
 <li>在复合类型之间互相变换时，你需要保证它们的排列布局是一模一样的！一旦不一样，那么字段就会得到不可预期的值，这也是未定义的行为，至于你会不会因此愤怒， <strong>WHO CARES</strong> ，你都用了变形了，老兄！</li>
 </ol>
-<p>对于第 5 条，你该如何知道内存的排列布局是一样的呢？对于 <code>repr(C)</code> 类型和 <code>repr(transparent)</code> 类型来说，它们的布局是有着精确定义的。但是对于你自己的"普通却自信"的 Rust 类型 <code>repr(Rust)</code> 来说，它可不是有着精确定义的。甚至同一个泛型类型的不同实例都可以有不同的内存布局。 <code>Vec&lt;i32&gt;</code> 和 <code>Vec&lt;u32&gt;</code> 它们的字段可能有着相同的顺序，也可能没有。对于数据排列布局来说，<strong>什么能保证，什么不能保证</strong>目前还在 Rust 开发组的<a href="https://rust-lang.github.io/unsafe-code-guidelines/layout.html">工作任务</a>中呢。</p>
+<p>对于第 5 条，你该如何知道内存的排列布局是一样的呢？对于 <code>repr(C)</code> 类型和 <code>repr(transparent)</code> 类型来说，它们的布局是有着精确定义的。但是对于你自己的“普通却自信“的 Rust 类型 <code>repr(Rust)</code> 来说，它可不是有着精确定义的。甚至同一个泛型类型的不同实例都可以有不同的内存布局。 <code>Vec&lt;i32&gt;</code> 和 <code>Vec&lt;u32&gt;</code> 它们的字段可能有着相同的顺序，也可能没有。对于数据排列布局来说，<strong>什么能保证，什么不能保证</strong>目前还在 Rust 开发组的<a href="https://rust-lang.github.io/unsafe-code-guidelines/layout.html">工作任务</a>中呢。</p>
 <p>你以为你之前凝视的是深渊吗？不，你凝视的只是深渊的大门。 <code>mem::transmute_copy&lt;T, U&gt;</code> 才是真正的深渊，它比之前的还要更加危险和不安全。它从 <code>T</code> 类型中拷贝出 <code>U</code> 类型所需的字节数，然后转换成 <code>U</code>。 <code>mem::transmute</code> 尚有大小检查，能保证两个数据的内存大小一致，现在这哥们干脆连这个也丢了，只不过 <code>U</code> 的尺寸若是比 <code>T</code> 大，会是一个未定义行为。</p>
 <p>当然，你也可以通过裸指针转换和 <code>unions</code> (todo!)获得所有的这些功能，但是你将无法获得任何编译提示或者检查。裸指针转换和 <code>unions</code> 也不是魔法，无法逃避上面说的规则。</p>
 <p><code>transmute</code> 虽然危险，但作为一本工具书，知识当然要全面，下面列举两个有用的 <code>transmute</code> 应用场景 :)。</p>
 <ul>
 <li>将裸指针变成函数指针：</li>
 </ul>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn foo() -&gt; i32 {
     0
@@ -404,11 +423,11 @@ let function = unsafe {
     std::mem::transmute::&lt;*const (), fn() -&gt; i32&gt;(pointer) 
 };
 assert_eq!(function(), 0);
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <ul>
 <li>延长生命周期，或者缩短一个静态生命周期寿命：</li>
 </ul>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct R&lt;'a&gt;(&amp;'a i32);
 
@@ -421,7 +440,7 @@ unsafe fn extend_lifetime&lt;'b&gt;(r: R&lt;'b&gt;) -&gt; R&lt;'static&gt; {
 unsafe fn shorten_invariant_lifetime&lt;'b, 'c&gt;(r: &amp;'b mut R&lt;'static&gt;) -&gt; &amp;'b mut R&lt;'c&gt; {
     std::mem::transmute::&lt;&amp;'b mut R&lt;'static&gt;, &amp;'b mut R&lt;'c&gt;&gt;(r)
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>以上例子非常先进！但是是非常不安全的 Rust 行为！</p>
 <h2 id="课后练习"><a class="header" href="#课后练习">课后练习</a></h2>
 <blockquote>
@@ -450,11 +469,11 @@ unsafe fn shorten_invariant_lifetime&lt;'b, 'c&gt;(r: &amp;'b mut R&lt;'static&g
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="../../advance/into-types/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                                <i class="fa fa-angle-left"></i>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
                             <a rel="next prefetch" href="../../advance/into-types/custom-type.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
                         <div style="clear: both"></div>
@@ -464,16 +483,21 @@ unsafe fn shorten_invariant_lifetime&lt;'b, 'c&gt;(r: &amp;'b mut R&lt;'static&g
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                     <a rel="prev" href="../../advance/into-types/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <i class="fa fa-angle-left"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
                     <a rel="next prefetch" href="../../advance/into-types/custom-type.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
 
         </div>
 
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
 
 
 
@@ -481,23 +505,24 @@ unsafe fn shorten_invariant_lifetime&lt;'b, 'c&gt;(r: &amp;'b mut R&lt;'static&g
             window.playground_copyable = true;
         </script>
 
-        <script src="../../ace.js"></script>
-        <script src="../../editor.js"></script>
-        <script src="../../mode-rust.js"></script>
-        <script src="../../theme-dawn.js"></script>
-        <script src="../../theme-tomorrow_night.js"></script>
+        <script src="../../ace-2a3cd908.js"></script>
+        <script src="../../mode-rust-2c9d5c9a.js"></script>
+        <script src="../../editor-16ca416c.js"></script>
+        <script src="../../theme-dawn-4493f9c8.js"></script>
+        <script src="../../theme-tomorrow_night-9dbe62a9.js"></script>
 
-        <script src="../../elasticlunr.min.js"></script>
-        <script src="../../mark.min.js"></script>
-        <script src="../../searcher.js"></script>
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
 
-        <script src="../../clipboard.min.js"></script>
-        <script src="../../highlight.js"></script>
-        <script src="../../book.js"></script>
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../assets/custom2.js"></script>
-        <script src="../../assets/bigPicture.js"></script>
+        <script src="../../assets/custom-690c9de5.js"></script>
+        <script src="../../assets/bigPicture-be03f9c8.js"></script>
+
 
 
     </div>

@@ -12,24 +12,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="../../favicon.svg">
-        <link rel="shortcut icon" href="../../favicon.png">
-        <link rel="stylesheet" href="../../css/variables.css">
-        <link rel="stylesheet" href="../../css/general.css">
-        <link rel="stylesheet" href="../../css/chrome.css">
-        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <link rel="icon" href="../../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/style.css">
+        <link rel="stylesheet" href="../../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -37,12 +36,24 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-4a1a74fa.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc.js"></script>
+        <script src="../../toc-42887675.js"></script>
     </head>
     <body>
-    <div id="body-container">
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -71,56 +82,59 @@
             html.classList.add("js");
         </script>
 
-        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
                 <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
             </noscript>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <div id="page-wrapper" class="page-wrapper">
+        <div id="mdbook-page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
                         </label>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
                         </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
                         </button>
                     </div>
 
@@ -128,53 +142,58 @@
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
-                            <i id="print-button" class="fa fa-print"></i>
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
                         <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
-                            <i id="git-repository-button" class="fa fa-github"></i>
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
                         </a>
-                        <a href="https://github.com/sunface/rust-course/edit/main/src/basic/compound-type/string-slice.md" title="Suggest an edit" aria-label="Suggest an edit">
-                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/basic/compound-type/string-slice.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                         </a>
 
                     </div>
                 </div>
 
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
                     </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
                         </ul>
                     </div>
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script>
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
                         link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
                     });
                 </script>
 
-                <div id="content" class="content">
+                <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="字符串"><a class="header" href="#字符串">字符串</a></h1>
 <p>在其他语言中，字符串往往是送分题，因为实在是太简单了，例如 <code>"hello, world"</code> 就是字符串章节的几乎全部内容了，但是如果你带着同样的想法来学 Rust，我保证，绝对会栽跟头，<strong>因此这一章大家一定要重视，仔细阅读，这里有很多其它 Rust 书籍中没有的内容</strong>。</p>
 <p>首先来看段很简单的代码：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
   let my_name = "Pascal";
   greet(my_name);
 }
 
 fn greet(name: String) {
   println!("Hello, {}!", name);
-}</code></pre></pre>
-<p><code>greet</code> 函数接受一个字符串类型的 <code>name</code> 参数，然后打印到终端控制台中，非常好理解，你们猜猜，这段代码能否通过编译？</p>
-<pre><code class="language-conole">error[E0308]: mismatched types
+}</code></pre>
+<p><code>greet</code> 函数接受字符串类型的 <code>name</code> 参数，打印到终端控制台中，非常好理解。但大家猜猜，这段代码能否通过编译？</p>
+<pre><code class="language-console">error[E0308]: mismatched types
  --&gt; src/main.rs:3:11
   |
 3 |     greet(my_name);
@@ -190,27 +209,27 @@ error: aborting due to previous error
 <h2 id="切片slice"><a class="header" href="#切片slice">切片(slice)</a></h2>
 <p>切片并不是 Rust 独有的概念，在 Go 语言中就非常流行，它允许你引用集合中部分连续的元素序列，而不是引用整个集合。</p>
 <p>对于字符串而言，切片就是对 <code>String</code> 类型中某一部分的引用，它看起来像这样：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = String::from("hello world");
 
 let hello = &amp;s[0..5];
 let world = &amp;s[6..11];
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p><code>hello</code> 没有引用整个 <code>String s</code>，而是引用了 <code>s</code> 的一部分内容，通过 <code>[0..5]</code> 的方式来指定。</p>
 <p>这就是创建切片的语法，使用方括号包括的一个序列：<strong>[开始索引..终止索引]</strong>，其中开始索引是切片中第一个元素的索引位置，而终止索引是最后一个元素后面的索引位置。换句话说，这是一个 <code>右半开区间</code>（或称为左闭右开区间）——指的是在区间的左端点是包含在内的，而右端点是不包含在内的。在切片数据结构内部会保存开始的位置和切片的长度，其中长度是通过 <code>终止索引</code> - <code>开始索引</code> 的方式计算得来的。</p>
 <p>对于 <code>let world = &amp;s[6..11];</code> 来说，<code>world</code> 是一个切片，该切片的指针指向 <code>s</code> 的第 7 个字节(索引从 0 开始, 6 是第 7 个字节)，且该切片的长度是 <code>5</code> 个字节。</p>
 <img alt="" src="https://pic1.zhimg.com/80/v2-69da917741b2c610732d8526a9cc86f5_1440w.jpg" class="center" style="width: 50%;" />
-<p>在使用 Rust 的 <code>..</code> <a href="https://course.rs/basic/base-type/numbers.html#%E5%BA%8F%E5%88%97range">range 序列</a>语法时，如果你想从索引 0 开始，可以使用如下的方式，这两个是等效的：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<p>在使用 Rust 的 <code>..</code> <a href="https://course.rs/basic/base-type/numbers.html#序列range">range 序列</a>语法时，如果你想从索引 0 开始，可以使用如下的方式，这两个是等效的：</p>
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = String::from("hello");
 
 let slice = &amp;s[0..2];
 let slice = &amp;s[..2];
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>同样的，如果你的切片想要包含 <code>String</code> 的最后一个字节，则可以这样使用：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = String::from("hello");
 
@@ -218,9 +237,9 @@ let len = s.len();
 
 let slice = &amp;s[4..len];
 let slice = &amp;s[4..];
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>你也可以截取完整的 <code>String</code> 切片：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = String::from("hello");
 
@@ -228,21 +247,21 @@ let len = s.len();
 
 let slice = &amp;s[0..len];
 let slice = &amp;s[..];
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <blockquote>
 <p>在对字符串使用切片语法时需要格外小心，切片的索引必须落在字符之间的边界位置，也就是 UTF-8 字符的边界，例如中文在 UTF-8 中占用三个字节，下面的代码就会崩溃：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span> let s = "中国人";
  let a = &amp;s[0..2];
  println!("{}",a);
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>因为我们只取 <code>s</code> 字符串的前两个字节，但是本例中每个汉字占用三个字节，因此没有落在边界处，也就是连 <code>中</code> 字都取不完整，此时程序会直接崩溃退出，如果改成 <code>&amp;s[0..3]</code>，则可以正常通过编译。
-因此，当你需要对字符串做切片索引操作时，需要格外小心这一点，关于该如何操作 UTF-8 字符串，参见<a href="#%E6%93%8D%E4%BD%9C-utf-8-%E5%AD%97%E7%AC%A6%E4%B8%B2">这里</a>。</p>
+因此，当你需要对字符串做切片索引操作时，需要格外小心这一点，关于该如何操作 UTF-8 字符串，参见<a href="#操作-utf-8-字符串">这里</a>。</p>
 </blockquote>
 <p>字符串切片的类型标识是 <code>&amp;str</code>，因此我们可以这样声明一个函数，输入 <code>String</code> 类型，返回它的切片：<code>fn first_word(s: &amp;String) -&gt; &amp;str </code>。</p>
 <p>有了切片就可以写出这样的代码：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     let mut s = String::from("hello world");
 
     let word = first_word(&amp;s);
@@ -253,7 +272,7 @@ let slice = &amp;s[..];
 }
 fn first_word(s: &amp;String) -&gt; &amp;str {
     &amp;s[..1]
-}</code></pre></pre>
+}</code></pre>
 <p>编译器报错如下：</p>
 <pre><code class="language-console">error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
   --&gt; src/main.rs:18:5
@@ -271,33 +290,33 @@ fn first_word(s: &amp;String) -&gt; &amp;str {
 <p>从上述代码可以看出，Rust 不仅让我们的 <code>API</code> 更加容易使用，而且也在编译期就消除了大量错误！</p>
 <h4 id="其它切片"><a class="header" href="#其它切片">其它切片</a></h4>
 <p>因为切片是对集合的部分引用，因此不仅仅字符串有切片，其它集合类型也有，例如数组：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let a = [1, 2, 3, 4, 5];
 
 let slice = &amp;a[1..3];
 
 assert_eq!(slice, &amp;[2, 3]);
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>该数组切片的类型是 <code>&amp;[i32]</code>，数组切片和字符串切片的工作方式是一样的，例如持有一个引用指向原始数组的某个元素和长度。</p>
 <h2 id="字符串字面量是切片"><a class="header" href="#字符串字面量是切片">字符串字面量是切片</a></h2>
 <p>之前提到过字符串字面量，但是没有提到它的类型：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = "Hello, world!";
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>实际上，<code>s</code> 的类型是 <code>&amp;str</code>，因此你也可以这样声明：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s: &amp;str = "Hello, world!";
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>该切片指向了程序可执行文件中的某个点，这也是为什么字符串字面量是不可变的，因为 <code>&amp;str</code> 是一个不可变引用。</p>
 <p>了解完切片，可以进入本节的正题了。</p>
 <h2 id="什么是字符串"><a class="header" href="#什么是字符串">什么是字符串?</a></h2>
 <p>顾名思义，字符串是由字符组成的连续集合，但是在上一节中我们提到过，<strong>Rust 中的字符是 Unicode 类型，因此每个字符占据 4 个字节内存空间，但是在字符串中不一样，字符串是 UTF-8 编码，也就是字符串中的字符所占的字节数是变化的(1 - 4)</strong>，这样有助于大幅降低字符串所占用的内存空间。</p>
 <p>Rust 在语言级别，只有一种字符串类型： <code>str</code>，它通常是以引用类型出现 <code>&amp;str</code>，也就是上文提到的字符串切片。虽然语言级别只有上述的 <code>str</code> 类型，但是在标准库里，还有多种不同用途的字符串类型，其中使用最广的即是 <code>String</code> 类型。</p>
 <p><code>str</code> 类型是硬编码进可执行文件，也无法被修改，但是 <code>String</code> 则是一个可增长、可改变且具有所有权的 UTF-8 编码字符串，<strong>当 Rust 用户提到字符串时，往往指的就是 <code>String</code> 类型和 <code>&amp;str</code> 字符串切片类型，这两个类型都是 UTF-8 编码</strong>。</p>
-<p>除了 <code>String</code> 类型的字符串，Rust 的标准库还提供了其他类型的字符串，例如 <code>OsString</code>， <code>OsStr</code>， <code>CsString</code> 和 <code>CsStr</code> 等，注意到这些名字都以 <code>String</code> 或者 <code>Str</code> 结尾了吗？它们分别对应的是具有所有权和被借用的变量。</p>
+<p>除了 <code>String</code> 类型的字符串，Rust 的标准库还提供了其他类型的字符串，例如 <code>OsString</code>， <code>OsStr</code>， <code>CString</code> 和 <code>CStr</code> 等，注意到这些名字都以 <code>String</code> 或者 <code>Str</code> 结尾了吗？它们分别对应的是具有所有权和被借用的变量。</p>
 <h2 id="string-与-str-的转换"><a class="header" href="#string-与-str-的转换">String 与 &amp;str 的转换</a></h2>
 <p>在之前的代码中，已经见到好几种从 <code>&amp;str</code> 类型生成 <code>String</code> 类型的操作：</p>
 <ul>
@@ -305,7 +324,7 @@ assert_eq!(slice, &amp;[2, 3]);
 <li><code>"hello,world".to_string()</code></li>
 </ul>
 <p>那么如何将 <code>String</code> 类型转为 <code>&amp;str</code> 类型呢？答案很简单，取引用即可：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     let s = String::from("hello,world!");
     say_hello(&amp;s);
     say_hello(&amp;s[..]);
@@ -314,15 +333,15 @@ assert_eq!(slice, &amp;[2, 3]);
 
 fn say_hello(s: &amp;str) {
     println!("{}",s);
-}</code></pre></pre>
+}</code></pre>
 <p>实际上这种灵活用法是因为 <code>deref</code> 隐式强制转换，具体我们会在 <a href="https://course.rs/advance/smart-pointer/deref.html"><code>Deref</code> 特征</a>进行详细讲解。</p>
 <h2 id="字符串索引"><a class="header" href="#字符串索引">字符串索引</a></h2>
 <p>在其它语言中，使用索引的方式访问字符串的某个字符或者子串是很正常的行为，但是在 Rust 中就会报错：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>   let s1 = String::from("hello");
    let h = s1[0];
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>该代码会产生如下错误：</p>
 <pre><code class="language-console">3 |     let h = s1[0];
   |             ^^^^^ `String` cannot be indexed by `{integer}`
@@ -331,38 +350,38 @@ fn say_hello(s: &amp;str) {
 </code></pre>
 <h4 id="深入字符串内部"><a class="header" href="#深入字符串内部">深入字符串内部</a></h4>
 <p>字符串的底层的数据存储格式实际上是[ <code>u8</code> ]，一个字节数组。对于 <code>let hello = String::from("Hola");</code> 这行代码来说，<code>Hola</code> 的长度是 <code>4</code> 个字节，因为 <code>"Hola"</code> 中的每个字母在 UTF-8 编码中仅占用 1 个字节，但是对于下面的代码呢？</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let hello = String::from("中国人");
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>如果问你该字符串多长，你可能会说 <code>3</code>，但是实际上是 <code>9</code> 个字节的长度，因为大部分常用汉字在 UTF-8 中的长度是 <code>3</code> 个字节，因此这种情况下对 <code>hello</code> 进行索引，访问 <code>&amp;hello[0]</code> 没有任何意义，因为你取不到 <code>中</code> 这个字符，而是取到了这个字符三个字节中的第一个字节，这是一个非常奇怪而且难以理解的返回值。</p>
 <h4 id="字符串的不同表现形式"><a class="header" href="#字符串的不同表现形式">字符串的不同表现形式</a></h4>
 <p>现在看一下用梵文写的字符串 <code>“नमस्ते”</code>, 它底层的字节数组如下形式：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>[224, 164, 168, 224, 164, 174, 224, 164, 184, 224, 165, 141, 224, 164, 164,
 224, 165, 135]
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>长度是 18 个字节，这也是计算机最终存储该字符串的形式。如果从字符的形式去看，则是：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>['न', 'म', 'स', '्', 'त', 'े']
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>但是这种形式下，第四和六两个字母根本就不存在，没有任何意义，接着再从字母串的形式去看：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>["न", "म", "स्", "ते"]
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>所以，可以看出来 Rust 提供了不同的字符串展现方式，这样程序可以挑选自己想要的方式去使用，而无需去管字符串从人类语言角度看长什么样。</p>
 <p>还有一个原因导致了 Rust 不允许去索引字符串：因为索引操作，我们总是期望它的性能表现是 O(1)，然而对于 <code>String</code> 类型来说，无法保证这一点，因为 Rust 可能需要从 0 开始去遍历字符串来定位合法的字符。</p>
 <h2 id="字符串切片"><a class="header" href="#字符串切片">字符串切片</a></h2>
 <p>前文提到过，字符串切片是非常危险的操作，因为切片的索引是通过字节来进行，但是字符串又是 UTF-8 编码，因此你无法保证索引的字节刚好落在字符的边界上，例如：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let hello = "中国人";
 
 let s = &amp;hello[0..2];
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>运行上面的程序，会直接造成崩溃：</p>
 <pre><code class="language-console">thread 'main' panicked at 'byte index 2 is not a char boundary; it is inside '中' (bytes 0..3) of `中国人`', src/main.rs:4:14
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
@@ -374,7 +393,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <h4 id="追加-push"><a class="header" href="#追加-push">追加 (Push)</a></h4>
 <p>在字符串尾部可以使用 <code>push()</code> 方法追加字符 <code>char</code>，也可以使用 <code>push_str()</code> 方法追加字符串字面量。这两个方法都是<strong>在原有的字符串上追加，并不会返回新的字符串</strong>。由于字符串追加操作要修改原来的字符串，则该字符串必须是可变的，即<strong>字符串变量必须由 <code>mut</code> 关键字修饰</strong>。</p>
 <p>示例代码如下：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     let mut s = String::from("Hello ");
 
     s.push_str("rust");
@@ -382,7 +401,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
     s.push('!');
     println!("追加字符 push() -&gt; {}", s);
-}</code></pre></pre>
+}</code></pre>
 <p>代码运行结果：</p>
 <pre><code class="language-console">追加字符串 push_str() -&gt; Hello rust
 追加字符 push() -&gt; Hello rust!
@@ -390,13 +409,13 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <h4 id="插入-insert"><a class="header" href="#插入-insert">插入 (Insert)</a></h4>
 <p>可以使用 <code>insert()</code> 方法插入单个字符 <code>char</code>，也可以使用 <code>insert_str()</code> 方法插入字符串字面量，与 <code>push()</code> 方法不同，这俩方法需要传入两个参数，第一个参数是字符（串）插入位置的索引，第二个参数是要插入的字符（串），索引从 0 开始计数，如果越界则会发生错误。由于字符串插入操作要<strong>修改原来的字符串</strong>，则该字符串必须是可变的，即<strong>字符串变量必须由 <code>mut</code> 关键字修饰</strong>。</p>
 <p>示例代码如下：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     let mut s = String::from("Hello rust!");
     s.insert(5, ',');
     println!("插入字符 insert() -&gt; {}", s);
     s.insert_str(6, " I like");
     println!("插入字符串 insert_str() -&gt; {}", s);
-}</code></pre></pre>
+}</code></pre>
 <p>代码运行结果：</p>
 <pre><code class="language-console">插入字符 insert() -&gt; Hello, rust!
 插入字符串 insert_str() -&gt; Hello, I like rust!
@@ -406,33 +425,33 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <p>1、<code>replace</code></p>
 <p>该方法可适用于 <code>String</code> 和 <code>&amp;str</code> 类型。<code>replace()</code> 方法接收两个参数，第一个参数是要被替换的字符串，第二个参数是新的字符串。该方法会替换所有匹配到的字符串。<strong>该方法是返回一个新的字符串，而不是操作原来的字符串</strong>。</p>
 <p>示例代码如下：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     let string_replace = String::from("I like rust. Learning rust is my favorite!");
     let new_string_replace = string_replace.replace("rust", "RUST");
     dbg!(new_string_replace);
-}</code></pre></pre>
+}</code></pre>
 <p>代码运行结果：</p>
 <pre><code class="language-console">new_string_replace = "I like RUST. Learning RUST is my favorite!"
 </code></pre>
 <p>2、<code>replacen</code></p>
 <p>该方法可适用于 <code>String</code> 和 <code>&amp;str</code> 类型。<code>replacen()</code> 方法接收三个参数，前两个参数与 <code>replace()</code> 方法一样，第三个参数则表示替换的个数。<strong>该方法是返回一个新的字符串，而不是操作原来的字符串</strong>。</p>
 <p>示例代码如下：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     let string_replace = "I like rust. Learning rust is my favorite!";
     let new_string_replacen = string_replace.replacen("rust", "RUST", 1);
     dbg!(new_string_replacen);
-}</code></pre></pre>
+}</code></pre>
 <p>代码运行结果：</p>
 <pre><code class="language-console">new_string_replacen = "I like RUST. Learning rust is my favorite!"
 </code></pre>
 <p>3、<code>replace_range</code></p>
 <p>该方法仅适用于 <code>String</code> 类型。<code>replace_range</code> 接收两个参数，第一个参数是要替换字符串的范围（Range），第二个参数是新的字符串。<strong>该方法是直接操作原来的字符串，不会返回新的字符串。该方法需要使用 <code>mut</code> 关键字修饰</strong>。</p>
 <p>示例代码如下：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     let mut string_replace_range = String::from("I like rust!");
     string_replace_range.replace_range(7..8, "R");
     dbg!(string_replace_range);
-}</code></pre></pre>
+}</code></pre>
 <p>代码运行结果：</p>
 <pre><code class="language-console">string_replace_range = "I like Rust!"
 </code></pre>
@@ -441,14 +460,14 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <p>1、 <code>pop</code> —— 删除并返回字符串的最后一个字符</p>
 <p><strong>该方法是直接操作原来的字符串</strong>。但是存在返回值，其返回值是一个 <code>Option</code> 类型，如果字符串为空，则返回 <code>None</code>。</p>
 <p>示例代码如下：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     let mut string_pop = String::from("rust pop 中文!");
     let p1 = string_pop.pop();
     let p2 = string_pop.pop();
     dbg!(p1);
     dbg!(p2);
     dbg!(string_pop);
-}</code></pre></pre>
+}</code></pre>
 <p>代码运行结果：</p>
 <pre><code class="language-console">p1 = Some(
    '!',
@@ -461,7 +480,7 @@ string_pop = "rust pop 中"
 <p>2、 <code>remove</code> —— 删除并返回字符串中指定位置的字符</p>
 <p><strong>该方法是直接操作原来的字符串</strong>。但是存在返回值，其返回值是删除位置的字符串，只接收一个参数，表示该字符起始索引位置。<code>remove()</code> 方法是按照字节来处理字符串的，如果参数所给的位置不是合法的字符边界，则会发生错误。</p>
 <p>示例代码如下：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     let mut string_remove = String::from("测试remove方法");
     println!(
         "string_remove 占 {} 个字节",
@@ -474,7 +493,7 @@ string_pop = "rust pop 中"
     // 直接删除第二个汉字
     // string_remove.remove(3);
     dbg!(string_remove);
-}</code></pre></pre>
+}</code></pre>
 <p>代码运行结果：</p>
 <pre><code class="language-console">string_remove 占 18 个字节
 string_remove = "试remove方法"
@@ -482,22 +501,22 @@ string_remove = "试remove方法"
 <p>3、<code>truncate</code> —— 删除字符串中从指定位置开始到结尾的全部字符</p>
 <p><strong>该方法是直接操作原来的字符串</strong>。无返回值。该方法 <code>truncate()</code> 方法是按照字节来处理字符串的，如果参数所给的位置不是合法的字符边界，则会发生错误。</p>
 <p>示例代码如下：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     let mut string_truncate = String::from("测试truncate");
     string_truncate.truncate(3);
     dbg!(string_truncate);
-}</code></pre></pre>
+}</code></pre>
 <p>代码运行结果：</p>
 <pre><code class="language-console">string_truncate = "测"
 </code></pre>
 <p>4、<code>clear</code> —— 清空字符串</p>
 <p><strong>该方法是直接操作原来的字符串</strong>。调用后，删除字符串中的所有字符，相当于 <code>truncate()</code> 方法参数为 0 的时候。</p>
 <p>示例代码如下：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     let mut string_clear = String::from("string clear");
     string_clear.clear();
     dbg!(string_clear);
-}</code></pre></pre>
+}</code></pre>
 <p>代码运行结果：</p>
 <pre><code class="language-console">string_clear = ""
 </code></pre>
@@ -505,7 +524,7 @@ string_remove = "试remove方法"
 <p>1、使用 <code>+</code> 或者 <code>+=</code> 连接字符串</p>
 <p>使用 <code>+</code> 或者 <code>+=</code> 连接字符串，要求右边的参数必须为字符串的切片引用（Slice）类型。其实当调用 <code>+</code> 的操作符时，相当于调用了 <code>std::string</code> 标准库中的 <a href="https://doc.rust-lang.org/std/string/struct.String.html#method.add"><code>add()</code></a> 方法，这里 <code>add()</code> 方法的第二个参数是一个引用的类型。因此我们在使用 <code>+</code> 时， 必须传递切片引用类型。不能直接传递 <code>String</code> 类型。<strong><code>+</code> 是返回一个新的字符串，所以变量声明可以不需要 <code>mut</code> 关键字修饰</strong>。</p>
 <p>示例代码如下：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     let string_append = String::from("hello ");
     let string_rust = String::from("rust");
     // &amp;string_rust会自动解引用为&amp;str
@@ -514,17 +533,17 @@ string_remove = "试remove方法"
     result += "!!!";
 
     println!("连接字符串 + -&gt; {}", result);
-}</code></pre></pre>
+}</code></pre>
 <p>代码运行结果：</p>
 <pre><code class="language-console">连接字符串 + -&gt; hello rust!!!!
 </code></pre>
 <p><code>add()</code> 方法的定义：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn add(self, s: &amp;str) -&gt; String
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>因为该方法涉及到更复杂的特征功能，因此我们这里简单说明下：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     let s1 = String::from("hello,");
     let s2 = String::from("world!");
     // 在下句中，s1的所有权被转移走了，因此后面不能再使用s1
@@ -532,10 +551,10 @@ string_remove = "试remove方法"
     assert_eq!(s3,"hello,world!");
     // 下面的语句如果去掉注释，就会报错
     // println!("{}",s1);
-}</code></pre></pre>
+}</code></pre>
 <p><code>self</code> 是 <code>String</code> 类型的字符串 <code>s1</code>，该函数说明，只能将 <code>&amp;str</code> 类型的字符串切片添加到 <code>String</code> 类型的 <code>s1</code> 上，然后返回一个新的 <code>String</code> 类型，所以 <code>let s3 = s1 + &amp;s2;</code> 就很好解释了，将 <code>String</code> 类型的 <code>s1</code> 与 <code>&amp;str</code> 类型的 <code>s2</code> 进行相加，最终得到 <code>String</code> 类型的 <code>s3</code>。</p>
 <p>由此可推，以下代码也是合法的：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s1 = String::from("tic");
 let s2 = String::from("tac");
@@ -543,25 +562,25 @@ let s3 = String::from("toe");
 
 // String = String + &amp;str + &amp;str + &amp;str + &amp;str
 let s = s1 + "-" + &amp;s2 + "-" + &amp;s3;
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p><code>String + &amp;str</code>返回一个 <code>String</code>，然后再继续跟一个 <code>&amp;str</code> 进行 <code>+</code> 操作，返回一个 <code>String</code> 类型，不断循环，最终生成一个 <code>s</code>，也是 <code>String</code> 类型。</p>
-<p><code>s1</code> 这个变量通过调用 <code>add()</code> 方法后，所有权被转移到 <code>add()</code> 方法里面， <code>add()</code> 方法调用后就被释放了，同时 <code>s1</code> 也被释放了。再使用 <code>s1</code> 就会发生错误。这里涉及到<a href="https://course.rs/basic/ownership/ownership.html#%E8%BD%AC%E7%A7%BB%E6%89%80%E6%9C%89%E6%9D%83">所有权转移（Move）</a>的相关知识。</p>
+<p><code>s1</code> 这个变量通过调用 <code>add()</code> 方法后，所有权被转移到 <code>add()</code> 方法里面， <code>add()</code> 方法调用后就被释放了，同时 <code>s1</code> 也被释放了。再使用 <code>s1</code> 就会发生错误。这里涉及到<a href="https://course.rs/basic/ownership/ownership.html#转移所有权">所有权转移（Move）</a>的相关知识。</p>
 <p>2、使用 <code>format!</code> 连接字符串</p>
 <p><code>format!</code> 这种方式适用于 <code>String</code> 和 <code>&amp;str</code> 。<code>format!</code> 的用法与 <code>print!</code> 的用法类似，详见<a href="https://course.rs/basic/formatted-output.html#printprintlnformat">格式化输出</a>。</p>
 <p>示例代码如下：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     let s1 = "hello";
     let s2 = String::from("rust");
     let s = format!("{} {}!", s1, s2);
     println!("{}", s);
 }
-</code></pre></pre>
+</code></pre>
 <p>代码运行结果：</p>
 <pre><code class="language-console">hello rust!
 </code></pre>
 <h2 id="字符串转义"><a class="header" href="#字符串转义">字符串转义</a></h2>
 <p>我们可以通过转义的方式 <code>\</code> 输出 ASCII 和 Unicode 字符。</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     // 通过 \ + 字符的十六进制表示，转义输出一个字符
     let byte_escape = "I'm writing \x52\x75\x73\x74!";
     println!("What are you doing\x3F (\\x3F means ?) {}", byte_escape);
@@ -582,9 +601,9 @@ let s = s1 + "-" + &amp;s2 + "-" + &amp;s3;
                         The linebreak and indentation here -&gt;\
                         &lt;- can be escaped too!";
     println!("{}", long_string);
-}</code></pre></pre>
+}</code></pre>
 <p>当然，在某些情况下，可能你会希望保持字符串的原样，不要转义：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     println!("{}", "hello \\x52\\x75\\x73\\x74");
     let raw_str = r"Escapes don't work here: \x3F \u{211D}";
     println!("{}", raw_str);
@@ -596,17 +615,17 @@ let s = s1 + "-" + &amp;s2 + "-" + &amp;s3;
     // 如果字符串中包含 # 号，可以在开头和结尾加多个 # 号，最多加255个，只需保证与字符串中连续 # 号的个数不超过开头和结尾的 # 号的个数即可
     let longer_delimiter = r###"A string with "# in it. And even "##!"###;
     println!("{}", longer_delimiter);
-}</code></pre></pre>
+}</code></pre>
 <h2 id="操作-utf-8-字符串"><a class="header" href="#操作-utf-8-字符串">操作 UTF-8 字符串</a></h2>
 <p>前文提到了几种使用 UTF-8 字符串的方式，下面来一一说明。</p>
 <h4 id="字符"><a class="header" href="#字符">字符</a></h4>
 <p>如果你想要以 Unicode 字符的方式遍历字符串，最好的办法是使用 <code>chars</code> 方法，例如：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>for c in "中国人".chars() {
     println!("{}", c);
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>输出如下</p>
 <pre><code class="language-console">中
 国
@@ -614,12 +633,12 @@ let s = s1 + "-" + &amp;s2 + "-" + &amp;s3;
 </code></pre>
 <h4 id="字节"><a class="header" href="#字节">字节</a></h4>
 <p>这种方式是返回字符串的底层字节数组表现形式：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>for b in "中国人".bytes() {
     println!("{}", b);
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>输出如下：</p>
 <pre><code class="language-console">228
 184
@@ -646,7 +665,7 @@ let s = s1 + "-" + &amp;s2 + "-" + &amp;s3;
 <p>其中第一部分由 <code>String::from</code> 完成，它创建了一个全新的 <code>String</code>。</p>
 <p>重点来了，到了第二部分，就是百家齐放的环节，在有<strong>垃圾回收 GC</strong> 的语言中，GC 来负责标记并清除这些不再使用的内存对象，这个过程都是自动完成，无需开发者关心，非常简单好用；但是在无 GC 的语言中，需要开发者手动去释放这些内存对象，就像创建对象需要通过编写代码来完成一样，未能正确释放对象造成的后果简直不可估量。</p>
 <p>对于 Rust 而言，安全和性能是写到骨子里的核心特性，如果使用 GC，那么会牺牲性能；如果使用手动管理内存，那么会牺牲安全，这该怎么办？为此，Rust 的开发者想出了一个无比惊艳的办法：变量在离开作用域后，就自动释放其占用的内存：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>{
     let s = String::from("hello"); // 从此处起，s 是有效的
@@ -654,7 +673,7 @@ let s = s1 + "-" + &amp;s2 + "-" + &amp;s3;
     // 使用 s
 }                                  // 此作用域已结束，
                                    // s 不再有效，内存被释放
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>与其它系统编程语言的 <code>free</code> 函数相同，Rust 也提供了一个释放内存的函数： <code>drop</code>，但是不同的是，其它语言要手动调用 <code>free</code> 来释放每一个变量占用的内存，而 Rust 则在变量离开作用域时，自动调用 <code>drop</code> 函数：上面代码中，Rust 在结尾的 <code>}</code> 处自动调用 <code>drop</code>。</p>
 <blockquote>
 <p>其实，在 C++ 中，也有这种概念：<em>Resource Acquisition Is Initialization (RAII)</em>。如果你使用过 RAII 模式的话应该对 Rust 的 <code>drop</code> 函数并不陌生。</p>
@@ -692,11 +711,11 @@ let s = s1 + "-" + &amp;s2 + "-" + &amp;s3;
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="../../basic/compound-type/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                                <i class="fa fa-angle-left"></i>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
                             <a rel="next prefetch" href="../../basic/compound-type/tuple.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
                         <div style="clear: both"></div>
@@ -706,16 +725,21 @@ let s = s1 + "-" + &amp;s2 + "-" + &amp;s3;
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                     <a rel="prev" href="../../basic/compound-type/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <i class="fa fa-angle-left"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
                     <a rel="next prefetch" href="../../basic/compound-type/tuple.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
 
         </div>
 
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
 
 
 
@@ -723,23 +747,24 @@ let s = s1 + "-" + &amp;s2 + "-" + &amp;s3;
             window.playground_copyable = true;
         </script>
 
-        <script src="../../ace.js"></script>
-        <script src="../../editor.js"></script>
-        <script src="../../mode-rust.js"></script>
-        <script src="../../theme-dawn.js"></script>
-        <script src="../../theme-tomorrow_night.js"></script>
+        <script src="../../ace-2a3cd908.js"></script>
+        <script src="../../mode-rust-2c9d5c9a.js"></script>
+        <script src="../../editor-16ca416c.js"></script>
+        <script src="../../theme-dawn-4493f9c8.js"></script>
+        <script src="../../theme-tomorrow_night-9dbe62a9.js"></script>
 
-        <script src="../../elasticlunr.min.js"></script>
-        <script src="../../mark.min.js"></script>
-        <script src="../../searcher.js"></script>
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
 
-        <script src="../../clipboard.min.js"></script>
-        <script src="../../highlight.js"></script>
-        <script src="../../book.js"></script>
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../assets/custom2.js"></script>
-        <script src="../../assets/bigPicture.js"></script>
+        <script src="../../assets/custom-690c9de5.js"></script>
+        <script src="../../assets/bigPicture-be03f9c8.js"></script>
+
 
 
     </div>

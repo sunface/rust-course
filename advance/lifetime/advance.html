@@ -12,24 +12,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="../../favicon.svg">
-        <link rel="shortcut icon" href="../../favicon.png">
-        <link rel="stylesheet" href="../../css/variables.css">
-        <link rel="stylesheet" href="../../css/general.css">
-        <link rel="stylesheet" href="../../css/chrome.css">
-        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <link rel="icon" href="../../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../../css/general-2459343d.css">
+        <link rel="stylesheet" href="../../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <link rel="stylesheet" href="../../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/style.css">
+        <link rel="stylesheet" href="../../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -37,12 +36,24 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex-4a1a74fa.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc.js"></script>
+        <script src="../../toc-42887675.js"></script>
     </head>
     <body>
-    <div id="body-container">
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -71,56 +82,59 @@
             html.classList.add("js");
         </script>
 
-        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
                 <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
             </noscript>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <div id="page-wrapper" class="page-wrapper">
+        <div id="mdbook-page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
                         </label>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
                         </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
                         </button>
                     </div>
 
@@ -128,46 +142,51 @@
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
-                            <i id="print-button" class="fa fa-print"></i>
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
                         <a href="https://github.com/sunface/rust-course" title="Git repository" aria-label="Git repository">
-                            <i id="git-repository-button" class="fa fa-github"></i>
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
                         </a>
-                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/lifetime/advance.md" title="Suggest an edit" aria-label="Suggest an edit">
-                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        <a href="https://github.com/sunface/rust-course/edit/main/src/advance/lifetime/advance.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                         </a>
 
                     </div>
                 </div>
 
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
                     </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
                         </ul>
                     </div>
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script>
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
                         link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
                     });
                 </script>
 
-                <div id="content" class="content">
+                <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="深入生命周期"><a class="header" href="#深入生命周期">深入生命周期</a></h1>
 <p>其实关于生命周期的常用特性，在上一节中，我们已经概括得差不多了，本章主要讲解生命周期的一些高级或者不为人知的特性。对于新手，完全可以跳过本节内容，进行下一章节的学习。</p>
 <h2 id="不太聪明的生命周期检查"><a class="header" href="#不太聪明的生命周期检查">不太聪明的生命周期检查</a></h2>
 <p>在 Rust 语言学习中，一个很重要的部分就是阅读一些你可能不经常遇到，但是一旦遇到就难以理解的代码，这些代码往往最令人头疼的就是生命周期，这里我们就来看看一些本以为可以编译，但是却因为生命周期系统不够聪明导致编译失败的代码。</p>
 <h4 id="例子-1"><a class="header" href="#例子-1">例子 1</a></h4>
-<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+<pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
 struct Foo;
 
 impl Foo {
@@ -182,7 +201,7 @@ fn main() {
     let loan = foo.mutate_and_share();
     foo.share();
     println!("{:?}", loan);
-}</code></pre></pre>
+}</code></pre>
 <p>上面的代码中，<code>foo.mutate_and_share()</code> 虽然借用了 <code>&amp;mut self</code>，但是它最终返回的是一个 <code>&amp;self</code>，然后赋值给 <code>loan</code>，因此理论上来说它最终是进行了不可变借用，同时 <code>foo.share</code> 也进行了不可变借用，那么根据 Rust 的借用规则：多个不可变借用可以同时存在，因此该代码应该编译通过。</p>
 <p>事实上，运行代码后，你将看到一个错误：</p>
 <pre><code class="language-console">error[E0502]: cannot borrow `foo` as immutable because it is also borrowed as mutable
@@ -197,7 +216,7 @@ fn main() {
 </code></pre>
 <p>编译器的提示在这里其实有些难以理解，因为可变借用仅在 <code>mutate_and_share</code> 方法内部有效，出了该方法后，就只有返回的不可变借用，因此，按理来说可变借用不应该在 <code>main</code> 的作用范围内存在。</p>
 <p>对于这个反直觉的事情，让我们用生命周期来解释下，可能你就很好理解了：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">struct Foo;
+<pre class="playground"><code class="language-rust edition2021">struct Foo;
 
 impl Foo {
     fn mutate_and_share&lt;'a&gt;(&amp;'a mut self) -&gt; &amp;'a Self {
@@ -217,7 +236,7 @@ fn main() {
             println!("{:?}", loan);
         }
     }
-}</code></pre></pre>
+}</code></pre>
 <p>以上是模拟了编译器的生命周期标注后的代码，可以注意到 <code>&amp;mut foo</code> 和 <code>loan</code> 的生命周期都是 <code>'c</code>。</p>
 <p>还记得生命周期消除规则中的第三条吗？因为该规则，导致了 <code>mutate_and_share</code> 方法中，参数 <code>&amp;mut self</code> 和返回值 <code>&amp;self</code> 的生命周期是相同的，因此，若返回值的生命周期在 <code>main</code> 函数有效，那 <code>&amp;mut self</code> 的借用也是在 <code>main</code> 函数有效。</p>
 <p>这就解释了可变借用为啥会在 <code>main</code> 函数作用域内有效，最终导致 <code>foo.share()</code> 无法再进行不可变借用。</p>
@@ -225,7 +244,7 @@ fn main() {
 <p>上述代码实际上完全是正确的，但是因为生命周期系统的“粗糙实现”，导致了编译错误，目前来说，遇到这种生命周期系统不够聪明导致的编译错误，我们也没有太好的办法，只能修改代码去满足它的需求，并期待以后它会更聪明。</p>
 <h4 id="例子-2"><a class="header" href="#例子-2">例子 2</a></h4>
 <p>再来看一个例子：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021">#![allow(unused)]
 fn main() {
     use std::collections::HashMap;
     use std::hash::Hash;
@@ -243,7 +262,7 @@ fn main() {
         }
     }
 }
-</code></pre></pre>
+</code></pre>
 <p>这段代码不能通过编译的原因是编译器未能精确地判断出某个可变借用不再需要，反而谨慎的给该借用安排了一个很大的作用域，结果导致后续的借用失败：</p>
 <pre><code class="language-console">error[E0499]: cannot borrow `*map` as mutable more than once at a time
   --&gt; src/main.rs:13:17
@@ -269,47 +288,47 @@ fn main() {
 <h2 id="无界生命周期"><a class="header" href="#无界生命周期">无界生命周期</a></h2>
 <p>不安全代码(<code>unsafe</code>)经常会凭空产生引用或生命周期，这些生命周期被称为是 <strong>无界(unbound)</strong> 的。</p>
 <p>无界生命周期往往是在解引用一个裸指针(裸指针 raw pointer)时产生的，换句话说，它是凭空产生的，因为输入参数根本就没有这个生命周期：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn f&lt;'a, T&gt;(x: *const T) -&gt; &amp;'a T {
     unsafe {
         &amp;*x
     }
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>上述代码中，参数 <code>x</code> 是一个裸指针，它并没有任何生命周期，然后通过 <code>unsafe</code> 操作后，它被进行了解引用，变成了一个 Rust 的标准引用类型，该类型必须要有生命周期，也就是 <code>'a</code>。</p>
 <p>可以看出 <code>'a</code> 是凭空产生的，因此它是无界生命周期。这种生命周期由于没有受到任何约束，因此它想要多大就多大，这实际上比 <code>'static</code> 要强大。例如 <code>&amp;'static &amp;'a T</code> 是无效类型，但是无界生命周期 <code>&amp;'unbounded &amp;'a T</code> 会被视为 <code>&amp;'a &amp;'a T</code> 从而通过编译检查，因为它可大可小，就像孙猴子的金箍棒一般。</p>
 <p>我们在实际应用中，要尽量避免这种无界生命周期。最简单的避免无界生命周期的方式就是在函数声明中运用生命周期消除规则。<strong>若一个输出生命周期被消除了，那么必定因为有一个输入生命周期与之对应</strong>。</p>
 <h2 id="生命周期约束-hrtb"><a class="header" href="#生命周期约束-hrtb">生命周期约束 HRTB</a></h2>
 <p>生命周期约束跟特征约束类似，都是通过形如 <code>'a: 'b</code> 的语法，来说明两个生命周期的长短关系。</p>
-<h4 id="a-b"><a class="header" href="#a-b">'a: 'b</a></h4>
+<h4 id="a-b"><a class="header" href="#a-b">’a: ’b</a></h4>
 <p>假设有两个引用 <code>&amp;'a i32</code> 和 <code>&amp;'b i32</code>，它们的生命周期分别是 <code>'a</code> 和 <code>'b</code>，若 <code>'a</code> &gt;= <code>'b</code>，则可以定义 <code>'a:'b</code>，表示 <code>'a</code> 至少要活得跟 <code>'b</code> 一样久。</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct DoubleRef&lt;'a,'b:'a, T&gt; {
     r: &amp;'a T,
     s: &amp;'b T
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>例如上述代码定义一个结构体，它拥有两个引用字段，类型都是泛型 <code>T</code>，每个引用都拥有自己的生命周期，由于我们使用了生命周期约束 <code>'b: 'a</code>，因此 <code>'b</code> 必须活得比 <code>'a</code> 久，也就是结构体中的 <code>s</code> 字段引用的值必须要比 <code>r</code> 字段引用的值活得要久。</p>
-<h4 id="t-a"><a class="header" href="#t-a">T: 'a</a></h4>
+<h4 id="t-a"><a class="header" href="#t-a">T: ’a</a></h4>
 <p>表示类型 <code>T</code> 必须比 <code>'a</code> 活得要久：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct Ref&lt;'a, T: 'a&gt; {
     r: &amp;'a T
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>因为结构体字段 <code>r</code> 引用了 <code>T</code>，因此 <code>r</code> 的生命周期 <code>'a</code> 必须要比 <code>T</code> 的生命周期更短(被引用者的生命周期必须要比引用长)。</p>
 <p>在 Rust 1.30 版本之前，该写法是必须的，但是从 1.31 版本开始，编译器可以自动推导 <code>T: 'a</code> 类型的约束，因此我们只需这样写即可：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct Ref&lt;'a, T&gt; {
     r: &amp;'a T
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>来看一个使用了生命周期约束的综合例子：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct ImportantExcerpt&lt;'a&gt; {
     part: &amp;'a str,
@@ -321,15 +340,15 @@ impl&lt;'a: 'b, 'b&gt; ImportantExcerpt&lt;'a&gt; {
         self.part
     }
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>上面的例子中必须添加约束 <code>'a: 'b</code> 后，才能成功编译，因为 <code>self.part</code> 的生命周期与 <code>self</code>的生命周期一致，将 <code>&amp;'a</code> 类型的生命周期强行转换为 <code>&amp;'b</code> 类型，会报错，只有在 <code>'a</code> &gt;= <code>'b</code> 的情况下，<code>'a</code> 才能转换成 <code>'b</code>。</p>
 <h2 id="闭包函数的消除规则"><a class="header" href="#闭包函数的消除规则">闭包函数的消除规则</a></h2>
 <p>先来看一段简单的代码：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn fn_elision(x: &amp;i32) -&gt; &amp;i32 { x }
 let closure_slision = |x: &amp;i32| -&gt; &amp;i32 { x };
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>乍一看，这段代码比古天乐还平平无奇，能有什么问题呢？来，拄拐走两圈试试：</p>
 <pre><code class="language-console">error: lifetime may not live long enough
   --&gt; src/main.rs:39:39
@@ -344,22 +363,22 @@ let closure_slision = |x: &amp;i32| -&gt; &amp;i32 { x };
 <p>真的是非常奇怪的错误，学过上一节的读者应该都记得这样一条生命周期消除规则：<strong>如果函数参数中只有一个引用类型，那该引用的生命周期会被自动分配给所有的返回引用</strong>。我们当前的情况完美符合， <code>function</code> 函数的顺利编译通过，就充分说明了问题。</p>
 <p>先给出一个结论：<strong>这个问题，可能很难被解决，建议大家遇到后，还是老老实实用正常的函数，不要秀闭包了</strong>。</p>
 <p>对于函数的生命周期而言，它的消除规则之所以能生效是因为它的生命周期完全体现在签名的引用类型上，在函数体中无需任何体现：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn fn_elision(x: &amp;i32) -&gt; &amp;i32 {..}
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>因此编译器可以做各种编译优化，也很容易根据参数和返回值进行生命周期的分析，最终得出消除规则。</p>
 <p>可是闭包，并没有函数那么简单，它的生命周期分散在参数和闭包函数体中(主要是它没有确切的返回值签名)：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let closure_slision = |x: &amp;i32| -&gt; &amp;i32 { x };
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>编译器就必须深入到闭包函数体中，去分析和推测生命周期，复杂度因此急剧提升：试想一下，编译器该如何从复杂的上下文中分析出参数引用的生命周期和闭包体中生命周期的关系？</p>
 <p>由于上述原因(当然，实际情况复杂的多)，Rust 语言开发者目前其实是有意针对函数和闭包实现了两种不同的生命周期消除规则。</p>
 <blockquote>
 <p><strong>用 <code>Fn</code> 特征解决闭包生命周期</strong></p>
 <p>之前我们提到了很难解决，但是并没有完全堵死(论文字的艺术- , -) 这不 @Ykong1337 同学就带了一个解决方法，为他点赞!</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
    let closure_slision = fun(|x: &amp;i32| -&gt; &amp;i32 { x });
    assert_eq!(*closure_slision(&amp;45), 45);
    // Passed !
@@ -367,11 +386,11 @@ let closure_slision = |x: &amp;i32| -&gt; &amp;i32 { x };
 
 fn fun&lt;T, F: Fn(&amp;T) -&gt; &amp;T&gt;(f: F) -&gt; F {
    f
-}</code></pre></pre>
+}</code></pre>
 </blockquote>
 <h2 id="nll-non-lexical-lifetime"><a class="header" href="#nll-non-lexical-lifetime">NLL (Non-Lexical Lifetime)</a></h2>
 <p>之前我们在<a href="https://course.rs/basic/ownership/borrowing.html#NLL">引用与借用</a>那一章其实有讲到过这个概念，简单来说就是：<strong>引用的生命周期正常来说应该从借用开始一直持续到作用域结束</strong>，但是这种规则会让多引用共存的情况变得更复杂：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
    let mut s = String::from("hello");
 
     let r1 = &amp;s;
@@ -381,12 +400,12 @@ fn fun&lt;T, F: Fn(&amp;T) -&gt; &amp;T&gt;(f: F) -&gt; F {
 
     let r3 = &amp;mut s;
     println!("{}", r3);
-}</code></pre></pre>
+}</code></pre>
 <p>按照上述规则，这段代码将会报错，因为 <code>r1</code> 和 <code>r2</code> 的不可变引用将持续到 <code>main</code> 函数结束，而在此范围内，我们又借用了 <code>r3</code> 的可变引用，这违反了借用的规则：要么多个不可变借用，要么一个可变借用。</p>
 <p>好在，该规则从 1.31 版本引入 <code>NLL</code> 后，就变成了：<strong>引用的生命周期从借用处开始，一直持续到最后一次使用的地方</strong>。</p>
 <p>按照最新的规则，我们再来分析一下上面的代码。<code>r1</code> 和 <code>r2</code> 不可变借用在 <code>println!</code> 后就不再使用，因此生命周期也随之结束，那么 <code>r3</code> 的借用就不再违反借用的规则，皆大欢喜。</p>
 <p>再来看一段关于 <code>NLL</code> 的代码解释：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let mut u = 0i32;
 let mut v = 1i32;
@@ -404,7 +423,7 @@ use(a);                 //   |                            |
 a = &amp;mut w;             // --+ γ. lifetime of `&amp;mut w`    |
 use(a);                 //   |                            |
 *a = 5; // &lt;-----------------+ &lt;--------------------------+
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>这段代码一目了然，<code>a</code> 有三段生命周期：<code>α</code>，<code>β</code>，<code>γ</code>，每一段生命周期都随着当前值的最后一次使用而结束。</p>
 <p>在实际项目中，<code>NLL</code> 规则可以大幅减少引用冲突的情况，极大的便利了用户，因此广受欢迎，最终该规则甚至演化成一个独立的项目，未来可能会进一步简化我们的使用，<code>Polonius</code>：</p>
 <ul>
@@ -414,7 +433,7 @@ use(a);                 //   |                            |
 <h1 id="reborrow-再借用"><a class="header" href="#reborrow-再借用">Reborrow 再借用</a></h1>
 <p>学完 <code>NLL</code> 后，我们就有了一定的基础，可以继续学习关于借用和生命周期的一个高级内容：<strong>再借用</strong>。</p>
 <p>先来看一段代码：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
+<pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
 struct Point {
     x: i32,
     y: i32,
@@ -435,10 +454,10 @@ fn main() {
     println!("{:?}", rr);
     r.move_to(10, 10);
     println!("{:?}", r);
-}</code></pre></pre>
+}</code></pre>
 <p>以上代码，大家可能会觉得可变引用 <code>r</code> 和不可变引用 <code>rr</code> 同时存在会报错吧？但是事实上并不会，原因在于 <code>rr</code> 是对 <code>r</code> 的再借用。</p>
 <p>对于再借用而言，<code>rr</code> 再借用时不会破坏借用规则，但是你不能在它的生命周期内再使用原来的借用 <code>r</code>，来看看对上段代码的分析：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     let mut p = Point { x: 0, y: 0 };
     let r = &amp;mut p;
     // reborrow! 此时对`r`的再借用不会导致跟上面的借用冲突
@@ -450,18 +469,18 @@ fn main() {
     // 再借用结束后，才去使用原来的借用`r`
     r.move_to(10, 10);
     println!("{:?}", r);
-}</code></pre></pre>
+}</code></pre>
 <p>再来看一个例子：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::vec::Vec;
 fn read_length(strings: &amp;mut Vec&lt;String&gt;) -&gt; usize {
    strings.len()
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>如上所示，函数体内对参数的二次借用也是典型的 <code>Reborrow</code> 场景。</p>
 <p>那么下面让我们来做件坏事，破坏这条规则，使其报错：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre class="playground"><code class="language-rust edition2021">fn main() {
     let mut p = Point { x: 0, y: 0 };
     let r = &amp;mut p;
     let rr: &amp;Point = &amp;*r;
@@ -471,29 +490,29 @@ fn read_length(strings: &amp;mut Vec&lt;String&gt;) -&gt; usize {
     println!("{:?}", rr);
 
     println!("{:?}", r);
-}</code></pre></pre>
+}</code></pre>
 <p>果然，破坏永远比重建简单 :) 只需要在 <code>rr</code> 再借用的生命周期内使用一次原来的借用 <code>r</code> 即可！</p>
 <h2 id="生命周期消除规则补充"><a class="header" href="#生命周期消除规则补充">生命周期消除规则补充</a></h2>
 <p>在上一节中，我们介绍了三大基础生命周期消除规则，实际上，随着 Rust 的版本进化，该规则也在不断演进，这里再介绍几个常见的消除规则：</p>
 <h4 id="impl-块消除"><a class="header" href="#impl-块消除">impl 块消除</a></h4>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl&lt;'a&gt; Reader for BufReader&lt;'a&gt; {
     // methods go here
     // impl内部实际上没有用到'a
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>如果你以前写的<code>impl</code>块长上面这样，同时在 <code>impl</code> 内部的方法中，根本就没有用到 <code>'a</code>，那就可以写成下面的代码形式。</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl Reader for BufReader&lt;'_&gt; {
     // methods go here
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p><code>'_</code> 称为匿名生命周期（anonymous lifetime），在这里表示 <code>BufReader</code> 有一个不使用的生命周期，我们可以忽略它，无需为它创建一个名称。</p>
 <p>歪个楼，有读者估计会发问：既然用不到 <code>'a</code>，为何还要写出来？如果你仔细回忆下上一节的内容，里面有一句专门用粗体标注的文字：<strong>生命周期参数也是类型的一部分</strong>，因此 <code>BufReader&lt;'a&gt;</code> 是一个完整的类型，在实现它的时候，你不能把 <code>'a</code> 给丢了！</p>
 <h4 id="生命周期约束消除"><a class="header" href="#生命周期约束消除">生命周期约束消除</a></h4>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Rust 2015
 struct Ref&lt;'a, T: 'a&gt; {
@@ -504,11 +523,11 @@ struct Ref&lt;'a, T: 'a&gt; {
 struct Ref&lt;'a, T&gt; {
     field: &amp;'a T
 }
-<span class="boring">}</span></code></pre></pre>
+<span class="boring">}</span></code></pre>
 <p>在本节的生命周期约束中，也提到过，新版本 Rust 中，上面情况中的 <code>T: 'a</code> 可以被消除掉，当然，你也可以显式的声明，但是会影响代码可读性。关于类似的场景，Rust 团队计划在未来提供更多的消除规则，但是，你懂的，计划未来就等于未知。</p>
 <h2 id="一个复杂的例子"><a class="header" href="#一个复杂的例子">一个复杂的例子</a></h2>
 <p>下面是一个关于生命周期声明过大的例子，会较为复杂，希望大家能细细阅读，它能帮你对生命周期的理解更加深入。</p>
-<pre><pre class="playground"><code class="language-rust edition2021">struct Interface&lt;'a&gt; {
+<pre class="playground"><code class="language-rust edition2021">struct Interface&lt;'a&gt; {
     manager: &amp;'a mut Manager&lt;'a&gt;
 }
 
@@ -552,7 +571,7 @@ fn main() {
 
 fn use_list(list: &amp;List) {
     println!("{}", list.manager.text);
-}</code></pre></pre>
+}</code></pre>
 <p>运行后报错：</p>
 <pre><code class="language-console">error[E0502]: cannot borrow `list` as immutable because it is also borrowed as mutable // `list`无法被借用，因为已经被可变借用
   --&gt; src/main.rs:40:14
@@ -569,7 +588,7 @@ fn use_list(list: &amp;List) {
 <p>这段代码看上去并不复杂，实际上难度挺高的，首先在直觉上，<code>list.get_interface()</code> 借用的可变引用，按理来说应该在这行代码结束后，就归还了，但是为什么还能持续到 <code>use_list(&amp;list)</code> 后面呢？</p>
 <p>这是因为我们在 <code>get_interface</code> 方法中声明的 <code>lifetime</code> 有问题，该方法的参数的生命周期是 <code>'a</code>，而 <code>List</code> 的生命周期也是 <code>'a</code>，说明该方法至少活得跟 <code>List</code> 一样久，再回到 <code>main</code> 函数中，<code>list</code> 可以活到 <code>main</code> 函数的结束，因此 <code>list.get_interface()</code> 借用的可变引用也会活到 <code>main</code> 函数的结束，在此期间，自然无法再进行借用了。</p>
 <p>要解决这个问题，我们需要为 <code>get_interface</code> 方法的参数给予一个不同于 <code>List&lt;'a&gt;</code> 的生命周期 <code>'b</code>，最终代码如下：</p>
-<pre><pre class="playground"><code class="language-rust edition2021">struct Interface&lt;'b, 'a: 'b&gt; {
+<pre class="playground"><code class="language-rust edition2021">struct Interface&lt;'b, 'a: 'b&gt; {
     manager: &amp;'b mut Manager&lt;'a&gt;
 }
 
@@ -614,7 +633,7 @@ fn main() {
 
 fn use_list(list: &amp;List) {
     println!("{}", list.manager.text);
-}</code></pre></pre>
+}</code></pre>
 <p>至此，生命周期终于完结，两章超级长的内容，可以满足几乎所有对生命周期的学习目标。学完生命周期，意味着你正式入门了 Rust，只要再掌握几个常用概念，就可以上手写项目了。</p>
 
                     </main>
@@ -622,11 +641,11 @@ fn use_list(list: &amp;List) {
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="../../advance/lifetime/intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                                <i class="fa fa-angle-left"></i>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
                             <a rel="next prefetch" href="../../advance/lifetime/static.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
                         <div style="clear: both"></div>
@@ -636,16 +655,21 @@ fn use_list(list: &amp;List) {
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                     <a rel="prev" href="../../advance/lifetime/intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <i class="fa fa-angle-left"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
                     <a rel="next prefetch" href="../../advance/lifetime/static.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
 
         </div>
 
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
 
 
 
@@ -653,23 +677,24 @@ fn use_list(list: &amp;List) {
             window.playground_copyable = true;
         </script>
 
-        <script src="../../ace.js"></script>
-        <script src="../../editor.js"></script>
-        <script src="../../mode-rust.js"></script>
-        <script src="../../theme-dawn.js"></script>
-        <script src="../../theme-tomorrow_night.js"></script>
+        <script src="../../ace-2a3cd908.js"></script>
+        <script src="../../mode-rust-2c9d5c9a.js"></script>
+        <script src="../../editor-16ca416c.js"></script>
+        <script src="../../theme-dawn-4493f9c8.js"></script>
+        <script src="../../theme-tomorrow_night-9dbe62a9.js"></script>
 
-        <script src="../../elasticlunr.min.js"></script>
-        <script src="../../mark.min.js"></script>
-        <script src="../../searcher.js"></script>
+        <script src="../../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../../mark-09e88c2c.min.js"></script>
+        <script src="../../searcher-c2a407aa.js"></script>
 
-        <script src="../../clipboard.min.js"></script>
-        <script src="../../highlight.js"></script>
-        <script src="../../book.js"></script>
+        <script src="../../clipboard-1626706a.min.js"></script>
+        <script src="../../highlight-abc7f01d.js"></script>
+        <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../assets/custom2.js"></script>
-        <script src="../../assets/bigPicture.js"></script>
+        <script src="../../assets/custom-690c9de5.js"></script>
+        <script src="../../assets/bigPicture-be03f9c8.js"></script>
+
 
 
     </div>
