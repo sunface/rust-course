@@ -1,0 +1,77 @@
+name: epub
+
+on:
+  push:
+    branches:
+      - epub
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build EPUB and PDF
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+          key: ${{ runner.os }}-cargo-mdbook-pandoc-v1
+          restore-keys: |
+            ${{ runner.os }}-cargo-mdbook-pandoc-
+
+      - name: Install mdbook
+        uses: peaceiris/actions-mdbook@v2
+        with:
+          mdbook-version: "latest"
+
+      - name: Install FUSE (required for AppImages)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libfuse2
+
+      - name: Install Tectonic
+        uses: wtfjoke/setup-tectonic@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Pandoc, LaTeX and fonts
+        run: |
+          sudo apt-get install -y pandoc texlive-xetex texlive-luatex texlive-lang-japanese fonts-noto-cjk fonts-noto-cjk-extra fonts-noto-color-emoji fonts-dejavu
+
+      - name: Install mdbook-pandoc
+        run: |
+          if ! command -v mdbook-pandoc &> /dev/null; then
+            cargo install mdbook-pandoc
+          else
+            echo "mdbook-pandoc already installed"
+          fi
+
+      - name: Build Book
+        run: mdbook build
+
+      - name: List Output Directory
+        if: always()
+        run: find book -maxdepth 4
+
+      - name: Upload EPUB
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rust-course-epub
+          path: book/pandoc/epub/rust-course.epub
+
+      - name: Upload PDF
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rust-course-pdf
+          path: book/pandoc/pdf/rust-course.pdf
