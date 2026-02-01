@@ -335,7 +335,7 @@ hello_macro_derive = { path = "../hello_macro/hello_macro_derive" }
 
 此时，`hello_macro` 项目就可以成功的引用到 `hello_macro_derive` 本地包了，对于项目依赖引入的详细介绍，可以参见 [Cargo 章节](https://course.rs/cargo/dependency.html)。
 
-另外，学习过程更好的办法是通过展开宏来阅读和调试自己写的宏，这里需要用到一个 cargo-expand 的工具，可以通过下面的命令安装
+另外，学习过程宏更好的办法是通过展开宏来阅读和调试自己写的宏，这里需要用到一个 cargo-expand 的工具，可以通过下面的命令安装：
 ```bash
 cargo install cargo-expand
 ```
@@ -360,8 +360,6 @@ quote = "1.0"
 其次，在 `hello_macro_derive/src/lib.rs` 中添加如下代码：
 
 ```rust
-extern crate proc_macro;
-
 use proc_macro::TokenStream;
 use quote::quote;
 use syn;
