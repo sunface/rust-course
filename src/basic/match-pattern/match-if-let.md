@@ -318,7 +318,7 @@ fn main() {
 }
 ```
 
-现在如果想对 `v` 进行过滤，只保留类型是 `MyEnum::Foo` 的元素，你可能想这么写：
+现在如果想对 `v` 进行过滤，只保留值是 `MyEnum::Foo` 的元素，你可能想这么写：
 
 ```rust
 v.iter().filter(|x| x == MyEnum::Foo);
