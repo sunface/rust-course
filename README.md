@@ -16,9 +16,6 @@
 
 </div>
 
-**号外号外，特大新闻！本书苦作者久矣，准备自我革命了，欢迎大家跟鄙书一起向作者拍砖**: https://github.com/sunface/rust-course/issues/1563
-
-
 ## 教程简介
 
 - 在线阅读: https://course.rs
@@ -139,12 +136,6 @@
 因为它们绝大部分是支持 APACHE + MIT 双协议的，因此我们选择了遵循其中的 MIT 协议，并在这里统一对借鉴的书籍进行说明。
 
 ## 社区 & 读者交流
-
-- 知乎: [孙飞 Sunface](https://www.zhihu.com/people/iSunface)
-- RustCn 微信交流 2 群：<img src="https://github.com/sunface/rust-course/assets/7036754/a84ec7e5-30b1-48da-9352-95503aa61a8f" width="200" /> 
-
-
-
-- 微信公众号: 扫描下面的二维码关注公众号 `Rust语言中文网`
+- 微信公众号: 扫描下面的二维码关注公众号
 
 <img src="https://github.com/sunface/rust-course/blob/main/assets/studyrust公众号.png?raw=true" />
