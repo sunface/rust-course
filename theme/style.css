@@ -94,6 +94,14 @@ table {
     }
 }
 
+/* 防止wrapper遮挡内容 */
+.nav-wrapper{
+    pointer-events: none;
+}
+.nav-wrapper > * {
+    pointer-events: auto;
+}
+
 .mobile-nav-chapters {
     width: 40px;
     font-size: 2.5rem
