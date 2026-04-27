@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-848c21ce.js";
+            window.path_to_searchindex_js = "../../searchindex-e48ea36d.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-42887675.js"></script>
@@ -347,7 +347,7 @@ if let Some(x) = some_option_value {
 }
 
 // let-else
-let Some(x) = some_option_value else { return; }
+let Some(x) = some_option_value else { return; };
 println!("{}", x);
 <span class="boring">}</span></code></pre>
 <p>在上面的例子中，<code>if let</code> 写法里的 <code>x</code> 只能在 <code>if</code> 分支内使用，而 <code>let-else</code> 写法里的 <code>x</code> 则可以在 <code>let</code> 之外使用。</p>
