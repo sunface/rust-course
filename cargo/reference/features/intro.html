@@ -36,7 +36,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-b51d0653.js";
+            window.path_to_searchindex_js = "../../../searchindex-cf3a6879.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-2f1f2f2c.js"></script>
@@ -282,7 +282,7 @@ parallel = ["jpeg-decoder/rayon"]
 <p><code>feature</code> 只有在定义的包中才是唯一的，不同包之间的 <code>feature</code> 允许同名。因此，在一个包上启用 <code>feature</code> 不会导致另一个包的同名 <code>feature</code> 被误启用。</p>
 <p><strong>当一个依赖被多个包所使用时，这些包对该依赖所设置的 <code>feature</code> 将被进行合并，这样才能确保该依赖只有一个拷贝存在，这个过程就被称之为同一化</strong>。大家可以查看<a href="https://doc.rust-lang.org/stable/cargo/reference/resolver.html#features">这里</a>了解下解析器如何对 feature 进行解析处理。</p>
 <p>这里，我们使用 <code>winapi</code> 为例来说明这个过程。首先，<code>winapi</code> 使用了大量的 <code>features</code>；然后我们有两个包 <code>foo</code> 和 <code>bar</code> 分别使用了它的两个 features，那么在合并后，最终 <code>winapi</code> 将同时启四个 features :</p>
-<img src="https://cdn.jsdelivr.net/gh/beatai-org/beatai-assets@3a5cc0064037656f6e24d122bd5ff1874e991bd4/rust-course/_external/2c8aa746a8276b54.png" />
+<img src="https://pic2.zhimg.com/80/v2-251973b0cc83f35cd6858bf21dd00ed6_1440w.png" />
 <p>由于这种不可控性，我们需要让 <code>启用feature = 添加特性</code> 这个等式成立，换而言之，<strong>启用一个 feature 不应该导致某个功能被禁止</strong>。这样才能让多个包启用同一个依赖的不同 features。</p>
 <p>例如，如果我们想可选的支持 <code>no_std</code> 环境(不使用标准库)，那么有两种做法：</p>
 <ul>

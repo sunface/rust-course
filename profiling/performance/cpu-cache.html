@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b51d0653.js";
+            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -290,7 +290,7 @@ CPU cache is a data storage, located close to CPU, offering a fast access to dat
 In a computer, when the CPU needs to read or write a value, it checks if it is present inside the cache or not. If it is the case then the CPU directly uses the cached data. Otherwise, the cache allocates a new entry and copies data from main memory, an entry being of fixed size and called <em>cache line</em>.
 CPU cache is relatively small compared to RAM but much faster, and that’s why a program should be designed to use as much as possible data lying in cache, based on a locality principle, to avoid expensive access to RAM.</p>
 <p>If we represent our current situation it looks like this :
-<img src="https://cdn.jsdelivr.net/gh/beatai-org/beatai-assets@3a5cc0064037656f6e24d122bd5ff1874e991bd4/rust-course/_external/c1e53f5800ac6e7e.png" alt="figure"></p>
+<img src="https://github.com/TC5027/blog/blob/master/pngs/false_sharing.png" alt="figure"></p>
 <p>The red square corresponds to the first counter and the green one to the second. They can potentially lie in the same cache line !</p>
 <p>If data is modified through CPU 0 in its L1 cache we expect our computer to reflect the changes both in memory and in the other L1 cache. To ensure this coherency, there exists coherence protocols which can force the <strong>whole cache line</strong> impacted by the change to be propagated through the whole system, in order to update the copies of the value changed.</p>
 <p>With that in mind, what is happening in our code comes from that : we suffer from coherency protocol due to our 2 counters lying on the same cache line. Updating first counter through CPU 0 involves an update in the system of the data stored in the cache line where the second counter (unchanged) potentially lies. During this update, CPU 1 cannot access the second counter whereas it is clearly independent from the change made by CPU 0, and that’s why we are slow.
