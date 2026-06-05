@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/style-78591068.css">
+        <link rel="stylesheet" href="../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-61e2cb8e.js";
+            window.path_to_searchindex_js = "../searchindex-ee3c7184.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-a1876e9d.js"></script>
@@ -433,7 +433,7 @@ hello_macro_derive = { path = "../hello_macro/hello_macro_derive" }
 # hello_macro_derive = { path = "./hello_macro_derive" }
 </code></pre>
 <p>此时，<code>hello_macro</code> 项目就可以成功的引用到 <code>hello_macro_derive</code> 本地包了，对于项目依赖引入的详细介绍，可以参见 <a href="https://course.rs/cargo/dependency.html">Cargo 章节</a>。</p>
-<p>另外，学习过程更好的办法是通过展开宏来阅读和调试自己写的宏，这里需要用到一个 cargo-expand 的工具，可以通过下面的命令安装</p>
+<p>另外，学习过程宏更好的办法是通过展开宏来阅读和调试自己写的宏，这里需要用到一个 cargo-expand 的工具，可以通过下面的命令安装：</p>
 <pre><code class="language-bash">cargo install cargo-expand
 </code></pre>
 <p>接下来，就到了重头戏环节，一起来看看该如何定义过程宏。</p>
@@ -450,9 +450,7 @@ quote = "1.0"
 <p>其次，在 <code>hello_macro_derive/src/lib.rs</code> 中添加如下代码：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>extern crate proc_macro;
-
-use proc_macro::TokenStream;
+</span>use proc_macro::TokenStream;
 use quote::quote;
 use syn;
 use syn::DeriveInput;
@@ -793,7 +791,7 @@ pub fn sql(input: TokenStream) -&gt; TokenStream {
         <script src="../book-c22b7243.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../assets/custom-7d8ae1df.js"></script>
+        <script src="../assets/custom-690c9de5.js"></script>
         <script src="../assets/bigPicture-be03f9c8.js"></script>
 
 
