@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../theme/style-78591068.css">
+        <link rel="stylesheet" href="../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-b51d0653.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -270,7 +270,7 @@ pub fn add_two(x: i32) -&gt; i32 {
 <p>锦衣不夜行，这是中国人的传统美德。我们写了这么漂亮的文档注释，当然要看看网页中是什么效果咯。</p>
 <p>很简单，运行 <code>cargo doc</code> 可以直接生成 <code>HTML</code> 文件，放入<em>target/doc</em>目录下。</p>
 <p>当然，为了方便，我们使用 <code>cargo doc --open</code> 命令，可以在生成文档后，自动在浏览器中打开网页，最终效果如图所示：</p>
-<img alt="" src="https://pic2.zhimg.com/80/v2-926c91d429e2933a6a3ae3233fc56b1c_1440w.png" class="center" />
+<img alt="" src="https://cdn.jsdelivr.net/gh/beatai-org/beatai-assets@3a5cc0064037656f6e24d122bd5ff1874e991bd4/rust-course/_external/968c0c46ff56b4fe.png" class="center" />
 <p>非常棒，而且非常简单，这就是 Rust 工具链的强大之处。</p>
 <h4 id="常用文档标题"><a class="header" href="#常用文档标题">常用文档标题</a></h4>
 <p>之前我们见到了在文档注释中该如何使用 <code>markdown</code>，其中包括 <code># Examples</code> 标题。除了这个标题，还有一些常用的，你可以在项目中酌情使用：</p>
@@ -301,7 +301,7 @@ pub mod compute;
 ///
 <span class="boring">}</span></code></pre>
 <p>运行 <code>cargo doc --open</code> 查看下效果：</p>
-<img alt="" src="https://pic3.zhimg.com/80/v2-38dbea938884c159e74f777c6f49e3af_1440w.png" class="center" />
+<img alt="" src="https://cdn.jsdelivr.net/gh/beatai-org/beatai-assets@3a5cc0064037656f6e24d122bd5ff1874e991bd4/rust-course/_external/2d908479237da5b0.png" class="center" />
 <p>包模块注释，可以让用户从整体的角度理解包的用途，对于用户来说是非常友好的，就和一篇文章的开头一样，总是要对文章的内容进行大致的介绍，让用户在看的时候心中有数。</p>
 <p>至此，关于如何注释的内容，就结束了，那么注释还能用来做什么？可以玩出花来吗？答案是<code>Yes</code>.</p>
 <h2 id="文档测试doc-test"><a class="header" href="#文档测试doc-test">文档测试(Doc Test)</a></h2>
@@ -398,7 +398,7 @@ pub fn try_div(a: i32, b: i32) -&gt; Result&lt;i32, String&gt; {
     }
 }</code></pre>
 <p>以上文档注释中，我们使用 <code>#</code> 将不想让用户看到的内容隐藏起来，但是又不影响测试用例的运行，最终用户将只能看到那行没有隐藏的 <code>let res = world_hello::compute::try_div(10, 0)?;</code>：</p>
-<img alt="" src="https://pic1.zhimg.com/80/v2-d1b98f5e70b7f8c8fb9aecce325dba0e_1440w.png" class="center" />
+<img alt="" src="https://cdn.jsdelivr.net/gh/beatai-org/beatai-assets@3a5cc0064037656f6e24d122bd5ff1874e991bd4/rust-course/_external/ef639ba3df1d1939.png" class="center" />
 <h2 id="文档注释中的代码跳转"><a class="header" href="#文档注释中的代码跳转">文档注释中的代码跳转</a></h2>
 <p>Rust 在文档注释中还提供了一个非常强大的功能，那就是可以实现对外部项的链接：</p>
 <h4 id="跳转到标准库"><a class="header" href="#跳转到标准库">跳转到标准库</a></h4>
@@ -477,7 +477,7 @@ pub struct BigX;
 pub struct BigY;
 <span class="boring">}</span></code></pre>
 <p>结果如下图所示：
-<img alt="" src="https://pic1.zhimg.com/80/v2-1ab5b19d2bd06f3d83204d062b399bcd_1440w.png" class="center" /></p>
+<img alt="" src="https://cdn.jsdelivr.net/gh/beatai-org/beatai-assets@3a5cc0064037656f6e24d122bd5ff1874e991bd4/rust-course/_external/92055d9ada9cc3f0.png" class="center" /></p>
 <h2 id="一个综合例子"><a class="header" href="#一个综合例子">一个综合例子</a></h2>
 <p>这个例子我们将重点应用几个知识点：</p>
 <ul>
@@ -551,7 +551,7 @@ fn main() {
 </code></pre>
 <p>至此，库包完美提供了用于调色的 API，二进制包引入这些 API 完美的实现了调色并打印输出。</p>
 <p>最后，再来看看文档长啥样：</p>
-<img alt="" src="https://pic1.zhimg.com/80/v2-e9ef7351458fd01020b35990c3daf222_1440w.png" class="center" />
+<img alt="" src="https://cdn.jsdelivr.net/gh/beatai-org/beatai-assets@3a5cc0064037656f6e24d122bd5ff1874e991bd4/rust-course/_external/fa78f5713545f201.png" class="center" />
 <h2 id="总结"><a class="header" href="#总结">总结</a></h2>
 <p>在 Rust 中，注释分为三个主要类型：代码注释、文档注释、包和模块注释，每个注释类型都拥有两种形式：行注释和块注释，熟练掌握包模块和注释的知识，非常有助于我们创建工程性更强的项目。</p>
 <p>如果读者看到这里对于包模块还是有些模糊，强烈建议回头看看相关的章节以及本章节的最后一个综合例子。</p>
@@ -616,7 +616,7 @@ fn main() {
         <script src="../book-c22b7243.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../assets/custom-7d8ae1df.js"></script>
+        <script src="../assets/custom-690c9de5.js"></script>
         <script src="../assets/bigPicture-be03f9c8.js"></script>
 
 
