@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-b51d0653.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -425,7 +425,7 @@ help: function arguments must have a statically known size, borrowed types alway
 <p>与静态分发相对应的是<strong>动态分发(dynamic dispatch)</strong>，在这种情况下，直到运行时，才能确定需要调用什么方法。之前代码中的关键字 <code>dyn</code> 正是在强调这一“动态”的特点。</p>
 <p>当使用特征对象时，Rust 必须使用动态分发。编译器无法知晓所有可能用于特征对象代码的类型，所以它也不知道应该调用哪个类型的哪个方法实现。为此，Rust 在运行时使用特征对象中的指针来知晓需要调用哪个方法。动态分发也阻止编译器有选择的内联方法代码，这会相应的禁用一些优化。</p>
 <p>下面这张图很好的解释了静态分发 <code>Box&lt;T&gt;</code> 和动态分发 <code>Box&lt;dyn Trait&gt;</code> 的区别：</p>
-<img alt="" src="https://pic1.zhimg.com/80/v2-b771fe4cfc6ebd63d9aff42840eb8e67_1440w.jpg" class="center" />
+<img alt="" src="https://cdn.jsdelivr.net/gh/beatai-org/beatai-assets@3a5cc0064037656f6e24d122bd5ff1874e991bd4/rust-course/_external/6fd639569372bb2e.jpg" class="center" />
 <p>结合上文的内容和这张图可以了解：</p>
 <ul>
 <li><strong>特征对象大小不固定</strong>：这是因为，对于特征 <code>Draw</code>，类型 <code>Button</code> 可以实现特征 <code>Draw</code>，类型 <code>SelectBox</code> 也可以实现特征 <code>Draw</code>，因此特征没有固定大小</li>

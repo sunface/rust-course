@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-b51d0653.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -342,7 +342,7 @@ For more information about this error, try `rustc --explain E0382`.
 </ol>
 </blockquote>
 <p>如果你在其他语言中听说过术语 <strong>浅拷贝(shallow copy)</strong> 和 <strong>深拷贝(deep copy)</strong>，那么拷贝指针、长度和容量而不拷贝数据听起来就像浅拷贝，但是又因为 Rust 同时使第一个变量 <code>s1</code> 无效了，因此这个操作被称为 <strong>移动(move)</strong>，而不是浅拷贝。上面的例子可以解读为 <code>s1</code> 被<strong>移动</strong>到了 <code>s2</code> 中。那么具体发生了什么，用一张图简单说明：</p>
-<img alt="s1 moved to s2" src="https://pic1.zhimg.com/80/v2-3ec77951de6a17584b5eb4a3838b4b61_1440w.jpg" class="center" style="width: 50%;" />
+<img alt="s1 moved to s2" src="https://cdn.jsdelivr.net/gh/beatai-org/beatai-assets@3a5cc0064037656f6e24d122bd5ff1874e991bd4/rust-course/_external/929f879d8c5245cf.jpg" class="center" style="width: 50%;" />
 <p>这样就解决了我们之前的问题，<code>s1</code> 不再指向任何数据，只有 <code>s2</code> 是有效的，当 <code>s2</code> 离开作用域，它就会释放内存。 相信此刻，你应该明白了，为什么 Rust 称呼 <code>let a = b</code> 为<strong>变量绑定</strong>了吧？</p>
 <p>再来看一段代码:</p>
 <pre class="playground"><code class="language-rust edition2021">fn main() {

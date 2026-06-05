@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-b51d0653.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -209,7 +209,7 @@ actions/setup-node@f099707 # 指向一个 commit
 <p>在了解了何为 GitHub Actions 后，再来通过一个基本的例子来学习下它的基本概念，注意，由于篇幅有限，我们只会讲解最常用的部分，如果想要完整的学习，请移步<a href="https://docs.github.com/en/actions">这里</a>。</p>
 <h4 id="创建-action-demo"><a class="header" href="#创建-action-demo">创建 action demo</a></h4>
 <p>首先，为了演示，我们需要创建一个公开的 GitHub 仓库 <code>rust-action</code>，然后在仓库主页的导航栏中点击 <code>Actions</code> ，你会看到如下页面 :</p>
-<img src="https://pic1.zhimg.com/80/v2-4bb58f042c7a285219910bfd3c259464_1440w.jpg" />
+<img src="https://cdn.jsdelivr.net/gh/beatai-org/beatai-assets@3a5cc0064037656f6e24d122bd5ff1874e991bd4/rust-course/_external/ee746331c3c245f8.jpg" />
 <p>接着点击 <code>set up a workflow yourself -&gt;</code> ，你将看到系统为你自动创建的一个工作流 workflow ，在 <code>rust-action/.github/workflows/main.yml</code> 文件中包含以下内容:</p>
 <pre><code class="language-yml"># 下面是一个基础的工作流，你可以基于它来编写自己的 GitHub Actions
 name: CI
@@ -251,18 +251,18 @@ jobs:
 </code></pre>
 <h4 id="查看工作流信息"><a class="header" href="#查看工作流信息">查看工作流信息</a></h4>
 <p>通过内容的注释，大家应该能大概理解这个工作流是怎么回事了，在具体讲解前，我们先完成 <code>Actions</code> 的创建，点击右上角的 <code>Start Commit</code> 绿色按钮提交，然后再回到 <code>Actions</code> 标签页，你可以看到如下界面:</p>
-<img src="https://pic2.zhimg.com/80/v2-301a8feac57633f34f9cd638ac139c22_1440w.jpg" />
+<img src="https://cdn.jsdelivr.net/gh/beatai-org/beatai-assets@3a5cc0064037656f6e24d122bd5ff1874e991bd4/rust-course/_external/79b1e3e4f5a04708.jpg" />
 <p>这里包含了我们刚创建的工作流及当前的状态，从右下角可以看出，该工作流的运行时间是 <code>now</code> 也就是现在，<code>queued</code> 代表它已经被安排到了运行队列中，等待运行。</p>
 <p>等过几秒(也可能几十秒后)，刷新当前页面，就能看到成功运行的工作流：</p>
-<img src="https://pic3.zhimg.com/80/v2-99fb593bc3140f71c316ce0ba6249911_1440w.png" />
+<img src="https://cdn.jsdelivr.net/gh/beatai-org/beatai-assets@3a5cc0064037656f6e24d122bd5ff1874e991bd4/rust-course/_external/d08ad64f674830ea.png" />
 <p>还记得之前配置中的 <code>workflow_dispatch</code> 嘛？它允许工作流被手动执行：点击左边的 <code>All workflows -&gt; CI</code> ，可以看到如下页面。</p>
-<img src="https://pic3.zhimg.com/80/v2-cc1d9418f6befb5a089cde659666e65e_1440w.png" />
+<img src="https://cdn.jsdelivr.net/gh/beatai-org/beatai-assets@3a5cc0064037656f6e24d122bd5ff1874e991bd4/rust-course/_external/1622c961a53dfe1c.png" />
 <p>页面中通过蓝色的醒目高亮提示我们 <code>this workflow has a workflow_dispatch event trigger</code>，因此可以点击右边的 <code>Run workflow</code> 手动再次执行该工作流。</p>
 <blockquote>
 <p>注意，目前 <code>Actions</code> 并不会自动渲染最新的结果，因此需要刷新页面来看到最新的结果</p>
 </blockquote>
 <p>点击 <code>Create main.yml</code> 可以查看该工作流的详细信息：</p>
-<img src="https://pic1.zhimg.com/80/v2-94b46f23b5d63de35eae7f0425bb99b7_1440w.jpg" />
+<img src="https://cdn.jsdelivr.net/gh/beatai-org/beatai-assets@3a5cc0064037656f6e24d122bd5ff1874e991bd4/rust-course/_external/49337878bddd60b6.jpg" />
 <p>至此，我们已经初步掌握 <code>GitHub Actions</code> 的用法，现在来看看一些基本的概念。</p>
 <h4 id="基本概念"><a class="header" href="#基本概念">基本概念</a></h4>
 <ul>
@@ -304,7 +304,7 @@ jobs:
 <h4 id="runs-on"><a class="header" href="#runs-on">runs-on</a></h4>
 <p>指定作业的运行环境，运行器 <code>runner</code> 分为两种：<code>GitHub-hosted runner</code> 和 <code>self-hosted runner</code>，后者是使用自己的机器来运行作业，但是需要 GitHub 能进行访问并给予相应的机器权限，感兴趣的同学可以看看<a href="https://docs.github.com/en/actions/using-jobs/choosing-the-runner-for-a-job#choosing-self-hosted-runners">这里</a>。</p>
 <p>而对于前者，GitHub 提供了以下的运行环境：</p>
-<img src="https://pic2.zhimg.com/80/v2-614999565cc513715aaf156c2e478991_1440w.jpg" />
+<img src="https://cdn.jsdelivr.net/gh/beatai-org/beatai-assets@3a5cc0064037656f6e24d122bd5ff1874e991bd4/rust-course/_external/4218d058d8aa59d3.jpg" />
 <p>其中比较常用的就是 <code>runs-on:ubuntu-latest</code>。</p>
 <h4 id="strategymatrix"><a class="header" href="#strategymatrix">strategy.matrix</a></h4>
 <p>有时候我们常常需要对多个操作系统、多个平台、多个编程语言版本进行测试，为此我们可以配置一个 <code>matrix</code> 矩阵：</p>
