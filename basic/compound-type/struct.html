@@ -28,7 +28,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../theme/style-78591068.css">
+        <link rel="stylesheet" href="../../theme/style-234bffbf.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b51d0653.js";
+            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -333,7 +333,7 @@ println!("{:?}", user1);
    println!("{} is {} bytes long", f1_name, f1_length);
  }</code></pre>
 <p>上面定义的 <code>File</code> 结构体在内存中的排列如下图所示：
-<img alt="" src="https://cdn.jsdelivr.net/gh/beatai-org/beatai-assets@3a5cc0064037656f6e24d122bd5ff1874e991bd4/rust-course/_external/35bbe6f89719996a.png" class="center" /></p>
+<img alt="" src="https://pic3.zhimg.com/80/v2-8cc4ed8cd06d60f974d06ca2199b8df5_1440w.png" class="center" /></p>
 <p>从图中可以清晰地看出 <code>File</code> 结构体两个字段 <code>name</code> 和 <code>data</code> 分别拥有底层两个 <code>[u8]</code> 数组的所有权（<code>String</code> 类型的底层也是 <code>[u8]</code> 数组），通过 <code>ptr</code> 指针指向底层数组的内存地址，这里你可以把 <code>ptr</code> 指针理解为 Rust 中的引用类型。</p>
 <p>该图片也侧面印证了：<strong>把结构体中具有所有权的字段转移出去后，将无法再访问该字段，但是可以正常访问其它的字段</strong>。</p>
 <h2 id="元组结构体tuple-struct"><a class="header" href="#元组结构体tuple-struct">元组结构体(Tuple Struct)</a></h2>
@@ -572,7 +572,7 @@ fn main() {
         <script src="../../book-c22b7243.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../assets/custom-7d8ae1df.js"></script>
+        <script src="../../assets/custom-690c9de5.js"></script>
         <script src="../../assets/bigPicture-be03f9c8.js"></script>
 
 
