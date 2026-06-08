@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -211,7 +211,7 @@ mod tests {
 <p>经过 <code>test</code> 标记的函数就可以被测试执行器发现，并进行运行。当然，在测试模块 <code>tests</code> 中，还可以定义非测试函数，这些函数可以用于设置环境或执行一些通用操作：例如为部分测试函数提供某个通用的功能，这种功能就可以抽象为一个非测试函数。</p>
 <p>换而言之，正是因为测试模块既可以定义测试函数又可以定义非测试函数，导致了我们必须提供一个特殊的标记 <code>test</code>，用于告知哪个函数才是测试函数。</p>
 <h4 id="assert_eq"><a class="header" href="#assert_eq">assert_eq</a></h4>
-<p>在测试函数中，还使用到了一个内置的断言：<code>assert_eq</code>，该宏用于对结果进行断言：<code>2 + 2</code> 是否等于 <code>4</code>。与之类似，Rust 还内置了其它一些实用的断言，具体参见<a href="https://course.rs/test/assertion.html">后续章节</a>。</p>
+<p>在测试函数中，还使用到了一个内置的断言：<code>assert_eq</code>，该宏用于对结果进行断言：<code>2 + 2</code> 是否等于 <code>4</code>。与之类似，Rust 还内置了其它一些实用的断言，具体参见<a href="https://beatai.org/rust-course/test/assertion">后续章节</a>。</p>
 <h2 id="cargo-test"><a class="header" href="#cargo-test">cargo test</a></h2>
 <p>下面使用 <code>cargo test</code> 命令来运行项目中的所有测试:</p>
 <pre><code class="language-shell">$ cargo test
@@ -235,10 +235,10 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 <li>测试用例是分批执行的，<code>running 1 test</code> 表示下面的输出 <code>test result</code> 来自一个测试用例的运行结果。</li>
 <li><code>test tests::it_works</code> 中包含了测试用例的名称</li>
 <li><code>test result: ok</code> 中的 <code>ok</code> 表示测试成功通过</li>
-<li><code>1 passed</code> 代表成功通过一个测试用例(因为只有一个)，<code>0 failed</code> : 没有测试用例失败，<code>0 ignored</code> 说明我们没有将任何测试函数标记为运行时可忽略，<code>0 filtered</code> 意味着没有对测试结果做任何过滤，<code>0 measured</code> 代表<a href="https://course.rs/test/benchmark.html">基准测试(benchmark)</a>的结果</li>
+<li><code>1 passed</code> 代表成功通过一个测试用例(因为只有一个)，<code>0 failed</code> : 没有测试用例失败，<code>0 ignored</code> 说明我们没有将任何测试函数标记为运行时可忽略，<code>0 filtered</code> 意味着没有对测试结果做任何过滤，<code>0 measured</code> 代表<a href="https://beatai.org/rust-course/test/benchmark">基准测试(benchmark)</a>的结果</li>
 </ul>
 <p>关于 <code>filtered</code> 和 <code>ignored</code> 的使用，在本章节的后续内容我们会讲到，这里暂且略过。</p>
-<p>还有一个很重要的点，输出中的 <code>Doc-tests adder</code> 代表了文档测试，由于我们的代码中没有任何文档测试的内容，因此这里的测试用例数为 <code>0</code>，关于文档测试的详细介绍请参见<a href="https://course.rs/basic/comment.html#文档注释">这里</a>。</p>
+<p>还有一个很重要的点，输出中的 <code>Doc-tests adder</code> 代表了文档测试，由于我们的代码中没有任何文档测试的内容，因此这里的测试用例数为 <code>0</code>，关于文档测试的详细介绍请参见<a href="https://beatai.org/rust-course/basic/comment#文档注释">这里</a>。</p>
 <p>大家还可以尝试修改下测试函数的名称，例如修改为 <code>exploration</code>，看看运行结果将如何变化。</p>
 <h4 id="失败的测试用例"><a class="header" href="#失败的测试用例">失败的测试用例</a></h4>
 <p>是时候开始写自己的测试函数了，为了演示，这次我们来写一个会运行失败的:</p>

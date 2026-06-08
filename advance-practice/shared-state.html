@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -199,7 +199,7 @@
 </code></pre>
 <h2 id="初始化-hashmap"><a class="header" href="#初始化-hashmap">初始化 HashMap</a></h2>
 <p>由于 <code>HashMap</code> 会在多个任务甚至多个线程间共享，再结合之前的选择，最终我们决定使用 <code>Arc&lt;Mutex&lt;T&gt;&gt;</code> 的方式对其进行包裹。</p>
-<p>但是，大家先来畅想一下使用它进行包裹后的类型长什么样？ 大概，可能，长这样：<code>Arc&lt;Mutex&lt;HashMap&lt;String, Bytes&gt;&gt;&gt;</code>，天哪噜，一不小心，你就遇到了 Rust 的阴暗面：类型大串烧。可以想象，如果要在代码中到处使用这样的类型，可读性会极速下降，因此我们需要一个<a href="https://course.rs/advance/custom-type.html#类型别名type-alias">类型别名</a>( type alias )来简化下：</p>
+<p>但是，大家先来畅想一下使用它进行包裹后的类型长什么样？ 大概，可能，长这样：<code>Arc&lt;Mutex&lt;HashMap&lt;String, Bytes&gt;&gt;&gt;</code>，天哪噜，一不小心，你就遇到了 Rust 的阴暗面：类型大串烧。可以想象，如果要在代码中到处使用这样的类型，可读性会极速下降，因此我们需要一个<a href="https://beatai.org/rust-course/advance/into-types/custom-type#类型别名type-alias">类型别名</a>( type alias )来简化下：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use bytes::Bytes;

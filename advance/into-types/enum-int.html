@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -325,7 +325,7 @@ back_to_enum! {
 <span class="boring">}</span></code></pre>
 <h2 id="邪恶之王-stdmemtransmute"><a class="header" href="#邪恶之王-stdmemtransmute">邪恶之王 std::mem::transmute</a></h2>
 <p><strong>这个方法原则上并不推荐，但是有其存在的意义，如果要使用，你需要清晰的知道自己为什么使用</strong>。</p>
-<p>在之前的类型转换章节，我们提到过非常邪恶的<a href="https://course.rs/advance/into-types/converse.html#变形记transmutes"><code>transmute</code>转换</a>，其实，当你知道数值一定不会超过枚举的范围时(例如枚举成员对应 1，2，3，传入的整数也在这个范围内)，就可以使用这个方法完成变形。</p>
+<p>在之前的类型转换章节，我们提到过非常邪恶的<a href="https://beatai.org/rust-course/advance/into-types/converse#变形记transmutes"><code>transmute</code>转换</a>，其实，当你知道数值一定不会超过枚举的范围时(例如枚举成员对应 1，2，3，传入的整数也在这个范围内)，就可以使用这个方法完成变形。</p>
 <blockquote>
 <p>最好使用#[repr(..)]来控制底层类型的大小，免得本来需要 i32，结果传入 i64，最终内存无法对齐，产生奇怪的结果</p>
 </blockquote>

@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -190,7 +190,7 @@
     fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt;;
 }
 <span class="boring">}</span></code></pre>
-<p>这里的 <code>Item</code> 是<a href="https://course.rs/basic/trait/advance-trait.html#关联类型">关联类型</a>，用来指代迭代器中具体的元素类型，<code>next</code> 方法返回的也是该类型。</p>
+<p>这里的 <code>Item</code> 是<a href="https://beatai.org/rust-course/basic/trait/advance-trait#关联类型">关联类型</a>，用来指代迭代器中具体的元素类型，<code>next</code> 方法返回的也是该类型。</p>
 <p>其实上面的说法有点不够准确，原因是 <code>next</code> 方法返回的是 <code>Option&lt;Self::Item&gt;</code>，使用 <code>Option&lt;T&gt;</code> 枚举的原因是为了方便用户，不然用户需要 <code>has_next</code> 和 <code>get_next</code> 才能满足使用需求。有值时返回 <code>Some(T)</code>，无值时返回 <code>None</code>，这种 API 设计工程性更好，也更加安全，完美！</p>
 <p>有点悲剧的是, Rust 截至目前还没有 <code>yield</code> 语句，因此我们需要自己来实现相关的逻辑。还有点需要注意，每个集合类型应该实现 3 种迭代器类型：</p>
 <ul>
@@ -198,7 +198,7 @@
 <li><code>IterMut</code> - <code>&amp;mut T</code></li>
 <li><code>Iter</code> - <code>&amp;T</code></li>
 </ul>
-<p>也许大家不认识它们，但是其实很好理解，<code>IntoIter</code> 类型迭代器的 <code>next</code> 方法会拿走被迭代值的所有权，<code>IterMut</code> 是可变借用， <code>Iter</code> 是不可变借用。事实上，类似的<a href="https://course.rs/practice/naming.html#一个集合上的方法如果返回迭代器需遵循命名规则iteriter_mutinto_iter-c-iter">命名规则</a>在 Rust 中随处可见，当熟悉后，以后见到类似的命名大家就可以迅速的理解其对值的运用方式。</p>
+<p>也许大家不认识它们，但是其实很好理解，<code>IntoIter</code> 类型迭代器的 <code>next</code> 方法会拿走被迭代值的所有权，<code>IterMut</code> 是可变借用， <code>Iter</code> 是不可变借用。事实上，类似的<a href="https://beatai.org/rust-course/practice/naming#一个集合上的方法如果返回迭代器需遵循命名规则iteriter_mutinto_iter-c-iter">命名规则</a>在 Rust 中随处可见，当熟悉后，以后见到类似的命名大家就可以迅速的理解其对值的运用方式。</p>
 <h2 id="intoiter"><a class="header" href="#intoiter">IntoIter</a></h2>
 <p>先来看看 <code>IntoIter</code> 该怎么实现:</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
@@ -219,7 +219,7 @@ impl&lt;T&gt; Iterator for IntoIter&lt;T&gt; {
     }
 }
 <span class="boring">}</span></code></pre>
-<p>这里我们通过<a href="https://course.rs/basic/compound-type/struct.html#元组结构体tuple-struct">元组结构体</a>的方式定义了 <code>IntoIter</code>，下面来测试下:</p>
+<p>这里我们通过<a href="https://beatai.org/rust-course/basic/compound-type/struct#元组结构体tuple-struct">元组结构体</a>的方式定义了 <code>IntoIter</code>，下面来测试下:</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[test]
@@ -286,7 +286,7 @@ error[E0106]: missing lifetime specifier
 82 |     type Item = &amp;T;
    |                 ^ expected lifetime parameter
 </code></pre>
-<p>许久不见的错误又冒了出来，而且这次直指 Rust 中最难的点之一：生命周期。关于生命周期的讲解，这里就不再展开，如果大家还不熟悉，强烈建议看看<a href="https://course.rs/advance/lifetime/intro.html">此章节</a>，然后再继续。</p>
+<p>许久不见的错误又冒了出来，而且这次直指 Rust 中最难的点之一：生命周期。关于生命周期的讲解，这里就不再展开，如果大家还不熟悉，强烈建议看看<a href="https://beatai.org/rust-course/advance/lifetime/intro">此章节</a>，然后再继续。</p>
 <p>首先，先加一个生命周期试试：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -526,7 +526,7 @@ impl&lt;'a, T&gt; Iterator for Iter&lt;'a, T&gt; {
 </code></pre>
 <p>🎉 🎉 🎉</p>
 <p><code>as_deref</code> 和 <code>as_deref_mut</code> 函数在 Rust 1.40 版本中正式稳定下来。在那之前，你只能在 <code>stable</code> 版本中使用 <code>map(|node| &amp;**node)</code> 和 <code>map(|node| &amp;mut**node)</code> 的方式来替代。</p>
-<p>大家可能会觉得 <code>&amp;**</code> 的形式看上去有些烂，没错，确实如此。但是就像一瓶好酒一样，Rust 也随着时间的推进变得越来越好，因此现在我们已经无需再这么做了。事实上，Rust 很擅长隐式地做类似的转换，或者可以称之为 <a href="https://course.rs/advance/smart-pointer/deref.html"><code>Deref</code></a>。</p>
+<p>大家可能会觉得 <code>&amp;**</code> 的形式看上去有些烂，没错，确实如此。但是就像一瓶好酒一样，Rust 也随着时间的推进变得越来越好，因此现在我们已经无需再这么做了。事实上，Rust 很擅长隐式地做类似的转换，或者可以称之为 <a href="https://beatai.org/rust-course/advance/smart-pointer/deref"><code>Deref</code></a>。</p>
 <p>但是 <code>Deref</code> 在这里并不能很好的完成自己的任务，原因是在闭包中使用 <code>Option&lt;&amp;T&gt;</code> 而不是 <code>&amp;T</code> 对于它来说有些过于复杂了，因此我们需要显式地去帮助它完成任务。好在根据我的经验来看，这种情况还是相当少见的。</p>
 <p>事实上，还可以使用另一种方式来实现：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
@@ -566,7 +566,7 @@ test second::test::peek ... ok
 
 test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured
 </code></pre>
-<p>最后，还有一点值得注意，之前的代码事实上可以应用<a href="https://course.rs/basic/lifetime.html#生命周期消除">生命周期消除原则</a>:</p>
+<p>最后，还有一点值得注意，之前的代码事实上可以应用<a href="https://beatai.org/rust-course/basic/lifetime#生命周期消除">生命周期消除原则</a>:</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl&lt;T&gt; List&lt;T&gt; {

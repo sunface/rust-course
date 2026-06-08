@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -186,13 +186,13 @@
 <p>我们先通过一张 web 框架性能对比图来感受下 Rust 异步编程的性能:</p>
 <img alt="actix-vs-gin screenshot" width="100%" src="https://pic1.zhimg.com/v2-3cebd732fb56f43713f106fdcfa44a3c_b.png" class="center" />
 <p>上图并不能说 Rust 写的 <code>actix</code> 框架比 Go 的 <code>gin</code> 更好、更优秀，但是确实可以一定程度上说明 Rust 的异步性能非常的高！</p>
-<p>简单来说，异步编程是一个<a href="https://course.rs/advance/concurrency-with-threads/concurrency-parallelism.html">并发编程模型</a>，目前主流语言基本都支持了，当然，支持的方式有所不同。异步编程允许我们同时并发运行大量的任务，却仅仅需要几个甚至一个 OS 线程或 CPU 核心，现代化的异步编程在使用体验上跟同步编程也几无区别，例如 Go 语言的 <code>go</code> 关键字，也包括我们后面将介绍的 <code>async/await</code> 语法，该语法是 <code>JavaScript</code> 和 <code>Rust</code> 的核心特性之一。</p>
+<p>简单来说，异步编程是一个<a href="https://beatai.org/rust-course/advance/concurrency-with-threads/concurrency-parallelism">并发编程模型</a>，目前主流语言基本都支持了，当然，支持的方式有所不同。异步编程允许我们同时并发运行大量的任务，却仅仅需要几个甚至一个 OS 线程或 CPU 核心，现代化的异步编程在使用体验上跟同步编程也几无区别，例如 Go 语言的 <code>go</code> 关键字，也包括我们后面将介绍的 <code>async/await</code> 语法，该语法是 <code>JavaScript</code> 和 <code>Rust</code> 的核心特性之一。</p>
 <h2 id="async-简介"><a class="header" href="#async-简介">async 简介</a></h2>
 <p><code>async</code> 是 Rust 选择的异步编程模型，下面我们来介绍下它的优缺点，以及何时适合使用。</p>
 <h4 id="async-vs-其它并发模型"><a class="header" href="#async-vs-其它并发模型">async vs 其它并发模型</a></h4>
 <p>由于并发编程在现代社会非常重要，因此每个主流语言都对自己的并发模型进行过权衡取舍和精心设计，Rust 语言也不例外。下面的列表可以帮助大家理解不同并发模型的取舍:</p>
 <ul>
-<li><strong>OS 线程</strong>， 它最简单，也无需改变任何编程模型(业务/代码逻辑)，因此非常适合作为语言的原生并发模型，我们在<a href="https://course.rs/advance/concurrency-with-threads/concurrency-parallelism.html">多线程章节</a>也提到过，Rust 就选择了原生支持线程级的并发编程。但是，这种模型也有缺点，例如线程间的同步将变得更加困难，线程间的上下文切换损耗较大。使用线程池在一定程度上可以提升性能，但是对于 IO 密集的场景来说，线程池还是不够。</li>
+<li><strong>OS 线程</strong>， 它最简单，也无需改变任何编程模型(业务/代码逻辑)，因此非常适合作为语言的原生并发模型，我们在<a href="https://beatai.org/rust-course/advance/concurrency-with-threads/concurrency-parallelism">多线程章节</a>也提到过，Rust 就选择了原生支持线程级的并发编程。但是，这种模型也有缺点，例如线程间的同步将变得更加困难，线程间的上下文切换损耗较大。使用线程池在一定程度上可以提升性能，但是对于 IO 密集的场景来说，线程池还是不够。</li>
 <li><strong>事件驱动(Event driven)</strong>， 这个名词你可能比较陌生，如果说事件驱动常常跟回调( Callback )一起使用，相信大家就恍然大悟了。这种模型性能相当的好，但最大的问题就是存在回调地狱的风险：非线性的控制流和结果处理导致了数据流向和错误传播变得难以掌控，还会导致代码可维护性和可读性的大幅降低，大名鼎鼎的 <code>JavaScript</code> 曾经就存在回调地狱。</li>
 <li><strong>协程(Coroutines)</strong> 可能是目前最火的并发模型，<code>Go</code> 语言的协程设计就非常优秀，这也是 <code>Go</code> 语言能够迅速火遍全球的杀手锏之一。协程跟线程类似，无需改变编程模型，同时，它也跟 <code>async</code> 类似，可以支持大量的任务并发运行。但协程抽象层次过高，导致用户无法接触到底层的细节，这对于系统编程语言和自定义异步运行时是难以接受的</li>
 <li><strong>actor 模型</strong>是 erlang 的杀手锏之一，它将所有并发计算分割成一个一个单元，这些单元被称为 <code>actor</code> ，单元之间通过消息传递的方式进行通信和数据传递，跟分布式系统的设计理念非常相像。由于 <code>actor</code> 模型跟现实很贴近，因此它相对来说更容易实现，但是一旦遇到流控制、失败重试等场景时，就会变得不太好用</li>

@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -189,7 +189,7 @@
 <h4 id="过强的编译器"><a class="header" href="#过强的编译器">过强的编译器</a></h4>
 <p>说来尴尬，<code>unsafe</code> 的存在主要是因为 Rust 的静态检查太强了，但是强就算了，它还很保守，这就会导致当编译器在分析代码时，一些正确代码会因为编译器无法分析出它的所有正确性，结果将这段代码拒绝，导致编译错误。</p>
 <p>这种保守的选择确实也没有错，毕竟安全就是要防微杜渐，但是对于使用者来说，就不是那么愉快的事了，特别是当配合 Rust 的所有权系统一起使用时，有个别问题是真的棘手和难以解决。</p>
-<p>举个例子，在之前的自引用章节中，我们就提到了相关的编译检查是很难绕过的，如果想要绕过，最常用的方法之一就是使用 <a href="https://course.rs/advance/circle-self-ref/self-referential.html"><code>unsafe</code> 和 <code>Pin</code></a>。</p>
+<p>举个例子，在之前的自引用章节中，我们就提到了相关的编译检查是很难绕过的，如果想要绕过，最常用的方法之一就是使用 <a href="https://beatai.org/rust-course/advance/circle-self-ref/self-referential"><code>unsafe</code> 和 <code>Pin</code></a>。</p>
 <p>好在，当遇到这些情况时，我们可以使用 <code>unsafe</code> 来解决。此时，你需要替代编译器的部分职责对 <code>unsafe</code> 代码的正确性负责，例如在正常代码中不可能遇到的空指针解引用问题在 <code>unsafe</code> 中就可能会遇到，我们需要自己来处理好这些类似的问题。</p>
 <h4 id="特定任务的需要"><a class="header" href="#特定任务的需要">特定任务的需要</a></h4>
 <p>至于 <code>unsafe</code> 存在的另一个原因就是：它必须要存在。原因是计算机底层的一些硬件就是不安全的，如果 Rust 只允许你做安全的操作，那一些任务就无法完成，换句话说，我们还怎么跟 C++ 干架？</p>
@@ -211,7 +211,7 @@
 <ul>
 <li>解引用裸指针，就如上例所示</li>
 <li>调用一个 <code>unsafe</code> 或外部的函数</li>
-<li>访问或修改一个可变的<a href="https://course.rs/advance/global-variable.html#静态变量">静态变量</a></li>
+<li>访问或修改一个可变的<a href="https://beatai.org/rust-course/advance/global-variable#静态变量">静态变量</a></li>
 <li>实现一个 <code>unsafe</code> 特征</li>
 <li>访问 <code>union</code> 中的字段</li>
 </ul>

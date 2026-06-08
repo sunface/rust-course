@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -213,7 +213,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <p>因为涉及到相等比较( <code>==</code> )和错误信息打印，因此两个表达式的值必须实现 <code>PartialEq</code> 和 <code>Debug</code> 特征，其中所有的原生类型和大多数标准库类型都实现了这些特征，而对于你自己定义的结构体、枚举，如果想要对其进行 <code>assert_eq!</code> 断言，则需要实现 <code>PartialEq</code> 和 <code>Debug</code> 特征:</p>
 <ul>
 <li>若希望实现个性化相等比较和错误打印，则需手动实现</li>
-<li>否则可以为自定义的结构体、枚举添加 <code>#[derive(PartialEq, Debug)]</code> 注解，来<a href="https://course.rs/appendix/derive.html">自动派生</a>对应的特征</li>
+<li>否则可以为自定义的结构体、枚举添加 <code>#[derive(PartialEq, Debug)]</code> 注解，来<a href="https://beatai.org/rust-course/appendix/derive">自动派生</a>对应的特征</li>
 </ul>
 <p><strong>以上特征限制对于下面即将讲解的 <code>assert_ne!</code> 一样有效，</strong> 就不再重复讲述。</p>
 <h2 id="assert_ne"><a class="header" href="#assert_ne">assert_ne!</a></h2>

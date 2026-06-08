@@ -36,7 +36,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-2f1f2f2c.js"></script>
@@ -242,7 +242,7 @@ avif = ["ravif", "rgb"]
 </code></pre>
 <p>之后，<code>avif</code> feature 一旦被启用，那这两个依赖库也将自动被引入。</p>
 <blockquote>
-<p>注意：我们之前也讲过条件引入依赖的方法，那就是使用<a href="https://course.rs/cargo/reference/specify-deps.html#根据平台引入依赖">平台相关的依赖</a>，与基于 feature 的可选依赖不同，它们是基于特定平台的可选依赖</p>
+<p>注意：我们之前也讲过条件引入依赖的方法，那就是使用<a href="https://beatai.org/rust-course/cargo/reference/specify-deps#根据平台引入依赖">平台相关的依赖</a>，与基于 feature 的可选依赖不同，它们是基于特定平台的可选依赖</p>
 </blockquote>
 <h2 id="依赖库自身的-feature"><a class="header" href="#依赖库自身的-feature">依赖库自身的 feature</a></h2>
 <p>就像我们的项目可以定义 <code>feature</code> 一样，依赖库也可以定义它自己的 <code>feature</code>，也有需要启用的 <code>feature</code> 列表，当引入该依赖库时，我们可以通过以下方式为其启用相关的 <code>features</code> :</p>
@@ -359,9 +359,9 @@ resolver = "2"
 <p>由于此部分内容可能只有极少数的用户需要，因此我们并没有对其进行扩展，如果大家希望了解更多关于 V2 的内容，可以查看<a href="https://doc.rust-lang.org/stable/cargo/reference/features.html#feature-resolver-version-2">官方文档</a></p>
 </blockquote>
 <h2 id="构建脚本"><a class="header" href="#构建脚本">构建脚本</a></h2>
-<p><a href="https://course.rs/cargo/reference/build-script/intro.html">构建脚本</a>可以通过 <code>CARGO_FEATURE_&lt;name&gt;</code> 环境变量获取启用的 <code>feature</code> 列表，其中 <code>&lt;name&gt;</code> 是 feature 的名称，该名称被转换成大全写字母，且 <code>-</code> 被转换为 <code>_</code>。</p>
+<p><a href="https://beatai.org/rust-course/cargo/reference/build-script/intro">构建脚本</a>可以通过 <code>CARGO_FEATURE_&lt;name&gt;</code> 环境变量获取启用的 <code>feature</code> 列表，其中 <code>&lt;name&gt;</code> 是 feature 的名称，该名称被转换成大全写字母，且 <code>-</code> 被转换为 <code>_</code>。</p>
 <h2 id="required-features"><a class="header" href="#required-features">required-features</a></h2>
-<p>该字段可以用于禁用特定的 Cargo Target：当某个 feature 没有被启用时，查看<a href="https://course.rs/cargo/reference/cargo-target.html#required-features">这里</a>获取更多信息。</p>
+<p>该字段可以用于禁用特定的 Cargo Target：当某个 feature 没有被启用时，查看<a href="https://beatai.org/rust-course/cargo/reference/cargo-target#required-features">这里</a>获取更多信息。</p>
 <h2 id="semver-兼容性"><a class="header" href="#semver-兼容性">SemVer 兼容性</a></h2>
 <p>启用一个 feature 不应该引入一个不兼容 SemVer 的改变。例如，启用的 feature 不应该改变现有的 API，因为这会给用户造成不兼容的破坏性变更。 如果大家想知道哪些变化是兼容的，可以参见<a href="https://doc.rust-lang.org/stable/cargo/reference/semver.html">官方文档</a>。</p>
 <p>总之，在新增/移除 feature 或可选依赖时，你需要小心，因此这些可能会造成向后不兼容性。更多信息参见<a href="https://doc.rust-lang.org/stable/cargo/reference/semver.html#cargo">这里</a>，简单总结如下：</p>
@@ -383,7 +383,7 @@ resolver = "2"
 <h2 id="feature-文档和发现"><a class="header" href="#feature-文档和发现">feature 文档和发现</a></h2>
 <p>将你的项目支持的 feature 信息写入到文档中是非常好的选择:</p>
 <ul>
-<li>我们可以通过在 <code>lib.rs</code> 的顶部添加<a href="https://course.rs/basic/comment.html#文档注释">文档注释</a>的方式来实现。例如 <code>regex</code> 就是<a href="https://github.com/rust-lang/regex/blob/1.4.2/src/lib.rs#L488-L583">这么做的</a>。</li>
+<li>我们可以通过在 <code>lib.rs</code> 的顶部添加<a href="https://beatai.org/rust-course/basic/comment#文档注释">文档注释</a>的方式来实现。例如 <code>regex</code> 就是<a href="https://github.com/rust-lang/regex/blob/1.4.2/src/lib.rs#L488-L583">这么做的</a>。</li>
 <li>若项目拥有一个用户手册，那也可以在那里添加说明，例如 <a href="https://github.com/rust-lang/regex/blob/1.4.2/src/lib.rs#L488-L583">serde.rs</a>。</li>
 <li>若项目是二进制类型(可运行的应用服务，包含 <code>fn main</code> 入口)，可以将说明放在 <code>README</code> 文件或其他文档中，例如 <a href="https://github.com/mozilla/sccache/blob/0.2.13/README.md#build-requirements">sccache</a>。</li>
 </ul>

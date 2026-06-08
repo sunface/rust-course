@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -213,7 +213,7 @@ lto = true
 <p>然后在构建时使用 <code>--profile</code> 来指定想要选择的自定义 profile ：</p>
 <pre><code class="language-shell">$ cargo build --profile release-lto
 </code></pre>
-<p>与默认的 profile 相同，自定义 profile 的编译结果也存放在 <a href="https://course.rs/cargo/guide/build-cache.html"><code>target/</code></a> 下的同名目录中，例如 <code>--profile release-lto</code> 的输出结果存储在 <code>target/release-lto</code> 中。</p>
+<p>与默认的 profile 相同，自定义 profile 的编译结果也存放在 <a href="https://beatai.org/rust-course/cargo/guide/build-cache"><code>target/</code></a> 下的同名目录中，例如 <code>--profile release-lto</code> 的输出结果存储在 <code>target/release-lto</code> 中。</p>
 <h2 id="选择-profile"><a class="header" href="#选择-profile">选择 profile</a></h2>
 <ul>
 <li>默认使用 <code>dev</code> : <code>cargo build</code>, <code>cargo rustc</code>, <code>cargo check</code>, 和 <code>cargo run</code></li>
@@ -252,7 +252,7 @@ lto = true
 <h4 id="debug-assertions"><a class="header" href="#debug-assertions">debug-assertions</a></h4>
 <p>该字段控制 <a href="https://doc.rust-lang.org/stable/rustc/codegen-options/index.html#debug-assertions">-C debug-assertions</a> 标志，可以开启或关闭其中一个<a href="https://doc.rust-lang.org/stable/reference/conditional-compilation.html#debug_assertions">条件编译</a>选项： <code>cfg(debug_assertions)</code>。</p>
 <p><code>debug-assertion</code> 会提供运行时的检查，该检查只能用于 <code>debug</code> 模式，原因是对于 <code>release</code> 来说，这种检查的成本较为高昂。</p>
-<p>大家熟悉的 <a href="https://course.rs/test/assertion.html#debug_assert-系列"><code>debug_assert!</code></a> 宏也是通过该标志开启的。</p>
+<p>大家熟悉的 <a href="https://beatai.org/rust-course/test/assertion#debug_assert-系列"><code>debug_assert!</code></a> 宏也是通过该标志开启的。</p>
 <p>支持的选项包括 :</p>
 <ul>
 <li><code>true</code>: 开启</li>
@@ -361,7 +361,7 @@ codegen-units = 256
 [profile.dev.package.foo]
 opt-level = 3
 </code></pre>
-<p>这里的 <code>package</code> 名称实际上是一个 <a href="https://course.rs/cargo/reference/package-id.html"><code>Package ID</code></a>，因此我们还可以通过版本号来选择: <code>[profile.dev.package."foo:2.1.0"]</code>。</p>
+<p>这里的 <code>package</code> 名称实际上是一个 <a href="https://beatai.org/rust-course/cargo/reference/package-id"><code>Package ID</code></a>，因此我们还可以通过版本号来选择: <code>[profile.dev.package."foo:2.1.0"]</code>。</p>
 <p>如果要为所有依赖包重写(不包括工作空间的成员):</p>
 <pre><code class="language-toml">[profile.dev.package."*"]
 opt-level = 2

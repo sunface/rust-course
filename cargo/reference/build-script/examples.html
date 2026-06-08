@@ -36,7 +36,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-2f1f2f2c.js"></script>
@@ -373,7 +373,7 @@ fn test_crc32() {
     }
 }
 <span class="boring">}</span></code></pre>
-<p>代码很清晰，也很简洁，这里就不再过多介绍，运行 <a href="https://course.rs/cargo/reference/build-script/intro.html#构建脚本的输出"><code>cargo build --vv</code></a> 来看看部分结果( 系统中需要已经安装 <code>libz</code> 库)：</p>
+<p>代码很清晰，也很简洁，这里就不再过多介绍，运行 <a href="https://beatai.org/rust-course/cargo/reference/build-script/intro#构建脚本的输出"><code>cargo build --vv</code></a> 来看看部分结果( 系统中需要已经安装 <code>libz</code> 库)：</p>
 <pre><code class="language-shell">[libz-sys 0.1.0] cargo:rustc-link-search=native=/usr/lib
 [libz-sys 0.1.0] cargo:rustc-link-lib=z
 [libz-sys 0.1.0] cargo:rerun-if-changed=build.rs
@@ -383,7 +383,7 @@ fn test_crc32() {
 <h2 id="使用其它-sys-包"><a class="header" href="#使用其它-sys-包">使用其它 sys 包</a></h2>
 <p>本例中，一起来看看该如何使用 <code>libz-sys</code> 包中的 <code>zlib</code> 来创建一个 C 依赖库。</p>
 <p>若你有一个依赖于 <code>zlib</code> 的库，那可以使用 <code>libz-sys</code> 来自动发现或构建该库。这个功能对于交叉编译非常有用，例如 Windows 下往往不会安装 <code>zlib</code>。</p>
-<p><code>libz-sys</code> 通过设置 <a href="https://github.com/rust-lang/libz-sys/blob/3c594e677c79584500da673f918c4d2101ac97a1/build.rs#L156"><code>include</code></a> 元数据来告知其它包去哪里找到 <code>zlib</code> 的头文件，然后我们的构建脚本可以通过 <code>DEP_Z_INCLUDE</code> 环境变量来读取 <code>include</code> 元数据( 关于元数据的传递，见<a href="https://course.rs/cargo/reference/build-script/intro.html#links">这里</a> )。</p>
+<p><code>libz-sys</code> 通过设置 <a href="https://github.com/rust-lang/libz-sys/blob/3c594e677c79584500da673f918c4d2101ac97a1/build.rs#L156"><code>include</code></a> 元数据来告知其它包去哪里找到 <code>zlib</code> 的头文件，然后我们的构建脚本可以通过 <code>DEP_Z_INCLUDE</code> 环境变量来读取 <code>include</code> 元数据( 关于元数据的传递，见<a href="https://beatai.org/rust-course/cargo/reference/build-script/intro#links">这里</a> )。</p>
 <pre><code class="language-toml"># Cargo.toml
 
 [package]

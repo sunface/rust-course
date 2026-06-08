@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -259,7 +259,7 @@ async fn main() -&gt; mini_redis::Result&lt;()&gt; {
 <li>在 <code>stream</code> 上调用 <code>next</code> 方法要求该 <code>stream</code> 被固定住(<a href="https://doc.rust-lang.org/std/pin/index.html"><code>pinned</code></a>)，因此需要调用 <code>tokio::pin!</code></li>
 </ul>
 <blockquote>
-<p>关于 Pin 的详细解读，可以阅读<a href="https://course.rs/async/pin-unpin.html">这篇文章</a></p>
+<p>关于 Pin 的详细解读，可以阅读<a href="https://beatai.org/rust-course/advance/async/pin-unpin">这篇文章</a></p>
 </blockquote>
 <p>大家可以去掉 <code>pin!</code> 的调用，然后观察下报错，若以后你遇到这种错误，可以尝试使用下 <code>pin!</code>。</p>
 <p>此时，可以运行下我们的客户端代码看看效果(别忘了先启动前面提到的 mini-redis 服务端):</p>
@@ -272,7 +272,7 @@ got = Ok(Message { channel: "numbers", content: b"6" })
 </code></pre>
 <p>在了解了 <code>stream</code> 的基本用法后，我们再来看看如何使用适配器来扩展它。</p>
 <h2 id="适配器"><a class="header" href="#适配器">适配器</a></h2>
-<p>在前面章节中，我们了解了迭代器有<a href="https://course.rs/advance/functional-programing/iterator.html#消费者与适配器">两种适配器</a>：</p>
+<p>在前面章节中，我们了解了迭代器有<a href="https://beatai.org/rust-course/advance/functional-programing/iterator#消费者与适配器">两种适配器</a>：</p>
 <ul>
 <li>迭代器适配器，会将一个迭代器转变成另一个迭代器，例如 <code>map</code>，<code>filter</code> 等</li>
 <li>消费者适配器，会消费掉一个迭代器，最终生成一个值，例如 <code>collect</code> 可以将迭代器收集成一个集合</li>
@@ -356,8 +356,8 @@ pub trait Stream {
     }
 }
 <span class="boring">}</span></code></pre>
-<p><code>Stream::poll_next()</code> 函数跟 <code>Future::poll</code> 很相似，区别就是前者为了从 <code>stream</code> 收到多个值需要重复的进行调用。 就像在 <a href="https://course.rs/tokio/async.html"><code>深入async</code></a> 章节提到的那样，当一个 <code>stream</code> 没有做好返回一个值的准备时，它将返回一个 <code>Poll::Pending</code> ，同时将任务的 <code>waker</code> 进行注册。一旦 <code>stream</code> 准备好后， <code>waker</code> 将被调用。</p>
-<p>通常来说，如果想要手动实现一个 <code>Stream</code>，需要组合 <code>Future</code> 和其它 <code>Stream</code>。下面，还记得在<a href="https://course.rs/tokio/async.html"><code>深入async</code></a> 中构建的 <code>Delay Future</code> 吗？现在让我们来更进一步，将它转换成一个 <code>stream</code>，每 10 毫秒生成一个值，总共生成 3 次:</p>
+<p><code>Stream::poll_next()</code> 函数跟 <code>Future::poll</code> 很相似，区别就是前者为了从 <code>stream</code> 收到多个值需要重复的进行调用。 就像在 <a href="https://beatai.org/rust-course/advance-practice/async"><code>深入async</code></a> 章节提到的那样，当一个 <code>stream</code> 没有做好返回一个值的准备时，它将返回一个 <code>Poll::Pending</code> ，同时将任务的 <code>waker</code> 进行注册。一旦 <code>stream</code> 准备好后， <code>waker</code> 将被调用。</p>
+<p>通常来说，如果想要手动实现一个 <code>Stream</code>，需要组合 <code>Future</code> 和其它 <code>Stream</code>。下面，还记得在<a href="https://beatai.org/rust-course/advance-practice/async"><code>深入async</code></a> 中构建的 <code>Delay Future</code> 吗？现在让我们来更进一步，将它转换成一个 <code>stream</code>，每 10 毫秒生成一个值，总共生成 3 次:</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use tokio_stream::Stream;

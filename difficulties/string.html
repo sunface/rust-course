@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -185,11 +185,11 @@
 <p>字符串让人疯狂，这句话用在 Rust 中一点都不夸张，不信？那你能否清晰的说出 <code>String</code>、<code>str</code>、<code>&amp;str</code>、<code>&amp;String</code>、<code>Box&lt;str&gt;</code> 或 <code>Box&lt;&amp;str&gt;</code> 的区别？</p>
 <p>Rust 语言的类型可以大致分为两种：基本类型和标准库类型，前者是由语言特性直接提供的，而后者是在标准库中定义。即将登场的 <code>str</code> 类型就是唯一定义在语言特性中的字符串。</p>
 <blockquote>
-<p>在继续之前，大家需要先了解字符串的<a href="https://course.rs/basic/compound-type/string-slice.html">基本知识</a>，本文主要在于概念对比，而不是字符串讲解</p>
+<p>在继续之前，大家需要先了解字符串的<a href="https://beatai.org/rust-course/basic/compound-type/string-slice">基本知识</a>，本文主要在于概念对比，而不是字符串讲解</p>
 </blockquote>
 <h2 id="str"><a class="header" href="#str">str</a></h2>
 <p>如上所述，<code>str</code> 是唯一定义在 Rust 语言特性中的字符串，但是也是我们几乎不会用到的字符串类型，为何？</p>
-<p>原因在于 <code>str</code> 字符串它是 <a href="https://course.rs/advance/into-types/sized.html#动态大小类型-dst"><code>DST</code> 动态大小类型</a>，这意味着编译器无法在编译期知道 <code>str</code> 类型的大小，只有到了运行期才能动态获知，这对于强类型、强安全的 Rust 语言来说是不可接受的。</p>
+<p>原因在于 <code>str</code> 字符串它是 <a href="https://beatai.org/rust-course/advance/into-types/sized#动态大小类型-dst"><code>DST</code> 动态大小类型</a>，这意味着编译器无法在编译期知道 <code>str</code> 类型的大小，只有到了运行期才能动态获知，这对于强类型、强安全的 Rust 语言来说是不可接受的。</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let string: str = "banana";

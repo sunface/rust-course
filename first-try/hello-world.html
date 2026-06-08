@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -184,8 +184,8 @@
                         <h1 id="不仅仅是-hello-world"><a class="header" href="#不仅仅是-hello-world">不仅仅是 Hello world</a></h1>
 <p>几乎所有教程中安装的最后一个环节都是 <code>hello world</code>，我们也不能免俗。但是，在 <code>hello world</code> 之后，还有一个相亲，啊呸，Rust 初印象环节，希望大家喜欢。</p>
 <h2 id="多国语言的世界你好"><a class="header" href="#多国语言的世界你好">多国语言的“世界，你好“</a></h2>
-<p>还记得大明湖畔等你的 <a href="https://course.rs/first-try/editor.html">VSCode IDE</a> 和通过 <code>Cargo</code> 创建的 <a href="https://course.rs/first-try/cargo.html">世界，你好</a> 工程吗？</p>
-<p>现在使用 VSCode 打开 <a href="https://course.rs/first-try/cargo.html">上一节</a> 中创建的 <code>world_hello</code> 工程，然后进入 <code>main.rs</code> 文件。（此文件是当前 Rust 工程的入口文件，和其它语言几无区别。）</p>
+<p>还记得大明湖畔等你的 <a href="https://beatai.org/rust-course/first-try/editor">VSCode IDE</a> 和通过 <code>Cargo</code> 创建的 <a href="https://beatai.org/rust-course/first-try/cargo">世界，你好</a> 工程吗？</p>
+<p>现在使用 VSCode 打开 <a href="https://beatai.org/rust-course/first-try/cargo">上一节</a> 中创建的 <code>world_hello</code> 工程，然后进入 <code>main.rs</code> 文件。（此文件是当前 Rust 工程的入口文件，和其它语言几无区别。）</p>
 <p>接下来，对世界友人给予热切的问候：</p>
 <pre class="playground"><code class="language-rust edition2021">fn greet_world() {
     let southern_germany = "Grüß Gott!";
@@ -272,10 +272,10 @@ World, hello
 <li>高阶函数编程：函数可以作为参数也能作为返回值，例如 <code>.map(|field| field.trim())</code>，这里 <code>map</code> 方法中使用闭包函数作为参数，也可以称呼为 <code>匿名函数</code>、<code>lambda 函数</code>。</li>
 <li>类型标注：<code>if let Ok(length) = fields[1].parse::&lt;f32&gt;()</code>，通过 <code>::&lt;f32&gt;</code> 的使用，告诉编译器 <code>length</code> 是一个 <code>f32</code> 类型的浮点数。这种类型标注不是很常用，但是在编译器无法推断出你的数据类型时，就很有用了。</li>
 <li>条件编译：<code>if cfg!(debug_assertions)</code>，说明紧跟其后的输出（打印）只在 <code>debug</code> 模式下生效。</li>
-<li>隐式返回：Rust 提供了 <code>return</code> 关键字用于函数返回，但是在很多时候，我们可以省略它。因为 Rust 是 <a href="https://course.rs/basic/base-type/statement-expression.html"><strong>基于表达式的语言</strong></a>。</li>
+<li>隐式返回：Rust 提供了 <code>return</code> 关键字用于函数返回，但是在很多时候，我们可以省略它。因为 Rust 是 <a href="https://beatai.org/rust-course/basic/base-type/statement-expression"><strong>基于表达式的语言</strong></a>。</li>
 </ul>
 <p>在终端中运行上述代码时，会看到很多 <code>debug: ...</code> 的输出，上面有讲，这些都是 <code>条件编译</code> 的输出，那么该怎么消除掉这些输出呢？</p>
-<p>读者大大普遍冰雪聪明，肯定已经想到：是的，在 <a href="https://course.rs/first-try/cargo.html#手动编译和运行项目">认识 Cargo</a> 中，曾经介绍过 <code>--release</code> 参数，因为 <code>cargo run</code> 默认是运行 <code>debug</code> 模式。因此想要消灭那些 <code>debug:</code> 输出，需要更改为其它模式，其中最常用的模式就是 <code>--release</code> 也就是生产发布的模式。</p>
+<p>读者大大普遍冰雪聪明，肯定已经想到：是的，在 <a href="https://beatai.org/rust-course/first-try/cargo#手动编译和运行项目">认识 Cargo</a> 中，曾经介绍过 <code>--release</code> 参数，因为 <code>cargo run</code> 默认是运行 <code>debug</code> 模式。因此想要消灭那些 <code>debug:</code> 输出，需要更改为其它模式，其中最常用的模式就是 <code>--release</code> 也就是生产发布的模式。</p>
 <p>具体运行代码就不给了，留给大家作为一个小练习，建议亲自动手尝试下。</p>
 <p>至此，Rust 安装入门就已经结束。相信看到这里，你已经发现了本书与其它书的区别，其中最大的区别就是：<strong>这本书就像优秀的国外课本一样，不太枯燥。也希望这本不太枯燥的书，能伴你长行，犹如一杯奶茶，细细品之，唇齿留香。</strong></p>
 

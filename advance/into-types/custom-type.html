@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -184,7 +184,7 @@
                         <h1 id="深入-rust-类型"><a class="header" href="#深入-rust-类型">深入 Rust 类型</a></h1>
 <p>弱弱地、不负责任地说，Rust 的学习难度之恶名，可能有一半来源于 Rust 的类型系统，而其中一半的一半则来自于本章节的内容。在本章，我们将重点学习如何创建自定义类型，以及了解何为动态大小的类型。</p>
 <h2 id="newtype"><a class="header" href="#newtype">newtype</a></h2>
-<p>何为 <code>newtype</code>？简单来说，就是使用<a href="https://course.rs/basic/compound-type/struct.html#元组结构体tuple-struct">元组结构体</a>的方式将已有的类型包裹起来：<code>struct Meters(u32);</code>，那么此处 <code>Meters</code> 就是一个 <code>newtype</code>。</p>
+<p>何为 <code>newtype</code>？简单来说，就是使用<a href="https://beatai.org/rust-course/basic/compound-type/struct#元组结构体tuple-struct">元组结构体</a>的方式将已有的类型包裹起来：<code>struct Meters(u32);</code>，那么此处 <code>Meters</code> 就是一个 <code>newtype</code>。</p>
 <p>为何需要 <code>newtype</code>？Rust 这多如繁星的 Old 类型满足不了我们吗？这是因为：</p>
 <ul>
 <li>自定义类型可以让我们给出更有意义和可读性的类型名，例如与其使用 <code>u32</code> 作为距离的单位类型，我们可以使用 <code>Meters</code>，它的可读性要好得多</li>
@@ -316,7 +316,7 @@ fn returns_long_type() -&gt; Thunk {
 <p>Bingo，这样一来，其它库只需要使用 <code>std::io::Result&lt;T&gt;</code> 即可替代冗长的 <code>std::result::Result&lt;T, std::io::Error&gt;</code> 类型。</p>
 <p>更香的是，由于它只是别名，因此我们可以用它来调用真实类型的所有方法，甚至包括 <code>?</code> 符号！</p>
 <h2 id="永不返回类型"><a class="header" href="#永不返回类型">!永不返回类型</a></h2>
-<p>在<a href="https://course.rs/basic/base-type/function.html#永不返回的函数">函数</a>那章，曾经介绍过 <code>!</code> 类型：<code>!</code> 用来说明一个函数永不返回任何值，当时可能体会不深，没事，在学习了更多手法后，保证你有全新的体验：</p>
+<p>在<a href="https://beatai.org/rust-course/basic/base-type/function#永不返回的函数">函数</a>那章，曾经介绍过 <code>!</code> 类型：<code>!</code> 用来说明一个函数永不返回任何值，当时可能体会不深，没事，在学习了更多手法后，保证你有全新的体验：</p>
 <pre class="playground"><code class="language-rust edition2021">fn main() {
     let i = 2;
     let v = match i {

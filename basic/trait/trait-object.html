@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -276,7 +276,7 @@ impl Draw for SelectBox {
 <p><strong>特征对象</strong>指向实现了 <code>Draw</code> 特征的类型的实例，也就是指向了 <code>Button</code> 或者 <code>SelectBox</code> 的实例，这种映射关系是存储在一张表中，可以在运行时通过特征对象找到具体调用的类型方法。</p>
 <p>可以通过 <code>&amp;</code> 引用或者 <code>Box&lt;T&gt;</code> 智能指针的方式来创建特征对象。</p>
 <blockquote>
-<p><code>Box&lt;T&gt;</code> 在后面章节会<a href="https://course.rs/advance/smart-pointer/box.html">详细讲解</a>，大家现在把它当成一个引用即可，只不过它包裹的值会被强制分配在堆上。</p>
+<p><code>Box&lt;T&gt;</code> 在后面章节会<a href="https://beatai.org/rust-course/advance/smart-pointer/box">详细讲解</a>，大家现在把它当成一个引用即可，只不过它包裹的值会被强制分配在堆上。</p>
 </blockquote>
 <pre class="playground"><code class="language-rust edition2021">trait Draw {
     fn draw(&amp;self) -&gt; String;

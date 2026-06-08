@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -203,7 +203,7 @@
 <p>宏和函数的区别并不少，而且对于宏擅长的领域，函数其实是有些无能为力的。</p>
 <h4 id="元编程"><a class="header" href="#元编程">元编程</a></h4>
 <p>从根本上来说，宏是通过一种代码来生成另一种代码，如果大家熟悉元编程，就会发现两者的共同点。</p>
-<p>在<a href="https://course.rs/appendix/derive.html">附录 D</a>中讲到的 <code>derive</code> 属性，就会自动为结构体派生出相应特征所需的代码，例如 <code>#[derive(Debug)]</code>，还有熟悉的 <code>println!</code> 和 <code>vec!</code>，所有的这些宏都会展开成相应的代码，且很可能是长得多的代码。</p>
+<p>在<a href="https://beatai.org/rust-course/appendix/derive">附录 D</a>中讲到的 <code>derive</code> 属性，就会自动为结构体派生出相应特征所需的代码，例如 <code>#[derive(Debug)]</code>，还有熟悉的 <code>println!</code> 和 <code>vec!</code>，所有的这些宏都会展开成相应的代码，且很可能是长得多的代码。</p>
 <p>总之，元编程可以帮我们减少所需编写的代码，也可以一定程度上减少维护的成本，虽然函数复用也有类似的作用，但是宏依然拥有自己独特的优势。</p>
 <h4 id="可变参数"><a class="header" href="#可变参数">可变参数</a></h4>
 <p>Rust 的函数签名是固定的：定义了两个参数，就必须传入两个参数，多一个少一个都不行，对于从 JS/TS 过来的同学，这一点其实是有些恼人的。</p>
@@ -230,7 +230,7 @@
 <span class="boring">}</span></code></pre>
 <p>而<strong>宏也是将一个值跟对应的模式进行匹配，且该模式会与特定的代码相关联</strong>。但是与 <code>match</code> 不同的是，<strong>宏里的值是一段 Rust 源代码</strong>(字面量)，模式用于跟这段源代码的结构相比较，一旦匹配，传入宏的那段源代码将被模式关联的代码所替换，最终实现宏展开。值得注意的是，<strong>所有的这些都是在编译期发生，并没有运行期的性能损耗</strong>。</p>
 <h4 id="简化版的-vec"><a class="header" href="#简化版的-vec">简化版的 vec!</a></h4>
-<p>在<a href="https://course.rs/basic/collections/vector.html#vec">动态数组 Vector 章节</a>中，我们学习了使用 <code>vec!</code> 来便捷的初始化一个动态数组:</p>
+<p>在<a href="https://beatai.org/rust-course/basic/collections/vector#vec">动态数组 Vector 章节</a>中，我们学习了使用 <code>vec!</code> 来便捷的初始化一个动态数组:</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let v: Vec&lt;u32&gt; = vec![1, 2, 3];
@@ -253,11 +253,11 @@ macro_rules! vec {
 }
 <span class="boring">}</span></code></pre>
 <p>简化实现版本？这也太难了吧！！只能说，欢迎来到宏的世界，在这里你能见到优雅 Rust 的另一面:) 标准库中的 <code>vec!</code> 还包含了预分配内存空间的代码，如果引入进来，那大家将更难以接受。</p>
-<p><code>#[macro_export]</code> 注释将宏进行了导出，这样其它的包就可以将该宏引入到当前作用域中，然后才能使用。可能有同学会提问：我们在使用标准库 <code>vec!</code> 时也没有引入宏啊，那是因为 Rust 已经通过 <a href="https://course.rs/appendix/prelude.html"><code>std::prelude</code></a> 的方式为我们自动引入了。</p>
+<p><code>#[macro_export]</code> 注释将宏进行了导出，这样其它的包就可以将该宏引入到当前作用域中，然后才能使用。可能有同学会提问：我们在使用标准库 <code>vec!</code> 时也没有引入宏啊，那是因为 Rust 已经通过 <a href="https://beatai.org/rust-course/appendix/prelude"><code>std::prelude</code></a> 的方式为我们自动引入了。</p>
 <p>紧接着，就使用 <code>macro_rules!</code> 进行了宏定义，需要注意的是宏的名称是 <code>vec</code>，而不是 <code>vec!</code>，后者的感叹号只在调用时才需要。</p>
 <p><code>vec</code> 的定义结构跟 <code>match</code> 表达式很像，但这里我们只有一个分支，其中包含一个模式 <code>( $( $x:expr ),* )</code>，跟模式相关联的代码就在 <code>=&gt;</code> 之后。一旦模式成功匹配，那这段相关联的代码就会替换传入的源代码。</p>
 <p>由于 <code>vec</code> 宏只有一个模式，因此它只能匹配一种源代码，其它类型的都将导致报错，而更复杂的宏往往会拥有更多的分支。</p>
-<p>虽然宏和 <code>match</code> 都称之为模式，但是前者跟<a href="https://course.rs/basic/match-pattern/all-patterns.html">后者</a>的模式规则是不同的。如果大家想要更深入的了解宏的模式，可以查看<a href="https://doc.rust-lang.org/reference/macros-by-example.html">这里</a>。</p>
+<p>虽然宏和 <code>match</code> 都称之为模式，但是前者跟<a href="https://beatai.org/rust-course/basic/match-pattern/all-patterns">后者</a>的模式规则是不同的。如果大家想要更深入的了解宏的模式，可以查看<a href="https://doc.rust-lang.org/reference/macros-by-example.html">这里</a>。</p>
 <h4 id="模式解析"><a class="header" href="#模式解析">模式解析</a></h4>
 <p>而现在，我们先来简单讲解下 <code>( $( $x:expr ),* )</code> 的含义。</p>
 <p>首先，我们使用圆括号 <code>()</code> 将整个宏模式包裹其中。紧随其后的是 <code>$()</code>，跟括号中模式相匹配的值(传入的 Rust 源代码)会被捕获，然后用于代码替换。在这里，模式 <code>$x:expr</code> 会匹配任何 Rust 表达式并给予该模式一个名称：<code>$x</code>。</p>
@@ -341,7 +341,7 @@ pub fn some_name(input: TokenStream) -&gt; TokenStream {
 <h2 id="自定义-derive-过程宏"><a class="header" href="#自定义-derive-过程宏">自定义 <code>derive</code> 过程宏</a></h2>
 <p>假设我们有一个特征 <code>HelloMacro</code>，现在有两种方式让用户使用它：</p>
 <ul>
-<li>为每个类型手动实现该特征，就像之前<a href="https://course.rs/basic/trait/trait.html#为类型实现特征">特征章节</a>所做的</li>
+<li>为每个类型手动实现该特征，就像之前<a href="https://beatai.org/rust-course/basic/trait/trait#为类型实现特征">特征章节</a>所做的</li>
 <li>使用过程宏来统一实现该特征，这样用户只需要对类型进行标记即可：<code>#[derive(HelloMacro)]</code></li>
 </ul>
 <p>以上两种方式并没有孰优孰劣，主要在于不同的类型是否可以使用同样的默认特征实现，如果可以，那过程宏的方式可以帮我们减少很多代码实现:</p>
@@ -363,7 +363,7 @@ fn main() {
 $ cd hello_macro/
 $ touch src/lib.rs
 </code></pre>
-<p>此时，<code>src</code> 目录下包含两个文件 <code>lib.rs</code> 和 <code>main.rs</code>，前者是 <code>lib</code> 包根，后者是二进制包根，如果大家对包根不熟悉，可以看看<a href="https://course.rs/basic/crate-module/crate.html">这里</a>。</p>
+<p>此时，<code>src</code> 目录下包含两个文件 <code>lib.rs</code> 和 <code>main.rs</code>，前者是 <code>lib</code> 包根，后者是二进制包根，如果大家对包根不熟悉，可以看看<a href="https://beatai.org/rust-course/basic/crate-module/crate">这里</a>。</p>
 <p>接下来，先在 <code>src/lib.rs</code> 中定义过程宏所需的 <code>HelloMacro</code> 特征和其关联函数:</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -432,7 +432,7 @@ hello_macro_derive = { path = "../hello_macro/hello_macro_derive" }
 # 也可以使用下面的相对路径
 # hello_macro_derive = { path = "./hello_macro_derive" }
 </code></pre>
-<p>此时，<code>hello_macro</code> 项目就可以成功的引用到 <code>hello_macro_derive</code> 本地包了，对于项目依赖引入的详细介绍，可以参见 <a href="https://course.rs/cargo/dependency.html">Cargo 章节</a>。</p>
+<p>此时，<code>hello_macro</code> 项目就可以成功的引用到 <code>hello_macro_derive</code> 本地包了，对于项目依赖引入的详细介绍，可以参见 <a href="https://beatai.org/rust-course/cargo/guide/dependencies">Cargo 章节</a>。</p>
 <p>另外，学习过程宏更好的办法是通过展开宏来阅读和调试自己写的宏，这里需要用到一个 cargo-expand 的工具，可以通过下面的命令安装：</p>
 <pre><code class="language-bash">cargo install cargo-expand
 </code></pre>

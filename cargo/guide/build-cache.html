@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -182,11 +182,11 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="构建-build-缓存"><a class="header" href="#构建-build-缓存">构建( Build )缓存</a></h1>
-<p><code>cargo build</code> 的结果会被放入项目根目录下的 <code>target</code> 文件夹中，当然，这个位置可以三种方式更改：设置 <code>CARGO_TARGET_DIR</code> <a href="https://doc.rust-lang.org/stable/cargo/reference/environment-variables.html">环境变量</a>、<a href="https://course.rs/cargo/reference/configuration.html#配置文件概览"><code>build.target-dir</code></a> 配置项以及 <code>--target-dir</code> 命令行参数。</p>
+<p><code>cargo build</code> 的结果会被放入项目根目录下的 <code>target</code> 文件夹中，当然，这个位置可以三种方式更改：设置 <code>CARGO_TARGET_DIR</code> <a href="https://doc.rust-lang.org/stable/cargo/reference/environment-variables.html">环境变量</a>、<a href="https://beatai.org/rust-course/cargo/reference/configuration#配置文件概览"><code>build.target-dir</code></a> 配置项以及 <code>--target-dir</code> 命令行参数。</p>
 <h2 id="target-目录结构"><a class="header" href="#target-目录结构">target 目录结构</a></h2>
 <p><code>target</code> 目录的结构取决于是否使用 <code>--target</code> 标志为特定的平台构建。</p>
 <h4 id="不使用-target"><a class="header" href="#不使用-target">不使用 –target</a></h4>
-<p>若 <code>--target</code> 标志没有指定，<code>Cargo</code> 会根据宿主机架构进行构建，构建结果会放入项目根目录下的 <code>target</code> 目录中，<code>target</code> 下每个子目录中包含了相应的 <a href="https://course.rs/cargo/reference/profiles.html"><code>发布配置profile</code></a> 的构建结果，例如 <code>release</code>、<code>debug</code> 是自带的<code>profile</code>，前者往往用于生产环境，因为会做大量的性能优化，而后者则用于开发环境，此时的编译效率和报错信息是最好的。</p>
+<p>若 <code>--target</code> 标志没有指定，<code>Cargo</code> 会根据宿主机架构进行构建，构建结果会放入项目根目录下的 <code>target</code> 目录中，<code>target</code> 下每个子目录中包含了相应的 <a href="https://beatai.org/rust-course/cargo/reference/profiles"><code>发布配置profile</code></a> 的构建结果，例如 <code>release</code>、<code>debug</code> 是自带的<code>profile</code>，前者往往用于生产环境，因为会做大量的性能优化，而后者则用于开发环境，此时的编译效率和报错信息是最好的。</p>
 <p>除此之外我们还可以定义自己想要的 <code>profile</code> ，例如用于测试环境的 <code>profile</code>： <code>test</code>，用于预发环境的 <code>profile</code> ：<code>pre-prod</code> 等。</p>
 <div class="table-wrapper">
 <table>
@@ -220,7 +220,7 @@
 </table>
 </div>
 <blockquote>
-<p><strong>注意：</strong>，当没有使用 <code>--target</code> 时，<code>Cargo</code> 会与构建脚本和过程宏一起共享你的依赖包，对于每个 <code>rustc</code> 命令调用而言，<a href="https://course.rs/cargo/reference/configuration.html#配置文件概览"><code>RUSTFLAGS</code></a> 也将被共享。</p>
+<p><strong>注意：</strong>，当没有使用 <code>--target</code> 时，<code>Cargo</code> 会与构建脚本和过程宏一起共享你的依赖包，对于每个 <code>rustc</code> 命令调用而言，<a href="https://beatai.org/rust-course/cargo/reference/configuration#配置文件概览"><code>RUSTFLAGS</code></a> 也将被共享。</p>
 <p>而使用 <code>--target</code> 后，构建脚本、过程宏会针对宿主机的 CPU 架构进行各自构建，且不会共享 <code>RUSTFLAGS</code>。</p>
 </blockquote>
 <h4 id="target-子目录说明"><a class="header" href="#target-子目录说明">target 子目录说明</a></h4>
@@ -231,8 +231,8 @@
 <tr><th>目录</th><th>描述</th></tr>
 </thead>
 <tbody>
-<tr><td><code>target/debug/</code></td><td>包含编译后的输出，例如二进制可执行文件、<a href="https://course.rs/cargo/reference/cargo-target.html#库对象library">库对象( library target )</a></td></tr>
-<tr><td><code>target/debug/examples/</code></td><td>包含<a href="https://course.rs/cargo/reference/cargo-target.html#示例对象examples">示例对象( example target )</a></td></tr>
+<tr><td><code>target/debug/</code></td><td>包含编译后的输出，例如二进制可执行文件、<a href="https://beatai.org/rust-course/cargo/reference/cargo-target#库对象library">库对象( library target )</a></td></tr>
+<tr><td><code>target/debug/examples/</code></td><td>包含<a href="https://beatai.org/rust-course/cargo/reference/cargo-target#示例对象examples">示例对象( example target )</a></td></tr>
 </tbody>
 </table>
 </div>
@@ -256,15 +256,15 @@
 </thead>
 <tbody>
 <tr><td><code>target/debug/deps</code></td><td>依赖和其它输出成果</td></tr>
-<tr><td><code>target/debug/incremental</code></td><td><code>rustc</code> <a href="https://course.rs/cargo/reference/profiles.html#incremental">增量编译</a>的输出，该缓存可以用于提升后续的编译速度</td></tr>
-<tr><td><code>target/debug/build/</code></td><td><a href="https://course.rs/cargo/reference/build-script/intro.html">构建脚本</a>的输出</td></tr>
+<tr><td><code>target/debug/incremental</code></td><td><code>rustc</code> <a href="https://beatai.org/rust-course/cargo/reference/profiles#incremental">增量编译</a>的输出，该缓存可以用于提升后续的编译速度</td></tr>
+<tr><td><code>target/debug/build/</code></td><td><a href="https://beatai.org/rust-course/cargo/reference/build-script/intro">构建脚本</a>的输出</td></tr>
 </tbody>
 </table>
 </div>
 <h2 id="依赖信息文件"><a class="header" href="#依赖信息文件">依赖信息文件</a></h2>
 <p>在每一个编译成果的旁边，都有一个依赖信息文件，文件后缀是 <code>.d</code>。该文件的语法类似于 <code>Makefile</code>，用于说明构建编译成果所需的所有依赖包。</p>
 <p>该文件往往用于提供给外部的构建系统，这样它们就可以判断 <code>Cargo</code> 命令是否需要再次被执行。</p>
-<p>文件中的路径默认是绝对路径，你可以通过 <a href="https://course.rs/cargo/reference/configuration.html#配置文件概览"><code>build.dep-info-basedir</code></a> 配置项来修改为相对路径。</p>
+<p>文件中的路径默认是绝对路径，你可以通过 <a href="https://beatai.org/rust-course/cargo/reference/configuration#配置文件概览"><code>build.dep-info-basedir</code></a> 配置项来修改为相对路径。</p>
 <pre><code class="language-shell"># 关于 `.d` 文件的一个示例 : target/debug/foo.d
 /path/to/myproj/target/debug/foo: /path/to/myproj/src/lib.rs /path/to/myproj/src/main.rs
 </code></pre>
@@ -273,7 +273,7 @@
 <p>为了设置 <code>sccache</code>，首先需要使用 <code>cargo install sccache</code> 进行安装，然后在调用 <code>Cargo</code> 之前将 <code>RUSTC_WRAPPER</code> 环境变量设置为 <code>sccache</code>。</p>
 <ul>
 <li>如果用的 <code>bash</code>，可以将 <code>export RUSTC_WRAPPER=sccache</code> 添加到 <code>.bashrc</code> 中</li>
-<li>也可以使用 <a href="https://course.rs/cargo/reference/configuration.html#配置文件概览"><code>build.rustc-wrapper</code></a> 配置项</li>
+<li>也可以使用 <a href="https://beatai.org/rust-course/cargo/reference/configuration#配置文件概览"><code>build.rustc-wrapper</code></a> 配置项</li>
 </ul>
 
                     </main>

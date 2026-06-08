@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -184,7 +184,7 @@
                         <h1 id="cargotoml-格式讲解"><a class="header" href="#cargotoml-格式讲解">Cargo.toml 格式讲解</a></h1>
 <p><code>Cargo.toml</code> 又被称为清单( <code>manifest</code> )，文件格式是 <code>TOML</code>，每一个清单文件都由以下部分组成：</p>
 <ul>
-<li><a href="unstable.html"><code>cargo-features</code></a> — 只能用于 <code>nightly</code>版本的 <code>feature</code></li>
+<li><a href="https://doc.rust-lang.org/cargo/reference/unstable.html"><code>cargo-features</code></a> — 只能用于 <code>nightly</code>版本的 <code>feature</code></li>
 <li><a href="#package"><code>[package]</code></a> — 定义项目( <code>package</code> )的元信息
 <ul>
 <li><a href="#name"><code>name</code></a> — 名称</li>
@@ -209,36 +209,36 @@
 <li><a href="#the-publish-field"><code>publish</code></a> — 用于阻止项目的发布</li>
 <li><a href="#metadata"><code>metadata</code></a> — 额外的配置信息，用于提供给外部工具</li>
 <li><a href="#default-run"><code>default-run</code></a> — [<code>cargo run</code>] 所使用的默认可执行文件( binary )</li>
-<li><a href="https://course.rs/cargo/reference/cargo-target.html#对象自动发现"><code>autobins</code></a> — 禁止可执行文件的自动发现</li>
-<li><a href="https://course.rs/cargo/reference/cargo-target.html#对象自动发现"><code>autoexamples</code></a> — 禁止示例文件的自动发现</li>
-<li><a href="https://course.rs/cargo/reference/cargo-target.html#对象自动发现"><code>autotests</code></a> — 禁止测试文件的自动发现</li>
-<li><a href="https://course.rs/cargo/reference/cargo-target.html#对象自动发现"><code>autobenches</code></a> — 禁止 bench 文件的自动发现</li>
-<li><a href="resolver.html#resolver-versions"><code>resolver</code></a> — 设置依赖解析器( dependency resolver)</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/cargo-target#对象自动发现"><code>autobins</code></a> — 禁止可执行文件的自动发现</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/cargo-target#对象自动发现"><code>autoexamples</code></a> — 禁止示例文件的自动发现</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/cargo-target#对象自动发现"><code>autotests</code></a> — 禁止测试文件的自动发现</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/cargo-target#对象自动发现"><code>autobenches</code></a> — 禁止 bench 文件的自动发现</li>
+<li><a href="https://doc.rust-lang.org/cargo/reference/resolver.html#resolver-versions"><code>resolver</code></a> — 设置依赖解析器( dependency resolver)</li>
 </ul>
 </li>
-<li>Cargo Target 列表: (查看 <a href="https://course.rs/cargo/reference/cargo-target.html#Target配置">Target 配置</a> 获取详细设置)
+<li>Cargo Target 列表: (查看 <a href="https://beatai.org/rust-course/cargo/reference/cargo-target#Target配置">Target 配置</a> 获取详细设置)
 <ul>
-<li><a href="https://course.rs/cargo/reference/cargo-target.html#库对象library"><code>[lib]</code></a> — Library target 设置.</li>
-<li><a href="https://course.rs/cargo/reference/cargo-target.html#二进制对象binaries"><code>[[bin]]</code></a> — Binary target 设置.</li>
-<li><a href="https://course.rs/cargo/reference/cargo-target.html#示例对象examples"><code>[[example]]</code></a> — Example target 设置.</li>
-<li><a href="https://course.rs/cargo/reference/cargo-target.html#测试对象tests"><code>[[test]]</code></a> — Test target 设置.</li>
-<li><a href="https://course.rs/cargo/reference/cargo-target.html#基准性能对象benches"><code>[[bench]]</code></a> — Benchmark target 设置.</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/cargo-target#库对象library"><code>[lib]</code></a> — Library target 设置.</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/cargo-target#二进制对象binaries"><code>[[bin]]</code></a> — Binary target 设置.</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/cargo-target#示例对象examples"><code>[[example]]</code></a> — Example target 设置.</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/cargo-target#测试对象tests"><code>[[test]]</code></a> — Test target 设置.</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/cargo-target#基准性能对象benches"><code>[[bench]]</code></a> — Benchmark target 设置.</li>
 </ul>
 </li>
 <li>Dependency tables:
 <ul>
-<li><a href="https://course.rs/cargo/reference/specify-deps.html"><code>[dependencies]</code></a> — 项目依赖包</li>
-<li><a href="https://course.rs/cargo/reference/specify-deps.html#dev-dependencies"><code>[dev-dependencies]</code></a> — 用于 examples、tests 和 benchmarks 的依赖包</li>
-<li><a href="https://course.rs/cargo/reference/specify-deps.html#build-dependencies"><code>[build-dependencies]</code></a> — 用于构建脚本的依赖包</li>
-<li><a href="https://course.rs/cargo/reference/specify-deps.html#根据平台引入依赖"><code>[target]</code></a> — 平台特定的依赖包</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/specify-deps"><code>[dependencies]</code></a> — 项目依赖包</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/specify-deps#dev-dependencies"><code>[dev-dependencies]</code></a> — 用于 examples、tests 和 benchmarks 的依赖包</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/specify-deps#build-dependencies"><code>[build-dependencies]</code></a> — 用于构建脚本的依赖包</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/specify-deps#根据平台引入依赖"><code>[target]</code></a> — 平台特定的依赖包</li>
 </ul>
 </li>
 <li><a href="#badges"><code>[badges]</code></a> — 用于在注册服务(例如 crates.io ) 上显示项目的一些状态信息，例如当前的维护状态：活跃中、寻找维护者、deprecated</li>
-<li><a href="https://course.rs/cargo/reference/features/intro.html"><code>[features]</code></a> — <code>features</code> 可以用于条件编译</li>
-<li><a href="https://course.rs/cargo/reference/deps-overriding.html"><code>[patch]</code></a> — 推荐使用的依赖覆盖方式</li>
-<li><a href="https://course.rs/cargo/reference/deps-overriding.html#不推荐的replace"><code>[replace]</code></a> — 不推荐使用的依赖覆盖方式 (deprecated).</li>
-<li><a href="https://course.rs/cargo/reference/profiles.html"><code>[profile]</code></a> — 编译器设置和优化</li>
-<li><a href="https://course.rs/cargo/reference/workspaces.html"><code>[workspace]</code></a> — 工作空间的定义</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/features/intro"><code>[features]</code></a> — <code>features</code> 可以用于条件编译</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/deps-overriding"><code>[patch]</code></a> — 推荐使用的依赖覆盖方式</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/deps-overriding#不推荐的replace"><code>[replace]</code></a> — 不推荐使用的依赖覆盖方式 (deprecated).</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/profiles"><code>[profile]</code></a> — 编译器设置和优化</li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/workspaces"><code>[workspace]</code></a> — 工作空间的定义</li>
 </ul>
 <p>下面，我们将对其中一些部分进行详细讲解。</p>
 <h2 id="package"><a class="header" href="#package">[package]</a></h2>
@@ -281,7 +281,7 @@ authors = ["Sunfei &lt;contact@im.dev&gt;"]
 <p>警告：清单中的 <code>[package]</code> 部分一旦发布到 <code>crates.io</code> 就无法进行更改，因此对于已发布的包来说，<code>authors</code> 字段是无法修改的</p>
 </blockquote>
 <h4 id="edition"><a class="header" href="#edition">edition</a></h4>
-<p>可选字段，用于指定项目所使用的 <a href="https://course.rs/appendix/rust-version.html">Rust Edition</a>。</p>
+<p>可选字段，用于指定项目所使用的 <a href="https://beatai.org/rust-course/appendix/rust-version">Rust Edition</a>。</p>
 <p>该配置将影响项目中的所有 <code>Cargo Target</code> 和包，前者包含测试用例、benchmark、可执行文件、示例等。</p>
 <pre><code class="language-toml">[package]
 # ...
@@ -384,16 +384,16 @@ workspace = "path/to/workspace/root"
 <li>该包是工作空间的根包(root crate)，通过 <code>[workspace]</code> 指定)</li>
 <li>该包是另一个工作空间的成员，通过 <code>package.workspace</code> 指定</li>
 </ul>
-<p>若要了解工作空间的更多信息，请参见<a href="https://course.rs/cargo/reference/workspaces.html">这里</a>。</p>
+<p>若要了解工作空间的更多信息，请参见<a href="https://beatai.org/rust-course/cargo/reference/workspaces">这里</a>。</p>
 <h4 id="build"><a class="header" href="#build">build</a></h4>
-<p><code>build</code> 用于指定位于项目根目录中的构建脚本，关于构建脚本的更多信息，可以阅读 <a href="https://course.rs/cargo/reference/build-script/intro.html">构建脚本</a> 一章。</p>
+<p><code>build</code> 用于指定位于项目根目录中的构建脚本，关于构建脚本的更多信息，可以阅读 <a href="https://beatai.org/rust-course/cargo/reference/build-script/intro">构建脚本</a> 一章。</p>
 <pre><code class="language-toml">[package]
 # ...
 build = "build.rs"
 </code></pre>
 <p>还可以使用 <code>build = false</code> 来禁止构建脚本的自动检测。</p>
 <h4 id="links"><a class="header" href="#links">links</a></h4>
-<p>用于指定项目链接的本地库的名称，更多的信息请看构建脚本章节的 <a href="https://course.rs/cargo/reference/build-script/intro.html#links">links</a></p>
+<p>用于指定项目链接的本地库的名称，更多的信息请看构建脚本章节的 <a href="https://beatai.org/rust-course/cargo/reference/build-script/intro#links">links</a></p>
 <pre><code class="language-toml">[package]
 # ...
 links = "foo"
@@ -474,9 +474,9 @@ default-run = "a"
 maintenance = { status = "..." }
 </code></pre>
 <h2 id="dependencies"><a class="header" href="#dependencies">[dependencies]</a></h2>
-<p>在<a href="https://course.rs/cargo/reference/specify-deps.html">之前章节</a>中，我们已经详细介绍过 <code>[dependencies]</code> 、 <code>[dev-dependencies]</code> 和 <code>[build-dependencies]</code>，这里就不再赘述。</p>
+<p>在<a href="https://beatai.org/rust-course/cargo/reference/specify-deps">之前章节</a>中，我们已经详细介绍过 <code>[dependencies]</code> 、 <code>[dev-dependencies]</code> 和 <code>[build-dependencies]</code>，这里就不再赘述。</p>
 <h2 id="profile"><a class="header" href="#profile">[profile.*]</a></h2>
-<p>该部分可以对编译器进行配置，例如 debug 和优化，在后续的<a href="https://course.rs/cargo/reference/profiles.html">编译器优化</a>章节有详细介绍。</p>
+<p>该部分可以对编译器进行配置，例如 debug 和优化，在后续的<a href="https://beatai.org/rust-course/cargo/reference/profiles">编译器优化</a>章节有详细介绍。</p>
 
                     </main>
 

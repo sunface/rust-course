@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -209,7 +209,7 @@ info: installing component 'miri'
 <p>miri 目前只能在 nightly Rust 上安装，<code>+nightly-2022-01-21</code> 告诉 <code>rustup</code> 我们想要安装的 <code>nightly</code> 版本，事实上，你可以直接通过 <code>rustup +nightly component add miri</code> 安装，这里指定版本主要因为 <code>miri</code> 有时候会因为某些版本而出错。</p>
 <p>2022-01-21 是我所知的 miri 可以成功运行的版本，你可以检查<a href="https://rust-lang.github.io/rustup-components-history/">这个网址</a>获取更多信息</p>
 <ul>
-<li>是一种临时性的规则运用，如果你不想每次都使用 <code>+nightly-2022-01-21</code>，可以使用 <a href="https://course.rs/appendix/rust-version.html#rustup-和-rust-nightly-的职责"><code>rustup override set</code></a> 命令对当前项目的 Rust 版本进行覆盖</li>
+<li>是一种临时性的规则运用，如果你不想每次都使用 <code>+nightly-2022-01-21</code>，可以使用 <a href="https://beatai.org/rust-course/appendix/rust-version#rustup-和-rust-nightly-的职责"><code>rustup override set</code></a> 命令对当前项目的 Rust 版本进行覆盖</li>
 </ul>
 </blockquote>
 <pre><code class="language-shell">$ cargo +nightly-2022-01-21 miri test

@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -210,7 +210,7 @@ fn main() {
 <p>原因是当传入的命令行参数包含非 Unicode 字符时， <code>std::env::args</code> 会直接崩溃，如果有这种特殊需求，建议大家使用 <code>std::env::args_os</code>，该方法产生的数组将包含 <code>OsString</code> 类型，而不是之前的 <code>String</code> 类型，前者对于非 Unicode 字符会有更好的处理。</p>
 <p>至于为啥我们不用，两个理由，你信哪个：1. 用户爱输入啥输入啥，反正崩溃了，他就知道自己错了 2. <code>args_os</code> 会引入额外的跨平台复杂性</p>
 </blockquote>
-<p><code>collect</code> 方法其实并不是<code>std::env</code>模块提供的，而是迭代器自带的方法(<code>env::args()</code> 会返回一个迭代器)，它会将迭代器消费后转换成我们想要的集合类型，关于迭代器和 <code>collect</code> 的具体介绍，请参考<a href="https://course.rs/advance/functional-programing/iterator.html">这里</a>。</p>
+<p><code>collect</code> 方法其实并不是<code>std::env</code>模块提供的，而是迭代器自带的方法(<code>env::args()</code> 会返回一个迭代器)，它会将迭代器消费后转换成我们想要的集合类型，关于迭代器和 <code>collect</code> 的具体介绍，请参考<a href="https://beatai.org/rust-course/advance/functional-programing/iterator">这里</a>。</p>
 <p>最后，代码中使用 <code>dbg!</code> 宏来输出读取到的数组内容，来看看长啥样：</p>
 <pre><code class="language-shell">$ cargo run
    Compiling minigrep v0.1.0 (file:///projects/minigrep)

@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -239,7 +239,7 @@ let (a, c) = ("hi", false);
 }
 <span class="boring">}</span></code></pre>
 <p>该语句块是表达式的原因是：它的最后一行是表达式，返回了 <code>x + 1</code> 的值，注意 <code>x + 1</code> 不能以分号结尾，否则就会从表达式变成语句， <strong>表达式不能包含分号</strong>。这一点非常重要，一旦你在表达式后加上分号，它就会变成一条语句，再也<strong>不会</strong>返回一个值，请牢记！</p>
-<p>最后，表达式如果不返回任何值，会隐式地返回一个 <a href="https://course.rs/basic/base-type/char-bool.html#单元类型"><code>()</code></a> 。</p>
+<p>最后，表达式如果不返回任何值，会隐式地返回一个 <a href="https://beatai.org/rust-course/basic/base-type/char-bool#单元类型"><code>()</code></a> 。</p>
 <pre class="playground"><code class="language-rust edition2021">fn main() {
     assert_eq!(ret_unit_type(), ())
 }

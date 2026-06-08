@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -182,9 +182,9 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="深入了解特征"><a class="header" href="#深入了解特征">深入了解特征</a></h1>
-<p>特征之于 Rust 更甚于接口之于其他语言，因此特征在 Rust 中很重要也相对较为复杂，我们决定把特征分为两篇进行介绍，<a href="https://course.rs/basic/trait/trait.html">第一篇</a>在之前已经讲过，现在就是第二篇：关于特征的进阶篇，会讲述一些不常用到但是你该了解的特性。</p>
+<p>特征之于 Rust 更甚于接口之于其他语言，因此特征在 Rust 中很重要也相对较为复杂，我们决定把特征分为两篇进行介绍，<a href="https://beatai.org/rust-course/basic/trait/trait">第一篇</a>在之前已经讲过，现在就是第二篇：关于特征的进阶篇，会讲述一些不常用到但是你该了解的特性。</p>
 <h2 id="关联类型"><a class="header" href="#关联类型">关联类型</a></h2>
-<p>在方法一章中，我们讲到了<a href="https://course.rs/basic/method#关联函数">关联函数</a>，但是实际上关联类型和关联函数并没有任何交集，虽然它们的名字有一半的交集。</p>
+<p>在方法一章中，我们讲到了<a href="https://beatai.org/rust-course/basic/method#关联函数">关联函数</a>，但是实际上关联类型和关联函数并没有任何交集，虽然它们的名字有一半的交集。</p>
 <p>关联类型是在特征定义的语句块中，声明一个自定义类型，这样就可以在特征的方法签名中使用该类型：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -196,7 +196,7 @@
 <span class="boring">}</span></code></pre>
 <p>以上是标准库中的迭代器特征 <code>Iterator</code>，它有一个 <code>Item</code> 关联类型，用于替代遍历的值的类型。</p>
 <p>同时，<code>next</code> 方法也返回了一个 <code>Item</code> 类型，不过使用 <code>Option</code> 枚举进行了包裹，假如迭代器中的值是 <code>i32</code> 类型，那么调用 <code>next</code> 方法就将获取一个 <code>Option&lt;i32&gt;</code> 的值。</p>
-<p>还记得 <code>Self</code> 吧？在之前的章节<a href="https://course.rs/basic/trait/trait-object#self-与-self">提到过</a>， <strong><code>Self</code> 用来指代当前调用者的具体类型，那么 <code>Self::Item</code> 就用来指代该类型实现中定义的 <code>Item</code> 类型</strong>：</p>
+<p>还记得 <code>Self</code> 吧？在之前的章节<a href="https://beatai.org/rust-course/basic/trait/trait-object#self-与-self">提到过</a>， <strong><code>Self</code> 用来指代当前调用者的具体类型，那么 <code>Self::Item</code> 就用来指代该类型实现中定义的 <code>Item</code> 类型</strong>：</p>
 <pre class="playground"><code class="language-rust edition2021">impl Iterator for Counter {
     type Item = u32;
 
@@ -374,7 +374,7 @@ Up!
 *waving arms furiously*
 </code></pre>
 <p>因为 <code>fly</code> 方法的参数是 <code>self</code>，当显式调用时，编译器就可以根据调用的类型( <code>self</code> 的类型)决定具体调用哪个方法。</p>
-<p>这个时候问题又来了，如果方法没有 <code>self</code> 参数呢？稍等，估计有读者会问：还有方法没有 <code>self</code> 参数？看到这个疑问，作者的眼泪不禁流了下来，大明湖畔的<a href="https://course.rs/basic/method.html#关联函数">关联函数</a>，你还记得嘛？</p>
+<p>这个时候问题又来了，如果方法没有 <code>self</code> 参数呢？稍等，估计有读者会问：还有方法没有 <code>self</code> 参数？看到这个疑问，作者的眼泪不禁流了下来，大明湖畔的<a href="https://beatai.org/rust-course/basic/method#关联函数">关联函数</a>，你还记得嘛？</p>
 <p>但是成年人的世界，就算再伤心，事还得做，咱们继续：</p>
 <pre class="playground"><code class="language-rust edition2021">trait Animal {
     fn baby_name() -&gt; String;
@@ -481,8 +481,8 @@ impl fmt::Display for Point {
 <span class="boring">}</span></code></pre>
 <p>上面代码为 <code>Point</code> 实现了 <code>Display</code> 特征，那么 <code>to_string</code> 方法也将自动实现：最终获得字符串是通过这里的 <code>fmt</code> 方法获得的。</p>
 <h2 id="在外部类型上实现外部特征newtype"><a class="header" href="#在外部类型上实现外部特征newtype">在外部类型上实现外部特征(newtype)</a></h2>
-<p>在<a href="https://course.rs/basic/trait/trait#特征定义与实现的位置孤儿规则">特征</a>章节中，有提到孤儿规则，简单来说，就是特征或者类型必需至少有一个是本地的，才能在此类型上定义特征。</p>
-<p>这里提供一个办法来绕过孤儿规则，那就是使用<strong>newtype 模式</strong>，简而言之：就是为一个<a href="https://course.rs/basic/compound-type/struct#元组结构体tuple-struct">元组结构体</a>创建新类型。该元组结构体封装有一个字段，该字段就是希望实现特征的具体类型。</p>
+<p>在<a href="https://beatai.org/rust-course/basic/trait/trait#特征定义与实现的位置孤儿规则">特征</a>章节中，有提到孤儿规则，简单来说，就是特征或者类型必需至少有一个是本地的，才能在此类型上定义特征。</p>
+<p>这里提供一个办法来绕过孤儿规则，那就是使用<strong>newtype 模式</strong>，简而言之：就是为一个<a href="https://beatai.org/rust-course/basic/compound-type/struct#元组结构体tuple-struct">元组结构体</a>创建新类型。该元组结构体封装有一个字段，该字段就是希望实现特征的具体类型。</p>
 <p>该封装类型是本地的，因此我们可以为此类型实现外部的特征。</p>
 <p><code>newtype</code> 不仅仅能实现以上的功能，而且它在运行时没有任何性能损耗，因为在编译期，该类型会被自动忽略。</p>
 <p>下面来看一个例子，我们有一个动态数组类型： <code>Vec&lt;T&gt;</code>，它定义在标准库中，还有一个特征 <code>Display</code>，它也定义在标准库中，如果没有 <code>newtype</code>，我们是无法为 <code>Vec&lt;T&gt;</code> 实现 <code>Display</code> 的：</p>
@@ -515,7 +515,7 @@ fn main() {
 <p>其中，<code>struct Wrapper(Vec&lt;String&gt;)</code> 就是一个元组结构体，它定义了一个新类型 <code>Wrapper</code>，代码很简单，相信大家也很容易看懂。</p>
 <p>既然 <code>new type</code> 有这么多好处，它有没有不好的地方呢？答案是肯定的。注意到我们怎么访问里面的数组吗？<code>self.0.join(", ")</code>，是的，很啰嗦，因为需要先从 <code>Wrapper</code> 中取出数组: <code>self.0</code>，然后才能执行 <code>join</code> 方法。</p>
 <p>类似的，任何数组上的方法，你都无法直接调用，需要先用 <code>self.0</code> 取出数组，然后再进行调用。</p>
-<p>当然，解决办法还是有的，要不怎么说 Rust 是极其强大灵活的编程语言！Rust 提供了一个特征叫 <a href="https://course.rs/advance/smart-pointer/deref.html"><code>Deref</code></a>，实现该特征后，可以自动做一层类似类型转换的操作，可以将 <code>Wrapper</code> 变成 <code>Vec&lt;String&gt;</code> 来使用。这样就会像直接使用数组那样去使用 <code>Wrapper</code>，而无需为每一个操作都添加上 <code>self.0</code>。</p>
+<p>当然，解决办法还是有的，要不怎么说 Rust 是极其强大灵活的编程语言！Rust 提供了一个特征叫 <a href="https://beatai.org/rust-course/advance/smart-pointer/deref"><code>Deref</code></a>，实现该特征后，可以自动做一层类似类型转换的操作，可以将 <code>Wrapper</code> 变成 <code>Vec&lt;String&gt;</code> 来使用。这样就会像直接使用数组那样去使用 <code>Wrapper</code>，而无需为每一个操作都添加上 <code>self.0</code>。</p>
 <p>同时，如果不想 <code>Wrapper</code> 暴露底层数组的所有方法，我们还可以为 <code>Wrapper</code> 去重载这些方法，实现隐藏的目的。</p>
 <h2 id="课后练习"><a class="header" href="#课后练习">课后练习</a></h2>
 <blockquote>

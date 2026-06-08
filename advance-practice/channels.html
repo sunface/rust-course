@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -238,7 +238,7 @@ async fn main() {
 <li><a href="https://docs.rs/tokio/1/tokio/sync/watch/index.html"><code>watch</code></a>，单生产者，多消费者，只保存一条最新的消息，因此接收者只能看到最近的一条消息，例如，这种模式适用于配置文件变化的监听</li>
 </ul>
 <p>细心的同学可能会发现，这里还少了一种类型：多生产者、多消费者，且每一条消息只能被其中一个消费者接收，如果有这种需求，可以使用 <a href="https://docs.rs/async-channel/latest/async_channel/"><code>async-channel</code></a> 包。</p>
-<p>以上这些消息通道都有一个共同点：适用于 <code>async</code> 编程，对于其它场景，你可以使用在<a href="https://course.rs/advance/concurrency-with-threads/message-passing.html">多线程章节</a>中提到过的 <code>std::sync::mpsc</code> 和 <code>crossbeam::channel</code>， 这些通道在等待消息时会阻塞当前的线程，因此不适用于 <code>async</code> 编程。</p>
+<p>以上这些消息通道都有一个共同点：适用于 <code>async</code> 编程，对于其它场景，你可以使用在<a href="https://beatai.org/rust-course/advance/concurrency-with-threads/message-passing">多线程章节</a>中提到过的 <code>std::sync::mpsc</code> 和 <code>crossbeam::channel</code>， 这些通道在等待消息时会阻塞当前的线程，因此不适用于 <code>async</code> 编程。</p>
 <p>在下面的代码中，我们将使用 <code>mpsc</code> 和 <code>oneshot</code>， 本章节完整的代码见<a href="https://github.com/tokio-rs/website/blob/master/tutorial-code/channels/src/main.rs">这里</a>。</p>
 <h2 id="定义消息类型"><a class="header" href="#定义消息类型">定义消息类型</a></h2>
 <p>在大多数场景中使用消息传递时，都是多个发送者向一个任务发送消息，该任务在处理完后，需要将响应内容返回给相应的发送者。例如我们的例子中，任务需要将 <code>GET</code> 和 <code>SET</code> 命令处理的结果返回。首先，我们需要定一个 <code>Command</code> 枚举用于代表命令：</p>

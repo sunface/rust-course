@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -280,7 +280,7 @@ regex = { git = "https://github.com/rust-lang/regex", branch = "next" }
 <p>任何非 <code>tag</code> 和 <code>branch</code> 的类型都可以通过 <code>rev</code> 来引入，例如通过最近一次 <code>commit</code> 的哈希值引入: <code>rev = "4c59b707"</code>，再比如远程仓库提供的的具名引用: <code>rev = "refs/pull/493/head"</code>。</p>
 <p>一旦 <code>git</code> 依赖被拉取下来，该版本就会被记录到 <code>Cargo.lock</code> 中进行锁定。因此 <code>git</code> 仓库中后续新的提交不再会被自动拉取，除非你通过 <code>cargo update</code> 来升级。需要注意的是锁定一旦被删除，那 Cargo 依然会按照 <code>Cargo.toml</code> 中配置的地址和版本去拉取新的版本，如果你配置的版本不正确，那可能会拉取下来一个不兼容的新版本！</p>
 <p><strong>因此不要依赖锁定来完成版本的控制，而应该老老实实的在 <code>Cargo.toml</code> 小心配置你希望使用的版本。</strong></p>
-<p>如果访问的是私有仓库，你可能需要授权来访问该仓库，可以查看<a href="https://course.rs/cargo/git-auth.html">这里</a>了解授权的方式。</p>
+<p>如果访问的是私有仓库，你可能需要授权来访问该仓库，可以查看<a href="https://beatai.org/rust-course/cargo/git-auth">这里</a>了解授权的方式。</p>
 <h4 id="通过路径引入本地依赖包"><a class="header" href="#通过路径引入本地依赖包">通过路径引入本地依赖包</a></h4>
 <p>Cargo 支持通过路径的方式来引入本地的依赖包：一般来说，本地依赖包都是同一个项目内的内部包，例如假设我们有一个 <code>hello_world</code> 项目( package )，现在在其根目录下新建一个包:</p>
 <pre><code class="language-shell">#  在 hello_world/ 目录下
@@ -334,7 +334,7 @@ openssl = "1.0.1"
 </code></pre>
 <p>这里的意思是，当不是 <code>unix</code> 操作系统时，才对 <code>openssl</code> 进行引入。</p>
 <p>如果你想要知道 <code>cfg</code> 能够作用的目标，可以在终端中运行 <code>rustc --print=cfg</code> 进行查询。当然，你可以指定平台查询: <code>rustc --print=cfg --target=x86_64-pc-windows-msvc</code>，该命令将对 <code>64bit</code> 的 Windows 进行查询。</p>
-<p>聪明的同学已经发现，这非常类似于条件依赖引入，那我们是不是可以根据自定义的条件来决定是否引入某个依赖呢？具体答案参见后续的 <a href="https://course.rs/cargo/reference/features.html">feature</a> 章节。这里是一个简单的示例:</p>
+<p>聪明的同学已经发现，这非常类似于条件依赖引入，那我们是不是可以根据自定义的条件来决定是否引入某个依赖呢？具体答案参见后续的 <a href="https://beatai.org/rust-course/cargo/reference/features">feature</a> 章节。这里是一个简单的示例:</p>
 <pre><code class="language-toml">[dependencies]
 foo = { version = "1.0", optional = true }
 bar = { version = "1.0", optional = true }
@@ -392,7 +392,7 @@ version = "1.3.5"
 default-features = false # 不要包含默认的 features，而是通过下面的方式来指定
 features = ["secure-password", "civet"]
 </code></pre>
-<p>更多的信息参见 <a href="https://course.rs/cargo/reference/features.html">Features 章节</a></p>
+<p>更多的信息参见 <a href="https://beatai.org/rust-course/cargo/reference/features">Features 章节</a></p>
 <h2 id="在-cargotoml-中重命名依赖"><a class="header" href="#在-cargotoml-中重命名依赖">在 Cargo.toml 中重命名依赖</a></h2>
 <p>如果你想要实现以下目标：</p>
 <ul>

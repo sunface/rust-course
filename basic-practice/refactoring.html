@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -205,7 +205,7 @@
 </ul>
 <p>这个方案有一个很优雅的名字: 关注点分离(Separation of Concerns)。简而言之，<code>main.rs</code> 负责启动程序，<code>lib.rs</code> 负责逻辑代码的运行。从测试的角度而言，这种分离也非常合理：  <code>lib.rs</code> 中的主体逻辑代码可以得到简单且充分的测试，至于 <code>main.rs</code> ？确实没办法针对其编写额外的测试代码，但是它的代码也很少啊，很容易就能保证它的正确性。</p>
 <blockquote>
-<p>关于如何在 Rust 中编写测试代码，请参见如下章节：https://course.rs/test/intro.html</p>
+<p>关于如何在 Rust 中编写测试代码，请参见如下章节：https://beatai.org/rust-course/test/intro</p>
 </blockquote>
 <h3 id="分离命令行解析"><a class="header" href="#分离命令行解析">分离命令行解析</a></h3>
 <p>根据之前的分析，我们需要将命令行解析的代码分离到一个单独的函数，然后将该函数放置在 <code>main.rs</code> 中：</p>
@@ -381,7 +381,7 @@ impl Config {
 <p>上面代码有几点值得注意:</p>
 <ul>
 <li>当 <code>Result</code> 包含错误时，我们不再调用 <code>panic</code> 让程序崩溃，而是通过 <code>process::exit(1)</code> 来终结进程，其中 <code>1</code> 是一个信号值(事实上非 0 值都可以)，通知调用我们程序的进程，程序是因为错误而退出的。</li>
-<li><code>unwrap_or_else</code> 是定义在 <code>Result&lt;T,E&gt;</code> 上的常用方法，如果 <code>Result</code> 是 <code>Ok</code>，那该方法就类似 <code>unwrap</code>：返回 <code>Ok</code> 内部的值；如果是 <code>Err</code>，就调用<a href="https://course.rs/advance/functional-programing/closure.html">闭包</a>中的自定义代码对错误进行进一步处理</li>
+<li><code>unwrap_or_else</code> 是定义在 <code>Result&lt;T,E&gt;</code> 上的常用方法，如果 <code>Result</code> 是 <code>Ok</code>，那该方法就类似 <code>unwrap</code>：返回 <code>Ok</code> 内部的值；如果是 <code>Err</code>，就调用<a href="https://beatai.org/rust-course/advance/functional-programing/closure">闭包</a>中的自定义代码对错误进行进一步处理</li>
 </ul>
 <p>综上可知，<code>config</code> 变量的值是一个 <code>Config</code> 实例，而 <code>unwrap_or_else</code> 闭包中的 <code>err</code> 参数，它的类型是 <code>'static str</code>，值是 “not enough arguments” 那个字符串字面量。</p>
 <p>运行后，可以看到以下输出：</p>
@@ -438,7 +438,7 @@ fn run(config: Config) -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 <span class="boring">}</span></code></pre>
 <p>值得注意的是这里的 <code>Result&lt;(), Box&lt;dyn Error&gt;&gt;</code> 返回类型，首先我们的程序无需返回任何值，但是为了满足 <code>Result&lt;T,E&gt;</code> 的要求，因此使用了 <code>Ok(())</code> 返回一个单元类型 <code>()</code>。</p>
 <p>最重要的是 <code>Box&lt;dyn Error&gt;</code>， 如果按照顺序学到这里，大家应该知道这是一个<code>Error</code> 的特征对象(为了使用 <code>Error</code>，我们通过 <code>use std::error::Error;</code> 进行了引入)，它表示函数返回一个类型，该类型实现了 <code>Error</code> 特征，这样我们就无需指定具体的错误类型，否则你还需要查看 <code>fs::read_to_string</code> 返回的错误类型，然后复制到我们的 <code>run</code> 函数返回中，这么做一个是麻烦，最主要的是，一旦这么做，意味着我们无法在上层调用时统一处理错误，但是 <code>Box&lt;dyn Error&gt;</code> 不同，其它函数也可以返回这个特征对象，然后调用者就可以使用统一的方式来处理不同函数返回的 <code>Box&lt;dyn Error&gt;</code>。</p>
-<p>明白了 <code>Box&lt;dyn Error&gt;</code> 的重要战略地位，接下来大家分析下，<code>fs::read_to_string</code> 返回的具体错误类型是怎么被转化为 <code>Box&lt;dyn Error&gt;</code> 的？其实原因在之前章节都有讲过，这里就不直接给出答案了，参见 <a href="https://course.rs/basic/result-error/result.html#传播界的大明星-">?-传播界的大明星</a>。</p>
+<p>明白了 <code>Box&lt;dyn Error&gt;</code> 的重要战略地位，接下来大家分析下，<code>fs::read_to_string</code> 返回的具体错误类型是怎么被转化为 <code>Box&lt;dyn Error&gt;</code> 的？其实原因在之前章节都有讲过，这里就不直接给出答案了，参见 <a href="https://beatai.org/rust-course/basic/result-error/result#传播界的大明星-">?-传播界的大明星</a>。</p>
 <p>运行代码看看效果：</p>
 <pre><code class="language-shell">$ cargo run the poem.txt
    Compiling minigrep v0.1.0 (file:///projects/minigrep)
@@ -485,7 +485,7 @@ To an admiring bog!
 <p>好了，截止目前，代码看起来越来越美好了，距离我们的目标也只差一个：将主体逻辑代码分离到一个独立的文件 <code>lib.rs</code> 中。</p>
 <h2 id="分离逻辑代码到库包中"><a class="header" href="#分离逻辑代码到库包中">分离逻辑代码到库包中</a></h2>
 <blockquote>
-<p>对于 Rust 的代码组织( 包和模块 )还不熟悉的同学，强烈建议回头温习下<a href="https://course.rs/basic/crate-module/intro.html">这一章</a>。</p>
+<p>对于 Rust 的代码组织( 包和模块 )还不熟悉的同学，强烈建议回头温习下<a href="https://beatai.org/rust-course/basic/crate-module/intro">这一章</a>。</p>
 </blockquote>
 <p>首先，创建一个 <code>src/lib.rs</code> 文件，然后将所有的非 <code>main</code> 函数都移动到其中。代码大概类似：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]

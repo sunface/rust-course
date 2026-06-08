@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -274,7 +274,7 @@ fn main() {
     // 输出最终的计数结果
     println!("Result: {}", *counter.lock().unwrap());
 }</code></pre>
-<p>由于子线程需要通过<code>move</code>拿走锁的所有权，因此我们需要使用多所有权来保证每个线程都拿到数据的独立所有权，恰好智能指针<a href="https://course.rs/advance/smart-pointer/rc-arc.html"><code>Rc&lt;T&gt;</code></a>可以做到(<strong>上面代码会报错</strong>！具体往下看，别跳过-, -)。</p>
+<p>由于子线程需要通过<code>move</code>拿走锁的所有权，因此我们需要使用多所有权来保证每个线程都拿到数据的独立所有权，恰好智能指针<a href="https://beatai.org/rust-course/advance/smart-pointer/rc-arc"><code>Rc&lt;T&gt;</code></a>可以做到(<strong>上面代码会报错</strong>！具体往下看，别跳过-, -)。</p>
 <p>以上代码实现了在多线程中计数的功能，由于多个线程都需要去修改该计数器，因此我们需要使用锁来保证同一时间只有一个线程可以修改计数器，否则会导致脏数据：想象一下 A 线程和 B 线程同时拿到计数器，获取了当前值<code>1</code>, 并且同时对其进行了修改，最后值变成<code>2</code>，你会不会在风中凌乱？毕竟正确的值是<code>3</code>，因为两个线程各自加 1。</p>
 <p>可能有人会说，有那么巧的事情吗？事实上，对于人类来说，因为干啥啥慢，并没有那么多巧合，所以人总会存在巧合心理。但是对于计算机而言，每秒可以轻松运行上亿次，在这种频次下，一切巧合几乎都将必然发生，因此千万不要有任何侥幸心理。</p>
 <blockquote>
@@ -301,7 +301,7 @@ fn main() {
 </code></pre>
 <p>错误中提到了一个关键点：<code>Rc&lt;T&gt;</code>无法在线程中传输，因为它没有实现<code>Send</code>特征(在下一节将详细介绍)，而该特征可以确保数据在线程中安全的传输。</p>
 <h5 id="多线程安全的-arct"><a class="header" href="#多线程安全的-arct">多线程安全的 <code>Arc&lt;T&gt;</code></a></h5>
-<p>好在，我们有<code>Arc&lt;T&gt;</code>，得益于它的<a href="https://course.rs/advance/smart-pointer/rc-arc.html#多线程无力的rc">内部计数器</a>是多线程安全的，因此可以在多线程环境中使用:</p>
+<p>好在，我们有<code>Arc&lt;T&gt;</code>，得益于它的<a href="https://beatai.org/rust-course/advance/smart-pointer/rc-arc#多线程无力的rc">内部计数器</a>是多线程安全的，因此可以在多线程环境中使用:</p>
 <pre class="playground"><code class="language-rust edition2021">use std::sync::{Arc, Mutex};
 use std::thread;
 
@@ -329,7 +329,7 @@ fn main() {
 <pre><code class="language-console">Result: 10
 </code></pre>
 <h4 id="内部可变性"><a class="header" href="#内部可变性">内部可变性</a></h4>
-<p>在之前章节，我们提到过<a href="https://course.rs/advance/smart-pointer/cell-refcell.html#内部可变性">内部可变性</a>，其中<code>Rc&lt;T&gt;</code>和<code>RefCell&lt;T&gt;</code>的结合，可以实现单线程的内部可变性。</p>
+<p>在之前章节，我们提到过<a href="https://beatai.org/rust-course/advance/smart-pointer/cell-refcell#内部可变性">内部可变性</a>，其中<code>Rc&lt;T&gt;</code>和<code>RefCell&lt;T&gt;</code>的结合，可以实现单线程的内部可变性。</p>
 <p>现在我们又有了新的武器，由于<code>Mutex&lt;T&gt;</code>可以支持修改内部数据，当结合<code>Arc&lt;T&gt;</code>一起使用时，可以实现多线程的内部可变性。</p>
 <p>简单总结下：<code>Rc&lt;T&gt;/RefCell&lt;T&gt;</code>用于单线程内部可变性， <code>Arc&lt;T&gt;/Mutex&lt;T&gt;</code>用于多线程内部可变性。</p>
 <h4 id="需要小心使用的-mutex"><a class="header" href="#需要小心使用的-mutex">需要小心使用的 Mutex</a></h4>
@@ -340,7 +340,7 @@ fn main() {
 </ul>
 <p>这两点看起来不起眼，但要正确的使用，其实是相当不简单的，对于其它语言，忘记释放锁是经常发生的，虽然 Rust 通过智能指针的<code>drop</code>机制帮助我们避免了这一点，但是由于不及时释放锁导致的性能问题也是常见的。</p>
 <p>正因为这种困难性，导致很多用户都热衷于使用消息传递的方式来实现同步，例如 Go 语言直接把<code>channel</code>内置在语言特性中，甚至还有无锁的语言，例如<code>erlang</code>，完全使用<code>Actor</code>模型，依赖消息传递来完成共享和同步。幸好 Rust 的类型系统、所有权机制、智能指针等可以很好的帮助我们减轻使用锁时的负担。</p>
-<p>另一个值得注意的是在使用<code>Mutex&lt;T&gt;</code>时，Rust 无法帮我们避免所有的逻辑错误，例如在之前章节，我们提到过使用<code>Rc&lt;T&gt;</code>可能会导致<a href="https://course.rs/advance/circle-self-ref/circle-reference.html">循环引用的问题</a>。类似的，<code>Mutex&lt;T&gt;</code>也存在使用上的风险，例如创建死锁(deadlock)：当一个操作试图锁住两个资源，然后两个线程各自获取其中一个锁，并试图获取另一个锁时，就会造成死锁。</p>
+<p>另一个值得注意的是在使用<code>Mutex&lt;T&gt;</code>时，Rust 无法帮我们避免所有的逻辑错误，例如在之前章节，我们提到过使用<code>Rc&lt;T&gt;</code>可能会导致<a href="https://beatai.org/rust-course/advance/circle-self-ref/circle-reference">循环引用的问题</a>。类似的，<code>Mutex&lt;T&gt;</code>也存在使用上的风险，例如创建死锁(deadlock)：当一个操作试图锁住两个资源，然后两个线程各自获取其中一个锁，并试图获取另一个锁时，就会造成死锁。</p>
 <h2 id="死锁"><a class="header" href="#死锁">死锁</a></h2>
 <p>在 Rust 中有多种方式可以创建死锁，了解这些方式有助于你提前规避可能的风险，一起来看看。</p>
 <h4 id="单线程死锁"><a class="header" href="#单线程死锁">单线程死锁</a></h4>

@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -232,7 +232,7 @@ assert_eq!(x, a.len());
 <p>1.63里这个限制被放松了，显式泛型类型可以用 Turbofish 来指定了。不过 <code>impl Trait</code> 参数，尽管已经脱糖(desugare)成了泛型，因为还是不透明的所以无法通过 Turbofish 指定。</p>
 <h2 id="完成了-non-lexical-lifetime-的生命周期检查器的迁移"><a class="header" href="#完成了-non-lexical-lifetime-的生命周期检查器的迁移">完成了 Non-lexical-lifetime 的生命周期检查器的迁移</a></h2>
 <p>1.63 的rustc，完全删除了之前的词法借用检查，完全启用了新的 NLL 借用检查器。这不会对编译结果有任何变化，但对编译器的借用错误检查有优化效果。</p>
-<p>如果对NLL不了解，在本书 <a href="https://course.rs/basic/ownership/borrowing.html#NLL">引用与借用</a> 一章里有介绍。</p>
+<p>如果对NLL不了解，在本书 <a href="https://beatai.org/rust-course/basic/ownership/borrowing#NLL">引用与借用</a> 一章里有介绍。</p>
 <p>或者看官方博客的介绍 <a href="https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html#non-lexical-lifetimes">NLL</a></p>
 <p>更详细内容可以看原博客 <a href="https://blog.rust-lang.org/2022/08/05/nll-by-default.html">blog</a></p>
 

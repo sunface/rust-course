@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -196,7 +196,7 @@
 <pre class="playground"><code class="language-rust edition2021">fn main() {
     let a = [1, 2, 3, 4, 5];
 }</code></pre>
-<p>数组语法跟 JavaScript 很像，也跟大多数编程语言很像。由于它的元素类型大小固定，且长度也是固定，因此<strong>数组 <code>array</code> 是存储在栈上</strong>，性能也会非常优秀。与此对应，<strong>动态数组 <code>Vector</code> 是存储在堆上</strong>，因此长度可以动态改变。当你不确定是使用数组还是动态数组时，那就应该使用后者，具体见<a href="https://course.rs/basic/collections/vector.html">动态数组 Vector</a>。</p>
+<p>数组语法跟 JavaScript 很像，也跟大多数编程语言很像。由于它的元素类型大小固定，且长度也是固定，因此<strong>数组 <code>array</code> 是存储在栈上</strong>，性能也会非常优秀。与此对应，<strong>动态数组 <code>Vector</code> 是存储在堆上</strong>，因此长度可以动态改变。当你不确定是使用数组还是动态数组时，那就应该使用后者，具体见<a href="https://beatai.org/rust-course/basic/collections/vector">动态数组 Vector</a>。</p>
 <p>举个例子，在需要知道一年中各个月份名称的程序中，你很可能希望使用的是数组而不是动态数组。因为月份是固定的，它总是只包含 12 个元素：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -278,7 +278,7 @@ println!("{:#?}", array);
   |
   = note: the `Copy` trait is required because this value will be copied for each element of the array
 </code></pre>
-<p>有些还没有看过特征的小伙伴，有可能不太明白这个报错，不过这个目前可以不提，我们就拿之前所学的<a href="https://course.rs/basic/ownership/ownership.html">所有权</a>知识，就可以思考明白，前面几个例子都是 Rust 的基本类型，而<strong>基本类型在 Rust 中赋值是以 Copy 的形式</strong>，这时候你就懂了吧，<code>let array=[3;5]</code>底层就是不断的Copy出来的，但很可惜复杂类型都没有深拷贝，只能一个个创建。</p>
+<p>有些还没有看过特征的小伙伴，有可能不太明白这个报错，不过这个目前可以不提，我们就拿之前所学的<a href="https://beatai.org/rust-course/basic/ownership/ownership">所有权</a>知识，就可以思考明白，前面几个例子都是 Rust 的基本类型，而<strong>基本类型在 Rust 中赋值是以 Copy 的形式</strong>，这时候你就懂了吧，<code>let array=[3;5]</code>底层就是不断的Copy出来的，但很可惜复杂类型都没有深拷贝，只能一个个创建。</p>
 <p>接着就有小伙伴会这样写。</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -295,7 +295,7 @@ println!("{:#?}", array);
 println!("{:#?}", array);
 <span class="boring">}</span></code></pre>
 <h2 id="数组切片"><a class="header" href="#数组切片">数组切片</a></h2>
-<p>在之前的<a href="https://course.rs/basic/compound-type/string-slice.html#切片slice">章节</a>，我们有讲到 <code>切片</code> 这个概念，它允许你引用集合中的部分连续片段，而不是整个集合，对于数组也是，数组切片允许我们引用数组的一部分：</p>
+<p>在之前的<a href="https://beatai.org/rust-course/basic/compound-type/string-slice#切片slice">章节</a>，我们有讲到 <code>切片</code> 这个概念，它允许你引用集合中的部分连续片段，而不是整个集合，对于数组也是，数组切片允许我们引用数组的一部分：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let a: [i32; 5] = [1, 2, 3, 4, 5];

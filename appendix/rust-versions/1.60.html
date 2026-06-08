@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -218,10 +218,10 @@ $(rustc --print sysroot)/lib/rustlib/x86_64-unknown-linux-gnu/bin/llvm-cov show 
 <p>此命令会生成一个 <code>cargo build</code> 的耗时详情报告，除了上面提到的路径外，报告还会被拷贝到 <code>target/cargo-timings/cargo-timing.html</code>。这里是一个<a href="https://blog.rust-lang.org/images/2022-04-07-timing.html">在线示例</a>。该报告在你需要提升构建速度时会非常有用，更多的信息请<a href="https://doc.rust-lang.org/nightly/cargo/reference/timings.html">查看文档</a>。</p>
 <h2 id="cargo-feature-的新语法"><a class="header" href="#cargo-feature-的新语法">Cargo Feature 的新语法</a></h2>
 <blockquote>
-<p>关于 Cargo Features ，强烈推荐大家看看 <a href="https://course.rs/cargo/reference/features/intro.html">Cargo 使用指南</a>，可能是目前最好的中文翻译版本。</p>
+<p>关于 Cargo Features ，强烈推荐大家看看 <a href="https://beatai.org/rust-course/cargo/reference/features/intro">Cargo 使用指南</a>，可能是目前最好的中文翻译版本。</p>
 </blockquote>
 <p>新版本为 Cargo Features 引入了两个新的语法: 命名空间 ( Namespaced )和弱依赖，它们可以让 features 跟可选依赖进行更好的交互。</p>
-<p>Cargo 支持<a href="https://course.rs/cargo/reference/features/intro.html#可选依赖">可选依赖</a>已经很久了，例如以下代码所示:</p>
+<p>Cargo 支持<a href="https://beatai.org/rust-course/cargo/reference/features/intro#可选依赖">可选依赖</a>已经很久了，例如以下代码所示:</p>
 <pre><code class="language-toml">[dependencies]
 jpeg-decoder = { version = "0.1.20", default-features = false, optional = true }
 
@@ -255,7 +255,7 @@ serde = ["dep:serde", "rgb?/serde"]
 <li>只有当 <code>rgb</code> 依赖在其它地方已经被启用后，此处才能启用 <code>rgb</code> 的 <code>serde</code> feature</li>
 </ol>
 <h2 id="增量编译重启开启"><a class="header" href="#增量编译重启开启">增量编译重启开启</a></h2>
-<p>在 <a href="https://course.rs/appendix/rust-versions/1.59.html">1.59 更新说明中</a>，我们有提到因为某些问题，增量编译被默认关闭了，现在官方修复了其中一些，并且确认目前的状态不会再影响用户的使用，因此在 1.60 版本中，增量编译又重新默认开启了。</p>
+<p>在 <a href="https://beatai.org/rust-course/appendix/rust-versions/1.59">1.59 更新说明中</a>，我们有提到因为某些问题，增量编译被默认关闭了，现在官方修复了其中一些，并且确认目前的状态不会再影响用户的使用，因此在 1.60 版本中，增量编译又重新默认开启了。</p>
 <h2 id="instant-单调性保证"><a class="header" href="#instant-单调性保证">Instant 单调性保证</a></h2>
 <blockquote>
 <p>译者注：Instant 可以获取当前的时间，因此保证其单调增长是非常重要的，例如 uuid 的生成往往依赖于时间戳的单调增长，一旦时间回退，就可能出现 uuid 重复的情况。</p>

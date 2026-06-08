@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -195,14 +195,14 @@ running 0 tests
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 <span class="boring">}</span></code></pre>
 <p>从上面结果可以看出，项目中实际上还没有任何测试代码。</p>
-<p>事实上，除了单元测试、集成测试，<code>cargo test</code> 还会编译 <code>examples/</code> 下的示例文件以及<a href="https://course.rs/basic/comment.html#文档测试doc-test">文档中的示例</a>。</p>
-<p>如果希望深入学习如何在 Rust 编写及运行测试，请查阅<a href="https://course.rs/test/intro.html">该章节</a>。</p>
+<p>事实上，除了单元测试、集成测试，<code>cargo test</code> 还会编译 <code>examples/</code> 下的示例文件以及<a href="https://beatai.org/rust-course/basic/comment#文档测试doc-test">文档中的示例</a>。</p>
+<p>如果希望深入学习如何在 Rust 编写及运行测试，请查阅<a href="https://beatai.org/rust-course/test/intro">该章节</a>。</p>
 <h2 id="ci"><a class="header" href="#ci">CI</a></h2>
 <p>持续集成是软件开发中异常重要的一环，大家应该都听说过 Jenkins，它就是一个拥有悠久历史的持续集成工具。简单来说，持续集成会定期拉取同一个项目中所有成员的相关代码，对其进行自动化构建。</p>
 <p>在没有持续集成前，首先开发者需要手动编译代码并运行单元测试、集成测试等基础测试，然后启动项目相关的所有服务，接着测试人员开始介入对整个项目进行回归测试、黑盒测试等系统化的测试，当测试通过后，最后再手动发布到指定的环境中运行，这个过程是非常冗长，且所有成员都需要同时参与的。</p>
 <p>在有了持续集成后，只要编写好相应的编译、测试、发布配置文件，那持续集成平台会自动帮助我们完成整个相关的流程，期间无需任何人介入，高效且可靠。</p>
 <h4 id="github-actions"><a class="header" href="#github-actions">GitHub Actions</a></h4>
-<p>关于如何使用 <code>GitHub Actions</code> 进行持续集成，在<a href="https://course.rs/test/ci.html">之前的章节</a>已经有过详细的介绍，这里就不再赘述。</p>
+<p>关于如何使用 <code>GitHub Actions</code> 进行持续集成，在<a href="https://beatai.org/rust-course/test/ci">之前的章节</a>已经有过详细的介绍，这里就不再赘述。</p>
 <h4 id="travis-ci"><a class="header" href="#travis-ci">Travis CI</a></h4>
 <p>以下是 <code>Travis CI</code> 需要的一个简单的示例配置文件:</p>
 <pre><code class="language-yml">language: rust
@@ -214,7 +214,7 @@ matrix:
   allow_failures:
     - rust: nightly
 </code></pre>
-<p>以上配置将测试所有的 <a href="https://course.rs/appendix/rust-version.html">Rust 发布版本</a>，但是 <code>nightly</code> 版本的构建失败不会导致全局测试的失败，可以查看 <a href="https://docs.travis-ci.com/user/languages/rust/">Travis CI Rust 文档</a> 获取更详细的说明。</p>
+<p>以上配置将测试所有的 <a href="https://beatai.org/rust-course/appendix/rust-version">Rust 发布版本</a>，但是 <code>nightly</code> 版本的构建失败不会导致全局测试的失败，可以查看 <a href="https://docs.travis-ci.com/user/languages/rust/">Travis CI Rust 文档</a> 获取更详细的说明。</p>
 <h4 id="gitlab-ci"><a class="header" href="#gitlab-ci">Gitlab CI</a></h4>
 <p>以下是一个示例 <code>.gitlab-ci.yml</code> 文件:</p>
 <pre><code class="language-yml">stages:

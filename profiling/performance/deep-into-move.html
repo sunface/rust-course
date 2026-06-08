@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -183,7 +183,7 @@
                     <main>
                         <h1 id="rust所有权转移时发生了奇怪的深拷贝"><a class="header" href="#rust所有权转移时发生了奇怪的深拷贝">Rust所有权转移时发生了奇怪的深拷贝</a></h1>
 <p>深拷贝可以说是Rust性能优化的禁忌之词，但是在最不该发生深拷贝的地方却发生了, 本文带领大家来深入分析下原因。</p>
-<p>在所有权章节中，我们详细介绍过<a href="https://course.rs/basic/ownership/ownership.html#转移所有权">所有权转移(move)</a>, 里面提到过一个重点：当类型实现<code>Copy</code>特征时，不会转移所有权，而是直接对值进行拷贝：</p>
+<p>在所有权章节中，我们详细介绍过<a href="https://beatai.org/rust-course/basic/ownership/ownership#转移所有权">所有权转移(move)</a>, 里面提到过一个重点：当类型实现<code>Copy</code>特征时，不会转移所有权，而是直接对值进行拷贝：</p>
 <pre class="playground"><code class="language-rust edition2021">fn main() {
     let x = 1;
     let y = x;
@@ -230,7 +230,7 @@ fn main() {
 <p>这里还有几个注意点：</p>
 <ul>
 <li><code>LargeArray</code>没有实现<code>Copy</code>特征，因此在所有权转移时， <strong>本应该</strong>只是复制一下引用，底层的数组并不会被复制</li>
-<li><code>transfer</code>方法的参数<code>self</code>表示接收所有权，而不是借用，返回类型<code>Self</code>也表示返回所有权，而不是返回借用, 具体内容在<a href="https://course.rs/basic/method.html">方法</a>章节有介绍</li>
+<li><code>transfer</code>方法的参数<code>self</code>表示接收所有权，而不是借用，返回类型<code>Self</code>也表示返回所有权，而不是返回借用, 具体内容在<a href="https://beatai.org/rust-course/basic/method">方法</a>章节有介绍</li>
 </ul>
 <p>从上可知，我们并不应该去复制底层的数组，那么底层数组的地址也不应该变化，换而言之三次内存地址输出应该是同一个地址。但是真的如此吗？世事难料：</p>
 <pre><code class="language-console">0x16f9d6870
@@ -296,7 +296,7 @@ example::xxx:
     a: [i128; 10000],
 }
 <span class="boring">}</span></code></pre>
-<p>结构体是一个复合类型，它内部字段的数据存在哪里，就大致决定了它存在哪里。而该结构体里面的<code>a</code>字段是一个数组，而不是动态数组<code>Vec</code>，从<a href="https://course.rs/basic/compound-type/array.html#创建数组">数组</a>章节可知：数组是存储在栈上的数据结构！</p>
+<p>结构体是一个复合类型，它内部字段的数据存在哪里，就大致决定了它存在哪里。而该结构体里面的<code>a</code>字段是一个数组，而不是动态数组<code>Vec</code>，从<a href="https://beatai.org/rust-course/basic/compound-type/array#创建数组">数组</a>章节可知：数组是存储在栈上的数据结构！</p>
 <p>再想想，栈上的数据在<code>move</code>的时候，是要从一个栈复制到另外一个栈的，那是不是内存地址就变了？！因此，就能完美解释，为什么使用<code>println</code>时，数组的地址会变化了，是因为栈上的数组发生了复制。</p>
 <p>但是问题还有，为什么不使用<code>println</code>，数组地址就不变？要解释清楚这个问题，先从编译器优化讲起。</p>
 <h2 id="编译器对move的优化"><a class="header" href="#编译器对move的优化">编译器对move的优化</a></h2>

@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -297,7 +297,7 @@ impl&lt;T&gt; List&lt;T&gt; {
 </span><span class="boring">fn main() {
 </span>pub unsafe fn as_mut&lt;'a&gt;(self) -&gt; Option&lt;&amp;'a mut T&gt;
 <span class="boring">}</span></code></pre>
-<p>大家注意到这个凭空出现的 <code>'a</code> 吗？这里 <code>self</code> 是一个值类型，按照生命周期的规则，<code>'a</code> 无根之木，它就是<a href="https://course.rs/advance/lifetime/advance.html#无界生命周期">无界生命周期</a>。</p>
+<p>大家注意到这个凭空出现的 <code>'a</code> 吗？这里 <code>self</code> 是一个值类型，按照生命周期的规则，<code>'a</code> 无根之木，它就是<a href="https://beatai.org/rust-course/advance/lifetime/advance#无界生命周期">无界生命周期</a>。</p>
 <p>兄弟们，我很紧张，但是该继续的还是得继续，让我们从栈链表中再复制一些代码过来：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {

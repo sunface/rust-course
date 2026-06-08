@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -453,9 +453,9 @@ impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
 <pre><code class="language-console">`if` and `else` have incompatible types
 expected struct `Post`, found struct `Weibo`
 </code></pre>
-<p>报错提示我们 <code>if</code> 和 <code>else</code> 返回了不同的类型。如果想要实现返回不同的类型，需要使用下一章节中的<a href="https://course.rs/basic/trait/trait-object.html">特征对象</a>。</p>
+<p>报错提示我们 <code>if</code> 和 <code>else</code> 返回了不同的类型。如果想要实现返回不同的类型，需要使用下一章节中的<a href="https://beatai.org/rust-course/basic/trait/trait-object">特征对象</a>。</p>
 <h2 id="修复上一节中的-largest-函数"><a class="header" href="#修复上一节中的-largest-函数">修复上一节中的 <code>largest</code> 函数</a></h2>
-<p>还记得上一节中的<a href="https://course.rs/basic/trait/generic.html#泛型详解">例子</a>吧，当时留下一个疑问，该如何解决编译报错：</p>
+<p>还记得上一节中的<a href="https://beatai.org/rust-course/basic/trait/generic#泛型详解">例子</a>吧，当时留下一个疑问，该如何解决编译报错：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>error[E0369]: binary operation `&gt;` cannot be applied to type `T` // 无法在 `T` 类型上应用`&gt;`运算符
@@ -498,7 +498,7 @@ error[E0507]: cannot move out of borrowed content
   |         |hint: to prevent move, use `ref item` or `ref mut item`
   |         cannot move out of borrowed content
 <span class="boring">}</span></code></pre>
-<p>错误的核心是 <code>cannot move out of type [T], a non-copy slice</code>，原因是 <code>T</code> 没有<a href="https://course.rs/basic/ownership/ownership.html#拷贝浅拷贝">实现 <code>Copy</code> 特性</a>，因此我们只能把所有权进行转移，毕竟只有 <code>i32</code> 等基础类型才实现了 <code>Copy</code> 特性，可以存储在栈上，而 <code>T</code> 可以指代任何类型（严格来说是实现了 <code>PartialOrd</code> 特征的所有类型）。</p>
+<p>错误的核心是 <code>cannot move out of type [T], a non-copy slice</code>，原因是 <code>T</code> 没有<a href="https://beatai.org/rust-course/basic/ownership/ownership#拷贝浅拷贝">实现 <code>Copy</code> 特性</a>，因此我们只能把所有权进行转移，毕竟只有 <code>i32</code> 等基础类型才实现了 <code>Copy</code> 特性，可以存储在栈上，而 <code>T</code> 可以指代任何类型（严格来说是实现了 <code>PartialOrd</code> 特征的所有类型）。</p>
 <p>因此，为了让 <code>T</code> 拥有 <code>Copy</code> 特性，我们可以增加特征约束：</p>
 <pre class="playground"><code class="language-rust edition2021">fn largest&lt;T: PartialOrd + Copy&gt;(list: &amp;[T]) -&gt; T {
     let mut largest = list[0];
@@ -523,14 +523,14 @@ fn main() {
     let result = largest(&amp;char_list);
     println!("The largest char is {}", result);
 }</code></pre>
-<p>如果并不希望限制 <code>largest</code> 函数只能用于实现了 <code>Copy</code> 特征的类型，我们可以在 <code>T</code> 的特征约束中指定 <a href="https://course.rs/basic/ownership/ownership.html#克隆深拷贝"><code>Clone</code> 特征</a> 而不是 <code>Copy</code> 特征。并克隆 <code>list</code> 中的每一个值使得 <code>largest</code> 函数拥有其所有权。使用 <code>clone</code> 函数意味着对于类似 <code>String</code> 这样拥有堆上数据的类型，会潜在地分配更多堆上空间，而堆分配在涉及大量数据时可能会相当缓慢。</p>
+<p>如果并不希望限制 <code>largest</code> 函数只能用于实现了 <code>Copy</code> 特征的类型，我们可以在 <code>T</code> 的特征约束中指定 <a href="https://beatai.org/rust-course/basic/ownership/ownership#克隆深拷贝"><code>Clone</code> 特征</a> 而不是 <code>Copy</code> 特征。并克隆 <code>list</code> 中的每一个值使得 <code>largest</code> 函数拥有其所有权。使用 <code>clone</code> 函数意味着对于类似 <code>String</code> 这样拥有堆上数据的类型，会潜在地分配更多堆上空间，而堆分配在涉及大量数据时可能会相当缓慢。</p>
 <p>另一种 <code>largest</code> 的实现方式是返回在 <code>list</code> 中 <code>T</code> 值的引用。如果我们将函数返回值从 <code>T</code> 改为 <code>&amp;T</code> 并改变函数体使其能够返回一个引用，我们将不需要任何 <code>Clone</code> 或 <code>Copy</code> 的特征约束而且也不会有任何的堆分配。尝试自己实现这种替代解决方式吧！</p>
 <h2 id="通过-derive-派生特征"><a class="header" href="#通过-derive-派生特征">通过 <code>derive</code> 派生特征</a></h2>
 <p>在本书中，形如 <code>#[derive(Debug)]</code> 的代码已经出现了很多次，这种是一种特征派生语法，被 <code>derive</code> 标记的对象会自动实现对应的默认特征代码，继承相应的功能。</p>
 <p>例如 <code>Debug</code> 特征，它有一套自动实现的默认代码，当你给一个结构体标记后，就可以使用 <code>println!("{:?}", s)</code> 的形式打印该结构体的对象。</p>
 <p>再如 <code>Copy</code> 特征，它也有一套自动实现的默认代码，当标记到一个类型上时，可以让这个类型自动实现 <code>Copy</code> 特征，进而可以调用 <code>copy</code> 方法，进行自我复制。</p>
 <p>总之，<code>derive</code> 派生出来的是 Rust 默认给我们提供的特征，在开发过程中极大的简化了自己手动实现相应特征的需求，当然，如果你有特殊的需求，还可以自己手动重写该实现。</p>
-<p>详细的 <code>derive</code> 列表参见<a href="https://course.rs/appendix/derive.html">附录-派生特征</a>。</p>
+<p>详细的 <code>derive</code> 列表参见<a href="https://beatai.org/rust-course/appendix/derive">附录-派生特征</a>。</p>
 <h2 id="调用方法需要引入特征"><a class="header" href="#调用方法需要引入特征">调用方法需要引入特征</a></h2>
 <p>在一些场景中，使用 <code>as</code> 关键字做类型转换会有比较大的限制，因为你想要在类型转换上拥有完全的控制，例如处理转换错误，那么你将需要 <code>TryInto</code>：</p>
 <pre class="playground"><code class="language-rust edition2021">use std::convert::TryInto;
@@ -547,10 +547,10 @@ fn main() {
   }
 }</code></pre>
 <p>上面代码中引入了 <code>std::convert::TryInto</code> 特征，但是却没有使用它，可能有些同学会为此困惑，主要原因在于<strong>如果你要使用一个特征的方法，那么你需要将该特征引入当前的作用域中</strong>，我们在上面用到了 <code>try_into</code> 方法，因此需要引入对应的特征。</p>
-<p>但是 Rust 又提供了一个非常便利的办法，即把最常用的标准库中的特征通过 <a href="https://course.rs/appendix/prelude.html"><code>std::prelude</code></a> 模块提前引入到当前作用域中，其中包括了 <code>std::convert::TryInto</code>，你可以尝试删除第一行的代码 <code>use ...</code>，看看是否会报错。</p>
+<p>但是 Rust 又提供了一个非常便利的办法，即把最常用的标准库中的特征通过 <a href="https://beatai.org/rust-course/appendix/prelude"><code>std::prelude</code></a> 模块提前引入到当前作用域中，其中包括了 <code>std::convert::TryInto</code>，你可以尝试删除第一行的代码 <code>use ...</code>，看看是否会报错。</p>
 <h2 id="几个综合例子"><a class="header" href="#几个综合例子">几个综合例子</a></h2>
 <h4 id="为自定义类型实现--操作"><a class="header" href="#为自定义类型实现--操作">为自定义类型实现 <code>+</code> 操作</a></h4>
-<p>在 Rust 中除了数值类型的加法，<code>String</code> 也可以做<a href="https://course.rs/basic/compound-type/string-slice.html#操作字符串">加法</a>，因为 Rust 为该类型实现了 <code>std::ops::Add</code> 特征，同理，如果我们为自定义类型实现了该特征，那就可以自己实现 <code>Point1 + Point2</code> 的操作:</p>
+<p>在 Rust 中除了数值类型的加法，<code>String</code> 也可以做<a href="https://beatai.org/rust-course/basic/compound-type/string-slice#操作字符串">加法</a>，因为 Rust 为该类型实现了 <code>std::ops::Add</code> 特征，同理，如果我们为自定义类型实现了该特征，那就可以自己实现 <code>Point1 + Point2</code> 的操作:</p>
 <pre class="playground"><code class="language-rust edition2021">use std::ops::Add;
 
 // 为Point结构体派生Debug特征，用于格式化输出

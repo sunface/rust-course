@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -184,7 +184,7 @@
                         <h1 id="切片和切片引用"><a class="header" href="#切片和切片引用">切片和切片引用</a></h1>
 <p>关于 <code>str</code> / <code>&amp;str</code>，<code>[u8]</code> / <code>&amp;[u8]</code> 区别，你能清晰的说出来嘛？如果答案是 No ，那就跟随我一起来看看切片和切片引用到底有何区别吧。</p>
 <blockquote>
-<p>在继续之前，查看<a href="https://course.rs/basic/compound-type/string-slice.html#切片slice">这里</a>了解何为切片</p>
+<p>在继续之前，查看<a href="https://beatai.org/rust-course/basic/compound-type/string-slice#切片slice">这里</a>了解何为切片</p>
 </blockquote>
 <p>切片允许我们引用集合中部分连续的元素序列，而不是引用整个集合。例如，字符串切片就是一个子字符串，数组切片就是一个子数组。</p>
 <h2 id="无法被直接使用的切片类型"><a class="header" href="#无法被直接使用的切片类型">无法被直接使用的切片类型</a></h2>
@@ -200,7 +200,7 @@
 4 |     let string: str = "banana";
   |         ^^^^^^ doesn't have a size known at compile-time
 </code></pre>
-<p>编译器准确的告诉了我们原因：<code>str</code> 字符串切片它是 <a href="https://course.rs/advance/into-types/sized.html#动态大小类型-dst"><code>DST</code> 动态大小类型</a>，这意味着编译器无法在编译期知道 <code>str</code> 类型的大小，只有到了运行期才能动态获知，这对于强类型、强安全的 Rust 语言来说是不可接受的。</p>
+<p>编译器准确的告诉了我们原因：<code>str</code> 字符串切片它是 <a href="https://beatai.org/rust-course/advance/into-types/sized#动态大小类型-dst"><code>DST</code> 动态大小类型</a>，这意味着编译器无法在编译期知道 <code>str</code> 类型的大小，只有到了运行期才能动态获知，这对于强类型、强安全的 Rust 语言来说是不可接受的。</p>
 <p>也就是说，我们无法直接使用 <code>str</code>，而对于 <code>[u8]</code> 也是类似的，大家可以自己动手试试。</p>
 <p>总之，我们可以总结出一个结论：<strong>在 Rust 中，所有的切片都是动态大小类型，它们都无法直接被使用</strong>。</p>
 <h4 id="为何切片是动态大小类型"><a class="header" href="#为何切片是动态大小类型">为何切片是动态大小类型</a></h4>

@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -489,7 +489,7 @@ pub struct BigY;
 <p>首先，使用 <code>cargo new art</code> 创建一个 Package <code>art</code>：</p>
 <pre><code class="language-console">Created binary (application) `art` package
 </code></pre>
-<p>系统提示我们创建了一个二进制 <code>Package</code>，根据<a href="https://course.rs/basic/crate-module/crate.html">之前章节</a>学过的内容，可以知道该 <code>Package</code> 包含一个同名的二进制包：包名为 <code>art</code>，包根为 <code>src/main.rs</code>，该包可以编译成二进制然后运行。</p>
+<p>系统提示我们创建了一个二进制 <code>Package</code>，根据<a href="https://beatai.org/rust-course/basic/crate-module/crate">之前章节</a>学过的内容，可以知道该 <code>Package</code> 包含一个同名的二进制包：包名为 <code>art</code>，包根为 <code>src/main.rs</code>，该包可以编译成二进制然后运行。</p>
 <p>现在，在 <code>src</code> 目录下创建一个 <code>lib.rs</code> 文件，同样，根据之前学习的知识，创建该文件等于又创建了一个库类型的包，包名也是 <code>art</code>，包根为 <code>src/lib.rs</code>，该包是是库类型的，因此往往作为依赖库被引入。</p>
 <p>将以下内容添加到 <code>src/lib.rs</code> 中：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]

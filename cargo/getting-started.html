@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -182,9 +182,9 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="上手使用"><a class="header" href="#上手使用">上手使用</a></h1>
-<p>Cargo 会在安装 Rust 的时候一并进行安装，无需我们手动的操作执行，安装 Rust 参见<a href="https://course.rs/first-try/installation.html">这里</a>。</p>
+<p>Cargo 会在安装 Rust 的时候一并进行安装，无需我们手动的操作执行，安装 Rust 参见<a href="https://beatai.org/rust-course/first-try/installation">这里</a>。</p>
 <p>在开始之前，先来明确一个名词: <code>Package</code>，由于 <code>Crate</code> 被翻译成包，因此 <code>Package</code> 再被翻译成包就很不合适，经过斟酌，我们决定翻译成项目，你也可以理解为工程、软件包，总之，在本书中<code>Package</code> 意味着项目，而项目也意味着 <code>Package</code> 。</p>
-<p>安装完成后，接下来使用 <code>Cargo</code> 来创建一个新的<a href="https://course.rs/basic/crate-module/crate.html">二进制项目</a>，二进制意味着该项目可以作为一个服务运行或被编译成可执行文件运行。</p>
+<p>安装完成后，接下来使用 <code>Cargo</code> 来创建一个新的<a href="https://beatai.org/rust-course/basic/crate-module/crate">二进制项目</a>，二进制意味着该项目可以作为一个服务运行或被编译成可执行文件运行。</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>$ cargo new hello_world
@@ -213,7 +213,7 @@ edition = "2021"
 <pre class="playground"><code class="language-rust edition2021">fn main() {
     println!("Hello, world!");
 }</code></pre>
-<p>可以看出 <code>Cargo</code> 还为我们自动生成了一个 <code>hello world</code> 程序，或者说<a href="https://course.rs/basic/crate-module/crate.html">二进制包</a>，对程序进行编译构建：</p>
+<p>可以看出 <code>Cargo</code> 还为我们自动生成了一个 <code>hello world</code> 程序，或者说<a href="https://beatai.org/rust-course/basic/crate-module/crate">二进制包</a>，对程序进行编译构建：</p>
 <pre><code class="language-shell">$ cargo build
    Compiling hello_world v0.1.0 (file:///path/to/package/hello_world)
 </code></pre>

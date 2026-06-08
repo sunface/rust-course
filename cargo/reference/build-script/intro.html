@@ -36,7 +36,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-2f1f2f2c.js"></script>
@@ -202,9 +202,9 @@
 <li>根据某个说明描述文件生成一个 Rust 模块</li>
 <li>执行一些平台相关的配置</li>
 </ul>
-<p>下面的部分我们一起来看看构建脚本具体是如何工作的，然后在<a href="https://course.rs/cargo/reference/build-script/examples.html">下个章节</a>中还提供了一些关于如何编写构建脚本的示例。</p>
+<p>下面的部分我们一起来看看构建脚本具体是如何工作的，然后在<a href="https://beatai.org/rust-course/cargo/reference/build-script/examples">下个章节</a>中还提供了一些关于如何编写构建脚本的示例。</p>
 <blockquote>
-<p>Note: <a href="https://course.rs/cargo/reference/manifest.html#build"><code>package.build</code></a> 可以用于改变构建脚本的名称，或者直接禁用该功能</p>
+<p>Note: <a href="https://beatai.org/rust-course/cargo/reference/manifest#build"><code>package.build</code></a> 可以用于改变构建脚本的名称，或者直接禁用该功能</p>
 </blockquote>
 <h2 id="构建脚本的生命周期"><a class="header" href="#构建脚本的生命周期">构建脚本的生命周期</a></h2>
 <p>在项目被构建之前，Cargo 会将构建脚本编译成一个可执行文件，然后运行该文件并执行相应的任务。</p>
@@ -262,7 +262,7 @@ links = "foo"
 <p>假设 A 项目的构建脚本生成任意数量的 kv 形式的元数据，那这些元数据将传递给 A 用作依赖包的项目的构建脚本。例如，如果包 <code>bar</code> 依赖于 <code>foo</code>，当 <code>foo</code> 生成 <code>key=value</code> 形式的构建脚本元数据时，那么 <code>bar</code> 的构建脚本就可以通过环境变量的形式使用该元数据：<code>DEP_FOO_KEY=value</code>。</p>
 <p>需要注意的是，该元数据只能传给直接相关者，对于间接的，例如依赖的依赖，就无能为力了。</p>
 <h2 id="覆盖构建脚本"><a class="header" href="#覆盖构建脚本">覆盖构建脚本</a></h2>
-<p>当 <code>Cargo.toml</code> 设置了 <code>links</code> 时， Cargo 就允许我们使用自定义库对现有的构建脚本进行覆盖。在 <a href="https://course.rs/cargo/reference/configuration.html">Cargo 使用的配置文件</a>中添加以下内容：</p>
+<p>当 <code>Cargo.toml</code> 设置了 <code>links</code> 时， Cargo 就允许我们使用自定义库对现有的构建脚本进行覆盖。在 <a href="https://beatai.org/rust-course/cargo/reference/configuration">Cargo 使用的配置文件</a>中添加以下内容：</p>
 <pre><code class="language-toml">[target.x86_64-unknown-linux-gnu.foo]
 rustc-link-lib = ["foo"]
 rustc-link-search = ["/path/to/foo"]

@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -301,7 +301,7 @@ fn increase(&amp;mut self) {
     self.b += 1;
 }
 <span class="boring">}</span></code></pre>
-<p>在这里，我们不再单独声明变量<code>b</code>，而是直接调用<code>self.b+=1</code>进行递增，根据借用生命周期<a href="https://course.rs/advance/lifetime/advance.html#nllnon-lexical-lifetime">NLL</a>的规则，第一个可变借用<code>self.increase_a()</code>的生命周期随着方法调用的结束而结束，那么就不会影响<code>self.b += 1</code>中的借用。</p>
+<p>在这里，我们不再单独声明变量<code>b</code>，而是直接调用<code>self.b+=1</code>进行递增，根据借用生命周期<a href="https://beatai.org/rust-course/advance/lifetime/advance#nllnon-lexical-lifetime">NLL</a>的规则，第一个可变借用<code>self.increase_a()</code>的生命周期随着方法调用的结束而结束，那么就不会影响<code>self.b += 1</code>中的借用。</p>
 <h2 id="闭包中的例子"><a class="header" href="#闭包中的例子">闭包中的例子</a></h2>
 <p>再来看一个使用了闭包的例子:</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]

@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -209,7 +209,7 @@ v.push(1);
 </span><span class="boring">fn main() {
 </span>let v = vec![1, 2, 3];
 <span class="boring">}</span></code></pre>
-<p>同样，此处的 <code>v</code> 也无需标注类型，编译器只需检查它内部的元素即可自动推导出 <code>v</code> 的类型是 <code>Vec&lt;i32&gt;</code> （Rust 中，整数默认类型是 <code>i32</code>，在<a href="https://course.rs/basic/base-type/numbers.html#整数类型">数值类型</a>中有详细介绍）。</p>
+<p>同样，此处的 <code>v</code> 也无需标注类型，编译器只需检查它内部的元素即可自动推导出 <code>v</code> 的类型是 <code>Vec&lt;i32&gt;</code> （Rust 中，整数默认类型是 <code>i32</code>，在<a href="https://beatai.org/rust-course/basic/base-type/numbers#整数类型">数值类型</a>中有详细介绍）。</p>
 <h2 id="更新-vector"><a class="header" href="#更新-vector">更新 Vector</a></h2>
 <p>向数组尾部添加元素，可以使用 <code>push</code> 方法：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
@@ -249,7 +249,7 @@ match v.get(2) {
 <span class="boring">}</span></code></pre>
 <p>和其它语言一样，集合类型的索引下标都是从 <code>0</code> 开始，<code>&amp;v[2]</code> 表示借用 <code>v</code> 中的第三个元素，最终会获得该元素的引用。而 <code>v.get(2)</code> 也是访问第三个元素，但是有所不同的是，它返回了 <code>Option&lt;&amp;T&gt;</code>，因此还需要额外的 <code>match</code> 来匹配解构出具体的值。</p>
 <blockquote>
-<p>细心的同学会注意到这里使用了两种格式化输出的方式，其中第一种我们在之前已经见过，而第二种是后续新版本中引入的写法，也是更推荐的用法，具体介绍请参见<a href="https://course.rs/basic/formatted-output.html">格式化输出章节</a>。</p>
+<p>细心的同学会注意到这里使用了两种格式化输出的方式，其中第一种我们在之前已经见过，而第二种是后续新版本中引入的写法，也是更推荐的用法，具体介绍请参见<a href="https://beatai.org/rust-course/basic/formatted-output">格式化输出章节</a>。</p>
 </blockquote>
 <h3 id="下标索引与-get-的区别"><a class="header" href="#下标索引与-get-的区别">下标索引与 <code>.get</code> 的区别</a></h3>
 <p>这两种方式都能成功的读取到指定的数组元素，既然如此为什么会存在两种方法？何况 <code>.get</code> 还会增加使用复杂度，这就涉及到数组越界的问题了，让我们通过示例说明：</p>
@@ -264,7 +264,7 @@ let does_not_exist = v.get(100);
 <p>既然如此，为何不统一使用 <code>v.get</code> 的形式？因为实在是有些啰嗦，Rust 语言的设计者和使用者在审美这方面还是相当统一的：简洁即正义，何况性能上也会有轻微的损耗。</p>
 <p>既然有两个选择，肯定就有如何选择的问题，答案很简单，当你确保索引不会越界的时候，就用索引访问，否则用 <code>.get</code>。例如，访问第几个数组元素并不取决于我们，而是取决于用户的输入时，用 <code>.get</code> 会非常适合，天知道那些可爱的用户会输入一个什么样的数字进来！</p>
 <h2 id="同时借用多个数组元素"><a class="header" href="#同时借用多个数组元素">同时借用多个数组元素</a></h2>
-<p>既然涉及到借用数组元素，那么很可能会遇到同时借用多个数组元素的情况，还记得在<a href="https://course.rs/basic/ownership/borrowing.html#借用规则总结">所有权和借用</a>章节咱们讲过的借用规则嘛？如果记得，就来看看下面的代码 :)</p>
+<p>既然涉及到借用数组元素，那么很可能会遇到同时借用多个数组元素的情况，还记得在<a href="https://beatai.org/rust-course/basic/ownership/borrowing#借用规则总结">所有权和借用</a>章节咱们讲过的借用规则嘛？如果记得，就来看看下面的代码 :)</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let mut v = vec![1, 2, 3, 4, 5];
@@ -275,7 +275,7 @@ v.push(6);
 
 println!("The first element is: {first}");
 <span class="boring">}</span></code></pre>
-<p>先不运行，来推断下结果，首先 <code>first = &amp;v[0]</code> 进行了不可变借用，<code>v.push</code> 进行了可变借用，如果 <code>first</code> 在 <code>v.push</code> 之后不再使用，那么该段代码可以成功编译（原因见<a href="https://course.rs/basic/ownership/borrowing.html#可变引用与不可变引用不能同时存在">引用的作用域</a>）。</p>
+<p>先不运行，来推断下结果，首先 <code>first = &amp;v[0]</code> 进行了不可变借用，<code>v.push</code> 进行了可变借用，如果 <code>first</code> 在 <code>v.push</code> 之后不再使用，那么该段代码可以成功编译（原因见<a href="https://beatai.org/rust-course/basic/ownership/borrowing#可变引用与不可变引用不能同时存在">引用的作用域</a>）。</p>
 <p>可是上面的代码中，<code>first</code> 这个不可变借用在可变借用 <code>v.push</code> 后被使用了，那么妥妥的，编译器就会报错：</p>
 <pre><code class="language-console">$ cargo run
 Compiling collections v0.1.0 (file:///projects/collections)
@@ -368,7 +368,7 @@ fn main() {
     }
 }</code></pre>
 <p>比枚举实现要稍微复杂一些，我们为 <code>V4</code> 和 <code>V6</code> 都实现了特征 <code>IpAddr</code>，然后将它俩的实例用 <code>Box::new</code> 包裹后，存在了数组 <code>v</code> 中，需要注意的是，这里必须手动地指定类型：<code>Vec&lt;Box&lt;dyn IpAddr&gt;&gt;</code>，表示数组 <code>v</code> 存储的是特征 <code>IpAddr</code> 的对象，这样就实现了在数组中存储不同的类型。</p>
-<p>在实际使用场景中，<strong>特征对象数组要比枚举数组常见很多</strong>，主要原因在于<a href="https://course.rs/basic/trait/trait-object.html">特征对象</a>非常灵活，而编译器对枚举的限制较多，且无法动态增加类型。</p>
+<p>在实际使用场景中，<strong>特征对象数组要比枚举数组常见很多</strong>，主要原因在于<a href="https://beatai.org/rust-course/basic/trait/trait-object">特征对象</a>非常灵活，而编译器对枚举的限制较多，且无法动态增加类型。</p>
 <h2 id="vector-常用方法"><a class="header" href="#vector-常用方法">Vector 常用方法</a></h2>
 <p>初始化 vec 的更多方式：</p>
 <pre class="playground"><code class="language-rust edition2021">fn main() {

@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -198,15 +198,15 @@
 <p><code>crates.io</code> 上的<strong>包名遵循先到先得</strong>的方式：一旦你想要的包名已经被使用，那么你就得换一个不同的包名。</p>
 <p>在发布之前，<strong>确保</strong> <code>Cargo.toml</code> 中以下字段已经被设置:</p>
 <ul>
-<li><a href="https://course.rs/cargo/reference/manifest.html#license和license-file">license 或 license-file</a></li>
-<li><a href="https://course.rs/cargo/reference/manifest.html#description">description</a></li>
-<li><a href="https://course.rs/cargo/reference/manifest.html#homepage">homepage</a></li>
-<li><a href="https://course.rs/cargo/reference/manifest.html#documentation">documentation</a></li>
-<li><a href="https://course.rs/cargo/reference/manifest.html#repository">repository</a></li>
-<li><a href="https://course.rs/cargo/reference/manifest.html#readme">readme</a></li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/manifest#license和license-file">license 或 license-file</a></li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/manifest#description">description</a></li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/manifest#homepage">homepage</a></li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/manifest#documentation">documentation</a></li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/manifest#repository">repository</a></li>
+<li><a href="https://beatai.org/rust-course/cargo/reference/manifest#readme">readme</a></li>
 </ul>
-<p>你还可以设置<a href="https://course.rs/cargo/reference/manifest.html#keywords">关键字</a>和<a href="https://course.rs/cargo/reference/manifest.html#categories">类别</a>等元信息，让包更容易被其他人搜索发现，虽然它们不是必须的。</p>
-<p>如果你发布的是一个依赖库，那么你可能需要遵循相关的<a href="https://course.rs/practice/naming.html">命名规范</a>和 <a href="https://rust-lang.github.io/api-guidelines/">API Guidlines</a>.</p>
+<p>你还可以设置<a href="https://beatai.org/rust-course/cargo/reference/manifest#keywords">关键字</a>和<a href="https://beatai.org/rust-course/cargo/reference/manifest#categories">类别</a>等元信息，让包更容易被其他人搜索发现，虽然它们不是必须的。</p>
+<p>如果你发布的是一个依赖库，那么你可能需要遵循相关的<a href="https://beatai.org/rust-course/practice/naming">命名规范</a>和 <a href="https://rust-lang.github.io/api-guidelines/">API Guidlines</a>.</p>
 <h2 id="打包"><a class="header" href="#打包">打包</a></h2>
 <p>下一步就是将你的项目进行打包，然后上传到 <code>crates.io</code>。为了实现这个目的，我们可以使用 <code>cargo publish</code> 命令，该命令执行了以下步骤：</p>
 <ol>
@@ -222,7 +222,7 @@
 <p>你可以在 <code>target/package</code> 目录下观察生成的 <code>.crate</code> 文件。例如，目前 <code>crates.io</code> 要求该文件的大小不能超过 10MB，你可以通过手动检查该文件的大小来确保不会无意间打包进一些较大的资源文件，比如测试数据、网站文档或生成的代码等。我们还可以使用以下命令来检查其中包含的文件:</p>
 <pre><code class="language-shell">$ cargo package --list
 </code></pre>
-<p>当打包时，Cargo 会自动根据版本控制系统的配置来忽略指定的文件，例如 <code>.gitignore</code>。除此之外，你还可以通过 <a href="https://course.rs/cargo/reference/manifest.html#exclude和include"><code>exclude</code></a> 来排除指定的文件:</p>
+<p>当打包时，Cargo 会自动根据版本控制系统的配置来忽略指定的文件，例如 <code>.gitignore</code>。除此之外，你还可以通过 <a href="https://beatai.org/rust-course/cargo/reference/manifest#exclude和include"><code>exclude</code></a> 来排除指定的文件:</p>
 <pre><code class="language-toml">[package]
 # ...
 exclude = [
@@ -245,7 +245,7 @@ include = [
 <p>就是这么简单，恭喜你，完成了第一个包的发布！</p>
 <h2 id="发布已上传包的新版本"><a class="header" href="#发布已上传包的新版本">发布已上传包的新版本</a></h2>
 <p>绝大多数时候，我们并不是在发布新包，而是发布已经上传过的包的新版本。</p>
-<p>为了实现这一点，只需修改 <code>Cargo.toml</code> 中的 <a href="https://course.rs/cargo/reference/manifest.html#version"><code>version</code></a> 字段 ，但需要注意：<strong>版本号需要遵循 <code>semver</code> 规则</strong>。</p>
+<p>为了实现这一点，只需修改 <code>Cargo.toml</code> 中的 <a href="https://beatai.org/rust-course/cargo/reference/manifest#version"><code>version</code></a> 字段 ，但需要注意：<strong>版本号需要遵循 <code>semver</code> 规则</strong>。</p>
 <p>然后再次使用 <code>cargo publish</code> 就可以上传新的版本了。</p>
 <h2 id="管理-cratesio-上的包"><a class="header" href="#管理-cratesio-上的包">管理 crates.io 上的包</a></h2>
 <p>目前来说，管理包更多地是通过 <code>cargo</code> 命令而不是在线管理，下面是一些你可以使用的命令。</p>

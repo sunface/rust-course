@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -220,7 +220,7 @@ let world = &amp;s[6..11];
 <p>这就是创建切片的语法，使用方括号包括的一个序列：<strong>[开始索引..终止索引]</strong>，其中开始索引是切片中第一个元素的索引位置，而终止索引是最后一个元素后面的索引位置。换句话说，这是一个 <code>右半开区间</code>（或称为左闭右开区间）——指的是在区间的左端点是包含在内的，而右端点是不包含在内的。在切片数据结构内部会保存开始的位置和切片的长度，其中长度是通过 <code>终止索引</code> - <code>开始索引</code> 的方式计算得来的。</p>
 <p>对于 <code>let world = &amp;s[6..11];</code> 来说，<code>world</code> 是一个切片，该切片的指针指向 <code>s</code> 的第 7 个字节(索引从 0 开始, 6 是第 7 个字节)，且该切片的长度是 <code>5</code> 个字节。</p>
 <img alt="" src="https://pic1.zhimg.com/80/v2-69da917741b2c610732d8526a9cc86f5_1440w.jpg" class="center" style="width: 50%;" />
-<p>在使用 Rust 的 <code>..</code> <a href="https://course.rs/basic/base-type/numbers.html#序列range">range 序列</a>语法时，如果你想从索引 0 开始，可以使用如下的方式，这两个是等效的：</p>
+<p>在使用 Rust 的 <code>..</code> <a href="https://beatai.org/rust-course/basic/base-type/numbers#序列range">range 序列</a>语法时，如果你想从索引 0 开始，可以使用如下的方式，这两个是等效的：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let s = String::from("hello");
@@ -334,7 +334,7 @@ assert_eq!(slice, &amp;[2, 3]);
 fn say_hello(s: &amp;str) {
     println!("{}",s);
 }</code></pre>
-<p>实际上这种灵活用法是因为 <code>deref</code> 隐式强制转换，具体我们会在 <a href="https://course.rs/advance/smart-pointer/deref.html"><code>Deref</code> 特征</a>进行详细讲解。</p>
+<p>实际上这种灵活用法是因为 <code>deref</code> 隐式强制转换，具体我们会在 <a href="https://beatai.org/rust-course/advance/smart-pointer/deref"><code>Deref</code> 特征</a>进行详细讲解。</p>
 <h2 id="字符串索引"><a class="header" href="#字符串索引">字符串索引</a></h2>
 <p>在其它语言中，使用索引的方式访问字符串的某个字符或者子串是很正常的行为，但是在 Rust 中就会报错：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
@@ -564,9 +564,9 @@ let s3 = String::from("toe");
 let s = s1 + "-" + &amp;s2 + "-" + &amp;s3;
 <span class="boring">}</span></code></pre>
 <p><code>String + &amp;str</code>返回一个 <code>String</code>，然后再继续跟一个 <code>&amp;str</code> 进行 <code>+</code> 操作，返回一个 <code>String</code> 类型，不断循环，最终生成一个 <code>s</code>，也是 <code>String</code> 类型。</p>
-<p><code>s1</code> 这个变量通过调用 <code>add()</code> 方法后，所有权被转移到 <code>add()</code> 方法里面， <code>add()</code> 方法调用后就被释放了，同时 <code>s1</code> 也被释放了。再使用 <code>s1</code> 就会发生错误。这里涉及到<a href="https://course.rs/basic/ownership/ownership.html#转移所有权">所有权转移（Move）</a>的相关知识。</p>
+<p><code>s1</code> 这个变量通过调用 <code>add()</code> 方法后，所有权被转移到 <code>add()</code> 方法里面， <code>add()</code> 方法调用后就被释放了，同时 <code>s1</code> 也被释放了。再使用 <code>s1</code> 就会发生错误。这里涉及到<a href="https://beatai.org/rust-course/basic/ownership/ownership#转移所有权">所有权转移（Move）</a>的相关知识。</p>
 <p>2、使用 <code>format!</code> 连接字符串</p>
-<p><code>format!</code> 这种方式适用于 <code>String</code> 和 <code>&amp;str</code> 。<code>format!</code> 的用法与 <code>print!</code> 的用法类似，详见<a href="https://course.rs/basic/formatted-output.html#printprintlnformat">格式化输出</a>。</p>
+<p><code>format!</code> 这种方式适用于 <code>String</code> 和 <code>&amp;str</code> 。<code>format!</code> 的用法与 <code>print!</code> 的用法类似，详见<a href="https://beatai.org/rust-course/basic/formatted-output#printprintlnformat">格式化输出</a>。</p>
 <p>示例代码如下：</p>
 <pre class="playground"><code class="language-rust edition2021">fn main() {
     let s1 = "hello";

@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -182,7 +182,7 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="单元测试集成测试"><a class="header" href="#单元测试集成测试">单元测试、集成测试</a></h1>
-<p>在了解了如何在 Rust 中写测试用例后，本章节我们将学习如何实现单元测试、集成测试，其实它们用到的技术还是<a href="https://course.rs/test/write-tests.html">上一章节</a>中的测试技术，只不过对如何组织测试代码提出了新的要求。</p>
+<p>在了解了如何在 Rust 中写测试用例后，本章节我们将学习如何实现单元测试、集成测试，其实它们用到的技术还是<a href="https://beatai.org/rust-course/test/write-tests">上一章节</a>中的测试技术，只不过对如何组织测试代码提出了新的要求。</p>
 <h2 id="单元测试"><a class="header" href="#单元测试">单元测试</a></h2>
 <p>单元测试目标是测试某一个代码单元(一般都是函数)，验证该单元是否能按照预期进行工作，例如测试一个 <code>add</code> 函数，验证当给予两个输入时，最终返回的和是否符合预期。</p>
 <p>在 Rust 中，单元测试的惯例是将测试代码的模块跟待测试的正常代码放入同一个文件中，例如 <code>src/lib.rs</code> 文件中有如下代码:</p>
@@ -211,7 +211,7 @@ mod tests {
 </ul>
 <p>其实集成测试就不需要这个标注，因为它们被放入单独的目录文件中，而单元测试是跟正常的逻辑代码在同一个文件，因此必须对其进行特殊的标注，以便 Rust 可以识别。</p>
 <p>在 <code>#[cfg(test)]</code> 中，<code>cfg</code> 是配置 <code>configuration</code> 的缩写，它告诉 Rust ：当 <code>test</code> 配置项存在时，才运行下面的代码，而 <code>cargo test</code> 在运行时，就会将 <code>test</code> 这个配置项传入进来，因此后面的 <code>tests</code> 模块会被包含进来。</p>
-<p>大家看出来了吗？这是典型的条件编译，<code>Cargo</code> 会根据指定的配置来选择是否编译指定的代码，事实上关于条件编译 Rust 能做的不仅仅是这些，在 <a href="https://course.rs/cargo/intro.html"><code>Cargo</code> 专题</a>中我们会进行更为详细的介绍。</p>
+<p>大家看出来了吗？这是典型的条件编译，<code>Cargo</code> 会根据指定的配置来选择是否编译指定的代码，事实上关于条件编译 Rust 能做的不仅仅是这些，在 <a href="https://beatai.org/rust-course/cargo/intro"><code>Cargo</code> 专题</a>中我们会进行更为详细的介绍。</p>
 <h4 id="测试私有函数"><a class="header" href="#测试私有函数">测试私有函数</a></h4>
 <p>关于私有函数能否被直接测试，编程社区里一直争论不休，甚至于部分语言可能都不支持对私有函数进行测试或者难以测试。无论你的立场如何，反正 Rust 是支持对私有函数进行测试的:</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
@@ -253,7 +253,7 @@ fn it_adds_two() {
 }
 <span class="boring">}</span></code></pre>
 <p>这段测试代码是对之前<strong>私有函数</strong>中的示例进行测试，该示例代码在 <code>src/lib.rs</code> 中。</p>
-<p>首先与单元测试有所不同，我们并没有创建测试模块。其次，<code>tests</code> 目录下的每个文件都是一个单独的包，我们需要将待测试的包引入到当前包的作用域后: <code>use adder</code>，才能进行测试 。大家应该还记得<a href="https://course.rs/advance/crate-module/crate.html">包和模块章节</a>中讲过的内容吧？在创建项目后，<code>src/lib.rs</code> 自动创建一个与项目同名的 <code>lib</code> 类型的包，由于我们的项目名是 <code>adder</code>，因此包名也是 <code>adder</code>。</p>
+<p>首先与单元测试有所不同，我们并没有创建测试模块。其次，<code>tests</code> 目录下的每个文件都是一个单独的包，我们需要将待测试的包引入到当前包的作用域后: <code>use adder</code>，才能进行测试 。大家应该还记得<a href="https://beatai.org/rust-course/basic/crate-module/crate">包和模块章节</a>中讲过的内容吧？在创建项目后，<code>src/lib.rs</code> 自动创建一个与项目同名的 <code>lib</code> 类型的包，由于我们的项目名是 <code>adder</code>，因此包名也是 <code>adder</code>。</p>
 <p>因为 <code>tests</code> 目录本身就说明了它的特殊用途，因此我们无需再使用 <code>#[cfg(test)]</code> 来取悦 Cargo。后者会在运行 <code>cargo test</code> 时，对 <code>tests</code> 目录中的每个文件都进行编译运行。</p>
 <pre><code class="language-shell">$ cargo test
      Running unittests (target/debug/deps/adder-8a400aa2b5212836)
@@ -278,7 +278,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 </code></pre>
 <p>运行 <code>cargo test</code> ，可以看到上述输出。测试内容有三个部分：单元测试，集成测试和文档测试。</p>
 <p>首先是单元测试被运行 <code>Running unittests</code> ，其次就是我们的主角集成测试的运行 <code>Running tests/integration_test.rs</code>，可以看出，集成测试的输出内容与单元测试并没有大的区别。最后运行的是文档测试 <code>Doc-tests adder</code>。</p>
-<p>与单元测试类似，我们可以通过<a href="https://course.rs/test/write-tests.html#指定运行一部分测试">指定名称的方式</a>来运行特定的集成测试用例:</p>
+<p>与单元测试类似，我们可以通过<a href="https://beatai.org/rust-course/test/write-tests#指定运行一部分测试">指定名称的方式</a>来运行特定的集成测试用例:</p>
 <pre><code class="language-shell">$ cargo test --test integration_test
      Running tests/integration_test.rs (target/debug/deps/integration_test-82e7799c1bc62298)
 

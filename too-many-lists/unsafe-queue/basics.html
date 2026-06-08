@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -185,7 +185,7 @@
 <blockquote>
 <p>本章节的代码中有一个隐藏的 bug，因为它藏身于 unsafe 中，因此不会导致报错，我们会在后续章节解决这个问题，所以，请不要在生产环境使用此处的代码</p>
 </blockquote>
-<p>在开始之前，大家需要先了解 unsafe 的<a href="https://course.rs/advance/unsafe/intro.html">相关知识</a>。那么，言归正传，该如何构建一个链表？在之前我们是这么做的：</p>
+<p>在开始之前，大家需要先了解 unsafe 的<a href="https://beatai.org/rust-course/advance/unsafe/intro">相关知识</a>。那么，言归正传，该如何构建一个链表？在之前我们是这么做的：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl&lt;T&gt; List&lt;T&gt; {
@@ -296,7 +296,7 @@ error[E0133]: dereference of raw pointer is unsafe and requires
      they can violate aliasing rules and cause data races: 
      all of these are undefined behavior
 </code></pre>
-<p>哎…太难了，错误一个连一个，好在编译器给出了提示：由于我们在进行不安全的操作，因此需要使用 <code>unsafe</code> 语句块。那么问题来了，是将某几行代码包在 <code>unsafe</code> 中还是将整个函数包在 <code>unsafe</code> 中呢？如果大家不知道哪个是正确答案的话，证明<a href="https://course.rs/advance/unsafe/intro.html#控制-unsafe-的使用边界">之前的章节</a>还是没有仔细学，请回去再看一下，巩固巩固:)</p>
+<p>哎…太难了，错误一个连一个，好在编译器给出了提示：由于我们在进行不安全的操作，因此需要使用 <code>unsafe</code> 语句块。那么问题来了，是将某几行代码包在 <code>unsafe</code> 中还是将整个函数包在 <code>unsafe</code> 中呢？如果大家不知道哪个是正确答案的话，证明<a href="https://beatai.org/rust-course/advance/unsafe/intro#控制-unsafe-的使用边界">之前的章节</a>还是没有仔细学，请回去再看一下，巩固巩固:)</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn push(&amp;mut self, elem: T) {

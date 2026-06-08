@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -201,7 +201,7 @@ list3 -&gt; X ---+
 <p>这里大家可能会看出一些端倪：节点 <code>B</code> 被多个链表所共享，这造成了我们无法通过 <code>Box</code> 的方式来实现，因为如果使用 <code>Box</code>，还存在一个问题，谁来负责清理释放？如果 drop <code>list2</code>，那 <code>B</code> 节点会被清理释放吗？</p>
 <p>函数式语言或者说其它绝大多数语言，并不存在这个问题，因为 GC 垃圾回收解千愁，但是 Rust 并没有。</p>
 <p>好在标准库为我们提供了引用计数的数据结构: <code>Rc / Arc</code>，引用计数可以被认为是一种简单的 GC，对于很多场景来说，引用计数的数据吞吐量要远小于垃圾回收，而且引用计数还存在循环引用的风险！但… 我们有其它选择吗？ :(</p>
-<p>不过使用 Rc 意味着我们的数据将无法被改变，因为它不具备内部可变性，关于 Rc/Arc 的详细介绍请看<a href="https://course.rs/advance/smart-pointer/rc-arc.html">这里</a>。</p>
+<p>不过使用 Rc 意味着我们的数据将无法被改变，因为它不具备内部可变性，关于 Rc/Arc 的详细介绍请看<a href="https://beatai.org/rust-course/advance/smart-pointer/rc-arc">这里</a>。</p>
 <p>下面，简单的将我们的数据结构通过 <code>Rc</code> 来实现：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {

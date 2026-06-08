@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -204,7 +204,7 @@ fn main() {
 <p>有几种常用的方式，此处更推荐第二种方法：</p>
 <ul>
 <li>第一种是查询标准库或者三方库文档，搜索 <code>File</code>，然后找到它的 <code>open</code> 方法</li>
-<li>在 <a href="https://course.rs/first-try/editor.html">Rust IDE</a> 章节，我们推荐了 <code>VSCode</code> IDE 和 <code>rust-analyzer</code> 插件，如果你成功安装的话，那么就可以在 <code>VSCode</code> 中很方便的通过代码跳转的方式查看代码，同时 <code>rust-analyzer</code> 插件还会对代码中的类型进行标注，非常方便好用！</li>
+<li>在 <a href="https://beatai.org/rust-course/first-try/editor">Rust IDE</a> 章节，我们推荐了 <code>VSCode</code> IDE 和 <code>rust-analyzer</code> 插件，如果你成功安装的话，那么就可以在 <code>VSCode</code> 中很方便的通过代码跳转的方式查看代码，同时 <code>rust-analyzer</code> 插件还会对代码中的类型进行标注，非常方便好用！</li>
 <li>你还可以尝试故意标记一个错误的类型，然后让编译器告诉你：</li>
 </ul>
 </blockquote>
@@ -224,7 +224,7 @@ fn main() {
              found type `std::result::Result&lt;std::fs::File, std::io::Error&gt;`
 </code></pre>
 <p>上面代码，故意将 <code>f</code> 类型标记成整形，编译器立刻不乐意了，你是在忽悠我吗？打开文件操作返回一个整形？来，大哥来告诉你返回什么：<code>std::result::Result&lt;std::fs::File, std::io::Error&gt;</code>，我的天呐，怎么这么长的类型！</p>
-<p>别慌，其实很简单，首先 <code>Result</code> 本身是定义在 <code>std::result</code> 中的，但是因为 <code>Result</code> 很常用，所以就被包含在了 <a href="https://course.rs/appendix/prelude.html"><code>prelude</code></a> 中（将常用的东东提前引入到当前作用域内），因此无需手动引入 <code>std::result::Result</code>，那么返回类型可以简化为 <code>Result&lt;std::fs::File,std::io::Error&gt;</code>，你看看是不是很像标准的 <code>Result&lt;T, E&gt;</code> 枚举定义？只不过 <code>T</code> 被替换成了具体的类型 <code>std::fs::File</code>，是一个文件句柄类型，<code>E</code> 被替换成 <code>std::io::Error</code>，是一个 IO 错误类型。</p>
+<p>别慌，其实很简单，首先 <code>Result</code> 本身是定义在 <code>std::result</code> 中的，但是因为 <code>Result</code> 很常用，所以就被包含在了 <a href="https://beatai.org/rust-course/appendix/prelude"><code>prelude</code></a> 中（将常用的东东提前引入到当前作用域内），因此无需手动引入 <code>std::result::Result</code>，那么返回类型可以简化为 <code>Result&lt;std::fs::File,std::io::Error&gt;</code>，你看看是不是很像标准的 <code>Result&lt;T, E&gt;</code> 枚举定义？只不过 <code>T</code> 被替换成了具体的类型 <code>std::fs::File</code>，是一个文件句柄类型，<code>E</code> 被替换成 <code>std::io::Error</code>，是一个 IO 错误类型。</p>
 <p>这个返回值类型说明 <code>File::open</code> 调用如果成功则返回一个可以进行读写的文件句柄，如果失败，则返回一个 IO 错误：文件不存在或者没有访问文件的权限等。总之 <code>File::open</code> 需要一个方式告知调用者是成功还是失败，并同时返回具体的文件句柄（成功）或错误信息（失败），万幸的是，这些信息可以通过 <code>Result</code> 枚举提供：</p>
 <pre class="playground"><code class="language-rust edition2021">use std::fs::File;
 
@@ -264,7 +264,7 @@ fn main() {
 <li>如果是文件不存在错误 <code>ErrorKind::NotFound</code>，就创建文件，这里创建文件<code>File::create</code> 也是返回 <code>Result</code>，因此继续用 <code>match</code> 对其结果进行处理：创建成功，将新的文件句柄赋值给 <code>f</code>，如果失败，则 <code>panic</code></li>
 <li>剩下的错误，一律 <code>panic</code></li>
 </ul>
-<p>虽然很清晰，但是代码还是有些啰嗦，我们会在<a href="https://course.rs/advance/errors.html">简化错误处理</a>一章重点讲述如何写出更优雅的错误。</p>
+<p>虽然很清晰，但是代码还是有些啰嗦，我们会在<a href="https://beatai.org/rust-course/advance/errors">简化错误处理</a>一章重点讲述如何写出更优雅的错误。</p>
 <h2 id="失败就-panic-unwrap-和-expect"><a class="header" href="#失败就-panic-unwrap-和-expect">失败就 panic: unwrap 和 expect</a></h2>
 <p>上一节中，已经看到过这两兄弟的简单介绍，这里再来回顾下。</p>
 <p>在不需要处理错误的场景，例如写原型、示例时，我们不想使用 <code>match</code> 去匹配 <code>Result&lt;T, E&gt; </code> 以获取其中的 <code>T</code> 值，因为 <code>match</code> 的穷尽匹配特性，你总要去处理下 <code>Err</code> 分支。那么有没有办法简化这个过程？有，答案就是 <code>unwrap</code> 和 <code>expect</code>。</p>

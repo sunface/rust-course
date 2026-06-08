@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -183,7 +183,7 @@
                     <main>
                         <h1 id="深入-tokio-背后的异步原理"><a class="header" href="#深入-tokio-背后的异步原理">深入 Tokio 背后的异步原理</a></h1>
 <p>在经过多个章节的深入学习后，Tokio 对我们来说不再是一座隐于云雾中的高山，它其实蛮简单好用的，甚至还有一丝丝的可爱!?</p>
-<p>但从现在开始，如果想要进一步的深入 Tokio ，首先需要深入理解 <code>async</code> 的原理，其实我们在<a href="https://course.rs/async/intro.html">之前的章节</a>已经深入学习过，这里结合 Tokio 再来回顾下。</p>
+<p>但从现在开始，如果想要进一步的深入 Tokio ，首先需要深入理解 <code>async</code> 的原理，其实我们在<a href="https://beatai.org/rust-course/advance/async/intro">之前的章节</a>已经深入学习过，这里结合 Tokio 再来回顾下。</p>
 <h2 id="future"><a class="header" href="#future">Future</a></h2>
 <p>先来回顾一下 <code>async fn</code> 异步函数 :</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
@@ -227,8 +227,8 @@ pub trait Future {
 <span class="boring">}</span></code></pre>
 <p>代码中有几个关键点：</p>
 <ul>
-<li><a href="https://course.rs/basic/trait/advance-trait.html#关联类型">关联类型</a> <code>Output</code> 是 <code>Future</code> 执行完成后返回的值的类型</li>
-<li><code>Pin</code> 类型是在异步函数中进行借用的关键，在<a href="https://course.rs/advance/async/pin-unpin.html">这里</a>有非常详细的介绍</li>
+<li><a href="https://beatai.org/rust-course/basic/trait/advance-trait#关联类型">关联类型</a> <code>Output</code> 是 <code>Future</code> 执行完成后返回的值的类型</li>
+<li><code>Pin</code> 类型是在异步函数中进行借用的关键，在<a href="https://beatai.org/rust-course/advance/async/pin-unpin">这里</a>有非常详细的介绍</li>
 </ul>
 <p>和其它语言不同，Rust 中的 <code>Future</code> 不代表一个发生在后台的计算，而是 <code>Future</code> 就代表了计算本身，因此
 <code>Future</code> 的所有者有责任去推进该计算过程的执行，例如通过 <code>Future::poll</code> 函数。听上去好像还挺复杂？但是大家不必担心，因为这些都在 Tokio 中帮你自动完成了 :)</p>
@@ -483,7 +483,7 @@ impl Future for Delay {
 <p>下面，让我们更新 mini-tokio 服务，让它能接收 wake 通知：当 <code>waker.wake()</code> 被调用后，相关联的任务会被放入执行器的队列中，然后等待执行器的调用执行。</p>
 <p>为了实现这一点，我们将使用消息通道来排队存储这些被唤醒并等待调度的任务。有一点需要注意，从消息通道接收消息的线程(执行器所在的线程)和发送消息的线程（唤醒任务时所在的线程）可能是不同的，因此消息( <code>Waker</code> )必须要实现 <code>Send</code>和 <code>Sync</code>，才能跨线程使用。</p>
 <blockquote>
-<p>关于 <code>Send</code> 和 <code>Sync</code> 的具体讲解见<a href="https://course.rs/advance/concurrency-with-threads/send-sync.html">这里</a></p>
+<p>关于 <code>Send</code> 和 <code>Sync</code> 的具体讲解见<a href="https://beatai.org/rust-course/advance/concurrency-with-threads/send-sync">这里</a></p>
 </blockquote>
 <p>基于以上理由，选择 <code>std::sync::mpsc</code>  重新实现 <code>MiniTokio</code> 结构体：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]

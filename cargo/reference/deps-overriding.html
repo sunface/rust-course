@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -191,7 +191,7 @@
 </ul>
 <p>下面我们来具体看看类似的问题该如何解决。</p>
 <blockquote>
-<p>上一章节中我们讲了如果通过<a href="https://course.rs/cargo/reference/specify-deps/intro.html#多引用方式混合">多种引用方式</a>来引入一个包，其实这也是一种依赖覆盖。</p>
+<p>上一章节中我们讲了如果通过<a href="https://beatai.org/rust-course/cargo/reference/specify-deps#多引用方式混合">多种引用方式</a>来引入一个包，其实这也是一种依赖覆盖。</p>
 </blockquote>
 <h2 id="测试-bugfix-版本"><a class="header" href="#测试-bugfix-版本">测试 bugfix 版本</a></h2>
 <p>假设我们有一个项目正在使用 <a href="https://crates.io/crates/uuid"><code>uuid</code></a> 依赖包，但是却不幸地发现了一个 bug，由于这个 bug 影响了使用，没办法等到官方提交新版本，因此还是自己修复为好。</p>
@@ -220,7 +220,7 @@ with the dependency requirements. If the patch has a different version from
 what is locked in the Cargo.lock file, run `cargo update` to use the new
 version. This may also occur with an optional dependency that is not enabled.
 </code></pre>
-<p>具体原因比较复杂，但是仔细观察，会发现克隆下来的 <code>uuid</code> 的版本是 <code>v1.0.0-alpha.1</code> (在 <code>"../uuid/Cargo.toml"</code> 中可以查看)，然后我们本地引入的 <code>uuid</code> 版本是 <code>0.8.2</code>，根据之前讲过的 <code>crates.io</code> 的<a href="https://course.rs/cargo/reference/specify-deps/intro.html#从-cratesio-引入依赖包">版本规则</a>，这两者是不兼容的，<code>0.8.2</code> 只能升级到 <code>0.8.z</code>，例如 <code>0.8.3</code>。</p>
+<p>具体原因比较复杂，但是仔细观察，会发现克隆下来的 <code>uuid</code> 的版本是 <code>v1.0.0-alpha.1</code> (在 <code>"../uuid/Cargo.toml"</code> 中可以查看)，然后我们本地引入的 <code>uuid</code> 版本是 <code>0.8.2</code>，根据之前讲过的 <code>crates.io</code> 的<a href="https://beatai.org/rust-course/cargo/reference/specify-deps#从-cratesio-引入依赖包">版本规则</a>，这两者是不兼容的，<code>0.8.2</code> 只能升级到 <code>0.8.z</code>，例如 <code>0.8.3</code>。</p>
 <p>既然如此，我们先将 “../uuid/Cargo.toml” 中的 <code>version = "1.0.0-alpha.1"</code> 修改为 <code>version = "0.8.3"</code> ，然后看看结果先:</p>
 <pre><code class="language-shell">$ cargo build
     Updating crates.io index
@@ -298,7 +298,7 @@ uuid = { git = 'https://github.com/uuid-rs/uuid', branch = '2.0.0' }
 <p>以上配置中, <code>my-binary</code> 将继续使用 <code>1.x.y</code> 系列的版本，而 <code>my-library</code> 将使用最新的 <code>2.0.0</code> patch。</p>
 <p>原因是，大版本更新往往会带来破坏性的功能，Rust 为了让我们平稳的升级，采用了滚动的方式：在依赖图中逐步推进更新，而不是一次性全部更新。</p>
 <h2 id="多版本patch"><a class="header" href="#多版本patch">多版本[patch]</a></h2>
-<p>在之前章节，我们介绍过如何使用 <code>package key</code> 来<a href="https://course.rs/cargo/reference/specify-deps/intro.html#在-cargotoml-中重命名依赖">重命名依赖包</a>，现在来看看如何使用它同时引入多个 <code>patch</code>。</p>
+<p>在之前章节，我们介绍过如何使用 <code>package key</code> 来<a href="https://beatai.org/rust-course/cargo/reference/specify-deps#在-cargotoml-中重命名依赖">重命名依赖包</a>，现在来看看如何使用它同时引入多个 <code>patch</code>。</p>
 <p>假设，我们对 <code>serde</code> 有两个新的 <code>patch</code> 需求:</p>
 <ul>
 <li><code>serde</code> 官方解决了一个 <code>bug</code> 但是还没发布到 <code>crates.io</code>，我们想直接从 <code>git</code> 仓库的最新 <code>commit</code> 拉取版本 <code>1.*</code></li>
@@ -313,7 +313,7 @@ serde2 = { git = 'https://github.com/example/serde', package = 'serde', branch =
 <p>这样，在代码中就可以分别通过 <code>serde</code> 和 <code>serde2</code> 引用不同版本的依赖库了。</p>
 <h2 id="通过path来覆盖依赖"><a class="header" href="#通过path来覆盖依赖">通过[path]来覆盖依赖</a></h2>
 <p>有时我们只是临时性地对一个项目进行处理，因此并不想去修改它的 <code>Cargo.toml</code>。此时可以使用 <code>Cargo</code> 提供的路径覆盖方法: <strong>注意，这个方法限制较多，如果可以，还是要使用 [patch]</strong>。</p>
-<p>与 <code>[patch]</code> 修改 <code>Cargo.toml</code> 不同，路径覆盖修改的是 <code>Cargo</code> 自身的<a href="https://course.rs/cargo/guide/cargo-cache.html#cargo-home">配置文件</a> <code>$Home/.cargo/config.toml</code>:</p>
+<p>与 <code>[patch]</code> 修改 <code>Cargo.toml</code> 不同，路径覆盖修改的是 <code>Cargo</code> 自身的<a href="https://beatai.org/rust-course/cargo/guide/cargo-cache#cargo-home">配置文件</a> <code>$Home/.cargo/config.toml</code>:</p>
 <pre><code class="language-toml">paths = ["/path/to/uuid"]
 </code></pre>
 <p><code>paths</code> 数组中的元素是一个包含 <code>Cargo.toml</code> 的目录(依赖包)，在当前例子中，由于我们只有一个 <code>uuid</code>，因此只需要覆盖它即可。目标路径可以是相对的，也是绝对的，需要注意，如果是相对路径，那是相对包含 <code>.cargo</code> 的 <code>$Home</code> 来说的。</p>

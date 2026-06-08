@@ -36,7 +36,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-2f1f2f2c.js"></script>
@@ -183,7 +183,7 @@
                     <main>
                         <h1 id="智能指针引起的重复借用错误"><a class="header" href="#智能指针引起的重复借用错误">智能指针引起的重复借用错误</a></h1>
 <p>本文将彻底解决一个困扰广大 Rust 用户已久的常见错误： 当智能指针和结构体一起使用时导致的借用错误: <code>cannot borrow</code>mut_s<code> as mutable because it is also borrowed as immutable</code>.</p>
-<p>相信看过<a href="https://course.rs/fight-with-compiler/intro.html">&lt;&lt;对抗 Rust 编译检查系列&gt;&gt;</a>的读者都知道结构体中的不同字段可以独立借用吧？</p>
+<p>相信看过<a href="https://beatai.org/rust-course/compiler/fight-with-compiler/intro">&lt;&lt;对抗 Rust 编译检查系列&gt;&gt;</a>的读者都知道结构体中的不同字段可以独立借用吧？</p>
 <h2 id="结构体中的字段借用"><a class="header" href="#结构体中的字段借用">结构体中的字段借用</a></h2>
 <p>不知道也没关系，我们这里再简单回顾一下:</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
@@ -205,7 +205,7 @@ impl Test {
 <p>这段代码看上去像是重复借用了<code>&amp;mut self</code>,违反了 Rust 的借用规则，实际上在聪明的 Rust 编译器面前，这都不是事。它能发现我们其实借用了目标结构体的不同字段，因此完全可以将其借用权分离开来。</p>
 <p>因此，虽然我们不能同时对整个结构体进行多次可变借用，但是我们可以分别对结构体中的不同字段进行可变借用，当然，一个字段至多也只能存在一个可变借用，这个最基本的所有权规则还是不能违反的。变量<code>a</code>引用结构体字段<code>a</code>，变量<code>b</code>引用结构体字段<code>b</code>，从底层来说，这种方式也不会造成两个可变引用指向了同一块内存。</p>
 <h2 id="refcell"><a class="header" href="#refcell">RefCell</a></h2>
-<p>如果你还不知道 RefCell，可以看看<a href="https://course.rs/advance/smart-pointer/cell-refcell.html">这篇文章</a>，当然不看也行，简而言之，RefCell 能够实现：</p>
+<p>如果你还不知道 RefCell，可以看看<a href="https://beatai.org/rust-course/advance/smart-pointer/cell-refcell">这篇文章</a>，当然不看也行，简而言之，RefCell 能够实现：</p>
 <ul>
 <li>将借用规则从编译期推迟到运行期，但是并不会绕过借用规则，当不符合时，程序直接<code>panic</code></li>
 <li>实现内部可变性：简单来说，对一个不可变的值进行可变借用，然后修改内部的值</li>
@@ -262,7 +262,7 @@ fn write(s: RefCell&lt;S&gt;) {
     DerefMut::deref_mut(&amp;mut mut_s).writer.write(str.as_bytes());
 }
 <span class="boring">}</span></code></pre>
-<p>可以看出，对结构体字段的调用，实际上经过一层函数，一层函数！？我相信你应该想起了什么，是的，在<a href="https://course.rs/fight-with-compiler/borrowing/ref-exist-in-out-fn.html">上一篇文章</a>中讲过类似的问题， 大意就是<strong>编译器对于函数往往只会分析签名，并不关心内部到底如何使用结构体</strong>。</p>
+<p>可以看出，对结构体字段的调用，实际上经过一层函数，一层函数！？我相信你应该想起了什么，是的，在<a href="https://beatai.org/rust-course/compiler/fight-with-compiler/borrowing/ref-exist-in-out-fn">上一篇文章</a>中讲过类似的问题， 大意就是<strong>编译器对于函数往往只会分析签名，并不关心内部到底如何使用结构体</strong>。</p>
 <p>而上面的<code>&amp;Deref::deref(&amp;mut_s)</code>和<code>DerefMut::deref_mut(&amp;mut mut_s)</code>函数，签名全部使用的是结构体，并不是结构体中的某一个字段，因此对于编译器来说，该结构体明显是被重复借用了！</p>
 <h2 id="解决方法"><a class="header" href="#解决方法">解决方法</a></h2>
 <p>因此要解决这个问题，我们得把之前的展开形式中的<code>Deref::deref</code>消除掉，这样没有了函数签名，编译器也将不再懒政。</p>

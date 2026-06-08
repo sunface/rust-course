@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -287,7 +287,7 @@ struct AsyncFuture {
 <p>那是不是意味着类型如果实现了 <code>Unpin</code> 特征，就不能被 <code>Pin</code> 了？其实，还是可以 <code>Pin</code> 的，毕竟它只是一个结构体，你可以随意使用，<strong>但是不再有任何效果而已，该值一样可以被移动</strong>！</p>
 <p>例如 <code>Pin&lt;&amp;mut u8&gt;</code> ，显然 <code>u8</code> 实现了 <code>Unpin</code> 特征，它可以在内存中被移动，因此 <code>Pin&lt;&amp;mut u8&gt;</code> 跟 <code>&amp;mut u8</code> 实际上并无区别，一样可以被移动。</p>
 <p>因此，一个类型如果不能被移动，它必须实现 <code>!Unpin</code> 特征。如果大家对 <code>Pin</code> 、 <code>Unpin</code> 还是模模糊糊，建议再重复看一遍之前的内容，理解它们对于我们后面要讲到的内容非常重要！</p>
-<p>如果将 <code>Unpin</code> 与之前章节学过的 <a href="https://course.rs/advance/concurrency-with-threads/send-sync.html"><code>Send/Sync</code></a> 进行下对比，会发现它们都很像：</p>
+<p>如果将 <code>Unpin</code> 与之前章节学过的 <a href="https://beatai.org/rust-course/advance/concurrency-with-threads/send-sync"><code>Send/Sync</code></a> 进行下对比，会发现它们都很像：</p>
 <ul>
 <li>都是标记特征( marker trait )，该特征未定义任何行为，非常适用于标记</li>
 <li>都可以通过<code>!</code>语法去除实现</li>
@@ -454,7 +454,7 @@ impl Test {
 </code></pre>
 <blockquote>
 <p>需要注意的是固定在栈上非常依赖于你写出的 <code>unsafe</code> 代码的正确性。我们知道 <code>&amp;'a mut T</code> 可以固定的生命周期是 <code>'a</code> ，但是我们却不知道当生命周期 <code>'a</code> 结束后，该指针指向的数据是否会被移走。如果你的 <code>unsafe</code> 代码里这么实现了，那么就会违背 <code>Pin</code> 应该具有的作用！</p>
-<p>一个常见的错误就是忘记去<a href="https://course.rs/basic/variable.html#%E5%8F%98%E9%87%8F%E9%81%AE%E8%94%BDshadowing">遮蔽( shadow )</a>初始的变量，因为你可以 <code>drop</code> 掉 <code>Pin</code> ，然后在 <code>&amp;'a mut T</code> 结束后去移动数据:</p>
+<p>一个常见的错误就是忘记去<a href="https://beatai.org/rust-course/basic/variable#%E5%8F%98%E9%87%8F%E9%81%AE%E8%94%BDshadowing">遮蔽( shadow )</a>初始的变量，因为你可以 <code>drop</code> 掉 <code>Pin</code> ，然后在 <code>&amp;'a mut T</code> 结束后去移动数据:</p>
 <pre class="playground"><code class="language-rust edition2021">fn main() {
    let mut test1 = Test::new("test1");
    let mut test1_pin = unsafe { Pin::new_unchecked(&amp;mut test1) };

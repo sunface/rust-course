@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -194,7 +194,7 @@
 <p>如果你希望不同于 <code>derive</code> 属性所提供的行为，请查阅 <a href="https://doc.rust-lang.org/std/index.html">标准库文档</a> 中每个特征的细节以了解如何手动实现它们。</p>
 <p>除了本文列出的特征之外，标准库中定义的其它特征不能通过 <code>derive</code> 在类型上实现。这些特征不存在有意义的默认行为，所以由你负责以合理的方式实现它们。</p>
 <p>一个无法被派生的特征例子是为终端用户处理格式化的 <code>Display</code> 。你应该时常考虑使用合适的方法来为终端用户显示一个类型。终端用户应该看到类型的什么部分？他们会找出相关部分吗？对他们来说最关心的数据格式是什么样的？Rust 编译器没有这样的洞察力，因此无法为你提供合适的默认行为。</p>
-<p>本附录所提供的可派生特征列表其实并不全面：库可以为其内部的特征实现 <code>derive</code> ，因此除了本文列出的标准库 <code>derive</code> 之外，还有很多很多其它库的 <code>derive</code> 。实现 <code>derive</code> 涉及到过程宏的应用，这在<a href="https://course.rs/advance/macro.html">宏章节</a>中有介绍。</p>
+<p>本附录所提供的可派生特征列表其实并不全面：库可以为其内部的特征实现 <code>derive</code> ，因此除了本文列出的标准库 <code>derive</code> 之外，还有很多很多其它库的 <code>derive</code> 。实现 <code>derive</code> 涉及到过程宏的应用，这在<a href="https://beatai.org/rust-course/advance/macro">宏章节</a>中有介绍。</p>
 <h3 id="用于开发者输出的-debug"><a class="header" href="#用于开发者输出的-debug">用于开发者输出的 <code>Debug</code></a></h3>
 <p><code>Debug</code> 特征可以让指定对象输出调试格式的字符串，通过在 <code>{}</code> 占位符中增加 <code>:?</code> 表明，例如<code>println!("show you some debug info: {:?}", MyObject);</code>.</p>
 <p><code>Debug</code> 特征允许以调试为目的来打印一个类型的实例，所以程序员可以在执行过程中看到该实例的具体信息。</p>
@@ -213,19 +213,19 @@
 <p>对于派生了 <code>Ord</code> 特征的类型，任何两个该类型的值都能进行排序。 <code>Ord</code> 特征实现了 <code>cmp</code> 方法，它返回一个 <code>Ordering</code> 而不是 <code>Option&lt;Ordering&gt;</code>，因为总存在一个合法的顺序。一个类型要想使用 <code>Ord</code> 特征，它必须要先实现 <code>PartialOrd</code> 和 <code>Eq</code> 。当在结构体或枚举上派生时， <code>cmp</code> 方法 和 <code>PartialOrd</code> 的 <code>partial_cmp</code> 方法表现是一致的。</p>
 <p>例如，当在 <code>BTreeSet&lt;T&gt;</code>（一种基于有序值存储数据的数据结构）上存值时， <code>Ord</code> 是必须的。</p>
 <h3 id="复制值的-clone-和-copy"><a class="header" href="#复制值的-clone-和-copy">复制值的 <code>Clone</code> 和 <code>Copy</code></a></h3>
-<p><code>Clone</code> 特征用于创建一个值的深拷贝（deep copy），复制过程可能包含代码的执行以及堆上数据的复制。查阅 <a href="https://course.rs/basic/ownership/ownership.html#克隆深拷贝">通过 Clone 进行深拷贝</a>获取有关 <code>Clone</code> 的更多信息。</p>
+<p><code>Clone</code> 特征用于创建一个值的深拷贝（deep copy），复制过程可能包含代码的执行以及堆上数据的复制。查阅 <a href="https://beatai.org/rust-course/basic/ownership/ownership#克隆深拷贝">通过 Clone 进行深拷贝</a>获取有关 <code>Clone</code> 的更多信息。</p>
 <p>派生 <code>Clone</code> 实现了 <code>clone</code> 方法，当为整个的类型实现 <code>Clone</code> 时，在该类型的每一部分上都会调用 <code>clone</code> 方法。这意味着类型中所有字段或值也必须实现了 <code>Clone</code>，这样才能够派生 <code>Clone</code> 。</p>
 <p>例如，当在一个切片（slice）上调用 <code>to_vec</code> 方法时， <code>Clone</code> 是必须的。切片只是一个引用，并不拥有其所包含的实例数据，但是从 <code>to_vec</code> 中返回的 Vector 需要拥有实例数据，因此， <code>to_vec</code> 需要在每个元素上调用 <code>clone</code> 来逐个复制。因此，存储在切片中的类型必须实现 <code>Clone</code>。</p>
-<p><code>Copy</code> 特征允许你通过只拷贝存储在栈上的数据来复制值(浅拷贝),而无需复制存储在堆上的底层数据。查阅 <a href="https://course.rs/basic/ownership/ownership.html#拷贝浅拷贝">通过 Copy 复制栈数据</a> 的部分来获取有关 <code>Copy</code> 的更多信息。</p>
+<p><code>Copy</code> 特征允许你通过只拷贝存储在栈上的数据来复制值(浅拷贝),而无需复制存储在堆上的底层数据。查阅 <a href="https://beatai.org/rust-course/basic/ownership/ownership#拷贝浅拷贝">通过 Copy 复制栈数据</a> 的部分来获取有关 <code>Copy</code> 的更多信息。</p>
 <p>实际上 <code>Copy</code> 特征并不阻止你在实现时使用了深拷贝，只是，我们不应该这么做，毕竟遵循一个语言的惯例是很重要的。当用户看到 <code>Copy</code> 时，潜意识就应该知道这是浅拷贝，复制一个值会非常快。</p>
 <p>当一个类型的内部字段全部实现了 <code>Copy</code> 时，你就可以在该类型上派上 <code>Copy</code> 特征。 一个类型如果要实现 <code>Copy</code> 它必须先实现 <code>Clone</code> ，因为一个类型实现 <code>Clone</code> 后，就等于顺便实现了 <code>Copy</code> 。</p>
-<p>总之， <code>Copy</code> 拥有更好的性能，当浅拷贝足够的时候，就不要使用 <code>Clone</code> ，不然会导致你的代码运行更慢，对于<a href="https://course.rs/profiling/performance/intro.html">性能优化</a>来说，一个很大的方面就是减少热点路径深拷贝的发生。</p>
+<p>总之， <code>Copy</code> 拥有更好的性能，当浅拷贝足够的时候，就不要使用 <code>Clone</code> ，不然会导致你的代码运行更慢，对于<a href="https://beatai.org/rust-course/profiling/performance/intro">性能优化</a>来说，一个很大的方面就是减少热点路径深拷贝的发生。</p>
 <h3 id="固定大小的值映射的-hash"><a class="header" href="#固定大小的值映射的-hash">固定大小的值映射的 <code>Hash</code></a></h3>
 <p><code>Hash</code> 特征允许你使用 <code>hash</code> 函数把一个任意大小的实例映射到一个固定大小的值上。派生 <code>Hash</code> 实现了 <code>hash</code> 方法，对某个类型进行 <code>hash</code> 调用，其实就是对该类型下每个字段单独进行 <code>hash</code> 调用，然后把结果进行汇总，这意味着该类型下的所有的字段也必须实现了 <code>Hash</code>，这样才能够派生 <code>Hash</code>。</p>
 <p>例如，在 <code>HashMap&lt;K, V&gt;</code> 上存储数据，存放 key 的时候， <code>Hash</code> 是必须的。</p>
 <h3 id="默认值的-default"><a class="header" href="#默认值的-default">默认值的 <code>Default</code></a></h3>
 <p><code>Default</code> 特征会帮你创建一个类型的默认值。 派生 <code>Default</code> 意味着自动实现了 <code>default</code> 函数。 <code>default</code> 函数的派生实现调用了类型每部分的 <code>default</code> 函数，这意味着类型中所有的字段也必须实现了 <code>Default</code>，这样才能够派生 <code>Default</code> 。</p>
-<p><code>Default::default</code> 函数通常结合结构体更新语法一起使用，这在第五章的 <a href="https://course.rs/basic/compound-type/struct.html#结构体更新语法">结构体更新语法</a> 部分有讨论。可以自定义一个结构体的一小部分字段而剩余字段则使用 <code>..Default::default()</code> 设置为默认值。</p>
+<p><code>Default::default</code> 函数通常结合结构体更新语法一起使用，这在第五章的 <a href="https://beatai.org/rust-course/basic/compound-type/struct#结构体更新语法">结构体更新语法</a> 部分有讨论。可以自定义一个结构体的一小部分字段而剩余字段则使用 <code>..Default::default()</code> 设置为默认值。</p>
 <p>例如，当你在 <code>Option&lt;T&gt;</code> 实例上使用 <code>unwrap_or_default</code> 方法时， <code>Default</code> 特征是必须的。如果 <code>Option&lt;T&gt;</code> 是 <code>None</code> 的话, <code>unwrap_or_default</code> 方法将返回 <code>T</code> 类型的 <code>Default::default</code> 的结果。</p>
 
                     </main>

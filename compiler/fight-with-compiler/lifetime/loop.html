@@ -36,7 +36,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-2f1f2f2c.js"></script>
@@ -332,7 +332,7 @@ impl A {
 <span class="boring">}</span></code></pre>
 <p>我们来逐步深入分析下：</p>
 <ol>
-<li>首先为<code>two</code>方法增加一下生命周期标识: <code>fn two&lt;'a&gt;(&amp;'a mut self) -&gt; &amp;'a i32 { .. }</code>, 这里根据生命周期的<a href="https://course.rs/basic/lifetime.html#三条消除规则">消除规则</a>添加的</li>
+<li>首先为<code>two</code>方法增加一下生命周期标识: <code>fn two&lt;'a&gt;(&amp;'a mut self) -&gt; &amp;'a i32 { .. }</code>, 这里根据生命周期的<a href="https://beatai.org/rust-course/basic/lifetime#三条消除规则">消除规则</a>添加的</li>
 <li>根据生命周期标识可知：<code>two</code>中返回的<code>k</code>的生命周期必须是<code>'a</code></li>
 <li>根据第 2 条，又可知：<code>let k = self.one();</code>中对<code>self</code>的借用生命周期也是<code>'a</code></li>
 <li>因为<code>k</code>的借用发生在<code>loop</code>循环内，因此它需要小于等于循环的生命周期，但是根据之前的推断，它又要大于等于函数的生命周期<code>'a</code>，而函数的生命周期又大于等于循环生命周期，</li>

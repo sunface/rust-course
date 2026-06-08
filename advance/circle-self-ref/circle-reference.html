@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -258,7 +258,7 @@ b指向的节点 = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
 thread 'main' has overflowed its stack
 fatal runtime error: stack overflow
 </code></pre>
-<p>通过 <code>a.tail</code> 的调用，Rust 试图打印出 <code>a -&gt; b -&gt; a ···</code> 的所有内容，但是在不懈的努力后，<code>main</code> 线程终于不堪重负，发生了<a href="https://course.rs/pitfalls/stack-overflow.html">栈溢出</a>。</p>
+<p>通过 <code>a.tail</code> 的调用，Rust 试图打印出 <code>a -&gt; b -&gt; a ···</code> 的所有内容，但是在不懈的努力后，<code>main</code> 线程终于不堪重负，发生了<a href="https://beatai.org/rust-course/compiler/pitfalls/stack-overflow">栈溢出</a>。</p>
 <p>以上的代码可能并不会造成什么大的问题，但是在一个更加复杂的程序中，类似的问题可能会造成你的程序不断地分配内存、泄漏内存，最终程序会不幸<strong>OOM</strong>，当然这其中的 CPU 损耗也不可小觑。</p>
 <p>总之，创建循环引用并不简单，但是也并不是完全遇不到，当你使用 <code>RefCell&lt;Rc&lt;T&gt;&gt;</code> 或者类似的类型嵌套组合（具备内部可变性和引用计数）时，就要打起万分精神，前面可能是深渊！</p>
 <p>那么问题来了？ 如果我们确实需要实现上面的功能，该怎么办？答案是使用 <code>Weak</code>。</p>

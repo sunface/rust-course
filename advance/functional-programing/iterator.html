@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -246,7 +246,7 @@ for val in v1_iter {
     // 省略其余有默认实现的方法
 }
 <span class="boring">}</span></code></pre>
-<p>呦，该特征竟然和迭代器 <code>iterator</code> 同名，难不成。。。没错，它们就是有一腿。<strong>迭代器之所以成为迭代器，就是因为实现了 <code>Iterator</code> 特征</strong>，要实现该特征，最主要的就是实现其中的 <code>next</code> 方法，该方法控制如何从集合中取值，最终返回值的类型是<a href="https://course.rs/basic/trait/advance-trait#关联类型">关联类型</a> <code>Item</code>。</p>
+<p>呦，该特征竟然和迭代器 <code>iterator</code> 同名，难不成。。。没错，它们就是有一腿。<strong>迭代器之所以成为迭代器，就是因为实现了 <code>Iterator</code> 特征</strong>，要实现该特征，最主要的就是实现其中的 <code>next</code> 方法，该方法控制如何从集合中取值，最终返回值的类型是<a href="https://beatai.org/rust-course/basic/trait/advance-trait#关联类型">关联类型</a> <code>Item</code>。</p>
 <p>因此，之前问题的答案已经很明显：<code>for</code> 循环通过不停调用迭代器上的 <code>next</code> 方法，来获取迭代器中的元素。</p>
 <p>既然 <code>for</code> 可以调用 <code>next</code> 方法，是不是意味着我们也可以？来试试：</p>
 <pre class="playground"><code class="language-rust edition2021">fn main() {
@@ -283,7 +283,7 @@ for val in v1_iter {
     result
 }
 <span class="boring">}</span></code></pre>
-<p><code>IntoIterator::into_iter</code> 是使用<a href="https://course.rs/basic/trait/advance-trait.html#完全限定语法">完全限定</a>的方式去调用 <code>into_iter</code> 方法，这种调用方式跟 <code>values.into_iter()</code> 是等价的。</p>
+<p><code>IntoIterator::into_iter</code> 是使用<a href="https://beatai.org/rust-course/basic/trait/advance-trait#完全限定语法">完全限定</a>的方式去调用 <code>into_iter</code> 方法，这种调用方式跟 <code>values.into_iter()</code> 是等价的。</p>
 <p>同时我们使用了 <code>loop</code> 循环配合 <code>next</code> 方法来遍历迭代器中的元素，当迭代器返回 <code>None</code> 时，跳出循环。</p>
 <h2 id="intoiterator-特征"><a class="header" href="#intoiterator-特征">IntoIterator 特征</a></h2>
 <p>其实有一个细节，由于 <code>Vec</code> 动态数组实现了 <code>IntoIterator</code> 特征，因此可以通过 <code>into_iter</code> 将其转换为迭代器，那如果本身就是一个迭代器，该怎么办？实际上，迭代器自身也实现了 <code>IntoIterator</code>，标准库早就帮我们考虑好了：</p>
@@ -488,7 +488,7 @@ assert_eq!(counter.next(), Some(5));
 assert_eq!(counter.next(), None);
 <span class="boring">}</span></code></pre>
 <h4 id="实现-iterator-特征的其它方法"><a class="header" href="#实现-iterator-特征的其它方法">实现 Iterator 特征的其它方法</a></h4>
-<p>可以看出，实现自己的迭代器非常简单，但是 <code>Iterator</code> 特征中，不仅仅是只有 <code>next</code> 一个方法，那为什么我们只需要实现它呢？因为其它方法都具有<a href="https://course.rs/basic/trait/trait.html#默认实现">默认实现</a>，所以无需像 <code>next</code> 这样手动去实现，而且这些默认实现的方法其实都是基于 <code>next</code> 方法实现的。</p>
+<p>可以看出，实现自己的迭代器非常简单，但是 <code>Iterator</code> 特征中，不仅仅是只有 <code>next</code> 一个方法，那为什么我们只需要实现它呢？因为其它方法都具有<a href="https://beatai.org/rust-course/basic/trait/trait#默认实现">默认实现</a>，所以无需像 <code>next</code> 这样手动去实现，而且这些默认实现的方法其实都是基于 <code>next</code> 方法实现的。</p>
 <p>下面的代码演示了部分方法的使用：</p>
 <pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -600,7 +600,7 @@ And further: What you do use, you couldn’t hand code any better.</p>
 <p>所以请放心大胆的使用迭代器，在获得更高的表达力的同时，也不会导致运行时的损失，何乐而不为呢！</p>
 <h2 id="学习其它方法"><a class="header" href="#学习其它方法">学习其它方法</a></h2>
 <p>迭代器用的好不好，就在于你是否掌握了它的常用方法，且能活学活用，因此多多看看<a href="https://doc.rust-lang.org/std/iter/trait.Iterator.html">标准库</a>是有好处的，只有知道有什么方法，在需要的时候你才能知道该用什么，就和算法学习一样。</p>
-<p>同时，本书在后续章节还提供了对迭代器常用方法的<a href="https://course.rs/std/iterator">深入讲解</a>，方便大家学习和查阅。</p>
+<p>同时，本书在后续章节还提供了对迭代器常用方法的<a href="https://beatai.org/rust-course/std/iterator">深入讲解</a>，方便大家学习和查阅。</p>
 
                     </main>
 

@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -370,7 +370,7 @@ error: could not compile `hello` due to previous error
 <p>这里有两点值得注意:</p>
 <ul>
 <li><code>usize</code> 类型包含 <code>0</code>，但是创建没有任何线程的线程池显然是无意义的，因此做一下 <code>assert!</code> 验证</li>
-<li><code>ThreadPool</code> 拥有不错的<a href="https://course.rs/basic/comment.html#文档注释">文档注释</a>，甚至包含了可能 <code>panic</code> 的情况，通过 <code>cargo doc --open</code> 可以访问文档注释</li>
+<li><code>ThreadPool</code> 拥有不错的<a href="https://beatai.org/rust-course/basic/comment#文档注释">文档注释</a>，甚至包含了可能 <code>panic</code> 的情况，通过 <code>cargo doc --open</code> 可以访问文档注释</li>
 </ul>
 <h3 id="存储线程"><a class="header" href="#存储线程">存储线程</a></h3>
 <p>创建 <code>ThreadPool</code> 后，下一步就是存储具体的线程，既然要存放线程，一个绕不过去的问题就是：用什么类型来存放，例如假如使用 <code>Vec&lt;T&gt;</code>  来存储，那这个 <code>T</code> 应该是什么？</p>

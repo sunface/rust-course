@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -223,7 +223,7 @@ println!("{:?}",resolvers);
 </ul>
 <p>在继续深挖之前，我们先来简单回顾下迭代器。</p>
 <h2 id="回顾下迭代器"><a class="header" href="#回顾下迭代器">回顾下迭代器</a></h2>
-<p>在迭代器章节中，我们曾经提到过，迭代器的<a href="https://course.rs/advance/functional-programing/iterator.html#消费者与适配器">适配器</a>分为两种：消费者适配器和迭代器适配器，前者用来将一个迭代器变为指定的集合类型，往往通过<code>collect</code>实现；后者用于生成一个新的迭代器，例如上例中的<code>map</code>。</p>
+<p>在迭代器章节中，我们曾经提到过，迭代器的<a href="https://beatai.org/rust-course/advance/functional-programing/iterator#消费者与适配器">适配器</a>分为两种：消费者适配器和迭代器适配器，前者用来将一个迭代器变为指定的集合类型，往往通过<code>collect</code>实现；后者用于生成一个新的迭代器，例如上例中的<code>map</code>。</p>
 <p>还提到过非常重要的一点: <strong>迭代器适配器都是懒惰的，只有配合消费者适配器使用时，才会进行求值</strong>.</p>
 <h2 id="懒惰是根因"><a class="header" href="#懒惰是根因">懒惰是根因</a></h2>
 <p>在我们之前的迭代器示例中，只有一个迭代器适配器<code>map</code>:</p>

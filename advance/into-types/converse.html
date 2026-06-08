@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -247,8 +247,8 @@ fn main() {
      println!("Ten is less than one hundred.");
    }
 }</code></pre>
-<p>上面代码中引入了 <code>std::convert::TryInto</code> 特征，但是却没有使用它，可能有些同学会为此困惑，主要原因在于<strong>如果你要使用一个特征的方法，那么你需要引入该特征到当前的作用域中</strong>，我们在上面用到了 <code>try_into</code> 方法，因此需要引入对应的特征。但是 Rust 又提供了一个非常便利的办法，把最常用的标准库中的特征通过<a href="https://course.rs/appendix/prelude.html"><code>std::prelude</code></a>模块提前引入到当前作用域中，其中包括了 <code>std::convert::TryInto</code>，你可以尝试删除第一行的代码 <code>use ...</code>，看看是否会报错。</p>
-<p><code>try_into</code> 会尝试进行一次转换，并返回一个 <code>Result</code>，此时就可以对其进行相应的错误处理。由于我们的例子只是为了快速测试，因此使用了 <code>unwrap</code> 方法，该方法在发现错误时，会直接调用 <code>panic</code> 导致程序的崩溃退出，在实际项目中，请不要这么使用，具体见<a href="https://course.rs/basic/result-error/panic.html#调用-panic">panic</a>部分。</p>
+<p>上面代码中引入了 <code>std::convert::TryInto</code> 特征，但是却没有使用它，可能有些同学会为此困惑，主要原因在于<strong>如果你要使用一个特征的方法，那么你需要引入该特征到当前的作用域中</strong>，我们在上面用到了 <code>try_into</code> 方法，因此需要引入对应的特征。但是 Rust 又提供了一个非常便利的办法，把最常用的标准库中的特征通过<a href="https://beatai.org/rust-course/appendix/prelude"><code>std::prelude</code></a>模块提前引入到当前作用域中，其中包括了 <code>std::convert::TryInto</code>，你可以尝试删除第一行的代码 <code>use ...</code>，看看是否会报错。</p>
+<p><code>try_into</code> 会尝试进行一次转换，并返回一个 <code>Result</code>，此时就可以对其进行相应的错误处理。由于我们的例子只是为了快速测试，因此使用了 <code>unwrap</code> 方法，该方法在发现错误时，会直接调用 <code>panic</code> 导致程序的崩溃退出，在实际项目中，请不要这么使用，具体见<a href="https://beatai.org/rust-course/basic/result-error/panic#调用-panic">panic</a>部分。</p>
 <p>最主要的是 <code>try_into</code> 转换会捕获大类型向小类型转换时导致的溢出错误：</p>
 <pre class="playground"><code class="language-rust edition2021">fn main() {
     let b: i16 = 1500;
@@ -310,7 +310,7 @@ fn main() {
 <h4 id="点操作符"><a class="header" href="#点操作符">点操作符</a></h4>
 <p>方法调用的点操作符看起来简单，实际上非常不简单，它在调用时，会发生很多魔法般的类型转换，例如：自动引用、自动解引用，强制类型转换直到类型能匹配等。</p>
 <p>假设有一个方法 <code>foo</code>，它有一个接收器(接收器就是 <code>self</code>、<code>&amp;self</code>、<code>&amp;mut self</code> 参数)。如果调用 <code>value.foo()</code>，编译器在调用 <code>foo</code> 之前，需要决定到底使用哪个 <code>Self</code> 类型来调用。现在假设 <code>value</code> 拥有类型 <code>T</code>。</p>
-<p>再进一步，我们使用<a href="https://course.rs/basic/trait/advance-trait.html#完全限定语法">完全限定语法</a>来进行准确的函数调用:</p>
+<p>再进一步，我们使用<a href="https://beatai.org/rust-course/basic/trait/advance-trait#完全限定语法">完全限定语法</a>来进行准确的函数调用:</p>
 <ol>
 <li>首先，编译器检查它是否可以直接调用 <code>T::foo(value)</code>，称之为<strong>值方法调用</strong></li>
 <li>如果上一步调用无法完成(例如方法类型错误或者特征没有针对 <code>Self</code> 进行实现，上文提到过特征不能进行强制转换)，那么编译器会尝试增加自动引用，例如会尝试以下调用： <code>&lt;&amp;T&gt;::foo(value)</code> 和 <code>&lt;&amp;mut T&gt;::foo(value)</code>，称之为<strong>引用方法调用</strong></li>
@@ -401,7 +401,7 @@ fn clone_containers&lt;T&gt;(foo: &amp;Container&lt;i32&gt;, bar: &amp;Container
 <li>不要多想，你没有那种幸运</li>
 </ul>
 </li>
-<li>变形为一个未指定生命周期的引用会导致<a href="https://course.rs/advance/lifetime/advance.html">无界生命周期</a></li>
+<li>变形为一个未指定生命周期的引用会导致<a href="https://beatai.org/rust-course/advance/lifetime/advance">无界生命周期</a></li>
 <li>在复合类型之间互相变换时，你需要保证它们的排列布局是一模一样的！一旦不一样，那么字段就会得到不可预期的值，这也是未定义的行为，至于你会不会因此愤怒， <strong>WHO CARES</strong> ，你都用了变形了，老兄！</li>
 </ol>
 <p>对于第 5 条，你该如何知道内存的排列布局是一样的呢？对于 <code>repr(C)</code> 类型和 <code>repr(transparent)</code> 类型来说，它们的布局是有着精确定义的。但是对于你自己的“普通却自信“的 Rust 类型 <code>repr(Rust)</code> 来说，它可不是有着精确定义的。甚至同一个泛型类型的不同实例都可以有不同的内存布局。 <code>Vec&lt;i32&gt;</code> 和 <code>Vec&lt;u32&gt;</code> 它们的字段可能有着相同的顺序，也可能没有。对于数据排列布局来说，<strong>什么能保证，什么不能保证</strong>目前还在 Rust 开发组的<a href="https://rust-lang.github.io/unsafe-code-guidelines/layout.html">工作任务</a>中呢。</p>

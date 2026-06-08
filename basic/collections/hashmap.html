@@ -36,7 +36,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-cf3a6879.js";
+            window.path_to_searchindex_js = "../../searchindex-e986cb48.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-2f1f2f2c.js"></script>
@@ -200,7 +200,7 @@ my_gems.insert("蓝宝石", 2);
 my_gems.insert("河边捡的误以为是宝石的破石头", 18);
 <span class="boring">}</span></code></pre>
 <p>很简单对吧？跟其它语言没有区别，聪明的同学甚至能够猜到该 <code>HashMap</code> 的类型：<code>HashMap&lt;&amp;str,i32&gt;</code>。</p>
-<p>但是还有一点，你可能没有注意，那就是使用 <code>HashMap</code> 需要手动通过 <code>use ...</code> 从标准库中引入到我们当前的作用域中来，仔细回忆下，之前使用另外两个集合类型 <code>String</code> 和 <code>Vec</code> 时，我们是否有手动引用过？答案是 <strong>No</strong>，因为 <code>HashMap</code> 并没有包含在 Rust 的 <a href="https://course.rs/appendix/prelude.html"><code>prelude</code></a> 中（Rust 为了简化用户使用，提前将最常用的类型自动引入到作用域中）。</p>
+<p>但是还有一点，你可能没有注意，那就是使用 <code>HashMap</code> 需要手动通过 <code>use ...</code> 从标准库中引入到我们当前的作用域中来，仔细回忆下，之前使用另外两个集合类型 <code>String</code> 和 <code>Vec</code> 时，我们是否有手动引用过？答案是 <strong>No</strong>，因为 <code>HashMap</code> 并没有包含在 Rust 的 <a href="https://beatai.org/rust-course/appendix/prelude"><code>prelude</code></a> 中（Rust 为了简化用户使用，提前将最常用的类型自动引入到作用域中）。</p>
 <p>所有的集合类型都是动态的，意味着它们没有固定的内存大小，因此它们底层的数据都存储在内存堆上，然后通过一个存储在栈中的引用类型来访问。同时，跟其它集合类型一致，<code>HashMap</code> 也是内聚性的，即所有的 <code>K</code> 必须拥有同样的类型，<code>V</code> 也是如此。</p>
 <blockquote>
 <p>跟 <code>Vec</code> 一样，如果预先知道要存储的 <code>KV</code> 对个数，可以使用 <code>HashMap::with_capacity(capacity)</code> 创建指定大小的 <code>HashMap</code>，避免频繁的内存分配和拷贝，提升性能。</p>
@@ -442,7 +442,7 @@ assert_eq!(hash.get(&amp;42), Some(&amp;"the answer"));
 <blockquote>
 <p>目前，<code>HashMap</code> 使用的哈希函数是 <code>SipHash</code>，它的性能不是很高，但是安全性很高。<code>SipHash</code> 在中等大小的 <code>Key</code> 上，性能相当不错，但是对于小型的 <code>Key</code> （例如整数）或者大型 <code>Key</code> （例如字符串）来说，性能还是不够好。若你需要极致性能，例如实现算法，可以考虑这个库：<a href="https://github.com/tkaitchuck/ahash">ahash</a>。</p>
 </blockquote>
-<p>最后，如果你想要了解 <code>HashMap</code> 更多的用法，请参见本书的标准库解析章节：<a href="https://course.rs/std/hashmap.html">HashMap 常用方法</a></p>
+<p>最后，如果你想要了解 <code>HashMap</code> 更多的用法，请参见本书的标准库解析章节：<a href="https://beatai.org/rust-course/std/hashmap">HashMap 常用方法</a></p>
 <h2 id="课后练习"><a class="header" href="#课后练习">课后练习</a></h2>
 <blockquote>
 <p><a href="https://practice-zh.course.rs/collections/hashmap.html">Rust By Practice</a>，支持代码在线编辑和运行，并提供详细的<a href="https://github.com/sunface/rust-by-practice/blob/master/solutions/collections/Hashmap.md">习题解答</a>。</p>
