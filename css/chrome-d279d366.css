@@ -157,6 +157,11 @@ html:not(.js) .left-buttons button {
     transition: background-color 0.15s, color 0.15s;
 }
 
+.nav-chapters.previous {
+    /* Ensure that the previous arrow does not overlap the resize indicator. */
+    margin-inline-start: var(--sidebar-resize-indicator-width);
+}
+
 .nav-wrapper {
     margin-block-start: 50px;
     display: none;

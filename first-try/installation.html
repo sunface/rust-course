@@ -15,8 +15,8 @@
         <link rel="icon" href="../favicon-de23e50b.svg">
         <link rel="shortcut icon" href="../favicon-8114d1fc.png">
         <link rel="stylesheet" href="../css/variables-8adf115d.css">
-        <link rel="stylesheet" href="../css/general-0392ca55.css">
-        <link rel="stylesheet" href="../css/chrome-fc474251.css">
+        <link rel="stylesheet" href="../css/general-e96d0476.css">
+        <link rel="stylesheet" href="../css/chrome-d279d366.css">
         <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -36,7 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-e986cb48.js";
+            window.path_to_searchindex_js = "../searchindex-bb07b897.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2f1f2f2c.js"></script>
@@ -224,7 +224,7 @@
 <p>先安装 <a href="https://visualstudio.microsoft.com/zh-hans/visual-cpp-build-tools/">Microsoft C++ Build Tools</a>，勾选安装 C++ 环境即可。安装时可自行修改缓存路径与安装路径，避免占用过多 C 盘空间。安装完成后，Rust 所需的 msvc 命令行程序需要手动添加到环境变量中，否则安装 Rust 时 <code>rustup-init</code> 会提示未安装 Microsoft C++ Build Tools，其位于：<code>%Visual Studio 安装位置%\VC\Tools\MSVC\%version%\bin\Hostx64\x64</code>（请自行替换其中的 %Visual Studio 安装位置%、%version% 字段）下。</p>
 <p>如果你不想这么做，可以选择安装 Microsoft C++ Build Tools 新增的“定制”终端 <code>Developer Command Prompt for %Visual Studio version%</code> 或 <code>Developer PowerShell for %Visual Studio version%</code>，在其中运行 <code>rustup-init.exe</code>。</p>
 <p>准备好 C++ 环境后开始安装 Rust：</p>
-<p>在 <a href="https://www.rust-lang.org/learn/get-started">RUSTUP-INIT</a> 下载系统相对应的 Rust 安装程序，一路默认即可。</p>
+<p>在 <a href="https://rust-lang.org/zh-CN/learn/get-started/">RUSTUP-INIT</a> 下载系统相对应的 Rust 安装程序，一路默认即可。</p>
 <pre><code class="language-shell">PS C:\Users\Hehongyuan&gt; rustup-init.exe
 ......
 Current installation options:
@@ -240,12 +240,22 @@ Current installation options:
 </code></pre>
 <p><strong>2、<code>x86_64-pc-windows-gnu</code></strong></p>
 <p>相比于 MSVC 版本来说，GNU 版本具有更轻量，更靠近 Linux 的优势。</p>
+<p>以下方案二选一：</p>
+<ul>
+<li>MSYS2</li>
+</ul>
 <p>首先，根据 <a href="https://www.msys2.org/">MSYS2 官网</a> 配置 MSYS。</p>
 <p>若您觉得下载太慢，可以试试由 <a href="https://github.com/Caviar-X">Caviar-X</a> 提供的 <a href="https://github.pigeons.icu/msys2/msys2-installer/releases/download/2021-11-30/msys2-x86_64-20211130.exe">代理</a>。</p>
 <p>在安装 <code>mingw-toolchain</code> 后，请将 <code>%MSYS 安装路径%\mingw64\bin</code> 添加到系统变量 <code>PATH</code> 中。</p>
 <p>配置好后，在 MSYS 中输入下面的命令来安装 rustup。</p>
 <pre><code class="language-bash">$ curl https://sh.rustup.rs -sSf | sh
 </code></pre>
+<ul>
+<li>Mingw64</li>
+</ul>
+<p>首先，前往此链接下载 <a href="https://github.com/skeeto/w64devkit/releases">系统相对应的 w64devkit</a> 并安装。</p>
+<p>在安装 <code>w64devkit</code> 后，请将 <code>%w64devkit 安装路径%\bin</code> 添加到系统变量 <code>PATH</code> 中。</p>
+<p>配置好后，在 <a href="https://rust-lang.org/zh-CN/learn/get-started/">RUSTUP-INIT</a> 下载系统相对应的 Rust 安装程序</p>
 <p>之后，根据以下输出进行配置。</p>
 <pre><code class="language-text">Current installation options:
 
@@ -370,7 +380,7 @@ cargo 1.57.0 (b2e52d7ca 2021-10-21)
 
         <script src="../clipboard-1626706a.min.js"></script>
         <script src="../highlight-abc7f01d.js"></script>
-        <script src="../book-c22b7243.js"></script>
+        <script src="../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
         <script src="../assets/custom-690c9de5.js"></script>

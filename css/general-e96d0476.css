@@ -111,6 +111,9 @@ html:not(.js) .page-wrapper,
 .content a { text-decoration: none; }
 .content a:hover { text-decoration: underline; }
 .content img, .content video { max-width: 100%; }
+/* When an image is inside an anchor, ensure the focus ring covers the entire
+   image instead of the anchor's line box. */
+.content a:has(img) { display: inline-block; }
 .content .header:link,
 .content .header:visited {
     color: var(--fg);
@@ -405,4 +408,57 @@ dd > p {
     fill: currentColor;
     /* Add some space between the icon and the text. */
     margin-right: 8px;
+}
+
+/* All this code is to handle the "zoomable" images feature. */
+
+/* This one makes the checkbox invisible while keeping it selectable with the keyboard (with the
+   "tab" key). */
+.content .checkbox-img {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+/* When the input is focused, we make it appear to the user by adding an outline to the img
+   instead */
+.content .checkbox-img:focus + img {
+    outline: auto;
+}
+/* The "zoomed-in" image is not displayed until the checkbox is "ticked". */
+.content .checkbox-img:not(:checked) ~ .img-wrapper {
+    display: none;
+}
+.content .checkbox-label {
+    display: block;
+    max-width: 100%;
+}
+.content .checkbox-label img {
+    cursor: zoom-in;
+}
+.content .checkbox-img:checked ~ .img-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+}
+.content .checkbox-img:checked ~ .img-wrapper > img {
+    --img-padding: 5px;
+    padding: var(--img-padding);
+    background: #999;
+    cursor: zoom-out;
+    max-width: calc(100% - (var(--img-padding) * 2));
+    max-height: calc(100% - (var(--img-padding) * 2));
 }

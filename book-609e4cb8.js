@@ -27,6 +27,10 @@ function mdbook_something_else_has_focus(e) {
     // Check composedPath in case the event happened from something generated
     // from the shadowDOM.
     const target = e.composedPath()[0] || e.target;
+    // If this is the `checkbox-img` input which has the focus, we want to handle it here.
+    if (target.classList.contains('checkbox-img')) {
+        return false;
+    }
     return /^(?:input|select|textarea)$/i.test(target.nodeName);
 }
 
@@ -658,6 +662,12 @@ aria-label="Show hidden lines"></button>';
 })();
 
 (function chapterNavigation() {
+    function zoomOutImages() {
+        for (const elem of Array.from(document.querySelectorAll('input.checkbox-img'))) {
+            elem.checked = false;
+        }
+    }
+
     document.addEventListener('keydown', function(e) {
         if (e.altKey ||
             e.ctrlKey ||
@@ -723,6 +733,9 @@ aria-label="Show hidden lines"></button>';
         case '?':
             e.preventDefault();
             showHelp();
+            break;
+        case 'Escape':
+            zoomOutImages();
             break;
         }
 
