@@ -70,7 +70,7 @@ crate
 让我们继续经营那个惨淡的小餐馆，这次为它实现一个小功能：
 <span class="filename">文件名：src/lib.rs</span>
 
-```rust
+```rust,compile_fail
 mod front_of_house {
     mod hosting {
         fn add_to_waitlist() {}
@@ -92,7 +92,7 @@ pub fn eat_at_restaurant() {
 
 因为 `eat_at_restaurant` 和 `add_to_waitlist` 都定义在一个包中，因此在绝对路径引用时，可以直接以 `crate` 开头，然后逐层引用，每一层之间使用 `::` 分隔：
 
-```rust
+```text
 crate::front_of_house::hosting::add_to_waitlist();
 ```
 
@@ -117,7 +117,7 @@ crate
 
 再回到模块树中，因为 `eat_at_restaurant` 和 `front_of_house` 都处于包根 `crate` 中，因此相对路径可以使用 `front_of_house` 作为开头：
 
-```rust
+```text
 front_of_house::hosting::add_to_waitlist();
 ```
 
@@ -158,7 +158,7 @@ crate
 
 让我们运行下面（之前）的代码：
 
-```rust
+```rust,compile_fail
 mod front_of_house {
     mod hosting {
         fn add_to_waitlist() {}
@@ -253,6 +253,7 @@ mod back_of_house {
 
     fn cook_order() {}
 }
+# fn main() {}
 ```
 
 嗯，我们的小餐馆又完善了，终于有厨房了！看来第一个客人也快可以有了。。。在厨房模块中，使用 `super::serve_order` 语法，调用了父模块（包根）中的 `serve_order` 函数。
@@ -276,6 +277,7 @@ mod back_of_house {
 
     pub fn cook_order() {}
 }
+# fn main() {}
 ```
 
 是的，多此一举，因为完全可以直接调用 `back_of_house`，但是 `self` 还有一个大用处，在下一节中我们会讲。
@@ -305,7 +307,7 @@ pub mod hosting {
 
 然后，将以下代码留在 `src/lib.rs` 中：
 
-```rust
+```rust,ignore
 mod front_of_house;
 
 pub use crate::front_of_house::hosting;
@@ -336,7 +338,7 @@ pub fn add_to_waitlist() {}
 
 现在，我们尝试编译程序，很遗憾，编译器报错：
 
-```
+```console
 error[E0583]: file not found for module `front_of_house`
  --> src/lib.rs:3:1
   |
@@ -362,7 +364,7 @@ src
 
 而无论是上述哪个方式创建的文件，其内容都是一样的，你需要在定义你(`mod.rs` 或 `front_of_house.rs`)的子模块（子模块名与文件名相同）：
 
-```rust
+```rust,ignore
 pub mod hosting;
 // pub mod serving;
 ```

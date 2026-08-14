@@ -105,7 +105,7 @@ Rust 的 `HashMap` 数据结构，是一个 KV 类型的 Hash Map 实现，它�
 
 来看个小例子:
 
-```rust
+```rust,should_panic
 fn main() {
   // 断言0.1 + 0.2与0.3相等
   assert!(0.1 + 0.2 == 0.3);
@@ -118,7 +118,7 @@ fn main() {
 
 讲到这里，相信大家基本已经明白了，为什么操作浮点数时要格外的小心，但是还不够，下面再来一段代码，直接震撼你的灵魂：
 
-```rust
+```rust,should_panic
 fn main() {
     let abc: (f32, f32, f32) = (0.1, 0.2, 0.3);
     let xyz: (f64, f64, f64) = (0.1, 0.2, 0.3);
@@ -165,7 +165,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display
 
 **所有跟 `NaN` 交互的操作，都会返回一个 `NaN`**，而且 `NaN` 不能用来比较，下面的代码会崩溃：
 
-```rust
+```rust,should_panic
 fn main() {
   let x = (-42.0_f32).sqrt();
   assert_eq!(x, x);
@@ -291,7 +291,7 @@ fn main() {
 
 对于移位运算，Rust 会检查它是否超出该整型的位数范围，如果超出，则会报错 overflow。比如，一个 8 位的整型，如果试图移位 8 位，就会报错，但如果移位 7 位就不会。Rust 这样做的理由也很简单，如果移位太多，那么这个移位后的数字就是全 0 或者全 1，所以移位操作不如直接写 0 或者 -1，这很可能意味着这里的代码是有问题的。需要注意的是，不论 debug 模式还是 release 模式，Rust 都会检查溢出。
 
-```rust
+```rust,compile_fail
 fn main() {
    let a: u8 = 255;
    let b = a>>7; // ok
@@ -351,7 +351,7 @@ Rust 的标准库相比其它语言，准入门槛较高，因此有理数和复
 3. 将 `src/main.rs` 文件中的 `main` 函数替换为下面的代码
 4. 运行 `cargo run`
 
-```rust
+```rust,ignore
 use num::complex::Complex;
 
  fn main() {
@@ -377,6 +377,4 @@ use num::complex::Complex;
 ## 课后练习
 
 > [Rust By Practice](https://practice-zh.course.rs/basic-types/numbers.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/basic-types/numbers.md)。
-
-
 

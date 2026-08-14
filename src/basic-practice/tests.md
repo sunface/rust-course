@@ -92,7 +92,7 @@ error: test failed, to rerun pass `--lib`
 
 Rust 提供了一个很便利的 `lines` 方法将目标字符串进行按行分割:
 
-```rust
+```text
 // in lib.rs
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     for line in contents.lines() {
@@ -105,7 +105,7 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
 
 ### 在每一行中查询目标字符串
 
-```rust
+```text
 // in lib.rs
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     for line in contents.lines() {
@@ -172,6 +172,9 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 ```rust
 // in src/lib.rs
+# use std::{error::Error, fs};
+# struct Config { query: String, file_path: String }
+# fn search<'a>(_query: &str, _contents: &'a str) -> Vec<&'a str> { vec![] }
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.file_path)?;
 

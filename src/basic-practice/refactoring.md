@@ -29,8 +29,9 @@
 ### 分离命令行解析
 
 根据之前的分析，我们需要将命令行解析的代码分离到一个单独的函数，然后将该函数放置在 `main.rs` 中：
-```rust
+```rust,no_run
 // in main.rs
+# use std::env;
 fn main() {
     let args: Vec<String> = env::args().collect();
 
@@ -55,7 +56,8 @@ fn parse_config(args: &[String]) -> (&str, &str) {
 
 前文提到，配置变量并不适合分散的到处都是，因此使用一个结构体来统一存放是非常好的选择，这样修改后，后续的使用以及未来的代码维护都将更加简单明了。
 
-```rust
+```rust,no_run
+# use std::{env, fs};
 fn main() {
     let args: Vec<String> = env::args().collect();
 
@@ -100,7 +102,9 @@ fn parse_config(args: &[String]) -> Config {
 
 下面我们试着来优化下，通过构造函数来初始化一个 `Config` 实例，而不是直接通过函数返回实例，典型的，标准库中的 `String::new` 函数就是一个范例。
 
-```rust
+```rust,no_run
+# use std::env;
+# struct Config { query: String, file_path: String }
 fn main() {
     let args: Vec<String> = env::args().collect();
 
@@ -144,7 +148,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 还记得在错误处理章节，我们提到过 `panic` 的两种用法: 被动触发和主动调用嘛？上面代码的出现方式很明显是被动触发，这种报错信息是不可控的，下面我们先改成主动调用的方式:
 
-```rust
+```text
 // in main.rs
  // --snip--
     fn new(args: &[String]) -> Config {
@@ -173,6 +177,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 有一点需要额外注意下，从代码惯例的角度出发，`new` 往往不会失败，毕竟新建一个实例没道理失败，对不？因此修改为 `build` 会更加合适。
 
 ```rust
+# struct Config { query: String, file_path: String }
 impl Config {
     fn build(args: &[String]) -> Result<Config, &'static str> {
         if args.len() < 3 {
@@ -193,7 +198,7 @@ impl Config {
 
 接下来就是在调用 `build` 函数时，对返回的 `Result` 进行处理了，目的就是给出准确且友好的报错提示, 为了让大家更好的回顾我们修改过的内容，这里给出整体代码:
 
-```rust
+```rust,no_run
 use std::env;
 use std::fs;
 use std::process;
@@ -258,7 +263,7 @@ Problem parsing arguments: not enough arguments
 
 接下来可以继续精简 `main` 函数，那就是将主体逻辑( 例如业务逻辑 )从 `main` 中分离出去，这样 `main` 函数就保留主流程调用，非常简洁。
 
-```rust
+```rust,ignore
 // in main.rs
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -295,6 +300,8 @@ fn run(config: Config) {
 ```rust
 //in main.rs
 use std::error::Error;
+# use std::fs;
+# struct Config { file_path: String }
 
 // --snip--
 
@@ -348,7 +355,7 @@ To an admiring bog!
 
 ### 处理返回的错误
 
-```rust
+```text
 fn main() {
     // --snip--
 
@@ -374,7 +381,7 @@ fn main() {
 
 首先，创建一个 `src/lib.rs` 文件，然后将所有的非 `main` 函数都移动到其中。代码大概类似：
 
-```rust
+```text
 use std::error::Error;
 use std::fs;
 
@@ -396,7 +403,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
 为了内容的简洁性，这里忽略了具体的实现，下一步就是在 `main.rs` 中引入 `lib.rs` 中定义的 `Config` 类型。
 
-```rust
+```rust,ignore
 use std::env;
 use std::process;
 

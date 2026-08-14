@@ -25,6 +25,12 @@ enum PokerSuit {
 现在来创建 `PokerSuit` 枚举类型的两个成员实例：
 
 ```rust
+# enum PokerSuit {
+#     Clubs,
+#     Spades,
+#     Diamonds,
+#     Hearts,
+# }
 let heart = PokerSuit::Hearts;
 let diamond = PokerSuit::Diamonds;
 ```
@@ -32,6 +38,13 @@ let diamond = PokerSuit::Diamonds;
 我们通过 `::` 操作符来访问 `PokerSuit` 下的具体成员，从代码可以清晰看出，`heart` 和 `diamond` 都是 `PokerSuit` 枚举类型的，接着可以定义一个函数来使用它们：
 
 ```rust
+# #[derive(Debug)]
+# enum PokerSuit {
+#     Clubs,
+#     Spades,
+#     Diamonds,
+#     Hearts,
+# }
 fn main() {
     let heart = PokerSuit::Hearts;
     let diamond = PokerSuit::Diamonds;
@@ -182,7 +195,7 @@ struct ChangeColorMessage(i32, i32, i32); // 元组结构体
 
 例如我们有一个 WEB 服务，需要接受用户的长连接，假设连接有两种：`TcpStream` 和 `TlsStream`，但是我们希望对这两个连接的处理流程相同，也就是用同一个函数来处理这两个连接，代码如下：
 
-```rust
+```text
 fn new (stream: TcpStream) {
   let mut s = stream;
   if tls {
@@ -198,7 +211,7 @@ fn new (stream: TcpStream) {
 
 此时，枚举类型就能帮上大忙：
 
-```rust
+```text
 enum Websocket {
   Tcp(Websocket<TcpStream>),
   Tls(Websocket<native_tls::TlsStream<TcpStream>>),
@@ -243,7 +256,7 @@ let absent_number: Option<i32> = None;
 
 简而言之，因为 `Option<T>` 和 `T`（这里 `T` 可以是任何类型）是不同的类型，例如，这段代码不能编译，因为它尝试将 `Option<i8>`(`Option<T>`) 与 `i8`(`T`) 相加：
 
-```rust
+```rust,compile_fail
 let x: i8 = 5;
 let y: Option<i8> = Some(5);
 

@@ -92,7 +92,8 @@ fn main() {
 
 与大部分类型实现了 `Debug` 不同，实现了 `Display` 特征的 Rust 类型并没有那么多，往往需要我们自定义想要的格式化方式：
 
-```rust
+```rust,compile_fail
+# struct Person { name: String, age: u8 }
 let i = 3.1415926;
 let s = String::from("hello");
 let v = vec![1, 2, 3];
@@ -221,11 +222,11 @@ fn main() {
 
 需要注意的是：**带名称的参数必须放在不带名称参数的后面**，例如下面代码将报错：
 
-```rust
+```rust,compile_fail
 println!("{abc} {1}", abc = "def", 2);
 ```
 
-```rust
+```console
 error: positional arguments cannot follow named arguments
  --> src/main.rs:4:36
    |
@@ -434,6 +435,8 @@ fn main() {
 是不是清晰、简洁了很多？甚至还可以将环境中的值用于格式化参数:
 
 ```rust
+# fn get_format() -> (usize, usize) { (10, 2) }
+# fn get_scores() -> Vec<(&'static str, f64)> { vec![("Alice", 95.5)] }
 let (width, precision) = get_format();
 for (name, score) in get_scores() {
   println!("{name}: {score:width$.precision$}");
@@ -443,7 +446,7 @@ for (name, score) in get_scores() {
 但也有局限，它只能捕获普通的变量，对于更复杂的类型（例如表达式），可以先将它赋值给一个变量或使用以前的 `name = expression` 形式的格式化参数。
 目前除了 `panic!` 外，其它接收格式化参数的宏，都可以使用新的特性。对于 `panic!` 而言，如果还在使用 `2015版本` 或 `2018版本`，那 `panic!("{ident}")` 依然会被当成 正常的字符串来处理，同时编译器会给予 `warn` 提示。而对于 `2021版本` ，则可以正常使用:
 
-```rust
+```rust,should_panic
 fn get_person() -> String {
     String::from("sunface")
 }

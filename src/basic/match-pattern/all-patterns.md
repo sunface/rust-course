@@ -383,7 +383,7 @@ fn main() {
 
 注意, 只使用 `_` 和使用以下划线开头的名称有些微妙的不同：比如 **`_x` 仍会将值绑定到变量，而 `_` 则完全不会绑定**。
 
-```rust
+```rust,compile_fail
 let s = Some(String::from("Hello!"));
 
 if let Some(_s) = s {
@@ -456,7 +456,7 @@ fn main() {
 
 然而使用 `..` 必须是无歧义的。如果期望匹配和忽略的值是不明确的，Rust 会报错。下面代码展示了一个带有歧义的 `..` 例子，因此不能编译：
 
-```rust
+```rust,compile_fail
 fn main() {
     let numbers = (2, 4, 8, 16, 32);
 
@@ -620,7 +620,7 @@ fn main() {
 
 考虑下面一段代码:
 
-```rust
+```rust,compile_fail
 fn main() {
     match 1 {
         num @ 1 | 2 => {
@@ -633,7 +633,7 @@ fn main() {
 
 编译不通过，是因为 `num` 没有绑定到所有的模式上，只绑定了模式 `1`，你可能会试图通过这个方式来解决：
 
-```rust
+```text
 num @ (1 | 2)
 ```
 

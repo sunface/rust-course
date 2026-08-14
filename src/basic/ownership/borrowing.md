@@ -74,7 +74,7 @@ fn calculate_length(s: &String) -> usize { // s 是对 String 的引用
 
 人总是贪心的，可以拉女孩小手了，就想着抱抱柔软的身子（读者中的某老司机表示，这个流程完全不对），因此光借用已经满足不了我们了，如果尝试修改借用的变量呢？
 
-```rust
+```rust,compile_fail
 fn main() {
     let s = String::from("hello");
 
@@ -124,7 +124,7 @@ fn change(some_string: &mut String) {
 
 不过可变引用并不是随心所欲、想用就用的，它有一个很大的限制： **同一作用域，特定数据只能有一个可变引用**：
 
-```rust
+```rust,compile_fail
 let mut s = String::from("hello");
 
 let r1 = &mut s;
@@ -177,7 +177,7 @@ let r2 = &mut s;
 
 下面的代码会导致一个错误：
 
-```rust
+```rust,compile_fail
 let mut s = String::from("hello");
 
 let r1 = &s; // 没问题
@@ -241,7 +241,7 @@ fn main() {
 
 让我们尝试创建一个悬垂引用，Rust 会抛出一个编译时错误：
 
-```rust
+```rust,compile_fail
 fn main() {
     let reference_to_nothing = dangle();
 }
@@ -279,7 +279,7 @@ this function's return type contains a borrowed value, but there is no value for
 
 仔细看看 `dangle` 代码的每一步到底发生了什么：
 
-```rust
+```rust,compile_fail
 fn dangle() -> &String { // dangle 返回一个字符串的引用
 
     let s = String::from("hello"); // s 是一个新字符串

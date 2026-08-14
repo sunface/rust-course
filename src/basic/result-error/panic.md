@@ -11,7 +11,7 @@
 
 ### 被动触发
 先来看一段简单又熟悉的代码:
-```rust
+```rust,should_panic
 fn main() {
     let v = vec![1, 2, 3];
 
@@ -46,7 +46,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 首先，来调用一下 `panic!`，这里使用了最简单的代码实现，实际上你在程序的任何地方都可以这样调用：
 
-```rust
+```rust,should_panic
 fn main() {
     panic!("crash and burn");
 }
@@ -72,7 +72,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 在真实场景中，错误往往涉及到很长的调用链甚至会深入第三方库，如果没有栈展开技术，错误将难以跟踪处理，下面我们来看一个真实的崩溃例子：
 
-```rust
+```rust,should_panic
 fn main() {
     let v = vec![1, 2, 3];
 
@@ -129,7 +129,7 @@ note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose bac
 
 对于绝大多数用户，使用默认选择是最好的，但是当你关心最终编译出的二进制可执行文件大小时，那么可以尝试去使用直接终止的方式，例如下面的配置修改 `Cargo.toml` 文件，实现在 [`release`](https://beatai.org/rust-course/first-try/cargo#手动编译和运行项目) 模式下遇到 `panic` 直接终止：
 
-```rust
+```toml
 [profile.release]
 panic = 'abort'
 ```

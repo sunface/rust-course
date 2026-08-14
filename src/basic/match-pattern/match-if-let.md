@@ -36,7 +36,7 @@ fn main() {
 
 首先来看看 `match` 的通用形式：
 
-```rust
+```text
 match target {
     模式1 => 表达式1,
     模式2 => {
@@ -129,6 +129,17 @@ enum Coin {
 接下来，我们希望在模式匹配中，获取到 25 美分硬币上刻印的州的名称：
 
 ```rust
+# #[derive(Debug)]
+# enum UsState {
+#     Alabama,
+#     Alaska,
+# }
+# enum Coin {
+#     Penny,
+#     Nickel,
+#     Dime,
+#     Quarter(UsState),
+# }
 fn value_in_cents(coin: Coin) -> u8 {
     match coin {
         Coin::Penny => 1,
@@ -195,7 +206,7 @@ change color into '(r:255, g:255, b:0)', 'b' has been ignored
 
 在文章的开头，我们简单总结过 `match` 的匹配必须穷尽所有情况，下面来举例说明，例如：
 
-```rust
+```rust,compile_fail
 enum Direction {
     East,
     West,
@@ -294,6 +305,7 @@ fn main() {
 俗话说“杀鸡焉用牛刀”，我们完全可以用 `if let` 的方式来实现：
 
 ```rust
+# let v = Some(3u8);
 if let Some(3) = v {
     println!("three");
 }
@@ -320,13 +332,17 @@ fn main() {
 
 现在如果想对 `v` 进行过滤，只保留值是 `MyEnum::Foo` 的元素，你可能想这么写：
 
-```rust
+```rust,compile_fail
+# enum MyEnum { Foo, Bar }
+# let v = vec![MyEnum::Foo, MyEnum::Bar, MyEnum::Foo];
 v.iter().filter(|x| x == MyEnum::Foo);
 ```
 
 但是，实际上这行代码会报错，因为你无法将 `x` 直接跟一个枚举成员进行比较。好在，你可以使用 `match` 来完成，但是会导致代码更为啰嗦，是否有更简洁的方式？答案是使用 `matches!`：
 
 ```rust
+# enum MyEnum { Foo, Bar }
+# let v = vec![MyEnum::Foo, MyEnum::Bar, MyEnum::Foo];
 v.iter().filter(|x| matches!(x, MyEnum::Foo));
 ```
 

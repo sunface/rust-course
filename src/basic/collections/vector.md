@@ -92,7 +92,7 @@ match v.get(2) {
 
 这两种方式都能成功的读取到指定的数组元素，既然如此为什么会存在两种方法？何况 `.get` 还会增加使用复杂度，这就涉及到数组越界的问题了，让我们通过示例说明：
 
-```rust
+```rust,should_panic
 let v = vec![1, 2, 3, 4, 5];
 
 let does_not_exist = &v[100];
@@ -109,7 +109,7 @@ let does_not_exist = v.get(100);
 
 既然涉及到借用数组元素，那么很可能会遇到同时借用多个数组元素的情况，还记得在[所有权和借用](https://beatai.org/rust-course/basic/ownership/borrowing#借用规则总结)章节咱们讲过的借用规则嘛？如果记得，就来看看下面的代码 :)
 
-```rust
+```rust,compile_fail
 let mut v = vec![1, 2, 3, 4, 5];
 
 let first = &v[0];
@@ -321,9 +321,9 @@ fn main() {
 
 我们尝试使用上面的方法来对浮点数进行排序：
 
-```rust
+```rust,compile_fail
 fn main() {
-    let mut vec = vec![1.0, 5.6, 10.3, 2.0, 15f32];    
+    let mut vec = vec![1.0, 5.6, 10.3, 2.0, 15f32];
     vec.sort_unstable();    
     assert_eq!(vec, vec![1.0, 2.0, 5.6, 10.3, 15f32]);
 }
@@ -331,7 +331,7 @@ fn main() {
 
 结果，居然报错了，
 
-```
+```console
 error[E0277]: the trait bound `f32: Ord` is not satisfied
     --> src/main.rs:29:13
      |
@@ -403,7 +403,7 @@ fn main() {
 
 执行后输出：
 
-```
+```console
 [Person { name: "Al", age: 60 }, Person { name: "Zoe", age: 25 }, Person { name: "John", age: 1 }]
 ```
 
@@ -443,7 +443,7 @@ fn main() {
 
 执行输出
 
-```
+```console
 [Person { name: "Al", age: 30 }, Person { name: "Al", age: 60 }, Person { name: "John", age: 1 }, Person { name: "John", age: 25 }, Person { name: "Zoe", age: 25 }]
 ```
 

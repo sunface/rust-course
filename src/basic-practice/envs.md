@@ -123,6 +123,10 @@ pub struct Config {
 接下来就是检查该字段，来判断是否启动大小写敏感：
 
 ```rust
+# use std::{error::Error, fs};
+# struct Config { query: String, file_path: String, ignore_case: bool }
+# fn search<'a>(_query: &str, _contents: &'a str) -> Vec<&'a str> { vec![] }
+# fn search_case_insensitive<'a>(_query: &str, _contents: &'a str) -> Vec<&'a str> { vec![] }
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.file_path)?;
 
@@ -146,6 +150,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 use std::env;
 // --snip--
 
+# struct Config { query: String, file_path: String, ignore_case: bool }
 impl Config {
     pub fn build(args: &[String]) -> Result<Config, &'static str> {
         if args.len() < 3 {
@@ -194,6 +199,5 @@ To an admiring bog!
 大小写不敏感后，查询到的内容明显多了很多，也很符合我们的预期。
 
 最后，给大家留一个小作业：同时使用命令行参数和环境变量的方式来控制大小写不敏感，其中环境变量的优先级更高，也就是两个都设置的情况下，优先使用环境变量的设置。
-
 
 

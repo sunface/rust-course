@@ -4,16 +4,23 @@ on:
   push:
     branches:
       - main
-
   pull_request:
     branches:
       - main
 
+permissions:
+  contents: read
+
+env:
+  RUST_VERSION: "1.97.1"
+  MDBOOK_VERSION: "0.4.48"
+
 jobs:
   test:
-    name: test
+    name: Rust 1.97.1 / ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
@@ -21,11 +28,37 @@ jobs:
       - name: Install Rust
         run: |
           rustup set profile minimal
-          rustup toolchain install stable
-          rustup default stable
-      - name: Setup mdBook
+          rustup toolchain install ${{ env.RUST_VERSION }} --component clippy --component rustfmt
+      - name: Show Rust version
+        run: rustc --version
+      - name: Install mdBook
         uses: peaceiris/actions-mdbook@v2
         with:
-          mdbook-version: "latest"
-      - name: Run tests
-        run: mdbook test
+          mdbook-version: ${{ env.MDBOOK_VERSION }}
+      - name: Build book
+        run: mdbook build
+      - name: Test Rust language basics
+        run: python .github/scripts/test-basic.py
+
+  stable-canary:
+    name: Latest Stable canary
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    env:
+      RUSTUP_TOOLCHAIN: stable
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install latest Stable
+        run: |
+          rustup set profile minimal
+          rustup toolchain install stable
+      - name: Show Rust version
+        run: rustc --version
+      - name: Install mdBook
+        uses: peaceiris/actions-mdbook@v2
+        with:
+          mdbook-version: ${{ env.MDBOOK_VERSION }}
+      - name: Build book
+        run: mdbook build
+      - name: Test Rust language basics
+        run: python .github/scripts/test-basic.py

@@ -34,6 +34,12 @@ struct User {
 为了使用上述结构体，我们需要创建 `User` 结构体的**实例**：
 
 ```rust
+# struct User {
+#     active: bool,
+#     username: String,
+#     email: String,
+#     sign_in_count: u64,
+# }
     let user1 = User {
         email: String::from("someone@example.com"),
         username: String::from("someusername123"),
@@ -52,6 +58,12 @@ struct User {
 通过 `.` 操作符即可访问结构体实例内部的字段值，也可以修改它们：
 
 ```rust
+# struct User {
+#     active: bool,
+#     username: String,
+#     email: String,
+#     sign_in_count: u64,
+# }
     let mut user1 = User {
         email: String::from("someone@example.com"),
         username: String::from("someusername123"),
@@ -69,6 +81,12 @@ struct User {
 下面的函数类似一个构建函数，返回了 `User` 结构体的实例：
 
 ```rust
+# struct User {
+#     active: bool,
+#     username: String,
+#     email: String,
+#     sign_in_count: u64,
+# }
 fn build_user(email: String, username: String) -> User {
     User {
         email: email,
@@ -82,6 +100,12 @@ fn build_user(email: String, username: String) -> User {
 它接收两个字符串参数： `email` 和 `username`，然后使用它们来创建一个 `User` 结构体，并且返回。可以注意到这两行： `email: email` 和 `username: username`，非常的扎眼，因为实在有些啰嗦，如果你从 TypeScript 过来，肯定会鄙视 Rust 一番，不过好在，它也不是无可救药：
 
 ```rust
+# struct User {
+#     active: bool,
+#     username: String,
+#     email: String,
+#     sign_in_count: u64,
+# }
 fn build_user(email: String, username: String) -> User {
     User {
         email,
@@ -99,6 +123,18 @@ fn build_user(email: String, username: String) -> User {
 在实际场景中，有一种情况很常见：根据已有的结构体实例，创建新的结构体实例，例如根据已有的 `user1` 实例来构建 `user2`：
 
 ```rust
+# struct User {
+#     active: bool,
+#     username: String,
+#     email: String,
+#     sign_in_count: u64,
+# }
+# let user1 = User {
+#     active: true,
+#     username: String::from("someusername123"),
+#     email: String::from("someone@example.com"),
+#     sign_in_count: 1,
+# };
   let user2 = User {
         active: user1.active,
         username: user1.username,
@@ -110,6 +146,18 @@ fn build_user(email: String, username: String) -> User {
 老话重提，如果你从 TypeScript 过来，肯定觉得啰嗦爆了：竟然手动把 `user1` 的三个字段逐个赋值给 `user2`，好在 Rust 为我们提供了 `结构体更新语法`：
 
 ```rust
+# struct User {
+#     active: bool,
+#     username: String,
+#     email: String,
+#     sign_in_count: u64,
+# }
+# let user1 = User {
+#     active: true,
+#     username: String::from("someusername123"),
+#     email: String::from("someone@example.com"),
+#     sign_in_count: 1,
+# };
   let user2 = User {
         email: String::from("another@example.com"),
         ..user1
@@ -129,7 +177,7 @@ fn build_user(email: String, username: String) -> User {
 >
 > 值得注意的是：`username` 所有权被转移给了 `user2`，导致了 `user1` 无法再被使用，但是并不代表 `user1` 内部的其它字段不能被继续使用，例如：
 
-```rust
+```rust,compile_fail
 # #[derive(Debug)]
 # struct User {
 #     active: bool,
@@ -209,6 +257,7 @@ println!("{:?}", user1);
 如果你定义一个类型，但是不关心该类型的内容，只关心它的行为时，就可以使用 `单元结构体`：
 
 ```rust
+# trait SomeTrait {}
 struct AlwaysEqual;
 
 let subject = AlwaysEqual;
@@ -227,7 +276,7 @@ impl SomeTrait for AlwaysEqual {
 
 总之，如果你想在结构体中使用一个引用，就必须加上生命周期，否则就会报错：
 
-```rust
+```rust,compile_fail
 struct User {
     username: &str,
     email: &str,
@@ -280,7 +329,7 @@ help: consider introducing a named lifetime parameter
 
 在前面的代码中我们使用 `#[derive(Debug)]` 对结构体进行了标记，这样才能使用 `println!("{:?}", s);` 的方式对其进行打印输出，如果不加，看看会发生什么:
 
-```rust
+```rust,compile_fail
 struct Rectangle {
     width: u32,
     height: u32,
@@ -324,7 +373,12 @@ fn main() {
 
 上面提示我们使用 `{:?}` 来试试，这个方式我们在本文的前面也见过，下面来试试:
 
-```rust
+```rust,compile_fail
+# struct Rectangle {
+#     width: u32,
+#     height: u32,
+# }
+# let rect1 = Rectangle { width: 30, height: 50 };
 println!("rect1 is {:?}", rect1);
 ```
 
@@ -427,4 +481,3 @@ $ cargo run
 ## 课后练习
 
 > [Rust By Practice](https://practice-zh.course.rs/compound-types/struct.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/compound-types/struct.md)。
-

@@ -4,7 +4,7 @@
 
 首先来看段很简单的代码：
 
-```rust
+```rust,compile_fail
 fn main() {
   let my_name = "Pascal";
   greet(my_name);
@@ -88,7 +88,7 @@ let slice = &s[..];
 
 > 在对字符串使用切片语法时需要格外小心，切片的索引必须落在字符之间的边界位置，也就是 UTF-8 字符的边界，例如中文在 UTF-8 中占用三个字节，下面的代码就会崩溃：
 >
-> ```rust
+> ```rust,should_panic
 >  let s = "中国人";
 >  let a = &s[0..2];
 >  println!("{}",a);
@@ -101,7 +101,7 @@ let slice = &s[..];
 
 有了切片就可以写出这样的代码：
 
-```rust
+```rust,compile_fail
 fn main() {
     let mut s = String::from("hello world");
 
@@ -206,7 +206,7 @@ fn say_hello(s: &str) {
 
 在其它语言中，使用索引的方式访问字符串的某个字符或者子串是很正常的行为，但是在 Rust 中就会报错：
 
-```rust
+```rust,compile_fail
    let s1 = String::from("hello");
    let h = s1[0];
 ```
@@ -234,20 +234,20 @@ let hello = String::from("中国人");
 
 现在看一下用梵文写的字符串 `“नमस्ते”`, 它底层的字节数组如下形式：
 
-```rust
+```text
 [224, 164, 168, 224, 164, 174, 224, 164, 184, 224, 165, 141, 224, 164, 164,
 224, 165, 135]
 ```
 
 长度是 18 个字节，这也是计算机最终存储该字符串的形式。如果从字符的形式去看，则是：
 
-```rust
+```text
 ['न', 'म', 'स', '्', 'त', 'े']
 ```
 
 但是这种形式下，第四和六两个字母根本就不存在，没有任何意义，接着再从字母串的形式去看：
 
-```rust
+```text
 ["न", "म", "स्", "ते"]
 ```
 
@@ -259,7 +259,7 @@ let hello = String::from("中国人");
 
 前文提到过，字符串切片是非常危险的操作，因为切片的索引是通过字节来进行，但是字符串又是 UTF-8 编码，因此你无法保证索引的字节刚好落在字符的边界上，例如：
 
-```rust
+```rust,should_panic
 let hello = "中国人";
 
 let s = &hello[0..2];
@@ -524,7 +524,7 @@ fn main() {
 
 `add()` 方法的定义：
 
-```rust
+```text
 fn add(self, s: &str) -> String
 ```
 

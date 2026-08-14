@@ -32,7 +32,7 @@ Rust 的变量在默认情况下是**不可变的**。前文提到，这是 Rust
 
 然后在新建的 _variables_ 目录下，编辑 _src/main.rs_ ，改为下面代码：
 
-```rust
+```rust,compile_fail
 fn main() {
     let x = 5;
     println!("The value of x is: {}", x);
@@ -233,7 +233,7 @@ let spaces = spaces.len();
 
 这种结构是允许的，因为第一个 `spaces` 变量是一个字符串类型，第二个 `spaces` 变量是一个全新的变量且和第一个具有相同的变量名，且是一个数值类型。所以变量遮蔽可以帮我们节省些脑细胞，不用去想如 `spaces_str` 和 `spaces_num` 此类的变量名；相反我们可以重复使用更简单的 `spaces` 变量名。如果你不用 `let` :
 
-```rust,
+```rust,compile_fail
 let mut spaces = "   ";
 spaces = spaces.len();
 ```
@@ -260,4 +260,3 @@ error: aborting due to previous error
 ## 课后练习
 
 > [Rust By Practice](https://practice-zh.course.rs/variables.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/variables.md)。
-

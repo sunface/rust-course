@@ -38,13 +38,13 @@ let none = plus_one(None);
 
 #### 传入参数 `Some(5)`
 
-```rust,ignore
+```text
 None => None,
 ```
 
 首先是匹配 `None` 分支，因为值 `Some(5)` 并不匹配模式 `None`，所以继续匹配下一个分支。
 
-```rust,ignore
+```text
 Some(i) => Some(i + 1),
 ```
 
@@ -54,7 +54,7 @@ Some(i) => Some(i + 1),
 
 接着考虑下 `plus_one` 的第二个调用，这次传入的 `x` 是 `None`， 我们进入 `match` 并与第一个分支相比较。
 
-```rust,ignore
+```text
 None => None,
 ```
 

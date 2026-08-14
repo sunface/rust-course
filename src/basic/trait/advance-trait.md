@@ -22,7 +22,7 @@ pub trait Iterator {
 
 还记得 `Self` 吧？在之前的章节[提到过](https://beatai.org/rust-course/basic/trait/trait-object#self-与-self)， **`Self` 用来指代当前调用者的具体类型，那么 `Self::Item` 就用来指代该类型实现中定义的 `Item` 类型**：
 
-```rust
+```text
 impl Iterator for Counter {
     type Item = u32;
 
@@ -50,6 +50,9 @@ pub trait Iterator<Item> {
 答案其实很简单，为了代码的可读性，当你使用了泛型后，你需要在所有地方都写 `Iterator<Item>`，而使用了关联类型，你只需要写 `Iterator`，当类型定义复杂时，这种写法可以极大的增加可读性：
 
 ```rust
+# use std::{fmt, hash::Hash};
+# trait Decodable {}
+# trait Encodable {}
 pub trait CacheableItem: Clone + Default + fmt::Debug + Decodable + Encodable {
   type Address: AsRef<[u8]> + Clone + fmt::Debug + Eq + Hash;
   fn is_null(&self) -> bool;
@@ -60,7 +63,7 @@ pub trait CacheableItem: Clone + Default + fmt::Debug + Decodable + Encodable {
 
 再例如，如果使用泛型，你将得到以下的代码：
 
-```rust
+```text
 trait Container<A,B> {
     fn contains(&self,a: A,b: B) -> bool;
 }
@@ -83,6 +86,7 @@ fn difference<C: Container>(container: &C) {}
 ```
 关联类型还可以被其它特征进行约束，例如：
 ```rust
+# use std::fmt::Display;
 trait Container{
     type A: Display;
     type B;
@@ -209,6 +213,8 @@ impl Human {
 当调用 `Human` 实例的 `fly` 时，编译器默认调用该类型中定义的方法：
 
 ```rust
+# struct Human;
+# impl Human { fn fly(&self) { println!("*waving arms furiously*"); } }
 fn main() {
     let person = Human;
     person.fly();
@@ -222,6 +228,12 @@ fn main() {
 为了能够调用两个特征的方法，需要使用显式调用的语法：
 
 ```rust
+# trait Pilot { fn fly(&self); }
+# trait Wizard { fn fly(&self); }
+# struct Human;
+# impl Pilot for Human { fn fly(&self) { println!("This is your captain speaking."); } }
+# impl Wizard for Human { fn fly(&self) { println!("Up!"); } }
+# impl Human { fn fly(&self) { println!("*waving arms furiously*"); } }
 fn main() {
     let person = Human;
     Pilot::fly(&person); // 调用Pilot特征上的方法
@@ -272,7 +284,10 @@ fn main() {
 
 `Dog::baby_name()` 的调用方式显然不行，因为这只是狗妈妈对宝宝的爱称，可能你会想到通过下面的方式查询其他动物对狗狗的称呼：
 
-```rust
+```rust,compile_fail
+# trait Animal { fn baby_name() -> String; }
+# struct Dog;
+# impl Animal for Dog { fn baby_name() -> String { String::from("puppy") } }
 fn main() {
     println!("A baby dog is called a {}", Animal::baby_name());
 }
@@ -280,7 +295,7 @@ fn main() {
 
 铛铛，无情报错了：
 
-```rust
+```console
 error[E0283]: type annotations needed // 需要类型注释
   --> src/main.rs:20:43
    |
@@ -299,6 +314,9 @@ error[E0283]: type annotations needed // 需要类型注释
 完全限定语法是调用函数最为明确的方式：
 
 ```rust
+# trait Animal { fn baby_name() -> String; }
+# struct Dog;
+# impl Animal for Dog { fn baby_name() -> String { String::from("puppy") } }
 fn main() {
     println!("A baby dog is called a {}", <Dog as Animal>::baby_name());
 }
@@ -308,7 +326,7 @@ fn main() {
 
 言归正题，完全限定语法定义为：
 
-```rust
+```text
 <Type as Trait>::function(receiver_if_method, next_arg, ...);
 ```
 
@@ -342,7 +360,9 @@ trait OutlinePrint: Display {
 
 想象一下，假如没有这个特征约束，那么 `self.to_string` 还能够调用吗（ `to_string` 方法会为实现 `Display` 特征的类型自动实现）？编译器肯定是不愿意的，会报错说当前作用域中找不到用于 `&Self` 类型的方法 `to_string` ：
 
-```rust
+```rust,compile_fail
+# use std::fmt::Display;
+# trait OutlinePrint: Display {}
 struct Point {
     x: i32,
     y: i32,
@@ -369,6 +389,7 @@ try using `:?` instead if you are using a format string
 ```rust
 use std::fmt;
 
+# struct Point { x: i32, y: i32 }
 impl fmt::Display for Point {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "({}, {})", self.x, self.y)

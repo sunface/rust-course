@@ -2,7 +2,7 @@
 
 从面向对象语言过来的同学对于方法肯定不陌生，`class` 里面就充斥着方法的概念。在 Rust 中，方法的概念也大差不差，往往和对象成对出现：
 
-```rust
+```text
 object.method()
 ```
 
@@ -96,6 +96,10 @@ fn main() {
 在 Rust 中，允许方法名跟结构体的字段名相同：
 
 ```rust
+# struct Rectangle {
+#     width: u32,
+#     height: u32,
+# }
 impl Rectangle {
     fn width(&self) -> bool {
         self.width > 0
@@ -190,6 +194,10 @@ fn main() {
 方法和函数一样，可以使用多个参数：
 
 ```rust
+# struct Rectangle {
+#     width: u32,
+#     height: u32,
+# }
 impl Rectangle {
     fn area(&self) -> u32 {
         self.width * self.height

@@ -24,6 +24,7 @@ pub fn eat_at_restaurant() {
     hosting::add_to_waitlist();
     hosting::add_to_waitlist();
 }
+# fn main() {}
 ```
 
 这里，我们使用 `use` 和绝对路径的方式，将 `hosting` 模块引入到当前作用域中，然后只需通过 `hosting::add_to_waitlist` 的方式，即可调用目标模块中的函数，相比 `crate::front_of_house::hosting::add_to_waitlist()` 的方式要简单的多，那么还能更简单吗？
@@ -84,10 +85,12 @@ use std::io;
 
 fn function1() -> fmt::Result {
     // --snip--
+# Ok(())
 }
 
 fn function2() -> io::Result<()> {
     // --snip--
+# Ok(())
 }
 ```
 
@@ -105,10 +108,12 @@ use std::io::Result as IoResult;
 
 fn function1() -> Result {
     // --snip--
+# Ok(())
 }
 
 fn function2() -> IoResult<()> {
     // --snip--
+# Ok(())
 }
 ```
 
@@ -135,6 +140,7 @@ pub fn eat_at_restaurant() {
     hosting::add_to_waitlist();
     hosting::add_to_waitlist();
 }
+# fn main() {}
 ```
 
 如上，使用 `pub use` 即可实现。这里 `use` 代表引入 `hosting` 模块到当前作用域，`pub` 表示将该引入的内容再度设置为可见。
@@ -150,7 +156,7 @@ pub fn eat_at_restaurant() {
 
 好了，此时，`rand` 包已经被我们添加到依赖中，下一步就是在代码中使用：
 
-```rust
+```rust,ignore
 use rand::Rng;
 
 fn main() {
@@ -218,7 +224,7 @@ use std::collections::*;
 
 当使用 `*` 来引入的时候要格外小心，因为你很难知道到底哪些被引入到了当前作用域中，有哪些会和你自己程序中的名称相冲突：
 
-```rust
+```rust,compile_fail
 use std::collections::*;
 
 struct HashMap;
@@ -261,11 +267,12 @@ use a::b::Y;
 fn d() {
     println!("{:?}",Y);
 }
+# fn main() {}
 ```
 
 以上代码充分说明了之前两种办法的使用方式，但是有时我们会遇到这两种方法都不太好用的时候。例如希望对于某些特定的模块可见，但是对于其他模块又不可见：
 
-```rust
+```rust,compile_fail
 // 目标：`a` 导出 `I`、`bar` and `foo`，其他的不导出
 pub mod a {
     pub const I: i32 = 3;
@@ -343,6 +350,7 @@ pub mod a {
         }
     }
 }
+# fn main() {}
 ```
 
 通过 `pub(in crate::a)` 的方式，我们指定了模块 `c` 和常量 `J` 的可见范围都只是 `a` 模块中，`a` 之外的模块是完全访问不到它们的。

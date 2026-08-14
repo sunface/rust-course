@@ -68,7 +68,7 @@ fn main() {
 
 如果使用超出数组范围的索引访问数组元素，会怎么样？下面是一个接收用户的控制台输入，然后将其作为索引访问数组元素的例子：
 
-```rust
+```rust,no_run
 use std::io;
 
 fn main() {
@@ -115,7 +115,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 学习了上面的知识，很多朋友肯定觉得已经学会了 Rust 的数组类型，但现实会给我们一记重锤，实际开发中还会碰到一种情况，就是**数组元素是非基本类型**的，这时候大家一定会这样写。
 
-```rust
+```rust,compile_fail
 let array = [String::from("rust is good!"); 8];
 
 println!("{:#?}", array);

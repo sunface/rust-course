@@ -11,6 +11,7 @@
 但凡你能找到一门编程语言没有 `if else`，那么一定更要反馈给鲁迅，反正不是我说的 :) 总之，只要你拥有其它语言的编程经验，就一定会有以下认知：`if else` **表达式**根据条件执行不同的代码分支：
 
 ```rust
+# let condition = true;
 if condition == true {
     // A...
 } else {
@@ -103,6 +104,7 @@ fn main() {
 以上代码循环输出一个从 1 到 5 的序列，简单粗暴，核心就在于 `for` 和 `in` 的联动，语义表达如下：
 
 ```rust
+# let 集合 = [1, 2, 3];
 for 元素 in 集合 {
   // 使用元素干一些你懂我不懂的事情
 }
@@ -113,6 +115,7 @@ for 元素 in 集合 {
 注意，使用 `for` 时我们往往使用集合的引用形式，除非你不想在后面的代码中继续使用该集合（比如我们这里使用了 `container` 的引用）。如果不使用引用的话，所有权会被转移（move）到 `for` 语句块中，后面就无法再使用这个集合了)：
 
 ```rust
+# let container = [1, 2, 3];
 for item in &container {
   // ...
 }
@@ -123,6 +126,7 @@ for item in &container {
 如果想在循环中，**修改该元素**，可以使用 `mut` 关键字：
 
 ```rust
+# let mut collection = [1, 2, 3];
 for item in &mut collection {
   // ...
 }

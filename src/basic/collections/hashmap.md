@@ -101,7 +101,7 @@ error[E0282]: type annotations needed // 需要类型标注
 
 例如我参选帅气男孩时的场景再现：
 
-```rust
+```rust,compile_fail
 fn main() {
     use std::collections::HashMap;
 
@@ -136,7 +136,7 @@ error[E0382]: borrow of moved value: `name`
 
 **如果你使用引用类型放入 HashMap 中**，请确保该引用的生命周期至少跟 `HashMap` 活得一样久：
 
-```rust
+```rust,compile_fail
 fn main() {
     use std::collections::HashMap;
 
@@ -187,7 +187,7 @@ let score: Option<&i32> = scores.get(&team_name);
 - `get` 方法返回一个 `Option<&i32>` 类型：当查询不到时，会返回一个 `None`，查询到时返回 `Some(&i32)`
 - `&i32` 是对 `HashMap` 中值的借用，如果不使用借用，可能会发生所有权的转移
 - `get` 方法的 `key` 参数必须是一个引用，如这里的 `scores.get(&team_name)`，这是因为 `HashMap<K, V>` 的 `get` 方法的签名如下：
-```rust
+```text
 impl<K, V> HashMap<K, V>
 where
     K: Eq + Hash,
@@ -204,6 +204,10 @@ where
 还可以继续拓展下，上面的代码中，如果我们想直接获得值类型的 `score` 该怎么办，答案简约但不简单：
 
 ```rust
+# use std::collections::HashMap;
+# let mut scores = HashMap::new();
+# scores.insert(String::from("Blue"), 10);
+# let team_name = String::from("Blue");
 let score: i32 = scores.get(&team_name).copied().unwrap_or(0);
 ```
 
@@ -309,7 +313,7 @@ println!("{:?}", map);
 
 因此若性能测试显示当前标准库默认的哈希函数不能满足你的性能需求，就需要去 [`crates.io`](https://crates.io) 上寻找其它的哈希函数实现，使用方法很简单：
 
-```rust
+```rust,ignore
 use std::hash::BuildHasherDefault;
 use std::collections::HashMap;
 // 引入第三方的哈希函数

@@ -13,7 +13,7 @@ Rust 生命周期之所以难，是因为这个概念对于我们来说是全新
 
 生命周期的主要作用是避免悬垂引用，它会导致程序引用了本不该引用的数据：
 
-```rust
+```rust,compile_fail
 {
     let r;
 
@@ -52,7 +52,7 @@ error[E0597]: `x` does not live long enough // `x` 活得不够久
 
 为了保证 Rust 的所有权和借用的正确性，Rust 使用了一个借用检查器(Borrow checker)，来检查我们程序的借用正确性：
 
-```rust
+```rust,compile_fail
 {
     let r;                // ---------+-- 'a
                           //          |
@@ -90,7 +90,7 @@ error[E0597]: `x` does not live long enough // `x` 活得不够久
 
 先来考虑一个例子 - 返回两个字符串切片中较长的那个，该函数的参数是两个字符串切片，返回值也是字符串切片：
 
-```rust
+```rust,compile_fail
 fn main() {
     let string1 = String::from("abcd");
     let string2 = "xyz";
@@ -146,7 +146,7 @@ help: consider introducing a named lifetime parameter // 考虑引入一个生�
 
 生命周期的语法也颇为与众不同，以 `'` 开头，名称往往是一个单独的小写字母，大多数人都用 `'a` 来作为生命周期的名称。 如果是引用类型的参数，那么生命周期会位于引用符号 `&` 之后，并用一个空格来将生命周期和引用参数分隔开:
 
-```rust
+```text
 &i32        // 一个引用
 &'a i32     // 具有显式生命周期的引用
 &'a mut i32 // 具有显式生命周期的可变引用
@@ -188,6 +188,7 @@ fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
 说实话，这段文字我写的都快崩溃了，不知道你们读起来如何，实在\*\*\*太绕了。。那就干脆用一个例子来解释吧：
 
 ```rust
+# fn longest<'a>(x: &'a str, y: &'a str) -> &'a str { if x.len() > y.len() { x } else { y } }
 fn main() {
     let string1 = String::from("long string is long");
 
@@ -207,7 +208,8 @@ fn main() {
 
 再来看一个例子，该例子证明了 `result` 的生命周期必须等于两个参数中生命周期较小的那个:
 
-```rust
+```rust,compile_fail
+# fn longest<'a>(x: &'a str, y: &'a str) -> &'a str { if x.len() > y.len() { x } else { y } }
 fn main() {
     let string1 = String::from("long string is long");
     let result;
@@ -262,7 +264,7 @@ fn longest<'a>(x: &'a str, y: &str) -> &'a str {
 
 若是后者情况，就是典型的悬垂引用场景：
 
-```rust
+```rust,compile_fail
 fn longest<'a>(x: &str, y: &str) -> &'a str {
     let result = String::from("really long string");
     result.as_str()
@@ -324,7 +326,7 @@ fn main() {
 
 与之相反，下面的代码就无法通过编译：
 
-```rust
+```rust,compile_fail
 #[derive(Debug)]
 struct ImportantExcerpt<'a> {
     part: &'a str,
@@ -387,7 +389,7 @@ fn first_word(s: &str) -> &str {
 
 实际上，在 Rust 1.0 版本之前，这种代码果断不给通过，因为 Rust 要求必须显式的为所有引用标注生命周期：
 
-```rust
+```text
 fn first_word<'a>(s: &'a str) -> &'a str {
 ```
 
@@ -422,19 +424,19 @@ fn first_word<'a>(s: &'a str) -> &'a str {
 
 **例子 1**
 
-```rust
+```text
 fn first_word(s: &str) -> &str { // 实际项目中的手写代码
 ```
 
 首先，我们手写的代码如上所示时，编译器会先应用第一条规则，为每个参数标注一个生命周期：
 
-```rust
+```text
 fn first_word<'a>(s: &'a str) -> &str { // 编译器自动为参数添加生命周期
 ```
 
 此时，第二条规则就可以进行应用，因为函数只有一个输入生命周期，因此该生命周期会被赋予所有的输出生命周期：
 
-```rust
+```text
 fn first_word<'a>(s: &'a str) -> &'a str { // 编译器自动为返回值添加生命周期
 ```
 
@@ -443,13 +445,13 @@ fn first_word<'a>(s: &'a str) -> &'a str { // 编译器自动为返回值添加�
 **例子 2**
 再来看一个例子：
 
-```rust
+```text
 fn longest(x: &str, y: &str) -> &str { // 实际项目中的手写代码
 ```
 
 首先，编译器会应用第一条规则，为每个参数都标注生命周期：
 
-```rust
+```text
 fn longest<'a, 'b>(x: &'a str, y: &'b str) -> &str {
 ```
 
@@ -515,6 +517,7 @@ impl<'a> ImportantExcerpt<'a> {
 下面的例子展示了第三规则应用的场景：
 
 ```rust
+# struct ImportantExcerpt<'a> { part: &'a str }
 impl<'a> ImportantExcerpt<'a> {
     fn announce_and_return_part(&self, announcement: &str) -> &str {
         println!("Attention please: {}", announcement);
@@ -526,6 +529,7 @@ impl<'a> ImportantExcerpt<'a> {
 首先，编译器应用第一规则，给予每个输入参数一个生命周期:
 
 ```rust
+# struct ImportantExcerpt<'a> { part: &'a str }
 impl<'a> ImportantExcerpt<'a> {
     fn announce_and_return_part<'b>(&'a self, announcement: &'b str) -> &str {
         println!("Attention please: {}", announcement);
@@ -539,6 +543,7 @@ impl<'a> ImportantExcerpt<'a> {
 接着，编译器应用第三规则，将 `&self` 的生命周期赋给返回值 `&str`：
 
 ```rust
+# struct ImportantExcerpt<'a> { part: &'a str }
 impl<'a> ImportantExcerpt<'a> {
     fn announce_and_return_part<'b>(&'a self, announcement: &'b str) -> &'a str {
         println!("Attention please: {}", announcement);
@@ -551,7 +556,8 @@ Bingo，最开始的代码，尽管我们没有给方法标注生命周期，但
 
 在结束这块儿内容之前，再来做一个有趣的修改，将方法返回的生命周期改为`'b`：
 
-```rust
+```rust,compile_fail
+# struct ImportantExcerpt<'a> { part: &'a str }
 impl<'a> ImportantExcerpt<'a> {
     fn announce_and_return_part<'b>(&'a self, announcement: &'b str) -> &'b str {
         println!("Attention please: {}", announcement);
@@ -565,6 +571,7 @@ impl<'a> ImportantExcerpt<'a> {
 有一点很容易推理出来：由于 `&'a self` 是被引用的一方，因此引用它的 `&'b str` 必须要活得比它短，否则会出现悬垂引用。因此说明生命周期 `'b` 必须要比 `'a` 小，只要满足了这一点，编译器就不会再报错：
 
 ```rust
+# struct ImportantExcerpt<'a> { part: &'a str }
 impl<'a: 'b, 'b> ImportantExcerpt<'a> {
     fn announce_and_return_part(&'a self, announcement: &'b str) -> &'b str {
         println!("Attention please: {}", announcement);
@@ -581,6 +588,7 @@ Bang，一个复杂的玩意儿被甩到了你面前，就问怕不怕？
 - 可以把 `'a` 和 `'b` 都在同一个地方声明（如上），或者分开声明但通过 `where 'a: 'b` 约束生命周期关系，如下：
 
 ```rust
+# struct ImportantExcerpt<'a> { part: &'a str }
 impl<'a> ImportantExcerpt<'a> {
     fn announce_and_return_part<'b>(&'a self, announcement: &'b str) -> &'b str
     where

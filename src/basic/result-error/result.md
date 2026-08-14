@@ -33,7 +33,8 @@ fn main() {
 > - 在 [Rust IDE](https://beatai.org/rust-course/first-try/editor) 章节，我们推荐了 `VSCode` IDE 和 `rust-analyzer` 插件，如果你成功安装的话，那么就可以在 `VSCode` 中很方便的通过代码跳转的方式查看代码，同时 `rust-analyzer` 插件还会对代码中的类型进行标注，非常方便好用！
 > - 你还可以尝试故意标记一个错误的类型，然后让编译器告诉你：
 
-```rust
+```rust,compile_fail
+# use std::fs::File;
 let f: u32 = File::open("hello.txt");
 ```
 
@@ -57,7 +58,7 @@ error[E0308]: mismatched types
 
 这个返回值类型说明 `File::open` 调用如果成功则返回一个可以进行读写的文件句柄，如果失败，则返回一个 IO 错误：文件不存在或者没有访问文件的权限等。总之 `File::open` 需要一个方式告知调用者是成功还是失败，并同时返回具体的文件句柄（成功）或错误信息（失败），万幸的是，这些信息可以通过 `Result` 枚举提供：
 
-```rust
+```rust,should_panic
 use std::fs::File;
 
 fn main() {
@@ -115,7 +116,7 @@ fn main() {
 
 它们的作用就是，如果返回成功，就将 `Ok(T)` 中的值取出来，如果失败，就直接 `panic`，真的勇士绝不多 BB，直接崩溃。
 
-```rust
+```rust,should_panic
 use std::fs::File;
 
 fn main() {
@@ -132,7 +133,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 `expect` 跟 `unwrap` 很像，也是遇到错误直接 `panic`, 但是会带上自定义的错误提示信息，相当于重载了错误打印的函数：
 
-```rust
+```rust,should_panic
 use std::fs::File;
 
 fn main() {
@@ -211,7 +212,7 @@ fn read_username_from_file() -> Result<String, io::Error> {
 
 其实 `?` 就是一个宏，它的作用跟上面的 `match` 几乎一模一样：
 
-```rust
+```text
 let mut f = match f {
     // 打开文件成功，将file句柄赋值给f
     Ok(file) => file,
@@ -229,6 +230,7 @@ let mut f = match f {
 明白了以上的错误转换，`?` 的更胜一筹就很好理解了，它可以自动进行类型提升（转换）：
 
 ```rust
+# use std::fs::File;
 fn open_file() -> Result<File, Box<dyn std::error::Error>> {
     let mut f = File::open("hello.txt")?;
     Ok(f)
@@ -317,7 +319,7 @@ fn last_char_of_first_line(text: &str) -> Option<char> {
 
 初学者在用 `?` 时，老是会犯错，例如写出这样的代码：
 
-```rust
+```rust,compile_fail
 fn first(arr: &[i32]) -> Option<&i32> {
    arr.get(0)?
 }
@@ -332,7 +334,7 @@ fn first(arr: &[i32]) -> Option<&i32> {
 
 在了解了 `?` 的使用限制后，这段代码你很容易看出它无法编译：
 
-```rust
+```rust,compile_fail
 use std::fs::File;
 
 fn main() {
@@ -359,7 +361,7 @@ $ cargo run
 
 实际上 Rust 还支持另外一种形式的 `main` 函数：
 
-```rust
+```rust,no_run
 use std::error::Error;
 use std::fs::File;
 
@@ -378,7 +380,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
 在 `?` 横空出世之前( Rust 1.13 )，Rust 开发者还可以使用 `try!` 来处理错误，该宏的大致定义如下：
 
-```rust
+```text
 macro_rules! try {
     ($e:expr) => (match $e {
         Ok(val) => val,
@@ -389,7 +391,7 @@ macro_rules! try {
 
 简单看一下与 `?` 的对比:
 
-```rust
+```text
 //  `?`
 let x = function_with_error()?; // 若返回 Err, 则立刻返回；若返回 Ok(255)，则将 x 的值设置为 255
 

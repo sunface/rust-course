@@ -31,7 +31,7 @@ fn main() {
 
 实际上，泛型就是一种多态。泛型主要目的是为程序员提供编程的便利，减少代码的臃肿，同时可以极大地丰富语言本身的表达能力，为程序员提供了一个合适的炮管。想想，一个函数，可以代替几十个，甚至数百个函数，是一件多么让人兴奋的事情：
 
-```rust
+```rust,compile_fail
 fn add<T>(a:T, b:T) -> T {
     a + b
 }
@@ -51,7 +51,7 @@ fn main() {
 
 使用泛型参数，有一个先决条件，必需在使用前对其进行声明：
 
-```rust
+```text
 fn largest<T>(list: &[T]) -> T {
 ```
 
@@ -61,7 +61,7 @@ fn largest<T>(list: &[T]) -> T {
 
 下面是一个错误的泛型函数的实现：
 
-```rust
+```rust,compile_fail
 fn largest<T>(list: &[T]) -> T {
     let mut largest = list[0];
 
@@ -137,7 +137,7 @@ fn add<T: std::ops::Add<Output = T>>(a:T, b:T) -> T {
 
 有时候，编译器无法推断你想要的泛型参数：
 
-```rust
+```rust,compile_fail
 use std::fmt::Display;
 
 fn create_and_print<T>() where T: From<i32> + Display {
@@ -216,7 +216,7 @@ fn main() {
 
 第二点非常重要，如果使用不同的类型，那么它会导致下面代码的报错：
 
-```rust
+```rust,compile_fail
 struct Point<T> {
     x: T,
     y: T,
@@ -339,6 +339,10 @@ fn main() {
 对于 `Point<T>` 类型，你不仅能定义基于 `T` 的方法，还能针对特定的具体类型，进行方法定义：
 
 ```rust
+# struct Point<T> {
+#     x: T,
+#     y: T,
+# }
 impl Point<f32> {
     fn distance_from_origin(&self) -> f32 {
         (self.x.powi(2) + self.y.powi(2)).sqrt()
@@ -356,7 +360,7 @@ impl Point<f32> {
 
 在[数组](https://beatai.org/rust-course/basic/compound-type/array)那节，有提到过很重要的一点：`[i32; 2]` 和 `[i32; 3]` 是不同的数组类型，比如下面的代码：
 
-```rust
+```rust,compile_fail
 fn display_array(arr: [i32; 3]) {
     println!("{:?}", arr);
 }
@@ -443,7 +447,7 @@ fn main() {
 
 假设我们某段代码需要在内存很小的平台上工作，因此需要限制函数参数占用的内存大小，此时就可以使用 const 泛型表达式来实现：
 
-```rust
+```rust,ignore
 // 目前只能在nightly版本下使用
 #![allow(incomplete_features)]
 #![feature(generic_const_exprs)]

@@ -77,7 +77,7 @@ $ cargo run -- needle haystack
 在编程中，给予清晰合理的变量名是一项基本功，咱总不能到处都是 `args[1]` 、`args[2]` 这样的糟糕代码吧。
 
 因此我们需要两个变量来存储文件路径和待搜索的字符串:
-```rust
+```rust,no_run
 use std::env;
 
 fn main() {
@@ -131,12 +131,14 @@ To an admiring bog!
 在项目根目录创建 `poem.txt` 文件，并写入如上的优美诗歌(可能翻译的很烂，别打我，哈哈，事实上大家写入英文内容就够了)。
 
 接下来修改 `main.rs` 来读取文件内容：
-```rust
+```rust,no_run
 use std::env;
 use std::fs;
 
 fn main() {
     // --省略之前的内容--
+# let args: Vec<String> = env::args().collect();
+# let file_path = &args[2];
     println!("In file {}", file_path);
 
     let contents = fs::read_to_string(file_path)

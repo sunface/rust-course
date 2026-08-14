@@ -141,7 +141,7 @@ pub fn add_two(x: i32) -> i32 {
 
 现在，为我们的包增加注释，在 `src/lib.rs` 包根的最上方，添加：
 
-```rust
+```rust,ignore
 /*! lib包是world_hello二进制包的依赖包，
  里面包含了compute等有用模块 */
 
@@ -435,13 +435,14 @@ pub mod utils {
         SecondaryColor::Green
     }
 }
+# fn main() {}
 ````
 
 在库包的包根 `src/lib.rs` 下，我们又定义了几个子模块，同时将子模块中的三个项通过 `pub use` 进行了再导出。
 
 接着，将下面内容添加到 `src/main.rs` 中：
 
-```rust
+```rust,ignore
 use art::kinds::PrimaryColor;
 use art::utils::mix;
 

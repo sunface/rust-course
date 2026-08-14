@@ -73,6 +73,11 @@ impl Summary for Weibo {
 接下来就可以在这个类型上调用特征的方法：
 
 ```rust
+# pub trait Summary { fn summarize(&self) -> String; }
+# pub struct Post { pub title: String, pub author: String, pub content: String }
+# impl Summary for Post { fn summarize(&self) -> String { format!("文章{}, 作者是{}", self.title, self.author) } }
+# pub struct Weibo { pub username: String, pub content: String }
+# impl Summary for Weibo { fn summarize(&self) -> String { format!("{}发表了微博{}", self.username, self.content) } }
 fn main() {
     let post = Post{title: "Rust语言简介".to_string(),author: "Sunface".to_string(), content: "Rust棒极了!".to_string()};
     let weibo = Weibo{username: "sunface".to_string(),content: "好像微博没Tweet好用".to_string()};
@@ -116,6 +121,9 @@ pub trait Summary {
 上面为 `Summary` 定义了一个默认实现，下面我们编写段代码来测试下：
 
 ```rust
+# pub trait Summary { fn summarize(&self) -> String { String::from("(Read more...)") } }
+# pub struct Post;
+# pub struct Weibo { pub username: String, pub content: String }
 impl Summary for Post {}
 
 impl Summary for Weibo {
@@ -128,6 +136,13 @@ impl Summary for Weibo {
 可以看到，`Post` 选择了默认实现，而 `Weibo` 重写了该方法，调用和输出如下：
 
 ```rust
+# pub trait Summary { fn summarize(&self) -> String { String::from("(Read more...)") } }
+# pub struct Post;
+# impl Summary for Post {}
+# pub struct Weibo { pub username: String, pub content: String }
+# impl Summary for Weibo { fn summarize(&self) -> String { format!("{}发表了微博{}", self.username, self.content) } }
+# let post = Post;
+# let weibo = Weibo { username: "sunface".to_string(), content: "好像微博没Tweet好用".to_string() };
     println!("{}",post.summarize());
     println!("{}",weibo.summarize());
 ```
@@ -152,6 +167,9 @@ pub trait Summary {
 为了使用 `Summary`，只需要实现 `summarize_author` 方法即可：
 
 ```rust
+# pub trait Summary { fn summarize_author(&self) -> String; fn summarize(&self) -> String { format!("(Read more from {}...)", self.summarize_author()) } }
+# pub struct Weibo { pub username: String }
+# let weibo = Weibo { username: "horse_ebooks".to_string() };
 impl Summary for Weibo {
     fn summarize_author(&self) -> String {
         format!("@{}", self.username)
@@ -170,6 +188,7 @@ println!("1 new weibo: {}", weibo.summarize());
 现在，先定义一个函数，使用特征作为函数参数：
 
 ```rust
+# pub trait Summary { fn summarize(&self) -> String; }
 pub fn notify(item: &impl Summary) {
     println!("Breaking news! {}", item.summarize());
 }
@@ -184,6 +203,7 @@ pub fn notify(item: &impl Summary) {
 虽然 `impl Trait` 这种语法非常好理解，但是实际上它只是一个语法糖：
 
 ```rust
+# pub trait Summary { fn summarize(&self) -> String; }
 pub fn notify<T: Summary>(item: &T) {
     println!("Breaking news! {}", item.summarize());
 }
@@ -194,12 +214,14 @@ pub fn notify<T: Summary>(item: &T) {
 在简单的场景下 `impl Trait` 这种语法糖就足够使用，但是对于复杂的场景，特征约束可以让我们拥有更大的灵活性和语法表现能力，例如一个函数接受两个 `impl Summary` 的参数：
 
 ```rust
+# pub trait Summary {}
 pub fn notify(item1: &impl Summary, item2: &impl Summary) {}
 ```
 
 如果函数两个参数是不同的类型，那么上面的方法很好，只要这两个类型都实现了 `Summary` 特征即可。但是如果我们想要强制函数的两个参数是同一类型呢？上面的语法就无法做到这种限制，此时我们只能使特征约束来实现：
 
 ```rust
+# pub trait Summary {}
 pub fn notify<T: Summary>(item1: &T, item2: &T) {}
 ```
 
@@ -210,12 +232,16 @@ pub fn notify<T: Summary>(item1: &T, item2: &T) {}
 除了单个约束条件，我们还可以指定多个约束条件，例如除了让参数实现 `Summary` 特征外，还可以让参数实现 `Display` 特征以控制它的格式化输出：
 
 ```rust
+# use std::fmt::Display;
+# pub trait Summary {}
 pub fn notify(item: &(impl Summary + Display)) {}
 ```
 
 除了上述的语法糖形式，还能使用特征约束的形式：
 
 ```rust
+# use std::fmt::Display;
+# pub trait Summary {}
 pub fn notify<T: Summary + Display>(item: &T) {}
 ```
 
@@ -226,16 +252,18 @@ pub fn notify<T: Summary + Display>(item: &T) {}
 当特征约束变得很多时，函数的签名将变得很复杂：
 
 ```rust
-fn some_function<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) -> i32 {}
+# use std::fmt::{Debug, Display};
+fn some_function<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) -> i32 { 0 }
 ```
 
 严格来说，上面的例子还是不够复杂，但是我们还是能对其做一些形式上的改进，通过 `where`：
 
 ```rust
+# use std::fmt::{Debug, Display};
 fn some_function<T, U>(t: &T, u: &U) -> i32
     where T: Display + Clone,
           U: Clone + Debug
-{}
+{ 0 }
 ```
 
 #### 使用特征约束有条件地实现方法或特征
@@ -275,7 +303,7 @@ impl<T: Display + PartialOrd> Pair<T> {
 
 **也可以有条件地实现特征**，例如，标准库为任何实现了 `Display` 特征的类型实现了 `ToString` 特征：
 
-```rust
+```text
 impl<T: Display> ToString for T {
     // --snip--
 }
@@ -292,6 +320,9 @@ let s = 3.to_string();
 可以通过 `impl Trait` 来说明一个函数返回了一个类型，该类型实现了某个特征：
 
 ```rust
+# pub trait Summary {}
+# pub struct Weibo { username: String, content: String }
+# impl Summary for Weibo {}
 fn returns_summarizable() -> impl Summary {
     Weibo {
         username: String::from("sunface"),
@@ -308,7 +339,12 @@ fn returns_summarizable() -> impl Summary {
 
 但是这种返回值方式有一个很大的限制：只能有一个具体的类型，例如：
 
-```rust
+```rust,compile_fail
+# pub trait Summary {}
+# pub struct Post { title: String, author: String, content: String }
+# impl Summary for Post {}
+# pub struct Weibo { username: String, content: String }
+# impl Summary for Weibo {}
 fn returns_summarizable(switch: bool) -> impl Summary {
     if switch {
         Post {
@@ -345,7 +381,7 @@ expected struct `Post`, found struct `Weibo`
 
 还记得上一节中的[例子](https://beatai.org/rust-course/basic/trait/generic#泛型详解)吧，当时留下一个疑问，该如何解决编译报错：
 
-```rust
+```console
 error[E0369]: binary operation `>` cannot be applied to type `T` // 无法在 `T` 类型上应用`>`运算符
  --> src/main.rs:5:17
   |
@@ -364,13 +400,13 @@ help: consider restricting type parameter `T` // 考虑使用以下的特征来�
 
 由于 `PartialOrd` 位于 `prelude` 中所以并不需要通过 `std::cmp` 手动将其引入作用域。所以可以将 `largest` 的签名修改为如下：
 
-```rust
+```text
 fn largest<T: PartialOrd>(list: &[T]) -> T {}
 ```
 
 但是此时编译，又会出现新的错误：
 
-```rust
+```console
 error[E0508]: cannot move out of type `[T]`, a non-copy slice
  --> src/main.rs:2:23
   |

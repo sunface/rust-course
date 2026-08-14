@@ -29,7 +29,7 @@ Problem parsing arguments: not enough arguments
 
 将错误信息重定向到 `stderr` 很简单，只需在打印错误的地方，将 `println!` 宏替换为 `eprintln!`即可。
 
-```rust
+```rust,ignore
 fn main() {
     let args: Vec<String> = env::args().collect();
 

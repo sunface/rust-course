@@ -31,7 +31,7 @@ let (a, c) = ("hi", false);
 
 由于 `let` 是语句，因此不能将 `let` 语句赋值给其它值，如下形式是错误的：
 
-```rust
+```rust,compile_fail
 let b = (let a = 8);
 ```
 
@@ -72,10 +72,12 @@ fn main() {
 上面使用一个语句块表达式将值赋给 `y` 变量，语句块长这样：
 
 ```rust
+# let _value =
 {
     let x = 3;
     x + 1
 }
+# ;
 ```
 
 该语句块是表达式的原因是：它的最后一行是表达式，返回了 `x + 1` 的值，注意 `x + 1` 不能以分号结尾，否则就会从表达式变成语句， **表达式不能包含分号**。这一点非常重要，一旦你在表达式后加上分号，它就会变成一条语句，再也**不会**返回一个值，请牢记！
@@ -104,4 +106,3 @@ fn ret_unit_type() {
 ## 课后练习
 
 > [Rust By Practice](https://practice-zh.course.rs/basic-types/statements-expressions.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/basic-types/statements.md)。
-

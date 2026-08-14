@@ -10,6 +10,8 @@
 虽然之前有讲过为什么这里可以使用 `clone`，但是也许总有同学心有芥蒂，毕竟程序员嘛，都希望代码处处完美，而不是丑陋的处处妥协。
 
 ```rust
+# use std::env;
+# struct Config { query: String, file_path: String, ignore_case: bool }
 impl Config {
     pub fn build(args: &[String]) -> Result<Config, &'static str> {
         if args.len() < 3 {
@@ -38,7 +40,7 @@ impl Config {
 
 在之前的实现中，我们的 `args` 是一个动态数组:
 
-```rust
+```rust,ignore
 fn main() {
     let args: Vec<String> = env::args().collect();
 
@@ -55,7 +57,7 @@ fn main() {
 
 现在呢，无需数组了，直接传入迭代器即可：
 
-```rust
+```rust,ignore
 fn main() {
     let config = Config::build(env::args()).unwrap_or_else(|err| {
         eprintln!("Problem parsing arguments: {err}");
@@ -69,7 +71,7 @@ fn main() {
 如上所示，我们甚至省去了一行代码，原因是 `env::args` 可以直接返回一个迭代器，再作为 `Config::build` 的参数传入，下面再来改写 `build` 方法。
 
 
-```rust
+```text
 impl Config {
     pub fn build(
         mut args: impl Iterator<Item = String>,
@@ -86,6 +88,8 @@ impl Config {
 数组索引会越界，为了安全性和简洁性，使用 `Iterator` 特征自带的 `next` 方法是一个更好的选择:
 
 ```rust
+# use std::env;
+# struct Config { query: String, file_path: String, ignore_case: bool }
 impl Config {
     pub fn build(
         mut args: impl Iterator<Item = String>,

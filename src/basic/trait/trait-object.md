@@ -2,7 +2,12 @@
 
 在上一节中有一段代码无法通过编译：
 
-```rust
+```rust,compile_fail
+# trait Summary {}
+# struct Post {}
+# impl Summary for Post {}
+# struct Weibo {}
+# impl Summary for Weibo {}
 fn returns_summarizable(switch: bool) -> impl Summary {
     if switch {
         Post {
@@ -70,6 +75,7 @@ pub trait Draw {
 只要组件实现了 `Draw` 特征，就可以调用 `draw` 方法来进行渲染。假设有一个 `Button` 和 `SelectBox` 组件实现了 `Draw` 特征：
 
 ```rust
+# pub trait Draw { fn draw(&self); }
 pub struct Button {
     pub width: u32,
     pub height: u32,
@@ -98,7 +104,7 @@ impl Draw for SelectBox {
 
 此时，还需要一个动态数组来存储这些 UI 对象：
 
-```rust
+```text
 pub struct Screen {
     pub components: Vec<?>,
 }
@@ -166,6 +172,7 @@ fn main() {
 继续来完善之前的 UI 组件代码，首先来实现 `Screen`：
 
 ```rust
+# pub trait Draw { fn draw(&self); }
 pub struct Screen {
     pub components: Vec<Box<dyn Draw>>,
 }
@@ -176,6 +183,8 @@ pub struct Screen {
 再来为 `Screen` 定义 `run` 方法，用于将列表中的 UI 组件渲染在屏幕上：
 
 ```rust
+# pub trait Draw { fn draw(&self); }
+# pub struct Screen { pub components: Vec<Box<dyn Draw>> }
 impl Screen {
     pub fn run(&self) {
         for component in self.components.iter() {
@@ -190,6 +199,7 @@ impl Screen {
 再来看看，如果通过泛型实现，会如何：
 
 ```rust
+# pub trait Draw { fn draw(&self); }
 pub struct Screen<T: Draw> {
     pub components: Vec<T>,
 }
@@ -211,6 +221,13 @@ impl<T> Screen<T>
 现在来运行渲染下咱们精心设计的 UI 组件列表：
 
 ```rust
+# pub trait Draw { fn draw(&self); }
+# pub struct Screen { pub components: Vec<Box<dyn Draw>> }
+# impl Screen { pub fn run(&self) { for component in &self.components { component.draw(); } } }
+# pub struct SelectBox { width: u32, height: u32, options: Vec<String> }
+# impl Draw for SelectBox { fn draw(&self) {} }
+# pub struct Button { width: u32, height: u32, label: String }
+# impl Draw for Button { fn draw(&self) {} }
 fn main() {
     let screen = Screen {
         components: vec![
@@ -243,7 +260,10 @@ fn main() {
 
 使用特征对象和 Rust 类型系统来进行类似鸭子类型操作的优势是，无需在运行时检查一个值是否实现了特定方法或者担心在调用时因为值没有实现方法而产生错误。如果值没有实现特征对象所需的特征， 那么 Rust 根本就不会编译这些代码：
 
-```rust
+```rust,compile_fail
+# pub trait Draw { fn draw(&self); }
+# pub struct Screen { pub components: Vec<Box<dyn Draw>> }
+# impl Screen { pub fn run(&self) { for component in &self.components { component.draw(); } } }
 fn main() {
     let screen = Screen {
         components: vec![
@@ -269,13 +289,14 @@ fn main() {
 
 而 `&dyn` 和 `Box<dyn>` 在编译期都是已知大小，所以可以用作特征对象的定义。
 
-```rust
+```rust,compile_fail
+# trait Draw { fn draw(&self); }
 fn draw2(x: dyn Draw) {
     x.draw();
 }
 ```
 
-```
+```console
 10 | fn draw2(x: dyn Draw) {
    |          ^ doesn't have a size known at compile-time
    |
@@ -357,7 +378,7 @@ pub trait Clone {
 
 如果违反了对象安全的规则，编译器会提示你。例如，如果尝试使用之前的 `Screen` 结构体来存放实现了 `Clone` 特征的类型：
 
-```rust
+```rust,compile_fail
 pub struct Screen {
     pub components: Vec<Box<dyn Clone>>,
 }

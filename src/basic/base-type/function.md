@@ -39,7 +39,7 @@ fn another_function(x: i32, y: f32) {
 
 `another_function` 函数有两个参数，其中 `x` 是 `i32` 类型，`y` 是 `f32` 类型，然后在该函数内部，打印出这两个值。这里去掉 `x` 或者 `y` 的任何一个的类型，都会报错：
 
-```rust
+```rust,compile_fail
 fn main() {
     another_function(5, 6.1);
 }
@@ -148,7 +148,7 @@ fn clear(text: &mut String) -> () {
 
 在实际编程中，你会经常在错误提示中看到该 `()` 的身影出没，假如你的函数需要返回一个 `u32` 值，但是如果你不幸的以 `表达式;` 的语句形式作为函数的最后一行代码，就会报错：
 
-```rust
+```rust,compile_fail
 fn add(x:u32,y:u32) -> u32 {
     x + y;
 }

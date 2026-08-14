@@ -14,7 +14,7 @@
 
 #### match 分支
 
-```rust
+```text
 match VALUE {
     PATTERN => EXPRESSION,
     PATTERN => EXPRESSION,
@@ -24,7 +24,7 @@ match VALUE {
 
 如上所示，`match` 的每个分支就是一个**模式**，因为 `match` 匹配是穷尽式的，因此我们往往需要一个特殊的模式 `_`，来匹配剩余的所有情况：
 
-```rust
+```text
 match VALUE {
     PATTERN => EXPRESSION,
     PATTERN => EXPRESSION,
@@ -36,7 +36,7 @@ match VALUE {
 
 `if let` 往往用于匹配一个模式，而忽略剩下的所有模式的场景：
 
-```rust
+```text
 if let PATTERN = SOME_VALUE {
 
 }
@@ -79,7 +79,7 @@ for (index, value) in v.iter().enumerate() {
 
 #### let 语句
 
-```rust
+```text
 let PATTERN = EXPRESSION;
 ```
 
@@ -99,11 +99,11 @@ let (x, y, z) = (1, 2, 3);
 
 模式匹配要求两边的类型必须相同，否则就会导致下面的报错：
 
-```rust
+```rust,compile_fail
 let (x, y) = (1, 2, 3);
 ```
 
-```rust
+```console
 error[E0308]: mismatched types
  --> src/main.rs:4:5
   |
@@ -149,7 +149,8 @@ fn main() {
 
 对于以下代码，编译器会报错：
 
-```rust
+```rust,compile_fail
+# let some_option_value = Some(5);
 let Some(x) = some_option_value;
 ```
 
@@ -160,6 +161,7 @@ let Some(x) = some_option_value;
 但是对于 `if let`，就可以这样使用：
 
 ```rust
+# let some_option_value = Some(5);
 if let Some(x) = some_option_value {
     println!("{}", x);
 }
@@ -195,6 +197,7 @@ fn main() {
 与 `match` 和 `if let` 相比，`let-else` 的一个显著特点在于其解包成功时所创建的变量具有更广的作用域。在 `let-else` 语句中，成功匹配后的变量不再仅限于特定分支内使用：
 
 ```rust
+# let some_option_value = Some(5);
 // if let
 if let Some(x) = some_option_value {
     println!("{}", x);

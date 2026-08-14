@@ -170,7 +170,7 @@ let s2 = s1;
 
 再来看看，在所有权转移后再来使用旧的所有者，会发生什么：
 
-```rust
+```rust,compile_fail
 let s1 = String::from("hello");
 let s2 = s1;
 
@@ -339,4 +339,3 @@ fn takes_and_gives_back(a_string: String) -> String { // a_string 进入作用�
 ## 课后练习
 
 > [Rust By Practice](https://practice-zh.course.rs/ownership/ownership.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/ownership/ownership.md)。
-
