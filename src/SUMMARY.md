@@ -144,17 +144,9 @@
   - [move、Copy 和 Clone TODO](difficulties/move-copy.md)
   - [裸指针、引用和智能指针 TODO](advance/difficulties/pointer.md)
 
-# 常用工具链
+# Rust 语言工程学习
 
 ---
-
-- [自动化测试](test/intro.md)
-
-  - [编写测试及控制执行](test/write-tests.md)
-  - [单元测试和集成测试](test/unit-integration-test.md)
-  - [断言 assertion](test/assertion.md)
-  - [用 GitHub Actions 进行持续集成](test/ci.md)
-  - [基准测试 benchmark](test/benchmark.md)
 
 - [Cargo 使用指南](cargo/intro.md)
   - [上手使用](cargo/getting-started.md)
@@ -181,13 +173,19 @@
     - [构建脚本 build.rs](cargo/reference/build-script/intro.md)
       - [构建脚本示例](cargo/reference/build-script/examples.md)
 
-# 开发实践
+- [自动化测试](test/intro.md)
 
----
+  - [编写测试及控制执行](test/write-tests.md)
+  - [单元测试和集成测试](test/unit-integration-test.md)
+  - [断言 assertion](test/assertion.md)
+  - [用 GitHub Actions 进行持续集成](test/ci.md)
+  - [基准测试 benchmark](test/benchmark.md)
 
-- [企业落地实践](usecases/intro.md)
-
-  - [AWS 为何这么喜欢 Rust?](usecases/aws-rust.md)
+- [Rust 最佳实践](practice/intro.md)
+  - [日常开发三方库精选](practice/third-party-libs.md)
+  - [命名规范](practice/naming.md)
+  - [面试经验](practice/interview.md)
+  - [代码开发实践 todo](practice/best-pratice.md)
 
 - [日志和监控](logs/intro.md)
   - [日志详解](logs/about-log.md)
@@ -197,11 +195,11 @@
   - [监控](logs/observe/intro.md)
     - [可观测性](logs/observe/about-observe.md)
     - [分布式追踪](logs/observe/trace.md)
-- [Rust 最佳实践](practice/intro.md)
-  - [日常开发三方库精选](practice/third-party-libs.md)
-  - [命名规范](practice/naming.md)
-  - [面试经验](practice/interview.md)
-  - [代码开发实践 todo](practice/best-pratice.md)
+
+- [企业落地实践](usecases/intro.md)
+
+  - [AWS 为何这么喜欢 Rust?](usecases/aws-rust.md)
+
 - [手把手带你实现链表](too-many-lists/intro.md)
   - [我们到底需不需要链表](too-many-lists/do-we-need-it.md)
   - [不太优秀的单向链表：栈](too-many-lists/bad-stack/intro.md)
@@ -247,10 +245,6 @@
     - [双单向链表](too-many-lists/advanced-lists/double-singly.md)
     - [栈上的链表](too-many-lists/advanced-lists/stack-allocated.md)
 
-# 攻克编译错误
-
----
-
 - [征服编译错误](compiler/intro.md)
 
   - [对抗编译检查](compiler/fight-with-compiler/intro.md)
@@ -276,10 +270,6 @@
     - [无处不在的迭代器](compiler/pitfalls/iterator-everywhere.md)
     - [线程间传递消息导致主线程无法结束](compiler/pitfalls/main-with-channel-blocked.md)
     - [警惕 UTF-8 引发的性能隐患](compiler/pitfalls/utf8-performance.md)
-
-# 性能优化
-
----
 
 - [Rust 性能优化 todo](profiling/intro.md)
 
@@ -342,11 +332,7 @@
 - [Rust前端开发入门]()
 - [Rust和WASM]() -->
 
-# 附录
-
----
-
-- [Appendix]()
+- [参考与附录](appendix/intro.md)
   - [关键字](appendix/keywords.md)
   - [运算符与符号](appendix/operators.md)
   - [表达式](appendix/expressions.md)
