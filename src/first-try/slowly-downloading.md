@@ -1,7 +1,7 @@
 # 下载依赖很慢或卡住？
-在目前，大家还不需要自己搭建的镜像下载服务，因此只需知道下载依赖库的地址是 [crates.io](https://crates.io)，是由 Rust 官方搭建的镜像下载和管理服务。
+在目前，大家还不需要自己搭建镜像服务，因此只需知道 [crates.io](https://crates.io) 是 Rust 官方的包注册中心，Cargo 默认从这里查找和下载依赖。
 
-但悲剧的是，它的默认镜像地址是在国外，这就导致了某些时候难免会遇到下载缓慢或者卡住的情况，下面我们一起来看看。
+但悲剧的是，在某些网络环境下，访问它难免会遇到下载缓慢或者卡住的情况，下面我们一起来看看。
 
 
 ## 下载很慢?
@@ -25,37 +25,33 @@ export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_pr
 ###  修改 Rust 的下载镜像为国内的镜像地址
 这个效果最直接，一劳永逸，但是就是配置起来略微麻烦。
 
-为了使用 `crates.io` 之外的注册服务，我们需要对 `$HOME/.cargo/config.toml` (`$CARGO_HOME` 下) 文件进行配置，添加新的服务提供商，有两种方式可以实现：增加新的镜像地址和覆盖默认的镜像地址。
+为了使用 `crates.io` 之外的注册服务，我们需要修改 `$CARGO_HOME/config.toml`；`CARGO_HOME` 未单独设置时，类 Unix 系统上的默认路径是 `$HOME/.cargo/config.toml`，Windows 上则是 `%USERPROFILE%\.cargo\config.toml`。有两种方式可以实现：增加新的镜像地址和覆盖默认的镜像地址。
+
+下面的 [USTC](https://mirrors.ustc.edu.cn/help/crates.io-index.html) 与 [RsProxy](https://rsproxy.cn/) 配置已在 2026-08-14 按服务方文档核对。镜像服务可能继续变化，如果配置失效，请优先查看服务方的最新说明。
 
 ### 新增镜像地址
 
 
-**首先是在 `crates.io` 之外添加新的注册服务**，在 `$HOME/.cargo/config.toml` （如果文件不存在则手动创建一个）中添加以下内容：
+**首先是在 `crates.io` 之外添加新的注册服务**，在 Cargo 的 `config.toml`（如果文件不存在则手动创建一个）中添加以下内容：
 
 ```toml
-[registries]
-ustc = { index = "https://mirrors.ustc.edu.cn/crates.io-index/" }
+[registries.ustc]
+index = "sparse+https://mirrors.ustc.edu.cn/crates.io-index/"
 ```
 
 这种方式只会新增一个新的镜像地址，因此在引入依赖的时候，需要指定该地址，例如在项目中引入 `time` 包，你需要在 `Cargo.toml` 中使用以下方式引入:
 
 ```toml
 [dependencies]
-time = {  registry = "ustc" }
+time = { version = "0.3", registry = "ustc" }
 ```
 
-**在重新配置后，初次构建可能要较久的时间**，因为要下载更新 `ustc` 注册服务的索引文件，由于文件比较大，需要等待较长的时间。
+稀疏索引会按需获取依赖信息，不再完整克隆庞大的 `crates.io-index` 仓库。初次构建仍然需要下载依赖，因此可能比后续构建慢一些。
 
 此处有两点需要注意：
 
-1. cargo 1.68 版本开始支持稀疏索引，不再需要完整克隆 crates.io-index 仓库，可以加快获取包的速度，如：
-
-```toml
-[source.ustc]
-registry = "sparse+https://mirrors.ustc.edu.cn/crates.io-index/"
-```
-
-2. cargo search 无法使用镜像
+1. Cargo 1.68 开始支持稀疏索引；从 Cargo 1.70 起，访问 `crates.io` 时已经默认使用稀疏协议。第三方稀疏索引仍需在地址前写明 `sparse+`。
+2. 使用命名镜像执行搜索时，需要显式指定注册服务，例如 `cargo search --registry ustc reqwest`。
 
 #### 科大镜像
 上面使用的是科大提供的注册服务，也是 Rust 最早期的注册服务，感谢大大们的贡献。除此之外，大家还可以选择下面的镜像服务：
@@ -66,20 +62,13 @@ registry = "sparse+https://mirrors.ustc.edu.cn/crates.io-index/"
 
 ```toml
 [source.crates-io]
-replace-with = 'rsproxy'
+replace-with = 'rsproxy-sparse'
 
-[source.rsproxy]
-registry = "https://rsproxy.cn/crates.io-index"
-
-# 稀疏索引，要求 cargo >= 1.68
 [source.rsproxy-sparse]
 registry = "sparse+https://rsproxy.cn/index/"
 
-[registries.rsproxy]
-index = "https://rsproxy.cn/crates.io-index"
-
-[net]
-git-fetch-with-cli = true
+[registries.rsproxy-sparse]
+index = "sparse+https://rsproxy.cn/index/"
 ```
 
 
@@ -95,7 +84,7 @@ git-fetch-with-cli = true
 replace-with = 'ustc'
 
 [source.ustc]
-registry = "git://mirrors.ustc.edu.cn/crates.io-index"
+registry = "sparse+https://mirrors.ustc.edu.cn/crates.io-index/"
 ```
 
 首先，创建一个新的镜像源 `[source.ustc]`，然后将默认的 `crates-io` 替换成新的镜像源: `replace-with = 'ustc'`。
@@ -106,9 +95,9 @@ registry = "git://mirrors.ustc.edu.cn/crates.io-index"
 
 
 ## 下载卡住
-下载卡住其实就一个原因：下载太慢了。
+下载卡住可能是网络慢，也可能是有其它 Cargo 进程正在占用缓存。
 
-根据经验来看，卡住不动往往发生在更新索引时。毕竟 Rust 的包越来越多，索引也越来越大，如果不使用国内镜像，卡住还蛮正常的，好在，我们也无需经常更新索引 :P
+Cargo 1.70 起，`crates.io` 默认使用稀疏索引，不再完整更新 Git 索引。如果获取索引或依赖时长时间没有进展，可以先检查网络；如果终端显示文件锁提示，则按下一节排查进程占用。
 
 ### Blocking waiting for file lock on package cache
 不过这里有一个坑，需要大家注意，如果你同时打开了 VSCODE 和命令行，然后修改了 `Cargo.toml`，此时 VSCODE 的 rust-analyzer 插件会自动检测到依赖的变更，去下载新的依赖。
@@ -121,12 +110,10 @@ $ cargo build
     Blocking waiting for file lock on package cache
 ```
 
-其实这个报错就是因为 VSCODE 的下载太慢了，而且该下载构建还锁住了当前的项目，导致你无法在另一个地方再次进行构建。
+这不是构建失败，而是另一个 Cargo 进程持有软件包缓存锁，当前命令正在等待它释放。等前一个进程完成后，当前构建会继续执行。
 
 解决办法也很简单：
 
 - 增加下载速度，见前面内容
-- 耐心等待持有锁的用户构建完成
+- 耐心等待持有锁的进程构建完成
 - 强行停止正在构建的进程，例如杀掉 IDE 使用的 rust-analyzer 插件进程，然后删除 `$HOME/.cargo/.package_cache` 目录
-
-

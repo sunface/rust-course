@@ -73,12 +73,12 @@ $ tree
 ```console
 $ cargo run
    Compiling world_hello v0.1.0 (/Users/sunfei/development/rust/world_hello)
-    Finished dev [unoptimized + debuginfo] target(s) in 0.43s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.43s
      Running `target/debug/world_hello`
 Hello, world!
 ```
 
-好了，你已经看到程序的输出：`"Hello, world"`。
+好了，你已经看到程序的输出：`"Hello, world!"`。
 
 如果你安装的 Rust 的 `host triple` 是 `x86_64-pc-windows-msvc` 并确认 Rust 已经正确安装，但在终端上运行上述命令时，出现类似如下的错误摘要 `` linking with `link.exe` failed: exit code: 1181 ``，请使用 Visual Studio Installer 安装 `Windows SDK`。
 
@@ -90,7 +90,7 @@ Hello, world!
 
 ```console
 $ cargo build
-    Finished dev [unoptimized + debuginfo] target(s) in 0.00s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.00s
 ```
 
 运行
@@ -99,6 +99,8 @@ $ cargo build
 $ ./target/debug/world_hello
 Hello, world!
 ```
+
+在 Windows 的 PowerShell 或命令提示符中，可执行文件路径是 `target\debug\world_hello.exe`。
 
 行云流水，但谈不上一气呵成。 细心的读者可能已经发现，在调用的时候，路径 `./target/debug/world_hello` 中有一个明晃晃的 `debug` 字段，没错我们运行的是 `debug` 模式，在这种模式下，**代码的编译速度会非常快**，可是福兮祸所伏，**运行速度就慢了**. 原因是，在 `debug` 模式下，Rust 编译器不会做任何的优化，只为了尽快的编译完成，让你的开发流程更加顺畅。
 
@@ -123,7 +125,7 @@ Hello, world!
 ```console
 $ cargo check
     Checking world_hello v0.1.0 (/Users/sunfei/development/rust/world_hello)
-    Finished dev [unoptimized + debuginfo] target(s) in 0.06s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.06s
 ```
 
 > Rust 虽然编译速度还行，但是还是不能与 Go 语言相提并论，因为 Rust 需要做很多复杂的编译优化和语言特性解析，甚至连如何优化编译速度都成了一门学问: [优化编译速度](https://beatai.org/rust-course/profiling/compiler/speed-up)。
@@ -136,7 +138,7 @@ $ cargo check
 
 - `Cargo.lock` 文件是 `cargo` 工具根据同一项目的 `toml` 文件生成的**项目依赖详细清单**，因此我们一般不用修改它，只需要对着 `Cargo.toml` 文件撸就行了。
 
-> 什么情况下该把 `Cargo.lock` 上传到 git 仓库里？很简单，当你的项目是一个可运行的程序时，就上传 `Cargo.lock`，如果是一个依赖库项目，那么请把它添加到 `.gitignore` 中。
+> 什么情况下该把 `Cargo.lock` 上传到 git 仓库里？`cargo new` 默认会跟踪它。可运行程序通常应该提交 `Cargo.lock`；依赖库可以根据项目需要决定。拿不准时，提交即可。
 
 现在用 VSCode 打开上面创建的"世界，你好"项目，然后进入根目录的 `Cargo.toml` 文件，可以看到该文件包含不少信息：
 
@@ -148,10 +150,10 @@ $ cargo check
 [package]
 name = "world_hello"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 ```
 
-`name` 字段定义了项目名称，`version` 字段定义当前版本，新项目默认是 `0.1.0`，`edition` 字段定义了我们使用的 Rust 大版本。因为本书很新（不仅仅是现在新，未来也将及时修订，跟得上 Rust 的小步伐），所以使用的是 `Rust edition 2021` 大版本，详情见 [Rust 版本详解](https://beatai.org/rust-course/appendix/rust-version)
+`name` 字段定义了项目名称，`version` 字段定义当前版本，新项目默认是 `0.1.0`，`edition` 字段定义了项目使用的 Rust Edition。因为本书很新（不仅仅是现在新，未来也将及时修订，跟得上 Rust 的小步伐），所以使用的是 Rust 2024 Edition，详情见 [Rust 版本详解](https://beatai.org/rust-course/appendix/rust-version)。
 
 ### 定义项目依赖
 
@@ -167,11 +169,12 @@ edition = "2021"
 
 ```toml
 [dependencies]
-rand = "0.3"
-hammer = { version = "0.5.0"}
-color = { git = "https://github.com/bjz/color-rs" }
+rand = "0.10"
+regex = { git = "https://github.com/rust-lang/regex.git" }
 geometry = { path = "crates/geometry" }
 ```
+
+> 除了手动修改 `Cargo.toml`，还可以使用 `cargo add`。例如，`cargo add rand@0.10` 会写入 `rand = "0.10"`；Git 与本地路径依赖则分别使用 `--git` 和 `--path`。
 
 相信聪明的读者已经能看懂该如何引入外部依赖库，这里就不再赘述。详细的说明参见此章：[Cargo 依赖管理](https://beatai.org/rust-course/cargo/reference/specify-deps)，但是不建议大家现在去看，只要按照目录浏览，拨云见日指日可待。
 

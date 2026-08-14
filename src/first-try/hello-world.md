@@ -31,7 +31,7 @@ fn main() {
 ```console
 $ cargo run
    Compiling world_hello v0.1.0 (/Users/sunfei/development/rust/world_hello)
-    Finished dev [unoptimized + debuginfo] target(s) in 0.21s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.21s
      Running `target/debug/world_hello`
 Grüß Gott!
 世界，你好
@@ -42,13 +42,13 @@ World, hello
 
 首先，Rust 原生支持 UTF-8 编码的字符串，这意味着你可以很容易的使用世界各国文字作为字符串内容。
 
-其次，关注下 `println` 后面的 `!`，如果你有 Ruby 编程经验，那么你可能会认为这是解构操作符，但是在 Rust 中，这是 `宏` 操作符，你目前可以认为宏是一种特殊类型函数。
+其次，关注下 `println` 后面的 `!`，如果你有 Ruby 编程经验，那么你可能会认为这是解构操作符，但是在 Rust 中，它表示这里调用的是宏。你目前可以先把宏理解成一种特殊的代码生成工具。
 
-对于 `println` 来说，我们没有使用其它语言惯用的 `%s`、`%d` 来做输出占位符，而是使用 `{}`，因为 Rust 在底层帮我们做了大量工作，会自动识别输出数据的类型，例如当前例子，会识别为 `&str` 类型。
+对于 `println!` 来说，我们没有使用其它语言惯用的 `%s`、`%d` 来做输出占位符，而是使用 `{}`。Rust 会在编译期检查参数能否按对应格式输出，例如当前例子中的元素类型是 `&str`。
 
-最后，和其它语言不同，Rust 的集合类型不能直接进行循环，需要变成迭代器（这里是通过 `.iter()` 方法），才能用于迭代循环。在目前来看，你会觉得这一点好像挺麻烦，不急，以后就知道这么做的好处所在。
+最后，Rust 的集合类型可以通过迭代器进行循环，这里使用 `.iter()` 获取数组的迭代器。在目前来看，你会觉得这一点好像挺麻烦，不急，以后就知道这么做的好处所在。
 
-> 实际上这段代码可以简写，在 2021 edition 及以后，支持直接写 `for region in regions`，原因会在迭代器章节的开头提到，是因为 for 隐式地将 regions 转换成迭代器。
+> 实际上这段代码可以简写，直接写 `for region in regions` 即可。原因会在迭代器章节的开头提到：`for` 会隐式地将 `regions` 转换成迭代器。
 
 至于函数声明、调用、数组的使用，和其它语言没什么区别，So Easy！
 
@@ -112,10 +112,10 @@ fn main() {
 - 方法语法：由于 Rust 没有继承，因此 Rust 不是传统意义上的面向对象语言，但是它却从 `OO` 语言那里偷师了方法的使用 `record.trim()`，`record.split(',')` 等。
 - 高阶函数编程：函数可以作为参数也能作为返回值，例如 `.map(|field| field.trim())`，这里 `map` 方法中使用闭包函数作为参数，也可以称呼为 `匿名函数`、`lambda 函数`。
 - 类型标注：`if let Ok(length) = fields[1].parse::<f32>()`，通过 `::<f32>` 的使用，告诉编译器 `length` 是一个 `f32` 类型的浮点数。这种类型标注不是很常用，但是在编译器无法推断出你的数据类型时，就很有用了。
-- 条件编译：`if cfg!(debug_assertions)`，说明紧跟其后的输出（打印）只在 `debug` 模式下生效。
+- 配置判断：`cfg!(debug_assertions)` 会在编译期得到一个布尔值，因此紧跟其后的输出（打印）只在 `debug` 模式下执行。和 `#[cfg(...)]` 不同，`cfg!` 不会把代码从编译过程中移除。
 - 隐式返回：Rust 提供了 `return` 关键字用于函数返回，但是在很多时候，我们可以省略它。因为 Rust 是 [**基于表达式的语言**](https://beatai.org/rust-course/basic/base-type/statement-expression)。
 
-在终端中运行上述代码时，会看到很多 `debug: ...` 的输出，上面有讲，这些都是 `条件编译` 的输出，那么该怎么消除掉这些输出呢？
+在终端中运行上述代码时，会看到很多 `debug: ...` 的输出，上面有讲，这些输出受 `debug_assertions` 配置控制，那么该怎么消除掉它们呢？
 
 读者大大普遍冰雪聪明，肯定已经想到：是的，在 [认识 Cargo](https://beatai.org/rust-course/first-try/cargo#手动编译和运行项目) 中，曾经介绍过 `--release` 参数，因为 `cargo run` 默认是运行 `debug` 模式。因此想要消灭那些 `debug:` 输出，需要更改为其它模式，其中最常用的模式就是 `--release` 也就是生产发布的模式。
 

@@ -7,7 +7,7 @@
 >
 > 注意：如果你不想用或者不能用 rustup，请参见 [Rust 其它安装方法](https://forge.rust-lang.org/infra/other-installation-methods.html#other-rust-installation-methods)。
 
-至于版本，现在 Rust 稳定版特性越来越全了，因此下载最新稳定版本即可。由于你用的 Rust 版本可能跟本书写作时不一样，一些编译错误和警告可能也会有所不同。
+至于版本，现在 Rust 稳定版特性越来越全了，因此下载最新稳定版本即可。本书中的示例已使用 Rust 1.97.1 验证；由于你安装的稳定版可能更新，一些编译错误和警告也可能略有不同。
 
 ## 在 Linux 或 macOS 上安装 `rustup`
 
@@ -27,9 +27,9 @@ Rust is installed now. Great!
 
 OK，这样就已经完成 Rust 安装啦。
 
-### 安装 C 语言编译器：（非必需）
+### 安装 C 语言编译器（遇到链接错误时）
 
-Rust 对运行环境的依赖和 Go 语言很像，几乎所有环境都可以无需安装任何依赖直接运行。但是，Rust 会依赖 `libc` 和链接器 `linker`。所以如果遇到了提示链接器无法执行的错误，你需要再手动安装一个 C 语言编译器：
+Rust 需要链接器来生成最终的可执行文件，一些常用依赖也需要编译 C 代码。很多系统已经包含了所需工具；如果遇到链接器无法执行之类的错误，再安装一个 C 语言编译器即可：
 
 **macOS 下：**
 
@@ -58,19 +58,31 @@ Linux 用户一般应按照相应发行版的文档来安装 `GCC` 或 `Clang`�
 # make install clean
 ```
 
+以上两种方式安装的是 `rustup-init`。接下来切换回普通用户，初始化 `rustup`：
+
+```sh
+$ rustup-init --profile minimal --default-toolchain none -y
+```
+
+重新打开终端，让环境变量生效，再安装 Stable 工具链：
+
+```sh
+$ rustup default stable
+```
+
 ## 在 Windows 上安装 `rustup`
 
 Windows 上安装 Rust 需要有 `C++` 环境，以下为安装的两种方式：
 
 **1. `x86_64-pc-windows-msvc`（官方推荐）**
 
-先安装 [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/zh-hans/visual-cpp-build-tools/)，勾选安装 C++ 环境即可。安装时可自行修改缓存路径与安装路径，避免占用过多 C 盘空间。安装完成后，Rust 所需的 msvc 命令行程序需要手动添加到环境变量中，否则安装 Rust 时 `rustup-init` 会提示未安装 Microsoft C++ Build Tools，其位于：`%Visual Studio 安装位置%\VC\Tools\MSVC\%version%\bin\Hostx64\x64`（请自行替换其中的 %Visual Studio 安装位置%、%version% 字段）下。
+先在 [Rust 安装页](https://www.rust-lang.org/tools/install) 下载系统对应的 Rust 安装程序。运行 `rustup-init.exe` 时，如果系统尚未安装 Visual Studio，它会提示你自动安装所需组件。
 
-如果你不想这么做，可以选择安装 Microsoft C++ Build Tools 新增的“定制”终端 `Developer Command Prompt for %Visual Studio version%` 或 `Developer PowerShell for %Visual Studio version%`，在其中运行 `rustup-init.exe`。
+你也可以手动安装 [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/zh-hans/visual-cpp-build-tools/)，在安装器中选择“使用 C++ 的桌面开发”，并确认包含 MSVC x64/x86 生成工具和 Windows SDK。安装时可自行修改缓存路径与安装路径，避免占用过多 C 盘空间。安装完成后不需要把某个具体版本的 MSVC 目录手动加入 `PATH`；如果需要使用 Visual Studio 提供的定制终端，可以打开 `Developer Command Prompt` 或 `Developer PowerShell`。
 
 准备好 C++ 环境后开始安装 Rust：
 
-在 [RUSTUP-INIT](https://rust-lang.org/zh-CN/learn/get-started/) 下载系统相对应的 Rust 安装程序，一路默认即可。
+运行刚才下载的 Rust 安装程序，一路默认即可。
 
 ```shell
 PS C:\Users\Hehongyuan> rustup-init.exe
@@ -97,14 +109,12 @@ Current installation options:
 
 首先，根据 [MSYS2 官网](https://www.msys2.org/) 配置 MSYS。
 
-若您觉得下载太慢，可以试试由 [Caviar-X](https://github.com/Caviar-X) 提供的 [代理](https://github.pigeons.icu/msys2/msys2-installer/releases/download/2021-11-30/msys2-x86_64-20211130.exe)。
-
 在安装 `mingw-toolchain` 后，请将 `%MSYS 安装路径%\mingw64\bin` 添加到系统变量 `PATH` 中。
 
 配置好后，在 MSYS 中输入下面的命令来安装 rustup。
 
 ```bash
-$ curl https://sh.rustup.rs -sSf | sh
+$ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 ```
 
 - Mingw64
@@ -181,13 +191,13 @@ $ rustup self uninstall
 
 ```bash
 $ rustc -V
-rustc 1.56.1 (59eed8a2a 2021-11-01)
+rustc 1.97.1 (8bab26f4f 2026-07-14)
 
 $ cargo -V
-cargo 1.57.0 (b2e52d7ca 2021-10-21)
+cargo 1.97.1 (c980f4866 2026-06-30)
 ```
 
-> 注：若发现版本号不同，以您的版本号为准
+> 注：以上是本书的验证版本。若你安装了更新的稳定版，版本号不同是正常的。
 
 恭喜，你已成功安装 Rust！
 
@@ -200,6 +210,6 @@ cargo 1.57.0 (b2e52d7ca 2021-10-21)
 
 ## 本地文档
 
-安装 Rust 的同时也会在本地安装一个文档服务，方便我们离线阅读：运行 `rustup doc` 让浏览器打开本地文档。
+安装 Rust 的同时也会在本地安装一份文档，方便我们离线阅读：运行 `rustup doc` 让浏览器打开本地文档。
 
 每当遇到标准库提供的类型或函数不知道怎么用时，都可以在 API 文档中查找到！具体参见 [在标准库寻找你想要的内容](https://beatai.org/rust-course/std/search)。

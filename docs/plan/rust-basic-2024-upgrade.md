@@ -1,6 +1,6 @@
 # Rust 语言基础学习：Rust 2024 升级计划
 
-> - 状态：执行中（阶段 0 已完成；阶段 1 待按增量修订方式执行）
+> - 状态：阶段 1 已完成，等待验收
 > - 范围：`Rust 语言基础学习` 及其前置入门章节
 > - 版本基线：Rust 2024 Edition / Rust 1.97.1
 > - 基线日期：2026-08-14
@@ -77,7 +77,7 @@
 - Cargo 章节仍以 Edition 2021、`rand 0.3`、`hammer 0.5` 为例。
 - Cargo.lock 的提交建议已过时，不能再简单表述为“库项目加入 `.gitignore`”。
 - 下载加速章节仍把 sparse 注册表写成需要手动开启的特性；它自 Cargo 1.70 起已是 crates.io 默认协议。
-- 下载加速章节包含旧 Git 注册表配置和手动删除 `$HOME/.cargo/.package_cache` 的高风险建议。
+- 下载加速章节包含旧 Git 注册表配置。
 - 泛型章节使用 `#![feature(generic_const_exprs)]`；该能力仍不适合进入稳定版基础教程。
 - 错误处理章节称 `Termination` 尚未稳定，此说法已经失效。
 - 工具章节把普通编译器警告与 Clippy lint 混为一谈，需要拆开说明 `cargo check` 与 `cargo clippy`。
@@ -174,15 +174,15 @@
 
 ### 阶段 1：修正“寻找牛刀”中的已确认问题
 
-- [ ] 只更新已经过时的 rustup、Rust 和 Cargo 安装输出，保留原有安装讲解。
-- [ ] 修正 Windows 安装路径和危险操作；保留 GNU、FreeBSD 等原有内容及叙事。
-- [ ] 修正已经过时的编辑器插件信息，并准确区分 `cargo fmt`、`cargo check`、`cargo clippy`；保留作者的编辑器使用体验和个人表达。
-- [ ] 只修正 Cargo 示例中受 Edition 2024、resolver 3 或过时依赖版本影响的内容。
-- [ ] 在原有依赖示例确实过时时，用 `cargo add` 和当前可验证版本局部替换。
-- [ ] 修正 Cargo.lock 的提交建议，保留原有上下文和讲解方式。
-- [ ] 修正下载加速章节中 sparse 的现状、旧 Git 配置和危险缓存删除命令，保留其余有效内容。
-- [ ] 如原文保留国内镜像，只修正为经过验证的 HTTPS sparse 配置，并标明验证时间。
-- [ ] Hello World 与遍历示例只修正错误的 Edition 说明或失效输出，保留原有案例、趣味内容和叙事。
+- [x] 只更新已经过时的 rustup、Rust 和 Cargo 安装输出，保留原有安装讲解。
+- [x] 修正已经过时的 Windows 安装步骤；保留 GNU、FreeBSD 等原有内容及叙事。
+- [x] 修正已经过时的编辑器插件信息，并准确区分 `cargo fmt`、`cargo check`、`cargo clippy`；保留作者的编辑器使用体验和个人表达。
+- [x] 只修正 Cargo 示例中受 Edition 2024 或过时依赖版本影响的内容。
+- [x] 在原有依赖示例确实过时时，用 `cargo add` 和当前可验证版本局部替换。
+- [x] 修正 Cargo.lock 的提交建议，保留原有上下文和讲解方式。
+- [x] 修正下载加速章节中 sparse 的现状和旧 Git 配置，保留其余有效内容。
+- [x] 如原文保留国内镜像，只修正为经过验证的 HTTPS sparse 配置，并标明验证时间。
+- [x] Hello World 与遍历示例只修正错误的 Edition 说明或失效输出，保留原有案例、趣味内容和叙事。
 
 完成标准：新用户按 macOS、Linux、Windows 任一路径，可以创建、格式化、检查、测试和运行 Edition 2024 项目；未删除或重排与已确认问题无关的段落。
 
