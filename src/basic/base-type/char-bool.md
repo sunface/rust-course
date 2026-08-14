@@ -17,9 +17,9 @@ fn main() {
 }
 ```
 
-如果大家是从有年代感的编程语言过来，可能会大喊一声：这 XX 叫字符？是的，在 Rust 语言中这些都是字符，Rust 的字符不仅仅是 `ASCII`，所有的 `Unicode` 值都可以作为 Rust 字符，包括单个的中文、日文、韩文、emoji 表情符号等等，都是合法的字符类型。`Unicode` 值的范围从 `U+0000 ~ U+D7FF` 和 `U+E000 ~ U+10FFFF`。不过“字符”并不是 `Unicode` 中的一个概念，所以人在直觉上对“字符”的理解和 Rust 的字符概念并不一致。
+如果大家是从有年代感的编程语言过来，可能会大喊一声：这 XX 叫字符？是的，在 Rust 语言中这些都是字符，Rust 的字符不仅仅是 `ASCII`，任何 `Unicode` 标量值都可以作为 Rust 字符，包括单个的中文、日文、韩文以及部分 emoji 表情符号。`Unicode` 标量值的范围是 `U+0000 ~ U+D7FF` 和 `U+E000 ~ U+10FFFF`。不过“字符”并不是 `Unicode` 中的一个概念，所以人在直觉上对“字符”的理解和 Rust 的字符概念并不一致。
 
-`char`类型表示一个 `Unicode` 标量值（Unicode Scalar Value），它占用固定的 4 字节（32 位） 内存（与 UTF-32 编码单元一致）：
+`char` 类型表示一个 `Unicode` 标量值（Unicode Scalar Value），它占用固定的 4 字节（32 位）内存：
 
 ```rust
 fn main() {
@@ -63,14 +63,13 @@ fn main() {
 
 只能说，再不起眼的东西，都有其用途，在目前为止的学习过程中，大家已经看到过很多次 `fn main()` 函数的使用吧？那么这个函数返回什么呢？
 
-没错， `main` 函数就返回这个单元类型 `()`，因此 `main` 函数有返回值，而没有返回值的函数在 Rust 中是有单独的定义的：`发散函数( diverging functions )（-> !）`，顾名思义，无法收敛的函数。
+没错，前面常见的 `fn main()` 会返回单元类型 `()`。需要注意，“返回 `()`”和“永不返回”并不是一回事：普通函数没有显式声明返回类型时会返回 `()`，而返回类型为 `!` 的发散函数（diverging function）不会正常返回到调用者。
 
 例如常见的 `println!()` 的返回值也是单元类型 `()`。
 
-再比如，你可以用 `()` 作为 `map` 的值，表示我们不关注具体的值，只关注 `key`。 这种用法和 Go 语言的 ***struct{}*** 类似，可以作为一个值用来占位，但是完全**不占用**任何内存，内存占用为0字节。
+再比如，你可以用 `()` 作为 `map` 的值，表示我们不关注具体的值，只关注 `key`。这种用法和 Go 语言的 ***struct{}*** 类似，可以作为一个值用来占位。`()` 自身是零大小类型，不占用存放值的空间，不过 `map` 的键和内部结构仍然需要内存。
 
 
 ## 课后练习
 
 > [Rust By Practice](https://practice-zh.course.rs/basic-types/char-bool-unit.html)，支持代码在线编辑和运行，并提供详细的[习题解答](https://github.com/sunface/rust-by-practice/blob/master/solutions/basic-types/char-bool.md)。
-

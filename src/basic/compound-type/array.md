@@ -1,6 +1,6 @@
 # 数组
 
-在日常开发中，使用最广的数据结构之一就是数组，在 Rust 中，最常用的数组有两种，第一种是速度很快但是长度固定的 `array`，第二种是可动态增长的但是有性能损耗的 `Vector`，在本书中，我们称 `array` 为数组，`Vector` 为动态数组。
+在日常开发中，使用最广的数据结构之一就是数组，在 Rust 中，最常用的数组有两种，第一种是长度固定的 `array`，第二种是可动态增长的 `Vector`，在本书中，我们称 `array` 为数组，`Vector` 为动态数组。
 
 不知道你们发现没，这两个数组的关系跟 `&str` 与 `String` 的关系很像，前者是长度固定的字符串切片，后者是可动态增长的字符串。其实，在 Rust 中无论是 `String` 还是 `Vector`，它们都是 Rust 的高级类型：集合类型，在后面章节会有详细介绍。
 
@@ -10,7 +10,7 @@
 - 元素必须有相同的类型
 - 依次线性排列
 
-这里再啰嗦一句，**我们这里说的数组是 Rust 的基本类型，是固定长度的，这点与其他编程语言不同，其它编程语言的数组往往是可变长度的，与 Rust 中的动态数组 `Vector` 类似**，希望读者大大牢记此点。
+这里再啰嗦一句，**我们这里说的数组是固定长度的；需要动态增长时，应使用 Rust 中的动态数组 `Vector`**，希望读者大大牢记此点。
 
 ### 创建数组
 
@@ -22,7 +22,7 @@ fn main() {
 }
 ```
 
-数组语法跟 JavaScript 很像，也跟大多数编程语言很像。由于它的元素类型大小固定，且长度也是固定，因此**数组 `array` 是存储在栈上**，性能也会非常优秀。与此对应，**动态数组 `Vector` 是存储在堆上**，因此长度可以动态改变。当你不确定是使用数组还是动态数组时，那就应该使用后者，具体见[动态数组 Vector](https://beatai.org/rust-course/basic/collections/vector)。
+数组语法跟 JavaScript 很像，也跟大多数编程语言很像。数组直接包含所有元素，类型 `[T; N]` 的大小在编译期就已确定。数组存放在哪里取决于它所在的值，Rust 并不保证数组总是在栈上；动态数组 `Vector` 的元素则存放在堆上，因此长度可以动态改变。当你不确定是使用数组还是动态数组时，那就应该使用后者，具体见[动态数组 Vector](https://beatai.org/rust-course/basic/collections/vector)。
 
 举个例子，在需要知道一年中各个月份名称的程序中，你很可能希望使用的是数组而不是动态数组。因为月份是固定的，它总是只包含 12 个元素：
 
@@ -133,7 +133,7 @@ error[E0277]: the trait bound `String: std::marker::Copy` is not satisfied
   = note: the `Copy` trait is required because this value will be copied for each element of the array
 ```
 
-有些还没有看过特征的小伙伴，有可能不太明白这个报错，不过这个目前可以不提，我们就拿之前所学的[所有权](https://beatai.org/rust-course/basic/ownership/ownership)知识，就可以思考明白，前面几个例子都是 Rust 的基本类型，而**基本类型在 Rust 中赋值是以 Copy 的形式**，这时候你就懂了吧，`let array=[3;5]`底层就是不断的Copy出来的，但很可惜复杂类型都没有深拷贝，只能一个个创建。
+有些还没有看过特征的小伙伴，有可能不太明白这个报错，不过这个目前可以不提。`[表达式; N]` 会先计算一次表达式，再把结果复制到各个元素中，因此当 `N` 大于 1 时，普通表达式的结果必须实现 `Copy` 特征。整数实现了 `Copy`，`String` 没有实现，所以这里不能直接重复 8 次。
 
 接着就有小伙伴会这样写。
 
@@ -145,7 +145,7 @@ println!("{:#?}", array);
 
 作为一个追求极致完美的Rust开发者，怎么能容忍上面这么难看的代码存在！
 
-**正确的写法**，应该调用`std::array::from_fn`
+如果要生成 8 个彼此独立的 `String`，可以调用 `std::array::from_fn`：
 
 ```rust
 let array: [String; 8] = std::array::from_fn(|_i| String::from("rust is good!"));
@@ -197,7 +197,7 @@ fn main() {
     }
 
     let mut sum = 0;
-    // 0..a.len,是一个 Rust 的语法糖，其实就等于一个数组，元素是从0,1,2一直增加到到a.len-1
+    // 0..a.len() 是一个左闭右开的序列，从 0 一直到 a.len() - 1
     for i in 0..a.len() {
       sum += a[i];
     }
