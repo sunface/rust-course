@@ -12,6 +12,7 @@ additional-css = ["theme/style.css"]
 additional-js = ["assets/custom.js", "assets/bigPicture.js"]
 git-repository-url = "https://github.com/sunface/rust-course"
 edit-url-template = "https://github.com/sunface/rust-course/edit/main/{path}"
+site-url = "https://course.rs/"
 
 [output.html.playground]
 editable = true
@@ -21,3 +22,16 @@ copy-js = true
 [output.html.fold]
 enable = true
 level = 0
+
+[output.pandoc]
+disabled = false
+
+[output.pandoc.profile.pdf]
+output-file = "rust-course.pdf"
+pdf-engine = "lualatex"
+to = "pdf"
+variables = { mainfont = "Noto Sans CJK SC", sansfont = "Noto Sans CJK SC", CJKmainfont = "Noto Sans CJK SC", monofont = "DejaVu Sans Mono", monofontfallback = ["DejaVu Sans Mono:", "Noto Color Emoji:mode=harf"], mainfontfallback = ["Noto Sans CJK SC:", "Noto Color Emoji:mode=harf"] }
+
+[output.pandoc.profile.epub]
+output-file = "rust-course.epub"
+to = "epub3"
