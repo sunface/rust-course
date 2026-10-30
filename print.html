@@ -37,7 +37,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-95534262.js";
+            window.path_to_searchindex_js = "searchindex-c69bfdad.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-2f1f2f2c.js"></script>
@@ -1273,7 +1273,7 @@ error[E0282]: type annotations needed
 </div>
 <p>这么多类型，有没有一个简单的使用准则？答案是肯定的， Rust 整型默认使用 <code>i32</code>，例如 <code>let i = 1</code>，那 <code>i</code> 就是 <code>i32</code> 类型，因此你可以首选它，同时该类型也往往是性能最好的。<code>isize</code> 和 <code>usize</code> 的主要应用场景是用作集合的索引。</p>
 <h4 id="整型溢出"><a class="header" href="#整型溢出">整型溢出</a></h4>
-<p>假设有一个 <code>u8</code> ，它可以存放从 0 到 255 的值。那么当你将其修改为范围之外的值，比如 256，则会发生<strong>整型溢出</strong>。关于这一行为 Rust 有一些有趣的规则：当在 debug 模式编译时，Rust 会检查整型溢出，若存在这些问题，则使程序在编译时 <em>panic</em>(崩溃,Rust 使用这个术语来表明程序因错误而退出)。</p>
+<p>假设有一个 <code>u8</code> ，它可以存放从 0 到 255 的值。那么当你将其修改为范围之外的值，比如 256，则会发生<strong>整型溢出</strong>。关于这一行为 Rust 有一些有趣的规则：当在 debug 模式编译并运行时，Rust 会检查整型溢出，若存在这些问题，则使程序在运行时 <em>panic</em>(崩溃,Rust 使用这个术语来表明程序因错误而退出)。</p>
 <p>在当使用 <code>--release</code> 参数进行 release 模式构建时，Rust <strong>不</strong>检测溢出。相反，当检测到整型溢出时，Rust 会按照补码循环溢出（<em>two’s complement wrapping</em>）的规则处理。简而言之，大于该类型最大值的数值会被补码转换成该类型能够支持的对应数字的最小值。比如在 <code>u8</code> 的情况下，256 变成 0，257 变成 1，依此类推。程序不会 <em>panic</em>，但是该变量的值可能不是你期望的值。依赖这种默认行为的代码都应该被认为是错误的代码。</p>
 <p>要显式处理可能的溢出，可以使用标准库针对原始数字类型提供的这些方法：</p>
 <ul>
