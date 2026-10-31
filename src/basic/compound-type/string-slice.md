@@ -499,50 +499,35 @@ string_clear = ""
 
 1、使用 `+` 或者 `+=` 连接字符串
 
-使用 `+` 或者 `+=` 连接字符串，要求右边的参数必须为字符串的切片引用（Slice）类型。其实当调用 `+` 的操作符时，相当于调用了 `std::string` 标准库中的 [`add()`](https://doc.rust-lang.org/std/string/struct.String.html#method.add) 方法，这里 `add()` 方法的第二个参数是一个引用的类型。因此我们在使用 `+` 时， 必须传递切片引用类型。不能直接传递 `String` 类型。**`+` 是返回一个新的字符串，所以变量声明可以不需要 `mut` 关键字修饰**。
 
-示例代码如下：
-
+使用 `+` 或 `+=` 连接字符串时，右边的参数必须是字符串切片引用（`&str` 类型）。这是因为 `+` 运算符实际上调用了 `std::string` 标准库中的 [`add()`](https://doc.rust-lang.org/std/string/struct.String.html#method.add) 方法，其简易实现如下：
 ```rust
-fn main() {
-    let string_append = String::from("hello ");
-    let string_rust = String::from("rust");
-    // &string_rust会自动解引用为&str
-    let result = string_append + &string_rust;
-    let mut result = result + "!"; // `result + "!"` 中的 `result` 是不可变的
-    result += "!!!";
-
-    println!("连接字符串 + -> {}", result);
+fn add(mut self, other: &str) -> String{
+    self.push_str(other);
+    self
 }
 ```
+这意味着：
+`+`左边的字符串会被消耗（所有权转移），因为在方法内部需要修改它（调用 push_str）。
+`+`右边的字符串只需要引用，因为只需要读取它的内容
+返回为新的字符串
 
-代码运行结果：
+正因为 add 获取了左边字符串的所有权，+ 运算不需要（也不能）对左边的变量使用引用；同时，运算结果是一个全新的 String，你可以根据需要将它绑定到不可变或可变的变量上。
 
-```console
-连接字符串 + -> hello rust!!!!
-```
-
-`add()` 方法的定义：
-
-```rust
-fn add(self, s: &str) -> String
-```
-
-因为该方法涉及到更复杂的特征功能，因此我们这里简单说明下：
+下面这个例子展示了所有权的转移：
 
 ```rust
 fn main() {
     let s1 = String::from("hello,");
     let s2 = String::from("world!");
-    // 在下句中，s1的所有权被转移走了，因此后面不能再使用s1
+    // 在下句中，s1 的所有权被转移到 add() 方法里，后面不能再使用 s1
     let s3 = s1 + &s2;
-    assert_eq!(s3,"hello,world!");
-    // 下面的语句如果去掉注释，就会报错
-    // println!("{}",s1);
+    assert_eq!(s3, "hello,world!");
+    // 下面的语句如果去掉注释，就会报错：s1 已被移动
+    // println!("{}", s1);
 }
 ```
 
-`self` 是 `String` 类型的字符串 `s1`，该函数说明，只能将 `&str` 类型的字符串切片添加到 `String` 类型的 `s1` 上，然后返回一个新的 `String` 类型，所以 `let s3 = s1 + &s2;` 就很好解释了，将 `String` 类型的 `s1` 与 `&str` 类型的 `s2` 进行相加，最终得到 `String` 类型的 `s3`。
 
 由此可推，以下代码也是合法的：
 
@@ -557,7 +542,8 @@ let s = s1 + "-" + &s2 + "-" + &s3;
 
 `String + &str`返回一个 `String`，然后再继续跟一个 `&str` 进行 `+` 操作，返回一个 `String` 类型，不断循环，最终生成一个 `s`，也是 `String` 类型。
 
-`s1` 这个变量通过调用 `add()` 方法后，所有权被转移到 `add()` 方法里面， `add()` 方法调用后就被释放了，同时 `s1` 也被释放了。再使用 `s1` 就会发生错误。这里涉及到[所有权转移（Move）](https://beatai.org/rust-course/basic/ownership/ownership#转移所有权)的相关知识。
+
+另外，如果使用 `+=`，相当于 `s = s + &str`，左侧变量**必须**声明为 `mut`，因为它在被重新赋值。
 
 2、使用 `format!` 连接字符串
 
