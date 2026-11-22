@@ -108,6 +108,24 @@ Rust 语言圣经已写 170 余章、110 余万字、历经 800 多个小时，�
     </tbody>
 </table>
 
+### 电子书
+
+本书的 EPUB / PDF 电子书版本由以下贡献者负责制作和维护：
+
+<table>
+    <tbody>
+    <tr>
+        <td align="center">
+            <a href="https://github.com/SnowballXueQiu">
+                <img src="https://avatars.githubusercontent.com/u/97330394?v=4" width="100px" alt=""/>
+                <br />
+                <sub><b>SnowballXueQiu</b></sub>
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
 
 ## 开源协议
 
