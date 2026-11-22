@@ -39,9 +39,6 @@ to = "latex"
 pdf-engine = "lualatex"
 include-in-header = ["header.tex"]
 filters = ["filters.lua"]
-# Pixel sizes from raw HTML (e.g. 160px avatars) are converted at this
-# resolution; the default (96) makes them rather large on paper.
-dpi = 192
 
 [output.pandoc.profile.pdf.variables]
 documentclass = "book"
