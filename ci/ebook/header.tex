@@ -1,0 +1,41 @@
+% Extra LaTeX preamble for the PDF build (see book.toml in this directory).
+% Engine: LuaLaTeX. Chinese text is typeset by luatexja (loaded by pandoc's
+% template because `CJKmainfont` is set).
+
+% --- CJK -------------------------------------------------------------------
+% luatexja treats Greek/Cyrillic (range 2) and many symbols (range 3: arrows,
+% math operators, box drawing, dingbats such as ✨ ➥ ...) as CJK characters by
+% default, so they would be taken from the CJK font (full width, often
+% missing). Hand them to the Latin fonts and their fallback chains instead;
+% this also keeps `├──` trees in code blocks monospaced.
+\ltjsetparameter{jacharrange={-2,-3}}
+% Without these, luatexja falls back to a Japanese Gothic font for CJK text in
+% \textsf / \texttt, which lacks many simplified Chinese characters.
+\setsansjfont[JFM=quanjiao]{Noto Sans CJK SC}
+\setmonojfont[JFM=quanjiao]{Noto Sans Mono CJK SC}
+
+% --- Code blocks -------------------------------------------------------------
+% Wrap long lines instead of letting them run off the page. Pandoc wraps every
+% token in a macro (\NormalTok{...}), so breaking inside groups must be allowed.
+\usepackage{fvextra}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,breakanywhere,breaknonspaceingroup,commandchars=\\\{\}}
+% Light grey background for code blocks (breaks across pages).
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{246,248,250}
+\renewenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+
+% --- Misc ----------------------------------------------------------------------
+% Table of contents: room for four-digit page numbers and for long section
+% numbers. Measured in Noto Serif 10pt: "15.10" is 24.9pt, "15.10.32" 38.5pt,
+% "15.10.32.10" 52.2pt; each width below adds ~6pt of space after the number.
+\makeatletter
+\renewcommand{\@pnumwidth}{2.8em}
+\renewcommand{\@tocrmarg}{3.8em}
+\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{3.2em}}
+\renewcommand*\l@subsection{\@dottedtocline{2}{4.7em}{4.6em}}
+\renewcommand*\l@subsubsection{\@dottedtocline{3}{9.3em}{5.9em}}
+% Keep chapter titles in running heads as written (no "REDIS"), and let the
+% unnumbered introductory chapters update the running head too.
+\patchcmd{\chaptermark}{\MakeUppercase}{}{}{}
+\apptocmd{\@schapter}{\markboth{#1}{#1}}{}{}
+\makeatother

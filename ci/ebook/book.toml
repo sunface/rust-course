@@ -1,0 +1,55 @@
+# EPUB / PDF edition of the book, rendered with mdbook-pandoc.
+#
+# Kept separate from the website's ../../book.toml so that `mdbook build` /
+# `mdbook test` for the website don't need pandoc or LaTeX.
+#
+#   mdbook build ci/ebook        # from the repository root
+#
+# Output: ci/ebook/book/epub/rust-course.epub and ci/ebook/book/pdf/rust-course.pdf
+# (not book/, which `mdbook build` for the website wipes).
+# See ci/ebook/README.md for the required tools.
+
+[book]
+authors = ["sunface"]
+language = "zh-CN"
+title = "Rust语言圣经(Rust Course)"
+src = "../../src"
+
+# Turns links to the online book into links inside the e-book and gives
+# chapters without a heading their SUMMARY.md title (see preprocess.py).
+[preprocessor.ebook]
+command = "python3 preprocess.py"
+
+[output.pandoc]
+keep-preprocessed = false
+# Relative links that cannot be resolved inside the book point here instead.
+hosted-html = "https://course.rs/"
+
+[output.pandoc.profile.epub]
+output-file = "rust-course.epub"
+to = "epub3"
+split-level = 2
+filters = ["filters.lua"]
+
+[output.pandoc.profile.pdf]
+output-file = "rust-course.pdf"
+to = "latex"
+pdf-engine = "lualatex"
+include-in-header = ["header.tex"]
+filters = ["filters.lua"]
+
+[output.pandoc.profile.pdf.variables]
+documentclass = "book"
+classoption = ["oneside"]
+geometry = ["a4paper", "margin=2cm"]
+colorlinks = true
+block-headings = true
+mainfont = "Noto Serif"
+sansfont = "Noto Sans"
+monofont = "DejaVu Sans Mono"
+CJKmainfont = "Noto Serif CJK SC"
+CJKoptions = ["JFM=quanjiao"]
+# Characters missing from the fonts above (emoji, box drawing, ...).
+mainfontfallback = ["Noto Color Emoji:mode=harf", "DejaVu Sans:", "Noto Sans Math:", "Noto Sans Devanagari:mode=harf", "Noto Sans Kannada:mode=harf"]
+sansfontfallback = ["Noto Color Emoji:mode=harf", "DejaVu Sans:", "Noto Sans Math:", "Noto Sans Devanagari:mode=harf", "Noto Sans Kannada:mode=harf"]
+monofontfallback = ["Noto Color Emoji:mode=harf", "DejaVu Sans:", "Noto Sans Math:", "Noto Sans Devanagari:mode=harf", "Noto Sans Kannada:mode=harf"]
