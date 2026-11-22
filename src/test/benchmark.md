@@ -17,7 +17,7 @@
 
 #### 设置 Rust 版本
 
-因此在开始之前，我们需要先将当前仓库中的 [`Rust 版本`](https://course.rs/appendix/rust-version.html#不稳定功能)从 `stable` 切换为 `nightly`:
+因此在开始之前，我们需要先将当前仓库中的 [`Rust 版本`](https://beatai.org/rust-course/appendix/rust-version#不稳定功能)从 `stable` 切换为 `nightly`:
 
 1. 安装 `nightly` 版本：`$ rustup install nightly`
 2. 使用以下命令确认版本已经安装成功

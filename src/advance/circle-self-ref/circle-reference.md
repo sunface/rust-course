@@ -98,7 +98,7 @@ thread 'main' has overflowed its stack
 fatal runtime error: stack overflow
 ```
 
-通过 `a.tail` 的调用，Rust 试图打印出 `a -> b -> a ···` 的所有内容，但是在不懈的努力后，`main` 线程终于不堪重负，发生了[栈溢出](https://course.rs/pitfalls/stack-overflow.html)。
+通过 `a.tail` 的调用，Rust 试图打印出 `a -> b -> a ···` 的所有内容，但是在不懈的努力后，`main` 线程终于不堪重负，发生了[栈溢出](https://beatai.org/rust-course/compiler/pitfalls/stack-overflow)。
 
 以上的代码可能并不会造成什么大的问题，但是在一个更加复杂的程序中，类似的问题可能会造成你的程序不断地分配内存、泄漏内存，最终程序会不幸**OOM**，当然这其中的 CPU 损耗也不可小觑。
 

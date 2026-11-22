@@ -127,7 +127,7 @@ pub struct Pin<P> {
 
 因此，一个类型如果不能被移动，它必须实现 `!Unpin` 特征。如果大家对 `Pin` 、 `Unpin` 还是模模糊糊，建议再重复看一遍之前的内容，理解它们对于我们后面要讲到的内容非常重要！
 
-如果将 `Unpin` 与之前章节学过的 [`Send/Sync`](https://course.rs/advance/concurrency-with-threads/send-sync.html) 进行下对比，会发现它们都很像：
+如果将 `Unpin` 与之前章节学过的 [`Send/Sync`](https://beatai.org/rust-course/advance/concurrency-with-threads/send-sync) 进行下对比，会发现它们都很像：
 
 - 都是标记特征( marker trait )，该特征未定义任何行为，非常适用于标记
 - 都可以通过`!`语法去除实现
@@ -329,7 +329,7 @@ error[E0277]: `PhantomPinned` cannot be unpinned
 
 > 需要注意的是固定在栈上非常依赖于你写出的 `unsafe` 代码的正确性。我们知道 `&'a mut T` 可以固定的生命周期是 `'a` ，但是我们却不知道当生命周期 `'a` 结束后，该指针指向的数据是否会被移走。如果你的 `unsafe` 代码里这么实现了，那么就会违背 `Pin` 应该具有的作用！
 >
-> 一个常见的错误就是忘记去[遮蔽( shadow )](https://course.rs/basic/variable.html#%E5%8F%98%E9%87%8F%E9%81%AE%E8%94%BDshadowing)初始的变量，因为你可以 `drop` 掉 `Pin` ，然后在 `&'a mut T` 结束后去移动数据:
+> 一个常见的错误就是忘记去[遮蔽( shadow )](https://beatai.org/rust-course/basic/variable#%E5%8F%98%E9%87%8F%E9%81%AE%E8%94%BDshadowing)初始的变量，因为你可以 `drop` 掉 `Pin` ，然后在 `&'a mut T` 结束后去移动数据:
 >
 > ```rust
 > fn main() {

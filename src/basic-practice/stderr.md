@@ -66,4 +66,4 @@ Are you nobody, too?
 How dreary to be somebody!
 ```
 
-至此，简易搜索程序 `minigrep` 已经基本完成，下一章节将使用迭代器进行部分改进，请大家在看完[迭代器章节](https://course.rs/advance/functional-programing/iterator.html)后，再回头阅读。
+至此，简易搜索程序 `minigrep` 已经基本完成，下一章节将使用迭代器进行部分改进，请大家在看完[迭代器章节](https://beatai.org/rust-course/advance/functional-programing/iterator)后，再回头阅读。

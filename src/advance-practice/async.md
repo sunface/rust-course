@@ -2,7 +2,7 @@
 
 在经过多个章节的深入学习后，Tokio 对我们来说不再是一座隐于云雾中的高山，它其实蛮简单好用的，甚至还有一丝丝的可爱!?
 
-但从现在开始，如果想要进一步的深入 Tokio ，首先需要深入理解 `async` 的原理，其实我们在[之前的章节](https://course.rs/async/intro.html)已经深入学习过，这里结合 Tokio 再来回顾下。
+但从现在开始，如果想要进一步的深入 Tokio ，首先需要深入理解 `async` 的原理，其实我们在[之前的章节](https://beatai.org/rust-course/advance/async/intro)已经深入学习过，这里结合 Tokio 再来回顾下。
 
 ## Future
 
@@ -56,8 +56,8 @@ pub trait Future {
 
 代码中有几个关键点：
 
-- [关联类型](https://course.rs/basic/trait/advance-trait.html#关联类型) `Output` 是 `Future` 执行完成后返回的值的类型
-- `Pin` 类型是在异步函数中进行借用的关键，在[这里](https://course.rs/advance/async/pin-unpin.html)有非常详细的介绍
+- [关联类型](https://beatai.org/rust-course/basic/trait/advance-trait#关联类型) `Output` 是 `Future` 执行完成后返回的值的类型
+- `Pin` 类型是在异步函数中进行借用的关键，在[这里](https://beatai.org/rust-course/advance/async/pin-unpin)有非常详细的介绍
 
 和其它语言不同，Rust 中的 `Future` 不代表一个发生在后台的计算，而是 `Future` 就代表了计算本身，因此
 `Future` 的所有者有责任去推进该计算过程的执行，例如通过 `Future::poll` 函数。听上去好像还挺复杂？但是大家不必担心，因为这些都在 Tokio 中帮你自动完成了 :)
@@ -351,7 +351,7 @@ impl Future for Delay {
 
 为了实现这一点，我们将使用消息通道来排队存储这些被唤醒并等待调度的任务。有一点需要注意，从消息通道接收消息的线程(执行器所在的线程)和发送消息的线程（唤醒任务时所在的线程）可能是不同的，因此消息( `Waker` )必须要实现 `Send`和 `Sync`，才能跨线程使用。
 
-> 关于 `Send` 和 `Sync` 的具体讲解见[这里](https://course.rs/advance/concurrency-with-threads/send-sync.html)
+> 关于 `Send` 和 `Sync` 的具体讲解见[这里](https://beatai.org/rust-course/advance/concurrency-with-threads/send-sync)
 
 基于以上理由，选择 `std::sync::mpsc`  重新实现 `MiniTokio` 结构体：
 

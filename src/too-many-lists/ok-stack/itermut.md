@@ -83,7 +83,7 @@ pub fn iter_mut(&mut self) -> IterMut<'_, T> {
 
 但是另一个好像就没那么容易了。但是之前的代码就可以工作啊，为何这里就不行了？
 
-原因在于有些类型可以 [Copy](https://course.rs/basic/ownership/ownership.html#拷贝浅拷贝)，有些不行。而`Option` 和不可变引用 `&T` 恰恰是可以 Copy 的，但尴尬的是，可变引用 `&mut T` 不可以，因此这里报错了。
+原因在于有些类型可以 [Copy](https://beatai.org/rust-course/basic/ownership/ownership#拷贝浅拷贝)，有些不行。而`Option` 和不可变引用 `&T` 恰恰是可以 Copy 的，但尴尬的是，可变引用 `&mut T` 不可以，因此这里报错了。
 
 因此我们需要使用 `take` 方法来处理这种情况：
 ```rust

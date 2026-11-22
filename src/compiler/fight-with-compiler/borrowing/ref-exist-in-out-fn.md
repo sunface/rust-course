@@ -2,7 +2,7 @@
 
 本文将彻底解决一个困扰广大 Rust 用户已久的常见错误：因为在函数内外同时借用一个引用，导致了重复借用错误`cannot borrow *self as mutable because it is also borrowed as immutable`.
 
-> 本文大部分内容节选自[Rust 常见陷阱](https://course.rs/pitfalls/index.html)专题，由于借用是新手绕不过去的坎，因此将其提取出来形成一个新的系列
+> 本文大部分内容节选自[Rust 常见陷阱](https://beatai.org/rust-course/compiler/pitfalls/index)专题，由于借用是新手绕不过去的坎，因此将其提取出来形成一个新的系列
 
 ## 正确的代码
 
@@ -142,7 +142,7 @@ fn increase(&mut self) {
 }
 ```
 
-在这里，我们不再单独声明变量`b`，而是直接调用`self.b+=1`进行递增，根据借用生命周期[NLL](https://course.rs/advance/lifetime/advance.html#nllnon-lexical-lifetime)的规则，第一个可变借用`self.increase_a()`的生命周期随着方法调用的结束而结束，那么就不会影响`self.b += 1`中的借用。
+在这里，我们不再单独声明变量`b`，而是直接调用`self.b+=1`进行递增，根据借用生命周期[NLL](https://beatai.org/rust-course/advance/lifetime/advance#nllnon-lexical-lifetime)的规则，第一个可变借用`self.increase_a()`的生命周期随着方法调用的结束而结束，那么就不会影响`self.b += 1`中的借用。
 
 ## CPU 模拟例子
 

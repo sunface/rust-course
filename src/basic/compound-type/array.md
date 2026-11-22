@@ -22,7 +22,7 @@ fn main() {
 }
 ```
 
-数组语法跟 JavaScript 很像，也跟大多数编程语言很像。由于它的元素类型大小固定，且长度也是固定，因此**数组 `array` 是存储在栈上**，性能也会非常优秀。与此对应，**动态数组 `Vector` 是存储在堆上**，因此长度可以动态改变。当你不确定是使用数组还是动态数组时，那就应该使用后者，具体见[动态数组 Vector](https://course.rs/basic/collections/vector.html)。
+数组语法跟 JavaScript 很像，也跟大多数编程语言很像。由于它的元素类型大小固定，且长度也是固定，因此**数组 `array` 是存储在栈上**，性能也会非常优秀。与此对应，**动态数组 `Vector` 是存储在堆上**，因此长度可以动态改变。当你不确定是使用数组还是动态数组时，那就应该使用后者，具体见[动态数组 Vector](https://beatai.org/rust-course/basic/collections/vector)。
 
 举个例子，在需要知道一年中各个月份名称的程序中，你很可能希望使用的是数组而不是动态数组。因为月份是固定的，它总是只包含 12 个元素：
 
@@ -133,7 +133,7 @@ error[E0277]: the trait bound `String: std::marker::Copy` is not satisfied
   = note: the `Copy` trait is required because this value will be copied for each element of the array
 ```
 
-有些还没有看过特征的小伙伴，有可能不太明白这个报错，不过这个目前可以不提，我们就拿之前所学的[所有权](https://course.rs/basic/ownership/ownership.html)知识，就可以思考明白，前面几个例子都是 Rust 的基本类型，而**基本类型在 Rust 中赋值是以 Copy 的形式**，这时候你就懂了吧，`let array=[3;5]`底层就是不断的Copy出来的，但很可惜复杂类型都没有深拷贝，只能一个个创建。
+有些还没有看过特征的小伙伴，有可能不太明白这个报错，不过这个目前可以不提，我们就拿之前所学的[所有权](https://beatai.org/rust-course/basic/ownership/ownership)知识，就可以思考明白，前面几个例子都是 Rust 的基本类型，而**基本类型在 Rust 中赋值是以 Copy 的形式**，这时候你就懂了吧，`let array=[3;5]`底层就是不断的Copy出来的，但很可惜复杂类型都没有深拷贝，只能一个个创建。
 
 接着就有小伙伴会这样写。
 
@@ -155,7 +155,7 @@ println!("{:#?}", array);
 
 ## 数组切片
 
-在之前的[章节](https://course.rs/basic/compound-type/string-slice.html#切片slice)，我们有讲到 `切片` 这个概念，它允许你引用集合中的部分连续片段，而不是整个集合，对于数组也是，数组切片允许我们引用数组的一部分：
+在之前的[章节](https://beatai.org/rust-course/basic/compound-type/string-slice#切片slice)，我们有讲到 `切片` 这个概念，它允许你引用集合中的部分连续片段，而不是整个集合，对于数组也是，数组切片允许我们引用数组的一部分：
 
 ```rust
 let a: [i32; 5] = [1, 2, 3, 4, 5];

@@ -1,6 +1,6 @@
 # 单元测试、集成测试
 
-在了解了如何在 Rust 中写测试用例后，本章节我们将学习如何实现单元测试、集成测试，其实它们用到的技术还是[上一章节](https://course.rs/test/write-tests.html)中的测试技术，只不过对如何组织测试代码提出了新的要求。
+在了解了如何在 Rust 中写测试用例后，本章节我们将学习如何实现单元测试、集成测试，其实它们用到的技术还是[上一章节](https://beatai.org/rust-course/test/write-tests)中的测试技术，只不过对如何组织测试代码提出了新的要求。
 
 ## 单元测试
 
@@ -37,7 +37,7 @@ mod tests {
 
 在 `#[cfg(test)]` 中，`cfg` 是配置 `configuration` 的缩写，它告诉 Rust ：当 `test` 配置项存在时，才运行下面的代码，而 `cargo test` 在运行时，就会将 `test` 这个配置项传入进来，因此后面的 `tests` 模块会被包含进来。
 
-大家看出来了吗？这是典型的条件编译，`Cargo` 会根据指定的配置来选择是否编译指定的代码，事实上关于条件编译 Rust 能做的不仅仅是这些，在 [`Cargo` 专题](https://course.rs/cargo/intro.html)中我们会进行更为详细的介绍。
+大家看出来了吗？这是典型的条件编译，`Cargo` 会根据指定的配置来选择是否编译指定的代码，事实上关于条件编译 Rust 能做的不仅仅是这些，在 [`Cargo` 专题](https://beatai.org/rust-course/cargo/intro)中我们会进行更为详细的介绍。
 
 #### 测试私有函数
 
@@ -92,7 +92,7 @@ fn it_adds_two() {
 
 这段测试代码是对之前**私有函数**中的示例进行测试，该示例代码在 `src/lib.rs` 中。
 
-首先与单元测试有所不同，我们并没有创建测试模块。其次，`tests` 目录下的每个文件都是一个单独的包，我们需要将待测试的包引入到当前包的作用域后: `use adder`，才能进行测试 。大家应该还记得[包和模块章节](https://course.rs/advance/crate-module/crate.html)中讲过的内容吧？在创建项目后，`src/lib.rs` 自动创建一个与项目同名的 `lib` 类型的包，由于我们的项目名是 `adder`，因此包名也是 `adder`。
+首先与单元测试有所不同，我们并没有创建测试模块。其次，`tests` 目录下的每个文件都是一个单独的包，我们需要将待测试的包引入到当前包的作用域后: `use adder`，才能进行测试 。大家应该还记得[包和模块章节](https://beatai.org/rust-course/basic/crate-module/crate)中讲过的内容吧？在创建项目后，`src/lib.rs` 自动创建一个与项目同名的 `lib` 类型的包，由于我们的项目名是 `adder`，因此包名也是 `adder`。
 
 因为 `tests` 目录本身就说明了它的特殊用途，因此我们无需再使用 `#[cfg(test)]` 来取悦 Cargo。后者会在运行 `cargo test` 时，对 `tests` 目录中的每个文件都进行编译运行。
 
@@ -123,7 +123,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 首先是单元测试被运行 `Running unittests` ，其次就是我们的主角集成测试的运行 `Running tests/integration_test.rs`，可以看出，集成测试的输出内容与单元测试并没有大的区别。最后运行的是文档测试 `Doc-tests adder`。
 
-与单元测试类似，我们可以通过[指定名称的方式](https://course.rs/test/write-tests.html#指定运行一部分测试)来运行特定的集成测试用例:
+与单元测试类似，我们可以通过[指定名称的方式](https://beatai.org/rust-course/test/write-tests#指定运行一部分测试)来运行特定的集成测试用例:
 
 ```shell
 $ cargo test --test integration_test

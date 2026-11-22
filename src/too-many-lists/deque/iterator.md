@@ -22,7 +22,7 @@ impl<T> Iterator for IntoIter<T> {
 
 但是关于双向链表，有一个有趣的事实，它不仅可以从前向后迭代，还能反过来。前面实现的是传统的从前到后，那问题来了，反过来该如何实现呢？
 
-答案是: `DoubleEndedIterator`，它继承自 `Iterator`( 通过 [`supertrait`](https://course.rs/basic/trait/advance-trait.html?highlight=supertrait#特征定义中的特征约束) )，因此意味着要实现该特征，首先需要实现 `Iterator`。
+答案是: `DoubleEndedIterator`，它继承自 `Iterator`( 通过 [`supertrait`](https://beatai.org/rust-course/basic/trait/advance-trait?highlight=supertrait#特征定义中的特征约束) )，因此意味着要实现该特征，首先需要实现 `Iterator`。
 
 这样只要为 `DoubleEndedIterator` 实现 `next_back` 方法，就可以支持双向迭代了: `Iterator` 的 `next` 方法从前往后，而 `next_back` 从后向前。
 

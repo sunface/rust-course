@@ -1,5 +1,5 @@
 # 数据布局和构建
-聪明的读者应该已经想到了：让 `Rc` 可变，就需要使用 `RefCell` 的配合。关于 `RefCell` 的一切，在之前的章节都有介绍，还不熟悉的同学请移步[这里](https://course.rs/advance/smart-pointer/cell-refcell.html)。
+聪明的读者应该已经想到了：让 `Rc` 可变，就需要使用 `RefCell` 的配合。关于 `RefCell` 的一切，在之前的章节都有介绍，还不熟悉的同学请移步[这里](https://beatai.org/rust-course/advance/smart-pointer/cell-refcell)。
 
 好了，绝世神兵在手，接下来...我们将见识一个绝世啰嗦的数据结构...如果你来自 GC 语言，那很可能就没有见识过这种阵仗。
 

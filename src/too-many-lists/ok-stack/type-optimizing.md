@@ -113,7 +113,7 @@ impl Drop for List {
 
 其次，`match option { None => None, Some(x) => Some(y) }` 这段代码可以直接使用 `map` 方法代替，`map` 会对 `Some(x)` 中的值进行映射，最终返回一个新的 `Some(y)` 值。
 
-> 我们往往将闭包作为参数传递给 map 方法，关于闭包可以参见[此章](https://course.rs/advance/functional-programing/closure.html)
+> 我们往往将闭包作为参数传递给 map 方法，关于闭包可以参见[此章](https://beatai.org/rust-course/advance/functional-programing/closure)
 
 ```rust
 pub fn pop(&mut self) -> Option<i32> {

@@ -2,7 +2,7 @@
 
 `Cargo.toml` 又被称为清单( `manifest` )，文件格式是 `TOML`，每一个清单文件都由以下部分组成：
 
-- [`cargo-features`](unstable.md) — 只能用于 `nightly`版本的 `feature`
+- [`cargo-features`](https://doc.rust-lang.org/cargo/reference/unstable.html) — 只能用于 `nightly`版本的 `feature`
 - [`[package]`](#package) — 定义项目( `package` )的元信息
   - [`name`](#name) — 名称
   - [`version`](#version) — 版本
@@ -26,28 +26,28 @@
   - [`publish`](#the-publish-field) — 用于阻止项目的发布
   - [`metadata`](#metadata) — 额外的配置信息，用于提供给外部工具
   - [`default-run`](#default-run) — [`cargo run`] 所使用的默认可执行文件( binary )
-  - [`autobins`](https://course.rs/cargo/reference/cargo-target.html#对象自动发现) — 禁止可执行文件的自动发现
-  - [`autoexamples`](https://course.rs/cargo/reference/cargo-target.html#对象自动发现) — 禁止示例文件的自动发现
-  - [`autotests`](https://course.rs/cargo/reference/cargo-target.html#对象自动发现) — 禁止测试文件的自动发现
-  - [`autobenches`](https://course.rs/cargo/reference/cargo-target.html#对象自动发现) — 禁止 bench 文件的自动发现
-  - [`resolver`](resolver.md#resolver-versions) — 设置依赖解析器( dependency resolver)
-- Cargo Target 列表: (查看 [Target 配置](https://course.rs/cargo/reference/cargo-target.html#Target配置) 获取详细设置)
-  - [`[lib]`](https://course.rs/cargo/reference/cargo-target.html#库对象library) — Library target 设置.
-  - [`[[bin]]`](https://course.rs/cargo/reference/cargo-target.html#二进制对象binaries) — Binary target 设置.
-  - [`[[example]]`](https://course.rs/cargo/reference/cargo-target.html#示例对象examples) — Example target 设置.
-  - [`[[test]]`](https://course.rs/cargo/reference/cargo-target.html#测试对象tests) — Test target 设置.
-  - [`[[bench]]`](https://course.rs/cargo/reference/cargo-target.html#基准性能对象benches) — Benchmark target 设置.
+  - [`autobins`](https://beatai.org/rust-course/cargo/reference/cargo-target#对象自动发现) — 禁止可执行文件的自动发现
+  - [`autoexamples`](https://beatai.org/rust-course/cargo/reference/cargo-target#对象自动发现) — 禁止示例文件的自动发现
+  - [`autotests`](https://beatai.org/rust-course/cargo/reference/cargo-target#对象自动发现) — 禁止测试文件的自动发现
+  - [`autobenches`](https://beatai.org/rust-course/cargo/reference/cargo-target#对象自动发现) — 禁止 bench 文件的自动发现
+  - [`resolver`](https://doc.rust-lang.org/cargo/reference/resolver.html#resolver-versions) — 设置依赖解析器( dependency resolver)
+- Cargo Target 列表: (查看 [Target 配置](https://beatai.org/rust-course/cargo/reference/cargo-target#Target配置) 获取详细设置)
+  - [`[lib]`](https://beatai.org/rust-course/cargo/reference/cargo-target#库对象library) — Library target 设置.
+  - [`[[bin]]`](https://beatai.org/rust-course/cargo/reference/cargo-target#二进制对象binaries) — Binary target 设置.
+  - [`[[example]]`](https://beatai.org/rust-course/cargo/reference/cargo-target#示例对象examples) — Example target 设置.
+  - [`[[test]]`](https://beatai.org/rust-course/cargo/reference/cargo-target#测试对象tests) — Test target 设置.
+  - [`[[bench]]`](https://beatai.org/rust-course/cargo/reference/cargo-target#基准性能对象benches) — Benchmark target 设置.
 - Dependency tables:
-  - [`[dependencies]`](https://course.rs/cargo/reference/specify-deps.html) — 项目依赖包
-  - [`[dev-dependencies]`](https://course.rs/cargo/reference/specify-deps.html#dev-dependencies) — 用于 examples、tests 和 benchmarks 的依赖包
-  - [`[build-dependencies]`](https://course.rs/cargo/reference/specify-deps.html#build-dependencies) — 用于构建脚本的依赖包
-  - [`[target]`](https://course.rs/cargo/reference/specify-deps.html#根据平台引入依赖) — 平台特定的依赖包
+  - [`[dependencies]`](https://beatai.org/rust-course/cargo/reference/specify-deps) — 项目依赖包
+  - [`[dev-dependencies]`](https://beatai.org/rust-course/cargo/reference/specify-deps#dev-dependencies) — 用于 examples、tests 和 benchmarks 的依赖包
+  - [`[build-dependencies]`](https://beatai.org/rust-course/cargo/reference/specify-deps#build-dependencies) — 用于构建脚本的依赖包
+  - [`[target]`](https://beatai.org/rust-course/cargo/reference/specify-deps#根据平台引入依赖) — 平台特定的依赖包
 - [`[badges]`](#badges) — 用于在注册服务(例如 crates.io ) 上显示项目的一些状态信息，例如当前的维护状态：活跃中、寻找维护者、deprecated
-- [`[features]`](https://course.rs/cargo/reference/features/intro.html) — `features` 可以用于条件编译
-- [`[patch]`](https://course.rs/cargo/reference/deps-overriding.html) — 推荐使用的依赖覆盖方式
-- [`[replace]`](https://course.rs/cargo/reference/deps-overriding.html#不推荐的replace) — 不推荐使用的依赖覆盖方式 (deprecated).
-- [`[profile]`](https://course.rs/cargo/reference/profiles.html) — 编译器设置和优化
-- [`[workspace]`](https://course.rs/cargo/reference/workspaces.html) — 工作空间的定义
+- [`[features]`](https://beatai.org/rust-course/cargo/reference/features/intro) — `features` 可以用于条件编译
+- [`[patch]`](https://beatai.org/rust-course/cargo/reference/deps-overriding) — 推荐使用的依赖覆盖方式
+- [`[replace]`](https://beatai.org/rust-course/cargo/reference/deps-overriding#不推荐的replace) — 不推荐使用的依赖覆盖方式 (deprecated).
+- [`[profile]`](https://beatai.org/rust-course/cargo/reference/profiles) — 编译器设置和优化
+- [`[workspace]`](https://beatai.org/rust-course/cargo/reference/workspaces) — 工作空间的定义
 
 下面，我们将对其中一些部分进行详细讲解。
 
@@ -105,7 +105,7 @@ authors = ["Sunfei <contact@im.dev>"]
 
 #### edition
 
-可选字段，用于指定项目所使用的 [Rust Edition](https://course.rs/appendix/rust-version.html)。
+可选字段，用于指定项目所使用的 [Rust Edition](https://beatai.org/rust-course/appendix/rust-version)。
 
 该配置将影响项目中的所有 `Cargo Target` 和包，前者包含测试用例、benchmark、可执行文件、示例等。
 
@@ -261,11 +261,11 @@ workspace = "path/to/workspace/root"
 - 该包是工作空间的根包(root crate)，通过 `[workspace]` 指定)
 - 该包是另一个工作空间的成员，通过 `package.workspace` 指定
 
-若要了解工作空间的更多信息，请参见[这里](https://course.rs/cargo/reference/workspaces.html)。
+若要了解工作空间的更多信息，请参见[这里](https://beatai.org/rust-course/cargo/reference/workspaces)。
 
 #### build
 
-`build` 用于指定位于项目根目录中的构建脚本，关于构建脚本的更多信息，可以阅读 [构建脚本](https://course.rs/cargo/reference/build-script/intro.html) 一章。
+`build` 用于指定位于项目根目录中的构建脚本，关于构建脚本的更多信息，可以阅读 [构建脚本](https://beatai.org/rust-course/cargo/reference/build-script/intro) 一章。
 
 ```toml
 [package]
@@ -277,7 +277,7 @@ build = "build.rs"
 
 #### links
 
-用于指定项目链接的本地库的名称，更多的信息请看构建脚本章节的 [links](https://course.rs/cargo/reference/build-script/intro.html#links)
+用于指定项目链接的本地库的名称，更多的信息请看构建脚本章节的 [links](https://beatai.org/rust-course/cargo/reference/build-script/intro#links)
 
 ```toml
 [package]
@@ -390,9 +390,9 @@ maintenance = { status = "..." }
 
 ## [dependencies]
 
-在[之前章节](https://course.rs/cargo/reference/specify-deps.html)中，我们已经详细介绍过 `[dependencies]` 、 `[dev-dependencies]` 和 `[build-dependencies]`，这里就不再赘述。
+在[之前章节](https://beatai.org/rust-course/cargo/reference/specify-deps)中，我们已经详细介绍过 `[dependencies]` 、 `[dev-dependencies]` 和 `[build-dependencies]`，这里就不再赘述。
 
 ## [profile.*]
 
-该部分可以对编译器进行配置，例如 debug 和优化，在后续的[编译器优化](https://course.rs/cargo/reference/profiles.html)章节有详细介绍。
+该部分可以对编译器进行配置，例如 debug 和优化，在后续的[编译器优化](https://beatai.org/rust-course/cargo/reference/profiles)章节有详细介绍。
 

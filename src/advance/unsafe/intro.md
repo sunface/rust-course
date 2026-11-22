@@ -14,7 +14,7 @@
 
 这种保守的选择确实也没有错，毕竟安全就是要防微杜渐，但是对于使用者来说，就不是那么愉快的事了，特别是当配合 Rust 的所有权系统一起使用时，有个别问题是真的棘手和难以解决。
 
-举个例子，在之前的自引用章节中，我们就提到了相关的编译检查是很难绕过的，如果想要绕过，最常用的方法之一就是使用 [`unsafe` 和 `Pin`](https://course.rs/advance/circle-self-ref/self-referential.html)。
+举个例子，在之前的自引用章节中，我们就提到了相关的编译检查是很难绕过的，如果想要绕过，最常用的方法之一就是使用 [`unsafe` 和 `Pin`](https://beatai.org/rust-course/advance/circle-self-ref/self-referential)。
 
 好在，当遇到这些情况时，我们可以使用 `unsafe` 来解决。此时，你需要替代编译器的部分职责对 `unsafe` 代码的正确性负责，例如在正常代码中不可能遇到的空指针解引用问题在 `unsafe` 中就可能会遇到，我们需要自己来处理好这些类似的问题。
 
@@ -48,7 +48,7 @@ fn main() {
 
 - 解引用裸指针，就如上例所示
 - 调用一个 `unsafe` 或外部的函数
-- 访问或修改一个可变的[静态变量](https://course.rs/advance/global-variable.html#静态变量)
+- 访问或修改一个可变的[静态变量](https://beatai.org/rust-course/advance/global-variable#静态变量)
 - 实现一个 `unsafe` 特征
 - 访问 `union` 中的字段
 

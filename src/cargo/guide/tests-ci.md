@@ -15,9 +15,9 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 从上面结果可以看出，项目中实际上还没有任何测试代码。
 
-事实上，除了单元测试、集成测试，`cargo test` 还会编译 `examples/` 下的示例文件以及[文档中的示例](https://course.rs/basic/comment.html#文档测试doc-test)。
+事实上，除了单元测试、集成测试，`cargo test` 还会编译 `examples/` 下的示例文件以及[文档中的示例](https://beatai.org/rust-course/basic/comment#文档测试doc-test)。
 
-如果希望深入学习如何在 Rust 编写及运行测试，请查阅[该章节](https://course.rs/test/intro.html)。
+如果希望深入学习如何在 Rust 编写及运行测试，请查阅[该章节](https://beatai.org/rust-course/test/intro)。
 
 ## CI
 
@@ -29,7 +29,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 #### GitHub Actions
 
-关于如何使用 `GitHub Actions` 进行持续集成，在[之前的章节](https://course.rs/test/ci.html)已经有过详细的介绍，这里就不再赘述。
+关于如何使用 `GitHub Actions` 进行持续集成，在[之前的章节](https://beatai.org/rust-course/test/ci)已经有过详细的介绍，这里就不再赘述。
 
 #### Travis CI
 
@@ -46,7 +46,7 @@ matrix:
     - rust: nightly
 ```
 
-以上配置将测试所有的 [Rust 发布版本](https://course.rs/appendix/rust-version.html)，但是 `nightly` 版本的构建失败不会导致全局测试的失败，可以查看 [Travis CI Rust 文档](https://docs.travis-ci.com/user/languages/rust/) 获取更详细的说明。
+以上配置将测试所有的 [Rust 发布版本](https://beatai.org/rust-course/appendix/rust-version)，但是 `nightly` 版本的构建失败不会导致全局测试的失败，可以查看 [Travis CI Rust 文档](https://docs.travis-ci.com/user/languages/rust/) 获取更详细的说明。
 
 #### Gitlab CI
 

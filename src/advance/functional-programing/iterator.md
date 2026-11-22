@@ -85,7 +85,7 @@ pub trait Iterator {
 }
 ```
 
-呦，该特征竟然和迭代器 `iterator` 同名，难不成。。。没错，它们就是有一腿。**迭代器之所以成为迭代器，就是因为实现了 `Iterator` 特征**，要实现该特征，最主要的就是实现其中的 `next` 方法，该方法控制如何从集合中取值，最终返回值的类型是[关联类型](https://course.rs/basic/trait/advance-trait#关联类型) `Item`。
+呦，该特征竟然和迭代器 `iterator` 同名，难不成。。。没错，它们就是有一腿。**迭代器之所以成为迭代器，就是因为实现了 `Iterator` 特征**，要实现该特征，最主要的就是实现其中的 `next` 方法，该方法控制如何从集合中取值，最终返回值的类型是[关联类型](https://beatai.org/rust-course/basic/trait/advance-trait#关联类型) `Item`。
 
 因此，之前问题的答案已经很明显：`for` 循环通过不停调用迭代器上的 `next` 方法，来获取迭代器中的元素。
 
@@ -131,7 +131,7 @@ let values = vec![1, 2, 3];
 }
 ```
 
-`IntoIterator::into_iter` 是使用[完全限定](https://course.rs/basic/trait/advance-trait.html#完全限定语法)的方式去调用 `into_iter` 方法，这种调用方式跟 `values.into_iter()` 是等价的。
+`IntoIterator::into_iter` 是使用[完全限定](https://beatai.org/rust-course/basic/trait/advance-trait#完全限定语法)的方式去调用 `into_iter` 方法，这种调用方式跟 `values.into_iter()` 是等价的。
 
 同时我们使用了 `loop` 循环配合 `next` 方法来遍历迭代器中的元素，当迭代器返回 `None` 时，跳出循环。
 
@@ -391,7 +391,7 @@ assert_eq!(counter.next(), None);
 
 #### 实现 Iterator 特征的其它方法
 
-可以看出，实现自己的迭代器非常简单，但是 `Iterator` 特征中，不仅仅是只有 `next` 一个方法，那为什么我们只需要实现它呢？因为其它方法都具有[默认实现](https://course.rs/basic/trait/trait.html#默认实现)，所以无需像 `next` 这样手动去实现，而且这些默认实现的方法其实都是基于 `next` 方法实现的。
+可以看出，实现自己的迭代器非常简单，但是 `Iterator` 特征中，不仅仅是只有 `next` 一个方法，那为什么我们只需要实现它呢？因为其它方法都具有[默认实现](https://beatai.org/rust-course/basic/trait/trait#默认实现)，所以无需像 `next` 这样手动去实现，而且这些默认实现的方法其实都是基于 `next` 方法实现的。
 
 下面的代码演示了部分方法的使用：
 
@@ -521,4 +521,4 @@ test bench::bench_iter ... bench:     983,858 ns/iter (+/- 44,673)
 
 迭代器用的好不好，就在于你是否掌握了它的常用方法，且能活学活用，因此多多看看[标准库](https://doc.rust-lang.org/std/iter/trait.Iterator.html)是有好处的，只有知道有什么方法，在需要的时候你才能知道该用什么，就和算法学习一样。
 
-同时，本书在后续章节还提供了对迭代器常用方法的[深入讲解](https://course.rs/std/iterator)，方便大家学习和查阅。
+同时，本书在后续章节还提供了对迭代器常用方法的[深入讲解](https://beatai.org/rust-course/std/iterator)，方便大家学习和查阅。

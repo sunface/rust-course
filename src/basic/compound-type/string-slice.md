@@ -55,7 +55,7 @@ let world = &s[6..11];
 
 <img alt="" src="https://pic1.zhimg.com/80/v2-69da917741b2c610732d8526a9cc86f5_1440w.jpg" class="center" style="width: 50%;" />
 
-在使用 Rust 的 `..` [range 序列](https://course.rs/basic/base-type/numbers.html#序列range)语法时，如果你想从索引 0 开始，可以使用如下的方式，这两个是等效的：
+在使用 Rust 的 `..` [range 序列](https://beatai.org/rust-course/basic/base-type/numbers#序列range)语法时，如果你想从索引 0 开始，可以使用如下的方式，这两个是等效的：
 
 ```rust
 let s = String::from("hello");
@@ -200,7 +200,7 @@ fn say_hello(s: &str) {
 }
 ```
 
-实际上这种灵活用法是因为 `deref` 隐式强制转换，具体我们会在 [`Deref` 特征](https://course.rs/advance/smart-pointer/deref.html)进行详细讲解。
+实际上这种灵活用法是因为 `deref` 隐式强制转换，具体我们会在 [`Deref` 特征](https://beatai.org/rust-course/advance/smart-pointer/deref)进行详细讲解。
 
 ## 字符串索引
 
@@ -557,11 +557,11 @@ let s = s1 + "-" + &s2 + "-" + &s3;
 
 `String + &str`返回一个 `String`，然后再继续跟一个 `&str` 进行 `+` 操作，返回一个 `String` 类型，不断循环，最终生成一个 `s`，也是 `String` 类型。
 
-`s1` 这个变量通过调用 `add()` 方法后，所有权被转移到 `add()` 方法里面， `add()` 方法调用后就被释放了，同时 `s1` 也被释放了。再使用 `s1` 就会发生错误。这里涉及到[所有权转移（Move）](https://course.rs/basic/ownership/ownership.html#转移所有权)的相关知识。
+`s1` 这个变量通过调用 `add()` 方法后，所有权被转移到 `add()` 方法里面， `add()` 方法调用后就被释放了，同时 `s1` 也被释放了。再使用 `s1` 就会发生错误。这里涉及到[所有权转移（Move）](https://beatai.org/rust-course/basic/ownership/ownership#转移所有权)的相关知识。
 
 2、使用 `format!` 连接字符串
 
-`format!` 这种方式适用于 `String` 和 `&str` 。`format!` 的用法与 `print!` 的用法类似，详见[格式化输出](https://course.rs/basic/formatted-output.html#printprintlnformat)。
+`format!` 这种方式适用于 `String` 和 `&str` 。`format!` 的用法与 `print!` 的用法类似，详见[格式化输出](https://beatai.org/rust-course/basic/formatted-output#printprintlnformat)。
 
 示例代码如下：
 

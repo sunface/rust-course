@@ -79,7 +79,7 @@ Tokio 提供了多种消息通道，可以满足不同场景的需求:
 
 细心的同学可能会发现，这里还少了一种类型：多生产者、多消费者，且每一条消息只能被其中一个消费者接收，如果有这种需求，可以使用 [`async-channel`](https://docs.rs/async-channel/latest/async_channel/) 包。
 
-以上这些消息通道都有一个共同点：适用于 `async` 编程，对于其它场景，你可以使用在[多线程章节](https://course.rs/advance/concurrency-with-threads/message-passing.html)中提到过的 `std::sync::mpsc` 和 `crossbeam::channel`， 这些通道在等待消息时会阻塞当前的线程，因此不适用于 `async` 编程。
+以上这些消息通道都有一个共同点：适用于 `async` 编程，对于其它场景，你可以使用在[多线程章节](https://beatai.org/rust-course/advance/concurrency-with-threads/message-passing)中提到过的 `std::sync::mpsc` 和 `crossbeam::channel`， 这些通道在等待消息时会阻塞当前的线程，因此不适用于 `async` 编程。
 
 在下面的代码中，我们将使用 `mpsc` 和 `oneshot`， 本章节完整的代码见[这里](https://github.com/tokio-rs/website/blob/master/tutorial-code/channels/src/main.rs)。
 

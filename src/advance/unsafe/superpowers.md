@@ -28,7 +28,7 @@ let r1 = &num as *const i32;
 let r2 = &mut num as *mut i32;
 ```
 
-`as` 可以用于强制类型转换，在[之前章节](https://course.rs/basic/converse.html)中有讲解。在这里，我们将引用 `&num / &mut num` 强转为相应的裸指针 `*const i32 / *mut i32`。
+`as` 可以用于强制类型转换，在[之前章节](https://beatai.org/rust-course/advance/into-types/converse)中有讲解。在这里，我们将引用 `&num / &mut num` 强转为相应的裸指针 `*const i32 / *mut i32`。
 
 细心的同学可能会发现，在这段代码中并没有 `unsafe` 的身影，原因在于：**创建裸指针是安全的行为，而解引用裸指针才是不安全的行为** :
 
@@ -322,11 +322,11 @@ pub extern "C" fn call_from_c() {
 
 ## 访问或修改一个可变的静态变量
 
-这部分我们在之前的[全局变量章节](https://course.rs/advance/global-variable.html#静态变量)中有过详细介绍，这里就不再赘述，大家可以前往此章节阅读。
+这部分我们在之前的[全局变量章节](https://beatai.org/rust-course/advance/global-variable#静态变量)中有过详细介绍，这里就不再赘述，大家可以前往此章节阅读。
 
 ## 实现 unsafe 特征
 
-说实话，`unsafe` 的特征确实不多见，如果大家还记得的话，我们在之前的 [Send 和 Sync](https://course.rs/advance/concurrency-with-threads/send-sync.html#为裸指针实现sync) 章节中实现过 `unsafe` 特征 `Send`。
+说实话，`unsafe` 的特征确实不多见，如果大家还记得的话，我们在之前的 [Send 和 Sync](https://beatai.org/rust-course/advance/concurrency-with-threads/send-sync#为裸指针实现sync) 章节中实现过 `unsafe` 特征 `Send`。
 
 之所以会有 `unsafe` 的特征，是因为该特征至少有一个方法包含有编译器无法验证的内容。`unsafe` 特征的声明很简单：
 

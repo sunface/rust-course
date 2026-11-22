@@ -1,51 +1,53 @@
-<h1 align="center">Rust语言圣经</h1>
+<h1 align="center">Rust语言圣经 </h1> 
+
 
 <div align="center">
+    <a href="https://trendshift.io/repositories/2005?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-2005" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/2005" alt="sunface%2Frust-course | Trendshift" width="250" height="55"/></a>
     <img src="https://github.com/sunface/rust-course/blob/main/assets/banner.jpg?raw=true">
 </div>
    
 <div align="center">
 
-[![studyrut](https://img.shields.io/badge/RustCn社区-orange)](https://github.com/rustlang-cn) [![Stars Count](https://img.shields.io/github/stars/sunface/rust-course?style=flat)](https://github.com/sunface/rust-course/stargazers)
-[![](https://img.shields.io/github/issues-pr-closed-raw/sunface/rust-course.svg?style=flat)](https://github.com/sunface/rust-course/issues)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ines/spacy-course/master)
+
 
 <!-- <a href="https://www.zhihu.com/column/c_1452781034895446017">
   <img alt="Sunface | 知乎" height="20px" width="20px" src="https://github.com/sunface/rust-course/blob/main/assets/zhihu.jpg">
+  [![studyrut](https://img.shields.io/badge/RustCn社区-orange)](https://github.com/rustlang-cn) [![Stars Count](https://img.shields.io/github/stars/sunface/rust-course?style=flat)](https://github.com/sunface/rust-course/stargazers)
+[![](https://img.shields.io/github/issues-pr-closed-raw/sunface/rust-course.svg?style=flat)](https://github.com/sunface/rust-course/issues)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ines/spacy-course/master)
 </a> -->
 
 </div>
 
-**号外号外，特大新闻！本书苦作者久矣，准备自我革命了，欢迎大家跟鄙书一起向作者拍砖**: https://github.com/sunface/rust-course/issues/1563
+<br />
 
-
-## 教程简介
+为国内用户量身打造、最用心的 Rust 教程，新手入门，老手提升生产力。
 
 - 在线阅读: https://course.rs
+- 在线练习：https://practice.course.rs
+- AI 前沿学习：https://beatai.org 每日精选全球好文，实时、高质、有用
 
-**`Rust语言圣经`**涵盖从**入门到精通**所需的 Rust 知识，目录及内容都经过深思熟虑的设计，同时语言生动幽默，行文流畅自如，摆脱技术书籍常有的机器味和晦涩感。
 
-- **深入度**，在基础教学的同时，提供了深入剖析。浅尝辄止并不能让我们站上紫禁之巅
+## 创作感悟
 
-- **专题内容**，将 Rust 高级内容通过专题的形式一一呈现，内容内聚性极强，例如性能优化、手把手实现链表、Cargo 和 Tokio 使用指南、async 异步编程、标准库解析、WASM 等等
+Rust 语言圣经已写 170 余章、110 余万字、历经 800 多个小时，每一章节都是纯手工，绝无质量上的妥协( 优秀的读者们应该都有此体会 )。
 
-- **内容索引**，作为一本工具书，优秀的索引能力非常重要，遗忘不可怕，找不到才可怕
+曾有读者问： 这么好的书为何是开源，而非出版？原因很简单，Rust 要在国内发展起来，必须得有追梦之人去做不计付出的事，我希望自己能贡献一份微薄之力。
 
-- **规避陷阱和对抗编译器**，只有真的上手写过一长段时间 Rust 项目，才知道该如何规避常见的陷阱以及解决一些难搞的编译器错误，而本书将帮助你大大缩短这个过程，提前规避这些问题
+但要说完全无欲无求，emmm，看到项目多了一颗 🌟，好像也非常开心，有什么能比读者大大的赞美更宝贵:)
 
-- **[Cookbook](https://rusty.course.rs)**，涵盖多个应用场景的实战代码片段，程序员上网查询文件操作、正则解析、数据库操作是常事，没有人能记住所有代码，而 Cookbook 可解君忧，Ctrl + C/V 走天下
+你们用指尖绘制星空，那里繁星点点，每一颗都在激励着我们披荆斩棘、不断前行。不夸张的说，没有你们，开源世界就没有星光，自然也不会有今日的开源盛世。
 
-- **[配套练习题](https://github.com/sunface/rust-by-practice)**，像学习一门大学课程一样学习 Rust 是一种什么感觉？_Rust 语言圣经 + Rust 语言实战_ 双剑合璧，给你最极致的学习体验
+能与大家在茫茫人海中相识，这感觉真好！
 
-总之在写作过程中我们始终铭记初心：为中国用户打造一门**全面的、深入的、持续更新的** Rust 教程。 新手用来入门，老手用来提高，高手用来提升生产力。
+
+<img width="2452" height="744" alt="1780625980773" src="https://github.com/user-attachments/assets/988797be-c886-45ac-99d6-569fae654dfe" />
+
+
 
 ## 🏆 贡献者
 
-非常感谢本教程的[所有贡献者](https://github.com/sunface/rust-course/graphs/contributors)，正是有了你们，才有了现在的高质量 Rust 教程!
-
-<br />
-
-🏆
+非常感谢本教程的[所有贡献者](https://github.com/sunface/rust-course/graphs/contributors)，正是有了你们，才有了现在的高质量 Rust 教程! 特别感谢：
 
 <table>
     <tbody>
@@ -70,7 +72,6 @@
 
 <br />
 
-🏅
 
 <table>
     <tbody>
@@ -107,21 +108,6 @@
     </tbody>
 </table>
 
-## 创作感悟
-
-截至目前，Rust 语言圣经已写了 170 余章，110 余万字，历经 800 多个小时，每一个章节都是手动写就，没有任何机翻和质量上的妥协( 相信深入阅读过的读者都能体会到这一点 )。
-
-曾经有读者问过 "这么好的书为何要开源，而不是出版?"，原因很简单：**只有完全开源才能完美地呈现出我想要的教学效果**。
-
-总之，Rust 要在国内真正发展起来，必须得有一些追逐梦想的人在做着不计付出的事情，而我希望自己能贡献一份微薄之力。
-
-但是要说完全无欲无求，那也是不可能的，看到项目多了一颗 🌟，那感觉...棒极了，因为它代表了读者的认可和称赞。
-
-你们用指尖绘制的星空，那里繁星点点，每一颗都在鼓励着怀揣着开源梦想的程序员披荆斩棘、不断前行，不夸张的说，没有你们，开源世界就没有星光，自然也就不会有今天的开源盛世。
-
-因此，**我恳请大家，如果觉得书还可以，就在你的指尖星空绘制一颗新的 🌟，指引我们继续砥砺前行**。这个人世间，因善意而美好。
-
-最后，能通过开源在茫茫人海中与大家相识，这感觉真好 :D
 
 ## 开源协议
 
@@ -138,13 +124,3 @@
 
 因为它们绝大部分是支持 APACHE + MIT 双协议的，因此我们选择了遵循其中的 MIT 协议，并在这里统一对借鉴的书籍进行说明。
 
-## 社区 & 读者交流
-
-- 知乎: [孙飞 Sunface](https://www.zhihu.com/people/iSunface)
-- RustCn 微信交流 2 群：<img src="https://github.com/sunface/rust-course/assets/7036754/a84ec7e5-30b1-48da-9352-95503aa61a8f" width="200" /> 
-
-
-
-- 微信公众号: 扫描下面的二维码关注公众号 `Rust语言中文网`
-
-<img src="https://github.com/sunface/rust-course/blob/main/assets/studyrust公众号.png?raw=true" />

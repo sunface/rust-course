@@ -2,14 +2,14 @@
 
 同志们，抓稳了，我们即将换挡提速，通向 `mini-redis` 服务端的高速之路已经开启。
 
-不过在开始之前，先来做点收尾工作：上一章节中，我们实现了一个简易的 `mini-redis` 客户端并支持了 `SET`/`GET` 操作, 现在将该[代码](https://course.rs/advance-practice/getting-startted.html#分析未到代码先行)移动到 `examples` 文件夹下，因为我们这个章节要实现的是服务器，后面可以通过运行 `example` 的方式，用之前客户端示例对我们的服务器端进行测试:
+不过在开始之前，先来做点收尾工作：上一章节中，我们实现了一个简易的 `mini-redis` 客户端并支持了 `SET`/`GET` 操作, 现在将该[代码](https://beatai.org/rust-course/advance-practice/getting-startted#分析未到代码先行)移动到 `examples` 文件夹下，因为我们这个章节要实现的是服务器，后面可以通过运行 `examples` 的方式，用之前客户端示例对我们的服务器端进行测试:
 
 ```shell
 $ mkdir -p examples
 $ mv src/main.rs examples/hello-redis.rs
 ```
 
-并在 `Cargo.toml` 里添加 `[[example]]` 说明。关于 `example` 的详细说明，可以在[Cargo使用指南](https://course.rs/cargo/reference/cargo-target.html#示例对象examples)里进一步了解。
+并在 `Cargo.toml` 里添加 `[[example]]` 说明。关于 `example` 的详细说明，可以在[Cargo使用指南](https://beatai.org/rust-course/cargo/reference/cargo-target#示例对象examples)里进一步了解。
 
 ```toml
 [[example]]
@@ -80,7 +80,7 @@ $ cargo run --example hello-redis
 
 而这显然不是我们想要的，服务器能并发地处理多条连接的请求，才是正确的打开姿势，下面来看看如何实现真正的并发。
 
-> 关于并发和并行，在[多线程章节中](https://course.rs/advance/concurrency-with-threads/concurrency-parallelism.html)有详细的解释
+> 关于并发和并行，在[多线程章节中](https://beatai.org/rust-course/advance/concurrency-with-threads/concurrency-parallelism)有详细的解释
 
 为了并发的处理连接，需要为每一条进来的连接都生成( `spawn` )一个新的任务, 然后在该任务中处理连接:
 
@@ -178,13 +178,13 @@ help: to force the async block to take ownership of `v` (and any other
 
 在报错的同时，Rust 编译器还给出了相当有帮助的提示：为 `async` 语句块使用 `move` 关键字，这样就能将 `v` 的所有权从 `main` 函数转移到新创建的任务中。
 
-但是 `move` 有一个问题，一个数据只能被一个任务使用，如果想要多个任务使用一个数据，就有些强人所难。不知道还有多少同学记得 [`Arc`](https://course.rs/advance/smart-pointer/rc-arc.html)，它可以轻松解决该问题，还是线程安全的。
+但是 `move` 有一个问题，一个数据只能被一个任务使用，如果想要多个任务使用一个数据，就有些强人所难。不知道还有多少同学记得 [`Arc`](https://beatai.org/rust-course/advance/smart-pointer/rc-arc)，它可以轻松解决该问题，还是线程安全的。
 
 在上面的报错中，还有一句很奇怪的信息```function requires argument type to outlive `'static` ```， 函数要求参数类型的生命周期必须比 `'static` 长，问题是 `'static` 已经活得跟整个程序一样久了，难道函数的参数还能活得更久？大家可能会觉得编译器秀逗了，毕竟其它语言编译器也有秀逗的时候:)
 
 先别急着给它扣帽子，虽然我有时候也想这么做。。原因是它说的是类型必须活得比 `'static` 长，而不是值。当我们说一个值是 `'static` 时，意味着它将永远存活。这个很重要，因为编译器无法知道新创建的任务将存活多久，所以唯一的办法就是让任务永远存活。
 
-如果大家对于 `&'static` 和 `T: 'static` 较为模糊，强烈建议回顾下[该章节](https://course.rs/advance/lifetime/static.html)。
+如果大家对于 `&'static` 和 `T: 'static` 较为模糊，强烈建议回顾下[该章节](https://beatai.org/rust-course/advance/lifetime/static)。
 
 #### Send 约束
 

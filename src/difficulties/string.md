@@ -3,12 +3,12 @@
 
 Rust 语言的类型可以大致分为两种：基本类型和标准库类型，前者是由语言特性直接提供的，而后者是在标准库中定义。即将登场的 `str` 类型就是唯一定义在语言特性中的字符串。
 
-> 在继续之前，大家需要先了解字符串的[基本知识](https://course.rs/basic/compound-type/string-slice.html)，本文主要在于概念对比，而不是字符串讲解
+> 在继续之前，大家需要先了解字符串的[基本知识](https://beatai.org/rust-course/basic/compound-type/string-slice)，本文主要在于概念对比，而不是字符串讲解
 
 ## str
 如上所述，`str` 是唯一定义在 Rust 语言特性中的字符串，但是也是我们几乎不会用到的字符串类型，为何？
 
-原因在于 `str` 字符串它是 [`DST` 动态大小类型](https://course.rs/advance/into-types/sized.html#动态大小类型-dst)，这意味着编译器无法在编译期知道 `str` 类型的大小，只有到了运行期才能动态获知，这对于强类型、强安全的 Rust 语言来说是不可接受的。
+原因在于 `str` 字符串它是 [`DST` 动态大小类型](https://beatai.org/rust-course/advance/into-types/sized#动态大小类型-dst)，这意味着编译器无法在编译期知道 `str` 类型的大小，只有到了运行期才能动态获知，这对于强类型、强安全的 Rust 语言来说是不可接受的。
 
 ```rust
 let string: str = "banana";

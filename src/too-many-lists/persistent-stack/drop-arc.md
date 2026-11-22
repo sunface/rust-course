@@ -79,7 +79,7 @@ test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 
 那么还有一个问题，我们怎么知道一个类型是不是类型安全？会不会在多线程误用了非线程安全的类型呢？这就是 Rust 安全性的另一个强大之处：Rust 通过提供 `Send` 和 `Sync` 两个特征来保证线程安全。
 
-> 关于 `Send` 和 `Sync` 的详细介绍，请参见[此章节](https://course.rs/advance/concurrency-with-threads/send-sync.html)
+> 关于 `Send` 和 `Sync` 的详细介绍，请参见[此章节](https://beatai.org/rust-course/advance/concurrency-with-threads/send-sync)
 
 ## 完整代码
 又到了喜闻乐见的环节，新链表的代码相比之前反而还更简单了，不可变就是香！

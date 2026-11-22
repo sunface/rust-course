@@ -243,7 +243,7 @@ impl ThreadPool {
 这里有两点值得注意:
 
 - `usize` 类型包含 `0`，但是创建没有任何线程的线程池显然是无意义的，因此做一下 `assert!` 验证
-- `ThreadPool` 拥有不错的[文档注释](https://course.rs/basic/comment.html#文档注释)，甚至包含了可能 `panic` 的情况，通过 `cargo doc --open` 可以访问文档注释
+- `ThreadPool` 拥有不错的[文档注释](https://beatai.org/rust-course/basic/comment#文档注释)，甚至包含了可能 `panic` 的情况，通过 `cargo doc --open` 可以访问文档注释
 
 ### 存储线程
 

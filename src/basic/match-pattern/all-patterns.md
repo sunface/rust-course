@@ -19,7 +19,7 @@ match x {
 
 ### 匹配命名变量
 
-在 [match](https://course.rs/basic/match-pattern/match-if-let.html#%E5%8F%98%E9%87%8F%E9%81%AE%E8%94%BD) 中，我们有讲过变量遮蔽的问题，这个在**匹配命名变量**时会遇到：
+在 [match](https://beatai.org/rust-course/basic/match-pattern/match-if-let#%E5%8F%98%E9%87%8F%E9%81%AE%E8%94%BD) 中，我们有讲过变量遮蔽的问题，这个在**匹配命名变量**时会遇到：
 
 ```rust
 fn main() {
@@ -64,7 +64,7 @@ match x {
 
 ### 通过序列 `..=` 匹配值的范围
 
-在[数值类型](https://course.rs/basic/base-type/numbers.html#序列range)中我们有讲到一个序列语法，该语法不仅可以用于循环中，还能用于匹配模式。
+在[数值类型](https://beatai.org/rust-course/basic/base-type/numbers#序列range)中我们有讲到一个序列语法，该语法不仅可以用于循环中，还能用于匹配模式。
 
 `..=` 语法允许你匹配一个闭区间序列内的值。在如下代码中，当模式匹配任何在此序列内的值时，该分支会执行：
 

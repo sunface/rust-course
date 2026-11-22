@@ -18,11 +18,11 @@ impl List {
 }
 ```
 
-> 学习链接: [impl、关联函数](https://course.rs/basic/method.html#关联函数)、[Self](https://course.rs/basic/trait/trait-object.html?highlight=Self#self-与-self) 
+> 学习链接: [impl、关联函数](https://beatai.org/rust-course/basic/method#关联函数)、[Self](https://beatai.org/rust-course/basic/trait/trait-object?highlight=Self#self-与-self) 
 
 
 ## Push
-在开始实现之前，你需要先了解 [self、&self、&mut sef](https://course.rs/basic/method.html#selfself-和-mut-self) 这几个概念。
+在开始实现之前，你需要先了解 [self、&self、&mut sef](https://beatai.org/rust-course/basic/method#selfself-和-mut-self) 这几个概念。
 
 在创建链表后，下一步就是往链表中插入新的元素，由于 `push` 会改变链表，因此我们使用 `&mut self` 的方法签名:
 ```rust
@@ -151,7 +151,7 @@ pub fn pop(&mut self) -> Option<i32> {
 }
 ```
 
-目前的代码显然会报错，因为函数的返回值是 `Option<T>` 枚举，而目前的返回值是 [`()`](https://course.rs/basic/base-type/function.html#无返回值)。当然，我们可以返回一个`Option<T>` 的枚举成员 `None`，但是一个更好的做法是使用 `unimplemented!()`，该宏可以明确地说明目前的代码还没有实现，一旦代码执行到 `unimplemented!()` 的位置，就会发生一个 `panic`。
+目前的代码显然会报错，因为函数的返回值是 `Option<T>` 枚举，而目前的返回值是 [`()`](https://beatai.org/rust-course/basic/base-type/function#无返回值)。当然，我们可以返回一个`Option<T>` 的枚举成员 `None`，但是一个更好的做法是使用 `unimplemented!()`，该宏可以明确地说明目前的代码还没有实现，一旦代码执行到 `unimplemented!()` 的位置，就会发生一个 `panic`。
 
 ```rust
 pub fn pop(&mut self) -> Option<i32> {
@@ -166,7 +166,7 @@ pub fn pop(&mut self) -> Option<i32> {
     unimplemented!()
 }
 ```
-`panics` 是一种[发散函数](https://course.rs/basic/base-type/function.html?search=#永不返回的函数)，该函数永不返回任何值，因此可以用于需要返回任何类型的地方。这句话很不好理解，但是从上面的代码中可以看出 `unimplemented!()` 是永不返回的函数，但是它却可以用于一个返回 `Option<i32>` 的函数中来替代返回值。
+`panics` 是一种[发散函数](https://beatai.org/rust-course/basic/base-type/function?search=#永不返回的函数)，该函数永不返回任何值，因此可以用于需要返回任何类型的地方。这句话很不好理解，但是从上面的代码中可以看出 `unimplemented!()` 是永不返回的函数，但是它却可以用于一个返回 `Option<i32>` 的函数中来替代返回值。
 
 以上代码果不其然又报错了:
 ```shell

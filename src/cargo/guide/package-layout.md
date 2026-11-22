@@ -43,7 +43,7 @@
 - 示例代码放在 `examples` 目录下
 - 集成测试代码放在 `tests` 目录下
 
-关于 Rust 中的包和模块，[之前的章节](https://course.rs/basic/crate-module/intro.html)有更详细的解释。
+关于 Rust 中的包和模块，[之前的章节](https://beatai.org/rust-course/basic/crate-module/intro)有更详细的解释。
 
-此外，`bin`、`tests`、`examples` 等目录路径都可以通过配置文件进行配置，它们被统一称之为 [Cargo Target](https://course.rs/cargo/reference/cargo-target.html)。
+此外，`bin`、`tests`、`examples` 等目录路径都可以通过配置文件进行配置，它们被统一称之为 [Cargo Target](https://beatai.org/rust-course/cargo/reference/cargo-target)。
 

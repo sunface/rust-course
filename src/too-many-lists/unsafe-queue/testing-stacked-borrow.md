@@ -564,7 +564,7 @@ item in the borrow stack
 细心的同学可能会发现，我们这次获得了一个相当具体的 miri 提示，而不是之前的某个 tag 。真是令人感动...毕竟这种错误信息会更有帮助。
 
 ## 测试内部可变性
-还记得之前我们试图用 `RefCell` + `Rc` 去实现的那个糟糕的链表吗？这两个组合在一起就可以实现内部可变性。与 `RefCell` 类似的还有 [`Cell`](https://course.rs/advance/smart-pointer/cell-refcell.html#cell):
+还记得之前我们试图用 `RefCell` + `Rc` 去实现的那个糟糕的链表吗？这两个组合在一起就可以实现内部可变性。与 `RefCell` 类似的还有 [`Cell`](https://beatai.org/rust-course/advance/smart-pointer/cell-refcell#cell):
 ```rust
 use std::cell::Cell;
 

@@ -33,7 +33,7 @@ info: installing component 'miri'
 >
 > 2022-01-21 是我所知的 miri 可以成功运行的版本，你可以检查[这个网址](https://rust-lang.github.io/rustup-components-history/)获取更多信息
 >
-> + 是一种临时性的规则运用，如果你不想每次都使用 `+nightly-2022-01-21`，可以使用 [`rustup override set`](https://course.rs/appendix/rust-version.html#rustup-和-rust-nightly-的职责) 命令对当前项目的 Rust 版本进行覆盖
+> + 是一种临时性的规则运用，如果你不想每次都使用 `+nightly-2022-01-21`，可以使用 [`rustup override set`](https://beatai.org/rust-course/appendix/rust-version#rustup-和-rust-nightly-的职责) 命令对当前项目的 Rust 版本进行覆盖
 
 ```shell
 $ cargo +nightly-2022-01-21 miri test

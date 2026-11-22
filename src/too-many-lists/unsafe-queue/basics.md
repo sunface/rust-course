@@ -2,7 +2,7 @@
 
 > 本章节的代码中有一个隐藏的 bug，因为它藏身于 unsafe 中，因此不会导致报错，我们会在后续章节解决这个问题，所以，请不要在生产环境使用此处的代码
 
-在开始之前，大家需要先了解 unsafe 的[相关知识](https://course.rs/advance/unsafe/intro.html)。那么，言归正传，该如何构建一个链表？在之前我们是这么做的：
+在开始之前，大家需要先了解 unsafe 的[相关知识](https://beatai.org/rust-course/advance/unsafe/intro)。那么，言归正传，该如何构建一个链表？在之前我们是这么做的：
 ```rust
 impl<T> List<T> {
     pub fn new() -> Self {
@@ -124,7 +124,7 @@ error[E0133]: dereference of raw pointer is unsafe and requires
      all of these are undefined behavior
 ```
 
-哎...太难了，错误一个连一个，好在编译器给出了提示：由于我们在进行不安全的操作，因此需要使用 `unsafe` 语句块。那么问题来了，是将某几行代码包在 `unsafe` 中还是将整个函数包在 `unsafe` 中呢？如果大家不知道哪个是正确答案的话，证明[之前的章节](https://course.rs/advance/unsafe/intro.html#控制-unsafe-的使用边界)还是没有仔细学，请回去再看一下，巩固巩固:) 
+哎...太难了，错误一个连一个，好在编译器给出了提示：由于我们在进行不安全的操作，因此需要使用 `unsafe` 语句块。那么问题来了，是将某几行代码包在 `unsafe` 中还是将整个函数包在 `unsafe` 中呢？如果大家不知道哪个是正确答案的话，证明[之前的章节](https://beatai.org/rust-course/advance/unsafe/intro#控制-unsafe-的使用边界)还是没有仔细学，请回去再看一下，巩固巩固:) 
 
 ```rust
 pub fn push(&mut self, elem: T) {

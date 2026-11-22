@@ -1,4 +1,4 @@
-## 附录 D：派生特征 trait
+# 附录 D：派生特征 trait
 
 在本书的各个部分中，我们讨论了可应用于结构体和枚举定义的 `derive` 属性。被 `derive` 标记的对象会自动实现对应的默认特征代码，继承相应的功能。
 
@@ -16,7 +16,7 @@
 
 一个无法被派生的特征例子是为终端用户处理格式化的 `Display` 。你应该时常考虑使用合适的方法来为终端用户显示一个类型。终端用户应该看到类型的什么部分？他们会找出相关部分吗？对他们来说最关心的数据格式是什么样的？Rust 编译器没有这样的洞察力，因此无法为你提供合适的默认行为。
 
-本附录所提供的可派生特征列表其实并不全面：库可以为其内部的特征实现 `derive` ，因此除了本文列出的标准库 `derive` 之外，还有很多很多其它库的 `derive` 。实现 `derive` 涉及到过程宏的应用，这在[宏章节](https://course.rs/advance/macro.html)中有介绍。
+本附录所提供的可派生特征列表其实并不全面：库可以为其内部的特征实现 `derive` ，因此除了本文列出的标准库 `derive` 之外，还有很多很多其它库的 `derive` 。实现 `derive` 涉及到过程宏的应用，这在[宏章节](https://beatai.org/rust-course/advance/macro)中有介绍。
 
 ### 用于开发者输出的 `Debug`
 
@@ -54,19 +54,19 @@
 
 ### 复制值的 `Clone` 和 `Copy`
 
-`Clone` 特征用于创建一个值的深拷贝（deep copy），复制过程可能包含代码的执行以及堆上数据的复制。查阅 [通过 Clone 进行深拷贝](https://course.rs/basic/ownership/ownership.html#克隆深拷贝)获取有关 `Clone` 的更多信息。
+`Clone` 特征用于创建一个值的深拷贝（deep copy），复制过程可能包含代码的执行以及堆上数据的复制。查阅 [通过 Clone 进行深拷贝](https://beatai.org/rust-course/basic/ownership/ownership#克隆深拷贝)获取有关 `Clone` 的更多信息。
 
 派生 `Clone` 实现了 `clone` 方法，当为整个的类型实现 `Clone` 时，在该类型的每一部分上都会调用 `clone` 方法。这意味着类型中所有字段或值也必须实现了 `Clone`，这样才能够派生 `Clone` 。
 
 例如，当在一个切片（slice）上调用 `to_vec` 方法时， `Clone` 是必须的。切片只是一个引用，并不拥有其所包含的实例数据，但是从 `to_vec` 中返回的 Vector 需要拥有实例数据，因此， `to_vec` 需要在每个元素上调用 `clone` 来逐个复制。因此，存储在切片中的类型必须实现 `Clone`。
 
-`Copy` 特征允许你通过只拷贝存储在栈上的数据来复制值(浅拷贝),而无需复制存储在堆上的底层数据。查阅 [通过 Copy 复制栈数据](https://course.rs/basic/ownership/ownership.html#拷贝浅拷贝) 的部分来获取有关 `Copy` 的更多信息。
+`Copy` 特征允许你通过只拷贝存储在栈上的数据来复制值(浅拷贝),而无需复制存储在堆上的底层数据。查阅 [通过 Copy 复制栈数据](https://beatai.org/rust-course/basic/ownership/ownership#拷贝浅拷贝) 的部分来获取有关 `Copy` 的更多信息。
 
 实际上 `Copy` 特征并不阻止你在实现时使用了深拷贝，只是，我们不应该这么做，毕竟遵循一个语言的惯例是很重要的。当用户看到 `Copy` 时，潜意识就应该知道这是浅拷贝，复制一个值会非常快。
 
 当一个类型的内部字段全部实现了 `Copy` 时，你就可以在该类型上派上 `Copy` 特征。 一个类型如果要实现 `Copy` 它必须先实现 `Clone` ，因为一个类型实现 `Clone` 后，就等于顺便实现了 `Copy` 。
 
-总之， `Copy` 拥有更好的性能，当浅拷贝足够的时候，就不要使用 `Clone` ，不然会导致你的代码运行更慢，对于[性能优化](https://course.rs/profiling/performance/intro.html)来说，一个很大的方面就是减少热点路径深拷贝的发生。
+总之， `Copy` 拥有更好的性能，当浅拷贝足够的时候，就不要使用 `Clone` ，不然会导致你的代码运行更慢，对于[性能优化](https://beatai.org/rust-course/profiling/performance/intro)来说，一个很大的方面就是减少热点路径深拷贝的发生。
 
 ### 固定大小的值映射的 `Hash`
 
@@ -78,6 +78,6 @@
 
 `Default` 特征会帮你创建一个类型的默认值。 派生 `Default` 意味着自动实现了 `default` 函数。 `default` 函数的派生实现调用了类型每部分的 `default` 函数，这意味着类型中所有的字段也必须实现了 `Default`，这样才能够派生 `Default` 。
 
-`Default::default` 函数通常结合结构体更新语法一起使用，这在第五章的 [结构体更新语法](https://course.rs/basic/compound-type/struct.html#结构体更新语法) 部分有讨论。可以自定义一个结构体的一小部分字段而剩余字段则使用 `..Default::default()` 设置为默认值。
+`Default::default` 函数通常结合结构体更新语法一起使用，这在第五章的 [结构体更新语法](https://beatai.org/rust-course/basic/compound-type/struct#结构体更新语法) 部分有讨论。可以自定义一个结构体的一小部分字段而剩余字段则使用 `..Default::default()` 设置为默认值。
 
 例如，当你在 `Option<T>` 实例上使用 `unwrap_or_default` 方法时， `Default` 特征是必须的。如果 `Option<T>` 是 `None` 的话, `unwrap_or_default` 方法将返回 `T` 类型的 `Default::default` 的结果。

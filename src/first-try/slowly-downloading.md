@@ -102,7 +102,7 @@ registry = "git://mirrors.ustc.edu.cn/crates.io-index"
 
 简单吧？只要这样配置后，以往需要去 `crates.io` 下载的包，会全部从科大的镜像地址下载，速度刷刷的... 我的 300M 大刀（宽带）终于有了用武之地。
 
-**这里强烈推荐大家在学习完后面的基本章节后，看一下 [Cargo 使用指南章节](https://course.rs/cargo/intro.html)，对于你的 Rust 之旅会有莫大的帮助！**
+**这里强烈推荐大家在学习完后面的基本章节后，看一下 [Cargo 使用指南章节](https://beatai.org/rust-course/cargo/intro)，对于你的 Rust 之旅会有莫大的帮助！**
 
 
 ## 下载卡住

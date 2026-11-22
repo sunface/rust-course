@@ -26,7 +26,7 @@ list3 -> X ---+
 
 好在标准库为我们提供了引用计数的数据结构: `Rc / Arc`，引用计数可以被认为是一种简单的 GC，对于很多场景来说，引用计数的数据吞吐量要远小于垃圾回收，而且引用计数还存在循环引用的风险！但... 我们有其它选择吗？ :(
 
-不过使用 Rc 意味着我们的数据将无法被改变，因为它不具备内部可变性，关于 Rc/Arc 的详细介绍请看[这里](https://course.rs/advance/smart-pointer/rc-arc.html)。
+不过使用 Rc 意味着我们的数据将无法被改变，因为它不具备内部可变性，关于 Rc/Arc 的详细介绍请看[这里](https://beatai.org/rust-course/advance/smart-pointer/rc-arc)。
 
 下面，简单的将我们的数据结构通过 `Rc` 来实现：
 ```rust

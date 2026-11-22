@@ -3,16 +3,6 @@
 [关于本书](about-book.md)
 [进入 Rust 编程世界](into-rust.md)
 [避免从入门到放弃](first-try/sth-you-should-not-do.md)
-<!-- [快速查询入口](index-list.md) 暂时屏蔽-->
-[社区和锈书](community.md)
-
----
-[Xobserve: 一切皆可观测](some-thoughts.md)
-[BeatAI: 工程师 AI 入门圣经](beat-ai.md)
-
-<!-- [一本生锈的书](rusty-book.md) -->
-<!-- [Rust 语言周刊](rust-weekly.md) -->
-<!-- [Rust 翻译计划( 代号 Rustt )](rustt.md) -->
 
 # Rust 语言基础学习
 

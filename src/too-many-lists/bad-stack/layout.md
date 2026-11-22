@@ -37,7 +37,7 @@ help: insert some indirection (e.g., a `Box`, `Rc`, or `&`) to make `List` repre
 3 |     Elem(i32, Box<List>),
 ```
 
-帅不过 3 秒的玩意儿～～ 好在这个问题，我们在[之前的章节](https://course.rs/advance/smart-pointer/box.html#将动态大小类型变为-sized-固定大小类型)中就讲过了，简而言之，当前的类型是[不定长](https://course.rs/advance/into-types/sized.html)的，对于 Rust 编译器而言，所有栈上的类型都必须在编译期有固定的长度，一个简单的解决方案就是使用 `Box` 将值封装到堆上，然后使用栈上的定长指针来指向堆上不定长的值。
+帅不过 3 秒的玩意儿～～ 好在这个问题，我们在[之前的章节](https://beatai.org/rust-course/advance/smart-pointer/box#将动态大小类型变为-sized-固定大小类型)中就讲过了，简而言之，当前的类型是[不定长](https://beatai.org/rust-course/advance/into-types/sized)的，对于 Rust 编译器而言，所有栈上的类型都必须在编译期有固定的长度，一个简单的解决方案就是使用 `Box` 将值封装到堆上，然后使用栈上的定长指针来指向堆上不定长的值。
 
 实际上，如果大家有仔细看编译错误的话，它还给出了我们提示: `Elem(i32, Box<List>)`，和我们之前的结论一致，下面来试试：
 ```rust

@@ -154,7 +154,7 @@ fn increase(&mut self) {
 }
 ```
 
-在这里，我们不再单独声明变量`b`，而是直接调用`self.b+=1`进行递增，根据借用生命周期[NLL](https://course.rs/advance/lifetime/advance.html#nllnon-lexical-lifetime)的规则，第一个可变借用`self.increase_a()`的生命周期随着方法调用的结束而结束，那么就不会影响`self.b += 1`中的借用。
+在这里，我们不再单独声明变量`b`，而是直接调用`self.b+=1`进行递增，根据借用生命周期[NLL](https://beatai.org/rust-course/advance/lifetime/advance#nllnon-lexical-lifetime)的规则，第一个可变借用`self.increase_a()`的生命周期随着方法调用的结束而结束，那么就不会影响`self.b += 1`中的借用。
 
 ## 闭包中的例子
 

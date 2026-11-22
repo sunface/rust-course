@@ -1,6 +1,6 @@
 # 可观测性
 
-在监控章节的[引言](https://course.rs/logs/observe/intro.html)中，我们提到了老板、前端、后端眼中的监控是各不相同的，那么有没有办法将监控模型进行抽象、统一呢？
+在监控章节的[引言](https://beatai.org/rust-course/logs/observe/intro)中，我们提到了老板、前端、后端眼中的监控是各不相同的，那么有没有办法将监控模型进行抽象、统一呢？
 
 来简单分析一下：
 

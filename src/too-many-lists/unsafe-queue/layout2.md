@@ -106,7 +106,7 @@ struct Node<T> {
 
 太棒了，简直为我们量身定制。而且它还很符合我们试图遵循的规则： 从安全的东东开始，将其转换成裸指针，最后再将裸指针转回安全的东东以实现安全的 drop。
 
-现在，我们就可以到处使用裸指针，只不过要注意 unsafe 的范围要尽可能小。大家可以再看下[之前的章节](https://course.rs/advance/unsafe/intro.html#控制-unsafe-的使用边界) 巩固巩固。
+现在，我们就可以到处使用裸指针，只不过要注意 unsafe 的范围要尽可能小。大家可以再看下[之前的章节](https://beatai.org/rust-course/advance/unsafe/intro#控制-unsafe-的使用边界) 巩固巩固。
 
 ```rust
 pub fn push(&mut self, elem: T) {

@@ -1,6 +1,6 @@
 # 测试驱动开发
 
-> 开始之前，推荐大家先了解下[如何在 Rust 中编写测试代码](https://course.rs/test/intro.html)，这块儿内容不复杂，先了解下有利于本章的继续阅读
+> 开始之前，推荐大家先了解下[如何在 Rust 中编写测试代码](https://beatai.org/rust-course/test/intro)，这块儿内容不复杂，先了解下有利于本章的继续阅读
 
 在之前的章节中，我们完成了对项目结构的重构，并将进入逻辑代码编程的环节，但在此之前，我们需要先编写一些测试代码，也是最近颇为流行的测试驱动开发模式(TDD, Test Driven Development)：
 
@@ -47,7 +47,7 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
 
 先添加一个简单的 `search` 函数实现，非常简单粗暴的返回一个空的数组，显而易见测试用例将成功通过，真是一个居心叵测的测试用例！
 
-注意这里生命周期 `'a` 的使用，之前的章节有[详细介绍](https://course.rs/basic/lifetime.html#函数签名中的生命周期标注)，不太明白的同学可以回头看看。
+注意这里生命周期 `'a` 的使用，之前的章节有[详细介绍](https://beatai.org/rust-course/basic/lifetime#函数签名中的生命周期标注)，不太明白的同学可以回头看看。
 
 喔，这么复杂的代码，都用上生命周期了！嘚瑟两下试试：
 
@@ -101,7 +101,7 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
 }
 ```
 
-这里的 `lines` 返回一个[迭代器](https://course.rs/advance/functional-programing/iterator.html)，关于迭代器在后续章节会详细讲解，现在只要知道 `for` 可以遍历取出迭代器中的值即可。
+这里的 `lines` 返回一个[迭代器](https://beatai.org/rust-course/advance/functional-programing/iterator)，关于迭代器在后续章节会详细讲解，现在只要知道 `for` 可以遍历取出迭代器中的值即可。
 
 ### 在每一行中查询目标字符串
 

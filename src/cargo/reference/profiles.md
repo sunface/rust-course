@@ -49,7 +49,7 @@ lto = true
 $ cargo build --profile release-lto
 ```
 
-与默认的 profile 相同，自定义 profile 的编译结果也存放在 [`target/`](https://course.rs/cargo/guide/build-cache.html) 下的同名目录中，例如 `--profile release-lto` 的输出结果存储在 `target/release-lto` 中。
+与默认的 profile 相同，自定义 profile 的编译结果也存放在 [`target/`](https://beatai.org/rust-course/cargo/guide/build-cache) 下的同名目录中，例如 `--profile release-lto` 的输出结果存储在 `target/release-lto` 中。
 
 ## 选择 profile
 
@@ -104,7 +104,7 @@ $ cargo build --profile release-lto
 
 `debug-assertion` 会提供运行时的检查，该检查只能用于 `debug` 模式，原因是对于 `release` 来说，这种检查的成本较为高昂。
 
-大家熟悉的 [`debug_assert!`](https://course.rs/test/assertion.html#debug_assert-系列) 宏也是通过该标志开启的。
+大家熟悉的 [`debug_assert!`](https://beatai.org/rust-course/test/assertion#debug_assert-系列) 宏也是通过该标志开启的。
 
 支持的选项包括 :
 
@@ -257,7 +257,7 @@ codegen-units = 256
 opt-level = 3
 ```
 
-这里的 `package` 名称实际上是一个 [`Package ID`](https://course.rs/cargo/reference/package-id.html)，因此我们还可以通过版本号来选择: `[profile.dev.package."foo:2.1.0"]`。
+这里的 `package` 名称实际上是一个 [`Package ID`](https://beatai.org/rust-course/cargo/reference/package-id)，因此我们还可以通过版本号来选择: `[profile.dev.package."foo:2.1.0"]`。
 
 如果要为所有依赖包重写(不包括工作空间的成员):
 

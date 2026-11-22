@@ -4,8 +4,8 @@
 
 | 难点及链接          | 简介                                                                            |
 |-----             | ------                                                                             |
-| [?](https://course.rs/basic/result-error/result.html#传播界的大明星-)   |       用于简化错误传播                          |
-| [()](https://course.rs/basic/base-type/function.html#无返回值) |  单元类型          |
-| `!` : [1](https://course.rs/basic/base-type/function.html#永不返回的函数), [2](https://course.rs/advance/into-types/custom-type.html#永不返回类型) | 永不返回 |
-| [@](https://course.rs/basic/match-pattern/all-patterns.html#绑定) | 为一个字段绑定另外一个变量 |
-| ['a: 'b](https://course.rs/advance/lifetime/advance.html#生命周期约束-hrtb) | 生命周期约束   |
+| [?](https://beatai.org/rust-course/basic/result-error/result#传播界的大明星-)   |       用于简化错误传播                          |
+| [()](https://beatai.org/rust-course/basic/base-type/function#无返回值) |  单元类型          |
+| `!` : [1](https://beatai.org/rust-course/basic/base-type/function#永不返回的函数), [2](https://beatai.org/rust-course/advance/into-types/custom-type#永不返回类型) | 永不返回 |
+| [@](https://beatai.org/rust-course/basic/match-pattern/all-patterns#绑定) | 为一个字段绑定另外一个变量 |
+| ['a: 'b](https://beatai.org/rust-course/advance/lifetime/advance#生命周期约束-hrtb) | 生命周期约束   |

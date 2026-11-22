@@ -1,4 +1,4 @@
-## 迭代器
+# 迭代器
 集合类型可以通过 `Iterator` 特征进行迭代，该特征看起来比 `Drop` 要复杂点：
 ```rust
 pub trait Iterator {
@@ -7,7 +7,7 @@ pub trait Iterator {
 }
 ```
 
-这里的 `Item` 是[关联类型](https://course.rs/basic/trait/advance-trait.html#关联类型)，用来指代迭代器中具体的元素类型，`next` 方法返回的也是该类型。
+这里的 `Item` 是[关联类型](https://beatai.org/rust-course/basic/trait/advance-trait#关联类型)，用来指代迭代器中具体的元素类型，`next` 方法返回的也是该类型。
 
 其实上面的说法有点不够准确，原因是 `next` 方法返回的是 `Option<Self::Item>`，使用 `Option<T>` 枚举的原因是为了方便用户，不然用户需要 `has_next` 和 `get_next` 才能满足使用需求。有值时返回 `Some(T)`，无值时返回 `None`，这种 API 设计工程性更好，也更加安全，完美！
 
@@ -17,7 +17,7 @@ pub trait Iterator {
 - `IterMut` - `&mut T`
 - `Iter` - `&T`
 
-也许大家不认识它们，但是其实很好理解，`IntoIter` 类型迭代器的 `next` 方法会拿走被迭代值的所有权，`IterMut` 是可变借用， `Iter` 是不可变借用。事实上，类似的[命名规则](https://course.rs/practice/naming.html#一个集合上的方法如果返回迭代器需遵循命名规则iteriter_mutinto_iter-c-iter)在 Rust 中随处可见，当熟悉后，以后见到类似的命名大家就可以迅速的理解其对值的运用方式。
+也许大家不认识它们，但是其实很好理解，`IntoIter` 类型迭代器的 `next` 方法会拿走被迭代值的所有权，`IterMut` 是可变借用， `Iter` 是不可变借用。事实上，类似的[命名规则](https://beatai.org/rust-course/practice/naming#一个集合上的方法如果返回迭代器需遵循命名规则iteriter_mutinto_iter-c-iter)在 Rust 中随处可见，当熟悉后，以后见到类似的命名大家就可以迅速的理解其对值的运用方式。
 
 ## IntoIter
 先来看看 `IntoIter` 该怎么实现:
@@ -39,7 +39,7 @@ impl<T> Iterator for IntoIter<T> {
 }
 ```
 
-这里我们通过[元组结构体](https://course.rs/basic/compound-type/struct.html#元组结构体tuple-struct)的方式定义了 `IntoIter`，下面来测试下:
+这里我们通过[元组结构体](https://beatai.org/rust-course/basic/compound-type/struct#元组结构体tuple-struct)的方式定义了 `IntoIter`，下面来测试下:
 ```rust
 #[test]
 fn into_iter() {
@@ -112,7 +112,7 @@ error[E0106]: missing lifetime specifier
    |                 ^ expected lifetime parameter
 ```
 
-许久不见的错误又冒了出来，而且这次直指 Rust 中最难的点之一：生命周期。关于生命周期的讲解，这里就不再展开，如果大家还不熟悉，强烈建议看看[此章节](https://course.rs/advance/lifetime/intro.html)，然后再继续。
+许久不见的错误又冒了出来，而且这次直指 Rust 中最难的点之一：生命周期。关于生命周期的讲解，这里就不再展开，如果大家还不熟悉，强烈建议看看[此章节](https://beatai.org/rust-course/advance/lifetime/intro)，然后再继续。
 
 首先，先加一个生命周期试试：
 ```rust
@@ -371,7 +371,7 @@ $ cargo build
 
 `as_deref` 和 `as_deref_mut` 函数在 Rust 1.40 版本中正式稳定下来。在那之前，你只能在 `stable` 版本中使用 `map(|node| &**node)` 和 `map(|node| &mut**node)` 的方式来替代。
 
-大家可能会觉得 `&**` 的形式看上去有些烂，没错，确实如此。但是就像一瓶好酒一样，Rust 也随着时间的推进变得越来越好，因此现在我们已经无需再这么做了。事实上，Rust 很擅长隐式地做类似的转换，或者可以称之为 [`Deref`](https://course.rs/advance/smart-pointer/deref.html)。
+大家可能会觉得 `&**` 的形式看上去有些烂，没错，确实如此。但是就像一瓶好酒一样，Rust 也随着时间的推进变得越来越好，因此现在我们已经无需再这么做了。事实上，Rust 很擅长隐式地做类似的转换，或者可以称之为 [`Deref`](https://beatai.org/rust-course/advance/smart-pointer/deref)。
 
 但是 `Deref` 在这里并不能很好的完成自己的任务，原因是在闭包中使用 `Option<&T>` 而不是 `&T` 对于它来说有些过于复杂了，因此我们需要显式地去帮助它完成任务。好在根据我的经验来看，这种情况还是相当少见的。
 
@@ -416,7 +416,7 @@ test second::test::peek ... ok
 test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured
 ```
 
-最后，还有一点值得注意，之前的代码事实上可以应用[生命周期消除原则](https://course.rs/basic/lifetime.html#生命周期消除):
+最后，还有一点值得注意，之前的代码事实上可以应用[生命周期消除原则](https://beatai.org/rust-course/basic/lifetime#生命周期消除):
 ```rust
 impl<T> List<T> {
     pub fn iter<'a>(&'a self) -> Iter<'a, T> {

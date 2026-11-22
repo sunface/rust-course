@@ -351,7 +351,7 @@ error: aborting due to 11 previous errors
 
 那么该怎么办？回到老路 `RefCell` 上？显然不可能，那只能祭出大杀器：裸指针。
 
-> 事实上，上文的问题主要是自引用引起的，感兴趣的同学可以查看[这里](https://course.rs/advance/circle-self-ref/intro.html)深入阅读。
+> 事实上，上文的问题主要是自引用引起的，感兴趣的同学可以查看[这里](https://beatai.org/rust-course/advance/circle-self-ref/intro)深入阅读。
 
 ```rust
 pub struct List<T> {

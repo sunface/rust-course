@@ -1,6 +1,6 @@
 # 附录 C：表达式
 
-在[语句与表达式](https://course.rs/basic/base-type/statement-expression.html)章节中，我们对表达式有过介绍，下面对这些常用表达式进行一一说明。
+在[语句与表达式](https://beatai.org/rust-course/basic/base-type/statement-expression)章节中，我们对表达式有过介绍，下面对这些常用表达式进行一一说明。
 
 ### 基本表达式
 

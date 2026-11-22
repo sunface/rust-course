@@ -1,4 +1,4 @@
-## Rust语言中文网
+# Rust语言中文网
 
 <img src="https://github.com/rustlang-cn/.github/blob/main/assets/cover.jpg?raw=true" />
 

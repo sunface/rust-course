@@ -40,7 +40,7 @@ mod tests {
 
 #### assert_eq
 
-在测试函数中，还使用到了一个内置的断言：`assert_eq`，该宏用于对结果进行断言：`2 + 2` 是否等于 `4`。与之类似，Rust 还内置了其它一些实用的断言，具体参见[后续章节](https://course.rs/test/assertion.html)。
+在测试函数中，还使用到了一个内置的断言：`assert_eq`，该宏用于对结果进行断言：`2 + 2` 是否等于 `4`。与之类似，Rust 还内置了其它一些实用的断言，具体参见[后续章节](https://beatai.org/rust-course/test/assertion)。
 
 ## cargo test
 
@@ -69,11 +69,11 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 - 测试用例是分批执行的，`running 1 test` 表示下面的输出 `test result` 来自一个测试用例的运行结果。
 - `test tests::it_works` 中包含了测试用例的名称
 - `test result: ok` 中的 `ok` 表示测试成功通过
-- `1 passed` 代表成功通过一个测试用例(因为只有一个)，`0 failed` : 没有测试用例失败，`0 ignored` 说明我们没有将任何测试函数标记为运行时可忽略，`0 filtered` 意味着没有对测试结果做任何过滤，`0 measured` 代表[基准测试(benchmark)](https://course.rs/test/benchmark.html)的结果
+- `1 passed` 代表成功通过一个测试用例(因为只有一个)，`0 failed` : 没有测试用例失败，`0 ignored` 说明我们没有将任何测试函数标记为运行时可忽略，`0 filtered` 意味着没有对测试结果做任何过滤，`0 measured` 代表[基准测试(benchmark)](https://beatai.org/rust-course/test/benchmark)的结果
 
 关于 `filtered` 和 `ignored` 的使用，在本章节的后续内容我们会讲到，这里暂且略过。
 
-还有一个很重要的点，输出中的 `Doc-tests adder` 代表了文档测试，由于我们的代码中没有任何文档测试的内容，因此这里的测试用例数为 `0`，关于文档测试的详细介绍请参见[这里](https://course.rs/basic/comment.html#文档注释)。
+还有一个很重要的点，输出中的 `Doc-tests adder` 代表了文档测试，由于我们的代码中没有任何文档测试的内容，因此这里的测试用例数为 `0`，关于文档测试的详细介绍请参见[这里](https://beatai.org/rust-course/basic/comment#文档注释)。
 
 大家还可以尝试修改下测试函数的名称，例如修改为 `exploration`，看看运行结果将如何变化。
 

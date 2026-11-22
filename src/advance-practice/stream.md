@@ -93,7 +93,7 @@ async fn main() -> mini_redis::Result<()> {
 - [`into_stream`](https://docs.rs/mini-redis/0.4.1/mini_redis/client/struct.Subscriber.html#method.into_stream) 会将 `Subscriber` 变成一个 `stream`
 - 在 `stream` 上调用 `next` 方法要求该 `stream` 被固定住([`pinned`](https://doc.rust-lang.org/std/pin/index.html))，因此需要调用 `tokio::pin!`
 
-> 关于 Pin 的详细解读，可以阅读[这篇文章](https://course.rs/async/pin-unpin.html)
+> 关于 Pin 的详细解读，可以阅读[这篇文章](https://beatai.org/rust-course/advance/async/pin-unpin)
 
 大家可以去掉 `pin!` 的调用，然后观察下报错，若以后你遇到这种错误，可以尝试使用下 `pin!`。
 
@@ -112,7 +112,7 @@ got = Ok(Message { channel: "numbers", content: b"6" })
 
 ## 适配器
 
-在前面章节中，我们了解了迭代器有[两种适配器](https://course.rs/advance/functional-programing/iterator.html#消费者与适配器)：
+在前面章节中，我们了解了迭代器有[两种适配器](https://beatai.org/rust-course/advance/functional-programing/iterator#消费者与适配器)：
 
 - 迭代器适配器，会将一个迭代器转变成另一个迭代器，例如 `map`，`filter` 等
 - 消费者适配器，会消费掉一个迭代器，最终生成一个值，例如 `collect` 可以将迭代器收集成一个集合
@@ -214,9 +214,9 @@ pub trait Stream {
 }
 ```
 
-`Stream::poll_next()` 函数跟 `Future::poll` 很相似，区别就是前者为了从 `stream` 收到多个值需要重复的进行调用。 就像在 [`深入async`](https://course.rs/tokio/async.html) 章节提到的那样，当一个 `stream` 没有做好返回一个值的准备时，它将返回一个 `Poll::Pending` ，同时将任务的 `waker` 进行注册。一旦 `stream` 准备好后， `waker` 将被调用。
+`Stream::poll_next()` 函数跟 `Future::poll` 很相似，区别就是前者为了从 `stream` 收到多个值需要重复的进行调用。 就像在 [`深入async`](https://beatai.org/rust-course/advance-practice/async) 章节提到的那样，当一个 `stream` 没有做好返回一个值的准备时，它将返回一个 `Poll::Pending` ，同时将任务的 `waker` 进行注册。一旦 `stream` 准备好后， `waker` 将被调用。
 
-通常来说，如果想要手动实现一个 `Stream`，需要组合 `Future` 和其它 `Stream`。下面，还记得在[`深入async`](https://course.rs/tokio/async.html) 中构建的 `Delay Future` 吗？现在让我们来更进一步，将它转换成一个 `stream`，每 10 毫秒生成一个值，总共生成 3 次:
+通常来说，如果想要手动实现一个 `Stream`，需要组合 `Future` 和其它 `Stream`。下面，还记得在[`深入async`](https://beatai.org/rust-course/advance-practice/async) 中构建的 `Delay Future` 吗？现在让我们来更进一步，将它转换成一个 `stream`，每 10 毫秒生成一个值，总共生成 3 次:
 
 ```rust
 use tokio_stream::Stream;

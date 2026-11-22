@@ -58,7 +58,7 @@ For more information about this error, try `rustc --explain E0503`.
 error: could not compile `playground` due to previous error
 ```
 
-果不其然，编译器抛出了错误，当我们再借用了一个可变引用时，那原始的引用就不能再被使用，直到借用者完成了任务：借用者的借用有效范围并不是看作用域，而是看最后一次使用的位置，正因为如此，第一段代码可以编译通过，而第二段不行，这是著名的生命周期 [NLL 规则](https://course.rs/advance/lifetime/advance.html#nll-non-lexical-lifetime)。
+果不其然，编译器抛出了错误，当我们再借用了一个可变引用时，那原始的引用就不能再被使用，直到借用者完成了任务：借用者的借用有效范围并不是看作用域，而是看最后一次使用的位置，正因为如此，第一段代码可以编译通过，而第二段不行，这是著名的生命周期 [NLL 规则](https://beatai.org/rust-course/advance/lifetime/advance#nll-non-lexical-lifetime)。
 
 以上就是我们拥有再借用但是还拥有混叠信息的原因：所有的再借用都在清晰地进行嵌套，因此每个再借用都不会与其它的冲突。那大家知道什么方法可以很好的展现嵌套的事物吗？答案就是使用栈来存放这些嵌套的借用。
 

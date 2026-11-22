@@ -1,10 +1,10 @@
 # 上手使用
 
-Cargo 会在安装 Rust 的时候一并进行安装，无需我们手动的操作执行，安装 Rust 参见[这里](https://course.rs/first-try/installation.html)。
+Cargo 会在安装 Rust 的时候一并进行安装，无需我们手动的操作执行，安装 Rust 参见[这里](https://beatai.org/rust-course/first-try/installation)。
 
 在开始之前，先来明确一个名词: `Package`，由于 `Crate` 被翻译成包，因此 `Package` 再被翻译成包就很不合适，经过斟酌，我们决定翻译成项目，你也可以理解为工程、软件包，总之，在本书中`Package` 意味着项目，而项目也意味着 `Package` 。
 
-安装完成后，接下来使用 `Cargo` 来创建一个新的[二进制项目](https://course.rs/basic/crate-module/crate.html)，二进制意味着该项目可以作为一个服务运行或被编译成可执行文件运行。
+安装完成后，接下来使用 `Cargo` 来创建一个新的[二进制项目](https://beatai.org/rust-course/basic/crate-module/crate)，二进制意味着该项目可以作为一个服务运行或被编译成可执行文件运行。
 
 ```rust
 $ cargo new hello_world
@@ -46,7 +46,7 @@ fn main() {
 }
 ```
 
-可以看出 `Cargo` 还为我们自动生成了一个 `hello world` 程序，或者说[二进制包](https://course.rs/basic/crate-module/crate.html)，对程序进行编译构建：
+可以看出 `Cargo` 还为我们自动生成了一个 `hello world` 程序，或者说[二进制包](https://beatai.org/rust-course/basic/crate-module/crate)，对程序进行编译构建：
 
 ```shell
 $ cargo build

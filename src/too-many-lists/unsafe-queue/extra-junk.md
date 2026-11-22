@@ -126,7 +126,7 @@ impl<T> List<T> {
 pub unsafe fn as_mut<'a>(self) -> Option<&'a mut T>
 ```
 
-大家注意到这个凭空出现的 `'a` 吗？这里 `self` 是一个值类型，按照生命周期的规则，`'a` 无根之木，它就是[无界生命周期](https://course.rs/advance/lifetime/advance.html#无界生命周期)。
+大家注意到这个凭空出现的 `'a` 吗？这里 `self` 是一个值类型，按照生命周期的规则，`'a` 无根之木，它就是[无界生命周期](https://beatai.org/rust-course/advance/lifetime/advance#无界生命周期)。
 
 兄弟们，我很紧张，但是该继续的还是得继续，让我们从栈链表中再复制一些代码过来：
 ```rust

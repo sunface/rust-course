@@ -2,7 +2,7 @@
 
 本文将彻底解决一个困扰广大 Rust 用户已久的常见错误： 当智能指针和结构体一起使用时导致的借用错误: `cannot borrow`mut_s` as mutable because it is also borrowed as immutable`.
 
-相信看过[<<对抗 Rust 编译检查系列>>](https://course.rs/fight-with-compiler/intro.html)的读者都知道结构体中的不同字段可以独立借用吧？
+相信看过[<<对抗 Rust 编译检查系列>>](https://beatai.org/rust-course/compiler/fight-with-compiler/intro)的读者都知道结构体中的不同字段可以独立借用吧？
 
 ## 结构体中的字段借用
 
@@ -30,7 +30,7 @@ impl Test {
 
 ## RefCell
 
-如果你还不知道 RefCell，可以看看[这篇文章](https://course.rs/advance/smart-pointer/cell-refcell.html)，当然不看也行，简而言之，RefCell 能够实现：
+如果你还不知道 RefCell，可以看看[这篇文章](https://beatai.org/rust-course/advance/smart-pointer/cell-refcell)，当然不看也行，简而言之，RefCell 能够实现：
 
 - 将借用规则从编译期推迟到运行期，但是并不会绕过借用规则，当不符合时，程序直接`panic`
 - 实现内部可变性：简单来说，对一个不可变的值进行可变借用，然后修改内部的值
@@ -96,7 +96,7 @@ fn write(s: RefCell<S>) {
 }
 ```
 
-可以看出，对结构体字段的调用，实际上经过一层函数，一层函数！？我相信你应该想起了什么，是的，在[上一篇文章](https://course.rs/fight-with-compiler/borrowing/ref-exist-in-out-fn.html)中讲过类似的问题， 大意就是**编译器对于函数往往只会分析签名，并不关心内部到底如何使用结构体**。
+可以看出，对结构体字段的调用，实际上经过一层函数，一层函数！？我相信你应该想起了什么，是的，在[上一篇文章](https://beatai.org/rust-course/compiler/fight-with-compiler/borrowing/ref-exist-in-out-fn)中讲过类似的问题， 大意就是**编译器对于函数往往只会分析签名，并不关心内部到底如何使用结构体**。
 
 而上面的`&Deref::deref(&mut_s)`和`DerefMut::deref_mut(&mut mut_s)`函数，签名全部使用的是结构体，并不是结构体中的某一个字段，因此对于编译器来说，该结构体明显是被重复借用了！
 

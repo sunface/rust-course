@@ -24,7 +24,7 @@
 
 这个方案有一个很优雅的名字: 关注点分离(Separation of Concerns)。简而言之，`main.rs` 负责启动程序，`lib.rs` 负责逻辑代码的运行。从测试的角度而言，这种分离也非常合理：  `lib.rs` 中的主体逻辑代码可以得到简单且充分的测试，至于 `main.rs` ？确实没办法针对其编写额外的测试代码，但是它的代码也很少啊，很容易就能保证它的正确性。
 
-> 关于如何在 Rust 中编写测试代码，请参见如下章节：https://course.rs/test/intro.html
+> 关于如何在 Rust 中编写测试代码，请参见如下章节：https://beatai.org/rust-course/test/intro
 
 ### 分离命令行解析
 
@@ -239,7 +239,7 @@ impl Config {
 上面代码有几点值得注意:
 
 - 当 `Result` 包含错误时，我们不再调用 `panic` 让程序崩溃，而是通过 `process::exit(1)` 来终结进程，其中 `1` 是一个信号值(事实上非 0 值都可以)，通知调用我们程序的进程，程序是因为错误而退出的。
-- `unwrap_or_else` 是定义在 `Result<T,E>` 上的常用方法，如果 `Result` 是 `Ok`，那该方法就类似 `unwrap`：返回 `Ok` 内部的值；如果是 `Err`，就调用[闭包](https://course.rs/advance/functional-programing/closure.html)中的自定义代码对错误进行进一步处理
+- `unwrap_or_else` 是定义在 `Result<T,E>` 上的常用方法，如果 `Result` 是 `Ok`，那该方法就类似 `unwrap`：返回 `Ok` 内部的值；如果是 `Err`，就调用[闭包](https://beatai.org/rust-course/advance/functional-programing/closure)中的自定义代码对错误进行进一步处理
 
 综上可知，`config` 变量的值是一个 `Config` 实例，而 `unwrap_or_else` 闭包中的 `err` 参数，它的类型是 `'static str`，值是 "not enough arguments" 那个字符串字面量。
 
@@ -311,7 +311,7 @@ fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
 最重要的是 `Box<dyn Error>`， 如果按照顺序学到这里，大家应该知道这是一个`Error` 的特征对象(为了使用 `Error`，我们通过 `use std::error::Error;` 进行了引入)，它表示函数返回一个类型，该类型实现了 `Error` 特征，这样我们就无需指定具体的错误类型，否则你还需要查看 `fs::read_to_string` 返回的错误类型，然后复制到我们的 `run` 函数返回中，这么做一个是麻烦，最主要的是，一旦这么做，意味着我们无法在上层调用时统一处理错误，但是 `Box<dyn Error>` 不同，其它函数也可以返回这个特征对象，然后调用者就可以使用统一的方式来处理不同函数返回的 `Box<dyn Error>`。
 
-明白了 `Box<dyn Error>` 的重要战略地位，接下来大家分析下，`fs::read_to_string` 返回的具体错误类型是怎么被转化为 `Box<dyn Error>` 的？其实原因在之前章节都有讲过，这里就不直接给出答案了，参见 [?-传播界的大明星](https://course.rs/basic/result-error/result.html#传播界的大明星-)。
+明白了 `Box<dyn Error>` 的重要战略地位，接下来大家分析下，`fs::read_to_string` 返回的具体错误类型是怎么被转化为 `Box<dyn Error>` 的？其实原因在之前章节都有讲过，这里就不直接给出答案了，参见 [?-传播界的大明星](https://beatai.org/rust-course/basic/result-error/result#传播界的大明星-)。
 
 运行代码看看效果： 
 ```shell
@@ -370,7 +370,7 @@ fn main() {
 
 ## 分离逻辑代码到库包中
 
-> 对于 Rust 的代码组织( 包和模块 )还不熟悉的同学，强烈建议回头温习下[这一章](https://course.rs/basic/crate-module/intro.html)。
+> 对于 Rust 的代码组织( 包和模块 )还不熟悉的同学，强烈建议回头温习下[这一章](https://beatai.org/rust-course/basic/crate-module/intro)。
 
 首先，创建一个 `src/lib.rs` 文件，然后将所有的非 `main` 函数都移动到其中。代码大概类似：
 

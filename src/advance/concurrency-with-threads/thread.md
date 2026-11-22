@@ -101,7 +101,7 @@ hi number 4 from the main thread!
 
 ## 在线程闭包中使用 move
 
-在[闭包](https://course.rs/advance/functional-programing/closure.html#move-和-fn)章节中，有讲过 `move` 关键字在闭包中的使用可以让该闭包拿走环境中某个值的所有权，同样地，你可以使用 `move` 来将所有权从一个线程转移到另外一个线程。
+在[闭包](https://beatai.org/rust-course/advance/functional-programing/closure#move-和-fn)章节中，有讲过 `move` 关键字在闭包中的使用可以让该闭包拿走环境中某个值的所有权，同样地，你可以使用 `move` 来将所有权从一个线程转移到另外一个线程。
 
 首先，来看看在一个线程中直接使用另一个线程中的数据会如何：
 
@@ -526,7 +526,7 @@ fn main() {
 
 ## 总结
 
-[Rust 的线程模型](https://course.rs/advance/concurrency-with-threads/intro.html)是 `1:1` 模型，因为 Rust 要保持尽量小的运行时。
+[Rust 的线程模型](https://beatai.org/rust-course/advance/concurrency-with-threads/intro)是 `1:1` 模型，因为 Rust 要保持尽量小的运行时。
 
 我们可以使用 `thread::spawn` 来创建线程，创建出的多个线程之间并不存在执行顺序关系，因此代码逻辑千万不要依赖于线程间的执行顺序。
 
