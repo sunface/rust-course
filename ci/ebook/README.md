@@ -32,5 +32,5 @@
 mdbook build ci/ebook
 ```
 
-产物位于 `book/ebook/epub/rust-course.epub` 和 `book/ebook/pdf/rust-course.pdf`。
+产物位于 `ci/ebook/book/epub/rust-course.epub` 和 `ci/ebook/book/pdf/rust-course.pdf`（不放在根目录的 `book/` 下，因为构建网站时 mdbook 会清空那个目录）。
 书中的图片大多是外链，构建时会联网下载；下载失败的图片会被替换为其描述文字。

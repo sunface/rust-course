@@ -5,7 +5,8 @@
 #
 #   mdbook build ci/ebook        # from the repository root
 #
-# Output: book/ebook/epub/rust-course.epub and book/ebook/pdf/rust-course.pdf
+# Output: ci/ebook/book/epub/rust-course.epub and ci/ebook/book/pdf/rust-course.pdf
+# (not book/, which `mdbook build` for the website wipes).
 # See ci/ebook/README.md for the required tools.
 
 [book]
@@ -13,9 +14,6 @@ authors = ["sunface"]
 language = "zh-CN"
 title = "Rust语言圣经(Rust Course)"
 src = "../../src"
-
-[build]
-build-dir = "../../book/ebook"
 
 # Turns links to the online book into links inside the e-book and gives
 # chapters without a heading their SUMMARY.md title (see preprocess.py).

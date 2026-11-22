@@ -307,7 +307,9 @@ local function info_blocks(doc)
     table.insert(rows, { '构建环境', text('本地构建') })
   end
 
-  local tools = { (sh('mdbook --version') or 'mdBook'):gsub('^mdbook v?', 'mdBook '), 'mdbook-pandoc',
+  local mdbook_pandoc = os.getenv('MDBOOK_PANDOC_VERSION')
+  local tools = { (sh('mdbook --version') or 'mdBook'):gsub('^mdbook v?', 'mdBook '),
+                  'mdbook-pandoc' .. (mdbook_pandoc and (' ' .. mdbook_pandoc) or ''),
                   'pandoc ' .. tostring(PANDOC_VERSION) }
   if is_latex then table.insert(tools, 'LuaLaTeX') end
   table.insert(rows, { '生成工具', text(table.concat(tools, ' · ')) })

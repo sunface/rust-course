@@ -39,6 +39,10 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+        with:
+          # For pull requests build the PR's head commit (not GitHub's merge
+          # commit), so the info page in the e-book names the right commit.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Install TeX Live and fonts
         run: |
@@ -84,6 +88,6 @@ jobs:
         with:
           name: rust-course-ebook
           path: |
-            book/ebook/epub/rust-course.epub
-            book/ebook/pdf/rust-course.pdf
+            ci/ebook/book/epub/rust-course.epub
+            ci/ebook/book/pdf/rust-course.pdf
           if-no-files-found: error
