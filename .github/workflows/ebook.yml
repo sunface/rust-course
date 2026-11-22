@@ -2,6 +2,10 @@ name: Ebook
 
 # Builds the EPUB and PDF editions with mdbook-pandoc (config: ci/ebook/).
 # The files are uploaded as workflow artifacts ("rust-course-ebook").
+#
+# Runs only when the book's text (src/) changes on main, or when started by
+# hand (Actions -> Ebook -> Run workflow). Changes to README, book.toml, the
+# website workflows, ci/ebook/ etc. alone don't trigger a build.
 
 on:
   push:
@@ -9,15 +13,6 @@ on:
       - main
     paths:
       - "src/**"
-      - "ci/ebook/**"
-      - ".github/workflows/ebook.yml"
-  pull_request:
-    branches:
-      - main
-    paths:
-      - "src/**"
-      - "ci/ebook/**"
-      - ".github/workflows/ebook.yml"
   workflow_dispatch:
 
 permissions:
@@ -39,10 +34,6 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
-        with:
-          # For pull requests build the PR's head commit (not GitHub's merge
-          # commit), so the info page in the e-book names the right commit.
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Install TeX Live and fonts
         run: |
@@ -79,6 +70,16 @@ jobs:
           pandoc --version | head -1
           lualatex --version | head -1
           fc-list : family | grep -E "^(Noto Serif|Noto Sans|Noto Serif CJK SC|Noto Sans Mono CJK SC|Noto Color Emoji|DejaVu Sans Mono)$" | sort -u
+
+      # Remote images downloaded by ci/ebook/preprocess.py (with retries), kept
+      # between runs so a flaky image host doesn't break the next build.
+      - name: Cache images
+        uses: actions/cache@v4
+        with:
+          path: ci/ebook/.image-cache
+          key: ebook-images-${{ hashFiles('src/**/*.md') }}
+          restore-keys: |
+            ebook-images-
 
       - name: Build EPUB and PDF
         run: mdbook build ci/ebook

@@ -33,4 +33,13 @@ mdbook build ci/ebook
 ```
 
 产物位于 `ci/ebook/book/epub/rust-course.epub` 和 `ci/ebook/book/pdf/rust-course.pdf`（不放在根目录的 `book/` 下，因为构建网站时 mdbook 会清空那个目录）。
-书中的图片大多是外链，构建时会联网下载；下载失败的图片会被替换为其描述文字。
+书中的图片大多是外链。`preprocess.py` 会在构建前并发下载它们（每张最多尝试 4 次），缓存到 `ci/ebook/.image-cache/`（可用环境变量 `EBOOK_IMAGE_CACHE` 指定其他目录），之后的构建直接使用缓存；仍然下载失败的图片会被替换为其描述文字，构建日志里会列出这些图片。
+
+## GitHub Actions
+
+`.github/workflows/ebook.yml` 只在以下情况运行，产物上传为 `rust-course-ebook` artifact：
+
+- `main` 分支上书的正文（`src/`）有改动时；只改 README、`book.toml`、网站的 workflow、`ci/ebook/` 等不会触发；
+- 在 Actions 页面手动运行（Ebook → Run workflow）。
+
+图片缓存目录也会在 Actions 中缓存，避免图床的网络波动导致构建失败或缺图。
