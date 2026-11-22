@@ -1,0 +1,89 @@
+name: Ebook
+
+# Builds the EPUB and PDF editions with mdbook-pandoc (config: ci/ebook/).
+# The files are uploaded as workflow artifacts ("rust-course-ebook").
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**"
+      - "ci/ebook/**"
+      - ".github/workflows/ebook.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "src/**"
+      - "ci/ebook/**"
+      - ".github/workflows/ebook.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ebook-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  MDBOOK_VERSION: "0.5.4"
+  MDBOOK_PANDOC_VERSION: "0.11.1"
+  PANDOC_VERSION: "3.14"
+
+jobs:
+  build:
+    name: Build EPUB and PDF
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install TeX Live and fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            texlive-luatex texlive-latex-recommended texlive-latex-extra texlive-lang-japanese lmodern \
+            fonts-noto-core fonts-noto-cjk fonts-noto-color-emoji fonts-dejavu
+
+      - name: Install pandoc
+        run: |
+          curl -fsSL "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz" \
+            | tar -xz -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/pandoc-${PANDOC_VERSION}/bin" >> "$GITHUB_PATH"
+
+      - name: Install mdBook
+        uses: peaceiris/actions-mdbook@v2
+        with:
+          mdbook-version: ${{ env.MDBOOK_VERSION }}
+
+      - name: Cache mdbook-pandoc
+        id: cache-mdbook-pandoc
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/bin/mdbook-pandoc
+          key: ${{ runner.os }}-mdbook-pandoc-${{ env.MDBOOK_PANDOC_VERSION }}
+
+      - name: Install mdbook-pandoc
+        if: steps.cache-mdbook-pandoc.outputs.cache-hit != 'true'
+        run: cargo install mdbook-pandoc --version "$MDBOOK_PANDOC_VERSION" --locked
+
+      - name: Show tool versions
+        run: |
+          mdbook --version
+          pandoc --version | head -1
+          lualatex --version | head -1
+          fc-list : family | grep -E "^(Noto Serif|Noto Sans|Noto Serif CJK SC|Noto Sans Mono CJK SC|Noto Color Emoji|DejaVu Sans Mono)$" | sort -u
+
+      - name: Build EPUB and PDF
+        run: mdbook build ci/ebook
+
+      - name: Upload e-books
+        uses: actions/upload-artifact@v4
+        with:
+          name: rust-course-ebook
+          path: |
+            book/ebook/epub/rust-course.epub
+            book/ebook/pdf/rust-course.pdf
+          if-no-files-found: error
