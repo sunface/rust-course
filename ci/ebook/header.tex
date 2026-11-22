@@ -25,14 +25,15 @@
 \renewenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
 
 % --- Misc ----------------------------------------------------------------------
-% Table of contents: room for three-digit page numbers and for long section
-% numbers such as 15.10.32.
+% Table of contents: room for four-digit page numbers and for long section
+% numbers. Measured in Noto Serif 10pt: "15.10" is 24.9pt, "15.10.32" 38.5pt,
+% "15.10.32.10" 52.2pt; each width below adds ~6pt of space after the number.
 \makeatletter
-\renewcommand{\@pnumwidth}{2.2em}
-\renewcommand{\@tocrmarg}{3.2em}
-\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{2.6em}}
-\renewcommand*\l@subsection{\@dottedtocline{2}{4.1em}{3.6em}}
-\renewcommand*\l@subsubsection{\@dottedtocline{3}{7.7em}{4.4em}}
+\renewcommand{\@pnumwidth}{2.8em}
+\renewcommand{\@tocrmarg}{3.8em}
+\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{3.2em}}
+\renewcommand*\l@subsection{\@dottedtocline{2}{4.7em}{4.6em}}
+\renewcommand*\l@subsubsection{\@dottedtocline{3}{9.3em}{5.9em}}
 % Keep chapter titles in running heads as written (no "REDIS"), and let the
 % unnumbered introductory chapters update the running head too.
 \patchcmd{\chaptermark}{\MakeUppercase}{}{}{}
