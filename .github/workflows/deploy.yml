@@ -16,6 +16,12 @@ defaults:
 permissions:
   contents: write
 
+# Let deployments of successive main commits run one after another instead of
+# racing for the gh-pages branch.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ${{ matrix.os }}
@@ -38,9 +44,11 @@ jobs:
         run: |
           chmod +x ci/copy-assets.sh
           ci/copy-assets.sh ${{ matrix.os }}
+      # The book is built on every OS above, but only one job may publish it:
+      # three parallel pushes to gh-pages race and all but one get rejected.
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.ref == 'refs/heads/main' && matrix.os == 'ubuntu-latest' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./book

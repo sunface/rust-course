@@ -1,7 +1,8 @@
 name: Ebook
 
 # Builds the EPUB and PDF editions with mdbook-pandoc (config: ci/ebook/).
-# The files are uploaded as workflow artifacts ("rust-course-ebook").
+# The files are uploaded as a workflow artifact ("rust-course-ebook") and,
+# for main, published to the "ebook" GitHub release (see the release job).
 #
 # Runs only when the book's text (src/) changes on main, or when started by
 # hand (Actions -> Ebook -> Run workflow). Changes to README, book.toml, the
@@ -92,3 +93,63 @@ jobs:
             ci/ebook/book/epub/rust-course.epub
             ci/ebook/book/pdf/rust-course.pdf
           if-no-files-found: error
+
+  # Readers can't download workflow artifacts (they need a GitHub login and
+  # expire), so builds from main are also published to a rolling release:
+  # the "ebook" tag is moved to the built commit and the files are replaced.
+  # Stable links: <repo>/releases/latest/download/rust-course.{pdf,epub}
+  release:
+    name: Publish to the "ebook" release
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      TAG: ebook
+      TITLE: Rust语言圣经 电子书（EPUB / PDF）
+    steps:
+      - name: Download e-books
+        uses: actions/download-artifact@v4
+        with:
+          name: rust-course-ebook
+          path: dist
+
+      - name: Publish release
+        run: |
+          set -euo pipefail
+          repo_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
+          download="$repo_url/releases/latest/download"
+          commit_time=$(gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA" -q .commit.committer.date)
+          commit_time=$(date -u -d "$commit_time" '+%Y-%m-%d %H:%M UTC')
+          build_time=$(date -u '+%Y-%m-%d %H:%M UTC')
+
+          cat > notes.md <<EOF
+          《Rust语言圣经》的 EPUB / PDF 电子书，由 main 分支的正文自动构建；正文更新后，这里的文件会自动更新为最新版本。
+
+          **下载**：[PDF]($download/rust-course.pdf) · [EPUB]($download/rust-course.epub)
+
+          - 对应提交：[${GITHUB_SHA:0:8}]($repo_url/commit/$GITHUB_SHA)
+          - 提交时间：$commit_time
+          - 构建时间：$build_time
+          - 构建记录：[GitHub Actions #$GITHUB_RUN_NUMBER]($repo_url/actions/runs/$GITHUB_RUN_ID)
+
+          在线阅读：https://course.rs
+          EOF
+
+          # Point the tag at the commit that was built.
+          if gh api "repos/$GITHUB_REPOSITORY/git/refs/tags/$TAG" >/dev/null 2>&1; then
+            gh api -X PATCH "repos/$GITHUB_REPOSITORY/git/refs/tags/$TAG" -f sha="$GITHUB_SHA" -F force=true >/dev/null
+          else
+            gh api "repos/$GITHUB_REPOSITORY/git/refs" -f ref="refs/tags/$TAG" -f sha="$GITHUB_SHA" >/dev/null
+          fi
+
+          files=(dist/pdf/rust-course.pdf dist/epub/rust-course.epub)
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --title "$TITLE" --notes-file notes.md --latest
+            gh release upload "$TAG" "${files[@]}" --clobber
+          else
+            gh release create "$TAG" "${files[@]}" --title "$TITLE" --notes-file notes.md --latest
+          fi
