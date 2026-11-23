@@ -37,7 +37,7 @@ mdbook build ci/ebook
 
 ## GitHub Actions
 
-`.github/workflows/ebook.yml` 只在以下情况运行，产物上传为 `rust-course-ebook` artifact：
+`.github/workflows/ebook.yml` 只在以下情况运行。产物上传为 `rust-course-ebook` artifact；在 `main` 上构建时还会发布到 tag 为 `ebook` 的 [Release](https://github.com/sunface/rust-course/releases/tag/ebook)（每次构建把 tag 移到对应提交并替换文件），读者可以用固定链接下载：`https://github.com/sunface/rust-course/releases/latest/download/rust-course.pdf`（`.epub` 同理）。
 
 - `main` 分支上书的正文（`src/`）有改动时；只改 README、`book.toml`、网站的 workflow、`ci/ebook/` 等不会触发；
 - 在 Actions 页面手动运行（Ebook → Run workflow）。

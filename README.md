@@ -25,6 +25,7 @@
 
 - 在线阅读: https://course.rs
 - 在线练习：https://practice.course.rs
+- 电子书下载：[PDF](https://github.com/sunface/rust-course/releases/latest/download/rust-course.pdf) / [EPUB](https://github.com/sunface/rust-course/releases/latest/download/rust-course.epub)（随正文自动更新）
 - AI 前沿学习：https://beatai.org 每日精选全球好文，实时、高质、有用
 
 
